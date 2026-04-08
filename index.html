@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your earned Wings</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="main-header">
+        <div class="logo-container">
+          <img src="/logo.png" alt="Logo" class="logo-img" />
+          <h1 class="game-title">Your earned Wings</h1>
+        </div>
+      </header>
+
+      <nav class="sidebar">
+        <div class="nav-items-top">
+          <div class="nav-item active" id="nav-story" data-lang-key="nav_story">Story</div>
+          <div class="nav-item" id="nav-crafting" data-lang-key="nav_crafting">Crafting</div>
+          <div class="nav-item" id="nav-housing" data-lang-key="nav_housing">Housing & Bau</div>
+          <div class="nav-item" id="nav-inventory" data-lang-key="nav_inventory">Besitz</div>
+          <div class="nav-item" id="nav-village" data-lang-key="nav_village">Dorf</div>
+        </div>
+        <div class="sidebar-footer">
+          <div class="save-status-sidebar" id="save-info">Zuletzt gespeichert: Nie</div>
+        </div>
+      </nav>
+
+      <!-- STORY VIEW -->
+      <main id="view-story">
+        <div class="primary-actions-bar">
+          <button class="primary-btn" id="action-essen">Beeren essen</button>
+          <button class="primary-btn" id="action-ausruhen">Ausruhen</button>
+          <button class="primary-btn" id="action-meditieren">Blick nach oben</button>
+        </div>
+
+        <div class="action-container">
+          <div class="action-column">
+            <section class="action-group">
+              <div class="category-header"><h3 data-lang-key="cat_gather">Sammeln</h3></div>
+              <div class="btn-list">
+                <button class="game-btn" id="action-wood">Zweige sammeln</button>
+                <button class="game-btn" id="action-stone">Kiesel sammeln</button>
+              </div>
+            </section>
+          </div>
+
+          <div class="vertical-divider"></div>
+
+          <div class="action-column">
+            <section class="action-group">
+              <div class="category-header"><h3 data-lang-key="cat_trade">Handel</h3></div>
+              <div class="btn-list" id="story-trade-list">
+                <button class="game-btn" id="action-sell-wood">Holz tauschen</button>
+                <button class="game-btn" id="action-sell-stone">Steine tauschen</button>
+              </div>
+            </section>
+
+            <section class="action-group">
+              <div class="category-header"><h3 data-lang-key="cat_work">Arbeit</h3></div>
+              <div class="btn-list">
+                <button class="game-btn" id="action-work">Pfade säubern</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <!-- CRAFTING VIEW -->
+      <main id="view-crafting" style="display: none;">
+        <div class="category-header"><h3 data-lang-key="cat_crafting">Handwerk & Werkzeuge</h3></div>
+        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
+           <div id="crafting-list" class="grid-list"></div>
+        </div>
+      </main>
+
+      <!-- HOUSING VIEW -->
+      <main id="view-housing" style="display: none;">
+        <div class="category-header"><h3 data-lang-key="cat_housing">Hausbau & Lager</h3></div>
+        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
+           <div id="housing-actions-list" class="grid-list"></div>
+        </div>
+      </main>
+
+      <!-- INVENTORY VIEW -->
+      <main id="view-inventory" style="display: none;">
+        <div class="category-header"><h3 data-lang-key="cat_inventory">Besitz & Gegenstände</h3></div>
+        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
+           <div id="inventory-list" class="grid-list"></div>
+        </div>
+      </main>
+
+      <!-- VILLAGE VIEW -->
+      <main id="view-village" style="display: none;">
+        <div class="category-header"><h3 data-lang-key="cat_village">Das Dorf</h3></div>
+        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
+           <p style="color: var(--text-dim); margin-bottom: 25px;" data-lang-key="village_desc">Spreche mit den Bewohnern, um mehr über diese Welt zu erfahren.</p>
+           <div id="village-npc-list" class="grid-list"></div>
+        </div>
+      </main>
+
+      <!-- PERSISTENT LOG (Global) -->
+      <section class="global-log-container">
+        <div class="category-header"><h3 data-lang-key="cat_log">Chronik</h3></div>
+        <div class="log-panel" id="game-log"></div>
+      </section>
+
+      <aside class="right-panel">
+        <div class="status-card">
+          <div class="status-header">
+            <h4 data-lang-key="ui_vitality">Vitalität</h4>
+            <div class="player-name" id="display-player-name">Player Name</div>
+          </div>
+
+          <!-- SIDE-BY-SIDE STATS -->
+          <div class="circle-stats-row">
+            <div class="circle-stat-mini">
+              <svg width="100" height="100">
+                <circle class="circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="40" cx="50" cy="50"/>
+                <circle class="progress-ring__circle" id="ring-energy" stroke="#14b8a6" stroke-width="8" stroke-linecap="round" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.32" stroke-dashoffset="251.32"/>
+              </svg>
+              <div class="mini-stat-content">
+                <div class="stat-label">EN</div>
+                <div class="stat-value-mini" id="val-energy">0</div>
+              </div>
+            </div>
+
+            <div class="circle-stat-mini">
+              <svg width="100" height="100">
+                <circle class="circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="40" cx="50" cy="50"/>
+                <circle class="progress-ring__circle" id="ring-magic" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.32" stroke-dashoffset="251.32"/>
+              </svg>
+              <div class="mini-stat-content">
+                <div class="stat-label">MG</div>
+                <div class="stat-value-mini" id="val-magic">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mini-inventory">
+            <div class="shard-display">
+              <div class="shard-label" data-lang-key="ui_shards">Splitter</div>
+              <div class="shard-main">
+                <span class="shard-icon-large">✦</span>
+                <span id="inv-shards" class="shard-value-large">0</span>
+              </div>
+            </div>
+            
+            <div class="resource-grid">
+              <div class="resource-item">
+                <span class="res-label" data-lang-key="ui_wood">Holz</span>
+                <span id="inv-wood" class="res-value">0 / 10</span>
+              </div>
+              <div class="resource-item">
+                <span class="res-label" data-lang-key="ui_stone">Stein</span>
+                <span id="inv-stone" class="res-value">0 / 10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-box" id="detail-panel">
+          <h4 class="detail-section-title" data-lang-key="ui_details">Details</h4>
+          <div id="detail-title" class="detail-title">-</div>
+          <div id="detail-cost" class="detail-cost">-</div>
+          
+          <div class="detail-separator"></div>
+          
+          <!-- EFFECT FIELD -->
+          <div id="detail-effect" class="detail-effect"></div>
+          
+          <p id="detail-req" class="detail-req">Bereit</p>
+          <div class="detail-desc-container">
+             <p id="detail-desc" class="detail-desc"></p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="settings-gear" id="btn-open-settings">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+          <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.13,5.91,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.67,9.34,2.85,9.48l2.03,1.58C4.84,11.36,4.82,11.67,4.82,12c0,0.33,0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14,0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"></path>
+        </svg>
+      </div>
+
+      <div id="modal-settings" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+          <h2 data-lang-key="settings_title">Einstellungen</h2>
+          
+          <div class="settings-group">
+            <label data-lang-key="settings_lang">Sprache / Language</label>
+            <div class="lang-switcher">
+              <button class="lang-btn active" id="btn-lang-de" onclick="setLanguage('de')">Deutsch</button>
+              <button class="lang-btn" id="btn-lang-en" onclick="setLanguage('en')">English</button>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <label data-lang-key="settings_name">Spieler Name</label>
+            <input type="text" id="input-player-name" placeholder="Name..." />
+          </div>
+
+          <div class="settings-actions">
+            <button class="game-btn" id="btn-save-game" data-lang-key="btn_save">Speichern</button>
+            <button class="game-btn" id="btn-load-game" data-lang-key="btn_load">Laden</button>
+          </div>
+          
+          <div class="modal-divider"></div>
+          
+          <button class="quit-btn" id="btn-quit-game" data-lang-key="btn_quit">Spiel Beenden</button>
+          <button class="close-modal" id="btn-close-settings" data-lang-key="btn_back">Zurück</button>
+        </div>
+      </div>
+
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
