@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "stkb.todotree",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "ritwickdey.liveserver"
+  ]
+}
