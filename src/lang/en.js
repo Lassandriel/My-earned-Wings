@@ -18,8 +18,15 @@ export default {
     ui_wood: "Wood",
     ui_stone: "Stone",
     ui_details: "Details",
+    ui_energy: "Energy",
+    ui_magic: "Magic",
+    ui_unlocks: "Unlocks:",
     ui_ready: "Ready",
     ui_need: "Requires",
+    ui_base: "Base",
+    ui_no_shelter: "No Shelter",
+    ui_placeholder: "Wanderer...",
+    ui_placeholder_desc: "Choose an action to learn more.",
     settings_title: "Settings",
     settings_lang: "Language / Sprache",
     settings_name: "Player Name",
@@ -142,7 +149,7 @@ export default {
         effect: "Strong recovery (+25)"
     },
     'craft-chair': {
-        title: "Scholar's Chair",
+        title: "Chair",
         desc: "Sit comfortably while reading. Increases concentration.",
         effect: "Doubles study yield (+10 MS)"
     },
@@ -153,7 +160,7 @@ export default {
         unlocks: "Village NPC: 'Flower Girl'"
     },
     'house-tent': {
-        title: "Canvas Tent",
+        title: "Tent",
         desc: "Your first real roof. A refuge from the wind.",
         effect: "More space",
         unlocks: "Village NPC: 'Town Hall', Storage Options"
@@ -188,13 +195,52 @@ export default {
     load_success: "Game loaded successfully.",
     study_success: "Your knowledge grows through concentration (+{gain} Magic Limit).",
     sage_gift: "The Sage gifts you an old book full of symbols.",
+    // Action Logs
+    eat_log: "Berries eaten. +5 Energy.",
+    rest_log: "Rested. +{gain} Energy.",
+    meditate_log: "Meditated. +15 Magic.",
+    wood_log: "{gain} twigs gathered.",
+    wood_axe_log: "{gain} wood chopped.",
+    stone_log: "{gain} pebbles gathered.",
+    stone_axe_log: "{gain} stones quarried.",
+    sell_wood_log: "Wood traded. +5 Shards.",
+    sell_stone_log: "Stone traded. +8 Shards.",
+    work_log: "Paths cleared. +12 Shards.",
+    // Crafting Logs
+    craft_wanderstock: "Walking stick carved.",
+    craft_axe: "Stone axe crafted.",
+    craft_pickaxe: "Pickaxe crafted.",
+    craft_bed: "Bed built.",
+    craft_chair: "Chair crafted.",
+    // NPC Logs
+    npc_baker: "Baker: \"Nice to see you again.\"",
+    npc_flowerGirl: "Flower Girl smiles and presses a blossom into your hand.",
+    npc_artisan: "Artisan: \"You're doing well. Keep it up.\"",
+    npc_teacher: "Teacher explains the history of the village to you.",
+    npc_townHall: "Town Hall clerk stamps another application.",
+    npc_blacksmith: "Blacksmith: \"Come back when you need metal.\"",
+    npc_sage: "Old Sage nods slowly and closes his eyes.",
+    // Milestones
+    milestone_campfire: "Campfire lit. The warmth drives away the cold of night.",
+    milestone_tent: "Tent pitched. Your first real roof over your head.",
+    milestone_wood_storage: "Wood storage built. +10 maximum wood.",
+    milestone_stone_storage: "Stone storage built. +10 maximum stone.",
+    milestone_table: "Massive table placed. A place of learning.",
+    milestone_house: "Hut built. A monument to your will on the ground.",
+    // Intro
     intro_1: "Someone glides effortlessly from roof to roof above you.",
     intro_2: "You walk the long way on foot. Your steps are heavy.",
     intro_3: "A trader lands before the village gate. He doesn't notice you.",
     intro_4: "Rain sets in. The others shake out their wings and fly home.",
     intro_5: "You stay below. You miss something you never had...",
     intro_6: "But here, at the edge of the village, you will build a life.",
-    intro_7: "Welcome to your new home."
+    intro_7: "Welcome to your new home.",
+    // Failures
+    fail_energy: "Too exhausted.",
+    fail_magic: "Not enough magic.",
+    fail_resources: "Not enough resources.",
+    fail_full_wood: "Wood storage full.",
+    fail_full_stone: "Stone storage full."
   },
   atmosphere: [
     "A distant wingbeat echoes through the silence.",

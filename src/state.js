@@ -9,7 +9,7 @@ export const initialState = {
   view: 'story',
   resources: { wood: 0, stone: 0, shards: 0 },
   limits: { wood: 10, stone: 10 },
-  stats: { energy: 30, maxEnergy: 100, magic: 60, maxMagic: 100 },
+  stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100 },
   housing: {
     hasCampfire: false,
     hasTent: false,
