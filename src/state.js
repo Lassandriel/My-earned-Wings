@@ -7,15 +7,9 @@ export const initialState = {
   playerName: 'Entdecker',
   language: 'de',
   view: 'story',
-<<<<<<< HEAD
-  resources: { wood: 0, stone: 0, shards: 0, herbs: 0, meat: 0 },
-  limits: { wood: 10, stone: 10, herbs: 5, meat: 5 },
-  stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100, satiation: 80, maxSatiation: 100 },
-=======
   resources: { wood: 0, stone: 0, shards: 0 },
   limits: { wood: 10, stone: 10 },
-  stats: { energy: 30, maxEnergy: 100, magic: 60, maxMagic: 100 },
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
+  stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100 },
   housing: {
     hasCampfire: false,
     hasTent: false,
@@ -23,12 +17,11 @@ export const initialState = {
     hasStoneStorage: false,
     hasHouse: false,
     hasTable: false,
-    hasStove: false,
     laborCount: 0,
     hasLandDeed: false
   },
   inventory: [],
-  unlockedRecipes: ['craft-wanderstock'],
+  unlockedRecipes: ['craft-wanderstock', 'craft-bed', 'craft-chair'],
   npcProgress: {
     baker: 0,
     flowerGirl: 0,
@@ -42,8 +35,6 @@ export const initialState = {
   hoveredAction: null,
   hasSeenIntro: false,
   activeFeather: 1,
-  activeBuff: null,
-  buffActionsLeft: 0,
   logs: []
 };
 

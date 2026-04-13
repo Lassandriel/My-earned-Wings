@@ -3,19 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "electron/app-main.js",
+  "main": "app-main.js",
   "scripts": {
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development .\\node_modules\\.bin\\electron.cmd .\"",
-    "build": "vite build && node scripts/fix-paths.js",
-    "preview": "vite preview",
-    "package": "vite build && node scripts/fix-paths.js && npx @electron/packager . \"Your Earned Wings\" --platform=win32 --arch=x64 --out=dist_electron --overwrite --ignore=\"^/src\" --ignore=\"^/public\" --ignore=\"^/docs\" --ignore=\"^/scripts\" --icon=\"public/img/Game_Icon.ico\""
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "electron": "^41.2.0",
-    "png-to-ico": "^3.0.1",
-    "sharp": "^0.34.5",
     "vite": "^8.0.4",
     "wait-on": "^9.0.4"
   },

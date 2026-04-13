@@ -10,7 +10,6 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-dist_electron
 *.local
 
 # Editor directories and files
@@ -23,7 +22,3 @@ dist_electron
 *.njsproj
 *.sln
 *.sw?
-/dist_electron
-dist_electron/Your Earned Wings-win32-x64/Your Earned Wings.exe
-/node_modules
-/build
