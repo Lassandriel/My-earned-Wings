@@ -16,6 +16,7 @@ Alpine.store('game', {
         if (!this.hasSeenIntro && this.logs.length === 0) {
             this.playIntro();
         }
+<<<<<<< HEAD
         // Auto-save every 5 minutes
         setInterval(() => { this.autoSave(); }, 5 * 60 * 1000);
 
@@ -26,6 +27,8 @@ Alpine.store('game', {
             audio.play('click', 0.05);
           }
         });
+=======
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     },
 
     t(key, context = 'ui') {
@@ -42,6 +45,7 @@ Alpine.store('game', {
         if (!action) return;
         const result = action.execute(this);
         if (result === true || (result && result.success)) {
+<<<<<<< HEAD
             if (result && result.isNpc) {
                 const dialogues = this.t(result.npcId, 'actions').dialogues;
                 if (dialogues && dialogues[result.logProgress]) {
@@ -74,10 +78,15 @@ Alpine.store('game', {
             if (this.activeBuff && this.buffActionsLeft > 0) {
                 this.buffActionsLeft--;
                 if (this.buffActionsLeft === 0) this.activeBuff = null;
+=======
+            if (result.logKey) {
+                this.addLog(this.t(result.logKey, 'logs').replace('{gain}', result.logGain || ''));
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
             }
             this.saveGame();
             return true;
         }
+<<<<<<< HEAD
         // Log a helpful failure reason
         const costType = action.costType;
         let current = 0;
@@ -99,6 +108,8 @@ Alpine.store('game', {
             this.addLog(this.t('fail_full_stone', 'logs'), 'rgba(239, 68, 68, 0.75)');
         }
         audio.play('error');
+=======
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
         return false;
     },
 
@@ -123,6 +134,7 @@ Alpine.store('game', {
             saveObj[key] = this[key];
         });
         localStorage.setItem('wings_save', JSON.stringify(saveObj));
+<<<<<<< HEAD
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         this.saveInfoText = `${this.t('save_at', 'ui')}${time}`;
         window.showSaveToast?.('✦  ' + this.t('save_at', 'ui') + time);
@@ -142,6 +154,9 @@ Alpine.store('game', {
         localStorage.removeItem('wings_save');
         document.getElementById('modal-settings').style.display = 'none';
         window.location.reload();
+=======
+        this.saveInfoText = `${this.t('save_at', 'ui')}${new Date().toLocaleTimeString()}`;
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     },
 
     loadGame() {
@@ -157,6 +172,7 @@ Alpine.store('game', {
 
     get CIRCUMFERENCE() { return 251.32; },
     get energyOffset() { return this.CIRCUMFERENCE - (this.stats.energy / this.stats.maxEnergy) * this.CIRCUMFERENCE; },
+<<<<<<< HEAD
     get magicOffset() { return this.CIRCUMFERENCE - (this.stats.magic / this.stats.maxMagic) * this.CIRCUMFERENCE; },
     get energyPercent() { return Math.max(0, Math.min(100, (this.stats.energy / this.stats.maxEnergy) * 100)); },
     get magicPercent() { return Math.max(0, Math.min(100, (this.stats.magic / this.stats.maxMagic) * 100)); },
@@ -208,3 +224,9 @@ window.showSaveToast = function(text = '✦ Saved') {
   toast.classList.add('show');
   toast.addEventListener('animationend', () => toast.classList.remove('show'), { once: true });
 };
+=======
+    get magicOffset() { return this.CIRCUMFERENCE - (this.stats.magic / this.stats.maxMagic) * this.CIRCUMFERENCE; }
+});
+
+Alpine.start();
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)

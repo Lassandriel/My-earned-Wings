@@ -26,12 +26,15 @@ export default {
     ui_details: "Details",
     ui_ready: "Bereit",
     ui_need: "Benötigt",
+<<<<<<< HEAD
     ui_base: "Basis",
     ui_no_shelter: "Kein Lager",
     ui_extensions: "Erweiterungen",
     ui_placeholder: "Wanderer...",
     ui_placeholder_desc: "Wähle eine Handlung aus, um mehr zu erfahren.",
     inv_empty: "Noch nichts dabei.",
+=======
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     settings_title: "Einstellungen",
     settings_lang: "Sprache / Language",
     settings_name: "Spieler Name",
@@ -302,6 +305,7 @@ export default {
     save_success: "Spielstand gesichert.",
     load_success: "Spielstand geladen.",
     study_success: "Dein Wissen wächst durch Konzentration (+{gain} Magie-Limit).",
+<<<<<<< HEAD
     sage_gift: "Der Weise segnet dich mit einem Amulett voller Lebenskraft (+50 Max Energie).",
     // Aktions-Logs
     eat_log: "Beeren gegessen. Sättigung +15.",
@@ -343,6 +347,10 @@ export default {
     milestone_house: "Hütte gebaut. Nun bist du auf Möbel angewiesen.",
     milestone_bookcase: "Bücherregal gezimmert. Deine Gedanken finden mehr Platz (+15 Max Magie).",
     milestone_stove: "Herd aufgestellt. Das Feuer knistert. Jetzt kannst du richtig kochen.",
+    // Intro
+=======
+    sage_gift: "Der Weise schenkt dir ein altes Buch voller Symbole.",
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     intro_1: "Über dir gleitet jemand mühelos von Dach zu Dach.",
     intro_2: "Du gehst den langen Weg zu Fuß. Deine Schritte sind schwer.",
     intro_3: "Ein Händler landet vor dem Dorftor. Er bemerkt dich nicht.",

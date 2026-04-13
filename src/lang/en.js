@@ -26,12 +26,15 @@ export default {
     ui_details: "Details",
     ui_ready: "Ready",
     ui_need: "Requires",
+<<<<<<< HEAD
     ui_base: "Base",
     ui_no_shelter: "No Shelter",
     ui_extensions: "Extensions",
     ui_placeholder: "Wanderer...",
     ui_placeholder_desc: "Choose an action to learn more.",
     inv_empty: "Nothing here yet.",
+=======
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     settings_title: "Settings",
     settings_lang: "Language / Sprache",
     settings_name: "Player Name",
@@ -302,6 +305,7 @@ export default {
     save_success: "Game saved successfully.",
     load_success: "Game loaded successfully.",
     study_success: "Your knowledge grows through concentration (+{gain} Magic Limit).",
+<<<<<<< HEAD
     sage_gift: "The Sage blesses you with an amulet full of life force (+50 Max Energy).",
     // Action Logs
     eat_log: "Berries eaten. Satiation +15.",
@@ -343,6 +347,10 @@ export default {
     milestone_house: "Hut built. Now you must furnish it.",
     milestone_bookcase: "Bookcase crafted. Your thoughts find more room (+15 Max Magic).",
     milestone_stove: "Stove set up. The fire crackles. Now you can cook properly.",
+    // Intro
+=======
+    sage_gift: "The Sage gifts you an old book full of symbols.",
+>>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     intro_1: "Someone glides effortlessly from roof to roof above you.",
     intro_2: "You walk the long way on foot. Your steps are heavy.",
     intro_3: "A trader lands before the village gate. He doesn't notice you.",
