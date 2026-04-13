@@ -56,5 +56,12 @@ npm run build-exe
 ```
 You will find the finished application in the `BUILDS/` folder.
 
+### ❓ Troubleshooting (For Beginners)
+- **`npm` command not found**: Ensure you have installed Node.js and restarted VS Code (or your PC) afterwards.
+- **`Execution of scripts is disabled` (PowerShell)**: Open VS Code as Administrator and run `Set-ExecutionPolicy RemoteSigned` in the terminal.
+- **`package.json not found`**: Make sure you have opened the exact folder in VS Code that contains the `package.json` file.
+- **Warnings during `npm install`**: It is completely normal for npm to log yellow or red warnings about deprecated sub-dependencies (like `glob` or `lodash`). Since this game is packaged as an offline desktop application, these warnings about "vulnerabilities" or "deprecated packages" can be safely ignored. As long as `npm run dev` works, you are good to go!
+
+
 ---
 *Created by Lassandriel · April 2026*
