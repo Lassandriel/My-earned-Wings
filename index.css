@@ -1695,7 +1695,8 @@ main::before {
   height: 600px;
   max-width: 90vw;
   max-height: 85vh;
-  display: flex;
+  display: flex !important;
+  flex-direction: row !important;
   padding: 0 !important;
   overflow: hidden;
   border: 1px solid var(--panel-border);
@@ -2081,4 +2082,111 @@ input:checked + .slider:before {
     color: var(--text-dim);
     text-align: right;
     font-family: 'Outfit', sans-serif;
+}
+
+/* NPC Companion UI */
+.npc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.npc-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--panel-border);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.npc-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.npc-card.is-working {
+    border-color: var(--accent-teal);
+    background: rgba(20, 184, 166, 0.1);
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.15);
+}
+
+.npc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.npc-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: white;
+}
+
+.npc-prog-mini {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 8px;
+    border-radius: 10px;
+}
+
+.npc-work-panel {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.work-stats-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.res-yield-tag {
+    color: var(--accent-teal);
+    font-weight: 700;
+}
+
+.work-btn {
+    width: 100%;
+    margin-top: 5px;
+    height: 45px;
+}
+
+.work-btn.stop {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+.work-btn.stop:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: #f87171;
+}
+
+.working-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-teal);
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse-teal 1.5s infinite;
+}
+
+@keyframes pulse-teal {
+    0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
 }

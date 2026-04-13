@@ -1,3 +1,9 @@
+import Alpine from 'alpinejs';
+import { initialState, getTranslations } from './state.js';
+import { actionDb } from './data/actions/index.js';
+import { createResourceSystem } from './systems/resource.js';
+import { createAudioSystem } from './systems/audio.js';
+import { createPersistenceSystem } from './systems/persistence.js';
 import { createLoggerSystem } from './systems/logger.js';
 import { createJuiceSystem } from './systems/juice.js';
 import { traitDb } from './data/traits.js';
@@ -29,6 +35,9 @@ Alpine.store('game', {
             this.playIntro();
         }
 
+        // Background Progression (Game Loop)
+        setInterval(() => { this.gameLoop(); }, 5000);
+
         // Auto-save every 5 minutes
         setInterval(() => { this.persistence.saveGame(this); }, 5 * 60 * 1000);
 
@@ -46,6 +55,7 @@ Alpine.store('game', {
     t(key, context = 'ui') { return this.translations[this.language][context][key] || key; },
     addLog(text, color) { this.logger.addLog(this, text, color); },
     saveGame() { this.checkTraits(); this.persistence.saveGame(this); },
+    loadGame() { this.persistence.loadGame(this); },
     hardReset() { this.persistence.hardReset(this); },
 
     getTraitMultiplier(bonusType) {
@@ -53,12 +63,16 @@ Alpine.store('game', {
         this.unlockedTraits.forEach(traitId => {
             const trait = this.traitDb[traitId];
             if (trait && trait.bonusType === bonusType) {
-                // For yield we multiply, for decay we multiply (lower is better)
                 multi *= trait.bonusMultiplier;
             }
         });
         return multi;
     },
+
+    // Getters for stat percentages
+    get energyPercent() { return (this.stats.energy / this.stats.maxEnergy) * 100; },
+    get magicPercent() { return (this.stats.magic / this.stats.maxMagic) * 100; },
+    get satiationPercent() { return Math.max(0, Math.min(100, (this.stats.satiation / this.stats.maxSatiation) * 100)); },
 
     checkTraits() {
         Object.values(this.traitDb).forEach(trait => {
@@ -88,14 +102,18 @@ Alpine.store('game', {
             // Increment total actions
             this.counters.totalActions++;
 
-            // Increment specific counters based on action ID
-            if (id.startsWith('action-wood')) this.counters.wood += (result.yield || 1);
-            if (id.startsWith('action-stone')) this.counters.stone += (result.yield || 1);
-            if (id === 'action-meditieren') this.counters.magic++;
-            if (id === 'action-essen') this.counters.food++;
-            if (result.logGain && result.logKey?.includes('sell')) {
-                this.counters.shards += parseInt(result.logGain) || 0;
+            // Increment specific counters based on action metadata
+            if (action.counter) {
+                if (action.counter === 'shards' && result.logGain) {
+                    const amount = parseInt(result.logGain.toString().replace(/[^0-9]/g, '')) || 0;
+                    this.counters.shards += amount;
+                } else {
+                    this.counters[action.counter] += (result.yield || 1);
+                }
             }
+
+            // CHECK TRAITS IMMEDIATELY
+            this.checkTraits();
 
             // Satiation reduction on success (except for recovery actions)
             if (!['action-essen', 'action-ausruhen', 'action-meditieren'].includes(id)) {
@@ -108,7 +126,7 @@ Alpine.store('game', {
             }
 
             // Success Feedback Logic
-            this.handleActionSuccess(id);
+            this.handleActionSuccess(action);
             
             if (result && result.logKey) {
                 const text = this.t(result.logKey, 'logs').replace('{gain}', result.logGain ?? '');
@@ -140,36 +158,16 @@ Alpine.store('game', {
         }
     },
 
-    handleActionSuccess(id) {
+    handleActionSuccess(action) {
         const x = this.lastMouseX;
         const y = this.lastMouseY;
 
-        if (id.startsWith('action-wood')) {
-            this.playSound('gather');
-            this.juice.spawnParticle(x, y, '+ Holz', 'wood');
-        } else if (id.startsWith('action-stone')) {
-            this.playSound('gather');
-            this.juice.spawnParticle(x, y, '+ Stein', 'stone');
-        } else if (id === 'action-hunt') {
-            this.playSound('gather');
-            this.juice.spawnParticle(x, y, '+ Fleisch', 'energy');
-        } else if (id === 'action-essen') {
-            this.playSound('eat');
-            this.juice.spawnParticle(x, y, '+ Sättigung', 'energy');
-        } else if (id === 'action-ausruhen') {
-            this.playSound('click');
-            this.juice.spawnParticle(x, y, '+ Energie', 'energy');
-        } else if (id === 'action-meditieren') {
-            this.playSound('click');
-            this.juice.spawnParticle(x, y, '+ Magie', 'magic');
-        } else if (id.startsWith('action-sell-')) {
-            this.playSound('click');
-            this.juice.spawnParticle(x, y, '+ Splitter', 'shards');
-        } else if (id.startsWith('craft-') || id.startsWith('house-')) {
-            this.playSound('success');
-            this.juice.spawnParticle(x, y, 'Hervorragend!', 'shards');
-        } else {
-            this.playSound('click');
+        // Feedback from Action Metadata
+        if (action.sfx) this.playSound(action.sfx);
+        else this.playSound('click');
+
+        if (action.particleText) {
+            this.juice.spawnParticle(x, y, action.particleText, action.particleType || 'energy');
         }
     },
 
@@ -207,12 +205,55 @@ Alpine.store('game', {
     get CIRCUMFERENCE() { return 251.32; },
     get energyOffset() { return this.CIRCUMFERENCE - (this.stats.energy / this.stats.maxEnergy) * this.CIRCUMFERENCE; },
     get magicOffset() { return this.CIRCUMFERENCE - (this.stats.magic / this.stats.maxMagic) * this.CIRCUMFERENCE; },
-    get energyPercent() { return Math.max(0, Math.min(100, (this.stats.energy / this.stats.maxEnergy) * 100)); },
-    get magicPercent() { return Math.max(0, Math.min(100, (this.stats.magic / this.stats.maxMagic) * 100)); },
-    get satiationPercent() { return Math.max(0, Math.min(100, (this.stats.satiation / this.stats.maxSatiation) * 100)); },
     get efficiency() {
         const perc = this.stats.satiation / this.stats.maxSatiation;
         return Math.max(0.2, perc);
+    },
+
+    toggleCompanion(npcId) {
+        if (this.companions[npcId]) {
+            delete this.companions[npcId];
+            this.playSound('click');
+        } else {
+            const npc = this.actionDb[npcId];
+            const currentProgress = this.npcProgress[npc.progKey];
+            if (currentProgress >= npc.maxProgress) {
+                this.companions[npcId] = true;
+                this.playSound('success');
+            }
+        }
+    },
+
+    gameLoop() {
+        const activeIds = Object.keys(this.companions);
+        if (activeIds.length === 0) return;
+
+        let totalSalary = 0;
+        activeIds.forEach(id => {
+            const npc = this.actionDb[id];
+            if (npc && npc.companion) {
+                totalSalary += npc.companion.salary;
+            }
+        });
+
+        // Check if player can afford salary
+        if (this.resource.consume(this, 'shards', totalSalary)) {
+            activeIds.forEach(id => {
+                const npc = this.actionDb[id];
+                if (npc && npc.companion) {
+                    // Apply yields
+                    Object.entries(npc.companion.yield).forEach(([res, amount]) => {
+                        this.resource.add(this, res, amount);
+                    });
+                }
+            });
+        } else {
+            // Cannot afford salary - stop all work
+            this.companions = {};
+            this.addLog(this.t('fail_salary', 'logs'), 'rgba(239, 68, 68, 0.75)');
+            this.playSound('fail');
+        }
+        this.saveGame();
     }
 });
 

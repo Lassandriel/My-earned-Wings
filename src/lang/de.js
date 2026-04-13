@@ -15,6 +15,8 @@ export default {
     cat_log: "Chronik",
     nav_story_tab: "Chronik",
     nav_traits: "Titel & Traits",
+    nav_story_tab_header: "Chronik & Geschichte",
+    nav_traits_tab_header: "Deine Errungenschaften",
     ui_vitality: "Vitalität",
     ui_shards: "Splitter",
     ui_wood: "Holz",
@@ -51,7 +53,13 @@ export default {
     settings_vol_global: "Gesamtlautstärke",
     settings_vol_music: "Musik",
     settings_vol_sfx: "Effekte",
-    settings_mute: "Stummschalten"
+    settings_mute: "Stummschalten",
+    btn_assign_work: "Zuweisen",
+    btn_stop_work: "Stoppen",
+    ui_salary: "Kosten",
+    ui_yield: "Ertrag",
+    status_working: "Beschäftigt",
+    status_idle: "Frei"
   },
   actions: {
     'action-essen': {
@@ -301,7 +309,8 @@ export default {
     fail_full_wood: "Holzlager voll.",
     fail_full_stone: "Steinlager voll.",
     fail_full_meat: "Fleischlager voll.",
-    fail_full_shards: "Geldbeutel voll (Max Splitter)."
+    fail_full_shards: "Geldbeutel voll (Max Splitter).",
+    fail_salary: "Nicht genug Splitter für Gehälter! Arbeit eingestellt."
   },
   atmosphere: [
     "Ein ferner Flügelschlag hallt durch die Stille.",

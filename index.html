@@ -8,10 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="index.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Outfit:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" />
+    <script type="module" src="src/main.js"></script>
   </head>
   <body>
     <!-- Ambient Magic: Falling Feathers & Scales -->
@@ -33,16 +31,8 @@
         <div class="nav-items-top">
           <div
             class="nav-item"
-            :class="$store.game.view === 'story_tab' && 'active'"
-            @click="$store.game.view = 'story_tab'; $store.game.playSound('click')"
-          >
-            <img src="img/menu_story.webp" alt="Story" class="menu-icon-img" />
-            <span x-text="$store.game.t('nav_story_tab')">Story</span>
-          </div>
-          <div
-            class="nav-item"
-            :class="$store.game.view === 'story' && 'active'"
-            @click="$store.game.view = 'story'; $store.game.playSound('click')"
+            :class="$store.game.view === 'gameplay' && 'active'"
+            @click="$store.game.view = 'gameplay'; $store.game.playSound('click')"
           >
             <img src="img/menu_story.webp" alt="Main" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_story')">Haupt</span>
@@ -76,7 +66,7 @@
             :class="$store.game.view === 'traits' && 'active'"
             @click="$store.game.view = 'traits'; $store.game.playSound('click')"
           >
-            <span class="menu-icon-emoji">📜</span>
+            <img src="img/menu_traits.webp" alt="Traits" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_traits') || 'Titel'">Titel</span>
           </div>
           <div
@@ -87,14 +77,22 @@
             <img src="img/menu_village.webp" alt="Village" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_village')">Dorf</span>
           </div>
+          <div
+            class="nav-item"
+            :class="$store.game.view === 'chronicle' && 'active'"
+            @click="$store.game.view = 'chronicle'; $store.game.playSound('click')"
+          >
+            <img src="img/menu_chronic.webp" alt="Story" class="menu-icon-img" />
+            <span x-text="$store.game.t('nav_story_tab')">Story</span>
+          </div>
         </div>
         <div class="sidebar-footer">
-          <div class="save-status-sidebar" x-text="$store.game.saveInfoText">
+          <div class="save-status-sidebar" x-text="$store.game.t('save_at') + ($store.game.saveInfoText || $store.game.t('save_never'))">
             Zuletzt gespeichert: Nie
           </div>
           <div
             class="settings-corner-btn"
-            @click="document.getElementById('modal-settings').style.display = 'flex'"
+            @click="$store.game.settingsOpen = true"
             :title="$store.game.t('settings_title')"
           >
             ⚙️
@@ -102,7 +100,7 @@
         </div>
       </nav>
 
-      <main x-show="$store.game.view === 'story'">
+      <main x-show="$store.game.view === 'gameplay'">
         <div class="primary-actions-bar">
           <button
             class="game-btn primary-btn"
@@ -216,9 +214,9 @@
       </main>
 
       <!-- STORY HISTORY VIEW -->
-      <main x-show="$store.game.view === 'story_tab'">
+      <main x-show="$store.game.view === 'chronicle'">
         <div class="category-header">
-          <h3 x-text="$store.game.t('nav_story_tab')">Story</h3>
+          <h3 x-text="$store.game.t('nav_story_tab_header')">Chronik</h3>
         </div>
         
         <div class="story-chronicle-container">
@@ -387,7 +385,7 @@
       <!-- TRAITS VIEW -->
       <main x-show="$store.game.view === 'traits'">
         <div class="category-header">
-          <h3 x-text="$store.game.t('nav_traits') || 'Titel & Traits'">Titel & Traits</h3>
+          <h3 x-text="$store.game.t('nav_traits_tab_header')">Titel & Traits</h3>
         </div>
         <div class="story-chronicle-container">
           <div class="traits-grid">
@@ -428,15 +426,50 @@
             >
               Spreche mit den Bewohnern, um mehr über diese Welt zu erfahren.
             </p>
-            <div class="grid-list">
+            <div class="npc-grid">
             <template x-for="id in $store.game.unlockedNPCs" :key="id">
-              <button
-                class="game-btn"
-                @click="$store.game.executeAction(id)"
-                @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
-                @mouseout="$store.game.hoveredAction = null"
-                x-text="($store.game.t(id, 'actions').title || id) + ' ' + ($store.game.npcProgress[id.replace('npc-', '')] || 0) + '/' + ($store.game.actionDb[id].maxProgress || 5)"
-              ></button>
+              <div class="npc-card" :class="$store.game.companions[id] && 'is-working'">
+                <div class="npc-card-header">
+                  <span class="npc-name" x-text="$store.game.t(id, 'actions').title || id"></span>
+                  <span class="npc-prog-mini" x-text="($store.game.npcProgress[id.replace('npc-', '')] || 0) + '/' + ($store.game.actionDb[id].maxProgress || 5)"></span>
+                </div>
+                
+                <button
+                  class="game-btn talk-btn"
+                  @click="$store.game.executeAction(id)"
+                  @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
+                  @mouseout="$store.game.hoveredAction = null"
+                  x-text="$store.game.t('cat_village') || 'Sprechen'"
+                ></button>
+
+                <!-- Companion Section (Only if Max Progress) -->
+                <div 
+                  class="npc-work-panel" 
+                  x-show="$store.game.npcProgress[id.replace('npc-', '')] >= ($store.game.actionDb[id]?.maxProgress || 5) && $store.game.actionDb[id]?.companion"
+                >
+                  <div class="work-stats-row">
+                    <span x-text="$store.game.t('ui_salary')">Kosten</span>
+                    <span x-text="($store.game.actionDb[id]?.companion?.salary || 0) + ' ✦'"></span>
+                  </div>
+                  <div class="work-stats-row">
+                    <span x-text="$store.game.t('ui_yield')">Ertrag</span>
+                    <span class="res-yield-tag" x-text="Object.values($store.game.actionDb[id]?.companion?.yield || {})[0] + ' ' + Object.keys($store.game.actionDb[id]?.companion?.yield || {})[0]"></span>
+                  </div>
+                  
+                  <button 
+                    class="game-btn work-btn" 
+                    :class="$store.game.companions[id] && 'stop'"
+                    @click="$store.game.toggleCompanion(id)"
+                  >
+                    <template x-if="$store.game.companions[id]">
+                      <span><span class="working-indicator"></span><span x-text="$store.game.t('btn_stop_work')"></span></span>
+                    </template>
+                    <template x-if="!$store.game.companions[id]">
+                      <span x-text="$store.game.t('btn_assign_work')"></span>
+                    </template>
+                  </button>
+                </div>
+              </div>
             </template>
           </div>
           <div class="grid-list" style="margin-top: 20px" x-show="$store.game.npcProgress.hunter >= 5">
@@ -509,7 +542,7 @@
             <div class="stat-row">
               <span class="stat-name satiation-label" x-text="$store.game.t('ui_satiation')">Sättigung</span>
               <div class="stat-bar-bg"><div class="stat-bar-fill satiation-fill" :style="'width:'+$store.game.satiationPercent+'%'"></div></div>
-              <span class="stat-val" x-text="Math.floor($store.game.stats.satiation)+'/'+$store.game.stats.maxSatiation"></span>
+              <span class="stat-val" x-text="Math.floor($store.game.stats.satiation || 0) + '/' + ($store.game.stats.maxSatiation || 100)"></span>
             </div>
 
             <!-- Vorräte -->
@@ -633,7 +666,7 @@
         ></p>
       </div>
 
-      <div id="modal-settings" class="modal-overlay" style="display: none">
+      <div id="modal-settings" class="modal-overlay" x-show="$store.game.settingsOpen" style="display: none">
         <div class="modal-content settings-modal-wide">
           <div class="settings-sidebar">
             <h2 x-text="$store.game.t('settings_title')">Settings</h2>
@@ -648,7 +681,7 @@
                 <span class="tab-icon">⚙️</span> <span x-text="$store.game.t('settings_tab_system')">System</span>
               </button>
             </div>
-            <button class="close-modal-sidebar" @click="document.getElementById('modal-settings').style.display = 'none'">
+            <button class="close-modal-sidebar" @click="$store.game.settingsOpen = false">
               <span x-text="$store.game.t('btn_back')">Back</span>
             </button>
           </div>
@@ -716,6 +749,5 @@
       </div>
     </div>
     <div id="juice-container"></div>
-    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

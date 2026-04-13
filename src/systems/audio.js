@@ -19,8 +19,10 @@ export const createAudioSystem = () => ({
     const globalMult = mute ? 0 : volumeGlobal;
 
     // Update SFX
-    Object.values(this.sfx).forEach(s => {
-      s.volume = volumeSfx * globalMult;
+    Object.entries(this.sfx).forEach(([key, s]) => {
+      let mult = volumeSfx;
+      if (key === 'fail') mult *= 0.3; // Make fail sound much quieter
+      s.volume = mult * globalMult;
     });
 
     // Update BGM

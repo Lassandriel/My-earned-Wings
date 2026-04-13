@@ -1,6 +1,10 @@
 export const villageActions = {
   'action-sell-wood': {
     cost: 1, costType: 'wood', yieldType: 'shards',
+    sfx: 'click',
+    particleText: '+ Splitter',
+    particleType: 'shards',
+    counter: 'shards',
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
       if (state.resource.consume(state, 'wood', 1)) {
@@ -11,6 +15,10 @@ export const villageActions = {
   },
   'action-sell-stone': {
     cost: 1, costType: 'stone', yieldType: 'shards',
+    sfx: 'click',
+    particleText: '+ Splitter',
+    particleType: 'shards',
+    counter: 'shards',
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
       if (state.resource.consume(state, 'stone', 1)) {
@@ -21,6 +29,10 @@ export const villageActions = {
   },
   'action-sell-meat': {
     cost: 1, costType: 'meat', yieldType: 'shards',
+    sfx: 'click',
+    particleText: '+ Splitter',
+    particleType: 'shards',
+    counter: 'shards',
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
       if (state.resource.consume(state, 'meat', 1)) {
@@ -31,6 +43,9 @@ export const villageActions = {
   },
   'action-buy-meat': {
     cost: 12, costType: 'shards', yieldType: 'meat',
+    sfx: 'click',
+    particleText: '+ Fleisch',
+    particleType: 'energy',
     execute: (state) => {
       if (state.resource.isFull(state, 'meat')) return { success: false };
       if (state.resource.consume(state, 'shards', 12)) {
@@ -41,6 +56,10 @@ export const villageActions = {
   },
   'action-work': {
     cost: 30, costType: 'energy', yieldType: 'shards',
+    sfx: 'click',
+    particleText: '+ Splitter',
+    particleType: 'shards',
+    counter: 'shards',
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
       if (state.resource.consume(state, 'energy', 30)) {

@@ -15,6 +15,8 @@ export default {
     cat_log: "Chronicle",
     nav_story_tab: "Chronicle",
     nav_traits: "Titles & Traits",
+    nav_story_tab_header: "History & Chronicle",
+    nav_traits_tab_header: "Your Accomplishments",
     ui_vitality: "Vitality",
     ui_shards: "Shards",
     ui_wood: "Wood",
@@ -51,7 +53,13 @@ export default {
     settings_vol_global: "Global Volume",
     settings_vol_music: "Music",
     settings_vol_sfx: "SFX",
-    settings_mute: "Mute All"
+    settings_mute: "Mute All",
+    btn_assign_work: "Assign",
+    btn_stop_work: "Stop",
+    ui_salary: "Cost",
+    ui_yield: "Yield",
+    status_working: "Busy",
+    status_idle: "Idle"
   },
   actions: {
     'action-essen': {
@@ -301,7 +309,8 @@ export default {
     fail_full_wood: "Wood storage full.",
     fail_full_stone: "Stone storage full.",
     fail_full_meat: "Meat storage full.",
-    fail_full_shards: "Wallet full (Max Shards)."
+    fail_full_shards: "Wallet full (Max Shards).",
+    fail_salary: "Not enough Shards for salary! Work stopped."
   },
   atmosphere: [
     "A distant wingbeat echoes through the silence.",

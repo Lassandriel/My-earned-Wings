@@ -15,7 +15,26 @@ export const createPersistenceSystem = (initialState) => ({
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        Object.assign(store, data);
+        
+        // Deep merge for second-level objects to preserve new resource/limit keys
+        Object.keys(data).forEach(key => {
+            if (typeof data[key] === 'object' && data[key] !== null && !Array.isArray(data[key])) {
+                store[key] = { ...initialState[key], ...data[key] };
+            } else {
+                store[key] = data[key];
+            }
+        });
+
+        // Migration/Backwards compatibility for delayed furniture recipes
+        if (store.housing?.hasHouse) {
+            ['craft-bed', 'craft-chair', 'craft-stove'].forEach(rec => {
+                if (!store.unlockedRecipes.includes(rec)) store.unlockedRecipes.push(rec);
+            });
+        }
+        if (store.housing?.hasTable && !store.unlockedRecipes.includes('craft-bookshelf')) {
+            store.unlockedRecipes.push('craft-bookshelf');
+        }
+
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         store.saveInfoText = `Geladen um ${time}`;
         return true;

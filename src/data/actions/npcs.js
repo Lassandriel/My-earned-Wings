@@ -12,6 +12,10 @@ export const npcActions = {
   'npc-flowerGirl': {
     isStory: true, chapter: 'Village Life',
     progKey: 'flowerGirl', cost: 5, costType: 'energy', maxProgress: 5,
+    companion: {
+        salary: 1, // Shards per tick
+        yield: { magic: 2 }
+    },
     execute: (state) => {
       if (state.housing.hasCampfire && state.resource.consume(state, 'energy', 5)) {
         state.npcProgress.flowerGirl++;
@@ -24,6 +28,10 @@ export const npcActions = {
   'npc-artisan': {
     isStory: true, chapter: 'Village Life',
     progKey: 'artisan', cost: 15, costType: 'energy', maxProgress: 3,
+    companion: {
+        salary: 3,
+        yield: { wood: 0.5 }
+    },
     execute: (state) => {
       if (state.resource.consume(state, 'energy', 15)) {
         state.npcProgress.artisan++;
@@ -82,6 +90,10 @@ export const npcActions = {
   'npc-hunter': {
     isStory: true, chapter: 'Village Life',
     progKey: 'hunter', cost: 15, costType: 'energy', maxProgress: 5,
+    companion: {
+        salary: 2,
+        yield: { meat: 0.2 }
+    },
     execute: (state) => {
       if (state.resource.consume(state, 'energy', 15)) {
         state.npcProgress.hunter++;

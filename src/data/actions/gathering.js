@@ -1,6 +1,10 @@
 export const gatheringActions = {
   'action-essen': {
     cost: 0, costType: 'energy',
+    sfx: 'eat',
+    particleText: '+ Sättigung',
+    particleType: 'energy',
+    counter: 'food',
     execute: (state) => {
       let sGain = 20;
       let eGain = 2;
@@ -15,6 +19,9 @@ export const gatheringActions = {
   },
   'action-ausruhen': {
     cost: 0, costType: 'energy',
+    sfx: 'click',
+    particleText: '+ Energie',
+    particleType: 'energy',
     execute: (state) => {
       let gain = 10;
       if (state.housing.hasCampfire) gain += 10;
@@ -26,6 +33,10 @@ export const gatheringActions = {
   },
   'action-meditieren': {
     cost: 0, costType: 'energy',
+    sfx: 'click',
+    particleText: '+ Magie',
+    particleType: 'magic',
+    counter: 'magic',
     execute: (state) => {
       state.resource.add(state, 'magic', 15);
       return { success: true, logKey: 'meditate_log' };
@@ -45,6 +56,10 @@ export const gatheringActions = {
   },
   'action-wood': {
     cost: 10, costType: 'energy', yieldType: 'wood',
+    sfx: 'gather',
+    particleText: '+ Holz',
+    particleType: 'wood',
+    counter: 'wood',
     execute: (state) => {
       if (state.resource.isFull(state, 'wood')) return { success: false };
       if (state.resource.consume(state, 'energy', 10)) {
@@ -62,6 +77,10 @@ export const gatheringActions = {
   },
   'action-stone': {
     cost: 15, costType: 'energy', yieldType: 'stone',
+    sfx: 'gather',
+    particleText: '+ Stein',
+    particleType: 'stone',
+    counter: 'stone',
     execute: (state) => {
       if (state.resource.isFull(state, 'stone')) return { success: false };
       if (state.resource.consume(state, 'energy', 15)) {
@@ -78,6 +97,10 @@ export const gatheringActions = {
   },
   'action-hunt': {
     cost: 25, costType: 'energy', yieldType: 'meat',
+    sfx: 'gather',
+    particleText: '+ Fleisch',
+    particleType: 'energy',
+    counter: 'food',
     execute: (state) => {
       if (state.resource.isFull(state, 'meat')) return { success: false };
       if (state.resource.consume(state, 'energy', 25) && state.inventory.includes('craft-bow')) {
