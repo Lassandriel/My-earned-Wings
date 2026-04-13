@@ -7,7 +7,6 @@
     <title>Your earned Wings</title>
   </head>
   <body>
-<<<<<<< HEAD
     <!-- Save Toast -->
     <div id="save-toast"></div>
     <!-- Ambient Magic: Falling Feathers & Scales -->
@@ -17,8 +16,6 @@
       <div class="magic-layer layer-feathers-color"></div>
       <div class="magic-layer layer-scales-shimmer"></div>
     </div>
-=======
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
     <div id="app" x-data>
       <header class="main-header">
         <div class="logo-container">
@@ -60,7 +57,6 @@
       <!-- STORY VIEW -->
       <main x-show="$store.game.view === 'story'">
         <div class="primary-actions-bar">
-<<<<<<< HEAD
           <button
             class="game-btn primary-btn"
             @click="$store.game.executeAction('action-essen', $el)"
@@ -83,21 +79,6 @@
             @mouseover="$store.game.hoveredAction = {id: 'action-meditieren', data: $store.game.actionDb['action-meditieren']}"
             @mouseout="$store.game.hoveredAction = null"
           >
-=======
-          <button class="primary-btn" @click="$store.game.executeAction('action-essen')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-essen', data: $store.game.actionDb['action-essen']}"
-                  @mouseout="$store.game.hoveredAction = null">
-            <span x-text="$store.game.t('action-essen', 'actions').title">Beeren essen</span>
-          </button>
-          <button class="primary-btn" @click="$store.game.executeAction('action-ausruhen')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-ausruhen', data: $store.game.actionDb['action-ausruhen']}"
-                  @mouseout="$store.game.hoveredAction = null">
-            <span x-text="$store.game.t('action-ausruhen', 'actions').title">Ausruhen</span>
-          </button>
-          <button class="primary-btn" @click="$store.game.executeAction('action-meditieren')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-meditieren', data: $store.game.actionDb['action-meditieren']}"
-                  @mouseout="$store.game.hoveredAction = null">
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
             <span x-text="$store.game.t('action-meditieren', 'actions').title">Blick nach oben</span>
           </button>
         </div>
@@ -107,8 +88,7 @@
             <section class="action-group">
               <div class="category-header"><h3 x-text="$store.game.t('cat_gather')">Sammeln</h3></div>
               <div class="btn-list">
-<<<<<<< HEAD
-              <button
+                <button
                   class="game-btn"
                   @click="$store.game.executeAction('action-wood', $el) || ($el.classList.add('btn-fail'), setTimeout(()=>$el.classList.remove('btn-fail'), 450))"
                   @mouseover="$store.game.hoveredAction = {id: 'action-wood', data: $store.game.actionDb['action-wood']}"
@@ -117,7 +97,7 @@
                 >
                   Zweige sammeln
                 </button>
-              <button
+                <button
                   class="game-btn"
                   @click="$store.game.executeAction('action-stone', $el) || ($el.classList.add('btn-fail'), setTimeout(()=>$el.classList.remove('btn-fail'), 450))"
                   @mouseover="$store.game.hoveredAction = {id: 'action-stone', data: $store.game.actionDb['action-stone']}"
@@ -126,16 +106,6 @@
                 >
                   Kiesel sammeln
                 </button>
-=======
-                <button class="game-btn" @click="$store.game.executeAction('action-wood')"
-                        @mouseover="$store.game.hoveredAction = {id: 'action-wood', data: $store.game.actionDb['action-wood']}"
-                        @mouseout="$store.game.hoveredAction = null"
-                        x-text="$store.game.inventory.includes('craft-axe') ? $store.game.t('action-wood', 'actions').title_alt : $store.game.t('action-wood', 'actions').title">Zweige sammeln</button>
-                <button class="game-btn" @click="$store.game.executeAction('action-stone')"
-                        @mouseover="$store.game.hoveredAction = {id: 'action-stone', data: $store.game.actionDb['action-stone']}"
-                        @mouseout="$store.game.hoveredAction = null"
-                        x-text="$store.game.inventory.includes('craft-pickaxe') ? $store.game.t('action-stone', 'actions').title_alt : $store.game.t('action-stone', 'actions').title">Kiesel sammeln</button>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
               </div>
             </section>
 
@@ -178,7 +148,6 @@
             <section class="action-group">
               <div class="category-header"><h3 x-text="$store.game.t('cat_trade')">Handel</h3></div>
               <div class="btn-list">
-<<<<<<< HEAD
                 <button
                   class="game-btn"
                   @click="$store.game.executeAction('action-sell-wood')"
@@ -216,16 +185,6 @@
                 >
                   Buch kaufen
                 </button>
-=======
-                <button class="game-btn" @click="$store.game.executeAction('action-sell-wood')"
-                        @mouseover="$store.game.hoveredAction = {id: 'action-sell-wood', data: $store.game.actionDb['action-sell-wood']}"
-                        @mouseout="$store.game.hoveredAction = null"
-                        x-text="$store.game.t('action-sell-wood', 'actions').title">Holz tauschen</button>
-                <button class="game-btn" @click="$store.game.executeAction('action-sell-stone')"
-                        @mouseover="$store.game.hoveredAction = {id: 'action-sell-stone', data: $store.game.actionDb['action-sell-stone']}"
-                        @mouseout="$store.game.hoveredAction = null"
-                        x-text="$store.game.t('action-sell-stone', 'actions').title">Steine tauschen</button>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
               </div>
             </section>
 
@@ -263,7 +222,6 @@
                      x-text="$store.game.t('action-study', 'actions').title"></button>
            </div>
         </div>
-<<<<<<< HEAD
         <div class="action-container">
           <div class="grid-list crafting-grid">
             <template x-for="id in $store.game.unlockedRecipes" :key="id">
@@ -317,14 +275,10 @@
             </button>
           </div>
         </div>
-
-=======
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
       </main>
 
       <!-- HOUSING VIEW -->
       <main x-show="$store.game.view === 'housing'">
-<<<<<<< HEAD
         <div class="category-header">
           <h3 x-text="$store.game.t('cat_housing')">Hausbau & Lager</h3>
         </div>
@@ -409,29 +363,11 @@
               </div>
             </div>
           </template>
-=======
-        <div class="category-header"><h3 x-text="$store.game.t('cat_housing')">Hausbau & Lager</h3></div>
-        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
-           <div class="grid-list">
-              <button x-show="!$store.game.housing.hasCampfire" class="game-btn" @click="$store.game.executeAction('house-campfire')" @mouseover="$store.game.hoveredAction = {id: 'house-campfire', data: $store.game.actionDb['house-campfire']}" @mouseout="$store.game.hoveredAction = null" x-text="$store.game.t('house-campfire', 'actions').title"></button>
-              <button x-show="$store.game.housing.hasCampfire && !$store.game.housing.hasTent" class="game-btn" @click="$store.game.executeAction('house-tent')" @mouseover="$store.game.hoveredAction = {id: 'house-tent', data: $store.game.actionDb['house-tent']}" @mouseout="$store.game.hoveredAction = null" x-text="$store.game.t('house-tent', 'actions').title"></button>
-              
-              <template x-if="$store.game.housing.hasTent">
-                <div class="grid-list" style="display: contents;">
-                  <button x-show="!$store.game.housing.hasWoodStorage" class="game-btn" @click="$store.game.executeAction('house-wood-storage')" @mouseover="$store.game.hoveredAction = {id: 'house-wood-storage', data: $store.game.actionDb['house-wood-storage']}" @mouseout="$store.game.hoveredAction = null" x-text="$store.game.t('house-wood-storage', 'actions').title"></button>
-                  <button x-show="!$store.game.housing.hasStoneStorage" class="game-btn" @click="$store.game.executeAction('house-stone-storage')" @mouseover="$store.game.hoveredAction = {id: 'house-stone-storage', data: $store.game.actionDb['house-stone-storage']}" @mouseout="$store.game.hoveredAction = null" x-text="$store.game.t('house-stone-storage', 'actions').title"></button>
-                  <button x-show="$store.game.housing.hasWoodStorage && $store.game.housing.hasStoneStorage && !$store.game.housing.hasHouse" class="game-btn" @click="$store.game.executeAction('house-build')" @mouseover="$store.game.hoveredAction = {id: 'house-build', data: $store.game.actionDb['house-build']}" @mouseout="$store.game.hoveredAction = null" x-text="$store.game.t('house-build', 'actions').title"></button>
-                  <button x-show="$store.game.housing.hasHouse && !$store.game.housing.hasTable" class="game-btn" @click="$store.game.executeAction('house-table')" @mouseover="$store.game.hoveredAction = {id: 'house-table', data: $store.game.actionDb['house-table']}" @mouseout="$store.game.hoveredAction = null" x-text="$store.game.t('house-table', 'actions').title"></button>
-                </div>
-              </template>
-           </div>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
         </div>
-      </main>main>
+      </main>
 
       <!-- INVENTORY VIEW -->
       <main x-show="$store.game.view === 'inventory'">
-<<<<<<< HEAD
         <div class="category-header">
           <h3 x-text="$store.game.t('cat_inventory')">Besitz & Gegenstände</h3>
         </div>
@@ -473,22 +409,13 @@
               </div>
             </div>
           </template>
-=======
-        <div class="category-header"><h3 x-text="$store.game.t('cat_inventory')">Besitz & Gegenstände</h3></div>
-        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
-           <div class="grid-list">
-             <template x-for="id in $store.game.inventory" :key="id">
-               <div class="game-btn" x-text="$store.game.t(id, 'actions').title || id"></div>
-             </template>
-           </div>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
+        </div>
         </div>
       </main>
 
       <!-- VILLAGE VIEW -->
       <main x-show="$store.game.view === 'village'">
         <div class="category-header"><h3 x-text="$store.game.t('cat_village')">Das Dorf</h3></div>
-<<<<<<< HEAD
         <div class="action-container">
           <div class="action-column">
             <p
@@ -510,19 +437,7 @@
             </template>
           </div>
         </div>
-=======
-        <div class="action-container" style="flex-direction: column; overflow-y: auto;">
-           <p style="color: var(--text-dim); margin-bottom: 25px;" x-text="$store.game.t('village_desc')">Spreche mit den Bewohnern, um mehr über diese Welt zu erfahren.</p>
-           <div class="grid-list">
-             <template x-for="id in $store.game.unlockedNPCs" :key="id">
-               <button class="game-btn" 
-                       @click="$store.game.executeAction(id)"
-                       @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
-                       @mouseout="$store.game.hoveredAction = null"
-                       x-text="($store.game.t(id, 'actions').title || id) + ' ' + ($store.game.npcProgress[id.replace('npc-', '')] || 0) + '/' + ($store.game.actionDb[id].maxProgress || 5)"></button>
-             </template>
-           </div>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
+      </div>
         </div>
       </main>
 
@@ -594,7 +509,6 @@
           </div>
         </div>
 
-<<<<<<< HEAD
 
           <div class="compact-stats">
             <!-- Vitalität -->
@@ -657,61 +571,12 @@
               <span x-show="$store.game.housing.hasTent && !$store.game.housing.hasHouse" class="stat-val basis-val active">⛺ <span x-text="$store.game.t('house-tent', 'actions').title"></span></span>
               <span x-show="$store.game.housing.hasHouse" class="stat-val basis-val milestone">🏠 <span x-text="$store.game.t('house-build', 'actions').title"></span></span>
             </div>
-=======
-        <div class="detail-box" x-show="$store.game.hoveredAction">
-          <h4 class="detail-section-title" x-text="$store.game.t('ui_details')">Details</h4>
-          <div class="detail-title" x-text="(() => {
-            const h = $store.game.hoveredAction;
-            if(!h) return '-';
-            const lang = $store.game.t(h.id, 'actions');
-            if(h.id === 'action-wood' && $store.game.inventory.includes('craft-axe')) return lang.title_alt;
-            if(h.id === 'action-stone' && $store.game.inventory.includes('craft-pickaxe')) return lang.title_alt;
-            return lang.title || h.id;
-          })()">-</div>
-          <div class="detail-cost" :class="'cost-' + ($store.game.hoveredAction?.data.costType || 'energy')" x-text="'Cost: ' + ($store.game.hoveredAction?.data.cost || 0) + ' ' + ($store.game.hoveredAction?.data.costType || '').toUpperCase()">-</div>
-          <div class="detail-separator"></div>
-          <div class="detail-unlocks" x-show="$store.game.t($store.game.hoveredAction?.id, 'actions').unlocks" x-text="$store.game.t($store.game.hoveredAction?.id, 'actions').unlocks"></div>
-          <div class="detail-effect" x-text="$store.game.t($store.game.hoveredAction?.id, 'actions').effect || '-'"></div>
-          <p class="detail-req" :class="(() => {
-              const h = $store.game.hoveredAction;
-              if(!h) return 'blocked';
-              let current = 0;
-              const costType = h.data.costType;
-              if (costType === 'energy') current = $store.game.stats.energy;
-              else if (costType === 'magic') current = $store.game.stats.magic;
-              else if (costType === 'wood') current = $store.game.resources.wood;
-              else if (costType === 'stone') current = $store.game.resources.stone;
-              else if (costType === 'shards') current = $store.game.resources.shards;
-              return current >= h.data.cost ? 'ready' : 'blocked';
-          })()" x-text="$store.game.t('ui_need') + ': ' + (() => {
-              const h = $store.game.hoveredAction;
-              if(!h) return '0/0';
-              let current = 0;
-              const costType = h.data.costType;
-              if (costType === 'energy') current = Math.floor($store.game.stats.energy);
-              else if (costType === 'magic') current = Math.floor($store.game.stats.magic);
-              else if (costType === 'wood') current = $store.game.resources.wood;
-              else if (costType === 'stone') current = $store.game.resources.stone;
-              else if (costType === 'shards') current = $store.game.resources.shards;
-              return current + '/' + h.data.cost;
-          })()">Bereit</p>
-          <div class="detail-desc-container">
-             <p class="detail-desc" x-text="(() => {
-                const h = $store.game.hoveredAction;
-                if(!h) return '';
-                const lang = $store.game.t(h.id, 'actions');
-                if(h.id === 'action-wood' && $store.game.inventory.includes('craft-axe')) return lang.desc_alt;
-                if(h.id === 'action-stone' && $store.game.inventory.includes('craft-pickaxe')) return lang.desc_alt;
-                return lang.desc || '';
-             })()"></p>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
           </div>
         </div>
       </aside>
 
       <!-- Settings moved to sidebar -->
 
-<<<<<<< HEAD
       <!-- FLOATING TOOLTIP (follows cursor via CSS --mx/--my) -->
       <div
         class="floating-tooltip"
@@ -799,9 +664,6 @@
       </div>
 
       <div id="modal-settings" class="modal-overlay" style="display: none">
-=======
-      <div id="modal-settings" class="modal-overlay" style="display: none;">
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
         <div class="modal-content">
           <h2 x-text="$store.game.t('settings_title')">Einstellungen</h2>
           <div class="settings-group">
@@ -820,7 +682,6 @@
             <button class="game-btn" @click="$store.game.loadGame(); document.getElementById('modal-settings').style.display = 'none'" x-text="$store.game.t('btn_load')">Laden</button>
           </div>
           <div class="modal-divider"></div>
-<<<<<<< HEAD
           <button
             class="reset-btn"
             @click="$store.game.hardReset()"
@@ -842,10 +703,6 @@
           >
             Zurück
           </button>
-=======
-          <button class="quit-btn" @click="window.electronAPI?.quitApp()" x-text="$store.game.t('btn_quit')">Spiel Beenden</button>
-          <button class="close-modal" @click="document.getElementById('modal-settings').style.display = 'none'" x-text="$store.game.t('btn_back')">Zurück</button>
->>>>>>> parent of 47ec199 (feat: initialize game project structure with core mechanics, state management, and documentation)
         </div>
       </div>
     </div>
