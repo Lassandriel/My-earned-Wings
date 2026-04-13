@@ -8,7 +8,7 @@ export const initialState = {
   language: 'de',
   view: 'story',
   resources: { wood: 0, stone: 0, shards: 0, meat: 0 },
-  limits: { wood: 10, stone: 10 },
+  limits: { wood: 10, stone: 10, meat: 10, shards: 1000 },
   stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100 },
   housing: {
     hasCampfire: false,
@@ -17,11 +17,12 @@ export const initialState = {
     hasStoneStorage: false,
     hasHouse: false,
     hasTable: false,
+    hasBookshelf: false,
     laborCount: 0,
     hasLandDeed: false
   },
   inventory: [],
-  unlockedRecipes: ['craft-wanderstock', 'craft-bed', 'craft-chair', 'craft-stove'],
+  unlockedRecipes: ['craft-wanderstock', 'craft-axe', 'craft-pickaxe', 'craft-bed', 'craft-chair', 'craft-stove', 'craft-bookshelf'],
   npcProgress: {
     baker: 0,
     flowerGirl: 0,

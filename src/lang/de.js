@@ -217,6 +217,11 @@ export default {
         effect: "Ermöglicht Studium",
         unlocks: "Dorf-NPC: 'Alter Weiser'"
     },
+    'craft-bookshelf': {
+        title: "Bücherregal",
+        desc: "Ein Ort für gesammeltes Wissen. Erhöht den Fokus beim Studium.",
+        effect: "+5 Magie beim Studium"
+    },
     'house-build': {
         title: "Hütte bauen",
         desc: "Deine Hütte steht fest am Boden. Ein Denkmal deines Willens.",
@@ -269,6 +274,7 @@ export default {
     buy_meat_log: "Fleisch beim Jäger gekauft. +1 Fleisch.",
     craft_stove: "Ofen in der Hütte installiert.",
     craft_bow: "Jagdbogen gefertigt.",
+    craft_bookshelf: "Bücherregal aufgestellt.",
     // Intro
     intro_1: "Über dir gleitet jemand mühelos von Dach zu Dach.",
     intro_2: "Du gehst den langen Weg zu Fuß. Deine Schritte sind schwer.",
@@ -282,7 +288,9 @@ export default {
     fail_magic: "Nicht genug Magie.",
     fail_resources: "Nicht genug Ressourcen.",
     fail_full_wood: "Holzlager voll.",
-    fail_full_stone: "Steinlager voll."
+    fail_full_stone: "Steinlager voll.",
+    fail_full_meat: "Fleischlager voll.",
+    fail_full_shards: "Geldbeutel voll (Max Splitter)."
   },
   atmosphere: [
     "Ein ferner Flügelschlag hallt durch die Stille.",

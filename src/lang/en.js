@@ -212,10 +212,15 @@ export default {
         unlocks: "Village NPC: 'Artisan'"
     },
     'house-table': {
-        title: "Massive Table",
+        title: "Sturdy Table",
         desc: "A place to work and study your books.",
-        effect: "Allows studying",
+        effect: "Enables Study",
         unlocks: "Village NPC: 'Old Sage'"
+    },
+    'craft-bookshelf': {
+        title: "Bookshelf",
+        desc: "A place for collected knowledge. Increases focus while studying.",
+        effect: "+5 Magic while studying"
     },
     'house-build': {
         title: "Build Hut",
@@ -266,9 +271,10 @@ export default {
     npc_hunter_final: "Hunter: \"Take my old hunting spot. The forests are yours.\"",
     hunt_log: "Hunt successful. +{gain} Meat.",
     sell_meat_log: "Meat sold. +15 Shards.",
-    buy_meat_log: "Bought meat from the hunter. +1 Meat.",
+    buy_meat_log: "Bought meat from the hunter. +1 meat.",
     craft_stove: "Stove installed in the hut.",
-    craft_bow: "Hunting bow crafted.",
+    craft_bow: "Hunting bow finished.",
+    craft_bookshelf: "Bookshelf set up.",
     // Intro
     intro_1: "Someone glides effortlessly from roof to roof above you.",
     intro_2: "You walk the long way on foot. Your steps are heavy.",
@@ -282,7 +288,9 @@ export default {
     fail_magic: "Not enough magic.",
     fail_resources: "Not enough resources.",
     fail_full_wood: "Wood storage full.",
-    fail_full_stone: "Stone storage full."
+    fail_full_stone: "Stone storage full.",
+    fail_full_meat: "Meat storage full.",
+    fail_full_shards: "Wallet full (Max Shards)."
   },
   atmosphere: [
     "A distant wingbeat echoes through the silence.",

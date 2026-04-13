@@ -2,7 +2,7 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/img/asset_sheet.png" />
+    <link rel="icon" type="image/x-icon" href="img/Game_icon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your earned Wings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +24,7 @@
     <div id="app" x-data>
       <header class="main-header">
         <div class="logo-container">
-          <img src="/img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
+          <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
           <h1 class="game-title">Your earned Wings</h1>
         </div>
       </header>
@@ -34,41 +34,41 @@
           <div
             class="nav-item"
             :class="$store.game.view === 'story' && 'active'"
-            @click="$store.game.view = 'story'"
+            @click="$store.game.view = 'story'; $store.game.playSound('click')"
           >
-            <img src="/img/menu_story.webp" alt="Main" class="menu-icon-img" />
+            <img src="img/menu_story.webp" alt="Main" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_story')">Haupt</span>
           </div>
           <div
             class="nav-item"
             :class="$store.game.view === 'crafting' && 'active'"
-            @click="$store.game.view = 'crafting'"
+            @click="$store.game.view = 'crafting'; $store.game.playSound('click')"
           >
-            <img src="/img/menu_crafting.webp" alt="Crafting" class="menu-icon-img" />
+            <img src="img/menu_crafting.webp" alt="Crafting" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_crafting')">Crafting</span>
           </div>
           <div
             class="nav-item"
             :class="$store.game.view === 'housing' && 'active'"
-            @click="$store.game.view = 'housing'"
+            @click="$store.game.view = 'housing'; $store.game.playSound('click')"
           >
-            <img src="/img/menu_housing.webp" alt="Housing" class="menu-icon-img" />
+            <img src="img/menu_housing.webp" alt="Housing" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_housing')">Housing & Bau</span>
           </div>
           <div
             class="nav-item"
             :class="$store.game.view === 'inventory' && 'active'"
-            @click="$store.game.view = 'inventory'"
+            @click="$store.game.view = 'inventory'; $store.game.playSound('click')"
           >
-            <img src="/img/menu_inventory.webp" alt="Inventory" class="menu-icon-img" />
+            <img src="img/menu_inventory.webp" alt="Inventory" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_inventory')">Besitz</span>
           </div>
           <div
             class="nav-item"
             :class="$store.game.view === 'village' && 'active'"
-            @click="$store.game.view = 'village'"
+            @click="$store.game.view = 'village'; $store.game.playSound('click')"
           >
-            <img src="/img/menu_village.webp" alt="Village" class="menu-icon-img" />
+            <img src="img/menu_village.webp" alt="Village" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_village')">Dorf</span>
           </div>
         </div>
@@ -431,8 +431,8 @@
             <div class="stat-category">Vorräte</div>
             <div class="stat-row">
               <span class="stat-name">Splitter</span>
-              <span style="flex:1"></span>
-              <span class="stat-val shard-inline">✦ <span x-text="Math.floor($store.game.resources.shards)"></span></span>
+              <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+Math.min(100,($store.game.resources.shards/$store.game.limits.shards)*100)+'%'"></div></div>
+              <span class="stat-val shard-inline">✦ <span x-text="Math.floor($store.game.resources.shards)+'/'+$store.game.limits.shards"></span></span>
             </div>
             <div class="stat-row">
               <span class="stat-name" x-text="$store.game.t('ui_wood')">Holz</span>
@@ -446,8 +446,8 @@
             </div>
             <div class="stat-row">
               <span class="stat-name" x-text="$store.game.t('ui_meat')">Fleisch</span>
-              <span style="flex:1"></span>
-              <span class="stat-val"><span x-text="$store.game.resources.meat"></span>🍖</span>
+              <div class="stat-bar-bg"><div class="stat-bar-fill energy-fill" :style="'width:'+Math.min(100,($store.game.resources.meat/$store.game.limits.meat)*100)+'%'"></div></div>
+              <span class="stat-val"><span x-text="$store.game.resources.meat+'/'+$store.game.limits.meat"></span>🍖</span>
             </div>
 
             <!-- Basis -->
