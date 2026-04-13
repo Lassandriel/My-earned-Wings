@@ -1,18 +1,48 @@
 {
   "name": "test_game",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
+  "description": "Ein atmosphärisches Spiel über das Finden der eigenen Flügel.",
+  "author": "Lassandriel",
   "type": "module",
   "main": "app-main.js",
   "scripts": {
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development .\\node_modules\\.bin\\electron.cmd .\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dist": "npm run build && electron-builder",
+    "build-exe": "npm run build && electron-packager . My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --icon=public/img/Game_icon.png"
+  },
+  "build": {
+    "appId": "com.lassandriel.myearnedwings",
+    "productName": "My-earned-Wings",
+    "win": {
+      "target": [
+        "portable",
+        "dir"
+      ],
+      "icon": "public/img/Game_icon.png",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "directories": {
+      "output": "BUILDS"
+    },
+    "files": [
+      "dist/**/*",
+      "app-main.js",
+      "preload.js",
+      "splash.html",
+      "package.json"
+    ],
+    "asar": true
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "electron": "^41.2.0",
+    "electron-builder": "^26.8.1",
+    "electron-packager": "^17.1.2",
+    "png-to-ico": "^3.0.1",
     "vite": "^8.0.4",
     "wait-on": "^9.0.4"
   },

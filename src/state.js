@@ -7,7 +7,7 @@ export const initialState = {
   playerName: 'Entdecker',
   language: 'de',
   view: 'story',
-  resources: { wood: 0, stone: 0, shards: 0 },
+  resources: { wood: 0, stone: 0, shards: 0, meat: 0 },
   limits: { wood: 10, stone: 10 },
   stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100 },
   housing: {
@@ -21,7 +21,7 @@ export const initialState = {
     hasLandDeed: false
   },
   inventory: [],
-  unlockedRecipes: ['craft-wanderstock', 'craft-bed', 'craft-chair'],
+  unlockedRecipes: ['craft-wanderstock', 'craft-bed', 'craft-chair', 'craft-stove'],
   npcProgress: {
     baker: 0,
     flowerGirl: 0,
@@ -29,9 +29,10 @@ export const initialState = {
     artisan: 0,
     townHall: 0,
     blacksmith: 0,
-    sage: 0
+    sage: 0,
+    hunter: 0
   },
-  unlockedNPCs: ['npc-baker', 'npc-teacher'],
+  unlockedNPCs: ['npc-baker', 'npc-teacher', 'npc-hunter'],
   hoveredAction: null,
   hasSeenIntro: false,
   activeFeather: 1,

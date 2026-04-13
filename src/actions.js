@@ -2,8 +2,10 @@ export const actionDb = {
   'action-essen': {
     cost: 0, costType: 'energy',
     execute: (state) => {
-      state.stats.energy = Math.min(state.stats.maxEnergy, state.stats.energy + 5);
-      return { success: true, logKey: 'eat_log' };
+      let gain = 5;
+      if (state.inventory.includes('craft-stove')) gain += 5;
+      state.stats.energy = Math.min(state.stats.maxEnergy, state.stats.energy + gain);
+      return { success: true, logKey: 'eat_log', logGain: gain };
     }
   },
   'action-ausruhen': {
@@ -173,10 +175,32 @@ export const actionDb = {
       } return { success: false };
     }
   },
+  'npc-hunter': {
+    progKey: 'hunter', cost: 15, costType: 'energy', maxProgress: 5,
+    execute: (state) => {
+      if (state.stats.energy >= 15) {
+        state.stats.energy -= 15;
+        state.npcProgress.hunter++;
+        
+        if (state.npcProgress.hunter === 2) {
+          if (!state.unlockedRecipes.includes('craft-bow')) {
+            state.unlockedRecipes.push('craft-bow');
+            return { success: true, logKey: 'npc_hunter_bow', logColor: 'rgba(251, 191, 36, 0.9)' };
+          }
+        }
+        
+        if (state.npcProgress.hunter === 5) {
+          return { success: true, logKey: 'npc_hunter_final', logColor: 'rgba(251, 191, 36, 0.9)' };
+        }
+
+        return { success: true, logKey: 'npc_hunter' };
+      } return { success: false };
+    }
+  },
 
   // Crafting
   'craft-wanderstock': {
-    cost: 5, costType: 'wood',
+    cost: 5, costType: 'wood', image: '/img/Crafting_walkingstick.png',
     execute: (state) => {
       if (state.resources.wood >= 5) {
         state.resources.wood -= 5;
@@ -217,12 +241,63 @@ export const actionDb = {
     }
   },
   'craft-chair': {
-    cost: 10, costType: 'wood',
+    cost: 10, costType: 'wood', image: '/img/Crafting_chair.png',
     execute: (state) => {
       if (state.resources.wood >= 10) {
         state.resources.wood -= 10;
         state.inventory.push('craft-chair');
         return { success: true, logKey: 'craft_chair' };
+      } return { success: false };
+    }
+  },
+  'craft-stove': {
+    cost: 25, costType: 'stone', image: '/img/Crafting_stove.png',
+    execute: (state) => {
+      if (state.resources.stone >= 25 && state.resources.wood >= 15) {
+        state.resources.stone -= 25;
+        state.resources.wood -= 15;
+        state.inventory.push('craft-stove');
+        return { success: true, logKey: 'craft_stove' };
+      } return { success: false };
+    }
+  },
+  'craft-bow': {
+    cost: 30, costType: 'wood',
+    execute: (state) => {
+      if (state.resources.wood >= 30) {
+        state.resources.wood -= 30;
+        state.inventory.push('craft-bow');
+        return { success: true, logKey: 'craft_bow' };
+      } return { success: false };
+    }
+  },
+  'action-hunt': {
+    cost: 25, costType: 'energy',
+    execute: (state) => {
+      if (state.stats.energy >= 25 && state.inventory.includes('craft-bow')) {
+        state.stats.energy -= 25;
+        state.resources.meat += 2;
+        return { success: true, logKey: 'hunt_log', logGain: 2 };
+      } return { success: false };
+    }
+  },
+  'action-sell-meat': {
+    cost: 1, costType: 'meat',
+    execute: (state) => {
+      if (state.resources.meat >= 1) {
+        state.resources.meat--;
+        state.resources.shards += 15;
+        return { success: true, logKey: 'sell_meat_log', logColor: 'rgba(20, 184, 166, 0.9)' };
+      } return { success: false };
+    }
+  },
+  'action-buy-meat': {
+    cost: 12, costType: 'shards',
+    execute: (state) => {
+      if (state.resources.shards >= 12) {
+        state.resources.shards -= 12;
+        state.resources.meat += 1;
+        return { success: true, logKey: 'buy_meat_log' };
       } return { success: false };
     }
   },

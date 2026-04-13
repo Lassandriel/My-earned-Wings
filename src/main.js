@@ -48,6 +48,7 @@ Alpine.store('game', {
         else if (costType === 'wood') current = this.resources.wood;
         else if (costType === 'stone') current = this.resources.stone;
         else if (costType === 'shards') current = this.resources.shards;
+        else if (costType === 'meat') current = this.resources.meat;
 
         if (costType === 'energy' && current < action.cost) {
             this.addLog(this.t('fail_energy', 'logs'), 'rgba(239, 68, 68, 0.75)');
@@ -112,6 +113,13 @@ Alpine.store('game', {
             }
         }
         return false;
+    },
+
+    hardReset() {
+        if (confirm(this.t('confirm_reset', 'ui'))) {
+            localStorage.removeItem('wings_save');
+            window.location.reload();
+        }
     },
 
     get CIRCUMFERENCE() { return 251.32; },

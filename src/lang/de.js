@@ -1,8 +1,8 @@
 export default {
   ui: {
-    nav_story: "Story",
-    nav_crafting: "Crafting",
-    nav_housing: "Bau & Housing",
+    nav_story: "Haupt",
+    nav_crafting: "Handwerk",
+    nav_housing: "Hausbau",
     nav_inventory: "Besitz",
     nav_village: "Dorf",
     cat_gather: "Sammeln",
@@ -17,6 +17,7 @@ export default {
     ui_shards: "Splitter",
     ui_wood: "Holz",
     ui_stone: "Stein",
+    ui_meat: "Fleisch",
     ui_details: "Details",
     ui_energy: "Energie",
     ui_magic: "Magie",
@@ -30,6 +31,8 @@ export default {
     settings_title: "Einstellungen",
     settings_lang: "Sprache / Language",
     settings_name: "Spieler Name",
+    settings_reset: "Spiel zurücksetzen",
+    confirm_reset: "Bist du sicher? Alle Fortschritte werden gelöscht!",
     village_desc: "Spreche mit den Bewohnern, um von ihrem Wissen zu profitieren.",
     save_at: "Gespeichert: ",
     save_never: "Zuletzt gespeichert: Nie",
@@ -128,6 +131,27 @@ export default {
       effect: "Schenkt ein Buch des Wissens",
       unlocks: "Aktion: 'Studieren'"
     },
+    'npc-hunter': {
+      title: "Jäger",
+      desc: "Ein schweigsamer Mann mit Narben an den Armen. Er kennt die Wälder.",
+      effect: "Lehrt Bogenbau und Jagd",
+      unlocks: "Rezepte: 'Bogen', Aktion: 'Jagen'"
+    },
+    'action-hunt': {
+      title: "Jagen",
+      desc: "Gehe tief in den Wald und suche nach Wild. Dein Bogen singt beim Schuss.",
+      effect: "+2 Fleisch"
+    },
+    'action-sell-meat': {
+      title: "Fleisch verkaufen",
+      desc: "Frisches Fleisch ist im Dorf begehrt, da kaum jemand am Boden jagt.",
+      effect: "+15 Splitter"
+    },
+    'action-buy-meat': {
+      title: "Fleisch kaufen",
+      desc: "Kaufe Vorräte vom Jäger, wenn dein Glück im Wald nachlässt.",
+      effect: "+1 Fleisch"
+    },
     'craft-wanderstock': {
         title: "Wanderstock",
         desc: "Ein solider Stock aus Esche. Er trägt deine Last auf langen Wegen.",
@@ -152,6 +176,16 @@ export default {
         title: "Stuhl",
         desc: "Bequem sitzen beim Lesen. Erhöht die Konzentration.",
         effect: "Verdoppelt Studium-Ertrag (+10 MS)"
+    },
+    'craft-stove': {
+        title: "Ofen",
+        desc: "Ein gusseiserner Ofen. Er wärmt die Hütte und gart deine Beeren.",
+        effect: "Verdoppelt Beeren-Erholung"
+    },
+    'craft-bow': {
+        title: "Jagdbogen",
+        desc: "Ein leichter, aber stabiler Bogen. Perfekt für den Boden.",
+        effect: "Ermöglicht Jagd"
     },
     'house-campfire': {
         title: "Lagerfeuer",
@@ -227,6 +261,14 @@ export default {
     milestone_stone_storage: "Steinlager errichtet. +10 maximaler Stein.",
     milestone_table: "Massiver Tisch aufgestellt. Ein Ort des Wissens.",
     milestone_house: "Hütte gebaut. Ein Monument deines Willens am Boden.",
+    npc_hunter: "Jäger: \"Hörst du das? Das ist das Atmen des Waldes.\"",
+    npc_hunter_bow: "Jäger: \"Du hast Talent. Hier, so baut man einen Bogen.\"",
+    npc_hunter_final: "Jäger: \"Nimm meinen alten Jagdplatz ein. Die Wälder gehören dir.\"",
+    hunt_log: "Erfolgreich gejagt. +{gain} Fleisch.",
+    sell_meat_log: "Fleisch verkauft. +15 Splitter.",
+    buy_meat_log: "Fleisch beim Jäger gekauft. +1 Fleisch.",
+    craft_stove: "Ofen in der Hütte installiert.",
+    craft_bow: "Jagdbogen gefertigt.",
     // Intro
     intro_1: "Über dir gleitet jemand mühelos von Dach zu Dach.",
     intro_2: "Du gehst den langen Weg zu Fuß. Deine Schritte sind schwer.",

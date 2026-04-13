@@ -36,8 +36,8 @@
             :class="$store.game.view === 'story' && 'active'"
             @click="$store.game.view = 'story'"
           >
-            <img src="/img/menu_story.webp" alt="Story" class="menu-icon-img" />
-            <span x-text="$store.game.t('nav_story')">Story</span>
+            <img src="/img/menu_story.webp" alt="Main" class="menu-icon-img" />
+            <span x-text="$store.game.t('nav_story')">Haupt</span>
           </div>
           <div
             class="nav-item"
@@ -138,6 +138,16 @@
                   x-text="$store.game.inventory.includes('craft-pickaxe') ? $store.game.t('action-stone', 'actions').title_alt : $store.game.t('action-stone', 'actions').title"
                 >
                   Kiesel sammeln
+                </button>
+              <button
+                  x-show="$store.game.inventory.includes('craft-bow')"
+                  class="game-btn primary-magic"
+                  @click="!$store.game.executeAction('action-hunt') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+                  @mouseover="$store.game.hoveredAction = {id: 'action-hunt', data: $store.game.actionDb['action-hunt']}"
+                  @mouseout="$store.game.hoveredAction = null"
+                  x-text="$store.game.t('action-hunt', 'actions').title"
+                >
+                  Jagen
                 </button>
               </div>
             </section>
@@ -349,6 +359,22 @@
               ></button>
             </template>
           </div>
+          <div class="grid-list" style="margin-top: 20px" x-show="$store.game.npcProgress.hunter >= 5">
+            <button
+              class="game-btn"
+              @click="$store.game.executeAction('action-buy-meat')"
+              @mouseover="$store.game.hoveredAction = {id: 'action-buy-meat', data: $store.game.actionDb['action-buy-meat']}"
+              @mouseout="$store.game.hoveredAction = null"
+              x-text="$store.game.t('action-buy-meat', 'actions').title"
+            ></button>
+            <button
+              class="game-btn"
+              @click="$store.game.executeAction('action-sell-meat')"
+              @mouseover="$store.game.hoveredAction = {id: 'action-sell-meat', data: $store.game.actionDb['action-sell-meat']}"
+              @mouseout="$store.game.hoveredAction = null"
+              x-text="$store.game.t('action-sell-meat', 'actions').title"
+            ></button>
+          </div>
         </div>
         </div>
       </main>
@@ -417,6 +443,11 @@
               <span class="stat-name" x-text="$store.game.t('ui_stone')">Stein</span>
               <div class="stat-bar-bg"><div class="stat-bar-fill stone-fill" :style="'width:'+Math.min(100,($store.game.resources.stone/$store.game.limits.stone)*100)+'%'"></div></div>
               <span class="stat-val" x-text="$store.game.resources.stone+'/'+$store.game.limits.stone"></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name" x-text="$store.game.t('ui_meat')">Fleisch</span>
+              <span style="flex:1"></span>
+              <span class="stat-val"><span x-text="$store.game.resources.meat"></span>🍖</span>
             </div>
 
             <!-- Basis -->
@@ -565,6 +596,14 @@
             </button>
           </div>
           <div class="modal-divider"></div>
+          <button
+            class="quit-btn"
+            style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); margin-bottom: 10px;"
+            @click="$store.game.hardReset()"
+            x-text="$store.game.t('settings_reset')"
+          >
+            Spiel zurücksetzen
+          </button>
           <button
             class="quit-btn"
             @click="window.electronAPI?.quitApp()"

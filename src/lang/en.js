@@ -1,8 +1,8 @@
 export default {
   ui: {
-    nav_story: "Story",
+    nav_story: "Main",
     nav_crafting: "Crafting",
-    nav_housing: "Building & Housing",
+    nav_housing: "Construction",
     nav_inventory: "Assets",
     nav_village: "Village",
     cat_gather: "Gather",
@@ -17,6 +17,7 @@ export default {
     ui_shards: "Shards",
     ui_wood: "Wood",
     ui_stone: "Stone",
+    ui_meat: "Meat",
     ui_details: "Details",
     ui_energy: "Energy",
     ui_magic: "Magic",
@@ -30,6 +31,8 @@ export default {
     settings_title: "Settings",
     settings_lang: "Language / Sprache",
     settings_name: "Player Name",
+    settings_reset: "Reset Game",
+    confirm_reset: "Are you sure? All progress will be lost!",
     village_desc: "Speak with the inhabitants to learn more.",
     save_at: "Saved: ",
     save_never: "Last saved: Never",
@@ -128,6 +131,27 @@ export default {
       effect: "Gifts a book of knowledge",
       unlocks: "Action: 'Study'"
     },
+    'npc-hunter': {
+      title: "Hunter",
+      desc: "A silent man with scars on his arms. He knows the forests.",
+      effect: "Teaches archery and hunting",
+      unlocks: "Recipes: 'Bow', Action: 'Hunt'"
+    },
+    'action-hunt': {
+      title: "Hunt",
+      desc: "Go deep into the forest and search for game. Your bow sings when you shoot.",
+      effect: "+2 Meat"
+    },
+    'action-sell-meat': {
+      title: "Sell Meat",
+      desc: "Fresh meat is in high demand in the village, as few hunt on the ground.",
+      effect: "+15 Shards"
+    },
+    'action-buy-meat': {
+      title: "Buy Meat",
+      desc: "Buy supplies from the hunter when your luck in the forest fails.",
+      effect: "+1 Meat"
+    },
     'craft-wanderstock': {
         title: "Walking Stick",
         desc: "A solid ash stick. It carries your burden on long journeys.",
@@ -152,6 +176,16 @@ export default {
         title: "Chair",
         desc: "Sit comfortably while reading. Increases concentration.",
         effect: "Doubles study yield (+10 MS)"
+    },
+    'craft-stove': {
+        title: "Stove",
+        desc: "A cast-iron stove. It warms the hut and cooks your berries.",
+        effect: "Doubles berry recovery"
+    },
+    'craft-bow': {
+        title: "Hunting Bow",
+        desc: "A light but stable bow. Perfect for the ground.",
+        effect: "Allows Hunting"
     },
     'house-campfire': {
         title: "Campfire",
@@ -227,6 +261,14 @@ export default {
     milestone_stone_storage: "Stone storage built. +10 maximum stone.",
     milestone_table: "Massive table placed. A place of learning.",
     milestone_house: "Hut built. A monument to your will on the ground.",
+    npc_hunter: "Hunter: \"Hear that? That's the forest breathing.\"",
+    npc_hunter_bow: "Hunter: \"You have talent. Here, that's how you build a bow.\"",
+    npc_hunter_final: "Hunter: \"Take my old hunting spot. The forests are yours.\"",
+    hunt_log: "Hunt successful. +{gain} Meat.",
+    sell_meat_log: "Meat sold. +15 Shards.",
+    buy_meat_log: "Bought meat from the hunter. +1 Meat.",
+    craft_stove: "Stove installed in the hut.",
+    craft_bow: "Hunting bow crafted.",
     // Intro
     intro_1: "Someone glides effortlessly from roof to roof above you.",
     intro_2: "You walk the long way on foot. Your steps are heavy.",

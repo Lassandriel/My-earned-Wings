@@ -1,70 +1,60 @@
-# Your earned Wings ✦
+# Your Earned Wings ✦
 
-## _Everyone has wings, except you. While they glide effortlessly from roof to roof, you walk the heavy path on solid ground. But strength doesn't only come from the sky—it grows from the earth you touch._
+`Your Earned Wings` ist eine atmosphärische Desktop-Simulation, entwickelt mit **Electron**, **Vite** und **Alpine.js**. Es erzählt die Reise eines flügellosen Protagonisten in einem Dorf voller geflügelter Wesen. Das Spiel konzentriert sich auf Selbstgenügsamkeit, den Aufbau von Infrastruktur und die Entdeckung bodenbasierter Magie.
 
-`Your earned Wings` is a Desktop Management Simulation built with **Electron**, **Vite**, and **Vanilla JS/CSS**. It follows the journey of a wingless protagonist in a village of winged beings, focusing on self-reliance, infrastructure building, and the discovery of ancient ground-based magic.
+![Official Logo](public/img/logo_wings.webp)
 
-![Official Logo](public/img/logo_wings.png)
+## ✦ Kern-Features
 
-## ✦ Core Features
+### 🛖 Beständiger Fortschritt & Housing
+*   **Vom Sammler zum Erbauer**: Beginne mit dem Sammeln von Zweigen und Kieseln und entwickle dich weiter bis zum Bau eines eigenen Hauses.
+*   **Infrastruktur**: Baue spezialisierte Lager für Holz und Stein, um deine Kapazitäten zu erweitern.
+*   **Möbel-Synergien**: Ein massiver Tisch und ein Stuhl schaffen die perfekte Umgebung für dein Studium und verdoppeln deinen Fortschritt.
+*   **Ofen & Stärkung**: Ein gusseiserner Ofen in deiner Hütte verdoppelt die Regeneration durch Nahrung.
 
-### 🛖 Persistent Progression & Housing
+### 🏹 Jagd & Mentor-System
+*   **Der Jäger**: Ein erfahrener NPC, der dir in Phasen den Bogenbau und die Jagd beibringt.
+*   **Ressource Fleisch**: Sammle Fleisch durch Jagd-Aktionen und handele damit im Dorf.
 
-- **From Gatherer to Builder**: Start by collecting twigs and pebbles, then progress to building campfires, canvas tents, and eventually a permanent house.
-- **Infrastructure**: Build specialized storage for wood and stone to expand your capacities.
-- **Furniture Synergies**: Craft a **Scholar's Table** and a **Scholar's Chair** to create the perfect environment for studying.
+### 🔮 Magie & Wissen
+*   **Keine passive Regeneration**: In dieser Welt ist nichts umsonst. Verwalte Energie und Magie durch gezieltes Ausruhen, Essen und Meditieren.
+*   **Studium**: Triff den *Alten Weisen*, um das Studium freizuschalten und deine maximale magische Kapazität permanent zu steigern.
 
-### 🔮 Magic & Vitality Mastery
-
-- **Wing-Profile Status**: Your progress is visually tracked through a dual-wing profile. The **Dragon-Wing (Green)** represents your earthly vitality, while the **Feather-Wing (Blue-Violet)** represents your mystical magic.
-- **Active Regeneration**: No passive regen. Manage your energy and magic carefully through active resting, eating, and meditating.
-- **The Study Mechanic**: Meet the **Old Sage** to receive the _Book of Knowledge_. Study at your table to permanently increase your maximum Magic potential.
-
-### 🏘️ Village Interaction
-
-- **Custom Visuals**: Navigation icons (Story, Crafting, Housing) are custom-designed to bring the world to life.
-- **Diverse NPCs**: Build relationships with the **Baker**, the **Flower Girl**, the **Artisan**, and the **Sage**.
-- **Tool Progression**: Work with the Artisan to unlock recipes for Axes and Pickaxes, transforming your gathering into efficient harvesting.
-
-### 🌍 Localization (i18n)
-
-- Fully localized in **German** and **English**.
-- Switch languages on the fly in the settings menu without losing progress.
+### ✨ Visuelle Ästhetik & UX
+*   **Glassmorphismus & Dark Mode**: Ein hochwertiges Design mit flüssigen Übergängen und pulsing Effekten.
+*   **Splash-Screen & Single-Instance**: Professionelle App-Features für einen reibungslosen Start.
+*   **Hard-Reset**: In den Einstellungen kannst du jederzeit einen kompletten Neuanfang wagen.
 
 ## 🛠️ Tech Stack
 
-- **Runtime**: [Electron](https://www.electronjs.org/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Logic**: Vanilla JavaScript (ES6 Modules) & [Alpine.js](https://alpinejs.dev/) for reactive UI.
-- **Styling**: Vanilla CSS featuring **Glassmorphism**, SVG-Masking (for dynamic UI elements), and a "Somber Cozy" dark aesthetic with vibrant Smaragd and Violet accents.
-- **Persistence**: LocalStorage with Auto-Load functionality.
+*   **Runtime**: [Electron](https://www.electronjs.org/)
+*   **Build Tool**: [Vite](https://vitejs.dev/)
+*   **Logik**: Vanilla JS & [Alpine.js](https://alpinejs.dev/)
+*   **Packaging**: [Electron Packager](https://github.com/electron/electron-packager)
 
-## 🚀 Getting Started
+## 🗺️ Dokumentation
 
-### Prerequisites
+Weitere Details findest du im `docs/` Ordner:
+- [Projekt-Roadmap](docs/ROADMAP.md)
+- [Game Design Dokument (GDD)](docs/GAMEDESIGN.md)
+- [Fortschritts-Baum (Unlocks)](docs/PROGRESSION.md)
 
-- [Node.js](https://nodejs.org/) (Latest LTS recommended)
+## 🚀 Installation & Build
+
+### Voraussetzungen
+- [Node.js](https://nodejs.org/) (Aktuelle LTS)
 
 ### Installation
+1. Repository klonen.
+2. Abhängigkeiten installieren: `npm install`
+3. Entwicklungsmodus starten: `npm run dev`
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/your-earned-wings.git
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Run in development mode:
-
-   ```bash
-   npm run dev
-   ```
+### 📦 Windows Executable (.exe) erstellen
+Um das Spiel als fertige Anwendung inklusive Icon zu verpacken:
+```bash
+npm run build-exe
+```
+Die fertige Anwendung findest du danach im Ordner `BUILDS/`.
 
 ---
-
-_Built with passion for those who walk the earth._ ✦
+*Created by Lassandriel · April 2026*
