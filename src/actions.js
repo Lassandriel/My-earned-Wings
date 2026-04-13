@@ -200,7 +200,7 @@ export const actionDb = {
 
   // Crafting
   'craft-wanderstock': {
-    cost: 5, costType: 'wood', image: '/img/Crafting_walkingstick.png',
+    cost: 5, costType: 'wood', image: 'img/Crafting_walkingstick.webp',
     execute: (state) => {
       if (state.resources.wood >= 5) {
         state.resources.wood -= 5;
@@ -231,7 +231,7 @@ export const actionDb = {
     }
   },
   'craft-bed': {
-    cost: 25, costType: 'wood', image: '/img/Crafting_bed.png',
+    cost: 25, costType: 'wood', image: 'img/Crafting_bed.webp',
     execute: (state) => {
       if (state.resources.wood >= 25) {
         state.resources.wood -= 25;
@@ -241,7 +241,7 @@ export const actionDb = {
     }
   },
   'craft-chair': {
-    cost: 10, costType: 'wood', image: '/img/Crafting_chair.png',
+    cost: 10, costType: 'wood', image: 'img/Crafting_chair.webp',
     execute: (state) => {
       if (state.resources.wood >= 10) {
         state.resources.wood -= 10;
@@ -251,7 +251,7 @@ export const actionDb = {
     }
   },
   'craft-stove': {
-    cost: 25, costType: 'stone', image: '/img/Crafting_stove.png',
+    cost: 25, costType: 'stone', image: 'img/Crafting_stove.webp',
     execute: (state) => {
       if (state.resources.stone >= 25 && state.resources.wood >= 15) {
         state.resources.stone -= 25;
@@ -304,7 +304,7 @@ export const actionDb = {
 
   // Housing
   'house-campfire': {
-    cost: 5, costType: 'wood', image: '/img/Housing_Campfire.png',
+    cost: 5, costType: 'wood', image: 'img/Housing_Campfire.webp',
     execute: (state) => {
       if (state.resources.wood >= 5) {
         state.resources.wood -= 5;
@@ -315,7 +315,7 @@ export const actionDb = {
     }
   },
   'house-tent': {
-    cost: 15, costType: 'wood', image: '/img/Housing_tent.png',
+    cost: 15, costType: 'wood', image: 'img/Housing_tent.webp',
     execute: (state) => {
       if (state.resources.wood >= 15 && state.resources.stone >= 5) {
         state.resources.wood -= 15;
