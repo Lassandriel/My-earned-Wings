@@ -1,33 +1,38 @@
-# Projekt-Roadmap: Your earned Wings ✦
+# Project Roadmap: Your Earned Wings ✦
 
-Dieses Dokument dient als Leitfaden für die zukünftige Entwicklung.
+This document serves as a guide for future development.
 
-## Phase 1: Polishing & Immersion (Technischer Fokus)
+## Phase 1: Polishing & Immersion (Technical Focus)
 
-- [x] **Tab-Rework**: Komplette visuelle und funktionale Überarbeitung aller Inhalts-Tabs.
-- [x] **EXE-Packaging**: Erstellung einer fertigen Windows-Datei mit eigenem Icon.
-- [x] **UX-Optimierung**: Speicher-Bestätigung, Splash-Screen und Hard-Reset Mechanik.
-- [ ] **Audio-Kulisse**: Implementierung von Umgebungsgeräuschen (Wind, Wald) und haptischen Soundeffekten.
-- [ ] **Visuelles Feedback ("Juice")**: Hinzufügen von Partikeleffekten beim Ressourcenabbau.
+- [x] **Tab Rework**: Complete visual and functional overhaul of all content tabs.
+- [x] **EXE Packaging**: Creating a finished Windows executable with a custom icon.
+- [x] **UX Optimization**: Save confirmation, splash screen, and hard-reset mechanics.
+- [x] **Core Architecture Refactoring**: Centralized Resource Manager and Transaction System.
+- [x] **Audio Landscape**: Implementation of ambient music, sound effects, and volume controls.
+- [x] **Settings UX Overhaul**: Modern tabbed settings menu with independent volume sliders.
+- [x] **Visual Feedback ("Juice")**: Adding particle effects during resource gathering.
 
-## Phase 2: Kern-Mechaniken (Inhaltlicher Fokus)
+## Phase 2: Core Mechanics (Content Focus)
 
-- [x] **Werkzeuge & Progression**: Einführung von Axt und Spitzhacke zur Ertragssteigerung.
-- [x] **NPC-Erweiterung**: Mentor-System mit dem Jäger (Bogenbau & Jagd).
-- [x] **Ressourcen-Kette**: Einführung von Fleisch und verarbeiteten Gütern (Ofen-Bonus).
-- [ ] **Interaktives Tagebuch**: Ein dedizierter Bereich für Lore-Einträge und Skizzen.
-- [ ] **Wetter & Zeit**: Dynamischer Tag-Nacht-Zyklus und Wettereffekte (Regen, Nebel).
-- [ ] **Interior-System**: Ermöglichen des Betretens und Ausstattens des Hauses.
+- [x] **Tools & Progression**: Introduction of Axe and Pickaxe for increased yields.
+- [x] **NPC Expansion**: Mentor system with the Hunter (Bowmaking & Hunting).
+- [x] **Resource Chain**: Introduction of Meat and processed goods (Stove bonus).
+- [ ] **Interactive Journal**: A dedicated area for lore entries and sketches.
+- [ ] **Camp Comfort & Beds**: Housing upgrades for improved energy regeneration during rest.
+- [x] **Traits (Passive Bonuses)**: Unlockable bonuses (e.g., "Woodsman") through repeated actions.
+- [ ] **Weather & Time**: Dynamic day-night cycle and weather effects (rain, fog).
+- [ ] **Interior System**: Ability to enter and furnish your house.
 
-## Phase 3: Welt & Gemeinschaft
+## Phase 3: World & Community (Mid-Game)
 
-- [ ] **NPC-Questreihen**: Tiefere Geschichten für den Weisen und die Bewohner.
-- [ ] **Jahreszeiten**: Visuelle und mechanische Änderungen der Welt im Jahresverlauf.
-- [ ] **Dorf-Reputation**: Einfluss deines Fortschritts auf die Reaktion der Geflügelten.
+- [ ] **Companion System**: NPCs (e.g., the Hunter) can be assigned to gather resources in the background.
+- [ ] **NPC Questlines**: Deeper stories for the Sage and village residents.
+- [ ] **Seasons**: Visual and mechanical changes to the world throughout the year.
+- [ ] **Village Reputation**: Your progress influencing how the Winged react to you.
 
-## Phase 4: Die Vision (Endgame)
+## Phase 4: The Vision (Endgame)
 
-- [ ] **Flügel-Metamorphose**: Die Erschaffung eigener „Wings“ durch Magie und tiefes Wissen.
+- [ ] **Metamorphosis**: The creation of your own "Wings" through magic and deep knowledge.
 
 ---
-_Zuletzt aktualisiert: April 2026_
+_Last updated: April 2026_

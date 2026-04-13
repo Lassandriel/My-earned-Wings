@@ -13,6 +13,8 @@ export default {
     cat_inventory: "Besitz & Gegenstände",
     cat_village: "Das Dorf",
     cat_log: "Chronik",
+    nav_story_tab: "Chronik",
+    nav_traits: "Titel & Traits",
     ui_vitality: "Vitalität",
     ui_shards: "Splitter",
     ui_wood: "Holz",
@@ -21,9 +23,11 @@ export default {
     ui_details: "Details",
     ui_energy: "Energie",
     ui_magic: "Magie",
+    ui_satiation: "Sättigung",
     ui_unlocks: "Schaltet frei:",
     ui_ready: "Bereit",
     ui_need: "Benötigt",
+    ui_bonus: "Bonus",
     ui_base: "Basis",
     ui_no_shelter: "Kein Lager",
     ui_placeholder: "Wanderer...",
@@ -40,13 +44,20 @@ export default {
     btn_load: "Laden",
     btn_quit: "Beenden",
     btn_back: "Zurück",
-    intro_welcome: "Willkommen zurück auf festem Boden."
+    intro_welcome: "Willkommen zurück auf festem Boden.",
+    settings_tab_general: "Allgemein",
+    settings_tab_audio: "Audio",
+    settings_tab_system: "System",
+    settings_vol_global: "Gesamtlautstärke",
+    settings_vol_music: "Musik",
+    settings_vol_sfx: "Effekte",
+    settings_mute: "Stummschalten"
   },
   actions: {
     'action-essen': {
       title: "Beeren essen",
       desc: "Wilde Beeren vom Boden sammeln. Sie schmecken nach Erde und Kraft.",
-      effect: "+5 Energie"
+      effect: "+20 Sättigung, +2 Energie"
     },
     'action-ausruhen': {
       title: "Ausruhen",
@@ -235,7 +246,7 @@ export default {
     study_success: "Dein Wissen wächst durch Konzentration (+{gain} Magie-Limit).",
     sage_gift: "Der Weise schenkt dir ein altes Buch voller Symbole.",
     // Aktions-Logs
-    eat_log: "Beeren gegessen. +5 Energie.",
+    eat_log: "Beeren gegessen. +{gain} Sättigung.",
     rest_log: "Ausgeruht. +{gain} Energie.",
     meditate_log: "Meditiert. +15 Magie.",
     wood_log: "{gain} Zweige gesammelt.",

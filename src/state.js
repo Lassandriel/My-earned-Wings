@@ -9,7 +9,7 @@ export const initialState = {
   view: 'story',
   resources: { wood: 0, stone: 0, shards: 0, meat: 0 },
   limits: { wood: 10, stone: 10, meat: 10, shards: 1000 },
-  stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100 },
+  stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100, satiation: 100, maxSatiation: 100 },
   housing: {
     hasCampfire: false,
     hasTent: false,
@@ -37,7 +37,24 @@ export const initialState = {
   hoveredAction: null,
   hasSeenIntro: false,
   activeFeather: 1,
-  logs: []
+  logs: [],
+  storyHistory: [],
+  settings: {
+    volumeGlobal: 0.5,
+    volumeMusic: 0.7,
+    volumeSfx: 1.0,
+    mute: false,
+    activeTab: 'general'
+  },
+  counters: {
+    wood: 0,
+    stone: 0,
+    magic: 0,
+    food: 0,
+    shards: 0,
+    totalActions: 0
+  },
+  unlockedTraits: []
 };
 
 export const getTranslations = () => translations;

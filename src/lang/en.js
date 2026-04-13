@@ -13,6 +13,8 @@ export default {
     cat_inventory: "Possessions & Objects",
     cat_village: "The Village",
     cat_log: "Chronicle",
+    nav_story_tab: "Chronicle",
+    nav_traits: "Titles & Traits",
     ui_vitality: "Vitality",
     ui_shards: "Shards",
     ui_wood: "Wood",
@@ -21,9 +23,11 @@ export default {
     ui_details: "Details",
     ui_energy: "Energy",
     ui_magic: "Magic",
+    ui_satiation: "Satiation",
     ui_unlocks: "Unlocks:",
     ui_ready: "Ready",
     ui_need: "Requires",
+    ui_bonus: "Bonus",
     ui_base: "Base",
     ui_no_shelter: "No Shelter",
     ui_placeholder: "Wanderer...",
@@ -40,13 +44,20 @@ export default {
     btn_load: "Load",
     btn_quit: "Quit",
     btn_back: "Back",
-    intro_welcome: "Welcome back to solid ground."
+    intro_welcome: "Welcome back to solid ground.",
+    settings_tab_general: "General",
+    settings_tab_audio: "Audio",
+    settings_tab_system: "System",
+    settings_vol_global: "Global Volume",
+    settings_vol_music: "Music",
+    settings_vol_sfx: "SFX",
+    settings_mute: "Mute All"
   },
   actions: {
     'action-essen': {
       title: "Eat Berries",
       desc: "Gather wild berries from the ground. They taste of earth and power.",
-      effect: "+5 Energy"
+      effect: "+20 Satiation, +2 Energy"
     },
     'action-ausruhen': {
       title: "Rest",
@@ -235,7 +246,7 @@ export default {
     study_success: "Your knowledge grows through concentration (+{gain} Magic Limit).",
     sage_gift: "The Sage gifts you an old book full of symbols.",
     // Action Logs
-    eat_log: "Berries eaten. +5 Energy.",
+    eat_log: "Berries eaten. +{gain} Satiation.",
     rest_log: "Rested. +{gain} Energy.",
     meditate_log: "Meditated. +15 Magic.",
     wood_log: "{gain} twigs gathered.",

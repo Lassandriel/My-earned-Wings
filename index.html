@@ -33,6 +33,14 @@
         <div class="nav-items-top">
           <div
             class="nav-item"
+            :class="$store.game.view === 'story_tab' && 'active'"
+            @click="$store.game.view = 'story_tab'; $store.game.playSound('click')"
+          >
+            <img src="img/menu_story.webp" alt="Story" class="menu-icon-img" />
+            <span x-text="$store.game.t('nav_story_tab')">Story</span>
+          </div>
+          <div
+            class="nav-item"
             :class="$store.game.view === 'story' && 'active'"
             @click="$store.game.view = 'story'; $store.game.playSound('click')"
           >
@@ -62,6 +70,14 @@
           >
             <img src="img/menu_inventory.webp" alt="Inventory" class="menu-icon-img" />
             <span x-text="$store.game.t('nav_inventory')">Besitz</span>
+          </div>
+          <div
+            class="nav-item"
+            :class="$store.game.view === 'traits' && 'active'"
+            @click="$store.game.view = 'traits'; $store.game.playSound('click')"
+          >
+            <span class="menu-icon-emoji">📜</span>
+            <span x-text="$store.game.t('nav_traits') || 'Titel'">Titel</span>
           </div>
           <div
             class="nav-item"
@@ -197,6 +213,37 @@
           </div>
         </div>
 
+      </main>
+
+      <!-- STORY HISTORY VIEW -->
+      <main x-show="$store.game.view === 'story_tab'">
+        <div class="category-header">
+          <h3 x-text="$store.game.t('nav_story_tab')">Story</h3>
+        </div>
+        
+        <div class="story-chronicle-container">
+          <template x-for="chapter in [...new Set($store.game.storyHistory.map(h => h.chapter))]" :key="chapter">
+            <div class="story-chapter-group">
+              <h4 class="story-chapter-title" x-text="chapter"></h4>
+              <div class="story-cards-grid">
+                <template x-for="entry in $store.game.storyHistory.filter(h => h.chapter === chapter)" :key="entry.id">
+                  <div class="story-card">
+                    <div class="story-card-header">
+                      <span class="story-card-title" x-text="entry.title"></span>
+                      <span class="story-card-date" x-text="new Date(entry.timestamp).toLocaleDateString()"></span>
+                    </div>
+                    <p class="story-card-text" x-text="entry.text"></p>
+                    <div class="story-card-effect" x-show="entry.effect" x-text="entry.effect"></div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+          
+          <div x-show="$store.game.storyHistory.length === 0" class="empty-history-notice">
+            <p>Your story has just begun. Make meaningful choices to fill these pages.</p>
+          </div>
+        </div>
       </main>
 
       <!-- CRAFTING VIEW -->
@@ -337,6 +384,39 @@
         </div>
       </main>
 
+      <!-- TRAITS VIEW -->
+      <main x-show="$store.game.view === 'traits'">
+        <div class="category-header">
+          <h3 x-text="$store.game.t('nav_traits') || 'Titel & Traits'">Titel & Traits</h3>
+        </div>
+        <div class="story-chronicle-container">
+          <div class="traits-grid">
+            <template x-for="trait in Object.values($store.game.traitDb)" :key="trait.id">
+              <div class="trait-card" :class="$store.game.unlockedTraits.includes(trait.id) ? 'trait-unlocked' : 'trait-locked'">
+                <div class="trait-header">
+                  <span class="trait-icon" x-text="$store.game.unlockedTraits.includes(trait.id) ? '🌟' : '🔒'"></span>
+                  <span class="trait-title" x-text="trait.title"></span>
+                </div>
+                <p class="trait-desc" x-text="trait.desc"></p>
+                <div class="trait-bonus-box">
+                  <span class="trait-bonus-label" x-text="$store.game.t('ui_bonus') || 'Bonus:'"></span>
+                  <span class="trait-bonus-val" x-text="trait.bonusText"></span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="trait-progress-container">
+                    <div class="trait-progress-bar">
+                        <div class="trait-progress-fill" :style="'width: ' + Math.min(100, (($store.game.counters[trait.counter] || 0) / trait.requirement) * 100) + '%'"></div>
+                    </div>
+                    <div class="trait-progress-text">
+                        <span x-text="Math.floor($store.game.counters[trait.counter] || 0)"></span> / <span x-text="trait.requirement"></span>
+                    </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </main>
+
       <!-- VILLAGE VIEW -->
       <main x-show="$store.game.view === 'village'">
         <div class="category-header"><h3 x-text="$store.game.t('cat_village')">Das Dorf</h3></div>
@@ -425,6 +505,11 @@
               <span class="stat-name magic-label">Magie</span>
               <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+$store.game.magicPercent+'%'"></div></div>
               <span class="stat-val" x-text="Math.floor($store.game.stats.magic)+'/'+$store.game.stats.maxMagic"></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name satiation-label" x-text="$store.game.t('ui_satiation')">Sättigung</span>
+              <div class="stat-bar-bg"><div class="stat-bar-fill satiation-fill" :style="'width:'+$store.game.satiationPercent+'%'"></div></div>
+              <span class="stat-val" x-text="Math.floor($store.game.stats.satiation)+'/'+$store.game.stats.maxSatiation"></span>
             </div>
 
             <!-- Vorräte -->
@@ -549,78 +634,88 @@
       </div>
 
       <div id="modal-settings" class="modal-overlay" style="display: none">
-        <div class="modal-content">
-          <h2 x-text="$store.game.t('settings_title')">Einstellungen</h2>
-          <div class="settings-group">
-            <label x-text="$store.game.t('settings_lang')">Sprache / Language</label>
-            <div class="lang-switcher">
-              <button
-                class="lang-btn"
-                :class="$store.game.language === 'de' && 'active'"
-                @click="$store.game.setLanguage('de')"
-              >
-                Deutsch
+        <div class="modal-content settings-modal-wide">
+          <div class="settings-sidebar">
+            <h2 x-text="$store.game.t('settings_title')">Settings</h2>
+            <div class="settings-tabs">
+              <button class="s-tab-btn" :class="$store.game.settings.activeTab === 'general' && 'active'" @click="$store.game.settings.activeTab = 'general'">
+                <span class="tab-icon">👤</span> <span x-text="$store.game.t('settings_tab_general')">General</span>
               </button>
-              <button
-                class="lang-btn"
-                :class="$store.game.language === 'en' && 'active'"
-                @click="$store.game.setLanguage('en')"
-              >
-                English
+              <button class="s-tab-btn" :class="$store.game.settings.activeTab === 'audio' && 'active'" @click="$store.game.settings.activeTab = 'audio'">
+                <span class="tab-icon">🔊</span> <span x-text="$store.game.t('settings_tab_audio')">Audio</span>
+              </button>
+              <button class="s-tab-btn" :class="$store.game.settings.activeTab === 'system' && 'active'" @click="$store.game.settings.activeTab = 'system'">
+                <span class="tab-icon">⚙️</span> <span x-text="$store.game.t('settings_tab_system')">System</span>
               </button>
             </div>
-          </div>
-          <div class="settings-group">
-            <label x-text="$store.game.t('settings_name')">Spieler Name</label>
-            <input
-              type="text"
-              x-model="$store.game.playerName"
-              :placeholder="$store.game.t('settings_name') + '...'"
-              @input="$store.game.saveGame()"
-            />
-          </div>
-          <div class="settings-actions">
-            <button
-              class="game-btn"
-              @click="$store.game.saveGame(); document.getElementById('modal-settings').style.display = 'none'"
-              x-text="$store.game.t('btn_save')"
-            >
-              Speichern
-            </button>
-            <button
-              class="game-btn"
-              @click="$store.game.loadGame(); document.getElementById('modal-settings').style.display = 'none'"
-              x-text="$store.game.t('btn_load')"
-            >
-              Laden
+            <button class="close-modal-sidebar" @click="document.getElementById('modal-settings').style.display = 'none'">
+              <span x-text="$store.game.t('btn_back')">Back</span>
             </button>
           </div>
-          <div class="modal-divider"></div>
-          <button
-            class="quit-btn"
-            style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); margin-bottom: 10px;"
-            @click="$store.game.hardReset()"
-            x-text="$store.game.t('settings_reset')"
-          >
-            Spiel zurücksetzen
-          </button>
-          <button
-            class="quit-btn"
-            @click="window.electronAPI?.quitApp()"
-            x-text="$store.game.t('btn_quit')"
-          >
-            Spiel Beenden
-          </button>
-          <button
-            class="close-modal"
-            @click="document.getElementById('modal-settings').style.display = 'none'"
-            x-text="$store.game.t('btn_back')"
-          >
-            Zurück
-          </button>
+
+          <div class="settings-main">
+            <!-- GENERAL TAB -->
+            <div x-show="$store.game.settings.activeTab === 'general'" class="s-tab-content">
+              <div class="settings-group">
+                <label x-text="$store.game.t('settings_lang')">Language</label>
+                <div class="lang-switcher">
+                  <button class="lang-btn" :class="$store.game.language === 'de' && 'active'" @click="$store.game.setLanguage('de')">Deutsch</button>
+                  <button class="lang-btn" :class="$store.game.language === 'en' && 'active'" @click="$store.game.setLanguage('en')">English</button>
+                </div>
+              </div>
+              <div class="settings-group">
+                <label x-text="$store.game.t('settings_name')">Player Name</label>
+                <input type="text" x-model="$store.game.playerName" :placeholder="$store.game.t('settings_name') + '...'" @input="$store.game.saveGame()" />
+              </div>
+            </div>
+
+            <!-- AUDIO TAB -->
+            <div x-show="$store.game.settings.activeTab === 'audio'" class="s-tab-content">
+              <div class="settings-group">
+                <label>
+                  <span x-text="$store.game.t('settings_vol_global')">Global Volume</span>
+                  <span class="vol-val" x-text="Math.round($store.game.settings.volumeGlobal * 100) + '%'"></span>
+                </label>
+                <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeGlobal" @input="$store.game.updateAudio()">
+              </div>
+              <div class="settings-group">
+                <label>
+                  <span x-text="$store.game.t('settings_vol_music')">Music</span>
+                  <span class="vol-val" x-text="Math.round($store.game.settings.volumeMusic * 100) + '%'"></span>
+                </label>
+                <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeMusic" @input="$store.game.updateAudio()">
+              </div>
+              <div class="settings-group">
+                <label>
+                  <span x-text="$store.game.t('settings_vol_sfx')">SFX</span>
+                  <span class="vol-val" x-text="Math.round($store.game.settings.volumeSfx * 100) + '%'"></span>
+                </label>
+                <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeSfx" @input="$store.game.updateAudio()">
+              </div>
+              <div class="settings-group checkbox-group">
+                <label class="toggle-switch">
+                  <input type="checkbox" x-model="$store.game.settings.mute" @change="$store.game.updateAudio()">
+                  <span class="slider round"></span>
+                </label>
+                <span x-text="$store.game.t('settings_mute')">Mute All</span>
+              </div>
+            </div>
+
+            <!-- SYSTEM TAB -->
+            <div x-show="$store.game.settings.activeTab === 'system'" class="s-tab-content">
+              <div class="settings-actions-stack">
+                <button class="game-btn wide-btn" @click="$store.game.saveGame()" x-text="$store.game.t('btn_save')">Save Game</button>
+                <button class="game-btn wide-btn" @click="$store.game.loadGame()" x-text="$store.game.t('btn_load')">Load Game</button>
+                <div class="modal-divider"></div>
+                <button class="quit-btn reset-btn" @click="$store.game.hardReset()" x-text="$store.game.t('settings_reset')">Hard Reset Progress</button>
+                <button class="quit-btn" @click="window.electronAPI?.quitApp()" x-text="$store.game.t('btn_quit')">Quit App</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <div id="juice-container"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

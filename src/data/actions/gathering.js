@@ -2,10 +2,15 @@ export const gatheringActions = {
   'action-essen': {
     cost: 0, costType: 'energy',
     execute: (state) => {
-      let gain = 5;
-      if (state.inventory.includes('craft-stove')) gain += 5;
-      state.stats.energy = Math.min(state.stats.maxEnergy, state.stats.energy + gain);
-      return { success: true, logKey: 'eat_log', logGain: gain };
+      let sGain = 20;
+      let eGain = 2;
+      if (state.inventory.includes('craft-stove')) {
+        sGain += 15;
+        eGain += 3;
+      }
+      state.resource.add(state, 'satiation', sGain);
+      state.resource.add(state, 'energy', eGain);
+      return { success: true, logKey: 'eat_log', logGain: sGain };
     }
   },
   'action-ausruhen': {
@@ -15,22 +20,21 @@ export const gatheringActions = {
       if (state.housing.hasCampfire) gain += 10;
       if (state.housing.hasTent) gain += 15;
       if (state.inventory.includes('craft-bed')) gain += 25;
-      state.stats.energy = Math.min(state.stats.maxEnergy, state.stats.energy + gain);
+      state.resource.add(state, 'energy', gain);
       return { success: true, logKey: 'rest_log', logGain: gain };
     }
   },
   'action-meditieren': {
     cost: 0, costType: 'energy',
     execute: (state) => {
-      state.stats.magic = Math.min(state.stats.maxMagic, state.stats.magic + 15);
+      state.resource.add(state, 'magic', 15);
       return { success: true, logKey: 'meditate_log' };
     }
   },
   'action-study': {
     cost: 20, costType: 'magic',
     execute: (state) => {
-      if (state.stats.magic >= 20) {
-        state.stats.magic -= 20;
+      if (state.resource.consume(state, 'magic', 20)) {
         let gain = 5;
         if (state.inventory.includes('craft-chair')) gain += 5;
         if (state.housing.hasBookshelf) gain += 5;
@@ -40,37 +44,47 @@ export const gatheringActions = {
     }
   },
   'action-wood': {
-    cost: 10, costType: 'energy',
+    cost: 10, costType: 'energy', yieldType: 'wood',
     execute: (state) => {
-      if (state.stats.energy >= 10 && state.resources.wood < state.limits.wood) {
-        state.stats.energy -= 10;
+      if (state.resource.isFull(state, 'wood')) return { success: false };
+      if (state.resource.consume(state, 'energy', 10)) {
         let gain = state.inventory.includes('craft-axe') ? 2 : 1;
         if (state.inventory.includes('craft-wanderstock')) gain += 0.5;
-        state.resources.wood += gain;
+        
+        // Scale by efficiency
+        gain = Math.max(0.1, gain * state.efficiency);
+        
+        state.resource.add(state, 'wood', gain);
         const hasAxe = state.inventory.includes('craft-axe');
-        return { success: true, logKey: hasAxe ? 'wood_axe_log' : 'wood_log', logGain: gain };
+        return { success: true, logKey: hasAxe ? 'wood_axe_log' : 'wood_log', logGain: gain.toFixed(1) };
       } return { success: false };
     }
   },
   'action-stone': {
-    cost: 15, costType: 'energy',
+    cost: 15, costType: 'energy', yieldType: 'stone',
     execute: (state) => {
-      if (state.stats.energy >= 15 && state.resources.stone < state.limits.stone) {
-        state.stats.energy -= 15;
+      if (state.resource.isFull(state, 'stone')) return { success: false };
+      if (state.resource.consume(state, 'energy', 15)) {
         const hasPickaxe = state.inventory.includes('craft-pickaxe');
-        const gain = hasPickaxe ? 2 : 1;
-        state.resources.stone += gain;
-        return { success: true, logKey: hasPickaxe ? 'stone_axe_log' : 'stone_log', logGain: gain };
+        let gain = hasPickaxe ? 2 : 1;
+        
+        // Scale by efficiency
+        gain = Math.max(0.1, gain * state.efficiency);
+        
+        state.resource.add(state, 'stone', gain);
+        return { success: true, logKey: hasPickaxe ? 'stone_axe_log' : 'stone_log', logGain: gain.toFixed(1) };
       } return { success: false };
     }
   },
   'action-hunt': {
-    cost: 25, costType: 'energy',
+    cost: 25, costType: 'energy', yieldType: 'meat',
     execute: (state) => {
-      if (state.stats.energy >= 25 && state.inventory.includes('craft-bow') && state.resources.meat < state.limits.meat) {
-        state.stats.energy -= 25;
-        state.resources.meat += 2;
-        return { success: true, logKey: 'hunt_log', logGain: 2 };
+      if (state.resource.isFull(state, 'meat')) return { success: false };
+      if (state.resource.consume(state, 'energy', 25) && state.inventory.includes('craft-bow')) {
+        let gain = 2 * state.efficiency;
+        gain = Math.max(0.2, gain);
+        state.resource.add(state, 'meat', gain);
+        return { success: true, logKey: 'hunt_log', logGain: gain.toFixed(1) };
       } return { success: false };
     }
   }

@@ -1,60 +1,60 @@
 # Your Earned Wings ✦
 
-`Your Earned Wings` ist eine atmosphärische Desktop-Simulation, entwickelt mit **Electron**, **Vite** und **Alpine.js**. Es erzählt die Reise eines flügellosen Protagonisten in einem Dorf voller geflügelter Wesen. Das Spiel konzentriert sich auf Selbstgenügsamkeit, den Aufbau von Infrastruktur und die Entdeckung bodenbasierter Magie.
+`Your Earned Wings` is an atmospheric desktop simulation developed with **Electron**, **Vite**, and **Alpine.js**. It tells the journey of a wingless protagonist in a village full of winged beings. The game focuses on self-sufficiency, building infrastructure, and discovering ground-based magic.
 
 ![Official Logo](public/img/logo_wings.webp)
 
-## ✦ Kern-Features
+## ✦ Core Features
 
-### 🛖 Beständiger Fortschritt & Housing
-*   **Vom Sammler zum Erbauer**: Beginne mit dem Sammeln von Zweigen und Kieseln und entwickle dich weiter bis zum Bau eines eigenen Hauses.
-*   **Infrastruktur**: Baue spezialisierte Lager für Holz und Stein, um deine Kapazitäten zu erweitern.
-*   **Möbel-Synergien**: Ein massiver Tisch und ein Stuhl schaffen die perfekte Umgebung für dein Studium und verdoppeln deinen Fortschritt.
-*   **Ofen & Stärkung**: Ein gusseiserner Ofen in deiner Hütte verdoppelt die Regeneration durch Nahrung.
+### 🛖 Persistent Progress & Housing
+*   **From Gatherer to Builder**: Start by gathering twigs and pebbles and progress to building your own house.
+*   **Infrastructure**: Build specialized storage for wood and stone to expand your capacities.
+*   **Furniture Synergies**: A solid table and chair create the perfect environment for study, doubling your progress.
+*   **Stove & Fortification**: A cast-iron stove in your hut doubles the regeneration from food.
 
-### 🏹 Jagd & Mentor-System
-*   **Der Jäger**: Ein erfahrener NPC, der dir in Phasen den Bogenbau und die Jagd beibringt.
-*   **Ressource Fleisch**: Sammle Fleisch durch Jagd-Aktionen und handele damit im Dorf.
+### 🏹 Hunting & Mentor System
+*   **The Hunter**: An experienced NPC who teaches you bowmaking and hunting over several phases.
+*   **Meat Resource**: Collect meat through hunting actions and trade it in the village.
 
-### 🔮 Magie & Wissen
-*   **Keine passive Regeneration**: In dieser Welt ist nichts umsonst. Verwalte Energie und Magie durch gezieltes Ausruhen, Essen und Meditieren.
-*   **Studium**: Triff den *Alten Weisen*, um das Studium freizuschalten und deine maximale magische Kapazität permanent zu steigern.
+### 🔮 Magic & Knowledge
+*   **No Passive Regeneration**: In this world, nothing is free. Manage Energy and Magic through targeted rest, eating, and meditation.
+*   **Study**: Meet the *Ancient Sage* to unlock study actions and permanently increase your maximum magic capacity.
 
-### ✨ Visuelle Ästhetik & UX
-*   **Glassmorphismus & Dark Mode**: Ein hochwertiges Design mit flüssigen Übergängen und pulsing Effekten.
-*   **Splash-Screen & Single-Instance**: Professionelle App-Features für einen reibungslosen Start.
-*   **Hard-Reset**: In den Einstellungen kannst du jederzeit einen kompletten Neuanfang wagen.
+### ✨ Visual Aesthetics & UX
+*   **Glassmorphism & Dark Mode**: A premium design with smooth transitions and pulsing effects.
+*   **Splash Screen & Single Instance**: Professional app features for a seamless start.
+*   **Hard Reset**: You can start fresh anytime through the settings.
 
 ## 🛠️ Tech Stack
 
 *   **Runtime**: [Electron](https://www.electronjs.org/)
 *   **Build Tool**: [Vite](https://vitejs.dev/)
-*   **Logik**: Vanilla JS & [Alpine.js](https://alpinejs.dev/)
+*   **Logic**: Vanilla JS & [Alpine.js](https://alpinejs.dev/)
 *   **Packaging**: [Electron Packager](https://github.com/electron/electron-packager)
 
-## 🗺️ Dokumentation
+## 🗺️ Documentation
 
-Weitere Details findest du im `docs/` Ordner:
-- [Projekt-Roadmap](docs/ROADMAP.md)
-- [Game Design Dokument (GDD)](docs/GAMEDESIGN.md)
-- [Fortschritts-Baum (Unlocks)](docs/PROGRESSION.md)
+Find more details in the `docs/` folder:
+- [Project Roadmap](docs/ROADMAP.md)
+- [Game Design Document (GDD)](docs/GAMEDESIGN.md)
+- [Progression Tree (Unlocks)](docs/PROGRESSION.md)
 
 ## 🚀 Installation & Build
 
-### Voraussetzungen
-- [Node.js](https://nodejs.org/) (Aktuelle LTS)
+### Prerequisites
+- [Node.js](https://nodejs.org/) (Current LTS)
 
 ### Installation
-1. Repository klonen.
-2. Abhängigkeiten installieren: `npm install`
-3. Entwicklungsmodus starten: `npm run dev`
+1. Clone the repository.
+2. Install dependencies: `npm install`
+3. Start development mode: `npm run dev`
 
-### 📦 Windows Executable (.exe) erstellen
-Um das Spiel als fertige Anwendung inklusive Icon zu verpacken:
+### 📦 Create Windows Executable (.exe)
+To package the game as a finished application including an icon:
 ```bash
 npm run build-exe
 ```
-Die fertige Anwendung findest du danach im Ordner `BUILDS/`.
+You will find the finished application in the `BUILDS/` folder.
 
 ---
 *Created by Lassandriel · April 2026*

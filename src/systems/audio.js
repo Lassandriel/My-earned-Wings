@@ -6,15 +6,44 @@ export const createAudioSystem = () => ({
     eat: new Audio('sfx/eat.mp3'),
     fail: new Audio('sfx/fail.mp3')
   },
+  bgm: new Audio('music/forest_ambient.mp3'),
+  isMusicPlaying: false,
 
-  init() {
-    Object.values(this.sfx).forEach(s => s.volume = 0.4);
+  init(settings) {
+    this.bgm.loop = true;
+    this.updateVolumes(settings);
+  },
+
+  updateVolumes(settings) {
+    const { volumeGlobal, volumeMusic, volumeSfx, mute } = settings;
+    const globalMult = mute ? 0 : volumeGlobal;
+
+    // Update SFX
+    Object.values(this.sfx).forEach(s => {
+      s.volume = volumeSfx * globalMult;
+    });
+
+    // Update BGM
+    this.bgm.volume = volumeMusic * globalMult;
   },
 
   playSound(key) {
     if (this.sfx[key]) {
       this.sfx[key].currentTime = 0;
-      this.sfx[key].play().catch(e => console.warn("Audio playback blocked", e));
+      this.sfx[key].play().catch(e => console.warn("SFX playback blocked", e));
     }
+  },
+
+  startMusic() {
+    if (!this.isMusicPlaying) {
+      this.bgm.play()
+        .then(() => { this.isMusicPlaying = true; })
+        .catch(e => console.warn("BGM playback blocked. Waiting for interaction.", e));
+    }
+  },
+
+  stopMusic() {
+    this.bgm.pause();
+    this.isMusicPlaying = false;
   }
 });

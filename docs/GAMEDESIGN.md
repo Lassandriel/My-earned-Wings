@@ -1,61 +1,61 @@
 # Game Design Document: Your Earned Wings
 
-**Status:** v1.4 — In Entwicklung  
-**Ästhetik:** Dark Academia · Somber Cozy · Mystical Forest
+**Status:** v1.4 — In Development  
+**Aesthetics:** Survival · Somber Cozy · High Fantasy
 
 ---
 
 ## 1. Vision Statement
 
-> _Während die Dorfbewohner den Himmel bewohnen, findest du deine Stärke im festen Boden._
+> _While the villagers inhabit the sky, you find your strength in the solid ground._
 
-**Your Earned Wings** ist eine atmosphärische Simulation über Entschleunigung und Identität. Ein flügelloser Charakter baut sich am Rande eines Dorfes von "Geflügelten" ein Leben durch Handwerk, Wissen und Gemeinschaft auf.
+**Your Earned Wings** is an atmospheric simulation about slowing down and identity. A wingless character builds a life on the edge of a village of "Winged" beings through crafting, knowledge, and community.
 
 ---
 
-## 2. Spielmechaniken
+## 2. Gameplay Mechanics
 
-### 2.1 Ressourcen
-| Ressource | Erwerb | Verwendung |
+### 2.1 Resources
+| Resource | Acquisition | Use |
 | --------- | ------ | ---------- |
-| **Holz** | Sammeln / Schlagen | Bauen & Handwerk |
-| **Stein** | Sammeln / Klopfen | Bauen & Handwerk |
-| **Fleisch** | Jagen | Nahrung & Handel |
-| **Splitter** | Handel / Arbeit | Währung |
+| **Wood** | Gathering / Chopping | Construction & Crafting |
+| **Stone** | Gathering / Mining | Construction & Crafting |
+| **Meat** | Hunting | Food & Trading |
+| **Shards** | Trading / Working | Currency |
 
-### 2.2 Energie & Magie
-- **Keine passive Regeneration**: Pausen und Nahrung müssen aktiv geplant werden.
-- **Studium**: Erhöht das Magie-Limit permanent (benötigt Tisch + Buch des Wissens).
+### 2.2 Energy & Magic
+- **No Passive Regeneration**: Breaks and food must be actively planned.
+- **Study**: Permanently increases the magic limit (requires Table + Book of Knowledge).
 
-### 2.3 NPC Mentor-System
-NPCs schalten durch Fortschritt (X/5) neue Fähigkeiten frei:
-- **Jäger**: Lehrt Bogenbau (Stufe 2) und Jagd (Stufe 5).
-- **Handwerker**: Lehrt Werkzeugbau (Stufe 3).
-- **Alter Weiser**: Schenkt Wissen (Stufe 1).
+### 2.3 NPC Mentor System
+NPCs unlock new abilities through progress (X/5):
+- **Hunter**: Teaches bowmaking (Level 2) and hunting (Level 5).
+- **Artisan**: Teaches tool crafting (Level 3).
+- **Ancient Sage**: Grants knowledge (Level 1).
 
-### 2.4 Housing & Synergien
-- **Lagerfeuer**: +10 Erholung, schaltet NPC Blumenmädchen frei.
-- **Zelt**: Schaltet Stadtverwaltung und Lager-Erweiterungen frei.
-- **Hütte**: Basis für Phase 2, schaltet Möbel frei.
-- **Ofen**: Verdoppelt Energie-Regeneration durch Beeren.
-- **Stuhl + Tisch**: Verdoppelt Fortschritt beim Studieren.
+### 2.4 Housing & Synergies
+- **Campfire**: +10 recovery, unlocks the Flower Girl NPC.
+- **Tent**: Unlocks Town Hall and storage expansions.
+- **Hut**: Base for Phase 2, unlocks furniture.
+- **Stove**: Doubles energy regeneration from berries/food.
+- **Chair + Table**: Doubles progress during study.
 
 ---
 
 ## 3. UI & UX
 
-- **Haupt-Tab (ehem. Story)**: Zentrum für alle Ressourcen-Aktionen (Sammeln, Jagen).
-- **Glassmorphismus**: Dunkles, transparentes Design mit Fokus auf Atmosphäre.
-- **Hard-Reset**: Funktion zum Zurücksetzen des Fortschritts in den Einstellungen.
+- **Main Tab**: Center for all resource actions (Gathering, Hunting).
+- **Glassmorphism**: Dark, transparent design focused on atmosphere.
+- **Hard Reset**: Function to reset progress in the settings.
 
 ---
 
-## 4. Technisches Design
+## 4. Technical Design
 
 - **Runtime**: Electron
-- **Persistenz**: LocalStorage mit Auto-Save.
-- **Sprachen**: Vollständige Lokalisierung (DE/EN) ohne Hardcoding.
-- **Packaging**: Windows .exe via Electron Packager mit integriertem Icon.
+- **Persistence**: LocalStorage with auto-save.
+- **Localization**: Full localization (DE/EN) without hardcoding.
+- **Packaging**: Windows .exe via Electron Packager with integrated icon.
 
 ---
-_Zuletzt aktualisiert: April 2026 · v1.4_
+_Last updated: April 2026 · v1.4_

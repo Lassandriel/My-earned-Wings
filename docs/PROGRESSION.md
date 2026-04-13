@@ -1,53 +1,54 @@
 # Progression Tree: Your Earned Wings
 
-Hier findest du eine Übersicht über die Abhängigkeiten und Freischalt-Ketten im Spiel.
+This document provides an overview of the dependencies and unlock chains in the game.
 
 ```mermaid
 graph TD
     %% Start
-    Start["Start am Boden"] --> Gather["Zweige & Kiesel sammeln"]
-    Gather --> Campfire["Lagerfeuer (5 Holz)"]
-    Campfire --> FlowerGirl["NPC: Blumenmädchen"]
+    Start["Start on the Ground"] --> Gather["Gather Twigs & Pebbles"]
+    Gather --> Campfire["Campfire (5 Wood)"]
+    Campfire --> FlowerGirl["NPC: Flower Girl"]
     
     %% Flower Girl Chain
-    FlowerGirl -- "Reputation 5/5" --> Blacksmith["NPC: Schmied (Zukunft)"]
+    FlowerGirl -- "Reputation 5/5" --> Blacksmith["NPC: Blacksmith (Future)"]
     
     %% Housing Chain
-    Campfire --> Tent["Zelt (15 Holz, 5 Stein)"]
-    Tent --> TownHall["NPC: Rathaus"]
-    Tent --> Storage["Lager-Plätze (20 Holz / 20 Stein)"]
-    Storage --> Artisan["NPC: Handwerker"]
+    Campfire --> Tent["Tent (15 Wood, 5 Stone)"]
+    Tent --> TownHall["NPC: Town Hall"]
+    Tent --> Storage["Storage (20 Wood / 20 Stone)"]
+    Storage --> Artisan["NPC: Artisan"]
     
     %% Tools
-    Artisan -- "Reputation 3/3" --> Axe["Rezept: Steinaxt"]
-    Artisan -- "Reputation 3/3" --> Pickaxe["Rezept: Spitzhacke"]
+    Artisan -- "Reputation 3/3" --> Axe["Recipe: Stone Axe"]
+    Artisan -- "Reputation 3/3" --> Pickaxe["Recipe: Stone Pickaxe"]
     
     %% Advanced Housing
-    TownHall -- "Urkunde kaufen" --> House["Hütte bauen (50 Holz/Stein)"]
-    House --> Table["Rezept: Massiver Tisch (40 Holz)"]
-    Table --> Sage["NPC: Alter Weiser"]
+    TownHall -- "Buy Deed" --> House["Build House (50 Wood/Stone)"]
+    House --> Table["Recipe: Solid Table (40 Wood)"]
+    Table --> Sage["NPC: Ancient Sage"]
     
     %% Magic Chain
-    Sage -- "Wissen 1/1" --> Study["Aktion: Studieren"]
-    Study --> MagicCap["Magie-Limit erhöhen"]
+    Sage -- "Knowledge 1/1" --> Study["Action: Study"]
+    Study --> MagicCap["Increase Magic Limit"]
     
     %% Furniture Synergies
-    Table --> Chair["Rezept: Stuhl (10 Holz)"]
+    Table --> Chair["Recipe: Chair (10 Wood)"]
     Chair -- "Bonus" --> Study
     
-    House --> Stove["Rezept: Ofen (25 Stein)"]
-    Stove -- "Bonus" --> Eat["Aktion: Essen (Beeren)"]
+    House --> Stove["Recipe: Stove (25 Stone)"]
+    Stove -- "Bonus" --> Eat["Action: Eat (Berries)"]
     
     %% Hunter Saga
-    Start --> Hunter["NPC: Jäger"]
-    Hunter -- "Training 2/5" --> Bow["Rezept: Jagdbogen (30 Holz)"]
-    Bow --> Hunt["Aktion: Jagen (Story)"]
-    Hunter -- "Training 5/5" --> MeatTrade["Fleisch Handel (Dorf)"]
-    Hunt -- "Gibt" --> Meat["Ressource: Fleisch"]
+    Start --> Hunter["NPC: Hunter"]
+    Hunter -- "Training 2/5" --> Bow["Recipe: Hunting Bow (30 Wood)"]
+    Bow --> Hunt["Action: Hunt (Story)"]
+    Hunter -- "Training 5/5" --> MeatTrade["Meat Trade (Village)"]
+    Hunt -- "Provides" --> Meat["Resource: Meat"]
     Meat --> MeatTrade
 ```
 
-## Erläuterung
-- **Bauwerke & Möbel**: Schalten oft neue Interaktionen oder passive Boni frei.
-- **NPCs**: Benötigen Fortschritt (Interaktionen), um Belohnungen wie Rezepte oder neue Aktionen freizugeben.
-- **Werkzeuge**: Erhöhen den Ertrag pro Klick massiv (z.B. Axt: 1 Holz -> 2 Holz).
+## Explanation
+- **Structures & Furniture**: Often unlock new interactions or passive bonuses.
+- **NPCs**: Require progress (interactions) to release rewards like recipes or new actions.
+- **Tools**: Massively increase yield per click (e.g., Axe: 1 Wood -> 2 Wood).
+- **Architecture**: The game uses a centralized Resource Manager to handle these transitions efficiently.

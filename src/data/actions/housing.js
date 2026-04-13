@@ -1,56 +1,57 @@
 export const housingActions = {
   'house-campfire': {
+    isStory: true, chapter: 'The Beginning',
     cost: 5, costType: 'wood', image: 'img/Housing_Campfire.webp',
     execute: (state) => {
-      if (state.resources.wood >= 5) {
-        state.resources.wood -= 5;
+      if (state.resource.consume(state, 'wood', 5)) {
         state.housing.hasCampfire = true;
-        state.unlockedNPCs.push('npc-flowerGirl');
+        if (!state.unlockedNPCs.includes('npc-flowerGirl')) state.unlockedNPCs.push('npc-flowerGirl');
         return { success: true, logKey: 'milestone_campfire', logColor: 'rgba(251, 191, 36, 0.9)' };
       } return { success: false };
     }
   },
   'house-tent': {
-    cost: 15, costType: 'wood', image: 'img/Housing_tent.webp',
+    isStory: true, chapter: 'The Beginning',
+    cost: 20, costType: 'mixed', image: 'img/Housing_tent.webp',
+    costs: { wood: 15, stone: 5 },
     execute: (state) => {
-      if (state.resources.wood >= 15 && state.resources.stone >= 5) {
-        state.resources.wood -= 15;
-        state.resources.stone -= 5;
+      const costs = { wood: 15, stone: 5 };
+      if (state.resource.consume(state, costs)) {
         state.housing.hasTent = true;
-        state.unlockedNPCs.push('npc-townHall');
+        if (!state.unlockedNPCs.includes('npc-townHall')) state.unlockedNPCs.push('npc-townHall');
         return { success: true, logKey: 'milestone_tent', logColor: 'rgba(251, 191, 36, 0.9)' };
       } return { success: false };
     }
   },
   'house-wood-storage': {
+    isStory: true, chapter: 'Establishment',
     cost: 20, costType: 'wood',
     execute: (state) => {
-      if (state.resources.wood >= 20) {
-        state.resources.wood -= 20;
+      if (state.resource.consume(state, 'wood', 20)) {
         state.housing.hasWoodStorage = true;
         state.limits.wood += 10;
-        state.unlockedNPCs.push('npc-artisan');
+        if (!state.unlockedNPCs.includes('npc-artisan')) state.unlockedNPCs.push('npc-artisan');
         return { success: true, logKey: 'milestone_wood_storage', logColor: 'rgba(251, 191, 36, 0.9)' };
       } return { success: false };
     }
   },
   'house-stone-storage': {
+    isStory: true, chapter: 'Establishment',
     cost: 20, costType: 'stone',
     execute: (state) => {
-      if (state.resources.stone >= 20) {
-        state.resources.stone -= 20;
+      if (state.resource.consume(state, 'stone', 20)) {
         state.housing.hasStoneStorage = true;
         state.limits.stone += 10;
-        state.unlockedNPCs.push('npc-artisan');
+        if (!state.unlockedNPCs.includes('npc-artisan')) state.unlockedNPCs.push('npc-artisan');
         return { success: true, logKey: 'milestone_stone_storage', logColor: 'rgba(251, 191, 36, 0.9)' };
       } return { success: false };
     }
   },
   'house-table': {
+    isStory: true, chapter: 'Establishment',
     cost: 40, costType: 'wood',
     execute: (state) => {
-      if (state.resources.wood >= 40) {
-        state.resources.wood -= 40;
+      if (state.resource.consume(state, 'wood', 40)) {
         state.housing.hasTable = true;
         if (!state.unlockedNPCs.includes('npc-sage')) state.unlockedNPCs.push('npc-sage');
         return { success: true, logKey: 'milestone_table', logColor: 'rgba(251, 191, 36, 0.9)' };
@@ -58,11 +59,12 @@ export const housingActions = {
     }
   },
   'house-build': {
-    cost: 50, costType: 'wood',
+    isStory: true, chapter: 'Establishment',
+    cost: 100, costType: 'mixed',
+    costs: { wood: 50, stone: 50 },
     execute: (state) => {
-      if (state.inventory.includes('Official Land Deed') && state.resources.wood >= 50 && state.resources.stone >= 50) {
-        state.resources.wood -= 50;
-        state.resources.stone -= 50;
+      const costs = { wood: 50, stone: 50 };
+      if (state.inventory.includes('Official Land Deed') && state.resource.consume(state, costs)) {
         state.housing.hasHouse = true;
         state.limits.wood += 50;
         state.limits.stone += 50;
