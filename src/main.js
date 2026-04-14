@@ -6,6 +6,8 @@ import { createAudioSystem } from './systems/audio.js';
 import { createPersistenceSystem } from './systems/persistence.js';
 import { createLoggerSystem } from './systems/logger.js';
 import { createJuiceSystem } from './systems/juice.js';
+import { createUISystem } from './systems/ui.js';
+import { createStorySystem } from './systems/story.js';
 import { traitDb } from './data/traits.js';
 
 window.Alpine = Alpine;
@@ -15,7 +17,7 @@ Alpine.store('game', {
     actionDb,
     traitDb,
     translations: getTranslations(),
-    saveInfoText: 'Nie',
+    saveInfoText: '', // Will be set by t('save_never') or loaded data
     lastMouseX: 0,
     lastMouseY: 0,
     
@@ -25,18 +27,22 @@ Alpine.store('game', {
     juice: createJuiceSystem(),
     persistence: createPersistenceSystem(initialState),
     logger: createLoggerSystem(),
+    ui: createUISystem(),
+    story: createStorySystem(),
 
     init() {
-        const loaded = this.persistence.loadGame(this);
+        const hasSavedData = localStorage.getItem('wings_save');
+        this.hasSave = !!hasSavedData;
+
+        // Note: We don't auto-load here anymore if we want to stay in menu
+        // But we might want to load settings at least?
+        // Let's just set the flag and wait for the user to click "Continue"
+        
         this.audio.init(this.settings);
         this.juice.init();
         
-        this.calculateScale();
-        window.addEventListener('resize', () => this.calculateScale());
-
-        if (!this.hasSeenIntro && this.logs.length === 0) {
-            this.playIntro();
-        }
+        this.ui.calculateScale(this);
+        window.addEventListener('resize', () => this.ui.calculateScale(this));
 
         // Background Progression (Game Loop)
         setInterval(() => { this.gameLoop(); }, 5000);
@@ -55,11 +61,62 @@ Alpine.store('game', {
     // Proxies for UI convenience
     playSound(key) { this.audio.playSound(key); },
     updateAudio() { this.audio.updateVolumes(this.settings); this.saveGame(); },
-    t(key, context = 'ui') { return this.translations[this.language][context][key] || key; },
-    addLog(text, color) { this.logger.addLog(this, text, color); },
-    saveGame() { this.checkTraits(); this.persistence.saveGame(this); },
+    
+    t(key, context = 'ui', params = {}) { 
+        let text = this.translations[this.language][context]?.[key] || key;
+        if (params) {
+            Object.entries(params).forEach(([k, v]) => {
+                text = text.replace(`{${k}}`, v);
+            });
+        }
+        return text; 
+    },
+
+    addLog(id, context = 'logs', color = null, params = {}) { 
+        this.logger.addLog(this, id, context, color, params); 
+    },
+
+    saveGame(isManual = false) { this.checkTraits(); this.persistence.saveGame(this, isManual); },
     loadGame() { this.persistence.loadGame(this); },
     hardReset() { this.persistence.hardReset(this); },
+    calculateScale() { this.ui.calculateScale(this); },
+
+    startNewGame() {
+        if (this.hasSave) {
+            if (!confirm(this.t('confirm_reset', 'ui'))) return;
+        }
+        localStorage.removeItem('wings_save');
+        // Reset state to initial (except maybe settings?)
+        Object.keys(initialState).forEach(key => {
+            if (key !== 'settings' && key !== 'language') {
+                this[key] = JSON.parse(JSON.stringify(initialState[key]));
+            }
+        });
+        this.view = 'prologue';
+        this.prologueStep = 0;
+        this.hasSave = false;
+        this.audio.startMusic();
+        this.playIntro(); // Start the sequence
+        this.saveGame();
+    },
+
+    skipPrologue() {
+        this.view = 'gameplay';
+        this.hasSeenIntro = true;
+        // Also add logic to ensure all log entries are present if skipped?
+        // Let's just catch up the logs.
+        for (let i = 1; i <= 7; i++) {
+            this.addLog(`intro_${i}`, 'logs', 'rgba(210, 180, 140, 0.85)');
+        }
+        this.saveGame();
+    },
+
+    continueGame() {
+        if (this.persistence.loadGame(this)) {
+            this.view = 'gameplay';
+            this.audio.startMusic();
+        }
+    },
 
     getTraitMultiplier(bonusType) {
         let multi = 1.0;
@@ -77,6 +134,36 @@ Alpine.store('game', {
     get magicPercent() { return (this.stats.magic / this.stats.maxMagic) * 100; },
     get satiationPercent() { return Math.max(0, Math.min(100, (this.stats.satiation / this.stats.maxSatiation) * 100)); },
 
+    get groupedHistory() {
+        const groups = [];
+        this.storyHistory.forEach(entry => {
+            const action = this.actionDb[entry.id] || {};
+            // Dynamic Metadata from Action DB
+            let source = 'world';
+            let symbol = action.journalIcon || '🌍';
+            let color = action.journalColor || 'var(--accent-purple)';
+            let name = this.t(entry.id, 'actions').title || this.t('source_world', 'ui');
+
+            if (entry.id.startsWith('npc-')) {
+                source = entry.id.split('-')[1];
+            }
+
+            const lastGroup = groups[groups.length - 1];
+            if (lastGroup && lastGroup.source === source) {
+                lastGroup.entries.push(entry);
+            } else {
+                groups.push({
+                    source,
+                    symbol,
+                    color,
+                    name,
+                    entries: [entry]
+                });
+            }
+        });
+        return groups;
+    },
+
     checkTraits() {
         Object.values(this.traitDb).forEach(trait => {
             if (this.unlockedTraits.includes(trait.id)) return;
@@ -84,9 +171,9 @@ Alpine.store('game', {
             const currentVal = this.counters[trait.counter] || 0;
             if (currentVal >= trait.requirement) {
                 this.unlockedTraits.push(trait.id);
-                this.addLog(`TITEL FREIGESCHALTET: ${trait.title}!`, '#fbbf24');
+                this.addLog('log_trait_unlocked', 'logs', '#fbbf24', { title: this.t(trait.id, 'traits').title });
                 this.playSound('success');
-                this.juice.spawnParticle(this.lastMouseX, this.lastMouseY, `NEUER TITEL: ${trait.title}`, 'shards');
+                this.juice.spawnParticle(this.lastMouseX, this.lastMouseY, this.t('particle_new_trait', 'logs').replace('{title}', this.t(trait.id, 'traits').title), 'shards');
             }
         });
     },
@@ -94,36 +181,6 @@ Alpine.store('game', {
     setLanguage(lang) {
         this.language = lang;
         this.saveGame();
-    },
-
-    calculateScale() {
-        const setting = this.settings.uiScale;
-        const targetW = 1920;
-        const targetH = 1075;
-
-        if (setting === 'auto') {
-            const winW = window.innerWidth;
-            const winH = window.innerHeight;
-            this.currentScale = Math.min(winW / targetW, winH / targetH);
-        } else {
-            const scale = parseFloat(setting);
-            this.currentScale = scale;
-            
-            if (window.electronAPI?.resizeWindow) {
-                const idealW = Math.round(targetW * scale);
-                const idealH = Math.round(targetH * scale);
-                if (Math.abs(window.innerWidth - idealW) > 5 || Math.abs(window.innerHeight - idealH) > 5) {
-                    window.electronAPI.resizeWindow(idealW, idealH);
-                }
-            }
-        }
-
-        const offsetX = (window.innerWidth - targetW * this.currentScale) / 2;
-        const offsetY = (window.innerHeight - targetH * this.currentScale) / 2;
-
-        document.documentElement.style.setProperty('--app-scale', this.currentScale);
-        document.documentElement.style.setProperty('--app-offset-x', `${offsetX}px`);
-        document.documentElement.style.setProperty('--app-offset-y', `${offsetY}px`);
     },
 
     executeAction(id) {
@@ -155,15 +212,14 @@ Alpine.store('game', {
 
             // Record story history
             if (action.isStory) {
-                this.recordStoryEntry(id, action);
+                this.story.recordStoryEntry(this, id, action);
             }
 
             // Success Feedback Logic
             this.handleActionSuccess(action);
             
             if (result && result.logKey) {
-                const text = this.t(result.logKey, 'logs').replace('{gain}', result.logGain ?? '');
-                this.addLog(text, result.logColor);
+                this.addLog(result.logKey, 'logs', result.logColor, { gain: result.logGain ?? '' });
             }
             this.saveGame();
             return true;
@@ -171,24 +227,6 @@ Alpine.store('game', {
         
         this.handleActionFailure(id, action);
         return false;
-    },
-
-    recordStoryEntry(id, action) {
-        const existingIndex = this.storyHistory.findIndex(h => h.id === id);
-        const historyEntry = {
-            id: id,
-            chapter: action.chapter || 'The Beginning',
-            title: action.title,
-            text: action.desc,
-            effect: action.effect,
-            timestamp: Date.now()
-        };
-        
-        if (existingIndex !== -1) {
-            this.storyHistory[existingIndex] = historyEntry;
-        } else {
-            this.storyHistory.push(historyEntry);
-        }
     },
 
     handleActionSuccess(action) {
@@ -200,7 +238,19 @@ Alpine.store('game', {
         else this.playSound('click');
 
         if (action.particleText) {
-            this.juice.spawnParticle(x, y, action.particleText, action.particleType || 'energy');
+            let pText = action.particleText;
+            // Best effort translation for simple '+ Resource' particles
+            if (pText.startsWith('+ ')) {
+                const resName = pText.slice(2);
+                const resKey = action.yieldType || action.costType || action.counter;
+                if (resKey) {
+                    const translated = this.t('ui_' + resKey);
+                    if (translated && translated !== 'ui_' + resKey) {
+                        pText = `+ ${translated}`;
+                    }
+                }
+            }
+            this.juice.spawnParticle(x, y, pText, action.particleType || 'energy');
         }
     },
 
@@ -212,35 +262,62 @@ Alpine.store('game', {
 
         if (!this.resource.canAfford(this, costType, action.cost)) {
             if (costType === 'energy') {
-                this.addLog(this.t('fail_energy', 'logs'), 'rgba(239, 68, 68, 0.75)');
+                this.addLog('fail_energy', 'logs', 'rgba(239, 68, 68, 0.75)');
             } else if (costType === 'magic') {
-                this.addLog(this.t('fail_magic', 'logs'), 'rgba(239, 68, 68, 0.75)');
+                this.addLog('fail_magic', 'logs', 'rgba(239, 68, 68, 0.75)');
             } else {
-                this.addLog(this.t('fail_resources', 'logs'), 'rgba(239, 68, 68, 0.75)');
+                this.addLog('fail_resources', 'logs', 'rgba(239, 68, 68, 0.75)');
             }
         } else if (this.resource.isFull(this, action.yieldType || costType)) {
             // Specialized full messages
             const yieldType = action.yieldType || costType;
-            this.addLog(this.t('fail_full_' + yieldType, 'logs'), 'rgba(239, 68, 68, 0.75)');
+            this.addLog('fail_full_' + yieldType, 'logs', 'rgba(239, 68, 68, 0.75)');
         }
     },
 
     playIntro() {
-        for (let i = 1; i <= 7; i++) {
-            setTimeout(() => {
-                this.addLog(this.t(`intro_${i}`, 'logs'), 'rgba(210, 180, 140, 0.85)');
-                if (i === 7) this.hasSeenIntro = true;
-            }, i * 2500);
-        }
+        this.prologueStep = 1;
+        this.view = 'prologue';
+        
+        const nextStep = (step) => {
+            if (this.view !== 'prologue') return; // User skipped
+            
+            this.addLog(`intro_${step}`, 'logs', 'rgba(210, 180, 140, 0.85)');
+            
+            if (step < 7) {
+                setTimeout(() => {
+                    this.prologueStep = step + 1;
+                    nextStep(step + 1);
+                }, 4500); // 4.5 seconds per sentence
+            } else {
+                setTimeout(() => {
+                    if (this.view === 'prologue') {
+                        this.view = 'gameplay';
+                        this.hasSeenIntro = true;
+                        this.saveGame();
+                    }
+                }, 4500);
+            }
+        };
+
+        nextStep(1);
     },
 
-    // Getters
+    // Getters for animation/UI
     get CIRCUMFERENCE() { return 251.32; },
     get energyOffset() { return this.CIRCUMFERENCE - (this.stats.energy / this.stats.maxEnergy) * this.CIRCUMFERENCE; },
     get magicOffset() { return this.CIRCUMFERENCE - (this.stats.magic / this.stats.maxMagic) * this.CIRCUMFERENCE; },
+    get costMultiplier() {
+        const perc = this.stats.satiation / this.stats.maxSatiation;
+        if (perc > 0.8) return 0.8;
+        if (perc < 0.2) return 1.5;
+        return 1.0;
+    },
+
     get efficiency() {
         const perc = this.stats.satiation / this.stats.maxSatiation;
-        return Math.max(0.2, perc);
+        // Floor at 0.1 to prevent absolute zero progress
+        return Math.max(0.1, perc);
     },
 
     toggleCompanion(npcId) {
@@ -283,7 +360,7 @@ Alpine.store('game', {
         } else {
             // Cannot afford salary - stop all work
             this.companions = {};
-            this.addLog(this.t('fail_salary', 'logs'), 'rgba(239, 68, 68, 0.75)');
+            this.addLog('fail_salary', 'logs', 'rgba(239, 68, 68, 0.75)');
             this.playSound('fail');
         }
         this.saveGame();
@@ -294,22 +371,7 @@ Alpine.start();
 
 document.addEventListener('mousemove', (e) => {
     const store = Alpine.store('game');
-    if (store) {
-        const wrapper = document.getElementById('game-wrapper');
-        if (wrapper) {
-            const rect = wrapper.getBoundingClientRect();
-            const relX = (e.clientX - rect.left) / store.currentScale;
-            const relY = (e.clientY - rect.top) / store.currentScale;
-            
-            store.lastMouseX = relX;
-            store.lastMouseY = relY;
-            document.documentElement.style.setProperty('--mx', relX + 'px');
-            document.documentElement.style.setProperty('--my', relY + 'px');
-        } else {
-            store.lastMouseX = e.clientX;
-            store.lastMouseY = e.clientY;
-            document.documentElement.style.setProperty('--mx', e.clientX + 'px');
-            document.documentElement.style.setProperty('--my', e.clientY + 'px');
-        }
+    if (store && store.ui) {
+        store.ui.handleMouseMove(e, store);
     }
 });

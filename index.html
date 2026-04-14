@@ -10,6 +10,42 @@
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" />
     <script type="module" src="src/main.js"></script>
+    <style>
+      /* --- PREMIUM SCROLLBAR (FORCED PRIORITY) --- */
+      *::-webkit-scrollbar, 
+      .book-pages::-webkit-scrollbar,
+      .story-timeline::-webkit-scrollbar,
+      main::-webkit-scrollbar {
+        width: 10px !important;
+        height: 10px !important;
+      }
+      *::-webkit-scrollbar-track,
+      .book-pages::-webkit-scrollbar-track,
+      .story-timeline::-webkit-scrollbar-track {
+        background: transparent !important;
+      }
+      *::-webkit-scrollbar-thumb,
+      .book-pages::-webkit-scrollbar-thumb,
+      .story-timeline::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.12) !important;
+        border-radius: 20px !important;
+        border: 3px solid transparent !important;
+        background-clip: content-box !important;
+        transition: all 0.3s ease !important;
+      }
+      *::-webkit-scrollbar-thumb:hover,
+      .book-pages::-webkit-scrollbar-thumb:hover,
+      .story-timeline::-webkit-scrollbar-thumb:hover {
+        background: #14b8a6 !important; /* accent-teal */
+        background-clip: content-box !important;
+      }
+
+      /* Modern Standard Fallback */
+      * {
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(255, 255, 255, 0.12) transparent !important;
+      }
+    </style>
   </head>
   <body>
     <div id="app" x-data>
@@ -21,6 +57,75 @@
           <div class="magic-layer layer-feathers-color"></div>
           <div class="magic-layer layer-scales-shimmer"></div>
         </div>
+
+        <!-- MAIN MENU VIEW -->
+        <section id="main-menu" x-show="$store.game.view === 'menu'" class="main-menu-overlay">
+          <div class="menu-content">
+            <div class="menu-logo-container">
+              <img src="img/logo_wings.webp" alt="Wings Logo" class="menu-logo" />
+              <h1 class="menu-title">Your earned Wings</h1>
+              <div class="menu-subtitle">Der Boden ist nur der Anfang</div>
+            </div>
+
+            <div class="menu-actions">
+              <button 
+                class="menu-btn primary" 
+                x-show="$store.game.hasSave"
+                @click="$store.game.continueGame()"
+              >
+                <span class="btn-glow"></span>
+                <span x-text="$store.game.t('menu_continue')">Fortfahren</span>
+              </button>
+              
+              <button 
+                class="menu-btn" 
+                @click="$store.game.startNewGame()"
+              >
+                <span x-text="$store.game.t('menu_new_game')">Neues Spiel</span>
+              </button>
+
+              <button 
+                class="menu-btn" 
+                @click="$store.game.settingsOpen = true; $store.game.playSound('click')"
+              >
+                <span x-text="$store.game.t('settings_title')">Einstellungen</span>
+              </button>
+
+              <button 
+                class="menu-btn quit" 
+                @click="window.electronAPI?.quitApp()"
+              >
+                <span x-text="$store.game.t('btn_quit')">Beenden</span>
+              </button>
+            </div>
+
+            <div class="menu-footer">
+              <span x-text="$store.game.t('menu_version')">v1.0.0</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROLOGUE VIEW -->
+        <section id="prologue-view" x-show="$store.game.view === 'prologue'" class="prologue-overlay">
+          <div class="prologue-container">
+            <template x-for="i in 7" :key="i">
+              <div 
+                class="prologue-text" 
+                x-show="$store.game.prologueStep === i"
+                x-transition:enter="prologue-enter"
+                x-transition:enter-start="prologue-enter-start"
+                x-transition:enter-end="prologue-enter-end"
+                x-transition:leave="prologue-leave"
+                x-transition:leave-start="prologue-leave-start"
+                x-transition:leave-end="prologue-leave-end"
+                x-text="$store.game.t('intro_' + i, 'logs')"
+              ></div>
+            </template>
+          </div>
+          <button class="skip-btn" @click="$store.game.skipPrologue()">
+            Skip Intro <span>»</span>
+          </button>
+        </section>
       <header class="main-header">
         <div class="logo-container">
           <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
@@ -88,7 +193,7 @@
           </div>
         </div>
         <div class="sidebar-footer">
-          <div class="save-status-sidebar" x-text="$store.game.t('save_at') + ($store.game.saveInfoText || $store.game.t('save_never'))">
+          <div class="save-status-sidebar" x-text="$store.game.saveInfoText || $store.game.t('save_never')">
             Zuletzt gespeichert: Nie
           </div>
           <div
@@ -220,27 +325,26 @@
           <h3 x-text="$store.game.t('nav_story_tab_header')">Chronik</h3>
         </div>
         
-        <div class="story-chronicle-container">
-          <template x-for="chapter in [...new Set($store.game.storyHistory.map(h => h.chapter))]" :key="chapter">
-            <div class="story-chapter-group">
-              <h4 class="story-chapter-title" x-text="chapter"></h4>
-              <div class="story-cards-grid">
-                <template x-for="entry in $store.game.storyHistory.filter(h => h.chapter === chapter)" :key="entry.id">
-                  <div class="story-card">
-                    <div class="story-card-header">
-                      <span class="story-card-title" x-text="entry.title"></span>
-                      <span class="story-card-date" x-text="new Date(entry.timestamp).toLocaleDateString()"></span>
+        <div class="story-timeline">
+          <template x-for="(group, gIdx) in $store.game.groupedHistory" :key="gIdx">
+            <div class="journal-block">
+              <div class="journal-speaker-node" :style="'border-color: ' + group.color + '; color: ' + group.color" :title="group.name" x-text="group.symbol"></div>
+              <div class="journal-content" :style="'border-left-color: ' + group.color">
+                <span class="journal-name" :style="'color: ' + group.color" x-text="group.name"></span>
+                <div class="journal-events">
+                  <template x-for="(entry, eIdx) in group.entries" :key="eIdx">
+                    <div class="journal-line">
+                      <span x-text="$store.game.t(entry.id, 'actions').desc"></span>
+                      <span class="journal-line-effect" x-show="$store.game.t(entry.id, 'actions').effect" x-text="$store.game.t(entry.id, 'actions').effect"></span>
                     </div>
-                    <p class="story-card-text" x-text="entry.text"></p>
-                    <div class="story-card-effect" x-show="entry.effect" x-text="entry.effect"></div>
-                  </div>
-                </template>
+                  </template>
+                </div>
               </div>
             </div>
           </template>
           
           <div x-show="$store.game.storyHistory.length === 0" class="empty-history-notice">
-            <p>Your story has just begun. Make meaningful choices to fill these pages.</p>
+            <p x-text="$store.game.t('ui_empty_story')">Your story has just begun...</p>
           </div>
         </div>
       </main>
@@ -394,12 +498,12 @@
               <div class="trait-card" :class="$store.game.unlockedTraits.includes(trait.id) ? 'trait-unlocked' : 'trait-locked'">
                 <div class="trait-header">
                   <span class="trait-icon" x-text="$store.game.unlockedTraits.includes(trait.id) ? '🌟' : '🔒'"></span>
-                  <span class="trait-title" x-text="trait.title"></span>
+                  <span class="trait-title" x-text="$store.game.t(trait.id, 'traits').title"></span>
                 </div>
-                <p class="trait-desc" x-text="trait.desc"></p>
+                <p class="trait-desc" x-text="$store.game.t(trait.id, 'traits').desc"></p>
                 <div class="trait-bonus-box">
                   <span class="trait-bonus-label" x-text="$store.game.t('ui_bonus') || 'Bonus:'"></span>
-                  <span class="trait-bonus-val" x-text="trait.bonusText"></span>
+                  <span class="trait-bonus-val" x-text="$store.game.t(trait.id, 'traits').bonus"></span>
                 </div>
                 <!-- Progress Bar -->
                 <div class="trait-progress-container">
@@ -424,24 +528,20 @@
             <p
               style="color: var(--text-dim); margin-bottom: 25px"
               x-text="$store.game.t('village_desc')"
-            >
-              Spreche mit den Bewohnern, um mehr über diese Welt zu erfahren.
-            </p>
+            ></p>
             <div class="npc-grid">
             <template x-for="id in $store.game.unlockedNPCs" :key="id">
               <div class="npc-card" :class="$store.game.companions[id] && 'is-working'">
-                <div class="npc-card-header">
-                  <span class="npc-name" x-text="$store.game.t(id, 'actions').title || id"></span>
-                  <span class="npc-prog-mini" x-text="($store.game.npcProgress[id.replace('npc-', '')] || 0) + '/' + ($store.game.actionDb[id].maxProgress || 5)"></span>
-                </div>
-                
                 <button
                   class="game-btn talk-btn"
+                  x-show="($store.game.npcProgress[id.replace('npc-', '')] || 0) < ($store.game.actionDb[id].maxProgress)"
                   @click="$store.game.executeAction(id)"
                   @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
                   @mouseout="$store.game.hoveredAction = null"
-                  x-text="$store.game.t('cat_village') || 'Sprechen'"
-                ></button>
+                >
+                  <span x-text="$store.game.t(id, 'actions').title || id"></span>
+                  <span class="npc-prog-badge" x-text="Math.min($store.game.actionDb[id].maxProgress, ($store.game.npcProgress[id.replace('npc-', '')] || 0) + 1) + '/' + ($store.game.actionDb[id].maxProgress || 5)"></span>
+                </button>
 
                 <!-- Companion Section (Only if Max Progress) -->
                 <div 
@@ -499,8 +599,8 @@
         <div class="category-header"><h3 x-text="$store.game.t('cat_log')">Chronik</h3></div>
         <div class="book-frame">
           <div class="book-pages">
-            <template x-for="log in $store.game.logs" :key="log.id">
-              <div class="log-entry" :class="'log-' + (log.type || 'normal')" :style="'color: ' + log.color" x-text="log.text"></div>
+            <template x-for="log in $store.game.logs" :key="log.timestamp">
+              <div class="log-entry" :class="'log-' + (log.type || 'normal')" :style="'color: ' + log.color" x-text="$store.game.t(log.id, log.context, log.params)"></div>
             </template>
           </div>
         </div>
@@ -509,7 +609,6 @@
       <aside class="right-panel">
         <div class="status-card">
           <div class="status-header">
-            <h4 x-text="$store.game.t('ui_vitality')">Vitalität</h4>
             <div class="player-name" x-text="$store.game.playerName">Player Name</div>
             <!-- DYNAMIC WING PROFILE (Using Logo Masks) -->
           </div>
@@ -531,12 +630,12 @@
             <!-- Vitalität -->
             <div class="stat-category" x-text="$store.game.t('ui_vitality')">Vitalität</div>
             <div class="stat-row">
-              <span class="stat-name energy-label">Energie</span>
+              <span class="stat-name energy-label" x-text="$store.game.t('ui_energy')">Energie</span>
               <div class="stat-bar-bg"><div class="stat-bar-fill energy-fill" :style="'width:'+$store.game.energyPercent+'%'"></div></div>
               <span class="stat-val" x-text="Math.floor($store.game.stats.energy)+'/'+$store.game.stats.maxEnergy"></span>
             </div>
             <div class="stat-row">
-              <span class="stat-name magic-label">Magie</span>
+              <span class="stat-name magic-label" x-text="$store.game.t('ui_magic')">Magie</span>
               <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+$store.game.magicPercent+'%'"></div></div>
               <span class="stat-val" x-text="Math.floor($store.game.stats.magic)+'/'+$store.game.stats.maxMagic"></span>
             </div>
@@ -547,26 +646,44 @@
             </div>
 
             <!-- Vorräte -->
-            <div class="stat-category">Vorräte</div>
-            <div class="stat-row">
-              <span class="stat-name">Splitter</span>
-              <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+Math.min(100,($store.game.resources.shards/$store.game.limits.shards)*100)+'%'"></div></div>
-              <span class="stat-val shard-inline">✦ <span x-text="Math.floor($store.game.resources.shards)+'/'+$store.game.limits.shards"></span></span>
+            <div class="stat-category" x-text="$store.game.t('cat_trade') || $store.game.t('ui_materials')">Vorräte</div>
+            
+            <div x-data="{ expanded: true }">
+              <div class="stat-subcategory" @click="expanded = !expanded">
+                <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
+                <span class="subcategory-name" x-text="$store.game.t('ui_materials')">Materialien</span>
+              </div>
+              <div class="collapsible-content" x-show="expanded" x-collapse>
+                <div class="stat-row">
+                  <span class="stat-name" x-text="$store.game.t('ui_shards')">Splitter</span>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+Math.min(100,($store.game.resources.shards/$store.game.limits.shards)*100)+'%'"></div></div>
+                  <span class="stat-val shard-inline">✦ <span x-text="Math.floor($store.game.resources.shards)+'/'+$store.game.limits.shards"></span></span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-name" x-text="$store.game.t('ui_wood')">Holz</span>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill wood-fill" :style="'width:'+Math.min(100,($store.game.resources.wood/$store.game.limits.wood)*100)+'%'"></div></div>
+                  <span class="stat-val" x-text="Math.floor($store.game.resources.wood)+'/'+$store.game.limits.wood"></span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-name" x-text="$store.game.t('ui_stone')">Stein</span>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill stone-fill" :style="'width:'+Math.min(100,($store.game.resources.stone/$store.game.limits.stone)*100)+'%'"></div></div>
+                  <span class="stat-val" x-text="Math.floor($store.game.resources.stone)+'/'+$store.game.limits.stone"></span>
+                </div>
+              </div>
             </div>
-            <div class="stat-row">
-              <span class="stat-name" x-text="$store.game.t('ui_wood')">Holz</span>
-              <div class="stat-bar-bg"><div class="stat-bar-fill wood-fill" :style="'width:'+Math.min(100,($store.game.resources.wood/$store.game.limits.wood)*100)+'%'"></div></div>
-              <span class="stat-val" x-text="$store.game.resources.wood+'/'+$store.game.limits.wood"></span>
-            </div>
-            <div class="stat-row">
-              <span class="stat-name" x-text="$store.game.t('ui_stone')">Stein</span>
-              <div class="stat-bar-bg"><div class="stat-bar-fill stone-fill" :style="'width:'+Math.min(100,($store.game.resources.stone/$store.game.limits.stone)*100)+'%'"></div></div>
-              <span class="stat-val" x-text="$store.game.resources.stone+'/'+$store.game.limits.stone"></span>
-            </div>
-            <div class="stat-row">
-              <span class="stat-name" x-text="$store.game.t('ui_meat')">Fleisch</span>
-              <div class="stat-bar-bg"><div class="stat-bar-fill energy-fill" :style="'width:'+Math.min(100,($store.game.resources.meat/$store.game.limits.meat)*100)+'%'"></div></div>
-              <span class="stat-val"><span x-text="$store.game.resources.meat+'/'+$store.game.limits.meat"></span>🍖</span>
+
+            <div x-data="{ expanded: true }" style="margin-top: 5px">
+              <div class="stat-subcategory" @click="expanded = !expanded">
+                <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
+                <span class="subcategory-name" x-text="$store.game.t('ui_provisions')">Proviant</span>
+              </div>
+              <div class="collapsible-content" x-show="expanded" x-collapse>
+                <div class="stat-row">
+                  <span class="stat-name" x-text="$store.game.t('ui_meat')">Fleisch</span>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill energy-fill" :style="'width:'+Math.min(100,($store.game.resources.meat/$store.game.limits.meat)*100)+'%'"></div></div>
+                  <span class="stat-val"><span x-text="Math.floor($store.game.resources.meat)+'/'+$store.game.limits.meat"></span></span>
+                </div>
+              </div>
             </div>
 
             <!-- Basis -->
@@ -588,6 +705,7 @@
       <div
         class="floating-tooltip"
         x-show="$store.game.hoveredAction"
+        style="display: none"
         x-transition:enter="tt-enter"
         x-transition:enter-start="tt-enter-start"
         x-transition:enter-end="tt-enter-end"
@@ -749,7 +867,7 @@
             <!-- SYSTEM TAB -->
             <div x-show="$store.game.settings.activeTab === 'system'" class="s-tab-content">
               <div class="settings-actions-stack">
-                <button class="game-btn wide-btn" @click="$store.game.saveGame()" x-text="$store.game.t('btn_save')">Save Game</button>
+                <button class="game-btn wide-btn" @click="$store.game.saveGame(true)" x-text="$store.game.t('btn_save')">Save Game</button>
                 <button class="game-btn wide-btn" @click="$store.game.loadGame()" x-text="$store.game.t('btn_load')">Load Game</button>
                 <div class="modal-divider"></div>
                 <button class="quit-btn reset-btn" @click="$store.game.hardReset()" x-text="$store.game.t('settings_reset')">Hard Reset Progress</button>

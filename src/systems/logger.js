@@ -1,5 +1,5 @@
 export const createLoggerSystem = () => ({
-  addLog(store, text, color) {
+  addLog(store, id, context, color, params) {
     let type = 'normal';
     if (color && color.includes('184, 166')) type = 'success';
     else if (color && color.includes('251, 191')) type = 'milestone';
@@ -7,10 +7,12 @@ export const createLoggerSystem = () => ({
     else if (color && color.includes('239, 68')) type = 'failure';
 
     store.logs.unshift({
-      text,
+      id: id,
+      context: context || 'logs',
+      params: params || {},
       color: color || 'rgba(226, 232, 240, 0.7)',
       type,
-      id: Date.now() + Math.random()
+      timestamp: Date.now() + Math.random() // Unique ID for Alpine :key
     });
 
     if (store.logs.length > 40) store.logs.pop();

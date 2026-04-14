@@ -10,8 +10,10 @@ This document serves as a guide for future development.
 - [x] **Core Architecture Refactoring**: Centralized Resource Manager and Transaction System.
 - [x] **Audio Landscape**: Implementation of ambient music, sound effects, and volume controls.
 - [x] **Settings UX Overhaul**: Modern tabbed settings menu with independent volume sliders.
-- [x] **Visual Feedback ("Juice")**: Adding particle effects during resource gathering.
-- [x] **Action System Refactoring**: Data-driven feedback and counter logic for better scalability.
+- [x] **Visual Feedback ("Juice")**: Adding white floating particles and smooth transitions to all bars.
+- [x] **Narrative Journal**: Complete redesign of the history tab into a compact, color-coded journal.
+- [x] **System Audit**: Hardened efficiency logic and dynamic NPC metadata integration.
+- [x] **Alpha Release**: Finalized the 0.1.0 build for public testing.
 
 ## Phase 2: Core Mechanics (Content Focus)
 

@@ -22,8 +22,14 @@
 
 ### ✨ Visual Aesthetics & UX
 *   **Glassmorphism & Dark Mode**: A premium design with smooth transitions and pulsing effects.
+*   **Custom Scrollbars**: Integrated thin, floating scrollbars that match the rounded-corner aesthetic and provide visual feedback on hover.
+*   **Main Menu & Cinematic Prologue**: An atmospheric entry point with a multi-step visual introduction to the world of Draconia.
 *   **Splash Screen & Single Instance**: Professional app features for a seamless start.
 *   **Hard Reset**: You can start fresh anytime through the settings.
+
+### 🌐 Localization & Logs
+*   **Dynamic Language Switching**: Toggle between German and English instantly. Logs and story entries translate in real-time without losing context or parameters (e.g., gain values).
+*   **Clean Chronicle**: Compact resource gathering logs (+1 Wood) for better readability.
 
 ## 🛠️ Tech Stack
 
@@ -50,11 +56,14 @@ Find more details in the `docs/` folder:
 3. Start development mode: `npm run dev`
 
 ### 📦 Create Windows Executable (.exe)
-To package the game as a finished application including an icon:
-```bash
-npm run build-exe
-```
-You will find the finished application in the `BUILDS/` folder.
+To package the game as a finished application, the project uses a **Staging Build** process to ensure a minimal footprint (~150MB unpacked, ~80MB zipped):
+
+1.  Standard build via Vite: `npm run build`
+2.  Packaging: `npm run build-exe`
+
+The packaging command automatically creates a clean temporary directory (`dist_electron`), copies only essential production files (stripping development bloat and unnecessary `node_modules`), and generates the executable.
+
+You will find the finished application in the `BUILDS/My-earned-Wings-win32-x64` folder.
 
 ### ❓ Troubleshooting (For Beginners)
 - **`npm` command not found**: Ensure you have installed Node.js and restarted VS Code (or your PC) afterwards.

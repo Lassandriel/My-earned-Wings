@@ -2,8 +2,10 @@ export const npcActions = {
   'npc-baker': {
     isStory: true, chapter: 'Village Life',
     progKey: 'baker', cost: 10, costType: 'energy', maxProgress: 5,
+    journalIcon: '🍞', journalColor: '#f59e0b',
+    particleText: '+ Kontakt',
     execute: (state) => {
-      if (state.resource.consume(state, 'energy', 10)) {
+      if (state.npcProgress.baker < 5 && state.resource.consume(state, 'energy', 10)) {
         state.npcProgress.baker++;
         return { success: true, logKey: 'npc_baker' };
       } return { success: false };
@@ -12,12 +14,14 @@ export const npcActions = {
   'npc-flowerGirl': {
     isStory: true, chapter: 'Village Life',
     progKey: 'flowerGirl', cost: 5, costType: 'energy', maxProgress: 5,
+    journalIcon: '🌸', journalColor: '#ec4899',
+    particleText: '+ Kontakt',
     companion: {
         salary: 1, // Shards per tick
         yield: { magic: 2 }
     },
     execute: (state) => {
-      if (state.housing.hasCampfire && state.resource.consume(state, 'energy', 5)) {
+      if (state.npcProgress.flowerGirl < 5 && state.housing.hasCampfire && state.resource.consume(state, 'energy', 5)) {
         state.npcProgress.flowerGirl++;
         if (state.npcProgress.flowerGirl >= 5 && !state.unlockedNPCs.includes('npc-blacksmith'))
           state.unlockedNPCs.push('npc-blacksmith');
@@ -28,12 +32,14 @@ export const npcActions = {
   'npc-artisan': {
     isStory: true, chapter: 'Village Life',
     progKey: 'artisan', cost: 15, costType: 'energy', maxProgress: 3,
+    journalIcon: '🏗️', journalColor: '#d97706',
+    particleText: '+ Kontakt',
     companion: {
         salary: 3,
         yield: { wood: 0.5 }
     },
     execute: (state) => {
-      if (state.resource.consume(state, 'energy', 15)) {
+      if (state.npcProgress.artisan < 3 && state.resource.consume(state, 'energy', 15)) {
         state.npcProgress.artisan++;
         if (state.npcProgress.artisan >= 3) {
           if (!state.unlockedRecipes.includes('craft-axe')) state.unlockedRecipes.push('craft-axe');
@@ -46,8 +52,10 @@ export const npcActions = {
   'npc-teacher': {
     isStory: true, chapter: 'Village Life',
     progKey: 'teacher', cost: 12, costType: 'energy', maxProgress: 3,
+    journalIcon: '📖', journalColor: '#3b82f6',
+    particleText: '+ Wissen',
     execute: (state) => {
-      if (state.resource.consume(state, 'energy', 12)) {
+      if (state.npcProgress.teacher < 3 && state.resource.consume(state, 'energy', 12)) {
         state.npcProgress.teacher++;
         return { success: true, logKey: 'npc_teacher' };
       } return { success: false };
@@ -56,8 +64,10 @@ export const npcActions = {
   'npc-townHall': {
     isStory: true, chapter: 'Village Life',
     progKey: 'townHall', cost: 20, costType: 'energy', maxProgress: 5,
+    journalIcon: '🏛️', journalColor: '#94a3b8',
+    particleText: '+ Einfluss',
     execute: (state) => {
-      if (state.resource.consume(state, 'energy', 20)) {
+      if (state.npcProgress.townHall < 5 && state.resource.consume(state, 'energy', 20)) {
         state.npcProgress.townHall++;
         return { success: true, logKey: 'npc_townHall' };
       } return { success: false };
@@ -66,8 +76,10 @@ export const npcActions = {
   'npc-blacksmith': {
     isStory: true, chapter: 'Village Life',
     progKey: 'blacksmith', cost: 25, costType: 'energy', maxProgress: 5,
+    journalIcon: '⚒️', journalColor: '#475569',
+    particleText: '+ Kontakt',
     execute: (state) => {
-      if (state.resource.consume(state, 'energy', 25)) {
+      if (state.npcProgress.blacksmith < 5 && state.resource.consume(state, 'energy', 25)) {
         state.npcProgress.blacksmith++;
         return { success: true, logKey: 'npc_blacksmith' };
       } return { success: false };
@@ -76,6 +88,8 @@ export const npcActions = {
   'npc-sage': {
     isStory: true, chapter: 'Village Life',
     progKey: 'sage', cost: 20, costType: 'magic', maxProgress: 1,
+    journalIcon: '🔮', journalColor: '#8b5cf6',
+    particleText: '+ Einsicht',
     execute: (state) => {
       if (state.resource.consume(state, 'magic', 20)) {
         state.npcProgress.sage++;
@@ -90,12 +104,14 @@ export const npcActions = {
   'npc-hunter': {
     isStory: true, chapter: 'Village Life',
     progKey: 'hunter', cost: 15, costType: 'energy', maxProgress: 5,
+    journalIcon: '🏹', journalColor: '#10b981',
+    particleText: '+ Kontakt',
     companion: {
         salary: 2,
         yield: { meat: 0.2 }
     },
     execute: (state) => {
-      if (state.resource.consume(state, 'energy', 15)) {
+      if (state.npcProgress.hunter < 5 && state.resource.consume(state, 'energy', 15)) {
         state.npcProgress.hunter++;
         
         if (state.npcProgress.hunter === 2) {

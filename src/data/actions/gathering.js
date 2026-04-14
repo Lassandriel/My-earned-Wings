@@ -4,6 +4,7 @@ export const gatheringActions = {
     sfx: 'eat',
     particleText: '+ Sättigung',
     particleType: 'energy',
+    yieldType: 'satiation',
     counter: 'food',
     execute: (state) => {
       let sGain = 20;
@@ -36,6 +37,7 @@ export const gatheringActions = {
     sfx: 'click',
     particleText: '+ Magie',
     particleType: 'magic',
+    yieldType: 'magic',
     counter: 'magic',
     execute: (state) => {
       state.resource.add(state, 'magic', 15);
@@ -44,6 +46,9 @@ export const gatheringActions = {
   },
   'action-study': {
     cost: 20, costType: 'magic',
+    sfx: 'click',
+    particleText: '+ Magie Max',
+    particleType: 'magic',
     execute: (state) => {
       if (state.resource.consume(state, 'magic', 20)) {
         let gain = 5;
@@ -62,16 +67,14 @@ export const gatheringActions = {
     counter: 'wood',
     execute: (state) => {
       if (state.resource.isFull(state, 'wood')) return { success: false };
-      if (state.resource.consume(state, 'energy', 10)) {
+      const cost = Math.ceil(10 * (state.costMultiplier || 1));
+      if (state.resource.consume(state, 'energy', cost)) {
         let gain = state.inventory.includes('craft-axe') ? 2 : 1;
-        if (state.inventory.includes('craft-wanderstock')) gain += 0.5;
-        
-        // Scale by efficiency
-        gain = Math.max(0.1, gain * state.efficiency);
+        if (state.inventory.includes('craft-wanderstock')) gain += 1;
         
         state.resource.add(state, 'wood', gain);
         const hasAxe = state.inventory.includes('craft-axe');
-        return { success: true, logKey: hasAxe ? 'wood_axe_log' : 'wood_log', logGain: gain.toFixed(1) };
+        return { success: true, logKey: hasAxe ? 'wood_axe_log' : 'wood_log', logGain: gain };
       } return { success: false };
     }
   },
@@ -83,15 +86,13 @@ export const gatheringActions = {
     counter: 'stone',
     execute: (state) => {
       if (state.resource.isFull(state, 'stone')) return { success: false };
-      if (state.resource.consume(state, 'energy', 15)) {
+      const cost = Math.ceil(15 * (state.costMultiplier || 1));
+      if (state.resource.consume(state, 'energy', cost)) {
         const hasPickaxe = state.inventory.includes('craft-pickaxe');
         let gain = hasPickaxe ? 2 : 1;
         
-        // Scale by efficiency
-        gain = Math.max(0.1, gain * state.efficiency);
-        
         state.resource.add(state, 'stone', gain);
-        return { success: true, logKey: hasPickaxe ? 'stone_axe_log' : 'stone_log', logGain: gain.toFixed(1) };
+        return { success: true, logKey: hasPickaxe ? 'stone_axe_log' : 'stone_log', logGain: gain };
       } return { success: false };
     }
   },
@@ -103,11 +104,11 @@ export const gatheringActions = {
     counter: 'food',
     execute: (state) => {
       if (state.resource.isFull(state, 'meat')) return { success: false };
-      if (state.resource.consume(state, 'energy', 25) && state.inventory.includes('craft-bow')) {
-        let gain = 2 * state.efficiency;
-        gain = Math.max(0.2, gain);
+      const cost = Math.ceil(25 * (state.costMultiplier || 1));
+      if (state.resource.consume(state, 'energy', cost) && state.inventory.includes('craft-bow')) {
+        let gain = 2;
         state.resource.add(state, 'meat', gain);
-        return { success: true, logKey: 'hunt_log', logGain: gain.toFixed(1) };
+        return { success: true, logKey: 'hunt_log', logGain: gain };
       } return { success: false };
     }
   }

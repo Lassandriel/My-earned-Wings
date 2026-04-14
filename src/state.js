@@ -6,7 +6,9 @@ const translations = { de, en };
 export const initialState = {
   playerName: 'Entdecker',
   language: 'de',
-  view: 'gameplay',
+  view: 'menu',
+  hasSave: false,
+  prologueStep: 0,
   settingsOpen: false,
   currentScale: 1,
   resources: { wood: 0, stone: 0, shards: 0, meat: 0 },

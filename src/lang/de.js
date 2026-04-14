@@ -13,6 +13,8 @@ export default {
     cat_inventory: "Besitz & Gegenstände",
     cat_village: "Das Dorf",
     cat_log: "Chronik",
+    ui_source_world: "Draconia",
+    ui_empty_story: "Deine Geschichte hat gerade erst begonnen...",
     nav_story_tab: "Chronik",
     nav_traits: "Titel & Traits",
     nav_story_tab_header: "Chronik & Geschichte",
@@ -22,6 +24,8 @@ export default {
     ui_wood: "Holz",
     ui_stone: "Stein",
     ui_meat: "Fleisch",
+    ui_materials: "Materialien",
+    ui_provisions: "Proviant",
     ui_details: "Details",
     ui_energy: "Energie",
     ui_magic: "Magie",
@@ -60,8 +64,13 @@ export default {
     btn_stop_work: "Stoppen",
     ui_salary: "Kosten",
     ui_yield: "Ertrag",
+    ui_empty_story: "Deine Geschichte hat gerade erst begonnen. Triff bedeutsame Entscheidungen, um diese Seiten zu füllen.",
+    ui_load_at: "Geladen um",
     status_working: "Beschäftigt",
-    status_idle: "Frei"
+    status_idle: "Frei",
+    menu_continue: "Fortfahren",
+    menu_new_game: "Neues Spiel",
+    menu_version: "v1.0.0 - Draconia Edition"
   },
   actions: {
     'action-essen': {
@@ -259,10 +268,10 @@ export default {
     eat_log: "Beeren gegessen. +{gain} Sättigung.",
     rest_log: "Ausgeruht. +{gain} Energie.",
     meditate_log: "Meditiert. +15 Magie.",
-    wood_log: "{gain} Zweige gesammelt.",
-    wood_axe_log: "{gain} Holz geschlagen.",
-    stone_log: "{gain} Kiesel gesammelt.",
-    stone_axe_log: "{gain} Steine gebrochen.",
+    wood_log: "+{gain} Holz",
+    wood_axe_log: "+{gain} Holz",
+    stone_log: "+{gain} Stein",
+    stone_axe_log: "+{gain} Stein",
     sell_wood_log: "Holz getauscht. +5 Splitter.",
     sell_stone_log: "Stein getauscht. +8 Splitter.",
     work_log: "Pfade gesäubert. +12 Splitter.",
@@ -297,13 +306,13 @@ export default {
     craft_bow: "Jagdbogen gefertigt.",
     craft_bookshelf: "Bücherregal aufgestellt.",
     // Intro
-    intro_1: "Über dir gleitet jemand mühelos von Dach zu Dach.",
-    intro_2: "Du gehst den langen Weg zu Fuß. Deine Schritte sind schwer.",
-    intro_3: "Ein Händler landet vor dem Dorftor. Er bemerkt dich nicht.",
-    intro_4: "Regen setzt ein. Die anderen schütteln ihre Flügel aus und fliegen nach Hause.",
-    intro_5: "Du bleibst unten. Du vermisst etwas, das du nie hattest...",
-    intro_6: "Aber hier, am Rande des Dorfes, wirst du dir ein Leben aufbauen.",
-    intro_7: "Willkommen in deinem neuen Zuhause.",
+    intro_1: "Über dir gleitet ein prächtiger Winddrache mühelos von Dach zu Dach.",
+    intro_2: "Du gehst den langen Weg zu Fuß. Deine Schritte sind schwer und erdgebunden.",
+    intro_3: "Ein Händler-Wyvern landet vor dem Dorftor. Er bemerkt dich nicht.",
+    intro_4: "Regen setzt ein. Die anderen schütteln ihre Schwingen – Leder, Federn, Schuppen – und fliegen nach Hause.",
+    intro_5: "Du bleibst unten. Du vermisst eine Verbindung, die du nie gespürt hast...",
+    intro_6: "Doch hier, am Rande des Dorfes, wirst du dir ein Leben aufbauen.",
+    intro_7: "Willkommen in deinem neuen Zuhause, kleiner Lung.",
     // Fehlschläge
     fail_energy: "Zu erschöpft.",
     fail_magic: "Nicht genug Magie.",
@@ -312,7 +321,36 @@ export default {
     fail_full_stone: "Steinlager voll.",
     fail_full_meat: "Fleischlager voll.",
     fail_full_shards: "Geldbeutel voll (Max Splitter).",
-    fail_salary: "Nicht genug Splitter für Gehälter! Arbeit eingestellt."
+    fail_salary: "Nicht genug Splitter für Gehälter! Arbeit eingestellt.",
+    log_trait_unlocked: "TITEL FREIGESCHALTET: {title}!",
+    particle_new_trait: "NEUER TITEL: {title}"
+  },
+  traits: {
+    woodcutter: {
+      title: "Holzfäller",
+      desc: "Du hast den Rhythmus des Waldes verstanden.",
+      bonus: "+10% Holz-Ertrag"
+    },
+    prospector: {
+      title: "Schürfer",
+      desc: "Jeder Riss im Stein verrät dir, wo du zuschlagen musst.",
+      bonus: "+10% Stein-Ertrag"
+    },
+    meditator: {
+      title: "Himmels-Sucher",
+      desc: "Der Himmel ist für dich keine Leere mehr.",
+      bonus: "+20% Magie-Gewinn"
+    },
+    survivor: {
+      title: "Boden-Überlebender",
+      desc: "Beeren und wilde Wurzeln sind deine Verbündeten.",
+      bonus: "Sättigung sinkt 15% langsamer"
+    },
+    merchant: {
+      title: "Splitter-Händler",
+      desc: "Du weißt genau, was sie dort oben schätzen.",
+      bonus: "+5% Splitter beim Handeln"
+    }
   },
   atmosphere: [
     "Ein ferner Flügelschlag hallt durch die Stille.",

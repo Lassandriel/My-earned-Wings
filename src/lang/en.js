@@ -13,6 +13,9 @@ export default {
     cat_inventory: "Possessions & Objects",
     cat_village: "The Village",
     cat_log: "Chronicle",
+    cat_log_enhanced: "Chronicle",
+    ui_source_world: "Draconia",
+    ui_empty_story: "Your story has just begun...",
     nav_story_tab: "Chronicle",
     nav_traits: "Titles & Traits",
     nav_story_tab_header: "History & Chronicle",
@@ -22,6 +25,8 @@ export default {
     ui_wood: "Wood",
     ui_stone: "Stone",
     ui_meat: "Meat",
+    ui_materials: "Materials",
+    ui_provisions: "Provisions",
     ui_details: "Details",
     ui_energy: "Energy",
     ui_magic: "Magic",
@@ -60,8 +65,13 @@ export default {
     btn_stop_work: "Stop",
     ui_salary: "Cost",
     ui_yield: "Yield",
+    ui_empty_story: "Your story has just begun. Make meaningful choices to fill these pages.",
+    ui_load_at: "Loaded at",
     status_working: "Busy",
-    status_idle: "Idle"
+    status_idle: "Idle",
+    menu_continue: "Continue",
+    menu_new_game: "New Game",
+    menu_version: "v1.0.0 - Draconia Edition"
   },
   actions: {
     'action-essen': {
@@ -259,10 +269,10 @@ export default {
     eat_log: "Berries eaten. +{gain} Satiation.",
     rest_log: "Rested. +{gain} Energy.",
     meditate_log: "Meditated. +15 Magic.",
-    wood_log: "{gain} twigs gathered.",
-    wood_axe_log: "{gain} wood chopped.",
-    stone_log: "{gain} pebbles gathered.",
-    stone_axe_log: "{gain} stones quarried.",
+    wood_log: "+{gain} Wood",
+    wood_axe_log: "+{gain} Wood",
+    stone_log: "+{gain} Stone",
+    stone_axe_log: "+{gain} Stone",
     sell_wood_log: "Wood traded. +5 Shards.",
     sell_stone_log: "Stone traded. +8 Shards.",
     work_log: "Paths cleared. +12 Shards.",
@@ -297,13 +307,13 @@ export default {
     craft_bow: "Hunting bow finished.",
     craft_bookshelf: "Bookshelf set up.",
     // Intro
-    intro_1: "Someone glides effortlessly from roof to roof above you.",
-    intro_2: "You walk the long way on foot. Your steps are heavy.",
-    intro_3: "A trader lands before the village gate. He doesn't notice you.",
-    intro_4: "Rain sets in. The others shake out their wings and fly home.",
-    intro_5: "You stay below. You miss something you never had...",
+    intro_1: "Above you, a magnificent Wind Dragon glides effortlessly from roof to roof.",
+    intro_2: "You take the long way on foot. Your steps are heavy and earthbound.",
+    intro_3: "A Merchant Wyvern lands before the village gate. He doesn't notice you.",
+    intro_4: "Rain sets in. The others shake out their wings – leather, feathers, scales – and fly home.",
+    intro_5: "You stay below. You miss a connection you've never felt...",
     intro_6: "But here, at the edge of the village, you will build a life.",
-    intro_7: "Welcome to your new home.",
+    intro_7: "Welcome to your new home, little Lung.",
     // Failures
     fail_energy: "Too exhausted.",
     fail_magic: "Not enough magic.",
@@ -312,7 +322,36 @@ export default {
     fail_full_stone: "Stone storage full.",
     fail_full_meat: "Meat storage full.",
     fail_full_shards: "Wallet full (Max Shards).",
-    fail_salary: "Not enough Shards for salary! Work stopped."
+    fail_salary: "Not enough Shards for salary! Work stopped.",
+    log_trait_unlocked: "TITLE UNLOCKED: {title}!",
+    particle_new_trait: "NEW TITLE: {title}"
+  },
+  traits: {
+    woodcutter: {
+      title: "Woodcutter",
+      desc: "You have learned the rhythm of the forest.",
+      bonus: "+10% Wood Yield"
+    },
+    prospector: {
+      title: "Prospector",
+      desc: "Every crack in the stone tells you where to strike.",
+      bonus: "+10% Stone Yield"
+    },
+    meditator: {
+      title: "High-Seeker",
+      desc: "The sky is no longer just a void to you.",
+      bonus: "+20% Magic Gain"
+    },
+    survivor: {
+      title: "Ground Survivor",
+      desc: "Berries and wild roots are your allies.",
+      bonus: "Satiation drops 15% slower"
+    },
+    merchant: {
+      title: "Shard Merchant",
+      desc: "You know exactly what they value up there.",
+      bonus: "+5% Shards from Trading"
+    }
   },
   atmosphere: [
     "A distant wingbeat echoes through the silence.",

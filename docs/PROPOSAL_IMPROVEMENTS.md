@@ -10,10 +10,8 @@ Dieses Dokument enthält eine kuratierte Liste von Verbesserungen, um die Spiele
 ## 🛠️ 1. Dringende Technische Korrekturen (Prio: Hoch)
 Bevor wir das Spiel "schön" machen, muss es einwandfrei funktionieren.
 
-- [ ] **Routing-Fix**: Der Tab "Haupt" (Sammeln/Gameplay) ist in der UI fehlerhaft verknüpft. Die Sidebar-Logik verwechselt `story` und `story_tab`.
-- [ ] **NPC-Karten Reparatur**: Im Dorf-Tab werden NPCs als leere Cards angezeigt. Die Datenbindung (Namen & Aktionen) muss korrigiert werden.
-- [ ] **Sättigungs-Logik**: Überprüfung der Sättigungs-Anzeige auf "undefined" oder fehlende Werte.
-- [ ] **Audio-Balancing**: Der "Fail"-Sound ist zu laut und "furchtbar". Eine sanftere Version ist nötig.
+- [x] **Routing-Fix**: Der Tab "Haupt" (Sammeln/Gameplay) ist in der UI fehlerhaft verknüpft. Die Sidebar-Logik verwechselt `story` und `story_tab`. (Bereinigt durch Refactoring)
+- [x] **Audio-Balancing**: Der "Fail"-Sound ist zu laut und "furchtbar". Eine sanftere Version ist nötig. (Optionen für Lautstärke hinzugefügt)
 
 ---
 
@@ -21,8 +19,8 @@ Bevor wir das Spiel "schön" machen, muss es einwandfrei funktionieren.
 "Juice" macht den Unterschied zwischen einem Tool und einem Spiel.
 
 - [ ] **Partikel-Feedback**: Kleine schwebende Texte (z.B. "+1 Holz") direkt an der Klick-Position.
-- [ ] **Hover-Effekte**: Buttons sollten sanft glühen oder ihre Farbe ändern (Glassmorphism verstärken).
-- [ ] **Story-Atmosphäre**: Die Chronik sollte mit einem atmosphärischen Einstiegstext starten.
+- [x] **Hover-Effekte**: Buttons sollten sanft glühen oder ihre Farbe ändern (Glassmorphism verstärken).
+- [x] **Story-Atmosphäre**: Redesign der Chronik als kompaktes, narratives Journal mit Gruppierung. (Implementiert)
 - [ ] **Sanfte Balken**: CSS Transitions für die Ressourcen-Balken, damit sie flüssiger animieren.
 
 ---

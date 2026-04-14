@@ -11,7 +11,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "dist": "npm run build && electron-builder",
-    "build-exe": "npm run build && electron-packager . My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --icon=public/img/Game_icon.png"
+    "build-exe": "npm run build && powershell -Command \"Remove-Item -Recurse -Force dist_electron -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Path dist_electron; Copy-Item -Recurse dist dist_electron/dist; Copy-Item app-main.js, package.json, preload.js, splash.html dist_electron/; New-Item -ItemType Directory -Path dist_electron/public/img -Force; Copy-Item public/img/Game_icon.ico dist_electron/public/img/; electron-packager dist_electron My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --icon=dist_electron/public/img/Game_icon.ico\""
   },
   "build": {
     "appId": "com.lassandriel.myearnedwings",
@@ -47,7 +47,6 @@
     "wait-on": "^9.0.4"
   },
   "dependencies": {
-    "alpinejs": "^3.15.11",
-    "sharp": "^0.34.5"
+    "alpinejs": "^3.15.11"
   }
 }

@@ -1,13 +1,24 @@
 export const createPersistenceSystem = (initialState) => ({
-  saveGame(store) {
+  saveGame(store, isManual = false) {
     const saveObj = {};
+    const excludeFromSave = ['hoveredAction', 'settingsOpen', 'saveInfoText', 'lastMouseX', 'lastMouseY'];
+    
     Object.keys(initialState).forEach(key => {
-      saveObj[key] = store[key];
+      if (key === 'settingsOpen') {
+        saveObj[key] = false; // Explicitly force to closed in save file
+      } else if (!excludeFromSave.includes(key)) {
+        saveObj[key] = store[key];
+      }
     });
     localStorage.setItem('wings_save', JSON.stringify(saveObj));
     
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    store.saveInfoText = `${store.t('save_at', 'ui')}${time}`;
+    store.saveInfoText = `${store.t('save_at', 'ui')} ${time}`;
+
+    if (isManual) {
+      store.addLog('save_success', 'logs', 'var(--accent-teal)');
+      store.playSound('success');
+    }
   },
 
   loadGame(store) {
@@ -36,7 +47,7 @@ export const createPersistenceSystem = (initialState) => ({
         }
 
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        store.saveInfoText = `Geladen um ${time}`;
+        store.saveInfoText = `${store.t('ui_load_at', 'ui')} ${time}`;
         return true;
       } catch (e) {
         console.warn('Save data corrupted, starting fresh.', e);

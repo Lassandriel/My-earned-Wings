@@ -30,7 +30,7 @@ The inhabitants of Draconia call themselves Dragon Shifters. They possess a dual
 
 ---
 
-## 🐉 Dragon Species (Playable Races/Classes)
+## 🐉 Dragon Species
 Draconia is home to many completely different dragon species.
 
 ### 1. Western Dragons (Guardians of the Realms)
@@ -39,16 +39,17 @@ The most widespread species, originating in the Crystal Realm.
 * **Subspecies:** Sun Dragons, Earth Dragons (robust armor), Tide/Dream Dragons (shimmering scales), Wind/Air Dragons (aerodynamic), and Crystal Dragons (gemstone scales).
 
 ### 2. Lung Dragons (Sky Walkers)
-* **Characteristics:** Serpentine, graceful, and completely wingless. They have four strong legs and manes.
+* **Characteristics:** Serpentine, graceful, and completely wingless. They have four strong legs and manes. The player belongs to this rare species.
 * **Locomotion:** They fly purely through magic and "swim" or hover extremely nimbly through the air.
+* **Status:** Extremely rare and often associated with the imperial bloodline. A Lung that cannot transform into their dragon form is considered a great mystery or a tragic anomaly.
 
 ### 3. Wyverns (Hunters of the Skies)
-* **Characteristics:** Possess only two hind legs; their front legs are fused with their wings. They are enormously fast in the air.
+* **Characteristics:** Possess only two hind legs; their front legs are fused with their wings. They are enormously fast in the air and serve as the primary messengers of the islands.
 * **Subspecies:** Storm Wyverns (generate sharp gusts of wind) and Frost Wyverns (cold-resistant).
 
-### 4. Lindworms (The Earthbound)
-* **Characteristics:** Massive, wingless dragons with only two front legs. They drag their snake-like hindquarters behind them.
-* **Abilities:** Cannot fly, but are masterful climbers and diggers.
+### 4. Lindworms (The Earthbound Giants)
+* **Characteristics:** Massive dragons with only two front legs and powerful, albeit heavy, wings. They drag their snake-like hindquarters behind them when on the ground.
+* **Abilities:** They use their wings for powerful leaps, stabilizing themselves while climbing island cliffs, or for heavy, rhythmic flight.
 * **Subspecies:** Magma Lindworms (near the lava sea) and Swamp Lindworms (perfectly camouflaged in the jungle).
 
 ### 5. Amphitheres (The Feathered Serpents)
@@ -56,7 +57,7 @@ The most widespread species, originating in the Crystal Realm.
 * **Subspecies:** Dream Amphitheres (generate illusionary mist) and Sun Amphitheres (glowing plumage).
 
 ### Special Form: Star Dragons
-Mystical beings made of pure starlight that fall from the sky as shooting stars. They grow into giants within a few days and feed on magical energy (like star fruits or crystals). They cannot stay forever and must eventually return to the starry sky.
+Mystical beings made of pure starlight that fall from the sky as shooting stars. They grow into giants within a few days and feed on magical energy (like star fruits or crystals). They cannot stay on Draconia and must eventually return to the starry sky.
 
 ---
 
