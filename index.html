@@ -12,14 +12,15 @@
     <script type="module" src="src/main.js"></script>
   </head>
   <body>
-    <!-- Ambient Magic: Falling Feathers & Scales -->
-    <div id="ambient-magic">
-      <div class="magic-layer layer-feathers-light"></div>
-      <div class="magic-layer layer-scales-dark"></div>
-      <div class="magic-layer layer-feathers-color"></div>
-      <div class="magic-layer layer-scales-shimmer"></div>
-    </div>
     <div id="app" x-data>
+      <div id="game-wrapper" :style="'--app-scale: ' + $store.game.currentScale">
+        <!-- Ambient Magic: Falling Feathers & Scales -->
+        <div id="ambient-magic">
+          <div class="magic-layer layer-feathers-light"></div>
+          <div class="magic-layer layer-scales-dark"></div>
+          <div class="magic-layer layer-feathers-color"></div>
+          <div class="magic-layer layer-scales-shimmer"></div>
+        </div>
       <header class="main-header">
         <div class="logo-container">
           <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
@@ -697,6 +698,17 @@
                 </div>
               </div>
               <div class="settings-group">
+                <label x-text="$store.game.t('settings_scale')">UI Scaling</label>
+                <select x-model="$store.game.settings.uiScale" @change="$store.game.calculateScale()">
+                  <option value="auto" x-text="$store.game.t('settings_scale_auto')">Auto-Fit</option>
+                  <option value="1">100%</option>
+                  <option value="0.9">90%</option>
+                  <option value="0.8">80%</option>
+                  <option value="0.7">70%</option>
+                </select>
+              </div>
+
+              <div class="settings-group">
                 <label x-text="$store.game.t('settings_name')">Player Name</label>
                 <input type="text" x-model="$store.game.playerName" :placeholder="$store.game.t('settings_name') + '...'" @input="$store.game.saveGame()" />
               </div>
@@ -745,6 +757,8 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
         </div>
       </div>
     </div>

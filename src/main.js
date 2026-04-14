@@ -31,6 +31,9 @@ Alpine.store('game', {
         this.audio.init(this.settings);
         this.juice.init();
         
+        this.calculateScale();
+        window.addEventListener('resize', () => this.calculateScale());
+
         if (!this.hasSeenIntro && this.logs.length === 0) {
             this.playIntro();
         }
@@ -91,6 +94,36 @@ Alpine.store('game', {
     setLanguage(lang) {
         this.language = lang;
         this.saveGame();
+    },
+
+    calculateScale() {
+        const setting = this.settings.uiScale;
+        const targetW = 1920;
+        const targetH = 1075;
+
+        if (setting === 'auto') {
+            const winW = window.innerWidth;
+            const winH = window.innerHeight;
+            this.currentScale = Math.min(winW / targetW, winH / targetH);
+        } else {
+            const scale = parseFloat(setting);
+            this.currentScale = scale;
+            
+            if (window.electronAPI?.resizeWindow) {
+                const idealW = Math.round(targetW * scale);
+                const idealH = Math.round(targetH * scale);
+                if (Math.abs(window.innerWidth - idealW) > 5 || Math.abs(window.innerHeight - idealH) > 5) {
+                    window.electronAPI.resizeWindow(idealW, idealH);
+                }
+            }
+        }
+
+        const offsetX = (window.innerWidth - targetW * this.currentScale) / 2;
+        const offsetY = (window.innerHeight - targetH * this.currentScale) / 2;
+
+        document.documentElement.style.setProperty('--app-scale', this.currentScale);
+        document.documentElement.style.setProperty('--app-offset-x', `${offsetX}px`);
+        document.documentElement.style.setProperty('--app-offset-y', `${offsetY}px`);
     },
 
     executeAction(id) {
@@ -262,9 +295,21 @@ Alpine.start();
 document.addEventListener('mousemove', (e) => {
     const store = Alpine.store('game');
     if (store) {
-        store.lastMouseX = e.clientX;
-        store.lastMouseY = e.clientY;
+        const wrapper = document.getElementById('game-wrapper');
+        if (wrapper) {
+            const rect = wrapper.getBoundingClientRect();
+            const relX = (e.clientX - rect.left) / store.currentScale;
+            const relY = (e.clientY - rect.top) / store.currentScale;
+            
+            store.lastMouseX = relX;
+            store.lastMouseY = relY;
+            document.documentElement.style.setProperty('--mx', relX + 'px');
+            document.documentElement.style.setProperty('--my', relY + 'px');
+        } else {
+            store.lastMouseX = e.clientX;
+            store.lastMouseY = e.clientY;
+            document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+            document.documentElement.style.setProperty('--my', e.clientY + 'px');
+        }
     }
-    document.documentElement.style.setProperty('--mx', e.clientX + 'px');
-    document.documentElement.style.setProperty('--my', e.clientY + 'px');
 });

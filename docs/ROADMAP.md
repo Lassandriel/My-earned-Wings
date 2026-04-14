@@ -34,5 +34,13 @@ This document serves as a guide for future development.
 
 - [ ] **Metamorphosis**: The creation of your own "Wings" through magic and deep knowledge.
 
+## Phase 5: Technical Optimization (Post-Launch)
+
+- [ ] **Savegame Management**: Implement easy copy-paste Export/Import mechanics for save files, and optionally explore Cloud Syncing to allow players to easily backup progress or play across devices.
+- [ ] **Performance & Anti-Cheat**: Apply hash-encoding to the `localStorage` save file to prevent trivial cheating. Audit the background Game Loop to ensure smooth 60fps performance without UI lag in the extreme late-game.
+- [ ] **Accessibility & UI Scaling**: Add support for font size adjustment, high-contrast modes, and keyboard shortcuts to improve usability.
+- [ ] **Seamless Auto-Updates**: Transition from electron-packager to electron-builder and integrate `electron-updater` so the game can automatically update itself without requiring manual downloads.
+- [ ] **Tauri Migration**: Transition from Electron to Tauri to drastically reduce the application size (from ~400MB down to ~15MB) while keeping the web frontend intact.
+
 ---
 _Last updated: April 2026_

@@ -29,12 +29,10 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1075,
-    minWidth: 1920,
-    minHeight: 1075,
-    maxWidth: 1920,
-    maxHeight: 1075,
+    minWidth: 960, // Minimal half resolution
+    minHeight: 537,
     useContentSize: true,
-    resizable: false,
+    resizable: true,
     frame: true,
     autoHideMenuBar: true,
     show: false, // Initially hide to wait for splash screen
@@ -87,6 +85,13 @@ if (!gotTheLock) {
 
 ipcMain.on('quit-app', () => {
   app.quit();
+});
+
+ipcMain.on('resize-window', (event, width, height) => {
+  if (mainWindow) {
+    mainWindow.setContentSize(width, height, true);
+    mainWindow.center();
+  }
 });
 
 app.on('window-all-closed', () => {

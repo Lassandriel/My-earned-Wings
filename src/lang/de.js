@@ -36,6 +36,8 @@ export default {
     ui_placeholder_desc: "Wähle eine Handlung aus, um mehr zu erfahren.",
     settings_title: "Einstellungen",
     settings_lang: "Sprache / Language",
+    settings_scale: "UI Skalierung",
+    settings_scale_auto: "Automatisch",
     settings_name: "Spieler Name",
     settings_reset: "Spiel zurücksetzen",
     confirm_reset: "Bist du sicher? Alle Fortschritte werden gelöscht!",

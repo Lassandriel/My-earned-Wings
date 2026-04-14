@@ -8,6 +8,7 @@ export const initialState = {
   language: 'de',
   view: 'gameplay',
   settingsOpen: false,
+  currentScale: 1,
   resources: { wood: 0, stone: 0, shards: 0, meat: 0 },
   limits: { wood: 10, stone: 10, meat: 10, shards: 1000 },
   stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100, satiation: 100, maxSatiation: 100 },
@@ -47,7 +48,8 @@ export const initialState = {
     volumeMusic: 0.7,
     volumeSfx: 1.0,
     mute: false,
-    activeTab: 'general'
+    activeTab: 'general',
+    uiScale: 'auto'
   },
   counters: {
     wood: 0,

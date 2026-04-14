@@ -36,6 +36,8 @@ export default {
     ui_placeholder_desc: "Choose an action to learn more.",
     settings_title: "Settings",
     settings_lang: "Language / Sprache",
+    settings_scale: "UI Scaling",
+    settings_scale_auto: "Auto-Fit",
     settings_name: "Player Name",
     settings_reset: "Reset Game",
     confirm_reset: "Are you sure? All progress will be lost!",
