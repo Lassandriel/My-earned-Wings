@@ -260,7 +260,9 @@ Alpine.store('game', {
         
         if (!costType) return;
 
-        if (!this.resource.canAfford(this, costType, action.cost)) {
+        const effectiveCosts = costType === 'mixed' ? action.costs : costType;
+
+        if (!this.resource.canAfford(this, effectiveCosts, action.cost)) {
             if (costType === 'energy') {
                 this.addLog('fail_energy', 'logs', 'rgba(239, 68, 68, 0.75)');
             } else if (costType === 'magic') {
@@ -268,7 +270,7 @@ Alpine.store('game', {
             } else {
                 this.addLog('fail_resources', 'logs', 'rgba(239, 68, 68, 0.75)');
             }
-        } else if (this.resource.isFull(this, action.yieldType || costType)) {
+        } else if (costType !== 'mixed' && this.resource.isFull(this, action.yieldType || costType)) {
             // Specialized full messages
             const yieldType = action.yieldType || costType;
             this.addLog('fail_full_' + yieldType, 'logs', 'rgba(239, 68, 68, 0.75)');

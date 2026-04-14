@@ -49,7 +49,9 @@
   </head>
   <body>
     <div id="app" x-data>
-      <div id="game-wrapper" :style="'--app-scale: ' + $store.game.currentScale">
+        <!-- Feedback Particles -->
+        <div id="juice-container"></div>
+
         <!-- Ambient Magic: Falling Feathers & Scales -->
         <div id="ambient-magic">
           <div class="magic-layer layer-feathers-light"></div>
@@ -126,6 +128,8 @@
             Skip Intro <span>»</span>
           </button>
         </section>
+
+      <div id="game-wrapper" :style="'--app-scale: ' + $store.game.currentScale">
       <header class="main-header">
         <div class="logo-container">
           <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
@@ -746,19 +750,28 @@
           :class="(() => {
             const h = $store.game.hoveredAction;
             if(!h || !h.data) return '';
-            let current = 0;
             const costType = h.data.costType;
+            if (costType === 'mixed' && h.data.costs) {
+              return $store.game.resource.canAfford($store.game, h.data.costs) ? 'tt-ready' : 'tt-blocked';
+            }
+            let current = 0;
             if (costType === 'energy') current = $store.game.stats.energy;
             else if (costType === 'magic') current = $store.game.stats.magic;
             else if (costType === 'wood') current = $store.game.resources.wood;
             else if (costType === 'stone') current = $store.game.resources.stone;
             else if (costType === 'shards') current = $store.game.resources.shards;
-            return current >= h.data.cost ? 'tt-ready' : 'tt-blocked';
+            return current >= (h.data.cost || 0) ? 'tt-ready' : 'tt-blocked';
           })()"
           x-text="$store.game.hoveredAction ? ($store.game.t('ui_need') + ': ' + (() => {
             const h = $store.game.hoveredAction;
-            let current = 0;
             const costType = h.data.costType;
+            if (costType === 'mixed' && h.data.costs) {
+              return Object.entries(h.data.costs).map(([type, amt]) => {
+                const cur = $store.game.resources[type] ?? $store.game.stats[type] ?? 0;
+                return Math.floor(cur) + '/' + amt + ' ' + ($store.game.t('ui_' + type) || type);
+              }).join(', ');
+            }
+            let current = 0;
             if (costType === 'energy') current = Math.floor($store.game.stats.energy);
             else if (costType === 'magic') current = Math.floor($store.game.stats.magic);
             else if (costType === 'wood') current = $store.game.resources.wood;
@@ -766,7 +779,7 @@
             else if (costType === 'shards') current = $store.game.resources.shards;
             let resName = '';
             if (costType) resName = $store.game.t('ui_' + costType) || costType;
-            return current + '/' + h.data.cost + ' ' + resName;
+            return current + '/' + (h.data.cost || 0) + ' ' + resName;
           })()) : ''"
         ></p>
 
@@ -785,7 +798,11 @@
         ></p>
       </div>
 
-      <div id="modal-settings" class="modal-overlay" x-show="$store.game.settingsOpen" style="display: none">
+
+      </div> <!-- Close game-wrapper -->
+
+      <!-- SETTINGS MODAL (Global Overlay) -->
+      <div id="modal-settings" class="modal-overlay" x-show="$store.game.settingsOpen" style="display: none" x-transition>
         <div class="modal-content settings-modal-wide">
           <div class="settings-sidebar">
             <h2 x-text="$store.game.t('settings_title')">Settings</h2>
@@ -877,9 +894,6 @@
           </div>
         </div>
       </div>
-        </div>
-      </div>
-    </div>
-    <div id="juice-container"></div>
+    </div> <!-- Close app -->
   </body>
 </html>

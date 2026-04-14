@@ -13,6 +13,8 @@ This document serves as a guide for future development.
 - [x] **Visual Feedback ("Juice")**: Adding white floating particles and smooth transitions to all bars.
 - [x] **Narrative Journal**: Complete redesign of the history tab into a compact, color-coded journal.
 - [x] **System Audit**: Hardened efficiency logic and dynamic NPC metadata integration.
+- [x] **Bug-Fixing**: Resolved 'ui_mixed' display and fixed early-game storage soft-lock.
+- [x] **UI Scaling Fix**: Decoupled Main Menu and Intro from game scaling for full-screen coverage.
 - [x] **Alpha Release**: Finalized the 0.1.0 build for public testing.
 
 ## Phase 2: Core Mechanics (Content Focus)

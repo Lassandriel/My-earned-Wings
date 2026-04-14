@@ -25,6 +25,7 @@ export default {
     ui_stone: "Stein",
     ui_meat: "Fleisch",
     ui_materials: "Materialien",
+    ui_mixed: "Materialien",
     ui_provisions: "Proviant",
     ui_details: "Details",
     ui_energy: "Energie",
