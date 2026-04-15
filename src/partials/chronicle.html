@@ -1,0 +1,28 @@
+<!-- CHRONICLE VIEW -->
+<main x-show="$store.game.view === 'chronicle'">
+  <div class="category-header">
+    <h3 x-text="$store.game.t('nav_story_tab_header')">Chronik</h3>
+  </div>
+  
+  <div class="story-timeline">
+    <template x-for="(group, gIdx) in $store.game.groupedHistory" :key="gIdx">
+      <div class="journal-block">
+        <div class="journal-speaker-node" :style="'border-color: ' + group.color + '; color: ' + group.color" :title="group.name" x-text="group.symbol"></div>
+        <div class="journal-content" :style="'border-left-color: ' + group.color">
+          <span class="journal-name" :style="'color: ' + group.color" x-text="group.name"></span>
+          <div class="journal-events">
+            <template x-for="(entry, eIdx) in group.entries" :key="eIdx">
+              <div class="journal-line">
+                <span x-text="$store.game.t(entry.id, 'actions').desc"></span>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
+    
+    <div x-show="$store.game.storyHistory.length === 0" class="empty-history-watermark">
+      <p x-text="$store.game.t('ui_empty_story')">Die Feder wartet auf das erste Kapitel...</p>
+    </div>
+  </div>
+</main>

@@ -1,76 +1,60 @@
-# Your Earned Wings ✦
+# Your Earned Wings ✦ (Demo Edition)
 
-`Your Earned Wings` is an atmospheric desktop simulation developed with **Electron**, **Vite**, and **Alpine.js**. It tells the journey of a wingless protagonist in a village full of winged beings. The game focuses on self-sufficiency, building infrastructure, and discovering ground-based magic.
+`Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **Electron**, **Vite**, and **Alpine.js**. 
+
+This **Demo Version** features the first complete story arc: **The Heart of Draconia**. You play as a wingless "Lung" (dragon-kin) in a world where flight is everything, discovering that true power and "wings" can be earned through loyalty to the ground.
 
 ![Official Logo](public/img/logo_wings.webp)
 
+## 📖 The Demo Journey (Phase 1-4)
+Experience the transformation of a grounded wanderer into a pillar of the community:
+1.  **Survival**: Learn to gather resources and manage your limited vitality.
+2.  **Roots**: Build your first shelter, campfire, and eventually a permanent home.
+3.  **Community**: Forge bonds with the village inhabitants, from the quiet Baker to the Ancient Sage.
+4.  **The Finale**: Reach the legendary **Tree of Life** — the majestic heart of the ground.
+
 ## ✦ Core Features
 
-### 🛖 Persistent Progress & Housing
-*   **From Gatherer to Builder**: Start by gathering twigs and pebbles and progress to building your own house.
-*   **Infrastructure**: Build specialized storage for wood and stone to expand your capacities.
-*   **Furniture Synergies**: A solid table and chair create the perfect environment for study, doubling your progress.
-*   **Stove & Fortification**: A cast-iron stove in your hut doubles the regeneration from food.
+### 🛖 Persistent Housing & Growth
+*   **Base Building**: Progress from a simple campfire to a fully equipped hut.
+*   **Furniture Synergies**: Craft chairs, tables, and bookshelves to double your learning efficiency.
+*   **Resource Management**: Build specialized depots to expand your storage capacities for Wood, Stone, and Shards.
 
-### 🏹 Hunting & Mentor System
-*   **The Hunter**: An experienced NPC who teaches you bowmaking and hunting over several phases.
-*   **Meat Resource**: Collect meat through hunting actions and trade it in the village.
+### 👥 NPC Companions & Mentors
+*   **Mentorship**: Complete multi-stage questlines for the Teacher and the Sage to unlock powerful actions like **Study**.
+*   **Working Together**: Once you've earned an NPC's trust, you can assign them to tasks. They will gather resources for you in exchange for a salary of Shards.
 
-### 🔮 Magic & Knowledge
-*   **No Passive Regeneration**: In this world, nothing is free. Manage Energy and Magic through targeted rest, eating, and meditation.
-*   **Study**: Meet the *Ancient Sage* to unlock study actions and permanently increase your maximum magic capacity.
+### 🔮 Magic & Ground Lore
+*   **No Passive Regen**: Survival requires intent. Manage Energy and Magic through targeted rest, eating, and meditation.
+*   **Chronicle**: Every action you take is recorded in a beautifully color-coded narrative journal.
 
-### ✨ Visual Aesthetics & UX
-*   **Glassmorphism & Dark Mode**: A premium design with smooth transitions and pulsing effects.
-*   **Custom Scrollbars**: Integrated thin, floating scrollbars that match the rounded-corner aesthetic and provide visual feedback on hover.
-*   **Main Menu & Cinematic Prologue**: An atmospheric entry point with a multi-step visual introduction to the world of Draconia.
-*   **Splash Screen & Single Instance**: Professional app features for a seamless start.
-*   **Hard Reset**: You can start fresh anytime through the settings.
-
-### 🌐 Localization & Logs
-*   **Dynamic Language Switching**: Toggle between German and English instantly. Logs and story entries translate in real-time without losing context or parameters (e.g., gain values).
-*   **Clean Chronicle**: Compact resource gathering logs (+1 Wood) for better readability.
+### ✨ Premium Visuals & UX
+*   **Glassmorphism Aesthetic**: A sleek, modern dark mode with smooth transitions and vibrant "magical" particles.
+*   **Dynamic Language**: Switch between **German** and **English** on the fly.
+*   **Desktop Optimization**: Integrated custom scrollbars, window scaling, and professional app features.
 
 ## 🛠️ Tech Stack
-
 *   **Runtime**: [Electron](https://www.electronjs.org/)
 *   **Build Tool**: [Vite](https://vitejs.dev/)
 *   **Logic**: Vanilla JS & [Alpine.js](https://alpinejs.dev/)
-*   **Packaging**: [Electron Packager](https://github.com/electron/electron-packager)
+*   **Styling**: Premium Vanilla CSS
 
-## 🗺️ Documentation
-
-Find more details in the `docs/` folder:
-- [Project Roadmap](docs/ROADMAP.md)
-- [Game Design Document (GDD)](docs/GAMEDESIGN.md)
-- [Progression Tree (Unlocks)](docs/PROGRESSION.md)
-
-## 🚀 Installation & Build
+## 🚀 Testing & Installation
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (Current LTS)
 
-### Installation
+### Quick Start
 1. Clone the repository.
-2. Install dependencies: `npm install`
-3. Start development mode: `npm run dev`
+2. Run `npm install` to set up dependencies.
+3. Run `npm run dev` to start the game.
 
-### 📦 Create Windows Executable (.exe)
-To package the game as a finished application, the project uses a **Staging Build** process to ensure a minimal footprint (~150MB unpacked, ~80MB zipped):
+### 📦 Building the Executable
+To create a standalone Windows application (`.exe`):
+1.  `npm run build`
+2.  `npm run build-exe`
 
-1.  Standard build via Vite: `npm run build`
-2.  Packaging: `npm run build-exe`
-
-The packaging command automatically creates a clean temporary directory (`dist_electron`), copies only essential production files (stripping development bloat and unnecessary `node_modules`), and generates the executable.
-
-You will find the finished application in the `BUILDS/My-earned-Wings-win32-x64` folder.
-
-### ❓ Troubleshooting (For Beginners)
-- **`npm` command not found**: Ensure you have installed Node.js and restarted VS Code (or your PC) afterwards.
-- **`Execution of scripts is disabled` (PowerShell)**: Open VS Code as Administrator and run `Set-ExecutionPolicy RemoteSigned` in the terminal.
-- **`package.json not found`**: Make sure you have opened the exact folder in VS Code that contains the `package.json` file.
-- **Warnings during `npm install`**: It is completely normal for npm to log yellow or red warnings about deprecated sub-dependencies (like `glob` or `lodash`). Since this game is packaged as an offline desktop application, these warnings about "vulnerabilities" or "deprecated packages" can be safely ignored. As long as `npm run dev` works, you are good to go!
-
+The finished app will be located in `BUILDS/My-earned-Wings-win32-x64`.
 
 ---
-*Created by Lassandriel · April 2026*
+*Created by Lassandriel · April 2026 · Draconia Demo Build*

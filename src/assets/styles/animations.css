@@ -1,0 +1,50 @@
+@keyframes sway-fall {
+  0% { transform: translateY(-30vh) rotate(0deg) translateX(0); }
+  20% { transform: translateY(0vh) rotate(20deg) translateX(80px); }
+  40% { transform: translateY(30vh) rotate(-15deg) translateX(-60px); }
+  60% { transform: translateY(60vh) rotate(15deg) translateX(40px); }
+  80% { transform: translateY(90vh) rotate(-10deg) translateX(-20px); }
+  100% { transform: translateY(120vh) rotate(0deg) translateX(0); }
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes menuFadeIn {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes bgRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes log-fade-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes particle-float {
+  0% { opacity: 0; transform: translateY(0) scale(0.8); }
+  15% { opacity: 1; transform: translateY(-20px) scale(1.1); }
+  100% { opacity: 0; transform: translateY(-120px) scale(1.0); }
+}
+
+@keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes sparkleFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+    50% { transform: translateY(-30px) scale(1.5); opacity: 0.8; }
+}
+
+@keyframes pulse-teal {
+    0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
+}

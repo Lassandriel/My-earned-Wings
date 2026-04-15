@@ -84,6 +84,8 @@ export const craftingActions = {
       if (state.housing.hasTable && state.resource.consume(state, 'wood', 25)) {
         state.housing.hasBookshelf = true;
         state.inventory.push('craft-bookshelf');
+        state.limits.books += 5; // Start capacitor
+        if (!state.unlockedRecipes.includes('craft-book')) state.unlockedRecipes.push('craft-book');
         return { success: true, logKey: 'craft_bookshelf', logColor: 'rgba(20, 184, 166, 0.9)' };
       } return { success: false };
     }
@@ -97,6 +99,20 @@ export const craftingActions = {
       if (state.resource.consume(state, 'wood', 30)) {
         state.inventory.push('craft-bow');
         return { success: true, logKey: 'craft_bow' };
+      } return { success: false };
+    }
+  },
+  'craft-book': {
+    cost: 10, costType: 'mixed', costs: { shards: 10, wood: 5 },
+    sfx: 'success',
+    particleText: 'Wissen!',
+    particleType: 'shards',
+    execute: (state) => {
+      if (state.resource.isFull(state, 'books')) return { success: false };
+      const costs = { shards: 10, wood: 5 };
+      if (state.resource.consume(state, costs)) {
+        state.resource.add(state, 'books', 1);
+        return { success: true, logKey: 'craft_book', logColor: 'rgba(251, 191, 36, 0.9)' };
       } return { success: false };
     }
   }

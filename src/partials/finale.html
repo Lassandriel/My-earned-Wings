@@ -1,0 +1,45 @@
+<!-- DEMO FINALE MODAL -->
+<section id="finale-modal" x-show="$store.game.demoCompleted && !$store.game.demoCompletedHintSeen" class="modal-overlay finale-overlay" x-transition.opacity>
+    <div class="modal-content finale-content">
+        <div class="finale-decoration">
+            <div class="finale-sparkle"></div>
+            <div class="finale-sparkle"></div>
+            <div class="finale-sparkle"></div>
+        </div>
+        
+        <h2 class="finale-title" x-text="$store.game.t('finale_title')">Das Herz von Draconia</h2>
+        <p class="finale-congrats" x-text="$store.game.t('finale_congrats')">Gratulation!</p>
+        
+        <div class="finale-stats-panel">
+            <h4 x-text="$store.game.t('finale_stats')">Deine Reise:</h4>
+            <div class="stats-grid-finale">
+                <div class="stat-item-f">
+                    <span class="s-label">✦</span>
+                    <span class="s-val" x-text="$store.game.counters.shards"></span>
+                </div>
+                <div class="stat-item-f">
+                    <span class="s-label">🪵</span>
+                    <span class="s-val" x-text="$store.game.counters.wood"></span>
+                </div>
+                <div class="stat-item-f">
+                    <span class="s-label">🪨</span>
+                    <span class="s-val" x-text="$store.game.counters.stone"></span>
+                </div>
+                <div class="stat-item-f">
+                    <span class="s-label">📜</span>
+                    <span class="s-val" x-text="$store.game.counters.study"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="finale-hint-box">
+            <p x-text="$store.game.t('finale_hint')"></p>
+        </div>
+
+        <div class="modal-actions">
+            <button class="menu-btn primary" @click="$store.game.demoCompletedHintSeen = true; $store.game.saveGame()">
+                <span x-text="$store.game.t('btn_continue_sandbox')">Weiterleben</span>
+            </button>
+        </div>
+    </div>
+</section>

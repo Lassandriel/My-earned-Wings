@@ -1,0 +1,117 @@
+/* Traits & Titles View */
+.traits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding-bottom: 30px;
+}
+
+.trait-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.trait-card.trait-unlocked {
+  background: rgba(20, 184, 166, 0.05);
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.1);
+}
+
+.trait-card.trait-locked {
+  filter: grayscale(0.5) opacity(0.8);
+}
+
+.trait-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trait-icon {
+  font-size: 2.4rem; /* Balanced middle ground */
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+  margin-right: 12px;
+}
+
+.trait-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.trait-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.trait-bonus-box {
+  background: rgba(15, 23, 42, 0.4);
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.trait-bonus-label {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.trait-bonus-val {
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+}
+
+.trait-progress-container {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trait-progress-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.trait-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--accent-teal), #5eead4);
+  border-radius: 3px;
+  transition: width 0.5s ease-out;
+  box-shadow: 0 0 10px var(--accent-teal);
+}
+
+.trait-progress-text {
+  font-size: 0.75rem;
+  text-align: right;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+.trait-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.trait-card.trait-unlocked:hover {
+  background: rgba(20, 184, 166, 0.08);
+  box-shadow: 0 10px 30px rgba(20, 184, 166, 0.15);
+}

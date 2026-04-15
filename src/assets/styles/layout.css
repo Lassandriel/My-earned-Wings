@@ -1,0 +1,187 @@
+#game-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1075px;
+  background-image: url('/img/background/background 1/orig_big.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(-50%, -50%) scale(var(--app-scale));
+  transform-origin: center center;
+  display: grid;
+  grid-template-columns: 240px minmax(600px, 1fr) minmax(360px, 400px) minmax(340px, 380px);
+  grid-template-rows: 80px 905px;
+  gap: 30px;
+  padding: 30px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  will-change: transform;
+}
+
+#ambient-magic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1075px;
+  transform: translate(-50%, -50%) scale(var(--app-scale));
+  transform-origin: center center;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.magic-layer {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 120%;
+  height: 250%;
+  pointer-events: none;
+  background-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-repeat: repeat;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+/* Header */
+.main-header {
+  grid-column: 1 / 5;
+  grid-row: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(40px);
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.header-logo {
+  height: 70px; /* Refined middle ground from 100px */
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+}
+
+.game-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: linear-gradient(to bottom, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.nav-items-top {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Slightly tighter gap for more items */
+}
+
+.sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid var(--panel-border);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+.settings-corner-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.settings-corner-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent-teal);
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.save-status-sidebar {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+}
+
+/* Main Content Area & Panels */
+main, .global-log-container, .right-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(40px);
+  border: 1px solid var(--panel-border);
+  border-radius: 40px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+.global-log-container {
+  background: #0a0f1c !important; /* High contrast solid background */
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+main {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.global-log-container {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.right-panel {
+  grid-column: 4;
+  grid-row: 2;
+}

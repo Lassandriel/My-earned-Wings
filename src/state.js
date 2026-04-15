@@ -11,8 +11,8 @@ export const initialState = {
   prologueStep: 0,
   settingsOpen: false,
   currentScale: 1,
-  resources: { wood: 0, stone: 0, shards: 0, meat: 0 },
-  limits: { wood: 20, stone: 20, meat: 10, shards: 1000 },
+  resources: { wood: 0, stone: 0, shards: 0, meat: 0, books: 0, water: 0 },
+  limits: { wood: 25, stone: 25, meat: 10, shards: 1000, books: 0, water: 10 },
   stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100, satiation: 100, maxSatiation: 100 },
   housing: {
     hasCampfire: false,
@@ -22,11 +22,13 @@ export const initialState = {
     hasHouse: false,
     hasTable: false,
     hasBookshelf: false,
-    laborCount: 0,
-    hasLandDeed: false
+    hasLandDeed: false,
+    hasGarden: false
   },
   inventory: [],
-  unlockedRecipes: ['craft-wanderstock', 'craft-axe', 'craft-pickaxe'],
+  discoveredResources: [],
+  discoveredItems: [],
+  unlockedRecipes: ['craft-wanderstock'],
   npcProgress: {
     baker: 0,
     flowerGirl: 0,
@@ -45,6 +47,7 @@ export const initialState = {
   lastTick: Date.now(),
   logs: [],
   storyHistory: [],
+  saveCode: '',
   settings: {
     volumeGlobal: 0.5,
     volumeMusic: 0.7,
@@ -59,9 +62,12 @@ export const initialState = {
     magic: 0,
     food: 0,
     shards: 0,
-    totalActions: 0
+    totalActions: 0,
+    study: 0
   },
-  unlockedTraits: []
+  unlockedTraits: [],
+  demoCompleted: false,
+  demoCompletedHintSeen: false
 };
 
 export const getTranslations = () => translations;

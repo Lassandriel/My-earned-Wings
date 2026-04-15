@@ -1,0 +1,141 @@
+<!-- CRAFTING & HOUSING VIEW -->
+<main x-show="$store.game.view === 'crafting'">
+  <!-- FUSED HOUSING SECTION (TOP) -->
+  <div class="category-header">
+    <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px;">
+      <img src="img/menu_housing.webp" alt="Housing" style="height: 40px; width: auto; filter: drop-shadow(0 0 10px rgba(20, 184, 166, 0.3));" />
+      <h3 x-text="$store.game.t('cat_housing')">Heim & Meilensteine</h3>
+    </div>
+  </div>
+  <p class="log-description" x-text="$store.game.t('housing_desc')"></p>
+  
+  <div class="action-container">
+    <div class="grid-list crafting-grid">
+      <!-- Lagerfeuer -->
+      <button
+        x-show="!$store.game.housing.hasCampfire"
+        class="game-btn craft-card compact-card"
+        @click="!$store.game.executeAction('house-campfire') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+        @mouseover="$store.game.hoveredAction = {id: 'house-campfire', data: $store.game.actionDb['house-campfire']}"
+        @mouseout="$store.game.hoveredAction = null"
+      >
+        <img x-show="$store.game.actionDb['house-campfire']?.image" :src="$store.game.actionDb['house-campfire']?.image || ''" class="craft-item-img">
+        <span class="craft-item-name" x-text="$store.game.t('house-campfire', 'actions').title"></span>
+      </button>
+
+      <!-- Zelt -->
+      <button
+        x-show="$store.game.housing.hasCampfire && !$store.game.housing.hasTent"
+        class="game-btn craft-card compact-card"
+        @click="!$store.game.executeAction('house-tent') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+        @mouseover="$store.game.hoveredAction = {id: 'house-tent', data: $store.game.actionDb['house-tent']}"
+        @mouseout="$store.game.hoveredAction = null"
+      >
+        <img x-show="$store.game.actionDb['house-tent']?.image" :src="$store.game.actionDb['house-tent']?.image || ''" class="craft-item-img">
+        <span class="craft-item-name" x-text="$store.game.t('house-tent', 'actions').title"></span>
+      </button>
+
+      <!-- Weitere Housing-Optionen nach Zelt -->
+      <template x-if="$store.game.housing.hasTent">
+        <div style="display: contents">
+          <button
+            x-show="!$store.game.housing.hasWoodStorage"
+            class="game-btn craft-card compact-card"
+            @click="!$store.game.executeAction('house-wood-storage') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'house-wood-storage', data: $store.game.actionDb['house-wood-storage']}"
+            @mouseout="$store.game.hoveredAction = null"
+          >
+            <img x-show="$store.game.actionDb['house-wood-storage']?.image" :src="$store.game.actionDb['house-wood-storage']?.image || ''" class="craft-item-img">
+            <span class="craft-item-name" x-text="$store.game.t('house-wood-storage', 'actions').title"></span>
+          </button>
+          <button
+            x-show="!$store.game.housing.hasStoneStorage"
+            class="game-btn craft-card compact-card"
+            @click="!$store.game.executeAction('house-stone-storage') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'house-stone-storage', data: $store.game.actionDb['house-stone-storage']}"
+            @mouseout="$store.game.hoveredAction = null"
+          >
+            <img x-show="$store.game.actionDb['house-stone-storage']?.image" :src="$store.game.actionDb['house-stone-storage']?.image || ''" class="craft-item-img">
+            <span class="craft-item-name" x-text="$store.game.t('house-stone-storage', 'actions').title"></span>
+          </button>
+          <button
+            x-show="$store.game.housing.hasWoodStorage && $store.game.housing.hasStoneStorage && !$store.game.housing.hasHouse"
+            class="game-btn craft-card compact-card"
+            @click="!$store.game.executeAction('house-build') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'house-build', data: $store.game.actionDb['house-build']}"
+            @mouseout="$store.game.hoveredAction = null"
+          >
+            <img x-show="$store.game.actionDb['house-build']?.image" :src="$store.game.actionDb['house-build']?.image || ''" class="craft-item-img">
+            <span class="craft-item-name" x-text="$store.game.t('house-build', 'actions').title"></span>
+          </button>
+          <button
+            x-show="$store.game.housing.hasHouse && !$store.game.housing.hasTable"
+            class="game-btn craft-card compact-card"
+            @click="!$store.game.executeAction('house-table') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'house-table', data: $store.game.actionDb['house-table']}"
+            @mouseout="$store.game.hoveredAction = null"
+          >
+            <img x-show="$store.game.actionDb['house-table']?.image" :src="$store.game.actionDb['house-table']?.image || ''" class="craft-item-img">
+            <span class="craft-item-name" x-text="$store.game.t('house-table', 'actions').title"></span>
+          </button>
+
+          <button
+            x-show="$store.game.housing.hasHouse && !$store.game.housing.hasGarden"
+            class="game-btn craft-card compact-card"
+            @click="!$store.game.executeAction('house-garden') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'house-garden', data: $store.game.actionDb['house-garden']}"
+            @mouseout="$store.game.hoveredAction = null"
+          >
+            <span class="craft-item-name" x-text="$store.game.t('house-garden', 'actions').title"></span>
+          </button>
+
+          <button
+            x-show="$store.game.housing.hasGarden"
+            class="game-btn craft-card compact-card"
+            @click="!$store.game.executeAction('garden-water') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'garden-water', data: $store.game.actionDb['garden-water']}"
+            @mouseout="$store.game.hoveredAction = null"
+          >
+            <span class="craft-item-name" x-text="$store.game.t('garden-water', 'actions').title"></span>
+          </button>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <!-- CRAFTING & STUDIES (BOTTOM) -->
+  <div class="category-header" style="margin-top: 50px;">
+    <h3 x-text="$store.game.t('cat_crafting')">Handwerk & Studium</h3>
+  </div>
+  <p class="log-description" x-text="$store.game.t('crafting_desc')"></p>
+  
+  <div class="action-container">
+    <div class="grid-list crafting-grid">
+      <template x-for="id in $store.game.unlockedRecipes" :key="id">
+        <button
+          x-show="!$store.game.inventory.includes(id)"
+          class="game-btn craft-card compact-card"
+          @click="$store.game.executeAction(id)"
+          @mouseover="$store.game.hoveredAction = {id: id, data: $store.game.actionDb[id]}"
+          @mouseout="$store.game.hoveredAction = null"
+        >
+          <img
+            x-show="$store.game.actionDb[id]?.image"
+            :src="$store.game.actionDb[id]?.image || ''"
+            class="craft-item-img"
+          >
+          <span class="craft-item-name" x-text="$store.game.t(id, 'actions').title"></span>
+        </button>
+      </template>
+      <button
+        x-show="$store.game.inventory.includes('Book of Knowledge')"
+        class="game-btn craft-card compact-card"
+        @click="$store.game.executeAction('action-study')"
+        @mouseover="$store.game.hoveredAction = {id: 'action-study', data: $store.game.actionDb['action-study']}"
+        @mouseout="$store.game.hoveredAction = null"
+      >
+        <span class="craft-item-name" x-text="$store.game.t('action-study', 'actions').title"></span>
+      </button>
+    </div>
+  </div>
+</main>

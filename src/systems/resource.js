@@ -7,13 +7,23 @@ export const createResourceSystem = () => {
          * Checks if the player can afford a specific cost or multiple costs.
          * supports (state, 'wood', 10) OR (state, { wood: 10, stone: 15 })
          */
+        /**
+         * Checks if the player can afford a specific cost or multiple costs.
+         */
         canAfford(state, typeOrCosts, amount) {
             if (typeof typeOrCosts === 'object') {
                 return Object.entries(typeOrCosts).every(([type, amt]) => this.canAfford(state, type, amt));
             }
             const type = typeOrCosts;
-            if (state.stats[type] !== undefined) return state.stats[type] >= amount;
-            if (state.resources[type] !== undefined) return state.resources[type] >= amount;
+            let finalAmount = amount;
+            
+            // APPLY SATIATION MULTIPLIER (Only for Energy/Magic costs)
+            if ((type === 'energy' || type === 'magic') && state.getSatiationMultiplier) {
+                finalAmount = Math.round(finalAmount * state.getSatiationMultiplier());
+            }
+
+            if (state.stats[type] !== undefined) return state.stats[type] >= finalAmount;
+            if (state.resources[type] !== undefined) return state.resources[type] >= finalAmount;
             return false;
         },
 
@@ -22,6 +32,8 @@ export const createResourceSystem = () => {
          */
         add(state, type, amount) {
             let finalAmount = amount;
+            
+            // APPLY YIELD MULTIPLIERS (Traits)
             if (state.getTraitMultiplier) {
                 if (type === 'wood') finalAmount *= state.getTraitMultiplier('yield_wood');
                 if (type === 'stone') finalAmount *= state.getTraitMultiplier('yield_stone');
@@ -29,12 +41,19 @@ export const createResourceSystem = () => {
                 if (type === 'shards') finalAmount *= state.getTraitMultiplier('shards_bonus');
             }
 
+            // Keep resource storage as integers for clean UI
+            finalAmount = Math.floor(finalAmount);
+
             if (state.stats[type] !== undefined) {
                 const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
                 state.stats[type] = Math.min(state.stats[maxKey] || 100, state.stats[type] + finalAmount);
                 return true;
             }
             if (state.resources[type] !== undefined) {
+                // DISCOVERY TRACKING
+                if (state.discoveredResources && !state.discoveredResources.includes(type)) {
+                    state.discoveredResources.push(type);
+                }
                 const limit = state.limits[type] || Infinity;
                 state.resources[type] = Math.min(limit, state.resources[type] + finalAmount);
                 return true;
@@ -44,7 +63,6 @@ export const createResourceSystem = () => {
 
         /**
          * Consumes stats or resources. Returns true if successful.
-         * supports (state, 'wood', 10) OR (state, { wood: 10, stone: 15 })
          */
         consume(state, typeOrCosts, amount) {
             if (!this.canAfford(state, typeOrCosts, amount)) return false;
@@ -56,16 +74,23 @@ export const createResourceSystem = () => {
             
             const type = typeOrCosts;
             let finalAmount = amount;
+
+            // APPLY SATIATION MULTIPLIER (Only for Energy/Magic costs)
+            if ((type === 'energy' || type === 'magic') && state.getSatiationMultiplier) {
+                finalAmount = Math.round(finalAmount * state.getSatiationMultiplier());
+            }
+
+            // Satiation decay scaling (Traits)
             if (state.getTraitMultiplier && type === 'satiation') {
                 finalAmount *= state.getTraitMultiplier('satiation_decay');
             }
 
             if (state.stats[type] !== undefined) {
-                state.stats[type] -= finalAmount;
+                state.stats[type] -= Math.round(finalAmount);
                 return true;
             }
             if (state.resources[type] !== undefined) {
-                state.resources[type] -= finalAmount;
+                state.resources[type] -= Math.round(finalAmount);
                 return true;
             }
             return false;

@@ -1,0 +1,14 @@
+:root {
+  --bg-dark: #0f172a;
+  --panel-bg: rgba(15, 23, 42, 0.4);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --accent-teal: #14b8a6;
+  --accent-purple: #8b5cf6;
+  --text-main: #f1f5f9;
+  --text-dim: #cbd5e1;
+  --gold: #fbbf24;
+  --shard: #0ea5e9;
+  --shard-glow: rgba(14, 165, 233, 0.4);
+}
+
+/* Typography tokens can be added here if needed */

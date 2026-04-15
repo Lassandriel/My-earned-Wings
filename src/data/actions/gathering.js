@@ -6,13 +6,17 @@ export const gatheringActions = {
     particleType: 'energy',
     yieldType: 'satiation',
     counter: 'food',
-    execute: (state) => {
+    calculateYield: (state) => {
       let sGain = 20;
-      let eGain = 2;
+      let eGain = 5;
       if (state.inventory.includes('craft-stove')) {
         sGain += 15;
-        eGain += 3;
+        eGain += 5;
       }
+      return { sGain, eGain };
+    },
+    execute: (state) => {
+      const { sGain, eGain } = gatheringActions['action-essen'].calculateYield(state);
       state.resource.add(state, 'satiation', sGain);
       state.resource.add(state, 'energy', eGain);
       return { success: true, logKey: 'eat_log', logGain: sGain };
@@ -20,14 +24,19 @@ export const gatheringActions = {
   },
   'action-ausruhen': {
     cost: 0, costType: 'energy',
+    satiationCost: 10,
     sfx: 'click',
     particleText: '+ Energie',
     particleType: 'energy',
-    execute: (state) => {
+    calculateYield: (state) => {
       let gain = 10;
       if (state.housing.hasCampfire) gain += 10;
       if (state.housing.hasTent) gain += 15;
       if (state.inventory.includes('craft-bed')) gain += 25;
+      return gain;
+    },
+    execute: (state) => {
+      const gain = gatheringActions['action-ausruhen'].calculateYield(state);
       state.resource.add(state, 'energy', gain);
       return { success: true, logKey: 'rest_log', logGain: gain };
     }
@@ -39,8 +48,12 @@ export const gatheringActions = {
     particleType: 'magic',
     yieldType: 'magic',
     counter: 'magic',
+    calculateYield: (state) => {
+        return 15 * state.getTraitMultiplier('yield_magic');
+    },
     execute: (state) => {
-      state.resource.add(state, 'magic', 15);
+      const gain = gatheringActions['action-meditieren'].calculateYield(state);
+      state.resource.add(state, 'magic', 15); // Note: add() computes multiplier again
       return { success: true, logKey: 'meditate_log' };
     }
   },
@@ -49,12 +62,18 @@ export const gatheringActions = {
     sfx: 'click',
     particleText: '+ Magie Max',
     particleType: 'magic',
+    calculateYield: (state) => {
+        let gain = 8;
+        if (state.inventory.includes('craft-chair')) gain += 7;
+        const bookCount = state.resources.books || 0;
+        gain += (bookCount * 2);
+        return gain;
+    },
     execute: (state) => {
       if (state.resource.consume(state, 'magic', 20)) {
-        let gain = 5;
-        if (state.inventory.includes('craft-chair')) gain += 5;
-        if (state.housing.hasBookshelf) gain += 5;
+        const gain = gatheringActions['action-study'].calculateYield(state);
         state.stats.maxMagic += gain;
+        state.counters.study = (state.counters.study || 0) + 1;
         return { success: true, logKey: 'study_success', logGain: gain, logColor: 'rgba(20, 184, 166, 0.9)' };
       } return { success: false };
     }
@@ -65,14 +84,18 @@ export const gatheringActions = {
     particleText: '+ Holz',
     particleType: 'wood',
     counter: 'wood',
+    calculateYield: (state) => {
+      let base = state.inventory.includes('craft-axe') ? 2 : 1;
+      if (state.inventory.includes('craft-wanderstock')) base += 1;
+      return base * state.getTraitMultiplier('yield_wood');
+    },
     execute: (state) => {
       if (state.resource.isFull(state, 'wood')) return { success: false };
-      const cost = Math.ceil(10 * (state.costMultiplier || 1));
-      if (state.resource.consume(state, 'energy', cost)) {
-        let gain = state.inventory.includes('craft-axe') ? 2 : 1;
-        if (state.inventory.includes('craft-wanderstock')) gain += 1;
-        
-        state.resource.add(state, 'wood', gain);
+      if (state.resource.consume(state, 'energy', 10)) {
+        let base = state.inventory.includes('craft-axe') ? 2 : 1;
+        if (state.inventory.includes('craft-wanderstock')) base += 1;
+        state.resource.add(state, 'wood', base);
+        const gain = gatheringActions['action-wood'].calculateYield(state);
         const hasAxe = state.inventory.includes('craft-axe');
         return { success: true, logKey: hasAxe ? 'wood_axe_log' : 'wood_log', logGain: gain };
       } return { success: false };
@@ -84,14 +107,17 @@ export const gatheringActions = {
     particleText: '+ Stein',
     particleType: 'stone',
     counter: 'stone',
+    calculateYield: (state) => {
+        let base = state.inventory.includes('craft-pickaxe') ? 2 : 1;
+        return base * state.getTraitMultiplier('yield_stone');
+    },
     execute: (state) => {
       if (state.resource.isFull(state, 'stone')) return { success: false };
-      const cost = Math.ceil(15 * (state.costMultiplier || 1));
-      if (state.resource.consume(state, 'energy', cost)) {
+      if (state.resource.consume(state, 'energy', 15)) {
+        const base = state.inventory.includes('craft-pickaxe') ? 2 : 1;
+        state.resource.add(state, 'stone', base);
+        const gain = gatheringActions['action-stone'].calculateYield(state);
         const hasPickaxe = state.inventory.includes('craft-pickaxe');
-        let gain = hasPickaxe ? 2 : 1;
-        
-        state.resource.add(state, 'stone', gain);
         return { success: true, logKey: hasPickaxe ? 'stone_axe_log' : 'stone_log', logGain: gain };
       } return { success: false };
     }
@@ -102,13 +128,12 @@ export const gatheringActions = {
     particleText: '+ Fleisch',
     particleType: 'energy',
     counter: 'food',
+    calculateYield: (state) => 2,
     execute: (state) => {
       if (state.resource.isFull(state, 'meat')) return { success: false };
-      const cost = Math.ceil(25 * (state.costMultiplier || 1));
-      if (state.resource.consume(state, 'energy', cost) && state.inventory.includes('craft-bow')) {
-        let gain = 2;
-        state.resource.add(state, 'meat', gain);
-        return { success: true, logKey: 'hunt_log', logGain: gain };
+      if (state.resource.consume(state, 'energy', 25) && state.inventory.includes('craft-bow')) {
+        state.resource.add(state, 'meat', 2);
+        return { success: true, logKey: 'hunt_log', logGain: 2 };
       } return { success: false };
     }
   }

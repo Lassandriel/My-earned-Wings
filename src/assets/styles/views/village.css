@@ -1,0 +1,80 @@
+/* NPC Companion UI */
+.npc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.npc-card {
+    background: rgba(255, 255, 255, 0.03); /* Subtle card definition */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.npc-card:hover {
+    transform: translateY(-5px);
+}
+
+.npc-card.is-working {
+    border-color: var(--accent-teal);
+    background: rgba(20, 184, 166, 0.08); /* Sophisticated glow */
+    box-shadow: 0 0 30px rgba(20, 184, 166, 0.1);
+}
+
+.npc-name {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff; /* High contrast */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.talk-btn {
+    border-color: rgba(20, 184, 166, 0.3);
+}
+
+.talk-btn:hover {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+    background: rgba(20, 184, 166, 0.1);
+}
+
+.work-btn {
+    margin-top: 5px;
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.work-btn:hover {
+    border-color: var(--accent-purple);
+    color: var(--accent-purple);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.work-btn.stop {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+.work-btn.stop:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #f87171;
+}
+
+.working-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-teal);
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse-teal 1.5s infinite;
+}

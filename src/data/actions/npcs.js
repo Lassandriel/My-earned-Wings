@@ -1,132 +1,147 @@
 export const npcActions = {
   'npc-baker': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'baker', cost: 10, costType: 'energy', maxProgress: 5,
+    progKey: 'baker', maxProgress: 5,
     journalIcon: '🍞', journalColor: '#f59e0b',
-    particleText: '+ Kontakt',
+    steps: [
+        { cost: 10, costType: 'energy' },
+        { costs: { wood: 30 }, reward: 'Fresh Bread' },
+        { cost: 20, costType: 'energy' },
+        { costs: { wood: 15, stone: 15 }, reward: 'Massive Cookie' },
+        { cost: 25, costType: 'energy' }
+    ],
     execute: (state) => {
-      if (state.npcProgress.baker < 5 && state.resource.consume(state, 'energy', 10)) {
-        state.npcProgress.baker++;
-        return { success: true, logKey: 'npc_baker' };
-      } return { success: false };
+        return state.npcExecute('npc-baker');
     }
   },
   'npc-flowerGirl': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'flowerGirl', cost: 5, costType: 'energy', maxProgress: 5,
+    progKey: 'flowerGirl', maxProgress: 5,
     journalIcon: '🌸', journalColor: '#ec4899',
-    particleText: '+ Kontakt',
+    steps: [
+        { cost: 10, costType: 'energy' },
+        { cost: 15, costType: 'energy' },
+        { costs: { wood: 20 } },
+        { costs: { water: 1 } },
+        { cost: 20, costType: 'energy' }
+    ],
     companion: {
-        salary: 1, // Shards per tick
+        salary: 1,
         yield: { magic: 2 }
     },
     execute: (state) => {
-      if (state.npcProgress.flowerGirl < 5 && state.housing.hasCampfire && state.resource.consume(state, 'energy', 5)) {
-        state.npcProgress.flowerGirl++;
-        if (state.npcProgress.flowerGirl >= 5 && !state.unlockedNPCs.includes('npc-blacksmith'))
-          state.unlockedNPCs.push('npc-blacksmith');
-        return { success: true, logKey: 'npc_flowerGirl' };
-      } return { success: false };
+        return state.npcExecute('npc-flowerGirl');
     }
   },
   'npc-artisan': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'artisan', cost: 15, costType: 'energy', maxProgress: 3,
+    progKey: 'artisan', maxProgress: 3,
     journalIcon: '🏗️', journalColor: '#d97706',
-    particleText: '+ Kontakt',
+    steps: [
+        { costs: { wood: 20 } },
+        { costs: { stone: 20 } },
+        { costs: { wood: 10, stone: 10 }, reward: 'Gilded Chisel' }
+    ],
     companion: {
         salary: 3,
         yield: { wood: 0.5 }
     },
     execute: (state) => {
-      if (state.npcProgress.artisan < 3 && state.resource.consume(state, 'energy', 15)) {
-        state.npcProgress.artisan++;
-        if (state.npcProgress.artisan >= 3) {
-          if (!state.unlockedRecipes.includes('craft-axe')) state.unlockedRecipes.push('craft-axe');
-          if (!state.unlockedRecipes.includes('craft-pickaxe')) state.unlockedRecipes.push('craft-pickaxe');
-        }
-        return { success: true, logKey: 'npc_artisan' };
-      } return { success: false };
+        return state.npcExecute('npc-artisan');
     }
   },
   'npc-teacher': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'teacher', cost: 12, costType: 'energy', maxProgress: 3,
+    progKey: 'teacher', maxProgress: 5,
     journalIcon: '📖', journalColor: '#3b82f6',
-    particleText: '+ Wissen',
+    steps: [
+        { cost: 12, costType: 'magic' },
+        { cost: 15, costType: 'magic' },
+        { cost: 20, costType: 'magic', reward: 'Ancient Scroll' },
+        { cost: 25, costType: 'magic' },
+        { cost: 30, costType: 'magic' }
+    ],
     execute: (state) => {
-      if (state.npcProgress.teacher < 3 && state.resource.consume(state, 'energy', 12)) {
-        state.npcProgress.teacher++;
-        return { success: true, logKey: 'npc_teacher' };
-      } return { success: false };
+        return state.npcExecute('npc-teacher');
     }
   },
   'npc-townHall': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'townHall', cost: 20, costType: 'energy', maxProgress: 5,
+    progKey: 'townHall', maxProgress: 5,
     journalIcon: '🏛️', journalColor: '#94a3b8',
-    particleText: '+ Einfluss',
+    steps: [
+        { cost: 20, costType: 'energy' },
+        { cost: 25, costType: 'energy' },
+        { costs: { shards: 100 } },
+        { cost: 30, costType: 'energy' },
+        { cost: 40, costType: 'energy', reward: 'Official Land Deed' }
+    ],
     execute: (state) => {
-      if (state.npcProgress.townHall < 5 && state.resource.consume(state, 'energy', 20)) {
-        state.npcProgress.townHall++;
-        return { success: true, logKey: 'npc_townHall' };
-      } return { success: false };
+        return state.npcExecute('npc-townHall');
     }
   },
   'npc-blacksmith': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'blacksmith', cost: 25, costType: 'energy', maxProgress: 5,
+    progKey: 'blacksmith', maxProgress: 5,
     journalIcon: '⚒️', journalColor: '#475569',
-    particleText: '+ Kontakt',
+    steps: [
+        { cost: 20, costType: 'energy' },
+        { cost: 15, costType: 'magic' },
+        { costs: { stone: 30 } },
+        { cost: 15, costType: 'energy', reward: 'Whetstone' },
+        { cost: 25, costType: 'energy' }
+    ],
     execute: (state) => {
-      if (state.npcProgress.blacksmith < 5 && state.resource.consume(state, 'energy', 25)) {
-        state.npcProgress.blacksmith++;
-        return { success: true, logKey: 'npc_blacksmith' };
-      } return { success: false };
+        return state.npcExecute('npc-blacksmith');
     }
   },
   'npc-sage': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'sage', cost: 20, costType: 'magic', maxProgress: 1,
+    progKey: 'sage', maxProgress: 5,
     journalIcon: '🔮', journalColor: '#8b5cf6',
-    particleText: '+ Einsicht',
+    steps: [
+        { cost: 20, costType: 'magic', reward: 'Book of Knowledge' },
+        { cost: 30, costType: 'magic' },
+        { cost: 40, costType: 'magic' },
+        { cost: 50, costType: 'magic' },
+        { cost: 60, costType: 'magic' }
+    ],
     execute: (state) => {
-      if (state.resource.consume(state, 'magic', 20)) {
-        state.npcProgress.sage++;
-        if (state.npcProgress.sage === 1) {
-          if (!state.inventory.includes('Book of Knowledge')) state.inventory.push('Book of Knowledge');
-          return { success: true, logKey: 'sage_gift', logColor: 'rgba(251, 191, 36, 0.9)' };
-        }
-        return { success: true, logKey: 'npc_sage' };
-      } return { success: false };
+        return state.npcExecute('npc-sage');
     }
   },
   'npc-hunter': {
     isStory: true, chapter: 'Village Life',
-    progKey: 'hunter', cost: 15, costType: 'energy', maxProgress: 5,
+    progKey: 'hunter', maxProgress: 5,
     journalIcon: '🏹', journalColor: '#10b981',
-    particleText: '+ Kontakt',
+    steps: [
+        { cost: 15, costType: 'energy' },
+        { costs: { wood: 10 }, reward: 'Arrowhead' },
+        { cost: 15, costType: 'energy', reward: 'Dried Meat' },
+        { costs: { wood: 20 } },
+        { cost: 20, costType: 'energy' }
+    ],
     companion: {
         salary: 2,
         yield: { meat: 0.2 }
     },
     execute: (state) => {
-      if (state.npcProgress.hunter < 5 && state.resource.consume(state, 'energy', 15)) {
-        state.npcProgress.hunter++;
-        
-        if (state.npcProgress.hunter === 2) {
-          if (!state.unlockedRecipes.includes('craft-bow')) {
-            state.unlockedRecipes.push('craft-bow');
-            return { success: true, logKey: 'npc_hunter_bow', logColor: 'rgba(251, 191, 36, 0.9)' };
-          }
+        return state.npcExecute('npc-hunter');
+    }
+  },
+  'npc-treeOfLife': {
+    isStory: true, chapter: 'The Transformation',
+    progKey: 'treeOfLife', maxProgress: 1,
+    journalIcon: '🌳', journalColor: '#10b981',
+    steps: [
+        { cost: 0, costType: 'none' }
+    ],
+    execute: (state) => {
+        const result = state.npcExecute('npc-treeOfLife');
+        if (result && result.success) {
+            state.completeDemo();
         }
-        
-        if (state.npcProgress.hunter === 5) {
-          return { success: true, logKey: 'npc_hunter_final', logColor: 'rgba(251, 191, 36, 0.9)' };
-        }
-
-        return { success: true, logKey: 'npc_hunter' };
-      } return { success: false };
+        return result;
     }
   }
 };

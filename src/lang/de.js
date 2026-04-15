@@ -15,15 +15,18 @@ export default {
     cat_log: "Chronik",
     ui_source_world: "Draconia",
     ui_empty_story: "Deine Geschichte hat gerade erst begonnen...",
-    nav_story_tab: "Chronik",
+    nav_story_tab: "Geschichte",
     nav_traits: "Titel & Traits",
-    nav_story_tab_header: "Chronik & Geschichte",
+    nav_story_tab_header: "Deine Geschichte",
     nav_traits_tab_header: "Deine Errungenschaften",
     ui_vitality: "Vitalität",
     ui_shards: "Splitter",
     ui_wood: "Holz",
     ui_stone: "Stein",
     ui_meat: "Fleisch",
+    ui_books: "Bücher",
+    ui_water: "Wasser",
+    ui_nature: "Natur & Wissen",
     ui_materials: "Materialien",
     ui_mixed: "Materialien",
     ui_provisions: "Proviant",
@@ -53,6 +56,11 @@ export default {
     btn_load: "Laden",
     btn_quit: "Beenden",
     btn_back: "Zurück",
+    crafting_desc: "Verwandle gesammelte Materialien in nützliche Werkzeuge oder vertiefe dein Wissen über den Boden.",
+    housing_desc: "Errichte ein dauerhaftes Heim am Rande des Dorfes und schlage Wurzeln in der Gemeinschaft.",
+    inventory_desc: "Verwalte deine gesammelten Schätze und nutze Vorräte für deine weiteren Reisen.",
+    traits_desc: "Deine Taten definieren, wer du am Boden bist. Schalte Titel frei, die deine Herkunft ehren.",
+    chronicle_desc: "Die Aufzeichnungen deines Lebens am Boden. Jede Tat hinterlässt eine Spur in der Geschichte.",
     intro_welcome: "Willkommen zurück auf festem Boden.",
     settings_tab_general: "Allgemein",
     settings_tab_audio: "Audio",
@@ -63,9 +71,10 @@ export default {
     settings_mute: "Stummschalten",
     btn_assign_work: "Zuweisen",
     btn_stop_work: "Stoppen",
+    ui_use: "Benutzen",
+    ui_inventory_empty: "Dein Inventar ist noch leer.",
     ui_salary: "Kosten",
     ui_yield: "Ertrag",
-    ui_empty_story: "Deine Geschichte hat gerade erst begonnen. Triff bedeutsame Entscheidungen, um diese Seiten zu füllen.",
     ui_load_at: "Geladen um",
     status_working: "Beschäftigt",
     status_idle: "Frei",
@@ -77,36 +86,36 @@ export default {
     'action-essen': {
       title: "Beeren essen",
       desc: "Wilde Beeren vom Boden sammeln. Sie schmecken nach Erde und Kraft.",
-      effect: "+20 Sättigung, +2 Energie"
+      effect: "+{sGain} Sättigung, +{eGain} Energie"
     },
     'action-ausruhen': {
       title: "Ausruhen",
       desc: "Du schließt die Augen und lauschst dem fernen Schlagen von Schwingen.",
-      effect: "+10-50 Energie (Boni durch Betten/Feuer)"
+      effect: "+{val} Energie"
     },
     'action-meditieren': {
       title: "Blick nach oben",
       desc: "Blicke zum Himmel. Ihre Schatten werfen Fragen auf dein Herz.",
-      effect: "+15 Magie"
+      effect: "+{val} Magie"
     },
     'action-study': {
       title: "Studieren",
       desc: "Vertiefe dich in die alten Bücher auf deinem massiven Tisch.",
-      effect: "+5 Magie-Limit (+10 mit Stuhl)"
+      effect: "+{val} Magie-Limit"
     },
     'action-wood': {
       title: "Zweige sammeln",
       title_alt: "Holz schlagen",
       desc: "Sammle mühsam herabgefallene Zweige vom Waldboden.",
       desc_alt: "Nutze deine Axt, um gesundes Holz von den Bäumen zu schlagen.",
-      effect: "+1-2.5 Holz"
+      effect: "+{val} Holz"
     },
     'action-stone': {
       title: "Kiesel sammeln",
       title_alt: "Steine klopfen",
       desc: "Suche nach brauchbaren Kieseln im Bachbett.",
       desc_alt: "Zertrümmere Felsen mit deiner Spitzhacke für hochwertiges Material.",
-      effect: "+1-2 Stein"
+      effect: "+{val} Stein"
     },
     'action-sell-wood': {
       title: "Holz tauschen",
@@ -121,17 +130,17 @@ export default {
     'action-work': {
       title: "Pfade säubern",
       desc: "Säubere die Wanderwege. Niemand außer dir nutzt den Boden.",
-      effect: "+1 Arbeit, +12 Splitter"
+      effect: "+12 Splitter"
     },
     'npc-baker': {
       title: "Bäcker",
-      desc: "Bäcker: \"Ich vergesse oft, wie weit der Wald zu Fuß ist.\"",
-      effect: "+1 Ruf (Bäcker)"
+      desc: "Bäcker: \"Ich verhalte mich ruhig, um den Duft des Waldes nicht zu stören.\"",
+      effect: "Baut Bindung auf"
     },
     'npc-flowerGirl': {
       title: "Blumenmädchen",
       desc: "Sie sammelt Blumen, die sie im Flug nicht erreichen könnte.",
-      effect: "+1 Ruf (Blüte)",
+      effect: "Blüten-Bindung",
       unlocks: "Ermöglicht: 'Schmied'"
     },
     'npc-artisan': {
@@ -143,7 +152,8 @@ export default {
     'npc-teacher': {
       title: "Lehrer",
       desc: "Er lehrt die Geschichte derer, die den Boden vergaßen.",
-      effect: "+1 Ruf (Wissen)"
+      effect: "Wissens-Austausch",
+      unlocks: "Vorbereitung auf das Finale"
     },
     'npc-townHall': {
       title: "Rathaus",
@@ -160,7 +170,7 @@ export default {
       title: "Alter Weiser",
       desc: "\"Du berührst die Erde... du hast wahre Kraft, Wanderer.\"",
       effect: "Schenkt ein Buch des Wissens",
-      unlocks: "Aktion: 'Studieren'"
+      unlocks: "Der Pfad zum Herzen der Welt"
     },
     'npc-hunter': {
       title: "Jäger",
@@ -168,10 +178,25 @@ export default {
       effect: "Lehrt Bogenbau und Jagd",
       unlocks: "Rezepte: 'Bogen', Aktion: 'Jagen'"
     },
+    'npc-treeOfLife': {
+      title: "Baum des Lebens",
+      desc: "Das majestätische Herz des Bodens. Hier endet deine Suche und beginnt dein neues Leben.",
+      effect: "Das Demo-Finale"
+    },
+    'house-garden': {
+      title: "Garten anlegen",
+      desc: "Ein Stück fruchtbarer Boden für Pflanzen und Wasserquellen.",
+      effect: "Ermöglicht Wasser-Gewinnung"
+    },
+    'garden-water': {
+      title: "Wasser sammeln",
+      desc: "Frisches Quellwasser für die Gemeinschaft.",
+      effect: "+1 Wasser"
+    },
     'action-hunt': {
       title: "Jagen",
       desc: "Gehe tief in den Wald und suche nach Wild. Dein Bogen singt beim Schuss.",
-      effect: "+2 Fleisch"
+      effect: "+{val} Fleisch"
     },
     'action-sell-meat': {
       title: "Fleisch verkaufen",
@@ -186,7 +211,7 @@ export default {
     'craft-wanderstock': {
         title: "Wanderstock",
         desc: "Ein solider Stock aus Esche. Er trägt deine Last auf langen Wegen.",
-        effect: "+0.5 Holz-Ertrag"
+        effect: "+1 Holz-Ertrag"
     },
     'craft-axe': {
         title: "Steinaxt",
@@ -222,25 +247,25 @@ export default {
         title: "Lagerfeuer",
         desc: "Das Feuer vertreibt die Schatten der vorbeiziehenden Schwingen.",
         effect: "+10 Erholung",
-        unlocks: "Dorf-NPC: 'Blumenmädchen'"
+        unlocks: "Dorf-NPC: 'Blumenmädchen', Nächster Schritt: Zelt"
     },
     'house-tent': {
         title: "Zelt",
         desc: "Dein erstes echtes Dach. Ein Rückzugsort vor dem Wind.",
         effect: "Mehr Platz",
-        unlocks: "Dorf-NPC: 'Rathaus', Lager-Optionen"
+        unlocks: "Dorf-NPC: 'Rathaus', Nächster Schritt: Lager-Optionen"
     },
     'house-wood-storage': {
         title: "Holzlager",
         desc: "Ein trockener Ort für mehr Vorräte.",
         effect: "+10 Max Holz",
-        unlocks: "Dorf-NPC: 'Handwerker'"
+        unlocks: "Dorf-NPC: 'Handwerker', Nächster Schritt: Hütte bauen"
     },
     'house-stone-storage': {
         title: "Steinlager",
         desc: "Ein stabiles Fundament für dein wachsendes Reich.",
         effect: "+10 Max Stein",
-        unlocks: "Dorf-NPC: 'Handwerker'"
+        unlocks: "Dorf-NPC: 'Handwerker', Nächster Schritt: Hütte bauen"
     },
     'house-table': {
         title: "Massiver Tisch",
@@ -251,23 +276,28 @@ export default {
     'craft-bookshelf': {
         title: "Bücherregal",
         desc: "Ein Ort für gesammeltes Wissen. Erhöht den Fokus beim Studium.",
-        effect: "+5 Magie beim Studium"
+        effect: "+5 Buch-Kapazität"
+    },
+    'craft-book': {
+        title: "Buch verfassen",
+        desc: "Halte deine Erkenntnisse dauerhaft fest. Jedes Buch erhöht die Effektivität deines Studiums.",
+        effect: "+1 Buch"
     },
     'house-build': {
         title: "Hütte bauen",
         desc: "Deine Hütte steht fest am Boden. Ein Denkmal deines Willens.",
         effect: "Permanente Basis (+50 Kapazität)",
-        unlocks: "Möbel: 'Massiver Tisch'"
+        unlocks: "Möbel: 'Massiver Tisch', Nächster Schritt: Garten"
     }
   },
   logs: {
     save_success: "Spielstand gesichert.",
     load_success: "Spielstand geladen.",
-    study_success: "Dein Wissen wächst durch Konzentration (+{gain} Magie-Limit).",
-    sage_gift: "Der Weise schenkt dir ein altes Buch voller Symbole.",
+    study_success: "Dein Geist weitet sich... die Worte des Weisen brennen wie flüssiges Licht in deinem Verstand (+{gain} Magie-Limit).",
+    sage_gift: "Der Weise schenkt dir ein altes Buch voller Symbole... es vibriert in deinen Händen.",
     // Aktions-Logs
     eat_log: "Beeren gegessen. +{gain} Sättigung.",
-    rest_log: "Ausgeruht. +{gain} Energie.",
+    rest_log: "Ausgeruht. +{gain} Energie. Dein Magen knurrt nach dem Schlaf.",
     meditate_log: "Meditiert. +15 Magie.",
     wood_log: "+{gain} Holz",
     wood_axe_log: "+{gain} Holz",
@@ -282,30 +312,23 @@ export default {
     craft_pickaxe: "Spitzhacke gefertigt.",
     craft_bed: "Bett gebaut.",
     craft_chair: "Stuhl gefertigt.",
-    // NPC-Logs
-    npc_baker: "Bäcker: \"Schön, dich wieder zu sehen.\"",
-    npc_flowerGirl: "Blumenmädchen lächelt und drückt dir eine Blüte in die Hand.",
-    npc_artisan: "Handwerker: \"Du machst das gut. Weiter so.\"",
-    npc_teacher: "Lehrer erklärt dir die Geschichte des Dorfes.",
-    npc_townHall: "Rathaus-Beamter stempelt einen weiteren Antrag ab.",
-    npc_blacksmith: "Schmied: \"Komm wieder, wenn du Metall brauchst.\"",
-    npc_sage: "Alter Weiser nickt langsam und schließt die Augen.",
     // Meilensteine
     milestone_campfire: "Lagerfeuer entzündet. Die Wärme vertreibt die Kälte der Nacht.",
     milestone_tent: "Zelt aufgestellt. Dein erstes echtes Dach über dem Kopf.",
     milestone_wood_storage: "Holzlager errichtet. +10 maximales Holz.",
     milestone_stone_storage: "Steinlager errichtet. +10 maximaler Stein.",
-    milestone_table: "Massiver Tisch aufgestellt. Ein Ort des Wissens.",
-    milestone_house: "Hütte gebaut. Ein Monument deines Willens am Boden.",
-    npc_hunter: "Jäger: \"Hörst du das? Das ist das Atmen des Waldes.\"",
-    npc_hunter_bow: "Jäger: \"Du hast Talent. Hier, so baut man einen Bogen.\"",
-    npc_hunter_final: "Jäger: \"Nimm meinen alten Jagdplatz ein. Die Wälder gehören dir.\"",
+    milestone_table: "Massiver Tisch aufgestellt. Ein Ort des Wissens inmitten der Asche.",
+    milestone_house: "Die Hütte steht fest am Boden – ein Monument deines Willens in dieser Welt aus Lava und Schwingen.",
+    milestone_garden: "Garten angelegt. Die Erde beginnt unter deinen Händen zu blühen.",
     hunt_log: "Erfolgreich gejagt. +{gain} Fleisch.",
+    water_gain: "Frisches Wasser gesammelt.",
+    item_consumed: "{name} benutzt.",
     sell_meat_log: "Fleisch verkauft. +15 Splitter.",
     buy_meat_log: "Fleisch beim Jäger gekauft. +1 Fleisch.",
     craft_stove: "Ofen in der Hütte installiert.",
     craft_bow: "Jagdbogen gefertigt.",
-    craft_bookshelf: "Bücherregal aufgestellt.",
+    craft_bookshelf: "Bücherregal aufgestellt. Du kannst nun mehr Wissen sammeln.",
+    craft_book: "Buch verfasst. Dein geistiger Horizont erweitert sich.",
     // Intro
     intro_1: "Über dir gleitet ein prächtiger Winddrache mühelos von Dach zu Dach.",
     intro_2: "Du gehst den langen Weg zu Fuß. Deine Schritte sind schwer und erdgebunden.",
@@ -313,7 +336,47 @@ export default {
     intro_4: "Regen setzt ein. Die anderen schütteln ihre Schwingen – Leder, Federn, Schuppen – und fliegen nach Hause.",
     intro_5: "Du bleibst unten. Du vermisst eine Verbindung, die du nie gespürt hast...",
     intro_6: "Doch hier, am Rande des Dorfes, wirst du dir ein Leben aufbauen.",
-    intro_7: "Willkommen in deinem neuen Zuhause, kleiner Lung.",
+    intro_7: "Willkommen in deinem neuen Zuhause, du Rätsel ohne Schwingen. Ein Drache ohne Drachenform...",
+    // NPC Dialoge
+    npc_baker_1: "Bäcker: \"Willkommen. Ich sehe nicht viele Wanderer, die den langen Weg zu Fuß nehmen.\"",
+    npc_baker_2: "Bäcker: \"Du bist fleißig. Der Duft von frischem Brot ist am Boden viel intensiver, findest du nicht?\"",
+    npc_baker_3: "Bäcker: \"Die Händler oben vergessen oft, dass das Getreide auf der Erde wächst, nicht in den Wolken.\"",
+    npc_baker_4: "Bäcker: \"Ich habe heute ein Brot extra für dich gebacken. Es stärkt den Geist für lange Reisen.\"",
+    npc_baker_5: "Bäcker: \"Du gehörst jetzt fest zu dieser Gemeinschaft. Lass uns das Dorf gemeinsam bereichern.\"",
+    npc_flowerGirl_1: "Blumenmädchen: \"Oh... hallo. Bitte... sei vorsichtig, wo du hintrittst. Die Knospen sind zart.\"",
+    npc_flowerGirl_2: "Blumenmädchen: \"Diese Blume hier blüht nur nachts. Sie leuchtet wie das Herz von Draconia.\"",
+    npc_flowerGirl_3: "Blumenmädchen: \"Wusstest du, dass die Wurzeln die Inseln zusammenhalten? So wie das Vertrauen uns hält.\"",
+    npc_flowerGirl_4: "Blumenmädchen: \"Ich fühle mich am Boden sicherer, wenn du in der Nähe bist. Du hast keine Flügel, aber starke Schultern.\"",
+    npc_flowerGirl_5: "Blumenmädchen: \"Lass uns einen Garten anlegen, der bis zum Horizont reicht. Ich helfe dir dabei.\"",
+    npc_artisan_1: "Handwerker: \"Ordnung am Boden? Ein seltener Anblick in dieser Zeit der fliegenden Hektik.\"",
+    npc_artisan_2: "Handwerker: \"Dein Werkzeug erzählt von harter Arbeit. Du respektierst das Material.\"",
+    npc_artisan_3: "Handwerker: \"Gute Arbeit erfordert Geduld. Ich zeige dir, wie man den Stein wirklich zähmt.\"",
+    npc_teacher_1: "Lehrer: \"Blick abwärts. Unter uns brodelt das endlose Lava-Meer. Nur die Magie dieser Ketten hält Draconia davor, im Feuer zu versinken. Wenn wir den Boden vergessen, fallen wir.\"",
+    npc_teacher_2: "Lehrer: \"Ein Drache ohne Drachenform... die anderen nennen es eine Behinderung, ein Schicksal für Krüppel. Ich nenne es eine Chance, die Welt aus einer Perspektive zu sehen, die dem Himmel verborgen bleibt.\"",
+    npc_teacher_3: "Lehrer: \"Deine innere Magie ist wie der Regen Draconias – sie muss fließen. Ein satter Magen ist dein Anker; wenn dein Körper genährt ist, wirkt deine Magie am effizientesten.\"",
+    npc_teacher_4: "Lehrer: \"Die Ahnen wussten, dass wahre Kraft aus der Verbindung zur Tiefe kommt. Studium und Wissen sind deine wahren Schwingen, auch wenn sie für das Auge unsichtbar bleiben.\"",
+    npc_teacher_5: "Lehrer: \"Es ist Zeit. Die Wurzeln des Weltenbaums rufen. Dort, tief im Herzen der Insel, liegt die Antwort auf die Stille in deinem Blut.\"",
+    npc_townHall_1: "Beamte: \"Noch ein Antrag? Der Stapel wird nicht kleiner. Komm später wieder... oder warte.\"",
+    npc_townHall_2: "Beamte: \"Deine Akte ist... lückenhaft. Ein Drache ohne Drachenform. Ein Krüppel am Boden? Traurig, aber wir brauchen die Steuern trotzdem.\"",
+    npc_townHall_3: "Beamte: \"Ich erkenne deine Bemühungen an. Stabilität am Boden nützt dem ganzen Dorf.\"",
+    npc_townHall_4: "Beamte: \"Fast geschafft. Die Mühlen der Bürokratie mahlen langsam, aber sie mahlen für dich.\"",
+    npc_townHall_5: "Beamte: \"Hier ist deine offizielle Landurkunde. Du hast dir deinen Platz auf dieser Insel verdient.\"",
+    npc_blacksmith_1: "Schmied: \"Metall lügt nie. Es ist entweder stark oder es zerbricht unter dem Hammer.\"",
+    npc_blacksmith_2: "Schmied: \"Das Feuer am Boden brennt heißer als in den Wolken, Wanderer. Merk dir das.\"",
+    npc_blacksmith_3: "Schmied: \"Guter Schlag. Du hast Kraft in den Armen, auch ohne Schwingen.\"",
+    npc_blacksmith_4: "Schmied: \"Ich werde dir zeigen, wie man das Eisen zähmt. Es braucht Willen, keinen Flug.\"",
+    npc_blacksmith_5: "Schmied: \"Am Amboss sind wir alle gleich. Lass uns gemeinsam das Dorf stärken.\"",
+    npc_sage_1: "Alter Weiser: \"Deine Herkunft ist ein Geheimnis, Wanderer. Dass deine Form dir verwehrt bleibt, muss einen Grund haben. Nimm dieses Buch.\"",
+    npc_sage_2: "Alter Weiser: \"Deine Magie beginnt zu fließen. Der Boden erkennt dich an und nährt deinen Geist.\"",
+    npc_sage_3: "Alter Weiser: \"Spürst du das Zittern? Das ist das Herz von Draconia, das unter deinen Füßen schlägt.\"",
+    npc_sage_4: "Alter Weiser: \"Du hast die Reife erlangt. Der Pfad zum Herz der Welt offenbart sich nur denen ohne Flügel.\"",
+    npc_sage_5: "Alter Weiser: \"Geh nun. Der Baum des Lebens wartet im Wald der Ahnen. Er ist der Anfang und das Ende deines Weges.\"",
+    npc_treeOfLife_1: "Baum des Lebens: \"Willkommen, Wanderer. Deine Flügel sind nicht aus Federn oder Schuppen, sondern aus Treue zum Boden gewachsen. Hier endet dein Suchen – und dein Platz in dieser Welt ist auf ewig gesichert.\"",
+    npc_hunter_1: "Jäger: \"Der Wald beobachtet dich. Bleib leise, wenn du überleben willst.\"",
+    npc_hunter_2: "Jäger: \"Dein Tritt ist sicherer geworden. Du fängst an, den Atem der Erde zu hören.\"",
+    npc_hunter_3: "Jäger: \"Hier, nimm diesen Bogen. Er wird deine Stimme im Dickicht sein, wenn du ihn achtest.\"",
+    npc_hunter_4: "Jäger: \"Verschwende niemals ein Leben. Der Boden gibt uns alles, aber er nimmt auch zurück.\"",
+    npc_hunter_5: "Jäger: \"Die Schatten gehören uns beiden nun. Ich jage an deiner Seite, Gefährte.\"",
     // Fehlschläge
     fail_energy: "Zu erschöpft.",
     fail_magic: "Nicht genug Magie.",

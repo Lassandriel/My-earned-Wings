@@ -76,14 +76,14 @@ export const housingActions = {
   },
   'house-build': {
     isStory: true, chapter: 'Establishment',
-    cost: 100, costType: 'mixed',
-    costs: { wood: 50, stone: 50 },
+    cost: 60, costType: 'mixed',
+    costs: { wood: 30, stone: 30 },
     sfx: 'success',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
-      const costs = { wood: 50, stone: 50 };
-      if (state.inventory.includes('Official Land Deed') && state.resource.consume(state, costs)) {
+      const costs = { wood: 30, stone: 30 };
+      if ((state.inventory.includes('Official Land Deed') || state.housing.hasLandDeed) && state.resource.consume(state, costs)) {
         state.housing.hasHouse = true;
         state.limits.wood += 50;
         state.limits.stone += 50;
@@ -91,6 +91,33 @@ export const housingActions = {
         if (!state.unlockedRecipes.includes('craft-chair')) state.unlockedRecipes.push('craft-chair');
         if (!state.unlockedRecipes.includes('craft-stove')) state.unlockedRecipes.push('craft-stove');
         return { success: true, logKey: 'milestone_house', logColor: 'rgba(251, 191, 36, 0.9)' };
+      } return { success: false };
+    }
+  },
+  'house-garden': {
+    isStory: true, chapter: 'Establishment',
+    cost: 40, costType: 'mixed',
+    costs: { wood: 20, stone: 20 },
+    sfx: 'success',
+    particleText: 'Wunderschön!',
+    particleType: 'shards',
+    execute: (state) => {
+      const costs = { wood: 20, stone: 20 };
+      if (state.housing.hasHouse && state.resource.consume(state, costs)) {
+        state.housing.hasGarden = true;
+        return { success: true, logKey: 'milestone_garden', logColor: 'rgba(16, 185, 129, 0.9)' };
+      } return { success: false };
+    }
+  },
+  'garden-water': {
+    cost: 15, costType: 'energy',
+    sfx: 'water',
+    particleText: 'Frisch!',
+    execute: (state) => {
+      if (state.housing.hasGarden && state.resource.consume(state, 'energy', 15)) {
+        if (state.resource.isFull(state, 'water')) return { success: false };
+        state.resource.add(state, 'water', 1);
+        return { success: true, logKey: 'water_gain' };
       } return { success: false };
     }
   }

@@ -1,0 +1,21 @@
+<!-- PROLOGUE VIEW -->
+<section id="prologue-view" x-show="$store.game.view === 'prologue'" class="prologue-overlay">
+  <div class="prologue-container">
+    <template x-for="i in 7" :key="i">
+      <div 
+        class="prologue-text" 
+        x-show="$store.game.prologueStep === i"
+        x-transition:enter="prologue-enter"
+        x-transition:enter-start="prologue-enter-start"
+        x-transition:enter-end="prologue-enter-end"
+        x-transition:leave="prologue-leave"
+        x-transition:leave-start="prologue-leave-start"
+        x-transition:leave-end="prologue-leave-end"
+        x-text="$store.game.t('intro_' + i, 'logs')"
+      ></div>
+    </template>
+  </div>
+  <button class="skip-btn" @click="$store.game.prologue.skipPrologue($store.game)">
+    Skip Intro <span>»</span>
+  </button>
+</section>

@@ -1,0 +1,112 @@
+<!-- GAMEPLAY VIEW -->
+<main x-show="$store.game.view === 'gameplay'">
+  <div class="primary-actions-bar">
+    <button
+      class="game-btn primary-btn primary-satiation"
+      @click="$store.game.executeAction('action-essen')"
+      @mouseover="$store.game.hoveredAction = {id: 'action-essen', data: $store.game.actionDb['action-essen']}"
+      @mouseout="$store.game.hoveredAction = null"
+    >
+      <span x-text="$store.game.t('action-essen', 'actions').title">Beeren essen</span>
+    </button>
+    <button
+      class="game-btn primary-btn primary-energy"
+      @click="$store.game.executeAction('action-ausruhen')"
+      @mouseover="$store.game.hoveredAction = {id: 'action-ausruhen', data: $store.game.actionDb['action-ausruhen']}"
+      @mouseout="$store.game.hoveredAction = null"
+    >
+      <span x-text="$store.game.t('action-ausruhen', 'actions').title">Ausruhen</span>
+    </button>
+    <button
+      class="game-btn primary-btn primary-magic"
+      @click="$store.game.executeAction('action-meditieren')"
+      @mouseover="$store.game.hoveredAction = {id: 'action-meditieren', data: $store.game.actionDb['action-meditieren']}"
+      @mouseout="$store.game.hoveredAction = null"
+    >
+      <span x-text="$store.game.t('action-meditieren', 'actions').title">Blick nach oben</span>
+    </button>
+  </div>
+
+  <div class="action-container">
+    <div class="action-column">
+      <section class="action-group">
+        <div class="category-header">
+          <h3 x-text="$store.game.t('cat_gather')">Sammeln</h3>
+        </div>
+        <div class="btn-list">
+        <button
+            class="game-btn"
+            @click="!$store.game.executeAction('action-wood') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'action-wood', data: $store.game.actionDb['action-wood']}"
+            @mouseout="$store.game.hoveredAction = null"
+            x-text="$store.game.inventory.includes('craft-axe') ? $store.game.t('action-wood', 'actions').title_alt : $store.game.t('action-wood', 'actions').title"
+          >
+            Zweige sammeln
+          </button>
+        <button
+            class="game-btn"
+            @click="!$store.game.executeAction('action-stone') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'action-stone', data: $store.game.actionDb['action-stone']}"
+            @mouseout="$store.game.hoveredAction = null"
+            x-text="$store.game.inventory.includes('craft-pickaxe') ? $store.game.t('action-stone', 'actions').title_alt : $store.game.t('action-stone', 'actions').title"
+          >
+            Kiesel sammeln
+          </button>
+        <button
+            x-show="$store.game.inventory.includes('craft-bow')"
+            class="game-btn primary-magic"
+            @click="!$store.game.executeAction('action-hunt') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'action-hunt', data: $store.game.actionDb['action-hunt']}"
+            @mouseout="$store.game.hoveredAction = null"
+            x-text="$store.game.t('action-hunt', 'actions').title"
+          >
+            Jagen
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="vertical-divider"></div>
+
+    <div class="action-column">
+      <section class="action-group">
+        <div class="category-header"><h3 x-text="$store.game.t('cat_trade')">Handel</h3></div>
+        <div class="btn-list">
+          <button
+            class="game-btn"
+            @click="$store.game.executeAction('action-sell-wood')"
+            @mouseover="$store.game.hoveredAction = {id: 'action-sell-wood', data: $store.game.actionDb['action-sell-wood']}"
+            @mouseout="$store.game.hoveredAction = null"
+            x-text="$store.game.t('action-sell-wood', 'actions').title"
+          >
+            Holz tauschen
+          </button>
+          <button
+            class="game-btn"
+            @click="$store.game.executeAction('action-sell-stone')"
+            @mouseover="$store.game.hoveredAction = {id: 'action-sell-stone', data: $store.game.actionDb['action-sell-stone']}"
+            @mouseout="$store.game.hoveredAction = null"
+            x-text="$store.game.t('action-sell-stone', 'actions').title"
+          >
+            Steine tauschen
+          </button>
+        </div>
+      </section>
+
+      <section class="action-group">
+        <div class="category-header"><h3 x-text="$store.game.t('cat_work')">Arbeit</h3></div>
+        <div class="btn-list">
+          <button
+            class="game-btn"
+            @click="$store.game.executeAction('action-work')"
+            @mouseover="$store.game.hoveredAction = {id: 'action-work', data: $store.game.actionDb['action-work']}"
+            @mouseout="$store.game.hoveredAction = null"
+            x-text="$store.game.t('action-work', 'actions').title"
+          >
+            Pfade säubern
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>

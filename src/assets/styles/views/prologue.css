@@ -1,0 +1,92 @@
+/* Prologue Overlay Styling */
+.prologue-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 11000;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 40px;
+}
+
+.prologue-container {
+  width: 100%;
+  max-width: 1000px;
+  height: 200px; /* Fixed height to prevent layout jumps */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.prologue-text {
+  position: absolute;
+  font-family: 'Cinzel', serif;
+  font-size: 2.2rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+  width: 100%;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.skip-btn {
+  position: absolute;
+  bottom: 60px;
+  right: 60px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  z-index: 11001;
+}
+
+.skip-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.skip-btn span {
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+/* Cinematic Transitions */
+.prologue-enter { 
+  transition: opacity 2.5s cubic-bezier(.4, 0, .2, 1), transform 2.5s cubic-bezier(.4, 0, .2, 1); 
+}
+.prologue-enter-start { 
+  opacity: 0; 
+  transform: scale(0.97) translateY(5px); 
+}
+.prologue-enter-end { 
+  opacity: 1; 
+  transform: scale(1) translateY(0); 
+}
+
+.prologue-leave { 
+  transition: opacity 2s cubic-bezier(.4, 0, .2, 1), transform 2s cubic-bezier(.4, 0, .2, 1); 
+}
+.prologue-leave-start { 
+  opacity: 1; 
+  transform: scale(1);
+}
+.prologue-leave-end { 
+  opacity: 0; 
+  transform: scale(1.03) translateY(-5px);
+}

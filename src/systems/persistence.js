@@ -56,6 +56,31 @@ export const createPersistenceSystem = (initialState) => ({
     return false;
   },
 
+  exportGameData(store) {
+    const saved = localStorage.getItem('wings_save');
+    if (!saved) return "";
+    try {
+        // Simple Base64 "Save Code"
+        return btoa(unescape(encodeURIComponent(saved)));
+    } catch (e) {
+        return saved; // Fallback to raw JSON if encoding fails
+    }
+  },
+
+  importGameData(store, code) {
+    if (!code) return false;
+    try {
+        const decoded = decodeURIComponent(escape(atob(code.trim())));
+        JSON.parse(decoded); // Validation check
+        localStorage.setItem('wings_save', decoded);
+        window.location.reload();
+        return true;
+    } catch (e) {
+        console.error("Import failed:", e);
+        return false;
+    }
+  },
+
   hardReset(store) {
     if (confirm(store.t('confirm_reset', 'ui'))) {
       localStorage.removeItem('wings_save');

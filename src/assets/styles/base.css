@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  user-select: none;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(15, 23, 42, 0.6) 100%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* --- PREMIUM SCROLLBAR --- */
+*::-webkit-scrollbar, 
+.book-pages::-webkit-scrollbar,
+.story-timeline::-webkit-scrollbar,
+main::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+*::-webkit-scrollbar-track,
+.book-pages::-webkit-scrollbar-track,
+.story-timeline::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+*::-webkit-scrollbar-thumb,
+.book-pages::-webkit-scrollbar-thumb,
+.story-timeline::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px !important;
+  border: 3px solid transparent !important;
+  background-clip: content-box !important;
+  transition: all 0.3s ease !important;
+}
+*::-webkit-scrollbar-thumb:hover,
+.book-pages::-webkit-scrollbar-thumb:hover,
+.story-timeline::-webkit-scrollbar-thumb:hover {
+  background: #14b8a6 !important; /* accent-teal */
+  background-clip: content-box !important;
+}
+
+/* Modern Standard Fallback */
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent !important;
+}
+

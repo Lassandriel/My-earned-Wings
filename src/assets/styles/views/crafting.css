@@ -1,0 +1,73 @@
+.grid-list.crafting-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.compact-card {
+  width: 100px;
+  height: 100px;
+  padding: 0 !important; /* Maximized space for the icon */
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.craft-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.4); /* Zoomed in to fill empty space in sprites */
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.compact-card:hover .craft-item-img {
+  transform: scale(1.6); /* Slight focus zoom on hover */
+  filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+}
+
+.craft-item-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  padding: 8px 4px 4px 4px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem; /* Very compact and professional */
+  color: #fff;
+  text-align: center;
+  line-height: 1.1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.craft-card.has-image {
+  padding-top: 15px;
+}
+
+/* Category header adjustments for Crafting */
+.category-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 10px;
+}
+
+.category-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: var(--accent-teal);
+  text-transform: uppercase;
+}

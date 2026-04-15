@@ -1,0 +1,81 @@
+<!-- FLOATING TOOLTIP (Senior Redesign) -->
+<div
+  class="floating-tooltip"
+  x-show="$store.game.hoveredAction"
+  style="display: none"
+  x-transition:enter="tt-enter"
+  x-transition:enter-start="tt-enter-start"
+  x-transition:enter-end="tt-enter-end"
+  x-transition:leave="tt-leave"
+  x-transition:leave-start="tt-leave-start"
+  x-transition:leave-end="tt-leave-end"
+>
+  <!-- 1. Title -->
+  <div class="tt-title" x-text="(() => {
+    const h = $store.game.hoveredAction;
+    if(!h) return '';
+    const lang = $store.game.t(h.id, 'actions');
+    if(!lang) return h.id;
+    return lang.title || h.id;
+  })()"></div>
+
+  <!-- 2. Story / Flavor Text -->
+  <div class="tt-story" x-text="(() => {
+    const h = $store.game.hoveredAction;
+    if(!h) return '';
+    
+    // Dynamic NPC Dialog Preview
+    if (h.id.startsWith('npc-') && h.data) {
+        const progKey = h.data.progKey;
+        const currentProg = $store.game.npcProgress[progKey] || 0;
+        if (currentProg < h.data.maxProgress) {
+            const dialogKey = `npc_${progKey}_${currentProg + 1}`;
+            const dialogText = $store.game.t(dialogKey, 'logs');
+            if (dialogText && dialogText !== dialogKey) return dialogText;
+        }
+    }
+
+    const lang = $store.game.t(h.id, 'actions');
+    return lang ? (lang.desc || '') : '';
+  })()"></div>
+
+  <!-- 3. Costs Section -->
+  <div class="tt-section" x-show="(() => {
+    const h = $store.game.hoveredAction;
+    if(!h || !h.data) return false;
+    const prog = h.id.startsWith('npc-') ? ($store.game.npcProgress[h.data.progKey] || 0) : null;
+    return !!((prog !== null && h.data.steps && h.data.steps[prog]?.costs) || h.data.costs || h.data.cost);
+  })()">
+    <div class="tt-section-header">&lt;&lt; cost &gt;&gt;</div>
+    <div class="tt-cost-list">
+      <template x-for="line in $store.game.getTooltipCosts($store.game.hoveredAction)" :key="line.label">
+        <div class="tt-data-line" :class="line.affordable ? 'tt-ready' : 'tt-blocked'">
+          <span x-text="line.label"></span>
+          <span x-text="line.value"></span>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <!-- 4. Effects Section -->
+  <div class="tt-section" x-show="$store.game.getActionEffect($store.game.hoveredAction)">
+    <div class="tt-section-header">[ complete effect ]</div>
+    <div class="tt-effect-list">
+      <div class="tt-data-line tt-bonus">
+        <span x-text="$store.game.getActionEffect($store.game.hoveredAction)"></span>
+      </div>
+      <!-- UNLOCKS (Enhanced List View) -->
+      <div class="tt-section" x-show="$store.game.hoveredAction && $store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks">
+        <div class="tt-section-header" x-text="$store.game.t('ui_unlocks')">Schaltet frei:</div>
+        <div class="tt-effect-list">
+          <template x-for="item in ($store.game.t($store.game.hoveredAction?.id, 'actions')?.unlocks || '').split(',')" :key="item">
+            <div class="tt-data-line tt-bonus">
+              <span x-text="'• ' + item.trim().replace(/^::\s*/, '')"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

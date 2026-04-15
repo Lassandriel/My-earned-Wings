@@ -1,0 +1,29 @@
+/* 
+  YOUR EARNED WINGS - MAIN STYLE HUB
+  Modularized CSS architecture for better maintainability.
+*/
+
+/* Core Definitions */
+@import './theme.css';
+@import './animations.css';
+@import './base.css';
+
+/* Layout & Structure */
+@import './layout.css';
+
+/* Reusable UI Elements */
+@import './components.css';
+
+/* View-Specific Styles */
+@import './views/gameplay.css';
+@import './views/village.css';
+@import './views/crafting.css';
+@import './views/stats.css';
+@import './views/story.css';
+@import './views/menu.css';
+@import './views/settings.css';
+@import './views/traits.css';
+@import './views/finale.css';
+
+/* External Overlays */
+@import './views/prologue.css';
