@@ -1,7 +1,7 @@
 export const craftingActions = {
   'craft-wanderstock': {
     cost: 5, costType: 'wood', image: 'img/Crafting_walkingstick.webp',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -13,7 +13,7 @@ export const craftingActions = {
   },
   'craft-axe': {
     cost: 20, costType: 'wood', image: 'img/Crafting_axe_1.webp',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -26,7 +26,7 @@ export const craftingActions = {
   'craft-pickaxe': {
     cost: 25, costType: 'mixed', image: 'img/Crafting_pickaxe_1.webp',
     costs: { stone: 15, wood: 10 },
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -39,7 +39,7 @@ export const craftingActions = {
   },
   'craft-bed': {
     cost: 25, costType: 'wood', image: 'img/Crafting_bed.webp',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -51,7 +51,7 @@ export const craftingActions = {
   },
   'craft-chair': {
     cost: 10, costType: 'wood', image: 'img/Crafting_chair.webp',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -64,7 +64,7 @@ export const craftingActions = {
   'craft-stove': {
     cost: 40, costType: 'mixed', image: 'img/Crafting_stove.webp',
     costs: { stone: 25, wood: 15 },
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -77,7 +77,7 @@ export const craftingActions = {
   },
   'craft-bookshelf': {
     cost: 25, costType: 'wood', image: 'img/Crafting_bookshelf.webp',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -92,7 +92,7 @@ export const craftingActions = {
   },
   'craft-bow': {
     cost: 30, costType: 'wood',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -104,7 +104,7 @@ export const craftingActions = {
   },
   'craft-book': {
     cost: 10, costType: 'mixed', costs: { shards: 10, wood: 5 },
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Wissen!',
     particleType: 'shards',
     execute: (state) => {

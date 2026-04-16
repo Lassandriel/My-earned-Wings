@@ -1,0 +1,58 @@
+/* 
+  UI TYPOGRAPHY & HEADERS
+  Consistent text styling across views.
+*/
+
+.category-header {
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Unified Header Style */
+#game-wrapper .category-header h3, 
+.action-container .category-header h3,
+main .category-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #e2e8f0 !important;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  text-align: left;
+  margin: 0;
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+}
+
+.log-description {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  text-align: left;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.player-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  text-align: left;
+  color: #fff;
+  letter-spacing: 1.5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-dim);
+}

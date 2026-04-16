@@ -3,6 +3,7 @@ export const npcActions = {
     isStory: true, chapter: 'Village Life',
     progKey: 'baker', maxProgress: 5,
     journalIcon: '🍞', journalColor: '#f59e0b',
+    image: 'npcs/Baker Geron.png',
     steps: [
         { cost: 10, costType: 'energy' },
         { costs: { wood: 30 }, reward: 'Fresh Bread' },

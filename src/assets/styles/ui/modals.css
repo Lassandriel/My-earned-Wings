@@ -1,0 +1,83 @@
+/* 
+  UI MODALS
+  Settings, Name Prompts, and Overlay Content.
+*/
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 110000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto !important;
+}
+
+.modal-content {
+  position: relative;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--panel-border);
+  border-radius: 30px;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.modal-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--panel-border), transparent);
+  margin: 15px 0;
+  width: 100%;
+}
+
+.name-prompt-box {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    min-width: 400px;
+}
+
+.name-input {
+    width: 100%;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.2rem;
+    font-family: 'Outfit', sans-serif;
+    text-align: center;
+    transition: all 0.3s ease;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    -webkit-app-region: no-drag;
+    pointer-events: all !important;
+    cursor: text !important;
+    outline: none;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: var(--accent-teal);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.modal-actions button {
+    flex: 1;
+}

@@ -1,0 +1,13 @@
+/* 
+  UI RESOURCE BARS
+  Highlighting and status row styles.
+*/
+
+.stat-row.highlight-needed {
+    background: rgba(251, 191, 36, 0.1);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+    border-radius: 8px;
+    padding: 2px 5px;
+    transform: translateX(5px);
+    transition: all 0.3s ease;
+}

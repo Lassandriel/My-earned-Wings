@@ -11,8 +11,21 @@
 /* Layout & Structure */
 @import './layout.css';
 
-/* Reusable UI Elements */
-@import './components.css';
+/* Reusable UI Elements (Modular) */
+@import './ui/typography.css';
+@import './ui/buttons.css';
+@import './ui/navigation.css';
+@import './ui/tooltips.css';
+@import './ui/modals.css';
+@import './ui/logs.css';
+@import './ui/feedback.css';
+@import './ui/resource-bars.css';
+@import './ui/layout-core.css';
+
+/* Specialized Components */
+@import './components/inventory.css';
+@import './components/wing-masks.css';
+@import './views/npcs.css'; /* Placeholder for future NPC styles */
 
 /* View-Specific Styles */
 @import './views/gameplay.css';

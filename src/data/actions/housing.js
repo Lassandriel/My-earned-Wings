@@ -32,7 +32,7 @@ export const housingActions = {
   'house-wood-storage': {
     isStory: true, chapter: 'Establishment',
     cost: 20, costType: 'wood',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -47,7 +47,7 @@ export const housingActions = {
   'house-stone-storage': {
     isStory: true, chapter: 'Establishment',
     cost: 20, costType: 'stone',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -62,7 +62,7 @@ export const housingActions = {
   'house-table': {
     isStory: true, chapter: 'Establishment',
     cost: 40, costType: 'wood',
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {
@@ -78,7 +78,7 @@ export const housingActions = {
     isStory: true, chapter: 'Establishment',
     cost: 60, costType: 'mixed',
     costs: { wood: 30, stone: 30 },
-    sfx: 'success',
+    sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',
     execute: (state) => {

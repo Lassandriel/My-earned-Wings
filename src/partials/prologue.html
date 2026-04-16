@@ -1,5 +1,18 @@
 <!-- PROLOGUE VIEW -->
-<section id="prologue-view" x-show="$store.game.view === 'prologue'" class="prologue-overlay">
+<section 
+  id="prologue-view" 
+  x-show="$store.game.view === 'prologue'" 
+  class="prologue-overlay"
+  @click="$store.game.prologue.advancePrologue($store.game)"
+  style="cursor: pointer"
+>
+  <!-- Image Backgrounds -->
+  <div class="prologue-images">
+      <img src="img/prologue/LM_islands.png" class="pro-img" :class="[1,2].includes($store.game.prologueStep) && 'active'" />
+      <img src="img/prologue/LM_Luxana.png" class="pro-img" :class="[3,4,5].includes($store.game.prologueStep) && 'active'" />
+      <img src="img/prologue/LM_Dorf.png" class="pro-img" :class="[6,7].includes($store.game.prologueStep) && 'active'" />
+  </div>
+
   <div class="prologue-container">
     <template x-for="i in 7" :key="i">
       <div 
@@ -14,8 +27,16 @@
         x-text="$store.game.t('intro_' + i, 'logs')"
       ></div>
     </template>
+    
+    <div class="prologue-advance-hint" x-show="$store.game.view === 'prologue'">
+      Klicke um fortzufahren...
+    </div>
   </div>
-  <button class="skip-btn" @click="$store.game.prologue.skipPrologue($store.game)">
-    Skip Intro <span>»</span>
-  </button>
+  
+  <div class="prologue-footer">
+      <div class="skip-hint">[ESC] zum Überspringen | [ENTER] zum Fortfahren</div>
+      <button class="skip-btn" @click.stop="$store.game.prologue.skipPrologue($store.game)">
+        Skip Intro <span>»</span>
+      </button>
+  </div>
 </section>

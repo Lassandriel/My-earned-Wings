@@ -18,6 +18,7 @@ export const createPersistenceSystem = (initialState) => ({
     if (isManual) {
       store.addLog('save_success', 'logs', 'var(--accent-teal)');
       store.playSound('success');
+      if (store.ui.showToast) store.ui.showToast(store.t('save_success', 'logs'), 'success');
     }
   },
 
@@ -27,24 +28,22 @@ export const createPersistenceSystem = (initialState) => ({
       try {
         const data = JSON.parse(saved);
         
-        // Deep merge for second-level objects to preserve new resource/limit keys
-        Object.keys(data).forEach(key => {
-            if (typeof data[key] === 'object' && data[key] !== null && !Array.isArray(data[key])) {
-                store[key] = { ...initialState[key], ...data[key] };
-            } else {
-                store[key] = data[key];
-            }
-        });
-
-        // Migration/Backwards compatibility for delayed furniture recipes
-        if (store.housing?.hasHouse) {
-            ['craft-bed', 'craft-chair', 'craft-stove'].forEach(rec => {
-                if (!store.unlockedRecipes.includes(rec)) store.unlockedRecipes.push(rec);
+        // Use recursive deep merge to preserve new keys in nested objects
+        const deepMerge = (target, source) => {
+            Object.keys(source).forEach(key => {
+                if (Array.isArray(source[key])) {
+                    target[key] = [...new Set([...(target[key] || []), ...source[key]])];
+                } else if (source[key] && typeof source[key] === 'object') {
+                    if (!target[key]) target[key] = {};
+                    deepMerge(target[key], source[key]);
+                } else {
+                    target[key] = source[key];
+                }
             });
-        }
-        if (store.housing?.hasTable && !store.unlockedRecipes.includes('craft-bookshelf')) {
-            store.unlockedRecipes.push('craft-bookshelf');
-        }
+            return target;
+        };
+
+        deepMerge(store, data);
 
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         store.saveInfoText = `${store.t('ui_load_at', 'ui')} ${time}`;

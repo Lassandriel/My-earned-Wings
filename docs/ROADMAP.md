@@ -44,6 +44,30 @@ The game is now in a polished, balanced state. Core survival loops and narrative
 - [x] **Lore Synchronization**: Global cleanup of terminology.
 - [x] **System Centralization**: Scaling logic unified in `resource.js`.
 
+## Phase 4.3: Community Feedback & UX Polish - **COMPLETED**
+- [x] **Nomenclature Shift**: Renamed "Vitality" to "Resources" and "Inventory" to "Upgrades/Possessions".
+- [x] **Visual Survival**: Added Dragon Head stat silhouette for Satiation, flying above wings.
+- [x] **Intro Immersion**: Added KI-generated lore images and name prompt before Prologue.
+- [x] **Accessibility**: Skip logic for Intro (Esc/Enter) and Tab-Help Icons (?).
+- [x] **Tooltip Bounds**: Implemented "smart" tooltips that stay within window limits.
+- [x] **Resource Highlighting**: Visual glow in sidebar when hovering over action costs.
+- [x] **Save Feedback**: Added toast notifications for successful save actions.
+
+## Phase 4.4: Omni-Viewport & Senior Audit - **COMPLETED**
+- [x] **Responsive Engine**: Replaced fixed scaling with a native, fluid CSS Grid layout.
+- [x] **Adaptive Breakpoints**: Custom layouts for Laptops and Tablets (Portrait/Landscape).
+- [x] **Rem-Scaling**: Lossless UI zoom by linking settings to root font-size.
+- [x] **Math Precision**: Full floating-point support for resource gain and costs (Jäger-Fix).
+- [x] **Audio Integrity**: Integration of missing SFX (Water, Crafting).
+- [x] **Electron Compatibility**: Specific CSS fixes for name-input focus.
+
+## Phase 4.5: Narrative Onboarding & Premium Polish - **COMPLETED**
+- [x] **Aesthetic Excellence**: Smooth view transitions (x-transition) and refined button haptics.
+- [x] **Visual Alerts**: Pulse-danger animations for critical energy/magic levels.
+- [x] **NPC Guide (Ellie)**: Introduction of Ellie the Dream Wyvern as a mentor.
+- [x] **Narrative Meta-Goal**: Added overarching story goal (seeking the Sun Palace/Imperial Family).
+- [x] **Guided Intro**: Interactive tutorial for gathering, crafting, and village tabs.
+- [x] **Objective Tracking**: Subtle UI indicator for the current main goal.
 
 ---
 

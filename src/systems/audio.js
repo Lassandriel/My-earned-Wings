@@ -4,7 +4,10 @@ export const createAudioSystem = () => ({
     gather: new Audio('sfx/gather.mp3'),
     success: new Audio('sfx/success.mp3'),
     eat: new Audio('sfx/eat.mp3'),
-    fail: new Audio('sfx/fail.mp3')
+    fail: new Audio('sfx/fail.mp3'),
+    water: new Audio('sfx/water.mp3'),
+    craft: new Audio('sfx/craft.mp3'),
+    discovery: new Audio('sfx/success.mp3') // Reusing success for discovery if separate file missing
   },
   bgm: new Audio('music/forest_ambient.mp3'),
   isMusicPlaying: false,

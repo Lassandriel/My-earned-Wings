@@ -1,0 +1,74 @@
+/* 
+  UI TOOLTIPS
+  Dynamic floating info boxes.
+*/
+
+.floating-tooltip {
+  position: absolute;
+  background: rgba(10, 10, 10, 0.98);
+  border: 1px solid #444;
+  padding: 1.25rem; /* 20px */
+  border-radius: 0.25rem; /* 4px */
+  width: 22.5rem; /* 360px */
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.8), 0 0 1px rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  
+  /* Cursor following logic with bounds check offsets */
+  left: calc(var(--mx) + var(--tt-off-x, 1.25rem));
+  top: calc(var(--my) + var(--tt-off-y, 1.25rem));
+  
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* 12px */
+  animation: tooltip-pop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tt-title {
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.tt-story {
+  color: #aaa;
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.5;
+  border-bottom: 1px solid #333;
+  padding-bottom: 8px;
+}
+
+.tt-section-header {
+  color: #666;
+  font-size: 0.75rem;
+  text-transform: lowercase;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.tt-cost-list, .tt-effect-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tt-data-line {
+  font-size: 1rem;
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tt-ready { color: #4ade80 !important; }
+.tt-blocked { color: #f87171 !important; }
+.tt-bonus { color: #fbbf24 !important; }
+
+@keyframes tooltip-pop {
+    0% { opacity: 0; transform: scale(0.95) translateY(5px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}

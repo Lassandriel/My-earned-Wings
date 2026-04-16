@@ -32,6 +32,9 @@
       <section class="action-group">
         <div class="category-header">
           <h3 x-text="$store.game.t('cat_gather')">Sammeln</h3>
+          <div class="nav-help-icon" 
+               @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_gather'), desc: $store.game.t('nav_gather_desc') }"
+               @mouseleave="$store.game.hoveredAction = null">?</div>
         </div>
         <div class="btn-list">
         <button
@@ -70,7 +73,12 @@
 
     <div class="action-column">
       <section class="action-group">
-        <div class="category-header"><h3 x-text="$store.game.t('cat_trade')">Handel</h3></div>
+        <div class="category-header">
+          <h3 x-text="$store.game.t('cat_trade')">Handel</h3>
+          <div class="nav-help-icon" 
+               @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_trade'), desc: $store.game.t('nav_trade_desc') }"
+               @mouseleave="$store.game.hoveredAction = null">?</div>
+        </div>
         <div class="btn-list">
           <button
             class="game-btn"
@@ -94,7 +102,12 @@
       </section>
 
       <section class="action-group">
-        <div class="category-header"><h3 x-text="$store.game.t('cat_work')">Arbeit</h3></div>
+        <div class="category-header">
+          <h3 x-text="$store.game.t('cat_work')">Arbeit</h3>
+          <div class="nav-help-icon" 
+               @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_work'), desc: $store.game.t('nav_work_desc') }"
+               @mouseleave="$store.game.hoveredAction = null">?</div>
+        </div>
         <div class="btn-list">
           <button
             class="game-btn"

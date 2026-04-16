@@ -1,9 +1,16 @@
+html {
+  font-size: calc(16px * var(--app-scale, 1));
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
-  user-select: none;
+}
+
+input, textarea, [contenteditable] {
+  user-select: text !important;
 }
 
 body {

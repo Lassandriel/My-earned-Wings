@@ -8,12 +8,10 @@ export const gatheringActions = {
     counter: 'food',
     calculateYield: (state) => {
       let sGain = 20;
-      let eGain = 5;
       if (state.inventory.includes('craft-stove')) {
         sGain += 15;
-        eGain += 5;
       }
-      return { sGain, eGain };
+      return { sGain, eGain: 0 };
     },
     execute: (state) => {
       const { sGain, eGain } = gatheringActions['action-essen'].calculateYield(state);

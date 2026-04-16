@@ -19,7 +19,7 @@ export const createResourceSystem = () => {
             
             // APPLY SATIATION MULTIPLIER (Only for Energy/Magic costs)
             if ((type === 'energy' || type === 'magic') && state.getSatiationMultiplier) {
-                finalAmount = Math.round(finalAmount * state.getSatiationMultiplier());
+                finalAmount = finalAmount * state.getSatiationMultiplier();
             }
 
             if (state.stats[type] !== undefined) return state.stats[type] >= finalAmount;
@@ -41,8 +41,8 @@ export const createResourceSystem = () => {
                 if (type === 'shards') finalAmount *= state.getTraitMultiplier('shards_bonus');
             }
 
-            // Keep resource storage as integers for clean UI
-            finalAmount = Math.floor(finalAmount);
+            // Remove Math.floor to allow small amounts (e.g. 0.2) to accumulate
+            // finalAmount = Math.floor(finalAmount); 
 
             if (state.stats[type] !== undefined) {
                 const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
@@ -77,7 +77,7 @@ export const createResourceSystem = () => {
 
             // APPLY SATIATION MULTIPLIER (Only for Energy/Magic costs)
             if ((type === 'energy' || type === 'magic') && state.getSatiationMultiplier) {
-                finalAmount = Math.round(finalAmount * state.getSatiationMultiplier());
+                finalAmount = finalAmount * state.getSatiationMultiplier();
             }
 
             // Satiation decay scaling (Traits)
@@ -86,11 +86,11 @@ export const createResourceSystem = () => {
             }
 
             if (state.stats[type] !== undefined) {
-                state.stats[type] -= Math.round(finalAmount);
+                state.stats[type] = Math.max(0, state.stats[type] - finalAmount);
                 return true;
             }
             if (state.resources[type] !== undefined) {
-                state.resources[type] -= Math.round(finalAmount);
+                state.resources[type] = Math.max(0, state.resources[type] - finalAmount);
                 return true;
             }
             return false;
@@ -108,13 +108,27 @@ export const createResourceSystem = () => {
          */
         isFull(state, type) {
             if (state.resources[type] !== undefined) {
-                return state.resources[type] >= state.limits[type];
+                return state.resources[type] >= (state.limits[type] || Infinity);
             }
             if (state.stats[type] !== undefined) {
                 const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
-                return state.stats[type] >= state.stats[maxKey];
+                return state.stats[type] >= (state.stats[maxKey] || 100);
             }
             return false;
+        },
+
+        /**
+         * Satiation Impact Calculation
+         */
+        getSatiationMultiplier(state) {
+            const sat = state.stats.satiation;
+            if (sat >= 80) return 0.8;
+            if (sat <= 20) return 1.5;
+            return 1.5 - ((sat - 20) / 60) * 0.7; // Linear interpolation
+        },
+
+        getEfficiency(state) {
+            return 1 / this.getSatiationMultiplier(state);
         }
     };
 };

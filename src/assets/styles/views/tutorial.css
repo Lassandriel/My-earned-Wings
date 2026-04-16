@@ -1,0 +1,160 @@
+/* Tutorial / Ellie Dialogue Styles - THE VN OVERHAUL */
+
+.dialogue-system-root {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogue-backdrop {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.95) 100%);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.dialogue-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 50px;
+    animation: menuFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.npc-sprite-container {
+    height: 60vh;
+    max-height: 650px;
+    margin-bottom: -40px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.npc-sprite {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 40px rgba(0,0,0,0.6));
+    animation: ellie-float 6s infinite ease-in-out;
+}
+
+@keyframes ellie-float {
+    0%, 100% { transform: translateY(0) scale(1.0); }
+    50% { transform: translateY(-10px) scale(1.02); }
+}
+
+.dialogue-box {
+    width: min(850px, 90vw);
+    background: linear-gradient(135deg, rgba(8, 20, 28, 0.95) 0%, rgba(12, 32, 45, 0.98) 100%);
+    border: 2px solid rgba(45, 212, 191, 0.3);
+    border-radius: 20px;
+    padding: 25px 35px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(45, 212, 191, 0.1);
+    position: relative;
+    z-index: 4;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dialogue-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dialogue-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #2dd4bf;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(45, 212, 191, 0.4);
+}
+
+.dialogue-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+    font-weight: 400;
+    min-height: 80px;
+}
+
+.dialogue-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.dialogue-next-btn {
+    background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);
+    color: #08141c;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-color: #fff;
+    box-shadow: 0 0 30px rgba(20, 184, 166, 0.6);
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* Name Input Integration */
+.ellie-input-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.ellie-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 14px 20px;
+    color: #fff;
+    font-size: 1.2rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.ellie-input:focus {
+    border-color: var(--accent-teal);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(20, 184, 166, 0.2);
+}
+
+/* Objective Bar Overlay (remains top) */
+.objective-bar-container {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5000;
+    pointer-events: none;
+}
+
+/* Interaction Lock */
+.tutorial-lock {
+    pointer-events: none !important;
+}

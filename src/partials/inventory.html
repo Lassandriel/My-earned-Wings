@@ -2,6 +2,9 @@
 <main x-show="$store.game.view === 'inventory'">
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_inventory')">Besitz</h3>
+    <div class="nav-help-icon" 
+         @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_inventory'), desc: $store.game.t('nav_inventory_desc') }"
+         @mouseleave="$store.game.hoveredAction = null">?</div>
   </div>
   <p class="log-description" x-text="$store.game.t('inventory_desc')"></p>
   <div class="action-container" style="max-width: 600px; margin: 0 auto;">

@@ -48,3 +48,27 @@
     70% { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); }
     100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
 }
+
+/* --- POLISH ANIMATIONS --- */
+
+@keyframes view-enter {
+    0% { opacity: 0; transform: translateY(10px) scale(0.99); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes tooltip-pop {
+    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes pulse-danger {
+    0% { filter: brightness(1) drop-shadow(0 0 0px #ef4444); }
+    50% { filter: brightness(1.4) drop-shadow(0 0 15px #ef4444); }
+    100% { filter: brightness(1) drop-shadow(0 0 0px #ef4444); }
+}
+
+@keyframes wave-glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

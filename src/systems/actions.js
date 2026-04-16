@@ -31,6 +31,8 @@ export function createActionSystem() {
 
             // Counters and resources
             if (action.counter) {
+                if (!game.counters[action.counter]) game.counters[action.counter] = 0;
+                
                 if (action.counter === 'shards' && result.logGain) {
                     const amount = parseInt(result.logGain.toString().replace(/[^0-9]/g, '')) || 0;
                     game.counters.shards += amount;
@@ -76,11 +78,17 @@ export function createActionSystem() {
 
             const effectiveCosts = costType === 'mixed' ? action.costs : costType;
 
+            // Check if can't afford
             if (!game.resource.canAfford(game, effectiveCosts, action.cost)) {
                 const failKey = (costType === 'energy' || costType === 'magic') ? 'fail_' + costType : 'fail_resources';
                 game.addLog(failKey, 'logs', 'rgba(239, 68, 68, 0.75)');
-            } else if (costType !== 'mixed' && game.resource.isFull(game, action.yieldType || costType)) {
-                game.addLog('fail_full_' + (action.yieldType || costType), 'logs', 'rgba(239, 68, 68, 0.75)');
+            } 
+            // Check if full (applies to both single and mixed costs if yieldType is defined)
+            else {
+                const yieldCheck = action.yieldType || (costType !== 'mixed' ? costType : null);
+                if (yieldCheck && game.resource.isFull(game, yieldCheck)) {
+                    game.addLog('fail_full_' + yieldCheck, 'logs', 'rgba(239, 68, 68, 0.75)');
+                }
             }
         },
 

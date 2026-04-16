@@ -1,6 +1,11 @@
 <!-- VILLAGE VIEW -->
 <main x-show="$store.game.view === 'village'">
-  <div class="category-header"><h3 x-text="$store.game.t('cat_village')">Das Dorf</h3></div>
+  <div class="category-header">
+    <h3 x-text="$store.game.t('cat_village')">Das Dorf</h3>
+    <div class="nav-help-icon" 
+         @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_village'), desc: $store.game.t('nav_village_desc') }"
+         @mouseleave="$store.game.hoveredAction = null">?</div>
+  </div>
   
   <!-- TREE OF LIFE FINAL BUTTON -->
   <div class="finale-trigger-container" x-show="$store.game.canAccessTreeOfLife && !$store.game.demoCompleted">
@@ -22,6 +27,11 @@
       <div class="npc-grid">
       <template x-for="id in $store.game.unlockedNPCs" :key="id">
         <div class="npc-card" :class="$store.game.companions[id] && 'is-working'">
+          <!-- NPC Portrait -->
+          <div class="npc-portrait-container" x-show="$store.game.actionDb[id]?.image">
+            <img :src="'img/' + $store.game.actionDb[id].image" class="npc-portrait-img" :alt="id">
+          </div>
+          
           <button
             class="game-btn primary-btn talk-btn"
             :class="id === 'npc-teacher' && 'primary-magic'"
