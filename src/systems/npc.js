@@ -2,7 +2,16 @@
  * NPC System - Handles companion recruitment, execution of NPC quests,
  * and background resource generation (Salary & Yield).
  */
-export function createNPCSystem() {
+    const handleUnlocks = (store, id, newProg) => {
+        if (id === 'npc-flowerGirl' && newProg >= 5) {
+            if (!store.unlockedNPCs.includes('npc-blacksmith')) store.unlockedNPCs.push('npc-blacksmith');
+        }
+        if (id === 'npc-artisan' && newProg >= 3) {
+            if (!store.unlockedRecipes.includes('craft-axe')) store.unlockedRecipes.push('craft-axe');
+            if (!store.unlockedRecipes.includes('craft-pickaxe')) store.unlockedRecipes.push('craft-pickaxe');
+        }
+    };
+
     return {
         /**
          * Executes an NPC interaction step (Quest/Dialog progress).
@@ -10,7 +19,6 @@ export function createNPCSystem() {
         execute(game, id) {
             const store = Alpine.store('game');
             const action = store.actionDb[id];
-            const npcDef = store.NPC_REGISTRY[id];
             
             if (!action || !action.steps) return false;
             
@@ -39,25 +47,14 @@ export function createNPCSystem() {
                 }
                 if (!store.discoveredItems.includes(step.reward)) store.discoveredItems.push(step.reward);
                 
-                // Special syncs (Consider moving these to registry in the future)
                 if (step.reward === 'Official Land Deed') store.housing.hasLandDeed = true;
             }
 
             // Logic side-effects
-            this.handleUnlocks(store, id, newProg);
+            handleUnlocks(store, id, newProg);
 
             store.playSound('success');
             return { success: true, logKey: `npc_${progKey}_${newProg}` };
-        },
-
-        handleUnlocks(store, id, newProg) {
-            if (id === 'npc-flowerGirl' && newProg >= 5) {
-                if (!store.unlockedNPCs.includes('npc-blacksmith')) store.unlockedNPCs.push('npc-blacksmith');
-            }
-            if (id === 'npc-artisan' && newProg >= 3) {
-                if (!store.unlockedRecipes.includes('craft-axe')) store.unlockedRecipes.push('craft-axe');
-                if (!store.unlockedRecipes.includes('craft-pickaxe')) store.unlockedRecipes.push('craft-pickaxe');
-            }
         },
 
         toggleCompanion(game, npcId) {

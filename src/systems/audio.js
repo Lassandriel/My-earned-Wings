@@ -1,5 +1,5 @@
-export const createAudioSystem = () => ({
-  sfx: {
+export const createAudioSystem = () => {
+  const sfx = {
     click: new Audio('sfx/click.mp3'),
     gather: new Audio('sfx/gather.mp3'),
     success: new Audio('sfx/success.mp3'),
@@ -7,48 +7,52 @@ export const createAudioSystem = () => ({
     fail: new Audio('sfx/fail.mp3'),
     water: new Audio('sfx/water.mp3'),
     craft: new Audio('sfx/craft.mp3'),
-    discovery: new Audio('sfx/success.mp3') // Reusing success for discovery if separate file missing
-  },
-  bgm: new Audio('music/forest_ambient.mp3'),
-  isMusicPlaying: false,
+    discovery: new Audio('sfx/success.mp3')
+  };
+  const bgm = new Audio('music/forest_ambient.mp3');
+  let isMusicPlaying = false;
 
-  init(settings) {
-    this.bgm.loop = true;
-    this.updateVolumes(settings);
-  },
-
-  updateVolumes(settings) {
+  const updateVolumes = (settings) => {
     const { volumeGlobal, volumeMusic, volumeSfx, mute } = settings;
     const globalMult = mute ? 0 : volumeGlobal;
 
-    // Update SFX
-    Object.entries(this.sfx).forEach(([key, s]) => {
+    Object.entries(sfx).forEach(([key, s]) => {
       let mult = volumeSfx;
-      if (key === 'fail') mult *= 0.3; // Make fail sound much quieter
-      s.volume = mult * globalMult;
+      if (key === 'fail') mult *= 0.3;
+      s.volume = minMax(mult * globalMult);
     });
 
-    // Update BGM
-    this.bgm.volume = volumeMusic * globalMult;
-  },
+    bgm.volume = minMax(volumeMusic * globalMult);
+  };
 
-  playSound(key) {
-    if (this.sfx[key]) {
-      this.sfx[key].currentTime = 0;
-      this.sfx[key].play().catch(e => console.warn("SFX playback blocked", e));
+  const minMax = (val) => Math.max(0, Math.min(1, val));
+
+  return {
+    init(settings) {
+      bgm.loop = true;
+      updateVolumes(settings);
+    },
+
+    updateVolumes,
+
+    playSound(key) {
+      if (sfx[key]) {
+        sfx[key].currentTime = 0;
+        sfx[key].play().catch(e => console.warn("SFX playback blocked", e));
+      }
+    },
+
+    startMusic() {
+      if (!isMusicPlaying) {
+        bgm.play()
+          .then(() => { isMusicPlaying = true; })
+          .catch(e => console.warn("BGM playback blocked. Waiting for interaction.", e));
+      }
+    },
+
+    stopMusic() {
+      bgm.pause();
+      isMusicPlaying = false;
     }
-  },
-
-  startMusic() {
-    if (!this.isMusicPlaying) {
-      this.bgm.play()
-        .then(() => { this.isMusicPlaying = true; })
-        .catch(e => console.warn("BGM playback blocked. Waiting for interaction.", e));
-    }
-  },
-
-  stopMusic() {
-    this.bgm.pause();
-    this.isMusicPlaying = false;
-  }
-});
+  };
+};

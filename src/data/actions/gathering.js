@@ -90,10 +90,8 @@ export const gatheringActions = {
     execute: (state) => {
       if (state.resource.isFull(state, 'wood')) return { success: false };
       if (state.resource.consume(state, 'energy', 10)) {
-        let base = state.inventory.includes('craft-axe') ? 2 : 1;
-        if (state.inventory.includes('craft-wanderstock')) base += 1;
-        state.resource.add(state, 'wood', base);
         const gain = gatheringActions['action-wood'].calculateYield(state);
+        state.resource.add(state, 'wood', gain);
         const hasAxe = state.inventory.includes('craft-axe');
         return { success: true, logKey: hasAxe ? 'wood_axe_log' : 'wood_log', logGain: gain };
       } return { success: false };
@@ -112,9 +110,8 @@ export const gatheringActions = {
     execute: (state) => {
       if (state.resource.isFull(state, 'stone')) return { success: false };
       if (state.resource.consume(state, 'energy', 15)) {
-        const base = state.inventory.includes('craft-pickaxe') ? 2 : 1;
-        state.resource.add(state, 'stone', base);
         const gain = gatheringActions['action-stone'].calculateYield(state);
+        state.resource.add(state, 'stone', gain);
         const hasPickaxe = state.inventory.includes('craft-pickaxe');
         return { success: true, logKey: hasPickaxe ? 'stone_axe_log' : 'stone_log', logGain: gain };
       } return { success: false };
@@ -129,9 +126,10 @@ export const gatheringActions = {
     calculateYield: (state) => 2,
     execute: (state) => {
       if (state.resource.isFull(state, 'meat')) return { success: false };
+      const gain = gatheringActions['action-hunt'].calculateYield(state);
       if (state.resource.consume(state, 'energy', 25) && state.inventory.includes('craft-bow')) {
-        state.resource.add(state, 'meat', 2);
-        return { success: true, logKey: 'hunt_log', logGain: 2 };
+        state.resource.add(state, 'meat', gain);
+        return { success: true, logKey: 'hunt_log', logGain: gain };
       } return { success: false };
     }
   }

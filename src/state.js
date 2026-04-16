@@ -67,7 +67,6 @@ export const initialState = {
     totalActions: 0,
     study: 0
   },
-  unlockedTraits: [],
   demoCompleted: false,
   demoCompletedHintSeen: false
 };
