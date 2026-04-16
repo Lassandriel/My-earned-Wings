@@ -16,18 +16,13 @@ export const createDialogueSystem = () => ({
      * @param {Object} config - { npcId, text, title, choices, waiting }
      */
     show(store, config) {
-        store.dialogueNpcId = config.npcId || 'Ellie';
+        store.dialogueNpcId = config.npcId || 'Wanderer';
         store.dialogueText = config.text || '';
         store.dialogueTitle = config.title || store.dialogueNpcId;
         store.dialogueChoices = config.choices || [];
         store.dialogueWaiting = config.waiting || false;
         
         store.dialogueActive = true;
-        
-        // Ensure ellieActive flag is synced if the NPC is Ellie
-        if (store.dialogueNpcId === 'Ellie') {
-            store.ellieActive = true;
-        }
     },
 
     hide(store) {
@@ -38,10 +33,6 @@ export const createDialogueSystem = () => ({
     },
 
     next(store) {
-        if (store.dialogueNpcId === 'Ellie') {
-            store.tutorial.next(store);
-        } else {
-            this.hide(store);
-        }
+        this.hide(store);
     }
 });

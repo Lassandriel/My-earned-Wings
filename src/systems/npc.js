@@ -2,6 +2,7 @@
  * NPC System - Handles companion recruitment, execution of NPC quests,
  * and background resource generation (Salary & Yield).
  */
+export const createNPCSystem = () => {
     const handleUnlocks = (store, id, newProg) => {
         if (id === 'npc-flowerGirl' && newProg >= 5) {
             if (!store.unlockedNPCs.includes('npc-blacksmith')) store.unlockedNPCs.push('npc-blacksmith');
@@ -104,4 +105,5 @@
             }
         }
     };
-}
+};
+

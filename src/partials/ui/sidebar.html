@@ -4,9 +4,9 @@
         <template x-for="item in [
             { id: 'gameplay', icon: 'story', label: 'nav_story' },
             { id: 'crafting', icon: 'crafting', label: 'nav_crafting' },
-            { id: 'inventory', icon: 'inventory', label: 'nav_inventory' },
+            { id: 'upgrades', icon: 'inventory', label: 'nav_inventory' },
             { id: 'village', icon: 'village', label: 'nav_village' },
-            { id: 'chronicle', icon: 'chronic', label: 'nav_story_tab' }
+            { id: 'story', icon: 'chronic', label: 'nav_story_tab' }
         ]" :key="item.id">
             <div class="nav-item" 
                  :class="$store.game.view === item.id && 'active'" 

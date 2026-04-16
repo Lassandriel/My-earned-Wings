@@ -23,19 +23,18 @@
 @import './ui/layout-core.css';
 
 /* Specialized Components */
-@import './components/inventory.css';
 @import './components/wing-masks.css';
-@import './views/npcs.css'; /* Placeholder for future NPC styles */
+@import './views/npcs.css';
+@import './views/stats.css';
 
 /* View-Specific Styles */
 @import './views/gameplay.css';
 @import './views/village.css';
 @import './views/crafting.css';
-@import './views/stats.css';
+@import './views/upgrades.css';
 @import './views/story.css';
 @import './views/menu.css';
 @import './views/settings.css';
-@import './views/traits.css';
 @import './views/finale.css';
 
 /* External Overlays */

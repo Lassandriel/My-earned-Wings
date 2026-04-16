@@ -1,95 +1,117 @@
 <!-- VILLAGE VIEW -->
-<main x-show="$store.game.view === 'village'">
+<main x-show="$store.game.view === 'village'" class="village-view-container">
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_village')">Das Dorf</h3>
     <div class="nav-help-icon" 
          @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_village'), desc: $store.game.t('nav_village_desc') }"
          @mouseleave="$store.game.hoveredAction = null">?</div>
   </div>
-  
-  <!-- TREE OF LIFE FINAL BUTTON -->
-  <div class="finale-trigger-container" x-show="$store.game.canAccessTreeOfLife && !$store.game.demoCompleted">
-      <button 
-          class="game-btn finale-btn"
-          @click="$store.game.executeAction('npc-treeOfLife')"
-          @mouseover="$store.game.hoveredAction = {id: 'npc-treeOfLife', data: $store.game.actionDb['npc-treeOfLife']}"
-          @mouseout="$store.game.hoveredAction = null"
-      >
-          <div class="finale-btn-glow"></div>
-          <span class="finale-btn-icon">🌳</span>
-          <span x-text="$store.game.t('npc-treeOfLife', 'actions').title">Baum des Lebens</span>
-      </button>
-  </div>
 
-  <div class="action-container">
-    <div class="action-column">
-      <p class="log-description" x-text="$store.game.t('village_desc')"></p>
-      <div class="npc-grid">
-      <template x-for="id in $store.game.unlockedNPCs" :key="id">
-        <div class="npc-card" :class="$store.game.companions[id] && 'is-working'">
-          <!-- NPC Portrait -->
-          <div class="npc-portrait-container" x-show="$store.game.actionDb[id]?.image">
-            <img :src="'img/' + $store.game.actionDb[id].image" class="npc-portrait-img" :alt="id">
-          </div>
-          
-          <button
-            class="game-btn primary-btn talk-btn"
-            :class="id === 'npc-teacher' && 'primary-magic'"
-            x-show="($store.game.npcProgress[id.replace('npc-', '')] || 0) < ($store.game.actionDb[id].maxProgress)"
-            @click="$store.game.executeAction(id)"
-            @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
-            @mouseout="$store.game.hoveredAction = null"
-          >
-            <span class="npc-name" x-text="($store.game.t(id, 'actions').title && $store.game.t(id, 'actions').title !== id) ? $store.game.t(id, 'actions').title : ($store.game.actionDb[id]?.title || id)"></span>
-            <span class="npc-prog-badge" x-text="Math.min($store.game.actionDb[id].maxProgress, ($store.game.npcProgress[id.replace('npc-', '')] || 0) + 1) + '/' + ($store.game.actionDb[id].maxProgress || 5)"></span>
-          </button>
-
-          <!-- Companion Section (Only if Max Progress) -->
-          <div 
-            class="npc-work-panel" 
-            x-show="$store.game.npcProgress[id.replace('npc-', '')] >= ($store.game.actionDb[id]?.maxProgress || 5) && $store.game.actionDb[id]?.companion"
-          >
-            <div class="work-stats-row">
-              <span x-text="$store.game.t('ui_salary')">Kosten</span>
-              <span x-text="($store.game.actionDb[id]?.companion?.salary || 0) + ' ✦'"></span>
-            </div>
-            <div class="work-stats-row">
-              <span x-text="$store.game.t('ui_yield')">Ertrag</span>
-              <span class="res-yield-tag" x-text="Object.values($store.game.actionDb[id]?.companion?.yield || {})[0] + ' ' + Object.keys($store.game.actionDb[id]?.companion?.yield || {})[0]"></span>
-            </div>
-            
-            <button 
-              class="game-btn primary-btn work-btn" 
-              :class="$store.game.companions[id] && 'stop'"
-              @click="$store.game.toggleCompanion(id)"
-            >
-              <template x-if="$store.game.companions[id]">
-                <span><span class="working-indicator"></span><span x-text="$store.game.t('btn_stop_work')"></span></span>
-              </template>
-              <template x-if="!$store.game.companions[id]">
-                <span x-text="$store.game.t('btn_assign_work')"></span>
-              </template>
-            </button>
-          </div>
+  <div class="village-grid">
+    <!-- 1. MARKTPLATZ (Statische Card für Ressourcenhandel) -->
+    <div class="village-card market-card">
+        <div class="card-bg-glow"></div>
+        <div class="card-portrait-box market-icon-box">
+            <span class="market-symbol">⚖️</span>
         </div>
-      </template>
+        <div class="card-body">
+            <h4 class="card-title" x-text="$store.game.t('cat_trade')">Marktplatz</h4>
+            <div class="market-actions">
+                <button
+                    class="game-btn market-trade-btn"
+                    @click="$store.game.executeAction('action-sell-wood')"
+                    @mouseover="$store.game.hoveredAction = {id: 'action-sell-wood', data: $store.game.actionDb['action-sell-wood']}"
+                    @mouseout="$store.game.hoveredAction = null"
+                >
+                    <span x-text="$store.game.t('action-sell-wood', 'actions').title"></span>
+                    <span class="trade-yield">+5 ✦</span>
+                </button>
+                <button
+                    class="game-btn market-trade-btn"
+                    @click="$store.game.executeAction('action-sell-stone')"
+                    @mouseover="$store.game.hoveredAction = {id: 'action-sell-stone', data: $store.game.actionDb['action-sell-stone']}"
+                    @mouseout="$store.game.hoveredAction = null"
+                >
+                    <span x-text="$store.game.t('action-sell-stone', 'actions').title"></span>
+                    <span class="trade-yield">+8 ✦</span>
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="grid-list" style="margin-top: 20px" x-show="$store.game.npcProgress.hunter >= 5">
-      <button
-        class="game-btn primary-btn"
-        @click="$store.game.executeAction('action-buy-meat')"
-        @mouseover="$store.game.hoveredAction = {id: 'action-buy-meat', data: $store.game.actionDb['action-buy-meat']}"
-        @mouseout="$store.game.hoveredAction = null"
-        x-text="$store.game.t('action-buy-meat', 'actions').title"
-      ></button>
-      <button
-        class="game-btn"
-        @click="$store.game.executeAction('action-sell-meat')"
-        @mouseover="$store.game.hoveredAction = {id: 'action-sell-meat', data: $store.game.actionDb['action-sell-meat']}"
-        @mouseout="$store.game.hoveredAction = null"
-        x-text="$store.game.t('action-sell-meat', 'actions').title"
-      ></button>
+
+    <!-- 2. NPC CARDS (Dynamisches Grid) -->
+    <template x-for="id in $store.game.unlockedNPCs" :key="id">
+        <div class="village-card npc-card" :class="[$store.game.companions[id] && 'is-active-companion', id]">
+            <div class="card-header-visual">
+                <div class="npc-portrait-wrapper">
+                    <img x-show="$store.game.actionDb[id]?.image" :src="'img/' + $store.game.actionDb[id].image" class="npc-img">
+                    <div x-show="!$store.game.actionDb[id]?.image" class="npc-placeholder" x-text="$store.game.actionDb[id]?.journalIcon"></div>
+                </div>
+                <!-- Status Badge -->
+                <div class="npc-status-tag" x-show="$store.game.companions[id]">
+                    <span class="status-pulse"></span>
+                    <span x-text="$store.game.t('status_working')"></span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="npc-info-row">
+                    <h4 class="npc-display-name" x-text="($store.game.t(id, 'actions').title && $store.game.t(id, 'actions').title !== id) ? $store.game.t(id, 'actions').title : ($store.game.actionDb[id]?.title || id)"></h4>
+                    <!-- Progress Tracker Mini -->
+                    <div class="npc-progress-mini-track">
+                        <div class="npc-progress-fill" :style="'width: ' + (($store.game.npcProgress[id.replace('npc-', '')] || 0) / ($store.game.actionDb[id].maxProgress || 5) * 100) + '%'"></div>
+                    </div>
+                </div>
+
+                <div class="npc-interaction-area">
+                    <!-- Standard Interaction: Talk -->
+                    <button
+                        class="game-btn npc-main-action-btn"
+                        x-show="($store.game.npcProgress[id.replace('npc-', '')] || 0) < ($store.game.actionDb[id].maxProgress)"
+                        @click="$store.game.executeAction(id)"
+                        @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
+                        @mouseout="$store.game.hoveredAction = null"
+                    >
+                        <span x-text="$store.game.t('ui_details')"></span>
+                    </button>
+
+                    <!-- Companion Control -->
+                    <div class="companion-controls" x-show="$store.game.npcProgress[id.replace('npc-', '')] >= ($store.game.actionDb[id]?.maxProgress || 5) && $store.game.actionDb[id]?.companion">
+                        <button 
+                            class="game-btn companion-toggle-btn"
+                            :class="$store.game.companions[id] ? 'btn-active' : 'btn-idle'"
+                            @click="$store.game.toggleCompanion(id)"
+                        >
+                            <span x-text="$store.game.companions[id] ? $store.game.t('btn_stop_work') : $store.game.t('btn_assign_work')"></span>
+                        </button>
+                    </div>
+
+                    <!-- Hunter Specific: Meat Exchange -->
+                    <div class="npc-special-shop hunter-meat-exchange" x-show="id === 'npc-hunter' && $store.game.npcProgress.hunter >= 5">
+                        <div class="shop-buttons-row">
+                            <button class="game-btn shop-btn" @click="$store.game.executeAction('action-buy-meat')" @mouseover="$store.game.hoveredAction = {id: 'action-buy-meat', data: $store.game.actionDb['action-buy-meat']}" @mouseout="$store.game.hoveredAction = null">🍖</button>
+                            <button class="game-btn shop-btn" @click="$store.game.executeAction('action-sell-meat')" @mouseover="$store.game.hoveredAction = {id: 'action-sell-meat', data: $store.game.actionDb['action-sell-meat']}" @mouseout="$store.game.hoveredAction = null">💰</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 3. Baum des Lebens (Finale) -->
+    <div class="village-card finale-tree-card" x-show="$store.game.canAccessTreeOfLife && !$store.game.demoCompleted">
+        <div class="finale-tree-visual">🌳</div>
+        <div class="card-body">
+            <h4 x-text="$store.game.t('npc-treeOfLife', 'actions').title"></h4>
+            <button 
+                class="game-btn finale-trigger-btn"
+                @click="$store.game.executeAction('npc-treeOfLife')"
+                @mouseover="$store.game.hoveredAction = {id: 'npc-treeOfLife', data: $store.game.actionDb['npc-treeOfLife']}"
+                @mouseout="$store.game.hoveredAction = null"
+            >
+                Das Schicksal annehmen
+            </button>
+        </div>
     </div>
-  </div>
   </div>
 </main>

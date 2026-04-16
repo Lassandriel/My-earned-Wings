@@ -15,7 +15,6 @@ import { createDialogueSystem } from './systems/dialogue.js';
 import { createNPCSystem } from './systems/npc.js';
 import { createActionSystem } from './systems/actions.js';
 import { createEngineSystem } from './systems/engine.js';
-import { createTutorialSystem } from './systems/tutorial.js';
 import { createItemSystem } from './systems/item.js';
 
 import './assets/styles/main.css';
@@ -77,7 +76,6 @@ Alpine.store('game', {
     npc: createNPCSystem(),
     actions: createActionSystem(),
     engine: createEngineSystem(),
-    tutorial: createTutorialSystem(),
     item: createItemSystem(),
     dialogue: createDialogueSystem(),
 
@@ -93,10 +91,10 @@ Alpine.store('game', {
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
-        // Hard reset on startup to prevent any early overlays
-        console.log('[CORE 2.0] Initializing store, clearing flags...');
+        // Hard reset view on startup to ensure we land in the menu
+        console.log('[CORE 2.0] Initializing store, forcing menu view...');
+        store.view = 'menu';
         store.dialogueActive = false;
-        store.ellieActive = false;
         store.dialogueText = '';
         store.dialogueTitle = '';
         store.dialogueNpcId = null;
@@ -110,10 +108,6 @@ Alpine.store('game', {
     },
 
     // --- PROXIES & DELEGATES ---
-    get isEllieVisible() {
-        const store = Alpine.store('game');
-        return store.dialogueActive && store.dialogueNpcId === 'Ellie';
-    },
 
     finishPrologue() {
         const store = Alpine.store('game');
@@ -125,7 +119,6 @@ Alpine.store('game', {
         const store = Alpine.store('game');
         if (!store.dialogueActive) return '';
         if (store.dialogueText) return store.dialogueText;
-        if (store.dialogueNpcId === 'Ellie') return store.tutorial.getStepText(store, store.tutorialStep);
         return '';
     },
     // These methods maintain compatibility with HTML templates while delegating logic to systems.
@@ -178,25 +171,26 @@ Alpine.store('game', {
         if (store.hasSave) {
             if (!confirm(store.t('confirm_reset', 'ui'))) return;
         }
+        
+        console.log('[CORE] Starting new game, resetting state...');
         store.resetStateToInitial();
+        
+        // Ensure prologue starts cleanly
+        store.prologueStep = 1;
         store.view = 'prologue';
-        store.prologue.playIntro(store);
+        
+        if (store.prologue) {
+            store.prologue.playIntro(store);
+        }
+        
         store.hasSave = false;
-        store.audio.startMusic();
-        store.saveGame();
-    },
-
-    confirmName() {
-        const store = Alpine.store('game');
-        if (!store.playerName || store.playerName.trim() === '') return;
-        store.showNamePrompt = false;
-        const name = store.playerName;
-        store.resetStateToInitial();
-        store.playerName = name;
-        store.view = 'prologue';
-        store.prologue.playIntro(store);
-        store.hasSave = false;
-        store.audio.startMusic();
+        
+        try {
+            store.audio.startMusic();
+        } catch (e) {
+            console.warn('[CORE] Audio start failed:', e);
+        }
+        
         store.saveGame();
     },
 
@@ -226,9 +220,6 @@ Alpine.store('game', {
     executeAction(id) { 
         const store = Alpine.store('game');
         const result = store.actions.execute(store, id); 
-        if (result.success && store.ellieActive) {
-            store.tutorial.handleAction(store, id);
-        }
         return result;
     },
     npcExecute(id) { const store = Alpine.store('game'); return store.npc.execute(store, id); },

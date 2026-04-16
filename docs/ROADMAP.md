@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 4.2 COMPLETED (Refined Demo)
+## Current Status: Phase 4.9 COMPLETED (Upgrades Revamp)
 
-The game is now in a polished, balanced state. Core survival loops and narrative consistency have been perfected for the demo experience.
+The upgrades tab has been transformed into a premium 'Dragon's Vault' with item categorization and a showcase interface.
 
 ---
 
@@ -60,12 +60,10 @@ The game is now in a polished, balanced state. Core survival loops and narrative
 - [x] **Audio Integrity**: Integration of missing SFX (Water, Crafting).
 - [x] **Electron Compatibility**: Specific CSS fixes for name-input focus.
 
-## Phase 4.5: Narrative Onboarding & Premium Polish - **COMPLETED**
+## Phase 4.5: Aesthetic & Premium Polish - **COMPLETED**
 - [x] **Aesthetic Excellence**: Smooth view transitions (x-transition) and refined button haptics.
 - [x] **Visual Alerts**: Pulse-danger animations for critical energy/magic levels.
-- [x] **NPC Guide (Ellie)**: Introduction of Ellie the Dream Wyvern as a mentor.
 - [x] **Narrative Meta-Goal**: Added overarching story goal (seeking the Sun Palace/Imperial Family).
-- [x] **Guided Intro**: Interactive tutorial for gathering, crafting, and village tabs.
 - [x] **Objective Tracking**: Subtle UI indicator for the current main goal.
 
 ## Phase 4.6: Draconia Core 2.0 (Architecture) - **COMPLETED**
@@ -74,6 +72,29 @@ The game is now in a polished, balanced state. Core survival loops and narrative
 - [x] **Absolute Store Context**: Eliminated production reactivity bugs by using absolute `Alpine.store('game')` references.
 - [x] **Dynamic UI Engine**: Refactored `index.html` into modular partials using `x-for` loops and registry metadata.
 - [x] **Registry Multipliers**: Generic yield and cost scaling managed via Registry properties.
+
+## Phase 4.7: View Consolidation (Maintainability) - **COMPLETED**
+- [x] **1:1 View Structure**: Each tab content now maps to exactly one HTML partial and one CSS file.
+- [x] **Namespace Alignment**: Standardized naming (e.g., `story.html` and `story.css`) across all 5 main tabs.
+- [x] **Simplified Extension**: Improved developer experience for adding or modifying tab contents.
+- [x] **UI De-Cluttering**: Removed redundant description text under headers, favoring tooltip-based discovery.
+
+## Phase 4.8: Village Revamp (Immersion) - **COMPLETED**
+- [x] **Centralized Market**: Moved resource trading from Gameplay to the Village Tab.
+- [x] **Standardized Grid**: Unified premium card layout for all NPCs and world interactions.
+- [x] **Integrated Shops**: Embedded special NPC sub-menus (e.g., Hunter's Meat Exchange) into character cards.
+- [x] **Lore Synchronization**: Metadata and tooltips aligned with the `DRACONIA.md` world guide.
+
+## Phase 4.9: Upgrades Revamp (The Dragon's Vault) - **COMPLETED**
+- [x] **Namespace Consolidation**: Renamed all `inventory` references to `upgrades` for consistency.
+- [x] **Categorized Vault**: Implemented tabs for Werkzeuge, Artefakte and Proviant.
+- [x] **Showcase Interface**: Added a dedicated panel for detailed item presentation and effects.
+- [x] **Premium Visuals**: Added aura glows, glassmorphism, and a polished grid layout.
+
+## Phase 4.10: Icon Optimization (Visual Polish) - **COMPLETED**
+- [x] **Global CSS Zoom**: Implemented a standardized scale-transform (`scale(1.8)` to `scale(2.0)`) for all item and housing icons.
+- [x] **Asset Framing**: Eliminated excessive whitespace from the original `.webp` sources via CSS containment.
+- [x] **Hover Refinement**: Smooth focus-zoom on interaction to enhance "filling" effect.
 
 ---
 

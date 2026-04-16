@@ -17,9 +17,7 @@ export default {
     ui_source_world: "Draconia",
     ui_empty_story: "Your story has just begun. Make meaningful choices to fill these pages.",
     nav_story_tab: "Story",
-    nav_traits: "Titles & Traits",
     nav_story_tab_header: "Your Story",
-    nav_traits_tab_header: "Your Accomplishments",
     ui_vitality: "Resources",
     ui_shards: "Soul Shards",
     ui_wood: "Wood",
@@ -61,12 +59,10 @@ export default {
     crafting_desc: "Transform collected materials into useful tools or deepen your knowledge of the ground.",
     housing_desc: "Build a permanent home at the edge of the village and take root in the community.",
     inventory_desc: "Manage your collected treasures and use provisions for your further travels.",
-    traits_desc: "Your actions on the ground define who you are. Unlock titles that honor your heritage.",
     chronicle_desc: "The records of your life on the ground. Every action leaves a trace in history.",
     nav_story_desc: "Your daily survival actions: Gather, Trade and Work.",
     nav_crafting_desc: "Here you can process materials, build tools or study new knowledge.",
     nav_inventory_desc: "Your collected items and equipment. Some can be consumed.",
-    nav_traits_desc: "Special titles earned through your deeds. They provide permanent bonuses.",
     nav_village_desc: "Visit the inhabitants of Draconia to hear their stories and get help.",
     nav_chronicle_desc: "A detailed log of your journey on the ground so far.",
     nav_gather_desc: "Gather materials from the ground. Higher tool levels increase your yield significantly.",
@@ -356,16 +352,6 @@ export default {
     intro_5: "You stay below. You miss a connection you've never felt...",
     intro_6: "But here, at the edge of the village, you will build a life.",
     intro_7: "Welcome to your new home, you wingless mystery. A dragon without a dragon form...",
-    // Ellie Tutorial
-    tutorial_ellie_1: "Whoa! Where did you come from? You look... stuck to the ground.",
-    tutorial_ellie_2: "I'm Ellie. And what do they call you, little wanderer?",
-    tutorial_ellie_3: "Nice to meet you, {name}. Starting a new life far from Luxana? That's brave. But you look exhausted... almost as if something is draining your strength.",
-    tutorial_ellie_4: "Your wings... they look heavy, motionless. You won't survive long out here if you lack strength. Keep a close eye on your Energy and Satiation!",
-    tutorial_ellie_5: "Let's see if your claws are still good for something. Go gather a few branches over there. Wood is the beginning of everything here.",
-    tutorial_ellie_6: "Good work. A warm fire would help you regain your strength. You need to stand firm before you try to fly.",
-    tutorial_ellie_7: "You can't sleep on bare stone forever. Check out the Crafting tab as soon as you have enough materials. A proper house protects you from the cold shadows.",
-    tutorial_ellie_8: "And down there... the village. You'll find companions there. Maybe they can help you understand what happened to your wings.",
-    tutorial_ellie_9: "Try it on your own first. And if you're really stuck... well, then there's always the long journey to the Caldera to ask the Emperor and Empress. But that's a story for another day. Good luck!",
     // NPC Dialogues
     npc_baker_1: "Baker: \"Welcome. Without wood for my fire, there would be no bread here. Do you have some today?\"",
     npc_baker_2: "Baker: \"You're a hard worker. The scent of fresh bread is much more intense on the ground, don't you think?\"",
@@ -415,41 +401,5 @@ export default {
     fail_full_meat: "Meat storage full.",
     fail_full_shards: "Wallet full (Max Shards).",
     fail_salary: "Not enough Shards for salary! Work stopped.",
-    log_trait_unlocked: "TITLE UNLOCKED: {title}!",
-    particle_new_trait: "NEW TITLE: {title}"
   },
-  traits: {
-    woodcutter: {
-      title: "Woodcutter",
-      desc: "You have learned the rhythm of the forest.",
-      bonus: "+10% Wood Yield"
-    },
-    prospector: {
-      title: "Prospector",
-      desc: "Every crack in the stone tells you where to strike.",
-      bonus: "+10% Stone Yield"
-    },
-    meditator: {
-      title: "High-Seeker",
-      desc: "The sky is no longer just a void to you.",
-      bonus: "+20% Magic Gain"
-    },
-    survivor: {
-      title: "Ground Survivor",
-      desc: "Berries and wild roots are your allies.",
-      bonus: "Satiation drops 15% slower"
-    },
-    merchant: {
-      title: "Shard Merchant",
-      desc: "You know exactly what they value up there.",
-      bonus: "+5% Shards from Trading"
-    }
-  },
-  atmosphere: [
-    "A distant wingbeat echoes through the silence.",
-    "Shadows pull across the ground, cast by those who fly.",
-    "You feel the solid ground beneath your feet. It gives you stability.",
-    "The wind carries down the laughter of those who inhabit the sky.",
-    "Wildflowers by the wayside remind you that beauty can grow on the ground too."
-  ]
 };

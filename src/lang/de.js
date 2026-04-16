@@ -18,9 +18,7 @@ export default {
     ui_source_world: "Draconia",
     ui_empty_story: "Deine Geschichte hat gerade erst begonnen...",
     nav_story_tab: "Geschichte",
-    nav_traits: "Titel & Traits",
     nav_story_tab_header: "Deine Geschichte",
-    nav_traits_tab_header: "Deine Errungenschaften",
     ui_vitality: "Ressourcen",
     ui_shards: "Seelensplitter",
     ui_wood: "Holz",
@@ -62,12 +60,10 @@ export default {
     crafting_desc: "Verwandle gesammelte Materialien in nützliche Werkzeuge oder vertiefe dein Wissen über den Boden.",
     housing_desc: "Errichte ein dauerhaftes Heim am Rande des Dorfes und schlage Wurzeln in der Gemeinschaft.",
     inventory_desc: "Verwalte deine gesammelten Schätze und nutze Vorräte für deine weiteren Reisen.",
-    traits_desc: "Deine Taten definieren, wer du am Boden bist. Schalte Titel frei, die deine Herkunft ehren.",
     chronicle_desc: "Die Aufzeichnungen deines Lebens am Boden. Jede Tat hinterlässt eine Spur in der Geschichte.",
     nav_story_desc: "Deine täglichen Überlebens-Aktionen: Sammeln, Tauschen und Arbeiten.",
     nav_crafting_desc: "Hier kannst du Materialien verarbeiten, Werkzeuge bauen oder neues Wissen studieren.",
     nav_inventory_desc: "Deine gesammelten Gegenstände und Ausrüstung. Manche können konsumiert werden.",
-    nav_traits_desc: "Besondere Titel, die du durch deine Taten verdient hast. Sie geben dir dauerhafte Boni.",
     nav_village_desc: "Besuche die Bewohner von Draconia, um ihre Geschichten zu hören und Hilfe zu erhalten.",
     nav_chronicle_desc: "Ein detaillierter Log deiner bisherigen Reise am Boden.",
     nav_gather_desc: "Sammle Materialien vom Boden. Nutze Werkzeuge, um deinen Ertrag massiv zu steigern.",
@@ -92,7 +88,7 @@ export default {
     status_idle: "Frei",
     menu_continue: "Fortfahren",
     menu_new_game: "Neues Spiel",
-    menu_version: "v1.0.0 - Draconia Edition"
+    menu_version: "v1.0.0 - Lassandriel & Nhywyll"
   },
   actions: {
     'action-essen': {
@@ -349,16 +345,6 @@ export default {
     intro_5: "Du bleibst unten. Du vermisst eine Verbindung, die du nie gespürt hast...",
     intro_6: "Doch hier, am Rande des Dorfes, wirst du dir ein Leben aufbauen.",
     intro_7: "Willkommen in deinem neuen Zuhause. Ein Drache ohne Drachenform... in Draconia nennt man das ein Rätsel. Du bleibst in deiner humanoiden Gestalt gefangen, während andere die Lüfte beherrschen.",
-    // Ellie Tutorial
-    tutorial_ellie_1: "Huch! Wo kommst du denn auf einmal her? Du wirkst so... am Boden festgewachsen.",
-    tutorial_ellie_2: "Ich bin Ellie. Und wie nennt man dich, kleiner Wanderer?",
-    tutorial_ellie_3: "Schön dich kennenzulernen, {name}. Ein neues Leben fernab von Luxana beginnen? Das ist mutig. Aber du siehst erschöpft aus... fast so, als ob dir etwas die Kraft raubt.",
-    tutorial_ellie_4: "Deine Schwingen... sie wirken so schwer, so unbeweglich. Hier draußen überlebt man nicht lange, wenn die Kraft fehlt. Achte gut auf deine Energie und Sättigung, Kleines!",
-    tutorial_ellie_5: "Mal sehen, ob deine Krallen noch zu etwas taugen. Sammle mal ein paar Zweige da drüben. Holz ist hier der Anfang von allem.",
-    tutorial_ellie_6: "Gute Arbeit. Ein warmes Feuer würde dir helfen, wieder zu Kräften zu kommen. Man muss erst einmal sicher stehen, bevor man fliegen will.",
-    tutorial_ellie_7: "Du kannst hier nicht ewig auf dem nackten Stein schlafen. Schau im Handwerk vorbei, sobald du genug Materialien hast. Ein richtiges Haus schützt vor den kalten Schatten.",
-    tutorial_ellie_8: "Und da unten... das Dorf. Dort findest du Gefährten. Vielleicht können sie dir helfen zu verstehen, was mit deinen Flügeln passiert ist.",
-    tutorial_ellie_9: "Versuch es erst einmal auf eigene Faust. Und wenn du absolut nicht weiterweißt... nun, dann bleibt wohl nur der weite Weg zur Caldera, um Kaiser und Kaiserin zu fragen. Aber das ist eine andere Geschichte. Viel Erfolg!",
     // NPC Dialoge
     npc_baker_1: "Bäcker: \"Willkommen. Auch wir Drachen am Boden schätzen ein gutes Feuer. Ohne Holz für meine Glut gäbe es hier kein Brot. Hast du heute welches dabei?\"",
     npc_baker_2: "Bäcker: \"Du bist fleißig. Der Duft von frischem Brot ist am Boden viel intensiver, findest du nicht?\"",
@@ -408,41 +394,5 @@ export default {
     fail_full_meat: "Fleischlager voll.",
     fail_full_shards: "Geldbeutel voll (Max Splitter).",
     fail_salary: "Nicht genug Splitter für Gehälter! Arbeit eingestellt.",
-    log_trait_unlocked: "TITEL FREIGESCHALTET: {title}!",
-    particle_new_trait: "NEUER TITEL: {title}"
   },
-  traits: {
-    woodcutter: {
-      title: "Holzfäller",
-      desc: "Du hast den Rhythmus des Waldes verstanden.",
-      bonus: "+10% Holz-Ertrag"
-    },
-    prospector: {
-      title: "Schürfer",
-      desc: "Jeder Riss im Stein verrät dir, wo du zuschlagen musst.",
-      bonus: "+10% Stein-Ertrag"
-    },
-    meditator: {
-      title: "Himmels-Sucher",
-      desc: "Der Himmel ist für dich keine Leere mehr.",
-      bonus: "+20% Magie-Gewinn"
-    },
-    survivor: {
-      title: "Boden-Überlebender",
-      desc: "Beeren und wilde Wurzeln sind deine Verbündeten.",
-      bonus: "Sättigung sinkt 15% langsamer"
-    },
-    merchant: {
-      title: "Splitter-Händler",
-      desc: "Du weißt genau, was sie dort oben schätzen.",
-      bonus: "+5% Splitter beim Handeln"
-    }
-  },
-  atmosphere: [
-    "Ein ferner Flügelschlag hallt durch die Stille.",
-    "Schatten ziehen über den Boden, geworfen von jenen, die fliegen.",
-    "Du spürst den festen Boden unter deinen Füßen. Er gibt dir Halt.",
-    "Der Wind trägt das Lachen derer herab, die den Himmel bewohnen.",
-    "Wilde Blumen am Wegrand erinnern dich daran, dass auch Schönheit am Boden wachsen kann."
-  ]
 };

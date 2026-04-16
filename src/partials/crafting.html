@@ -10,7 +10,7 @@
            @mouseleave="$store.game.hoveredAction = null">?</div>
     </div>
   </div>
-  <p class="log-description" x-text="$store.game.t('housing_desc')"></p>
+  
   
   <div class="action-container">
     <div class="grid-list crafting-grid">
@@ -113,7 +113,7 @@
          @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_crafting'), desc: $store.game.t('nav_crafting_desc') }"
          @mouseleave="$store.game.hoveredAction = null">?</div>
   </div>
-  <p class="log-description" x-text="$store.game.t('crafting_desc')"></p>
+  
   
   <div class="action-container">
     <div class="grid-list crafting-grid">

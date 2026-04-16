@@ -25,14 +25,14 @@
 .craft-item-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: scale(1.4); /* Zoomed in to fill empty space in sprites */
+  object-fit: contain; /* Changed to contain + higher scale to avoid cutting off long items like walking sticks */
+  transform: scale(2.0); /* Increased zoom to fill the card completely */
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .compact-card:hover .craft-item-img {
-  transform: scale(1.6); /* Slight focus zoom on hover */
+  transform: scale(2.2); /* Slight focus zoom on hover */
   filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
 }
 
