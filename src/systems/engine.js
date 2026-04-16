@@ -7,43 +7,47 @@ export function createEngineSystem() {
         tickInterval: null,
         saveInterval: null,
 
-        init(game) {
+        init() {
+            const store = Alpine.store('game');
+            
             // --- OFFLINE PROGRESS ---
             const now = Date.now();
-            const lastTick = game.lastTick || now;
+            const lastTick = store.lastTick || now;
             const deltaMs = now - lastTick;
             const deltaSec = Math.floor(deltaMs / 1000);
 
-            if (deltaSec > 10 && game.npc) {
+            if (deltaSec > 10 && store.npc) {
                 // Cap at 8 hours (28800 seconds)
                 const clampedSec = Math.min(deltaSec, 28800);
-                console.log(`Simulating ${clampedSec} seconds of offline progress...`);
+                console.log(`[ENGINE] Simulating ${clampedSec}s of offline progress...`);
                 
-                // Process ticks in bulk (more efficient than 28800 timeouts)
+                // Process ticks in bulk
                 for (let i = 0; i < clampedSec; i++) {
-                    game.npc.processTick(game);
+                    store.npc.processTick(store);
                 }
                 
-                if (game.ui.showToast) {
-                    game.ui.showToast(`Willkommen zurück! Du warst ${Math.floor(clampedSec/60)}m weg.`, 'success');
+                if (store.ui?.showToast) {
+                    store.ui.showToast(`Willkommen zurück! Du warst ${Math.floor(clampedSec/60)}m weg.`, 'success');
                 }
             }
-            game.lastTick = now;
+            store.lastTick = now;
 
-            // Main simulation loop (e.g., resources, NPC work) every 1 second
+            // Main simulation loop (every 1 second)
             this.tickInterval = setInterval(() => {
-                if (game.npc && !game.view.includes('prologue')) {
-                    game.npc.processTick(game);
-                    game.lastTick = Date.now(); // Update heartbeat
+                const innerStore = Alpine.store('game');
+                if (innerStore.npc && !innerStore.view.includes('prologue')) {
+                    innerStore.npc.processTick(innerStore);
+                    innerStore.lastTick = Date.now();
                 }
             }, 1000);
 
-            // Autosave every 30 seconds
+            // Autosave loop (every 30 seconds)
             this.saveInterval = setInterval(() => {
-                game.saveGame();
+                const innerStore = Alpine.store('game');
+                innerStore.saveGame();
             }, 30000);
 
-            console.log("Game Engine initialized.");
+            console.log("[CORE 2.0] Game Engine initialized.");
         },
 
         stop() {

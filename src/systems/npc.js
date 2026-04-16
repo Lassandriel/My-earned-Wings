@@ -8,11 +8,14 @@ export function createNPCSystem() {
          * Executes an NPC interaction step (Quest/Dialog progress).
          */
         execute(game, id) {
-            const action = game.actionDb[id];
+            const store = Alpine.store('game');
+            const action = store.actionDb[id];
+            const npcDef = store.NPC_REGISTRY[id];
+            
             if (!action || !action.steps) return false;
             
             const progKey = action.progKey;
-            const currentProg = game.npcProgress[progKey] || 0;
+            const currentProg = store.npcProgress[progKey] || 0;
             const step = action.steps[currentProg];
             
             if (!step) return false;
@@ -20,86 +23,87 @@ export function createNPCSystem() {
             // Handle costs
             const costs = step.costs || (step.cost ? { [step.costType]: step.cost } : null);
             
-            if (costs && !game.resource.consume(game, costs)) {
-                game.playSound('fail');
+            if (costs && !store.resource.consume(store, costs)) {
+                store.playSound('fail');
                 return false;
             }
 
             // Progress success
-            game.npcProgress[progKey]++;
-            const newProg = game.npcProgress[progKey];
+            store.npcProgress[progKey]++;
+            const newProg = store.npcProgress[progKey];
 
             // Give reward
             if (step.reward) {
-                if (!game.inventory.includes(step.reward)) {
-                    game.inventory.push(step.reward);
+                if (!store.inventory.includes(step.reward)) {
+                    store.inventory.push(step.reward);
                 }
-                if (!game.discoveredItems.includes(step.reward)) game.discoveredItems.push(step.reward);
+                if (!store.discoveredItems.includes(step.reward)) store.discoveredItems.push(step.reward);
                 
-                // Special syncs
-                if (step.reward === 'Official Land Deed') game.housing.hasLandDeed = true;
+                // Special syncs (Consider moving these to registry in the future)
+                if (step.reward === 'Official Land Deed') store.housing.hasLandDeed = true;
             }
 
-            // Logic side-effects (Direct Unlocks)
-            this.handleUnlocks(game, id, newProg);
+            // Logic side-effects
+            this.handleUnlocks(store, id, newProg);
 
-            game.playSound('success');
+            store.playSound('success');
             return { success: true, logKey: `npc_${progKey}_${newProg}` };
         },
 
-        handleUnlocks(game, id, newProg) {
+        handleUnlocks(store, id, newProg) {
             if (id === 'npc-flowerGirl' && newProg >= 5) {
-                if (!game.unlockedNPCs.includes('npc-blacksmith')) game.unlockedNPCs.push('npc-blacksmith');
+                if (!store.unlockedNPCs.includes('npc-blacksmith')) store.unlockedNPCs.push('npc-blacksmith');
             }
             if (id === 'npc-artisan' && newProg >= 3) {
-                if (!game.unlockedRecipes.includes('craft-axe')) game.unlockedRecipes.push('craft-axe');
-                if (!game.unlockedRecipes.includes('craft-pickaxe')) game.unlockedRecipes.push('craft-pickaxe');
+                if (!store.unlockedRecipes.includes('craft-axe')) store.unlockedRecipes.push('craft-axe');
+                if (!store.unlockedRecipes.includes('craft-pickaxe')) store.unlockedRecipes.push('craft-pickaxe');
             }
         },
 
         toggleCompanion(game, npcId) {
-            if (game.companions[npcId]) {
-                delete game.companions[npcId];
-                game.playSound('click');
+            const store = Alpine.store('game');
+            if (store.companions[npcId]) {
+                delete store.companions[npcId];
+                store.playSound('click');
             } else {
-                const npc = game.actionDb[npcId];
-                const currentProgress = game.npcProgress[npc.progKey] || 0;
+                const npc = store.actionDb[npcId];
+                const currentProgress = store.npcProgress[npc.progKey] || 0;
                 if (currentProgress >= npc.maxProgress) {
-                    game.companions[npcId] = true;
-                    game.playSound('success');
+                    store.companions[npcId] = true;
+                    store.playSound('success');
                 }
             }
         },
 
         /**
          * Processes salaries and resource generation for all active companions.
-         * Called by the Game Engine Tick.
          */
         processTick(game) {
-            const activeIds = Object.keys(game.companions);
+            const store = Alpine.store('game');
+            const activeIds = Object.keys(store.companions);
             if (activeIds.length === 0) return;
 
             let totalSalary = 0;
             activeIds.forEach(id => {
-                const npc = game.actionDb[id];
-                if (npc && npc.companion) {
-                    totalSalary += npc.companion.salary;
+                const npcAction = store.actionDb[id];
+                if (npcAction && npcAction.companion) {
+                    totalSalary += npcAction.companion.salary;
                 }
             });
 
-            if (game.resource.consume(game, 'shards', totalSalary)) {
+            if (store.resource.consume(store, 'shards', totalSalary)) {
                 activeIds.forEach(id => {
-                    const npc = game.actionDb[id];
-                    if (npc && npc.companion) {
-                        Object.entries(npc.companion.yield).forEach(([res, amount]) => {
-                            game.resource.add(game, res, amount);
+                    const npcAction = store.actionDb[id];
+                    if (npcAction && npcAction.companion) {
+                        Object.entries(npcAction.companion.yield).forEach(([res, amount]) => {
+                            store.resource.add(store, res, amount);
                         });
                     }
                 });
             } else {
-                game.companions = {};
-                game.addLog('fail_salary', 'logs', 'rgba(239, 68, 68, 0.75)');
-                game.playSound('fail');
+                store.companions = {};
+                store.addLog('fail_salary', 'logs', 'rgba(239, 68, 68, 0.75)');
+                store.playSound('fail');
             }
         }
     };

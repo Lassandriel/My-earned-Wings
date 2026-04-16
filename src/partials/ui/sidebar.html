@@ -1,0 +1,26 @@
+<!-- Sidebar Navigation -->
+<nav class="sidebar">
+    <div class="nav-items-top">
+        <template x-for="item in [
+            { id: 'gameplay', icon: 'story', label: 'nav_story' },
+            { id: 'crafting', icon: 'crafting', label: 'nav_crafting' },
+            { id: 'inventory', icon: 'inventory', label: 'nav_inventory' },
+            { id: 'village', icon: 'village', label: 'nav_village' },
+            { id: 'chronicle', icon: 'chronic', label: 'nav_story_tab' }
+        ]" :key="item.id">
+            <div class="nav-item" 
+                 :class="$store.game.view === item.id && 'active'" 
+                 @click="$store.game.view = item.id; $store.game.playSound('click')">
+                <img :src="'img/menu_' + item.icon + '.webp'" :alt="item.id" class="menu-icon-img" />
+                <span x-text="$store.game.t(item.label)">Link</span>
+            </div>
+        </template>
+    </div>
+    
+    <div class="sidebar-footer">
+        <div class="save-status-sidebar" x-text="$store.game.saveInfoText || $store.game.t('save_never')">
+            Zuletzt gespeichert: Nie
+        </div>
+        <div class="settings-corner-btn" @click="$store.game.settingsOpen = true" :title="$store.game.t('settings_title')">⚙️</div>
+    </div>
+</nav>

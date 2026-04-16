@@ -31,6 +31,7 @@ export default {
     ui_materials: "Materials",
     ui_mixed: "Materials",
     ui_provisions: "Provisions",
+    ui_knowledge: "Knowledge",
     ui_details: "Details",
     ui_energy: "Energy",
     ui_magic: "Magic",

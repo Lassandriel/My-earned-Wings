@@ -1,9 +1,11 @@
 import { actionDb } from './actions/index.js';
 import { itemDb } from './definitions/items.js';
-import { traitDb } from './definitions/traits.js';
+import { NPC_REGISTRY } from './definitions/npcs.js';
+import { RESOURCE_REGISTRY } from './definitions/resources.js';
 
 export {
     actionDb,
     itemDb,
-    traitDb
+    NPC_REGISTRY,
+    RESOURCE_REGISTRY
 };

@@ -6,7 +6,7 @@ export const villageActions = {
     particleType: 'shards',
     counter: 'shards',
     calculateYield: (state) => {
-        return 5 * state.getTraitMultiplier('shards_bonus');
+        return 5;
     },
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
@@ -24,7 +24,7 @@ export const villageActions = {
     particleType: 'shards',
     counter: 'shards',
     calculateYield: (state) => {
-        return 8 * state.getTraitMultiplier('shards_bonus');
+        return 8;
     },
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
@@ -42,7 +42,7 @@ export const villageActions = {
     particleType: 'shards',
     counter: 'shards',
     calculateYield: (state) => {
-        return 15 * state.getTraitMultiplier('shards_bonus');
+        return 15;
     },
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };
@@ -76,7 +76,7 @@ export const villageActions = {
     calculateYield: (state) => {
         let sGain = Math.round(15 * (state.efficiency || 1));
         sGain = Math.max(2, sGain);
-        return sGain * state.getTraitMultiplier('shards_bonus');
+        return sGain;
     },
     execute: (state) => {
       if (state.resource.isFull(state, 'shards')) return { success: false };

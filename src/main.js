@@ -1,6 +1,6 @@
 import Alpine from 'alpinejs';
 import { initialState, getTranslations } from './state.js';
-import { actionDb, itemDb, traitDb } from './data/index.js';
+import { NPC_REGISTRY, RESOURCE_REGISTRY, actionDb, itemDb } from './data/index.js';
 
 // Systems
 import { createResourceSystem } from './systems/resource.js';
@@ -16,18 +16,48 @@ import { createNPCSystem } from './systems/npc.js';
 import { createActionSystem } from './systems/actions.js';
 import { createEngineSystem } from './systems/engine.js';
 import { createTutorialSystem } from './systems/tutorial.js';
-import { createTraitSystem } from './systems/traits.js';
 import { createItemSystem } from './systems/item.js';
 
-// Styles
 import './assets/styles/main.css';
 
 window.Alpine = Alpine;
 
+/**
+ * CORE 2.0 STORE ASSEMBLY
+ * Dynamically builds the game store based on registries.
+ */
+const buildInitialState = () => {
+    const baseState = JSON.parse(JSON.stringify(initialState));
+    
+    // Auto-populate resources and stats from Registry
+    Object.values(RESOURCE_REGISTRY).forEach(res => {
+        if (res.type === 'resource') {
+            baseState.resources[res.id] = res.initial || 0;
+            baseState.limits[res.id] = res.initialLimit || 0;
+        } else if (res.type === 'stat') {
+            baseState.stats[res.id] = res.initial || 100;
+            const maxKey = 'max' + res.id.charAt(0).toUpperCase() + res.id.slice(1);
+            baseState.stats[maxKey] = res.initialMax || 100;
+        }
+    });
+
+    // Auto-populate NPC progress from Registry
+    Object.values(NPC_REGISTRY).forEach(npc => {
+        if (npc.progKey && baseState.npcProgress[npc.progKey] === undefined) {
+            baseState.npcProgress[npc.progKey] = 0;
+        }
+    });
+
+    return baseState;
+};
+
+const dynamicInitialState = buildInitialState();
+
 Alpine.store('game', {
-    ...initialState,
+    ...dynamicInitialState,
+    NPC_REGISTRY,
+    RESOURCE_REGISTRY,
     actionDb,
-    traitDb,
     itemDb,
     translations: getTranslations(),
     saveInfoText: '',
@@ -35,11 +65,11 @@ Alpine.store('game', {
     lastMouseY: 0,
     selectedItem: null,
     
-    // System Instances
+    // System Instances (Modular Managers)
     resource: createResourceSystem(),
     audio: createAudioSystem(),
     juice: createJuiceSystem(),
-    persistence: createPersistenceSystem(initialState),
+    persistence: createPersistenceSystem(dynamicInitialState),
     logger: createLoggerSystem(),
     ui: createUISystem(),
     story: createStorySystem(),
@@ -48,30 +78,32 @@ Alpine.store('game', {
     actions: createActionSystem(),
     engine: createEngineSystem(),
     tutorial: createTutorialSystem(),
-    trait: createTraitSystem(),
     item: createItemSystem(),
     dialogue: createDialogueSystem(),
 
     init() {
+        const store = Alpine.store('game');
         const hasSavedData = localStorage.getItem('wings_save');
-        this.hasSave = !!hasSavedData;
+        store.hasSave = !!hasSavedData;
 
-        this.audio.init(this.settings);
-        this.juice.init();
-        this.engine.init(this);
+        store.audio.init(store.settings);
+        store.juice.init();
+        store.engine.init(store);
         
-        this.ui.calculateScale(this);
-        window.addEventListener('resize', () => this.ui.calculateScale(this));
+        store.ui.calculateScale(store);
+        window.addEventListener('resize', () => store.ui.calculateScale(store));
 
         // Hard reset on startup to prevent any early overlays
-        console.log('[SANITY CHECK] Initializing store, clearing flags...');
-        this.dialogueActive = false;
-        this.ellieActive = false;
-        if (this.dialogue) this.dialogue.active = false;
+        console.log('[CORE 2.0] Initializing store, clearing flags...');
+        store.dialogueActive = false;
+        store.ellieActive = false;
+        store.dialogueText = '';
+        store.dialogueTitle = '';
+        store.dialogueNpcId = null;
 
-        // Start music on first interaction
+        // Music Trigger
         const startMusicOnce = () => {
-            this.audio.startMusic();
+            store.audio.startMusic();
             document.removeEventListener('click', startMusicOnce);
         };
         document.addEventListener('click', startMusicOnce);
@@ -79,22 +111,28 @@ Alpine.store('game', {
 
     // --- PROXIES & DELEGATES ---
     get isEllieVisible() {
-        return this.dialogueActive && this.dialogue.npcId === 'Ellie';
+        const store = Alpine.store('game');
+        return store.dialogueActive && store.dialogueNpcId === 'Ellie';
     },
 
     finishPrologue() {
-        this.view = 'gameplay';
-        this.saveGame();
+        const store = Alpine.store('game');
+        store.view = 'gameplay';
+        store.saveGame();
     },
 
-    // Dialogue Text Resolver
     getDialogueText() {
+        const store = Alpine.store('game');
+        if (!store.dialogueActive) return '';
+        if (store.dialogueText) return store.dialogueText;
+        if (store.dialogueNpcId === 'Ellie') return store.tutorial.getStepText(store, store.tutorialStep);
         return '';
     },
     // These methods maintain compatibility with HTML templates while delegating logic to systems.
 
     t(key, context = 'ui', params = {}) { 
-        let text = this.translations[this.language][context]?.[key] || key;
+        const store = Alpine.store('game');
+        let text = store.translations[store.language][context]?.[key] || key;
         if (params) {
             Object.entries(params).forEach(([k, v]) => {
                 text = text.replace(`{${k}}`, v);
@@ -103,100 +141,111 @@ Alpine.store('game', {
         return text; 
     },
 
-    playSound(key) { this.audio.playSound(key); },
+    playSound(key) { Alpine.store('game').audio.playSound(key); },
     addLog(id, context = 'logs', color = null, params = {}) { 
-        this.logger.addLog(this, id, context, color, params); 
+        const store = Alpine.store('game');
+        store.logger.addLog(store, id, context, color, params); 
     },
 
     saveGame(isManual = false) { 
-        this.trait.checkTraits(this); 
-        this.persistence.saveGame(this, isManual); 
+        const store = Alpine.store('game');
+        store.persistence.saveGame(store, isManual); 
     },
 
     loadGame() {
-        if (this.persistence.loadGame(this)) {
-            this.ui.calculateScale(this);
+        const store = Alpine.store('game');
+        if (store.persistence.loadGame(store)) {
+            store.ui.calculateScale(store);
             return true;
         }
         return false;
     },
 
     setLanguage(lang) {
-        this.language = lang;
-        this.saveGame();
+        const store = Alpine.store('game');
+        store.language = lang;
+        store.saveGame();
     },
 
-    hardReset() { this.persistence.hardReset(this); },
-    exportSave() { this.saveCode = this.persistence.exportGameData(this); },
-    importSave() { this.persistence.importGameData(this, this.saveCode); },
-    updateAudio() { this.audio.init(this.settings); },
+    hardReset() { const store = Alpine.store('game'); store.persistence.hardReset(store); },
+    exportSave() { const store = Alpine.store('game'); store.saveCode = store.persistence.exportGameData(store); },
+    importSave() { const store = Alpine.store('game'); store.persistence.importGameData(store, store.saveCode); },
+    updateAudio() { const store = Alpine.store('game'); store.audio.init(store.settings); },
 
     // --- VIEW LOGIC ---
     startNewGame() {
-        if (this.hasSave) {
-            if (!confirm(this.t('confirm_reset', 'ui'))) return;
+        const store = Alpine.store('game');
+        if (store.hasSave) {
+            if (!confirm(store.t('confirm_reset', 'ui'))) return;
         }
-        this.resetStateToInitial();
-        this.view = 'prologue';
-        this.prologue.playIntro(this);
-        this.hasSave = false;
-        this.audio.startMusic();
-        this.saveGame();
+        store.resetStateToInitial();
+        store.view = 'prologue';
+        store.prologue.playIntro(store);
+        store.hasSave = false;
+        store.audio.startMusic();
+        store.saveGame();
     },
 
     confirmName() {
-        if (!this.playerName || this.playerName.trim() === '') return;
-        this.showNamePrompt = false;
-        const name = this.playerName;
-        this.resetStateToInitial();
-        this.playerName = name;
-        this.view = 'prologue';
-        this.prologue.playIntro(this);
-        this.hasSave = false;
-        this.audio.startMusic();
-        this.saveGame();
+        const store = Alpine.store('game');
+        if (!store.playerName || store.playerName.trim() === '') return;
+        store.showNamePrompt = false;
+        const name = store.playerName;
+        store.resetStateToInitial();
+        store.playerName = name;
+        store.view = 'prologue';
+        store.prologue.playIntro(store);
+        store.hasSave = false;
+        store.audio.startMusic();
+        store.saveGame();
     },
 
     continueGame() {
-        if (this.persistence.loadGame(this)) {
-            this.view = 'gameplay'; 
-            this.audio.startMusic();
+        const store = Alpine.store('game');
+        if (store.persistence.loadGame(store)) {
+            store.view = 'gameplay'; 
+            store.audio.startMusic();
         }
     },
 
     resetStateToInitial() {
+        const store = Alpine.store('game');
         localStorage.removeItem('wings_save');
-        Object.keys(initialState).forEach(key => {
+        
+        // Use the factory to get a clean state
+        const cleanState = buildInitialState();
+        
+        Object.keys(cleanState).forEach(key => {
             if (key !== 'settings' && key !== 'language') {
-                this[key] = JSON.parse(JSON.stringify(initialState[key]));
+                store[key] = JSON.parse(JSON.stringify(cleanState[key]));
             }
         });
     },
 
     // --- GAMEPLAY DELEGATES ---
     executeAction(id) { 
-        const result = this.actions.execute(this, id); 
-        if (result.success && this.ellieActive) {
-            this.tutorial.handleAction(this, id);
+        const store = Alpine.store('game');
+        const result = store.actions.execute(store, id); 
+        if (result.success && store.ellieActive) {
+            store.tutorial.handleAction(store, id);
         }
         return result;
     },
-    npcExecute(id) { return this.npc.execute(this, id); },
-    toggleCompanion(id) { this.npc.toggleCompanion(this, id); },
-    consumeItem(id) { this.item.consumeItem(this, id); },
-    checkTraits() { this.trait.checkTraits(this); },
+    npcExecute(id) { const store = Alpine.store('game'); return store.npc.execute(store, id); },
+    toggleCompanion(id) { const store = Alpine.store('game'); store.npc.toggleCompanion(store, id); },
+    consumeItem(id) { const store = Alpine.store('game'); store.item.consumeItem(store, id); },
     
     completeDemo() {
-        this.view = 'finale';
-        this.addLog('milestone_tree_of_life', 'logs', 'var(--accent-teal)');
-        this.playSound('success');
-        this.saveGame();
+        const store = Alpine.store('game');
+        store.view = 'finale';
+        store.addLog('milestone_tree_of_life', 'logs', 'var(--accent-teal)');
+        store.playSound('success');
+        store.saveGame();
     },
 
     // --- UI HELPERS & GETTERS ---
     getActionEffect(hAction) { return this.ui.getActionEffect(this, hAction); },
     getTooltipCosts(hAction) { return this.ui.getTooltipCosts(this, hAction); },
-    getTraitMultiplier(bonusType) { return this.trait.getTraitMultiplier(this, bonusType); },
     
     get energyPercent() { return this.ui.getEnergyPercent(this); },
     get magicPercent() { return this.ui.getMagicPercent(this); },
@@ -208,13 +257,17 @@ Alpine.store('game', {
     get groupedHistory() { return this.story.getGroupedHistory ? this.story.getGroupedHistory(this) : []; },
 
     get canAccessTreeOfLife() {
-        if (!this.housing.hasHouse) return false;
-        return (
-            (this.npcProgress.baker || 0) >= this.actionDb['npc-baker'].maxProgress &&
-            (this.npcProgress.teacher || 0) >= this.actionDb['npc-teacher'].maxProgress &&
-            (this.npcProgress.sage || 0) >= this.actionDb['npc-sage'].maxProgress &&
-            (this.counters.study || 0) >= 3
-        );
+        const store = Alpine.store('game');
+        if (!store.housing.hasHouse) return false;
+        
+        // Requirements: Baker, Teacher, and Sage must be at max progress
+        const requiredNpcs = ['npc-baker', 'npc-teacher', 'npc-sage'];
+        const allNpcsDone = requiredNpcs.every(id => {
+            const def = store.NPC_REGISTRY[id];
+            return (store.npcProgress[def.progKey] || 0) >= def.maxProgress;
+        });
+
+        return allNpcsDone && (store.counters.study || 0) >= 3;
     }
 });
 

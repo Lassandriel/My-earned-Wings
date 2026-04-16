@@ -24,7 +24,6 @@ The game is now in a polished, balanced state. Core survival loops and narrative
 - [x] **Companion System**: Assigning NPCs to tasks for passive resource gain.
 - [x] **Transaction Logic**: Paying shards as salary for companions.
 - [x] **Advanced Crafting**: Bookshelf, Desk, Bed, Stove, and Bow.
-- [x] **Traits & Achievements**: Unlockable buffs based on player actions (Woodcutter, Merchant, etc.).
 
 ## Phase 4: Heart of Draconia (Demo Finale) - **COMPLETED**
 - [x] **NPC Extensions**: Extended questlines for Teacher and Old Sage (Level 5).
@@ -68,6 +67,13 @@ The game is now in a polished, balanced state. Core survival loops and narrative
 - [x] **Narrative Meta-Goal**: Added overarching story goal (seeking the Sun Palace/Imperial Family).
 - [x] **Guided Intro**: Interactive tutorial for gathering, crafting, and village tabs.
 - [x] **Objective Tracking**: Subtle UI indicator for the current main goal.
+
+## Phase 4.6: Draconia Core 2.0 (Architecture) - **COMPLETED**
+- [x] **Service-Oriented Architecture (SOA)**: Decoupled game logic from the main store using stateless service modules.
+- [x] **Registry-Driven Content**: Centralized definitions for Resources and NPCs for easy content expansion.
+- [x] **Absolute Store Context**: Eliminated production reactivity bugs by using absolute `Alpine.store('game')` references.
+- [x] **Dynamic UI Engine**: Refactored `index.html` into modular partials using `x-for` loops and registry metadata.
+- [x] **Registry Multipliers**: Generic yield and cost scaling managed via Registry properties.
 
 ---
 

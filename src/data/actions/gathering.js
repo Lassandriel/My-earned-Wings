@@ -47,7 +47,7 @@ export const gatheringActions = {
     yieldType: 'magic',
     counter: 'magic',
     calculateYield: (state) => {
-        return 15 * state.getTraitMultiplier('yield_magic');
+        return 15;
     },
     execute: (state) => {
       const gain = gatheringActions['action-meditieren'].calculateYield(state);
@@ -85,7 +85,7 @@ export const gatheringActions = {
     calculateYield: (state) => {
       let base = state.inventory.includes('craft-axe') ? 2 : 1;
       if (state.inventory.includes('craft-wanderstock')) base += 1;
-      return base * state.getTraitMultiplier('yield_wood');
+      return base;
     },
     execute: (state) => {
       if (state.resource.isFull(state, 'wood')) return { success: false };
@@ -107,7 +107,7 @@ export const gatheringActions = {
     counter: 'stone',
     calculateYield: (state) => {
         let base = state.inventory.includes('craft-pickaxe') ? 2 : 1;
-        return base * state.getTraitMultiplier('yield_stone');
+        return base;
     },
     execute: (state) => {
       if (state.resource.isFull(state, 'stone')) return { success: false };

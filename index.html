@@ -76,41 +76,8 @@
                 </div>
             </header>
 
-            <nav class="sidebar">
-                <div class="nav-items-top">
-                    <!-- Navigation Items -->
-                    <div class="nav-item" :class="$store.game.view === 'gameplay' && 'active'" @click="$store.game.view = 'gameplay'; $store.game.playSound('click')">
-                        <img src="img/menu_story.webp" alt="Main" class="menu-icon-img" />
-                        <span x-text="$store.game.t('nav_story')">Haupt</span>
-                    </div>
-                    <div class="nav-item" :class="$store.game.view === 'crafting' && 'active'" @click="$store.game.view = 'crafting'; $store.game.playSound('click')">
-                        <img src="img/menu_crafting.webp" alt="Crafting" class="menu-icon-img" />
-                        <span x-text="$store.game.t('nav_crafting')">Crafting</span>
-                    </div>
-                    <div class="nav-item" :class="$store.game.view === 'inventory' && 'active'" @click="$store.game.view = 'inventory'; $store.game.playSound('click')">
-                        <img src="img/menu_inventory.webp" alt="Inventory" class="menu-icon-img" />
-                        <span x-text="$store.game.t('nav_inventory')">Upgrades</span>
-                    </div>
-                    <div class="nav-item" :class="$store.game.view === 'traits' && 'active'" @click="$store.game.view = 'traits'; $store.game.playSound('click')">
-                        <img src="img/menu_traits.webp" alt="Traits" class="menu-icon-img" />
-                        <span x-text="$store.game.t('nav_traits') || 'Titel'">Titel</span>
-                    </div>
-                    <div class="nav-item" :class="$store.game.view === 'village' && 'active'" @click="$store.game.view = 'village'; $store.game.playSound('click')">
-                        <img src="img/menu_village.webp" alt="Village" class="menu-icon-img" />
-                        <span x-text="$store.game.t('nav_village')">Dorf</span>
-                    </div>
-                    <div class="nav-item" :class="$store.game.view === 'chronicle' && 'active'" @click="$store.game.view = 'chronicle'; $store.game.playSound('click')">
-                        <img src="img/menu_chronic.webp" alt="Story" class="menu-icon-img" />
-                        <span x-text="$store.game.t('nav_story_tab')">Geschichte</span>
-                    </div>
-                </div>
-                <div class="sidebar-footer">
-                    <div class="save-status-sidebar" x-text="$store.game.saveInfoText || $store.game.t('save_never')">
-                        Zuletzt gespeichert: Nie
-                    </div>
-                    <div class="settings-corner-btn" @click="$store.game.settingsOpen = true" :title="$store.game.t('settings_title')">⚙️</div>
-                </div>
-            </nav>
+            <!-- Modular Sidebar -->
+            <%- include('./src/partials/ui/sidebar.html') %>
 
             <!-- Content Views -->
             <section class="view-section" x-show="$store.game.view === 'gameplay'" x-transition:enter="view-enter">
@@ -122,9 +89,6 @@
             <section class="view-section" x-show="$store.game.view === 'inventory'" x-transition:enter="view-enter">
                 <%- include('./src/partials/inventory.html') %>
             </section>
-            <section class="view-section" x-show="$store.game.view === 'traits'" x-transition:enter="view-enter">
-                <%- include('./src/partials/traits.html') %>
-            </section>
             <section class="view-section" x-show="$store.game.view === 'village'" x-transition:enter="view-enter">
                 <%- include('./src/partials/village.html') %>
             </section>
@@ -135,98 +99,10 @@
             <!-- Global Log -->
             <%- include('./src/partials/log.html') %>
 
+            <!-- Right Panel (Status Card) -->
             <aside class="right-panel">
-                <div class="status-card">
-                    <div class="status-header">
-                        <div class="player-name" x-text="$store.game.playerName">Player Name</div>
-                    </div>
-                    
-                    <div class="wing-profile-container">
-                        <div class="wing-status-wrapper head" :class="$store.game.stats.satiation < 15 && 'pulse-critical'">
-                            <div class="wing-mask-bg"></div>
-                            <div class="wing-mask-fill satiation" :style="'clip-path: inset(' + (100 - $store.game.satiationPercent) + '% 0 0 0)'"></div>
-                        </div>
-                        <div class="wing-status-wrapper left" :class="$store.game.stats.energy < 15 && 'pulse-critical'">
-                            <div class="wing-mask-bg"></div>
-                            <div class="wing-mask-fill energy" :style="'clip-path: inset(' + (100 - $store.game.energyPercent) + '% 0 0 0)'"></div>
-                        </div>
-                        <div class="wing-status-wrapper right" :class="$store.game.stats.magic < 15 && 'pulse-critical'">
-                            <div class="wing-mask-bg"></div>
-                            <div class="wing-mask-fill magic" :style="'clip-path: inset(' + (100 - $store.game.magicPercent) + '% 0 0 0)'"></div>
-                        </div>
-                    </div>
-
-                    <div class="compact-stats">
-                        <div class="stat-header-flex">
-                            <div class="stat-category" x-text="$store.game.t('ui_vitality')">Vitalität</div>
-                        </div>
-
-                        <div class="stat-row">
-                            <span class="stat-name satiation-label" x-text="$store.game.t('ui_satiation')">Sättigung</span>
-                            <div class="stat-bar-bg"><div class="stat-bar-fill satiation-fill" :style="'width:'+$store.game.satiationPercent+'%'"></div></div>
-                            <span class="stat-val" x-text="Math.floor($store.game.stats.satiation || 0) + '/' + ($store.game.stats.maxSatiation || 100)"></span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-name energy-label" x-text="$store.game.t('ui_energy')">Energie</span>
-                            <div class="stat-bar-bg"><div class="stat-bar-fill energy-fill" :style="'width:'+$store.game.energyPercent+'%'"></div></div>
-                            <span class="stat-val" x-text="Math.floor($store.game.stats.energy)+'/'+$store.game.stats.maxEnergy"></span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-name magic-label" x-text="$store.game.t('ui_magic')">Magie</span>
-                            <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+$store.game.magicPercent+'%'"></div></div>
-                            <span class="stat-val" x-text="Math.floor($store.game.stats.magic)+'/'+$store.game.stats.maxMagic"></span>
-                        </div>
-
-                        <div class="stat-category" x-show="$store.game.discoveredResources.some(r => ['wood', 'stone', 'shards', 'meat'].includes(r))" x-text="$store.game.t('cat_trade') || $store.game.t('ui_materials')">Vorräte</div>
-                        
-                        <div x-data="{ expanded: true }" x-show="$store.game.discoveredResources.some(r => ['wood', 'stone', 'shards'].includes(r))">
-                            <div class="stat-subcategory" @click="expanded = !expanded">
-                                <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
-                                <span class="subcategory-name" x-text="$store.game.t('ui_materials')">Materialien</span>
-                            </div>
-                            <div class="collapsible-content" x-show="expanded" x-collapse>
-                                <div class="stat-row" x-show="$store.game.discoveredResources.includes('shards')">
-                                    <span class="stat-name" x-text="$store.game.t('ui_shards')">Splitter</span>
-                                    <div class="stat-bar-bg"><div class="stat-bar-fill magic-fill" :style="'width:'+Math.min(100,($store.game.resources.shards/$store.game.limits.shards)*100)+'%'"></div></div>
-                                    <span class="stat-val shard-inline">✦ <span x-text="Math.floor($store.game.resources.shards)+'/'+$store.game.limits.shards"></span></span>
-                                </div>
-                                <div class="stat-row" x-show="$store.game.discoveredResources.includes('wood')">
-                                    <span class="stat-name" x-text="$store.game.t('ui_wood')">Holz</span>
-                                    <div class="stat-bar-bg"><div class="stat-bar-fill wood-fill" :style="'width:'+Math.min(100,($store.game.resources.wood/$store.game.limits.wood)*100)+'%'"></div></div>
-                                    <span class="stat-val" x-text="Math.floor($store.game.resources.wood)+'/'+$store.game.limits.wood"></span>
-                                </div>
-                                <div class="stat-row" x-show="$store.game.discoveredResources.includes('stone')">
-                                    <span class="stat-name" x-text="$store.game.t('ui_stone')">Stein</span>
-                                    <div class="stat-bar-bg"><div class="stat-bar-fill stone-fill" :style="'width:'+Math.min(100,($store.game.resources.stone/$store.game.limits.stone)*100)+'%'"></div></div>
-                                    <span class="stat-val" x-text="Math.floor($store.game.resources.stone)+'/'+$store.game.limits.stone"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div x-data="{ expanded: true }" x-show="$store.game.discoveredResources.includes('meat')" style="margin-top: 5px">
-                            <div class="stat-subcategory" @click="expanded = !expanded">
-                                <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
-                                <span class="subcategory-name" x-text="$store.game.t('ui_provisions')">Proviant</span>
-                            </div>
-                            <div class="collapsible-content" x-show="expanded" x-collapse>
-                                <div class="stat-row" x-show="$store.game.discoveredResources.includes('meat')">
-                                    <span class="stat-name" x-text="$store.game.t('ui_meat')">Fleisch</span>
-                                    <div class="stat-bar-bg"><div class="stat-bar-fill energy-fill" :style="'width:'+Math.min(100,($store.game.resources.meat/$store.game.limits.meat)*100)+'%'"></div></div>
-                                    <span class="stat-val"><span x-text="Math.floor($store.game.resources.meat)+'/'+$store.game.limits.meat"></span></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="stat-category" x-text="$store.game.t('ui_base')">Basis</div>
-                        <div class="stat-row basis-row">
-                            <span x-show="!$store.game.housing.hasCampfire" class="stat-val basis-val">🌿 <span x-text="$store.game.t('ui_no_shelter')"></span></span>
-                            <span x-show="$store.game.housing.hasCampfire && !$store.game.housing.hasTent" class="stat-val basis-val active">🏕️ <span x-text="$store.game.t('house-campfire', 'actions').title"></span></span>
-                            <span x-show="$store.game.housing.hasTent && !$store.game.housing.hasHouse" class="stat-val basis-val active">⛺ <span x-text="$store.game.t('house-tent', 'actions').title"></span></span>
-                            <span x-show="$store.game.housing.hasHouse" class="stat-val basis-val milestone">🏠 <span x-text="$store.game.t('house-build', 'actions').title"></span></span>
-                        </div>
-                    </div>
-                </div>
-                      </div>
+                <%- include('./src/partials/ui/status_card.html') %>
+            </aside>
         </div>
 
 
