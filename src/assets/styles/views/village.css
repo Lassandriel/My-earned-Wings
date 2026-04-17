@@ -1,6 +1,10 @@
 /* VILLAGE VIEW - PREMIUM GRID REVAMP */
 .village-view-container {
-    padding: 0;
+    padding: var(--gap) var(--gap) 0 var(--gap);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Internal scroll source */
     animation: fadeInVillage 0.5s ease-out;
 }
 
@@ -9,6 +13,7 @@
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 25px;
     margin-top: 25px;
+    padding-bottom: 80px; /* Space at the bottom for scrolling comfort */
 }
 
 /* Base Card Styling */

@@ -8,11 +8,10 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
+    min-height: 0; /* Crucial for Grid stability */
+    height: 100%;
     width: 100%;
-}
-
-#game-wrapper .view-section[style*="display: none"] {
-    display: none !important;
+    overflow: hidden; /* View section stays fixed, child 'main' scrolls */
 }
 
 #game-wrapper main {

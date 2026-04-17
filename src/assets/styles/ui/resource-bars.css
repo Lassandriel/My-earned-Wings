@@ -55,3 +55,18 @@
   50% { opacity: 1; }
   100% { opacity: 0.8; }
 }
+
+/* INTERACTIVE FEEDBACK CLASSES */
+.stat-bar-fill.gain-pulse {
+    animation: pulse-gain 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-bar-fill.drain-flash {
+    animation: flash-drain 0.4s ease-out;
+}
+
+@keyframes flash-drain {
+    0% { filter: brightness(1) saturate(1); }
+    30% { filter: brightness(2) saturate(0.5); background-color: #fff !important; }
+    100% { filter: brightness(1) saturate(1); }
+}

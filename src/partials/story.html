@@ -1,5 +1,5 @@
 <!-- CHRONICLE VIEW -->
-<main x-show="$store.game.view === 'story'">
+<div x-show="$store.game.view === 'story'" class="view-content-story">
   <div class="category-header">
     <h3 x-text="$store.game.t('nav_story_tab_header')">Chronik</h3>
     <div class="nav-help-icon" 
@@ -28,4 +28,4 @@
       <p x-text="$store.game.t('ui_empty_story')">Die Feder wartet auf das erste Kapitel...</p>
     </div>
   </div>
-</main>
+</div>

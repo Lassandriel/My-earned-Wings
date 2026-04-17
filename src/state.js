@@ -12,6 +12,8 @@ export const initialState = {
   prologueStep: 0,
   settingsOpen: false,
   currentScale: 1,
+  craftingSubView: 'all',
+  isLooping: false,
   resources: {},
   limits: {},
   stats: {},
@@ -24,8 +26,12 @@ export const initialState = {
     hasTable: false,
     hasBookshelf: false,
     hasLandDeed: false,
-    hasGarden: false
+    hasGarden: false,
+    hasKitchen: false,
+    hasSanctum: false,
+    gardenLevel: 1
   },
+  activeBuffs: {},
   upgrades: [],
   discoveredResources: [],
   discoveredItems: [],
@@ -44,7 +50,8 @@ export const initialState = {
     volumeMusic: 0.7,
     volumeSfx: 1.0,
     mute: false,
-    showParticles: true
+    showParticles: true,
+    showJuice: true
   },
   counters: {
     totalActions: 0,

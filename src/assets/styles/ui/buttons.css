@@ -4,38 +4,61 @@
 */
 
 .game-btn {
+  position: relative;
   padding: 12px 24px;
   background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--panel-border);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   color: #fff;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--trans-mid), transform var(--trans-fast);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: var(--space-sm);
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
   letter-spacing: 0.3px;
   box-shadow: 
-    0 4px 15px rgba(0, 0, 0, 0.2),
+    var(--glass-shadow),
     inset 0 0 10px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
 }
 
 .game-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.3),
+    0 12px 30px rgba(0, 0, 0, 0.4),
     inset 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
+/* SCANNING LIGHT FOR ACTIVE BUTTONS */
+.game-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.15), 
+        transparent
+    );
+    pointer-events: none;
+}
+
+.game-btn.is-working::after {
+    animation: scanning-light 2s infinite linear;
+}
+
 .game-btn:active {
-    transform: scale(0.96);
-    background: var(--glass-bg-heavy);
+    transform: scale(0.94);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* PROGRESS BAR FOR ASYNC ACTIONS */
@@ -45,7 +68,7 @@
     left: 0;
     width: 100%;
     height: 6px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     overflow: hidden;
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -53,14 +76,23 @@
 
 .btn-progress-fill {
     height: 100%;
-    background: var(--accent-teal);
+    background: linear-gradient(to right, var(--accent-teal), #5eead4);
     width: 0%;
-    box-shadow: 0 0 8px var(--accent-teal);
+    box-shadow: 0 0 12px var(--accent-teal);
+    transition: width 0.1s linear;
 }
 
 .game-btn.is-working {
     cursor: wait;
-    opacity: 0.9;
+    opacity: 1;
+    border-color: var(--accent-teal);
+    animation: button-pulse 2s infinite ease-in-out;
+}
+
+@keyframes button-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(20, 184, 166, 0.2); }
+    100% { transform: scale(1); }
 }
 
 .primary-btn {

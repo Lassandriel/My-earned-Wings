@@ -28,19 +28,14 @@ export const createPersistenceSystem = (initialState) => ({
       try {
         const data = JSON.parse(saved);
         
-        // --- CLEANUP: Clear dynamic objects before loading to avoid key-bloat ---
-        store.resources = {};
-        store.limits = {};
-        store.npcProgress = {};
-
-        // Use recursive deep merge to preserve new keys in nested objects
+        // --- Lade-Prozess: Merged gespeicherte Daten in den initialisierten Store ---
+        // Wir löschen die Objekte NICHT, damit neue Registry-Keys aus buildInitialState() erhalten bleiben.
+        
         const deepMerge = (target, source) => {
             Object.keys(source).forEach(key => {
-
                 if (Array.isArray(source[key])) {
                     target[key] = [...new Set([...(target[key] || []), ...source[key]])];
-                } else if (source[key] && typeof source[key] === 'object') {
-                    if (!target[key]) target[key] = {};
+                } else if (source[key] && typeof source[key] === 'object' && target[key]) {
                     deepMerge(target[key], source[key]);
                 } else {
                     target[key] = source[key];

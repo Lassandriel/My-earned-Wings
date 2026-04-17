@@ -41,15 +41,19 @@ export const createResourceSystem = () => {
             finalAmount = finalAmount * getSatiationMultiplier(state);
         }
 
+        let consumed = false;
         if (state.stats[type] !== undefined) {
             state.stats[type] = Math.max(0, state.stats[type] - finalAmount);
-            return true;
-        }
-        if (state.resources[type] !== undefined) {
+            consumed = true;
+        } else if (state.resources[type] !== undefined) {
             state.resources[type] = Math.max(0, state.resources[type] - finalAmount);
-            return true;
+            consumed = true;
         }
-        return false;
+
+        if (consumed && state.bus) {
+            state.bus.emit(state.EVENTS.RESOURCE_SPENT, { type });
+        }
+        return consumed;
     };
 
     return {
@@ -58,22 +62,28 @@ export const createResourceSystem = () => {
         
         add(state, type, amount) {
             let finalAmount = amount;
+            if (finalAmount <= 0) return false;
+            
             const resDef = state.RESOURCE_REGISTRY[type];
+            let changed = false;
             
             if (state.stats[type] !== undefined) {
                 const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
                 state.stats[type] = Math.min(state.stats[maxKey] || 100, state.stats[type] + finalAmount);
-                return true;
-            }
-            if (state.resources[type] !== undefined) {
+                changed = true;
+            } else if (state.resources[type] !== undefined) {
                 if (state.discoveredResources && !state.discoveredResources.includes(type)) {
                     state.discoveredResources.push(type);
                 }
                 const limit = state.limits[type] || Infinity;
                 state.resources[type] = Math.min(limit, state.resources[type] + finalAmount);
-                return true;
+                changed = true;
             }
-            return false;
+
+            if (changed && state.bus) {
+                state.bus.emit(state.EVENTS.RESOURCE_GAINED, { type });
+            }
+            return changed;
         },
 
         getLimit(state, type) {

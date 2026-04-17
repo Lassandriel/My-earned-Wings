@@ -24,7 +24,7 @@ export const npcActions = {
         { cost: 15, costType: 'energy' },
         { costs: { wood: 20 } },
         { costs: { water: 1 } },
-        { cost: 20, costType: 'energy' }
+        { cost: 20, costType: 'energy', onSuccess: { unlocks: ['npc-blacksmith'] } }
     ],
     companion: {
         salary: 1,
@@ -41,7 +41,7 @@ export const npcActions = {
     steps: [
         { costs: { wood: 20 } },
         { costs: { stone: 20 } },
-        { costs: { wood: 10, stone: 10 }, reward: 'Gilded Chisel' }
+        { costs: { wood: 10, stone: 10 }, reward: 'item-chisel', onSuccess: { unlocks: ['craft-axe', 'craft-pickaxe'] } }
     ],
     companion: {
         salary: 3,
@@ -58,7 +58,7 @@ export const npcActions = {
     steps: [
         { cost: 12, costType: 'magic' },
         { cost: 15, costType: 'magic' },
-        { cost: 20, costType: 'magic', reward: 'Ancient Scroll' },
+        { cost: 20, costType: 'magic', reward: 'item-scroll' },
         { cost: 25, costType: 'magic' },
         { cost: 30, costType: 'magic' }
     ],
@@ -75,7 +75,7 @@ export const npcActions = {
         { cost: 25, costType: 'energy' },
         { costs: { shards: 100 } },
         { cost: 30, costType: 'energy' },
-        { cost: 40, costType: 'energy', reward: 'Official Land Deed' }
+        { cost: 40, costType: 'energy', reward: 'item-deed' }
     ],
     execute: (state) => {
         return state.npcExecute('npc-townHall');
@@ -89,7 +89,7 @@ export const npcActions = {
         { cost: 20, costType: 'energy' },
         { cost: 15, costType: 'magic' },
         { costs: { stone: 30 } },
-        { cost: 15, costType: 'energy', reward: 'Whetstone' },
+        { cost: 15, costType: 'energy', reward: 'item-whetstone' },
         { cost: 25, costType: 'energy' }
     ],
     execute: (state) => {
@@ -101,7 +101,7 @@ export const npcActions = {
     progKey: 'sage', maxProgress: 5,
     journalIcon: '🔮', journalColor: '#8b5cf6',
     steps: [
-        { cost: 20, costType: 'magic', reward: 'Book of Knowledge' },
+        { cost: 20, costType: 'magic', reward: 'item-book-knowledge' },
         { cost: 30, costType: 'magic' },
         { cost: 40, costType: 'magic' },
         { cost: 50, costType: 'magic' },
@@ -117,8 +117,8 @@ export const npcActions = {
     journalIcon: '🏹', journalColor: '#10b981',
     steps: [
         { cost: 15, costType: 'energy' },
-        { costs: { wood: 10 }, reward: 'Arrowhead' },
-        { cost: 15, costType: 'energy', reward: 'Dried Meat' },
+        { costs: { wood: 10 }, reward: 'item-arrowhead' },
+        { cost: 15, costType: 'energy', reward: 'item-dried-meat' },
         { costs: { wood: 20 } },
         { cost: 20, costType: 'energy' }
     ],
@@ -151,10 +151,10 @@ export const npcActions = {
     journalIcon: '✨', journalColor: '#a78bfa',
     steps: [
         { cost: 10, costType: 'energy' },
-        { cost: 15, costType: 'magic' },
-        { costs: { herbs: 5 }, reward: 'Dream Dust' },
+        { cost: 15, costType: 'magic', onSuccess: { unlocks: ['action-dream-bloom'] } },
+        { costs: { herbs: 5 }, reward: 'item-dream-dust' },
         { cost: 20, costType: 'magic' },
-        { cost: 25, costType: 'magic', reward: 'Wyvern Scale' }
+        { cost: 25, costType: 'magic', reward: 'item-wyvern-scale' }
     ],
     companion: {
         salary: 3,

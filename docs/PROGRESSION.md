@@ -67,10 +67,38 @@ graph TD
     Companion_Artisan -- "Shard Salary" --> Auto_Wood["Passive Wood Yield"]
     Companion_FlowerGirl -- "Shard Salary" --> Auto_Magic["Passive Magic Yield"]
     
-    %% Core Loops
     Eat -- "Refills" --> Satiation["Satiation"]
     Satiation -- "Efficiency" --> Yield["Yield Multiplier"]
+
+    %% Stage 3: Refinement (NEW)
+    House --> Kitchen["Upgrade: Kitchen Station"]
+    House --> Sanctum["Build: Arcane Sanctum"]
+    Kitchen --> Gourmet["Action: Gourmet Cooking (Buffs)"]
+    Sanctum --> Aris["NPC: Archmage Aris"]
+    Sanctum --> Meditation["Action: Meditation"]
+    Meditation --> Astral["Resource: Astral Shards"]
+    Astral --> Spells["Spells & Infusions"]
+    
+    Garden["Garden Stufe 1"] --> Garden2["Upgrade: Garden Lvl 2"]
+    Garden2 --> Parallel["Action: Parallel Planting"]
 ```
+
+## Progression Stages
+
+### Stage 1: Survival (The Camp)
+*   **Focus**: Resource gathering and basic survival.
+*   **Milestone**: Building the first tent and meeting the Baker.
+
+### Stage 2: Settlement (The Home)
+*   **Focus**: Infrastructure and community.
+*   **Milestone**: Obtaining the Land Deed and building the House.
+
+### Stage 3: Refinement (The Mastery)
+*   **Focus**: Concentration of energy and optimization.
+*   **Milestones**:
+    *   **Arcane Sanctum**: Unlocks Archmage Aris and the generation of Astral Shards.
+    *   **Kitchen Station**: Unlocks Gourmet Cooking for long-lasting buffs.
+    *   **Garden Expansion**: Doubles harvest capacity via parallel slots.
 
 ## Explanation
 - **Draconia Reality**: In a world where magic is the fuel for life and the Lava Sea is ever-present, resources are more than just items—they are survival.

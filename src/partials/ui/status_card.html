@@ -3,6 +3,20 @@
     <div class="status-header">
         <div class="player-name" x-text="$store.game.playerName">Player Name</div>
     </div>
+
+    <!-- Active Buffs -->
+    <div class="buff-container" x-show="Object.keys($store.game.activeBuffs).length > 0" x-collapse>
+        <template x-for="(buff, id) in $store.game.activeBuffs" :key="id">
+            <div class="buff-badge" 
+                 @mouseover="$store.game.hoveredAction = { id: id, isBuff: true, title: buff.title, desc: buff.desc, remaining: buff.remaining }"
+                 @mouseout="$store.game.hoveredAction = null">
+                <div class="buff-glow"></div>
+                <span class="buff-icon">✨</span>
+                <span class="buff-label" x-text="buff.title">Buff</span>
+                <span class="buff-timer" x-text="Math.ceil(buff.remaining) + 's'">0s</span>
+            </div>
+        </template>
+    </div>
     
     <!-- Wing Visualizer -->
     <div class="wing-profile-container">
@@ -33,7 +47,10 @@
                     <span x-text="$store.game.t('ui_' + stat.id)"></span>
                 </span>
                 <div class="stat-bar-bg">
-                    <div class="stat-bar-fill" :style="'width:' + $store.game[stat.id + 'Percent'] + '%; background-color: ' + stat.color"></div>
+                    <div class="stat-bar-fill" 
+                         :data-res="stat.id"
+                         :style="'width:' + $store.game[stat.id + 'Percent'] + '%; background-color: ' + stat.color">
+                    </div>
                 </div>
                 <span class="stat-val" x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"></span>
             </div>
@@ -58,6 +75,7 @@
                             </span>
                             <div class="stat-bar-bg">
                                 <div class="stat-bar-fill" 
+                                     :data-res="res.id"
                                      :style="'width:' + Math.min(100, ($store.game.resources[res.id] / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color">
                                 </div>
                             </div>

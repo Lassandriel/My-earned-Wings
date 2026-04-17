@@ -102,6 +102,16 @@ export const NPC_REGISTRY = {
         progKey: 'ellie',
         maxProgress: 5,
         chapter: 'The Dream'
+    },
+    'npc-aris': {
+        id: 'npc-aris',
+        nameKey: 'npc_aris_name',
+        icon: '🧙‍♂️',
+        color: '#8b5cf6',
+        image: 'img/npcs/Archmage.png',
+        progKey: 'aris',
+        maxProgress: 5,
+        chapter: 'The Dream'
     }
 };
 

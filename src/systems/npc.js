@@ -3,28 +3,17 @@
  * and background resource generation (Salary & Yield).
  */
 export const createNPCSystem = () => {
-    const handleUnlocks = (store, id, newProg) => {
-        if (id === 'npc-flowerGirl' && newProg >= 5) {
-            if (!store.unlockedNPCs.includes('npc-blacksmith')) store.unlockedNPCs.push('npc-blacksmith');
-        }
-        if (id === 'npc-artisan' && newProg >= 3) {
-            if (!store.unlockedRecipes.includes('craft-axe')) store.unlockedRecipes.push('craft-axe');
-            if (!store.unlockedRecipes.includes('craft-pickaxe')) store.unlockedRecipes.push('craft-pickaxe');
-        }
-    };
-
     return {
         /**
          * Executes an NPC interaction step (Quest/Dialog progress).
          */
         execute(game, id) {
-            const store = Alpine.store('game');
-            const action = store.actionDb[id];
+            const action = game.actionDb[id];
             
             if (!action || !action.steps) return false;
             
             const progKey = action.progKey;
-            const currentProg = store.npcProgress[progKey] || 0;
+            const currentProg = game.npcProgress[progKey] || 0;
             const step = action.steps[currentProg];
             
             if (!step) return false;
@@ -32,33 +21,56 @@ export const createNPCSystem = () => {
             // Handle costs
             const costs = step.costs || (step.cost ? { [step.costType]: step.cost } : null);
             
-            if (costs && !store.resource.consume(store, costs)) {
-                store.bus.emit(store.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
+            if (costs && !game.resource.consume(game, costs)) {
+                game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
                 return false;
             }
 
             // Progress success
-            store.npcProgress[progKey]++;
-            const newProg = store.npcProgress[progKey];
+            game.npcProgress[progKey]++;
+            const newProg = game.npcProgress[progKey];
             
             // Increment Trust (Numerical bond)
-            const currentTrust = store.npcTrust[progKey] || 0;
-            store.npcTrust[progKey] = currentTrust + 1;
+            const currentTrust = game.npcTrust[progKey] || 0;
+            game.npcTrust[progKey] = currentTrust + 1;
 
             // Give reward
             if (step.reward) {
-                if (!store.upgrades.includes(step.reward)) {
-                    store.upgrades.push(step.reward);
+                if (!game.upgrades.includes(step.reward)) {
+                    game.upgrades.push(step.reward);
                 }
-                if (!store.discoveredItems.includes(step.reward)) store.discoveredItems.push(step.reward);
+                if (!game.discoveredItems.includes(step.reward)) game.discoveredItems.push(step.reward);
                 
-                if (step.reward === 'Official Land Deed') store.housing.hasLandDeed = true;
+                if (step.reward === 'Official Land Deed') game.housing.hasLandDeed = true;
             }
 
-            // Logic side-effects
-            handleUnlocks(store, id, newProg);
+            // Logic side-effects (Generified)
+            if (step.onSuccess) {
+                const os = step.onSuccess;
+                // Handle Unlocks
+                if (os.unlocks) {
+                    os.unlocks.forEach(u => {
+                        if (u.startsWith('npc-')) {
+                            if (!game.unlockedNPCs.includes(u)) game.unlockedNPCs.push(u);
+                        } else {
+                            if (!game.unlockedRecipes.includes(u)) game.unlockedRecipes.push(u);
+                        }
+                    });
+                }
+                // Handle Flags
+                if (os.flags) {
+                    Object.entries(os.flags).forEach(([f, v]) => {
+                        if (f.includes('.')) {
+                            const parts = f.split('.');
+                            let target = game;
+                            for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
+                            target[parts[parts.length - 1]] = v;
+                        } else game[f] = v;
+                    });
+                }
+            }
 
-            store.bus.emit(store.EVENTS.SOUND_TRIGGERED, { key: 'success' });
+            game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'success' });
             return { success: true, logKey: `npc_${progKey}_${newProg}` };
         },
 

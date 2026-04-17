@@ -51,6 +51,7 @@ export const gatheringActions = {
     particleText: '+ Holz',
     particleType: 'wood',
     counter: 'wood',
+    isLoopable: true,
     rewards: { wood: 'wood_yield' },
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'wood_yield', 1) };
@@ -63,6 +64,7 @@ export const gatheringActions = {
     particleText: '+ Stein',
     particleType: 'stone',
     counter: 'stone',
+    isLoopable: true,
     rewards: { stone: 'stone_yield' },
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'stone_yield', 1) };
@@ -76,6 +78,7 @@ export const gatheringActions = {
     particleText: '+ Fleisch',
     particleType: 'energy',
     counter: 'food',
+    isLoopable: true,
     rewards: { meat: 2 },
     calculateYield(store) {
       return { val: 2 };
@@ -85,11 +88,46 @@ export const gatheringActions = {
   'action-garden-plant': {
     cost: 10, costType: 'energy',
     duration: 10000,
+    requirements: { 'housing.hasGarden': true },
     sfx: 'gather',
-    particleText: '+ Kräuter',
+    particleText: '+ herbs',
     particleType: 'energy',
     yieldType: 'herbs',
-    rewards: { herbs: 3 },
+    isLoopable: true,
+    rewards: { herbs: 'garden_yield' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'garden_yield', 3) };
+    },
     logKey: 'garden_harvest_log'
+  },
+  'action-garden-plant-2': {
+    cost: 10, costType: 'energy',
+    duration: 10000,
+    requirements: { 'housing.gardenLevel': 2 },
+    sfx: 'gather',
+    particleText: '+ herbs',
+    particleType: 'energy',
+    yieldType: 'herbs',
+    isLoopable: true,
+    rewards: { herbs: 'garden_yield' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'garden_yield', 3) };
+    },
+    logKey: 'garden_harvest_log'
+  },
+  'action-cook-gourmet': {
+    id: 'action-cook-gourmet',
+    costType: 'mixed',
+    costs: { water: 2, meat: 2, herbs: 1 },
+    duration: 5000,
+    requirements: { 'housing.hasKitchen': true },
+    sfx: 'eat',
+    particleText: 'vfx_gourmet',
+    yieldType: 'gourmet-meal',
+    rewards: { 'gourmet-meal': 1 },
+    onSuccess: {
+        buffs: { 'buff-gourmet': {} } // Refers to registry, empty object overrides nothing
+    },
+    logKey: 'cook_gourmet_success'
   }
 };

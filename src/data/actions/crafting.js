@@ -84,5 +84,36 @@ export const craftingActions = {
     rewards: { books: 1 },
     logKey: 'craft_book',
     logColor: 'rgba(251, 191, 36, 0.9)'
+  },
+  'craft-cabinet': {
+    cost: 60, costType: 'wood', image: 'img/Crafting_cabinet.webp',
+    requirements: { 'housing.hasHouse': true, 'housing.hasKitchen': true },
+    sfx: 'craft',
+    particleText: 'Stauraum!',
+    particleType: 'shards',
+    onSuccess: { 
+        upgrades: ['craft-cabinet'],
+        limits: { meat: 10, water: 10, herbs: 20 }
+    },
+    logKey: 'craft_cabinet'
+  },
+  'craft-spice-rack': {
+    costType: 'mixed',
+    costs: { wood: 30, herbs: 10 },
+    requirements: { 'housing.hasKitchen': true },
+    sfx: 'craft',
+    particleText: 'Würzig!',
+    onSuccess: { upgrades: ['craft-spice-rack'] },
+    logKey: 'craft_spice_rack'
+  },
+  'craft-grand-table': {
+    cost: 100, costType: 'wood', image: 'img/Crafting_table_massive.webp',
+    requirements: { 'housing.hasTable': true, 'housing.hasKitchen': true },
+    sfx: 'craft',
+    particleText: 'Prachtvoll!',
+    onSuccess: { 
+        upgrades: ['craft-grand-table']
+    },
+    logKey: 'craft_grand_table'
   }
 };

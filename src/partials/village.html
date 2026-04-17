@@ -1,5 +1,5 @@
 <!-- VILLAGE VIEW -->
-<main x-show="$store.game.view === 'village'" class="village-view-container">
+<div x-show="$store.game.view === 'village'" class="view-content-village">
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_village')">Das Dorf</h3>
     <div class="nav-help-icon" 
@@ -18,19 +18,23 @@
             <h4 class="card-title" x-text="$store.game.t('cat_trade')">Marktplatz</h4>
             <div class="market-actions">
                 <button
+                    id="market-sell-wood-btn"
                     class="game-btn market-trade-btn"
                     @click="$store.game.executeAction('action-sell-wood')"
                     @mouseover="$store.game.hoveredAction = {id: 'action-sell-wood', data: $store.game.actionDb['action-sell-wood']}"
                     @mouseout="$store.game.hoveredAction = null"
+                    aria-label="Sell Wood for Shards"
                 >
                     <span x-text="$store.game.t('action-sell-wood', 'actions').title"></span>
                     <span class="trade-yield">+5 ✦</span>
                 </button>
                 <button
+                    id="market-sell-stone-btn"
                     class="game-btn market-trade-btn"
                     @click="$store.game.executeAction('action-sell-stone')"
                     @mouseover="$store.game.hoveredAction = {id: 'action-sell-stone', data: $store.game.actionDb['action-sell-stone']}"
                     @mouseout="$store.game.hoveredAction = null"
+                    aria-label="Sell Stone for Shards"
                 >
                     <span x-text="$store.game.t('action-sell-stone', 'actions').title"></span>
                     <span class="trade-yield">+8 ✦</span>
@@ -41,7 +45,7 @@
 
     <!-- 2. NPC CARDS (Dynamisches Grid) -->
     <template x-for="id in $store.game.unlockedNPCs" :key="id">
-        <div class="village-card npc-card" :class="[$store.game.companions[id] && 'is-active-companion', id]">
+        <div :id="'npc-' + id + '-card'" class="village-card npc-card" :class="[$store.game.companions[id] && 'is-active-companion', id]">
             <div class="card-header-visual">
                 <div class="npc-portrait-wrapper">
                     <img x-show="$store.game.actionDb[id]?.image" :src="'img/' + $store.game.actionDb[id].image" class="npc-img">
@@ -66,11 +70,13 @@
                 <div class="npc-interaction-area">
                     <!-- Standard Interaction: Talk -->
                     <button
+                        :id="'npc-' + id + '-details-btn'"
                         class="game-btn npc-main-action-btn"
                         x-show="($store.game.npcProgress[id.replace('npc-', '')] || 0) < ($store.game.actionDb[id].maxProgress)"
                         @click="$store.game.executeAction(id)"
                         @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
                         @mouseout="$store.game.hoveredAction = null"
+                        :aria-label="'Talk to ' + id"
                     >
                         <span x-text="$store.game.t('ui_details')"></span>
                     </button>
@@ -114,4 +120,4 @@
         </div>
     </div>
   </div>
-</main>
+</div>

@@ -10,6 +10,8 @@ export const GAME_EVENTS = {
     
     // Resource Events
     RESOURCE_CHANGED: 'resource_changed',
+    RESOURCE_GAINED: 'resource_gained',
+    RESOURCE_SPENT: 'resource_spent',
     
     // Side Effect Events
     LOG_ADDED: 'log_added',

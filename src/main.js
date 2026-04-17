@@ -1,5 +1,8 @@
 import Alpine from 'alpinejs';
+import collapse from '@alpinejs/collapse';
 import { initialState, getTranslations } from './state.js';
+
+Alpine.plugin(collapse);
 import { NPC_REGISTRY, RESOURCE_REGISTRY, actionDb, itemDb } from './data/index.js';
 
 // Systems
@@ -91,7 +94,6 @@ Alpine.store('game', {
 
         store.audio.init(store.settings);
         store.juice.init();
-        store.engine.init(store);
         
         // --- SYSTEM BOOT (Event Wiring) ---
         if (store.audio.boot) store.audio.boot(store);
@@ -99,20 +101,17 @@ Alpine.store('game', {
         if (store.persistence.boot) store.persistence.boot(store);
         if (store.juice.boot) store.juice.boot(store);
         if (store.actions.boot) store.actions.boot(store);
+        if (store.ui.boot) store.ui.boot(store);
         
-        this.startTaskTicker(store);
-        this.startHeartbeat(store);
+        // Engine handles all tickers (100ms, 1s, 30s)
+        store.engine.init(store);
         
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
-        // Hard reset view on startup to ensure we land in the menu
-        console.log('[CORE 2.0] Initializing store, forcing menu view...');
+        // State normalization
         store.view = 'menu';
         store.dialogueActive = false;
-        store.dialogueText = '';
-        store.dialogueTitle = '';
-        store.dialogueNpcId = null;
 
         // Music Trigger
         const startMusicOnce = () => {
@@ -122,22 +121,21 @@ Alpine.store('game', {
         document.addEventListener('click', startMusicOnce);
     },
 
-    // --- PROXIES & DELEGATES ---
-
-    finishPrologue() {
-        const store = Alpine.store('game');
-        store.view = 'gameplay';
-        store.saveGame();
-    },
-
-    getDialogueText() {
-        const store = Alpine.store('game');
-        if (!store.dialogueActive) return '';
-        if (store.dialogueText) return store.dialogueText;
-        return '';
-    },
-    // These methods maintain compatibility with HTML templates while delegating logic to systems.
-
+    // --- PROXIES & DELEGATES (HTML Compatibility) ---
+    startNewGame() { const store = Alpine.store('game'); store.ui.startNewGame(store, buildInitialState); },
+    continueGame() { const store = Alpine.store('game'); store.ui.continueGame(store); },
+    finishPrologue() { const store = Alpine.store('game'); store.ui.finishPrologue(store); },
+    
+    executeAction(id) { const store = Alpine.store('game'); return store.actions.execute(store, id); },
+    npcExecute(id) { const store = Alpine.store('game'); return store.npc.execute(store, id); },
+    toggleCompanion(id) { const store = Alpine.store('game'); store.npc.toggleCompanion(store, id); },
+    consumeItem(id) { const store = Alpine.store('game'); store.item.consumeItem(store, id); },
+    
+    saveGame(isManual = false) { this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); },
+    loadGame() { const store = Alpine.store('game'); return store.persistence.loadGame(store); },
+    setLanguage(lang) { const store = Alpine.store('game'); store.language = lang; store.saveGame(); },
+    hardReset() { const store = Alpine.store('game'); store.persistence.hardReset(store); },
+    
     t(key, context = 'ui', params = {}) { 
         const store = Alpine.store('game');
         let text = store.translations[store.language][context]?.[key] || key;
@@ -154,117 +152,6 @@ Alpine.store('game', {
         this.bus.emit(this.EVENTS.LOG_ADDED, { id, context, color, params }); 
     },
 
-    saveGame(isManual = false) { 
-        this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); 
-    },
-
-    loadGame() {
-        const store = Alpine.store('game');
-        if (store.persistence.loadGame(store)) {
-            store.ui.calculateScale(store);
-            return true;
-        }
-        return false;
-    },
-
-    setLanguage(lang) {
-        const store = Alpine.store('game');
-        store.language = lang;
-        store.saveGame();
-    },
-
-    hardReset() { const store = Alpine.store('game'); store.persistence.hardReset(store); },
-    exportSave() { const store = Alpine.store('game'); store.saveCode = store.persistence.exportGameData(store); },
-    importSave() { const store = Alpine.store('game'); store.persistence.importGameData(store, store.saveCode); },
-    updateAudio() { const store = Alpine.store('game'); store.audio.init(store.settings); },
-
-    // --- ENGINE LOOPS ---
-    startHeartbeat(store) {
-        setInterval(() => {
-            store.npc.processTick(store);
-            store.saveGame(); // Auto-save
-        }, 30000); // 30s Heartbeat
-    },
-
-    startTaskTicker(store) {
-        setInterval(() => {
-            const taskIds = Object.keys(store.activeTasks);
-            if (taskIds.length === 0) return;
-
-            taskIds.forEach(id => {
-                const task = store.activeTasks[id];
-                task.remaining -= 100;
-                if (task.remaining <= 0) {
-                    const actionId = task.actionId;
-                    const action = store.actionDb[actionId];
-                    delete store.activeTasks[id];
-                    store.actions.handleSuccess(store, actionId, action, task.result);
-                }
-            });
-        }, 100);
-    },
-
-    // --- VIEW LOGIC ---
-    startNewGame() {
-        const store = Alpine.store('game');
-        if (store.hasSave) {
-            if (!confirm(store.t('confirm_reset', 'ui'))) return;
-        }
-        
-        console.log('[CORE] Starting new game, resetting state...');
-        store.resetStateToInitial();
-        
-        // Ensure prologue starts cleanly
-        store.prologueStep = 1;
-        store.view = 'prologue';
-        
-        if (store.prologue) {
-            store.prologue.playIntro(store);
-        }
-        
-        store.hasSave = false;
-        
-        try {
-            store.audio.startMusic();
-        } catch (e) {
-            console.warn('[CORE] Audio start failed:', e);
-        }
-        
-        store.saveGame();
-    },
-
-    continueGame() {
-        const store = Alpine.store('game');
-        if (store.persistence.loadGame(store)) {
-            store.view = 'gameplay'; 
-            store.audio.startMusic();
-        }
-    },
-
-    resetStateToInitial() {
-        const store = Alpine.store('game');
-        localStorage.removeItem('wings_save');
-        
-        // Use the factory to get a clean state
-        const cleanState = buildInitialState();
-        
-        Object.keys(cleanState).forEach(key => {
-            if (key !== 'settings' && key !== 'language') {
-                store[key] = JSON.parse(JSON.stringify(cleanState[key]));
-            }
-        });
-    },
-
-    // --- GAMEPLAY DELEGATES ---
-    executeAction(id) { 
-        const store = Alpine.store('game');
-        const result = store.actions.execute(store, id); 
-        return result;
-    },
-    npcExecute(id) { const store = Alpine.store('game'); return store.npc.execute(store, id); },
-    toggleCompanion(id) { const store = Alpine.store('game'); store.npc.toggleCompanion(store, id); },
-    consumeItem(id) { const store = Alpine.store('game'); store.item.consumeItem(store, id); },
-    
     completeDemo() {
         const store = Alpine.store('game');
         store.view = 'finale';
@@ -273,32 +160,18 @@ Alpine.store('game', {
         store.saveGame();
     },
 
-    // --- UI HELPERS & GETTERS ---
+    // --- GETTERS ---
     getActionEffect(hAction) { return this.ui.getActionEffect(this, hAction); },
     getTooltipCosts(hAction) { return this.ui.getTooltipCosts(this, hAction); },
-    
     get energyPercent() { return this.ui.getEnergyPercent(this); },
     get magicPercent() { return this.ui.getMagicPercent(this); },
     get satiationPercent() { return this.ui.getSatiationPercent(this); },
+    get canAccessTreeOfLife() { return this.story.canAccessTreeOfLife(this); },
     
+    // Legacy/HTML Proxies
+    get groupedHistory() { return this.story.getGroupedHistory(this); },
     getSatiationMultiplier() { return this.resource.getSatiationMultiplier(this); },
-    get efficiency() { return this.resource.getEfficiency(this); },
-
-    get groupedHistory() { return this.story.getGroupedHistory ? this.story.getGroupedHistory(this) : []; },
-
-    get canAccessTreeOfLife() {
-        const store = Alpine.store('game');
-        if (!store.housing.hasHouse) return false;
-        
-        // Requirements: Baker, Teacher, and Sage must be at max progress
-        const requiredNpcs = ['npc-baker', 'npc-teacher', 'npc-sage'];
-        const allNpcsDone = requiredNpcs.every(id => {
-            const def = store.NPC_REGISTRY[id];
-            return (store.npcProgress[def.progKey] || 0) >= def.maxProgress;
-        });
-
-        return allNpcsDone && (store.counters.study || 0) >= 3;
-    }
+    get efficiency() { return this.resource.getEfficiency(this); }
 });
 
 Alpine.start();
@@ -324,7 +197,7 @@ document.addEventListener('keydown', (e) => {
     }
 
     // --- GAMEPLAY HOTKEYS ---
-    if (store.view === 'gameplay' && !store.settingsOpen) {
+    if (store.view !== 'menu' && store.view !== 'prologue' && !store.settingsOpen) {
         if (e.key === '1') store.executeAction('action-essen');
         if (e.key === '2') store.executeAction('action-ausruhen');
         if (e.key === '3') store.executeAction('action-meditieren');

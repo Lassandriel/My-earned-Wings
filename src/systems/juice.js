@@ -10,23 +10,27 @@ export const createJuiceSystem = () => ({
 
   spawnParticle(x, y, text, type = 'normal') {
     const store = Alpine.store('game');
-    if (!this.container || (store && store.settings && !store.settings.showParticles)) return;
+    const settings = store.settings || {};
+    if (!this.container || !settings.showJuice) return;
 
     const el = document.createElement('div');
+    // Using the new high-polish animation name
     el.className = `juice-particle p-${type}`;
+    el.style.animation = 'float-up-fade-juice 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards';
     el.innerText = text;
 
-    // Random slight horizontal offset for variety
-    const offsetX = (Math.random() - 0.5) * 40;
+    // Center on cursor with a bit of randomness
+    const offsetX = (Math.random() - 0.5) * 30;
+    const offsetY = (Math.random() - 0.5) * 10;
     el.style.left = `${x + offsetX}px`;
-    el.style.top = `${y}px`;
+    el.style.top = `${y - 20 + offsetY}px`;
 
     this.container.appendChild(el);
 
-    // Remove after animation completes (matched to CSS duration)
+    // Remove after animation completes
     setTimeout(() => {
       el.remove();
-    }, 2000);
+    }, 1300);
   },
 
   boot(store) {

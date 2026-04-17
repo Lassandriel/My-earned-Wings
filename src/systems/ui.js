@@ -115,17 +115,17 @@ export const createUISystem = () => ({
     const action = hAction.data;
     if (action.calculateYield) {
         const yieldVal = action.calculateYield(store);
-        let effectText = lang.effect;
-        if (typeof yieldVal === 'object') {
-            Object.entries(yieldVal).forEach(([key, val]) => {
-                const displayVal = typeof val === 'number' ? val.toFixed(1).replace('.0', '') : val;
-                effectText = effectText.replace(`{${key}}`, displayVal);
-            });
-            return effectText;
-        } else {
-            const displayVal = typeof yieldVal === 'number' ? yieldVal.toFixed(1).replace('.0', '') : yieldVal;
-            return effectText.replace('{val}', displayVal);
-        }
+                let effectText = lang.effect;
+                if (typeof yieldVal === 'object') {
+                    Object.entries(yieldVal).forEach(([key, val]) => {
+                        const displayVal = typeof val === 'number' ? Math.round(val) : val;
+                        effectText = effectText.replace(`{${key}}`, displayVal);
+                    });
+                    return effectText;
+                } else {
+                    const displayVal = typeof yieldVal === 'number' ? Math.round(yieldVal) : yieldVal;
+                    return effectText.replace('{val}', displayVal);
+                }
     }
     return lang.effect;
   },
@@ -171,5 +171,69 @@ export const createUISystem = () => ({
     }
     
     return results;
+  },
+
+  boot(store) {
+    // RESOURCE GAIN EFFECTS
+    store.bus.on(store.EVENTS.RESOURCE_GAINED, (data) => {
+        const el = document.querySelector(`[data-res="${data.type}"]`);
+        if (el) {
+            el.classList.remove('gain-pulse');
+            void el.offsetWidth; // Trigger reflow
+            el.classList.add('gain-pulse');
+            setTimeout(() => el.classList.remove('gain-pulse'), 600);
+        }
+    });
+
+    // RESOURCE SPENT EFFECTS
+    store.bus.on(store.EVENTS.RESOURCE_SPENT, (data) => {
+        const el = document.querySelector(`[data-res="${data.type}"]`);
+        if (el) {
+            el.classList.remove('drain-flash');
+            void el.offsetWidth; // Trigger reflow
+            el.classList.add('drain-flash');
+            setTimeout(() => el.classList.remove('drain-flash'), 400);
+        }
+    });
+  },
+
+  // --- VIEW TRANSITIONS & FLOW ---
+  startNewGame(store, buildInitialState) {
+    if (store.hasSave) {
+        if (!confirm(store.t('confirm_reset', 'ui'))) return;
+    }
+    
+    console.log('[CORE] Starting new game, resetting state...');
+    
+    // Reset state but keep settings/language
+    const cleanState = buildInitialState();
+    localStorage.removeItem('wings_save');
+    
+    Object.keys(cleanState).forEach(key => {
+        if (key !== 'settings' && key !== 'language') {
+            store[key] = JSON.parse(JSON.stringify(cleanState[key]));
+        }
+    });
+    
+    // Start Prologue
+    store.prologueStep = 1;
+    store.view = 'prologue';
+    if (store.prologue) store.prologue.playIntro(store);
+    
+    store.hasSave = false;
+    try { store.audio.startMusic(); } catch (e) {}
+    store.saveGame();
+  },
+
+  continueGame(store) {
+    if (store.persistence.loadGame(store)) {
+        store.view = 'gameplay'; 
+        store.audio.startMusic();
+    }
+  },
+
+  finishPrologue(store) {
+    store.view = 'gameplay';
+    store.saveGame();
   }
 });

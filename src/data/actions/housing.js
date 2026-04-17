@@ -100,6 +100,49 @@ export const housingActions = {
     logKey: 'milestone_garden',
     logColor: 'var(--accent-teal)'
   },
+  'house-kitchen-station': {
+    isStory: true, chapter: 'Refinement',
+    costType: 'mixed',
+    costs: { wood: 80, stone: 40 },
+    requirements: { 'housing.hasHouse': true },
+    sfx: 'craft',
+    particleText: 'Mahlzeit!',
+    particleType: 'shards',
+    onSuccess: { 
+        flags: { 'housing.hasKitchen': true }
+    },
+    logKey: 'milestone_kitchen',
+    logColor: 'var(--gold)'
+  },
+  'house-arcane-sanctum': {
+    isStory: true, chapter: 'Refinement',
+    costType: 'mixed',
+    costs: { stone: 150, magic: 50 },
+    requirements: { 'housing.hasHouse': true, 'housing.hasTable': true },
+    sfx: 'magic',
+    particleText: 'Arkane Macht!',
+    particleType: 'shards',
+    onSuccess: { 
+        flags: { 'housing.hasSanctum': true },
+        unlocks: ['npc-aris', 'action-meditate']
+    },
+    logKey: 'milestone_sanctum',
+    logColor: 'var(--accent-purple)'
+  },
+  'house-garden-upgrade': {
+    isStory: true, chapter: 'Refinement',
+    costType: 'mixed',
+    costs: { wood: 50, stone: 50, water: 20 },
+    requirements: { 'housing.hasGarden': true },
+    sfx: 'success',
+    particleText: 'Wuchernd!',
+    particleType: 'shards',
+    onSuccess: { 
+        flags: { 'housing.gardenLevel': 2 }
+    },
+    logKey: 'milestone_garden_upgrade',
+    logColor: 'var(--accent-teal)'
+  },
   'garden-water': {
     cost: 15, costType: 'energy',
     yieldType: 'water',

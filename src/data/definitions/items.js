@@ -1,101 +1,152 @@
+/**
+ * Item Database
+ * Defines all discoverable and craftable items.
+ * Titles and descriptions use translation keys.
+ */
 export const itemDb = {
   // Crafted Tools
   'craft-wanderstock': {
     id: 'craft-wanderstock',
-    title: 'Wanderstock',
-    desc: 'Ein einfacher Stock, der das Gehen am Boden erleichtert.',
+    title: 'item_wanderstock_title',
+    desc: 'item_wanderstock_desc',
     image: 'img/Crafting_walkingstick.webp',
-    consumable: false
+    consumable: false,
+    category: 'tools'
   },
   'craft-axe': {
     id: 'craft-axe',
-    title: 'Steinaxt',
-    desc: 'Unerlässlich für das Fällen von Bäumen.',
+    title: 'item_axe_title',
+    desc: 'item_axe_desc',
     image: 'img/Crafting_axe_1.webp',
-    consumable: false
+    consumable: false,
+    category: 'tools'
   },
   'craft-pickaxe': {
     id: 'craft-pickaxe',
-    title: 'Spitzhacke',
-    desc: 'Damit lassen sich auch härtere Felsen bezwingen.',
+    title: 'item_pickaxe_title',
+    desc: 'item_pickaxe_desc',
     image: 'img/Crafting_pickaxe_1.webp',
-    consumable: false
+    consumable: false,
+    category: 'tools'
   },
   'craft-bow': {
     id: 'craft-bow',
-    title: 'Jagdbogen',
-    desc: 'Deine Stimme im Wald. Erfordert Geschick.',
+    title: 'item_bow_title',
+    desc: 'item_bow_desc',
     image: 'img/Crafting_bow.webp',
-    consumable: false
+    consumable: false,
+    category: 'tools'
   },
   
   // Consumables (Quest Rewards)
-  'Fresh Bread': {
-    id: 'Fresh Bread',
-    title: 'Frisches Brot',
-    desc: 'Duftet herrlich und sättigt gut.',
+  'item-bread': {
+    id: 'item-bread',
+    title: 'item_bread_title',
+    desc: 'item_bread_desc',
     image: 'img/Item_Bread.webp',
     consumable: true,
-    effect: { satiation: 25 }
+    effect: { satiation: 25 },
+    category: 'provisions'
   },
-  'Massive Cookie': {
-    id: 'Massive Cookie',
-    title: 'Riesenkeks',
-    desc: 'Ein Geschenk des Bäckers. Unglaublich süß.',
+  'item-cookie': {
+    id: 'item-cookie',
+    title: 'item_cookie_title',
+    desc: 'item_cookie_desc',
     image: 'img/Item_Cookie.webp',
     consumable: true,
-    effect: { satiation: 40, energy: 5 }
+    effect: { satiation: 40, energy: 5 },
+    category: 'provisions'
   },
-  'Dried Meat': {
-    id: 'Dried Meat',
-    title: 'Trockenfleisch',
-    desc: 'Zäh, aber nahrhaft. Perfekt für lange Wanderungen.',
+  'item-dried-meat': {
+    id: 'item-dried-meat',
+    title: 'item_dried_meat_title',
+    desc: 'item_dried_meat_desc',
     image: 'img/Item_DriedMeat.webp',
     consumable: true,
-    effect: { satiation: 15, energy: 15 }
+    effect: { satiation: 15, energy: 15 },
+    category: 'provisions'
+  },
+  'gourmet-meal': {
+    id: 'gourmet-meal',
+    title: 'item_gourmet_meal_title',
+    desc: 'item_gourmet_meal_desc',
+    image: 'img/Item_GourmetMeal.webp',
+    consumable: true,
+    effect: { satiation: 50, energy: 30 },
+    category: 'provisions'
   },
   
   // Key Items
-  'Official Land Deed': {
-    id: 'Official Land Deed',
-    title: 'Offizielle Landurkunde',
-    desc: 'Ein Dokument, das dir den Besitz deines Landes bestätigt.',
+  'item-deed': {
+    id: 'item-deed',
+    title: 'item_deed_title',
+    desc: 'item_deed_desc',
     image: 'img/Item_Deed.webp',
-    consumable: false
+    consumable: false,
+    category: 'artifacts'
   },
-  'Book of Knowledge': {
-    id: 'Book of Knowledge',
-    title: 'Buch des Wissens',
-    desc: 'Enthält die Geheimnisse des ersten Lichts.',
+  'item-book-knowledge': {
+    id: 'item-book-knowledge',
+    title: 'item_book_knowledge_title',
+    desc: 'item_book_knowledge_desc',
     image: 'img/Item_BookKnowledge.webp',
-    consumable: false
+    consumable: false,
+    category: 'artifacts'
   },
-  'Ancient Scroll': {
-    id: 'Ancient Scroll',
-    title: 'Alte Schriftrolle',
-    desc: 'Schwer zu entziffern, aber voller magischer Energie.',
+  'item-scroll': {
+    id: 'item-scroll',
+    title: 'item_scroll_title',
+    desc: 'item_scroll_desc',
     image: 'img/Item_Scroll.webp',
-    consumable: false
+    consumable: false,
+    category: 'artifacts'
   },
-  'Whetstone': {
-    id: 'Whetstone',
-    title: 'Wetzstein',
-    desc: 'Hält deine Klingen scharf und deinen Willen hart.',
+  'item-whetstone': {
+    id: 'item-whetstone',
+    title: 'item_whetstone_title',
+    desc: 'item_whetstone_desc',
     image: 'img/Item_Whetstone.webp',
-    consumable: false
+    consumable: false,
+    category: 'artifacts'
   },
-  'Arrowhead': {
-    id: 'Arrowhead',
-    title: 'Pfeilspitze',
-    desc: 'Ein Relikt des Jägers. Sehr präzise gefertigt.',
+  'item-arrowhead': {
+    id: 'item-arrowhead',
+    title: 'item_arrowhead_title',
+    desc: 'item_arrowhead_desc',
     image: 'img/Item_Arrowhead.webp',
-    consumable: false
+    consumable: false,
+    category: 'artifacts'
   },
-  'Gilded Chisel': {
-    id: 'Gilded Chisel',
-    title: 'Vergoldeter Meißel',
-    desc: 'Ein Werkzeug für wahre Meister der Formgebung.',
+  'item-chisel': {
+    id: 'item-chisel',
+    title: 'item_chisel_title',
+    desc: 'item_chisel_desc',
     image: 'img/Item_Chisel.webp',
-    consumable: false
+    consumable: false,
+    category: 'artifacts'
+  },
+  'astral-shards': {
+    id: 'astral-shards',
+    title: 'item_astral_shards_title',
+    desc: 'item_astral_shards_desc',
+    image: 'img/Item_AstralShard.webp',
+    consumable: false,
+    category: 'artifacts'
+  },
+  'item-dream-dust': {
+    id: 'item-dream-dust',
+    title: 'item_dream_dust_title',
+    desc: 'item_dream_dust_desc',
+    image: 'img/Item_DreamDust.webp',
+    consumable: false,
+    category: 'artifacts'
+  },
+  'item-wyvern-scale': {
+    id: 'item-wyvern-scale',
+    title: 'item_wyvern_scale_title',
+    desc: 'item_wyvern_scale_desc',
+    image: 'img/Item_WyvernScale.webp',
+    consumable: false,
+    category: 'artifacts'
   }
 };

@@ -15,6 +15,7 @@
     const h = $store.game.hoveredAction;
     if(!h) return '';
     if(h.isHelp) return h.title || '';
+    if(h.isBuff) return h.title || '';
     const lang = $store.game.t(h.id, 'actions');
     let title = lang ? (lang.title || h.id) : h.id;
     
@@ -32,6 +33,7 @@
     const h = $store.game.hoveredAction;
     if(!h) return '';
     if(h.isHelp) return h.desc || '';
+    if(h.isBuff) return h.desc || '';
     
     // Dynamic NPC Dialog Preview
     if (h.id.startsWith('npc-') && h.data) {
@@ -84,6 +86,14 @@
           </template>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 5. Buff Duration (NEW) -->
+  <div class="tt-section" x-show="$store.game.hoveredAction?.isBuff">
+    <div class="tt-section-header" x-text="'[ Laufzeit ]'"></div>
+    <div class="tt-data-line tt-bonus">
+      <span x-text="'Noch ' + Math.ceil($store.game.hoveredAction?.remaining || 0) + ' Sekunden'"></span>
     </div>
   </div>
 </div>

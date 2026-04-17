@@ -42,7 +42,7 @@ export const villageActions = {
     sfx: 'click',
     particleText: '+ Splitter',
     particleType: 'shards',
-    counter: 'shards',
+    isLoopable: true,
     rewards: { shards: 'shards_yield' },
     logKey: 'work_log',
     logColor: 'var(--accent-teal)'

@@ -16,13 +16,12 @@ export function createActionSystem() {
 
             if (action.duration) {
                 // 1. Validate & Consume Costs immediately
-                const result = this.processAction(game, id, action, true); // 'true' for startOnly
+                const result = this.processAction(game, id, action, 'prepare'); 
                 if (result.success) {
                     game.activeTasks[id] = {
                         actionId: id,
                         remaining: action.duration,
-                        total: action.duration,
-                        result: result
+                        total: action.duration
                     };
                     // Feedback for starting
                     game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
@@ -50,84 +49,114 @@ export function createActionSystem() {
 
         /**
          * Generic effect runner for data-driven actions.
+         * Modes: 
+         *  - 'prepare': Validates requirements and subtracts costs.
+         *  - 'finalize': Awards results and triggers success effects.
+         *  - 'full': Does both (standard for instant actions).
          */
-        processAction(game, id, action, startOnly = false) {
-            // 1. Check Requirements
-            if (action.requirements) {
-                const met = Object.entries(action.requirements).every(([key, val]) => {
-                    if (key.includes('.')) {
-                        const parts = key.split('.');
-                        let target = game;
-                        for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
-                        return target[parts[parts.length - 1]] === val;
-                    }
-                    if (key === 'upgrades') return game.upgrades.includes(val);
-                    return game[key] === val;
-                });
-                if (!met) return { success: false };
-            }
+        processAction(game, id, action, mode = 'full') {
+            const isPrepare = (mode === 'prepare' || mode === 'full');
+            const isFinalize = (mode === 'finalize' || mode === 'full');
 
-            // 2. Check Yield Limits (Prevent action if storage is full)
-            if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
-                return { success: false };
-            }
+            if (isPrepare) {
+                // 1. Check Requirements
+                if (action.requirements) {
+                    const met = Object.entries(action.requirements).every(([key, val]) => {
+                        if (key.includes('.')) {
+                            const parts = key.split('.');
+                            let target = game;
+                            for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
+                            return target[parts[parts.length - 1]] === val;
+                        }
+                        if (key === 'upgrades') return game.upgrades.includes(val);
+                        return game[key] === val;
+                    });
+                    if (!met) return { success: false };
+                }
 
-            // 3. Handle Costs
-            const costType = action.costType;
-            if (costType && costType !== 'none') {
-                const costs = costType === 'mixed' ? action.costs : { [costType]: action.cost };
-                if (!game.resource.consume(game, costs)) {
+                // 2. Check Yield Limits (Prevent action if storage is full)
+                if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
                     return { success: false };
+                }
+
+                // 3. Handle Costs
+                const costType = action.costType;
+                if (costType && costType !== 'none') {
+                    const costs = costType === 'mixed' ? action.costs : { [costType]: action.cost };
+                    if (!game.resource.consume(game, costs)) {
+                        return { success: false };
+                    }
                 }
             }
 
-            // Return early if we only want to start a timed task
-            if (startOnly) {
+            // Return early if we only wanted to start a timed task
+            if (mode === 'prepare') {
                 return { success: true };
             }
 
-            // 4. Handle Rewards
             let logGain = null;
-            if (action.rewards) {
-                Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
-                    let amount = amountOrKey;
-                    if (typeof amountOrKey === 'string') {
-                        amount = game.pipeline.calculate(game, amountOrKey, 1);
-                    }
-                    game.resource.add(game, res, amount);
-                    if (res === action.yieldType || (Object.keys(action.rewards).length === 1)) {
-                        logGain = amount;
-                    }
-                });
-            }
-
-            // 5. Side Effects (Upgrades, Flags, Limits, Unlocks)
-            if (action.onSuccess) {
-                const os = action.onSuccess;
-                if (os.upgrades) {
-                    os.upgrades.forEach(u => { if (!game.upgrades.includes(u)) game.upgrades.push(u); });
-                }
-                if (os.flags) {
-                    Object.entries(os.flags).forEach(([f, v]) => {
-                        if (f.includes('.')) {
-                            const parts = f.split('.');
-                            let target = game;
-                            for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
-                            target[parts[parts.length - 1]] = v;
-                        } else game[f] = v;
-                    });
-                }
-                if (os.limits) {
-                    Object.entries(os.limits).forEach(([r, a]) => { game.limits[r] = (game.limits[r] || 0) + a; });
-                }
-                if (os.unlocks) {
-                    os.unlocks.forEach(u => {
-                        if (u.startsWith('npc-')) {
-                            if (!game.unlockedNPCs.includes(u)) game.unlockedNPCs.push(u);
-                        } else {
-                            if (!game.unlockedRecipes.includes(u)) game.unlockedRecipes.push(u);
+            if (isFinalize) {
+                // 4. Handle Rewards
+                if (action.rewards) {
+                    Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
+                        let amount = amountOrKey;
+                        if (typeof amountOrKey === 'string') {
+                            amount = game.pipeline.calculate(game, amountOrKey, 1);
+                        }
+                        
+                        // Fix for decimal issues: round to nearest integer
+                        const finalAmount = Math.round(amount);
+                        
+                        game.resource.add(game, res, finalAmount);
+                        if (res === action.yieldType || (Object.keys(action.rewards).length === 1)) {
+                            logGain = finalAmount;
                         }
                     });
+                }
+
+                // 5. Side Effects (Upgrades, Flags, Limits, Unlocks)
+                if (action.onSuccess) {
+                    const os = action.onSuccess;
+                    if (os.upgrades) {
+                        os.upgrades.forEach(u => { if (!game.upgrades.includes(u)) game.upgrades.push(u); });
+                    }
+                    if (os.flags) {
+                        Object.entries(os.flags).forEach(([f, v]) => {
+                            if (f.includes('.')) {
+                                const parts = f.split('.');
+                                let target = game;
+                                for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
+                                target[parts[parts.length - 1]] = v;
+                            } else game[f] = v;
+                        });
+                    }
+                    if (os.limits) {
+                        Object.entries(os.limits).forEach(([r, a]) => { game.limits[r] = (game.limits[r] || 0) + a; });
+                    }
+                    if (os.unlocks) {
+                        os.unlocks.forEach(u => {
+                            if (u.startsWith('npc-')) {
+                                if (!game.unlockedNPCs.includes(u)) game.unlockedNPCs.push(u);
+                            } else {
+                                if (!game.unlockedRecipes.includes(u)) game.unlockedRecipes.push(u);
+                            }
+                        });
+                    }
+                    if (os.buffs) {
+                        Object.entries(os.buffs).forEach(([bid, bdata]) => {
+                            let finalBuff = bdata;
+                            // If it's just a ref to registry, or we want to pull defaults
+                            if (game.BUFF_REGISTRY && game.BUFF_REGISTRY[bid]) {
+                                finalBuff = { ...game.BUFF_REGISTRY[bid], ...bdata };
+                            }
+                            
+                            game.activeBuffs[bid] = { 
+                                ...finalBuff, 
+                                remaining: finalBuff.duration, 
+                                total: finalBuff.duration 
+                            };
+                        });
+                    }
                 }
             }
 
@@ -159,11 +188,8 @@ export function createActionSystem() {
                 }
             }
 
-            // Immediately check for new titles
-
-
             // Satiation reduction
-            if (id !== 'action-essen') {
+            if (id !== 'action-essen' && action.satiationCost !== 0) {
                 const satCost = action.satiationCost ?? 2;
                 game.resource.consume(game, 'satiation', satCost);
             }
@@ -199,19 +225,16 @@ export function createActionSystem() {
             const costType = action.costType;
             if (!costType) return;
 
-            const effectiveCosts = costType === 'mixed' ? action.costs : costType;
+            const effectiveCosts = costType === 'mixed' ? action.costs : { [costType]: action.cost };
 
             // Check if can't afford
-            if (!game.resource.canAfford(game, effectiveCosts, action.cost)) {
+            if (!game.resource.canAfford(game, effectiveCosts)) {
                 const failKey = (costType === 'energy' || costType === 'magic') ? 'fail_' + costType : 'fail_resources';
                 game.bus.emit(game.EVENTS.LOG_ADDED, { id: failKey, color: 'var(--accent-red)' });
             } 
-            // Check if full (applies to both single and mixed costs if yieldType is defined)
-            else {
-                const yieldCheck = action.yieldType || (costType !== 'mixed' ? costType : null);
-                if (yieldCheck && game.resource.isFull(game, yieldCheck)) {
-                    game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + yieldCheck, color: 'var(--accent-red)' });
-                }
+            // Check if full
+            else if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
+                game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + action.yieldType, color: 'var(--accent-red)' });
             }
         },
 

@@ -69,6 +69,14 @@
           </label>
         </div>
 
+        <div class="control-group row-flex">
+          <span x-text="$store.game.t('settings_show_juice')">Floating Text</span>
+          <label class="toggle-switch">
+            <input type="checkbox" x-model="$store.game.settings.showJuice">
+            <span class="slider round"></span>
+          </label>
+        </div>
+
         <div class="divider-sub"></div>
 
         <h3 x-text="$store.game.t('settings_lang')">Language</h3>

@@ -66,6 +66,14 @@ export const RESOURCE_REGISTRY = {
         initial: 0,
         initialLimit: 50,
     },
+    astral_shards: {
+        id: 'astral_shards',
+        type: 'resource',
+        category: 'materials',
+        color: '#818cf8',
+        initial: 0,
+        initialLimit: 100,
+    },
 
     // --- PROVISIONS ---
     meat: {
@@ -81,6 +89,14 @@ export const RESOURCE_REGISTRY = {
         type: 'resource',
         category: 'provisions',
         color: '#60a5fa',
+        initial: 0,
+        initialLimit: 10
+    },
+    'gourmet-meal': {
+        id: 'gourmet-meal',
+        type: 'resource',
+        category: 'provisions',
+        color: '#fbbf24',
         initial: 0,
         initialLimit: 10
     },

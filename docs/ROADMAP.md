@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 5 COMPLETED (UX & Architecture Hardening)
+## Current Status: Phase 5.6 COMPLETED (Core Engine Decoupling & Loop Consolidation)
 
-The game has been modernized with a grid-based modular architecture, simplified primary actions, and full terminological consistency.
+The complete project audit cycle is finished. All core directories (Systems, Data, Styles, Partials, Lang, Core) have been modernized, hardened, and documented. The Draconia Engine 2.0 is now at a production-ready senior architecture level.
 
 ---
 
@@ -103,16 +103,58 @@ The game has been modernized with a grid-based modular architecture, simplified 
 - [x] **Scalability Hub**: main.js refactored for rapid content expansion.
 
 ## Phase 5: UX & Architecture Hardening - **COMPLETED**
-- [x] **Offline Removal**: Completely eliminated original time-based offline progress for a static, session-based experience.
-- [x] **Terminological Consistency**: Unified nomenclature (Inventory -> Possession/Besitz, Story -> Chronicle).
-- [x] **Simplified Actions**: Primary gameplay actions (Eat, Rest, Focus) reduced to a single-effect-per-button logic.
-- [x] **Tooltip Precision**: Dynamic yield calculation for all action tooltips (replaced curly-brace placeholders).
-- [x] **Architecture Cleanup**: Removed legacy system calls (e.g., checkTraits) and duplicate resource registries.
-- [x] **Sidebar Highlighting**: Added active-tab glow and high-contrast text for better navigation.
+- [x] **Offline Removal**: Completely eliminated original time-based offline progress.
+- [x] **Terminological Consistency**: Unified nomenclature.
+- [x] **Simplified Actions**: Primary gameplay actions reduced to static effects.
+- [x] **Tooltip Precision**: Dynamic yield calculation for all action tooltips.
+
+## Phase 5.1: Home, Heart & Magic (Expansion) - **COMPLETED**
+- [x] **Buff System**: Implemented time-based effect system with hover tooltips and stats-bar UI.
+- [x] **Kitchen Meisterschaft**: Built the Kitchen Station and added Gourmet Cooking with powerful buffs.
+- [x] **Arcane Evolution**: Introduced Arcane Sanctum, Archmage Aris, and Astral Shards.
+- [x] **Botanical Depth**: Expanded the Garden to level 2, enabling parallel plant slots.
+- [x] **Premium Furniture**: Added recipes for Cabinets, Spice Racks, and Grand Tables.
+
+## Phase 5.2: Senior UI & Gameplay Polish (Premium Refresh) - **COMPLETED**
+- [x] **Loop Mode (Automation)**: Implemented toggleable action-looping for repetitive tasks (Wood, Stone, Garden).
+- [x] **Haptic Feedback**: Added magnetic hover effects, scanning-light progress beams, and button pulse haptics.
+- [x] **Visual "Juice"**: Integrated floating text feedback (`+1 Wood`) and pulsing resource bars (`Gain/Spent`).
+- [x] **Immersive Transitions**: Added smooth view transitions (`Fade/Blur`) for all main navigation tabs.
+- [x] **Action Awareness**: Implementation of `RESOURCE_GAINED`/`RESOURCE_SPENT` events for reactive UI updates.
+
+## Phase 5.3: Technical Audit & Localization Hardening - **COMPLETED**
+- [x] **System Decentralization**: Decoupled NPC logic from code into data registries (`onSuccess`).
+- [x] **Event-Driven UI**: Unified feedback loops via central `GAME_EVENTS` and Bus architecture.
+- [x] **Localization Hardening**: Migrated all items and descriptions to `de.js`/`en.js` with key-fallback support.
+- [x] **Data Integrity**: Unified resource registration for complex items (Gourmet Meals).
+- [x] **Mathematical Scaling**: Connected Garden harvests to the `ValuePipeline` modifier system.
+- [x] **CSS Component Consolidation**: Merged improved 'Repaired' UI styles into the main codebase.
+- [x] **Premium Design Tokens**: Established a centralized naming system for Spacing, Radius, and Glassmorphism.
+
+## Phase 5.4: HTML Semantic & Accessibility Hardening - **COMPLETED**
+- [x] **Semantic Refactoring**: Removed redundant `<main>` tags from all partials to ensure W3C compliance.
+- [x] **Navigation Accessibility**: Converted sidebar navigation to semantic `<ul>`/`<li>` structure.
+- [x] **Testing Support (ID Hardening)**: Added unique, descriptive IDs to all primary action and navigation elements.
+- [x] **Bilingual UI Completion**: Finalized localization for remaining UI elements (Loop Mode, Vault Categories).
+- [x] **Aria-Labeling**: Integrated accessibility tags for interactive icons and buttons.
+
+## Phase 5.5: Localization Parity & Info Architecture - **COMPLETED**
+- [x] **100% Key Synchronization**: Ensured full parity between `de.js` and `en.js` (No missing strings in either language).
+- [x] **Dialogue Consolidation**: Harmonized NPC dialogue keys into a consistent `npc_..._1-5` schema.
+- [x] **Finale Coverage**: Backported missing English finale descriptions and milestones to the German localization.
+- [x] **Structural De-Duplication**: Removed redundant dialogue entries from UI sections, optimizing file size and clarity.
+- [x] **UI String Completion**: Finalized all remaining technical strings (Objectives, Loop Mode, Error Logs).
+
+## Phase 5.6: Core Engine Decoupling & Loop Consolidation - **COMPLETED**
+- [x] **Loop Centralization**: Moved all periodic timers (Task-Ticker, Heartbeat) from `main.js` to `EngineSystem`.
+- [x] **View Management Delegation**: Migrated game-flow logic (Start, Continue, Prologue) to `UISystem`.
+- [x] **Service-Proxy Re-Architecture**: Refactored `main.js` to be a lean registry for stateless systems.
+- [x] **Strategic De-Duplication**: Eliminated historical redundancy between heartbeat and ticker loops.
+- [x] **State Reset Integrity**: Encapsulated state reset logic for clean transitions in Electron environments.
 
 ---
 
 ## Post-Demo Vision (Future Phases)
-- [ ] **Phase 5: The Sky Rift**: First steps toward building a mechanical flying machine.
-- [ ] **Phase 6: Diplomacy**: Visiting other floating islands via trade routes.
-- [ ] **Phase 7: True Wings**: Final evolution of the player character.
+- [ ] **Phase 6: The Sky Rift**: First steps toward building a mechanical flying machine.
+- [ ] **Phase 7: Diplomacy**: Visiting other floating islands via trade routes.
+- [ ] **Phase 8: True Wings**: Final evolution of the player character.

@@ -18,7 +18,7 @@
   background-position: center;
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr var(--log-w) var(--stats-w);
-  grid-template-rows: var(--header-h) 1fr;
+  grid-template-rows: var(--header-h) minmax(0, 1fr);
   gap: var(--gap);
   padding: var(--gap);
   box-shadow: none;
@@ -185,16 +185,16 @@
 /* Main Content Area & Panels */
 main, .global-log-container, .right-panel {
   background: var(--panel-bg);
-  backdrop-filter: blur(40px);
-  border: 1px solid var(--panel-border);
-  border-radius: 40px;
-  padding: 30px;
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
   display: flex;
   flex-direction: column;
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.4),
-    inset 0 0 20px rgba(255, 255, 255, 0.02);
+  box-shadow: var(--glass-shadow);
   min-height: 0; /* Crucial for internal scrolling in CSS Grid */
+  overflow-y: auto; /* Enable scrolling for long content */
+  scrollbar-gutter: stable; /* Prevent layout shift when scrollbar appears */
 }
 
 .global-log-container {
