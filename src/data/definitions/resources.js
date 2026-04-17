@@ -109,6 +109,7 @@ export const RESOURCE_REGISTRY = {
         color: '#a78bfa',
         initial: 0,
         initialLimit: 0, 
+    },
     // --- SPECIAL ---
     focus: {
         id: 'focus',
