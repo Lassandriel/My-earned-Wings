@@ -105,7 +105,7 @@ export default {
     ui_yield: "Ertrag",
     menu_continue: "Fortfahren",
     menu_new_game: "Neues Spiel",
-    menu_version: "v1.0.0 - Lassandriel & Nhywyll",
+    menu_version: "v1.0.0-demo - Lassandriel",
     finale_title: "Das Herz von Draconia",
     finale_congrats: "Glückwunsch! Du hast das Ende der Demo erreicht.",
     finale_hint: "Du kannst in diesem Spielstand weiterleben (Sandbox), aber die Geschichte endet hier vorerst.",

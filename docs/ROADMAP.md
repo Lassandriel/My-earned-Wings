@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 5.6 COMPLETED (Core Engine Decoupling & Loop Consolidation)
+## Current Status: Phase 5.8 COMPLETED (Demo Release Polish)
 
 The complete project audit cycle is finished. All core directories (Systems, Data, Styles, Partials, Lang, Core) have been modernized, hardened, and documented. The Draconia Engine 2.0 is now at a production-ready senior architecture level.
 
@@ -159,6 +159,12 @@ The complete project audit cycle is finished. All core directories (Systems, Dat
 - [x] **Storage Refinement**: Increased storage capacity to 50, enabling meaningful housing milestones (40/40 House).
 - [x] **QoL Optimization**: Significant reduction in clicking fatigue (Satiation +10 per click, 0 drain on rest).
 - [x] **Village Cleanup**: Streamlined the Village UI into a pure Story and Interaction hub.
+
+## Phase 5.8: Demo Release Polish - **COMPLETED**
+- [x] **Metadata Alignment**: Synchronized package name (`my-earned-wings`) and version (`1.0.0-demo`).
+- [x] **Legal Foundation**: Integrated MIT License and updated credits (Lassandriel).
+- [x] **UI Polish**: Added "DEMO" badge to main menu and repository links for community engagement.
+- [x] **Documentation**: Enhanced README with clear demo status and repo links.
 
 ---
 

@@ -99,7 +99,7 @@ export default {
     status_idle: "Idle",
     menu_continue: "Continue",
     menu_new_game: "New Game",
-    menu_version: "v1.0.0 - Draconia Edition",
+    menu_version: "v1.0.0-demo - Lassandriel",
     finale_title: "The Heart of Draconia",
     finale_congrats: "Congratulations! You have reached the end of the demo.",
     finale_hint: "You can continue living on the ground in this save (Sandbox), but the story ends here for now.",

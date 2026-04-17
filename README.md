@@ -2,7 +2,9 @@
 
 `Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **Electron**, **Vite**, and **Alpine.js**. 
 
-This **Demo Version** features the first complete story arc: **The Heart of Draconia**. You play as a wingless "Lung" (dragon-kin) in a world where flight is everything, discovering that true power and "wings" can be earned through loyalty to the ground, inner magic, and building a community.
+> [!TIP]
+> **DEMO VERSION 1.0.0**
+> This demo features the first complete story arc: **The Heart of Draconia**.
 
 ![Official Logo](public/img/logo_wings.webp)
 
@@ -89,4 +91,7 @@ The finished app will be located in `BUILDS/My-earned-Wings-win32-x64`.
 
 ---
 
-*Created by Lassandriel · April 2026 · Draconia Core 2.0 Hardened Build*
+*Created by Lassandriel · April 2026 · Draconia Core 2.1 Hardened Build*
+
+---
+[Repository](https://github.com/Lassandriel/My-earned-Wings) | [Issue Tracker](https://github.com/Lassandriel/My-earned-Wings/issues)

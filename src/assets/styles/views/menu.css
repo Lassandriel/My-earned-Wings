@@ -81,6 +81,20 @@
   text-transform: uppercase;
   letter-spacing: 8px;
   margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.demo-badge {
+  background: rgba(20, 184, 166, 0.2);
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  color: var(--accent-teal);
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  font-weight: 700;
 }
 
 .menu-actions {
@@ -98,6 +112,23 @@
   font-size: 0.9rem;
   font-family: 'Outfit', sans-serif;
   letter-spacing: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-repo-link {
+  color: rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-repo-link:hover {
+  color: var(--accent-teal);
+  border-bottom-color: var(--accent-teal);
 }
 
 .menu-btn {
