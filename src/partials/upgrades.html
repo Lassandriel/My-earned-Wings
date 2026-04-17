@@ -1,9 +1,9 @@
 <!-- UPGRADES VIEW (THE DRAGON'S VAULT) -->
 <main x-show="$store.game.view === 'upgrades'" class="upgrades-view-root" x-data="{ activeCategory: 'all' }">
   <div class="category-header">
-    <h3 x-text="$store.game.t('cat_inventory')">Besitz & Artefakte</h3>
+    <h3 x-text="$store.game.t('cat_upgrades')">Besitz & Artefakte</h3>
     <div class="nav-help-icon" 
-         @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_inventory'), desc: $store.game.t('nav_inventory_desc') }"
+         @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('nav_upgrades_desc') }"
          @mouseleave="$store.game.hoveredAction = null">?</div>
   </div>
 
@@ -20,7 +20,7 @@
         <!-- Items Grid -->
         <div class="vault-grid-pane">
             <div class="items-display-grid">
-                <template x-for="id in $store.game.inventory.filter(id => {
+                <template x-for="id in $store.game.upgrades.filter(id => {
                     const item = $store.game.itemDb[id];
                     if (activeCategory === 'all') return true;
                     if (activeCategory === 'tools') return id.startsWith('craft-');
@@ -39,12 +39,12 @@
                 </template>
 
                 <!-- Visual Placeholders for empty slots -->
-                <template x-for="i in Math.max(0, 12 - $store.game.inventory.length)">
+                <template x-for="i in Math.max(0, 12 - $store.game.upgrades.length)">
                     <div class="item-slot-empty"></div>
                 </template>
             </div>
             
-            <div x-show="$store.game.inventory.length === 0" class="vault-empty-notice">
+            <div x-show="$store.game.upgrades.length === 0" class="vault-empty-notice">
                 <p x-text="$store.game.t('ui_inventory_empty')"></p>
             </div>
         </div>

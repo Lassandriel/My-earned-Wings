@@ -11,9 +11,9 @@ export const initialState = {
   prologueStep: 0,
   settingsOpen: false,
   currentScale: 1,
-  resources: { wood: 0, stone: 0, shards: 0, meat: 0, books: 0, water: 0 },
-  limits: { wood: 25, stone: 25, meat: 10, shards: 1000, books: 0, water: 10 },
-  stats: { energy: 100, maxEnergy: 100, magic: 100, maxMagic: 100, satiation: 100, maxSatiation: 100 },
+  resources: {},
+  limits: {},
+  stats: {},
   housing: {
     hasCampfire: false,
     hasTent: false,
@@ -25,20 +25,11 @@ export const initialState = {
     hasLandDeed: false,
     hasGarden: false
   },
-  inventory: [],
+  upgrades: [],
   discoveredResources: [],
   discoveredItems: [],
   unlockedRecipes: ['craft-wanderstock'],
-  npcProgress: {
-    baker: 0,
-    flowerGirl: 0,
-    teacher: 0,
-    artisan: 0,
-    townHall: 0,
-    blacksmith: 0,
-    sage: 0,
-    hunter: 0
-  },
+  npcProgress: {},
   unlockedNPCs: ['npc-baker', 'npc-teacher', 'npc-hunter'],
   hoveredAction: null,
   companions: {},
@@ -56,11 +47,6 @@ export const initialState = {
     uiScale: 'auto'
   },
   counters: {
-    wood: 0,
-    stone: 0,
-    magic: 0,
-    food: 0,
-    shards: 0,
     totalActions: 0,
     study: 0
   },

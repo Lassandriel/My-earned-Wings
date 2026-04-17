@@ -24,7 +24,6 @@
 
 /* Specialized Components */
 @import './components/wing-masks.css';
-@import './views/npcs.css';
 @import './views/stats.css';
 
 /* View-Specific Styles */

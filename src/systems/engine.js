@@ -21,10 +21,8 @@ export function createEngineSystem() {
                 const clampedSec = Math.min(deltaSec, 28800);
                 console.log(`[ENGINE] Simulating ${clampedSec}s of offline progress...`);
                 
-                // Process ticks in bulk
-                for (let i = 0; i < clampedSec; i++) {
-                    store.npc.processTick(store);
-                }
+                // Process ticks in bulk (O(1) calculation)
+                store.npc.processBulkTick(store, clampedSec);
                 
                 if (store.ui?.showToast) {
                     store.ui.showToast(`Willkommen zurück! Du warst ${Math.floor(clampedSec/60)}m weg.`, 'success');

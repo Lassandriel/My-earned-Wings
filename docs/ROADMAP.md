@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 4.9 COMPLETED (Upgrades Revamp)
+## Current Status: Phase 4.11 COMPLETED (Senior Architecture Revamp)
 
 The upgrades tab has been transformed into a premium 'Dragon's Vault' with item categorization and a showcase interface.
 
@@ -95,6 +95,13 @@ The upgrades tab has been transformed into a premium 'Dragon's Vault' with item 
 - [x] **Global CSS Zoom**: Implemented a standardized scale-transform (`scale(1.8)` to `scale(2.0)`) for all item and housing icons.
 - [x] **Asset Framing**: Eliminated excessive whitespace from the original `.webp` sources via CSS containment.
 - [x] **Hover Refinement**: Smooth focus-zoom on interaction to enhance "filling" effect.
+
+## Phase 4.11: Senior Architecture Revamp - **COMPLETED**
+- [x] **ValuePipeline**: Centralized mathematical modifier system for all calculations.
+- [x] **Event-Bus Architecture**: Decoupled systems (Audio, Logs, Persistence) via pub/sub mechanism.
+- [x] **Data-Driven Actions**: Removed JS logic from data files; implemented a generic Effect-Runner.
+- [x] **Offline Progress 2.0**: Optimized O(1) bulk calculations for time-away scenarios.
+- [x] **Scalability Hub**: main.js refactored for rapid content expansion.
 
 ---
 

@@ -28,9 +28,17 @@ export const createPersistenceSystem = (initialState) => ({
       try {
         const data = JSON.parse(saved);
         
+        // --- CLEANUP: Clear dynamic objects before loading to avoid key-bloat ---
+        store.resources = {};
+        store.limits = {};
+        store.npcProgress = {};
+
         // Use recursive deep merge to preserve new keys in nested objects
         const deepMerge = (target, source) => {
             Object.keys(source).forEach(key => {
+                // Skip 'inventory' key if it exists in old saves (ignored due to new game policy)
+                if (key === 'inventory') return;
+
                 if (Array.isArray(source[key])) {
                     target[key] = [...new Set([...(target[key] || []), ...source[key]])];
                 } else if (source[key] && typeof source[key] === 'object') {
@@ -85,5 +93,11 @@ export const createPersistenceSystem = (initialState) => ({
       localStorage.removeItem('wings_save');
       window.location.reload();
     }
+  },
+
+  boot(store) {
+    store.bus.on(store.EVENTS.SAVE_REQUESTED, (data) => {
+      this.saveGame(store, data?.isManual || false);
+    });
   }
 });

@@ -53,6 +53,12 @@ export const createAudioSystem = () => {
     stopMusic() {
       bgm.pause();
       isMusicPlaying = false;
+    },
+
+    boot(store) {
+      store.bus.on(store.EVENTS.SOUND_TRIGGERED, (data) => {
+        this.playSound(data.key);
+      });
     }
   };
 };

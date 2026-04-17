@@ -26,5 +26,11 @@ export const createJuiceSystem = () => ({
     setTimeout(() => {
       el.remove();
     }, 2000);
+  },
+
+  boot(store) {
+    store.bus.on(store.EVENTS.PARTICLE_TRIGGERED, (data) => {
+      this.spawnParticle(data.x, data.y, data.text, data.type);
+    });
   }
 });

@@ -3,10 +3,8 @@
  */
 export const createResourceSystem = () => {
     const getSatiationMultiplier = (state) => {
-        const sat = state.stats.satiation;
-        if (sat >= 80) return 0.8;
-        if (sat <= 20) return 1.5;
-        return 1.5 - ((sat - 20) / 60) * 0.7;
+        // Essential costs use a multiplier that is the inverse of efficiency
+        return 1 / (state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1);
     };
 
     const canAfford = (state, typeOrCosts, amount) => {
@@ -96,7 +94,7 @@ export const createResourceSystem = () => {
         getSatiationMultiplier,
 
         getEfficiency(state) {
-            return 1 / getSatiationMultiplier(state);
+            return state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1;
         }
     };
 };

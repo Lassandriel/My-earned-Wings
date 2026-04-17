@@ -33,11 +33,36 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 *   **Dynamic Language**: Switch between **German** and **English** on the fly.
 *   **Desktop Optimization**: Integrated custom scrollbars, window scaling, and professional app features.
 
-## 🛠️ Tech Stack
-*   **Runtime**: [Electron](https://www.electronjs.org/)
-*   **Build Tool**: [Vite](https://vitejs.dev/)
-*   **Logic**: Vanilla JS & [Alpine.js](https://alpinejs.dev/)
 *   **Styling**: Premium Vanilla CSS
+
+## 🏗️ Project Architecture (Senior 2.0)
+
+The game follows a strictly modular "Senior Architecture" focused on decoupling and scalability.
+
+### 📁 Directory Overview
+
+```text
+src/
+├── main.js             # Engine: Store assembly, event wiring & boot sequence.
+├── state.js            # Foundation: Defines the initial global state.
+├── systems/            # Logic & Services: The "brains" of the game.
+│   ├── bus.js          # Event Hub: Central Event Bus (Pub/Sub mechanism).
+│   ├── pipeline.js     # Calculations: Dynamic modifiers & Value Pipeline.
+│   ├── actions.js      # Effect Runner: Universal processor for data-driven actions.
+│   ├── resource.js     # Resource Manager: Logic for gains, costs & capacities.
+│   ├── persistence.js  # Memory: LocalStorage handling & save-code management.
+│   └── audio/logger... # Feedback: Atmosphere, narrative logs, and particles.
+├── data/               # Database: Pure data definitions (Actions, NPCs, Items).
+│   └── actions/        # Collections: Gathering, Crafting, Housing, Village.
+├── partials/           # Interface: Modular HTML fragments for each tab.
+└── assets/             # Aesthetics: CSS variables and view-specific styles.
+```
+
+### 🔮 Core Logic Patterns
+
+- **Event-Driven**: Systems never call each other directly; they communicate via global events (`SOUND_TRIGGERED`, `SAVE_REQUESTED`).
+- **Data-Driven**: New actions or items are defined as pure data objects—the central `ActionProcessor` handles the execution logic.
+- **Value-Pipeline**: All numerical values (gains/costs) are dynamically calculated through modifiers before being applied to the state.
 
 ## 🚀 Testing & Installation
 

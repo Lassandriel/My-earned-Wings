@@ -16,6 +16,8 @@ import { createNPCSystem } from './systems/npc.js';
 import { createActionSystem } from './systems/actions.js';
 import { createEngineSystem } from './systems/engine.js';
 import { createItemSystem } from './systems/item.js';
+import { createPipelineSystem } from './systems/pipeline.js';
+import { createEventBus, GAME_EVENTS } from './systems/bus.js';
 
 import './assets/styles/main.css';
 
@@ -78,6 +80,9 @@ Alpine.store('game', {
     engine: createEngineSystem(),
     item: createItemSystem(),
     dialogue: createDialogueSystem(),
+    pipeline: createPipelineSystem(),
+    bus: createEventBus(),
+    EVENTS: GAME_EVENTS,
 
     init() {
         const store = Alpine.store('game');
@@ -87,6 +92,13 @@ Alpine.store('game', {
         store.audio.init(store.settings);
         store.juice.init();
         store.engine.init(store);
+        
+        // --- SYSTEM BOOT (Event Wiring) ---
+        if (store.audio.boot) store.audio.boot(store);
+        if (store.logger.boot) store.logger.boot(store);
+        if (store.persistence.boot) store.persistence.boot(store);
+        if (store.juice.boot) store.juice.boot(store);
+        if (store.actions.boot) store.actions.boot(store);
         
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
@@ -134,15 +146,13 @@ Alpine.store('game', {
         return text; 
     },
 
-    playSound(key) { Alpine.store('game').audio.playSound(key); },
+    playSound(key) { this.bus.emit(this.EVENTS.SOUND_TRIGGERED, { key }); },
     addLog(id, context = 'logs', color = null, params = {}) { 
-        const store = Alpine.store('game');
-        store.logger.addLog(store, id, context, color, params); 
+        this.bus.emit(this.EVENTS.LOG_ADDED, { id, context, color, params }); 
     },
 
     saveGame(isManual = false) { 
-        const store = Alpine.store('game');
-        store.persistence.saveGame(store, isManual); 
+        this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); 
     },
 
     loadGame() {
