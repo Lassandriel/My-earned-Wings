@@ -158,3 +158,48 @@
   border-color: rgba(255, 255, 255, 0.4);
   background: rgba(0, 0, 0, 0.5);
 }
+
+/* ARCANE FOCUS STYLES */
+.focus-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 50%;
+    color: var(--accent-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.focus-toggle-btn:hover {
+    background: rgba(139, 92, 246, 0.3);
+    border-color: var(--accent-purple);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.focus-toggle-btn.is-focused {
+    background: var(--accent-purple);
+    color: #fff;
+    box-shadow: 0 0 15px var(--accent-purple);
+    animation: magic-pulse 2s infinite ease-in-out;
+}
+
+.game-btn.is-focused {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+@keyframes magic-pulse {
+    0% { box-shadow: 0 0 5px var(--accent-purple); }
+    50% { box-shadow: 0 0 20px var(--accent-purple); }
+    100% { box-shadow: 0 0 5px var(--accent-purple); }
+}

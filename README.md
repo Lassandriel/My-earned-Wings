@@ -1,19 +1,19 @@
-# Your Earned Wings ✦ (Draconia Core 2.0)
+# Your Earned Wings ✦ (Draconia Core 2.1)
 
 `Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **Electron**, **Vite**, and **Alpine.js**. 
 
-This **Demo Version** features the first complete story arc: **The Heart of Draconia**. You play as a wingless "Lung" (dragon-kin) in a world where flight is everything, discovering that true power and "wings" can be earned through loyalty to the ground and building a community.
+This **Demo Version** features the first complete story arc: **The Heart of Draconia**. You play as a wingless "Lung" (dragon-kin) in a world where flight is everything, discovering that true power and "wings" can be earned through loyalty to the ground, inner magic, and building a community.
 
 ![Official Logo](public/img/logo_wings.webp)
 
-## 📖 The Journey (Phases 1-5.6)
+## 📖 The Journey (Phases 1-5.7)
 Experience the transformation of a grounded wanderer into a pillar of the community:
-1.  **Survival**: Learn to gather resources and manage your limited vitality (Energy, Magic, Satiation).
-2.  **Roots**: Build your first campfire, a tent, and eventually a permanent house at the edge of the village.
-3.  **Community**: Forge bonds with village inhabitants, from the quiet Baker to the Ancient Sage and Ellie the Dream Wyvern.
+1.  **Survival**: Learn to gather resources and manage your symmetric vitality (50 Energy, 50 Magic).
+2.  **Roots**: Build your first campfire, a tent, and a permanent house (40 Wood / 40 Stone).
+3.  **Community**: Forge bonds with village inhabitants, from the quiet Baker to Archmage Aris.
 4.  **Upgrades (Possessions)**: Manage your tools and artifacts in your personal vault.
-5.  **Mastery**: Unlock the Arcane Sanctum, Master the Kitchen, and utilize the specialized Loop Mode.
-6.  **The Finale**: Reach the legendary **Tree of Life** once your community bonds and wisdom are maximized.
+5.  **Arcane Focus**: Master the art of magially driven automation.
+6.  **The Finale**: Reach the legendary **Tree of Life** once your community bonds and wisdom (60 Magic) are maximized.
 
 ---
 
@@ -21,20 +21,20 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 ### 🛖 Modular Housing & Masteries
 *   **Base Building Progression**: Develop your home from a simple fire to a fully equipped hut with a garden and specialized wings.
-*   **Kitchen & Arcanum**: Build unique stations for **Gourmet Cooking** (long-term buffs) and **Astral Meditation** (generating specialized shards).
-*   **Satiation Mechanics**: A deep cost-scaling system where your hunger level directly impacts magical drain and effort.
+*   **Kitchen & Arcanum**: Build unique stations for **Gourmet Cooking** (+10 Satiation) and **Astral Meditation** (generating specialized shards).
+*   **Balancing v2.1**: A refined economy with symmetric stats and optimized resource storage (Cap 50).
 
-### 👥 NPC Companions & Mentors
+### 👥 NPC Interaction & Trust
 *   **Trust & Progress**: Unlock 10+ unique interactions and secret lore through a data-driven NPC progression system.
-*   **Companionship**: Assign befriended NPCs to village tasks for passive yields, supported by a robust salary management system.
+*   **Village Hub**: NPCs are the heart of the narrative and the marketplace, providing essential trade and story milestones.
 
-### 🔄 Automation & Flow (Loop Mode)
-*   **Innate Looping**: Toggle repetitive "Loopable" actions (Gathering, Watering, Cooking) for a smoother gameplay flow.
-*   **Smart Ticker**: A centralized 100ms task-engine ensures automation is snappy, responsive, and resource-aware.
+### 🔄 Arcane Focus (Automation)
+*   **Magical Automation**: Toggle the "Magic Eye" ✨ on loopable actions to automate them at the cost of **3 Magic per second**.
+*   **Cost Substitution**: Focused actions consume Magic instead of Energy, allowing for effortless industrial output.
+*   **Loop Mode**: Toggleable manual repetition for standard gameplay.
 
-### 🔮 Senior Architecture (Core 2.0)
+### 🔮 Senior Architecture (Core 2.1)
 *   **SOA (Service-Oriented)**: Decoupled logic from the state store using 15 specialized system managers.
-*   **Value Pipeline**: Mathematical modifier system for dynamic cost and yield calculations.
 *   **Event Bus**: Pure pub/sub architecture for all side-effects (Audio, Logs, UI Triggers).
 *   **Bilingual Sync**: 100% parity between DE/EN localizations with key-fallback support.
 
@@ -53,7 +53,7 @@ src/
 └── systems/            # Logic: Decentralized service modules.
     ├── bus.js          # Event Hub (Pub/Sub)
     ├── pipeline.js     # Modifiers / Math
-    ├── actions.js      # Effect Execution
+    ├── actions.js      # Effect Execution (Arcane Focus Logic)
     ├── resource.js     # Economy / Satiation logic
     ├── persistence.js  # Memory / Save management
     ├── audio.js        # Soundscapes
@@ -63,8 +63,8 @@ src/
     ├── story.js        # Milestone / Finale logic
     ├── prologue.js     # Sequential Narrative
     ├── dialogue.js     # NPC Text Engine
-    ├── npc.js          # Progression / Companion logic
-    ├── engine.js       # Game Loops (100ms, 1s, 30s)
+    ├── npc.js          # Progression & Trust logic
+    ├── engine.js       # Game Loops (Focus & Tickers)
     └── item.js         # Consumption / Upgrade logic
 ```
 

@@ -30,46 +30,41 @@
     - **Neutral**: Satiation > 20% allows normal operation.
     - **Malus**: Satiation < 20% significantly increases Energy/Magic costs (up to 50% more drain).
 - **Study**: Permanently increases the magic limit. Requires a **Sturdy Table** to enable.
+    - **Malus**: Satiation < 20% significantly increases costs.
+- **Resting**: Energy recovery is optimized; no satiation is drained during rest.
+- **Study**: Permanently increases the magic limit (e.g., to 60 for the finale).
 
 ### 2.3 NPC & Community
-NPCs unlock new abilities or items through repeated interaction (Progress X/5):
-- **Baker & Teacher**: Available from the start; provide world-building and early-game flavor.
-- **Hunter**: Teaches bowmaking (Level 2) and hunting (Level 5).
-- **Artisan**: Unlocked via Storage; teaches tool crafting (Level 3).
-- **Flower Girl**: Unlocked via Campfire; gateway to magic and unlocks Ellie.
-- **Ellie (Dream Wyvern)**: Unlocked via Flower Girl; provides Dream logic and time-speed-up bonuses.
-- **Archmage Aris**: Unlocked via the Arcane Sanctum; provides Astral Magic.
-- **Ancient Sage**: Grants the *Book of Knowledge*.
+NPCs are the gateway to story, secrets, and trade.
+- **Story Progression**: Deepening bonds (Level 5) unlocks the finale.
+- **Marketplace**: Trading resources for shards happens at the central village hub.
+- **Specialized Shops**: NPCs like the Hunter offer direct resource exchanges (Meat/Shards).
 
-### 2.4 Housing & Synergies
-- **Campfire**: Unlocks early NPC interactions.
-- **House**: Permanent base, unlocks kitchen and sanctum.
-- **Kitchen**: Enables Gourmet Cooking for powerful, time-based buffs.
-- **Sanctum**: Enables Meditation for Astral Shards.
-- **Garden**: Level 2 expansion allows parallel planting slots.
+### 2.4 Housing & Capacity
+- **Storage**: Increased early-game capacity (50) allows for smooth house progression.
+- **House**: Costs 40 Wood / 40 Stone. Unlocks Kitchen and Sanctum.
 
-### 2.5 Automation & Flow (Loop Mode)
-To manage the repetitive nature of survival, the **Loop Mode** allows for the automation of specific actions:
-- **Scope**: Only actions tagged as `isLoopable` (Gathering, Mining, Watering) can be looped.
-- **Logic**: The engine automatically restarts the action as long as requirements are met and the toggle is active.
-- **Strategy**: Synergizes with Gourmet Meals to sustain high-speed automation.
+### 2.5 Automation: Arcane Focus
+The core of late-game efficiency is the **Arcane Focus**:
+- **Mechanism**: Automates any `isLoopable` action.
+- **Drain**: Consumes **3 Magic per second** while active.
+- **Benefit**: Replaces the **Energy cost** of the action with Magic, allowing effortless gathering while focused.
 
 ---
 
 ## 3. UI & UX
 
 - **Aesthetics**: Glassmorphism with dark, transparent layers and vibrant accent colors (Teal, Gold, Purple).
-- **Juice**: Floating feedback text (`+1 Meat`), magnetic hover effects, and pulsing resource bars.
+- **Automation UI**: Loopable actions feature a "Magic Eye" ✨ toggle for Arcane Focus.
 - **Tabs**: Modular architecture (Gameplay, Village, Upgrades, Story).
 
 ---
 
 ## 4. Technical Design
 
-- **Runtime**: Electron.
-- **Bilingual**: Centralized i18n system (DE/EN) with 100% parity.
-- **Engine**: Draconia Engine 2.0 (Service-Oriented Architecture).
-- **Latency**: Consolidated tickers (100ms for Progress, 1s for Buffs, 30s for Autosave).
+- **Runtime**: Electron / Vite.
+- **Engine**: Draconia Engine 2.1 (The Arcane Shift).
+- **Architecture**: Service-Oriented (SOA) with a centralized Event Bus and ValuePipeline for complex modifiers.
 
 ---
-_Last updated: April 2026 · v2.0 Hardened_
+_Last updated: April 2026 · v2.1 Arcane Focus_

@@ -152,6 +152,14 @@ The complete project audit cycle is finished. All core directories (Systems, Dat
 - [x] **Strategic De-Duplication**: Eliminated historical redundancy between heartbeat and ticker loops.
 - [x] **State Reset Integrity**: Encapsulated state reset logic for clean transitions in Electron environments.
 
+## Phase 5.7: The Arcane Shift (Balancing & Focus) - **COMPLETED**
+- [x] **Arcane Focus Implementation**: Replaced villager work assignments with magic-driven automation (Focus).
+- [x] **Magic-to-Energy Substitution**: Enabled focus-mode cost replacement (Magic drain instead of Energy cost).
+- [x] **Symmetric Balancing**: Unified primary stats to 50/50 Energy/Magic for better progression gating.
+- [x] **Storage Refinement**: Increased storage capacity to 50, enabling meaningful housing milestones (40/40 House).
+- [x] **QoL Optimization**: Significant reduction in clicking fatigue (Satiation +10 per click, 0 drain on rest).
+- [x] **Village Cleanup**: Streamlined the Village UI into a pure Story and Interaction hub.
+
 ---
 
 ## Post-Demo Vision (Future Phases)

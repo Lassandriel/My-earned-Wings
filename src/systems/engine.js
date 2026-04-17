@@ -9,27 +9,33 @@ export function createEngineSystem() {
 
         init(store) {
             // Main simulation loop (every 1 second)
-            // Handles Buffs and NPC progress
             this.tickInterval = setInterval(() => {
                 const innerStore = Alpine.store('game');
                 
-                // Process Active Buffs
+                // 1. Process Active Buffs
                 if (innerStore.activeBuffs && Object.keys(innerStore.activeBuffs).length > 0) {
                     Object.keys(innerStore.activeBuffs).forEach(id => {
                         innerStore.activeBuffs[id].remaining = Math.max(0, innerStore.activeBuffs[id].remaining - 1);
-                        if (innerStore.activeBuffs[id].remaining <= 0) {
-                            delete innerStore.activeBuffs[id];
-                        }
+                        if (innerStore.activeBuffs[id].remaining <= 0) delete innerStore.activeBuffs[id];
                     });
                 }
 
-                if (innerStore.npc && !innerStore.view.includes('prologue')) {
-                    innerStore.npc.processTick(innerStore);
+                // 2. Arcane Focus (Magical Automation)
+                if (innerStore.activeFocus && !innerStore.view.includes('prologue')) {
+                    const focusCost = 3;
+                    if (innerStore.stats.magic >= focusCost) {
+                        innerStore.resource.consume(innerStore, 'magic', focusCost);
+                    } else {
+                        // Focus broken
+                        const oldFocus = innerStore.activeFocus;
+                        innerStore.activeFocus = null;
+                        innerStore.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
+                        innerStore.playSound('fail');
+                    }
                 }
             }, 1000);
 
             // Task Ticker (every 100ms)
-            // Handles smooth progress bars and action finalization
             this.taskInterval = setInterval(() => {
                 const innerStore = Alpine.store('game');
                 const taskIds = Object.keys(innerStore.activeTasks || {});
@@ -46,10 +52,12 @@ export function createEngineSystem() {
                         const result = innerStore.actions.processAction(innerStore, actionId, action, 'finalize');
                         innerStore.actions.handleSuccess(innerStore, actionId, action, result);
 
-                        // LOOP MODE
-                        if (innerStore.isLooping && action.isLoopable) {
+                        // LOOP MODE or ARCANE FOCUS
+                        const isFocused = innerStore.activeFocus === actionId;
+                        if ((innerStore.isLooping || isFocused) && action.isLoopable) {
                             setTimeout(() => {
-                                if (innerStore.isLooping && innerStore.view === 'gameplay' && !innerStore.activeTasks[actionId]) {
+                                if ((innerStore.isLooping || innerStore.activeFocus === actionId) && 
+                                     innerStore.view !== 'menu' && !innerStore.activeTasks[actionId]) {
                                     innerStore.executeAction(actionId);
                                 }
                             }, 300);

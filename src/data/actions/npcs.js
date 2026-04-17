@@ -26,10 +26,6 @@ export const npcActions = {
         { costs: { water: 1 } },
         { cost: 20, costType: 'energy', onSuccess: { unlocks: ['npc-blacksmith'] } }
     ],
-    companion: {
-        salary: 1,
-        yield: { magic: 2 }
-    },
     execute: (state) => {
         return state.npcExecute('npc-flowerGirl');
     }
@@ -43,10 +39,6 @@ export const npcActions = {
         { costs: { stone: 20 } },
         { costs: { wood: 10, stone: 10 }, reward: 'item-chisel', onSuccess: { unlocks: ['craft-axe', 'craft-pickaxe'] } }
     ],
-    companion: {
-        salary: 3,
-        yield: { wood: 0.5 }
-    },
     execute: (state) => {
         return state.npcExecute('npc-artisan');
     }
@@ -122,10 +114,6 @@ export const npcActions = {
         { costs: { wood: 20 } },
         { cost: 20, costType: 'energy' }
     ],
-    companion: {
-        salary: 2,
-        yield: { meat: 0.2 }
-    },
     execute: (state) => {
         return state.npcExecute('npc-hunter');
     }
@@ -156,10 +144,6 @@ export const npcActions = {
         { cost: 20, costType: 'magic' },
         { cost: 25, costType: 'magic', reward: 'item-wyvern-scale' }
     ],
-    companion: {
-        salary: 3,
-        yield: { herbs: 0.5, magic: 1 }
-    },
     execute: (state) => {
         return state.npcExecute('npc-ellie');
     }

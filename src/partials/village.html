@@ -51,10 +51,7 @@
                     <img x-show="$store.game.actionDb[id]?.image" :src="'img/' + $store.game.actionDb[id].image" class="npc-img">
                     <div x-show="!$store.game.actionDb[id]?.image" class="npc-placeholder" x-text="$store.game.actionDb[id]?.journalIcon"></div>
                 </div>
-                <!-- Status Badge -->
-                <div class="npc-status-tag" x-show="$store.game.companions[id]">
-                    <span class="status-pulse"></span>
-                    <span x-text="$store.game.t('status_working')"></span>
+                    <!-- Companion Control Removed (Replaced by Arcane Focus) -->
                 </div>
             </div>
 
@@ -80,17 +77,6 @@
                     >
                         <span x-text="$store.game.t('ui_details')"></span>
                     </button>
-
-                    <!-- Companion Control -->
-                    <div class="companion-controls" x-show="$store.game.npcProgress[id.replace('npc-', '')] >= ($store.game.actionDb[id]?.maxProgress || 5) && $store.game.actionDb[id]?.companion">
-                        <button 
-                            class="game-btn companion-toggle-btn"
-                            :class="$store.game.companions[id] ? 'btn-active' : 'btn-idle'"
-                            @click="$store.game.toggleCompanion(id)"
-                        >
-                            <span x-text="$store.game.companions[id] ? $store.game.t('btn_stop_work') : $store.game.t('btn_assign_work')"></span>
-                        </button>
-                    </div>
 
                     <!-- Hunter Specific: Meat Exchange -->
                     <div class="npc-special-shop hunter-meat-exchange" x-show="id === 'npc-hunter' && $store.game.npcProgress.hunter >= 5">

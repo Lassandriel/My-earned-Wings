@@ -40,7 +40,7 @@ export const initialState = {
   npcTrust: {},
   unlockedNPCs: ['npc-baker', 'npc-teacher', 'npc-hunter'],
   hoveredAction: null,
-  companions: {},
+  activeFocus: null,
   currentObjective: '',
   logs: [],
   storyHistory: [],

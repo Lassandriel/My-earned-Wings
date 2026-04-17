@@ -127,6 +127,20 @@ Alpine.store('game', {
     finishPrologue() { const store = Alpine.store('game'); store.ui.finishPrologue(store); },
     
     executeAction(id) { const store = Alpine.store('game'); return store.actions.execute(store, id); },
+    toggleFocus(id) {
+        const store = Alpine.store('game');
+        if (store.activeFocus === id) {
+            store.activeFocus = null;
+            store.playSound('click');
+        } else {
+            store.activeFocus = id;
+            store.playSound('magic');
+            // Ensure action is loopable
+            if (store.actionDb[id] && store.actionDb[id].isLoopable) {
+                store.executeAction(id);
+            }
+        }
+    },
     npcExecute(id) { const store = Alpine.store('game'); return store.npc.execute(store, id); },
     toggleCompanion(id) { const store = Alpine.store('game'); store.npc.toggleCompanion(store, id); },
     consumeItem(id) { const store = Alpine.store('game'); store.item.consumeItem(store, id); },

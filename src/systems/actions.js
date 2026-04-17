@@ -83,8 +83,17 @@ export function createActionSystem() {
                 const costType = action.costType;
                 if (costType && costType !== 'none') {
                     const costs = costType === 'mixed' ? action.costs : { [costType]: action.cost };
-                    if (!game.resource.consume(game, costs)) {
-                        return { success: false };
+                    
+                    // FOKUS LOGIC: If action is focused, energy costs are waived (covered by magic drain)
+                    if (game.activeFocus === id && costs.energy) {
+                        const { energy, ...otherCosts } = costs;
+                        if (Object.keys(otherCosts).length > 0) {
+                            if (!game.resource.consume(game, otherCosts)) return { success: false };
+                        }
+                    } else {
+                        if (!game.resource.consume(game, costs)) {
+                            return { success: false };
+                        }
                     }
                 }
             }

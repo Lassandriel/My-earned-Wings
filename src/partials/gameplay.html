@@ -77,6 +77,7 @@
           >
             Zweige sammeln
           </button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-wood' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-wood')">✨</button>
         <button
             id="action-stone-btn"
             class="game-btn"
@@ -88,6 +89,7 @@
           >
             Kiesel sammeln
           </button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-stone' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-stone')">✨</button>
         <button
             id="action-hunt-btn"
             x-show="$store.game.upgrades.includes('craft-bow')"
@@ -100,6 +102,7 @@
           >
             Jagen
           </button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-hunt' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-hunt')">✨</button>
         </div>
       </section>
     </div>
@@ -125,6 +128,7 @@
           >
             Pfade säubern
           </button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-work')">✨</button>
         </div>
       </section>
 
@@ -183,6 +187,7 @@
               <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['action-meditate'].remaining / $store.game.activeTasks['action-meditate'].total * 100)) + '%'"></div>
             </div>
           </button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-meditate' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-meditate')">✨</button>
 
           <button
             x-show="$store.game.housing.hasSanctum"
