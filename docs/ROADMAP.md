@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 4.11 COMPLETED (Senior Architecture Revamp)
+## Current Status: Phase 5 COMPLETED (UX & Architecture Hardening)
 
-The upgrades tab has been transformed into a premium 'Dragon's Vault' with item categorization and a showcase interface.
+The game has been modernized with a grid-based modular architecture, simplified primary actions, and full terminological consistency.
 
 ---
 
@@ -100,8 +100,15 @@ The upgrades tab has been transformed into a premium 'Dragon's Vault' with item 
 - [x] **ValuePipeline**: Centralized mathematical modifier system for all calculations.
 - [x] **Event-Bus Architecture**: Decoupled systems (Audio, Logs, Persistence) via pub/sub mechanism.
 - [x] **Data-Driven Actions**: Removed JS logic from data files; implemented a generic Effect-Runner.
-- [x] **Offline Progress 2.0**: Optimized O(1) bulk calculations for time-away scenarios.
 - [x] **Scalability Hub**: main.js refactored for rapid content expansion.
+
+## Phase 5: UX & Architecture Hardening - **COMPLETED**
+- [x] **Offline Removal**: Completely eliminated original time-based offline progress for a static, session-based experience.
+- [x] **Terminological Consistency**: Unified nomenclature (Inventory -> Possession/Besitz, Story -> Chronicle).
+- [x] **Simplified Actions**: Primary gameplay actions (Eat, Rest, Focus) reduced to a single-effect-per-button logic.
+- [x] **Tooltip Precision**: Dynamic yield calculation for all action tooltips (replaced curly-brace placeholders).
+- [x] **Architecture Cleanup**: Removed legacy system calls (e.g., checkTraits) and duplicate resource registries.
+- [x] **Sidebar Highlighting**: Added active-tab glow and high-contrast text for better navigation.
 
 ---
 

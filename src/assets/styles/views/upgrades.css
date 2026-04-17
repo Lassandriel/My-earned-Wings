@@ -1,6 +1,6 @@
 /* UPGRADES VIEW - THE DRAGON'S VAULT (PREMIUM REVAMP) */
 .upgrades-view-root {
-    padding: 0;
+    padding: 30px 40px;
     animation: fadeInVaultMotion 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

@@ -1,102 +1,121 @@
-<!-- SETTINGS MODAL (Global Overlay) -->
-<div id="modal-settings" class="modal-overlay" x-show="$store.game.settingsOpen" style="display: none" x-transition>
-  <div class="modal-content settings-modal-wide">
-    <div class="settings-sidebar">
+<!-- SETTINGS MODAL (Senior Unified Rework) -->
+<div id="modal-settings" class="modal-overlay" x-show="$store.game.settingsOpen" style="display: none" 
+     x-transition:enter="modal-fade-in" x-transition:leave="modal-fade-out" 
+     @click.self="$store.game.settingsOpen = false">
+  
+  <div class="settings-modal-unified">
+    <!-- Header -->
+    <div class="settings-header">
       <h2 x-text="$store.game.t('settings_title')">Settings</h2>
-      <div class="settings-tabs">
-        <button class="s-tab-btn" :class="$store.game.settings.activeTab === 'general' && 'active'" @click="$store.game.settings.activeTab = 'general'">
-          <span class="tab-icon">👤</span> <span x-text="$store.game.t('settings_tab_general')">General</span>
-        </button>
-        <button class="s-tab-btn" :class="$store.game.settings.activeTab === 'audio' && 'active'" @click="$store.game.settings.activeTab = 'audio'">
-          <span class="tab-icon">🔊</span> <span x-text="$store.game.t('settings_tab_audio')">Audio</span>
-        </button>
-        <button class="s-tab-btn" :class="$store.game.settings.activeTab === 'system' && 'active'" @click="$store.game.settings.activeTab = 'system'">
-          <span class="tab-icon">⚙️</span> <span x-text="$store.game.t('settings_tab_system')">System</span>
-        </button>
-      </div>
-      <button class="close-modal-sidebar" @click="$store.game.settingsOpen = false">
-        <span x-text="$store.game.t('btn_back')">Back</span>
-      </button>
+      <button class="close-top-btn" @click="$store.game.settingsOpen = false">×</button>
     </div>
 
-    <div class="settings-main">
-      <!-- GENERAL TAB -->
-      <div x-show="$store.game.settings.activeTab === 'general'" class="s-tab-content">
-        <div class="settings-group">
-          <label x-text="$store.game.t('settings_lang')">Language</label>
-          <div class="lang-switcher">
-            <button class="lang-btn" :class="$store.game.language === 'de' && 'active'" @click="$store.game.setLanguage('de')">Deutsch</button>
-            <button class="lang-btn" :class="$store.game.language === 'en' && 'active'" @click="$store.game.setLanguage('en')">English</button>
-          </div>
+    <!-- Scrollable Body -->
+    <div class="settings-body">
+      
+      <!-- 1. Player Section -->
+      <section class="settings-card">
+        <h3 x-text="$store.game.t('settings_name')">Player</h3>
+        <div class="control-group">
+          <input type="text" x-model="$store.game.playerName" :placeholder="$store.game.t('settings_name') + '...'" @input="$store.game.persistence.saveGame($store.game)" />
         </div>
-        <div class="settings-group">
-          <label x-text="$store.game.t('settings_scale')">UI Scaling</label>
-          <select x-model="$store.game.settings.uiScale" @change="$store.game.calculateScale()">
-            <option value="auto" x-text="$store.game.t('settings_scale_auto')">Auto-Fit</option>
-            <option value="1">100%</option>
-            <option value="0.9">90%</option>
-            <option value="0.8">80%</option>
-            <option value="0.7">70%</option>
-          </select>
-        </div>
+      </section>
 
-        <div class="settings-group">
-          <label x-text="$store.game.t('settings_name')">Player Name</label>
-          <input type="text" x-model="$store.game.playerName" :placeholder="$store.game.t('settings_name') + '...'" @input="$store.game.saveGame()" />
-        </div>
-      </div>
-
-      <!-- AUDIO TAB -->
-      <div x-show="$store.game.settings.activeTab === 'audio'" class="s-tab-content">
-        <div class="settings-group">
+      <!-- 2. Audio Section -->
+      <section class="settings-card">
+        <h3 x-text="$store.game.t('settings_tab_audio')">Audio</h3>
+        
+        <div class="control-group">
           <label>
-            <span x-text="$store.game.t('settings_vol_global')">Global Volume</span>
-            <span class="vol-val" x-text="Math.round($store.game.settings.volumeGlobal * 100) + '%'"></span>
+            <span x-text="$store.game.t('settings_vol_global')">Global</span>
+            <span class="val-pill" x-text="Math.round($store.game.settings.volumeGlobal * 100) + '%'"></span>
           </label>
-          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeGlobal" @input="$store.game.updateAudio()">
+          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeGlobal" @input="$store.game.audio.updateVolumes($store.game.settings)">
         </div>
-        <div class="settings-group">
+
+        <div class="control-group">
           <label>
             <span x-text="$store.game.t('settings_vol_music')">Music</span>
-            <span class="vol-val" x-text="Math.round($store.game.settings.volumeMusic * 100) + '%'"></span>
+            <span class="val-pill" x-text="Math.round($store.game.settings.volumeMusic * 100) + '%'"></span>
           </label>
-          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeMusic" @input="$store.game.updateAudio()">
+          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeMusic" @input="$store.game.audio.updateVolumes($store.game.settings)">
         </div>
-        <div class="settings-group">
+
+        <div class="control-group">
           <label>
             <span x-text="$store.game.t('settings_vol_sfx')">SFX</span>
-            <span class="vol-val" x-text="Math.round($store.game.settings.volumeSfx * 100) + '%'"></span>
+            <span class="val-pill" x-text="Math.round($store.game.settings.volumeSfx * 100) + '%'"></span>
           </label>
-          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeSfx" @input="$store.game.updateAudio()">
+          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeSfx" @input="$store.game.audio.updateVolumes($store.game.settings)">
         </div>
-        <div class="settings-group checkbox-group">
+
+        <div class="control-group row-flex">
+          <span x-text="$store.game.t('settings_mute')">Mute</span>
           <label class="toggle-switch">
-            <input type="checkbox" x-model="$store.game.settings.mute" @change="$store.game.updateAudio()">
+            <input type="checkbox" x-model="$store.game.settings.mute" @change="$store.game.audio.updateVolumes($store.game.settings)">
             <span class="slider round"></span>
           </label>
-          <span x-text="$store.game.t('settings_mute')">Mute All</span>
         </div>
-      </div>
+      </section>
 
-      <!-- SYSTEM TAB -->
-      <div x-show="$store.game.settings.activeTab === 'system'" class="s-tab-content">
-        <div class="settings-actions-stack">
-          <div class="settings-group">
-              <label>Save Code (Export/Import)</label>
-              <textarea x-model="$store.game.saveCode" class="save-code-area" placeholder="Paste save code here..."></textarea>
-              <div class="button-row-small">
-                  <button class="game-btn" @click="$store.game.exportSave()">Export Code</button>
-                  <button class="game-btn" @click="$store.game.importSave()">Import Code</button>
-              </div>
-          </div>
-          <div class="modal-divider"></div>
-          <button class="game-btn wide-btn" @click="$store.game.saveGame(true)" x-text="$store.game.t('btn_save')">Save Game</button>
-          <button class="game-btn wide-btn" @click="$store.game.loadGame()" x-text="$store.game.t('btn_load')">Load Game</button>
-          <div class="modal-divider"></div>
-          <button class="quit-btn reset-btn" @click="$store.game.hardReset()" x-text="$store.game.t('settings_reset')">Hard Reset Progress</button>
-          <button class="quit-btn" @click="window.electronAPI?.quitApp()" x-text="$store.game.t('btn_quit')">Quit App</button>
+      <!-- 3. Graphics & Language -->
+      <section class="settings-card">
+        <h3 x-text="$store.game.t('settings_graphics')">Graphics</h3>
+        <div class="control-group row-flex">
+          <span x-text="$store.game.t('settings_show_particles')">Particles</span>
+          <label class="toggle-switch">
+            <input type="checkbox" x-model="$store.game.settings.showParticles">
+            <span class="slider round"></span>
+          </label>
         </div>
-      </div>
+
+        <div class="divider-sub"></div>
+
+        <h3 x-text="$store.game.t('settings_lang')">Language</h3>
+        <div class="lang-grid">
+          <button class="lang-btn-modern" :class="$store.game.language === 'de' && 'active'" @click="$store.game.ui.setLanguage($store.game, 'de')">
+            Deutsch
+          </button>
+          <button class="lang-btn-modern" :class="$store.game.language === 'en' && 'active'" @click="$store.game.ui.setLanguage($store.game, 'en')">
+            English
+          </button>
+        </div>
+      </section>
+
+      <!-- 4. System & Data -->
+      <section class="settings-card">
+        <h3 x-text="$store.game.t('settings_system')">System</h3>
+        
+        <div class="control-group stack">
+          <label>Save Code (Export/Import)</label>
+          <textarea x-model="$store.game.saveCode" class="modern-textarea" placeholder="Paste your save code here..."></textarea>
+          <div class="btn-row-flex">
+            <button class="action-btn-sm" @click="$store.game.saveCode = $store.game.persistence.exportGameData($store.game)">Export</button>
+            <button class="action-btn-sm" @click="$store.game.persistence.importGameData($store.game, $store.game.saveCode)">Import</button>
+          </div>
+        </div>
+
+        <div class="divider-sub"></div>
+
+        <div class="system-actions">
+          <button class="game-btn-wide" @click="$store.game.persistence.saveGame($store.game, true)">
+            <span x-text="$store.game.t('btn_save')">Save</span>
+          </button>
+          <button class="game-btn-wide secondary" @click="$store.game.persistence.loadGame($store.game)">
+            <span x-text="$store.game.t('btn_load')">Load</span>
+          </button>
+        </div>
+
+        <div class="danger-zone">
+          <button class="danger-btn" @click="$store.game.persistence.hardReset($store.game)">
+            <span x-text="$store.game.t('settings_reset')">Hard Reset</span>
+          </button>
+          <button class="quit-btn-modern" @click="window.electronAPI?.quitApp()">
+            <span x-text="$store.game.t('btn_quit')">Quit Draconia</span>
+          </button>
+        </div>
+      </section>
+
     </div>
   </div>
 </div>

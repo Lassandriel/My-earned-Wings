@@ -4,7 +4,7 @@
         <template x-for="item in [
             { id: 'gameplay', icon: 'story', label: 'nav_story' },
             { id: 'crafting', icon: 'crafting', label: 'nav_crafting' },
-            { id: 'upgrades', icon: 'inventory', label: 'nav_upgrades' },
+            { id: 'upgrades', icon: 'upgrades', label: 'nav_upgrades' },
             { id: 'village', icon: 'village', label: 'nav_village' },
             { id: 'story', icon: 'chronic', label: 'nav_story_tab' }
         ]" :key="item.id">
@@ -21,6 +21,8 @@
         <div class="save-status-sidebar" x-text="$store.game.saveInfoText || $store.game.t('save_never')">
             Zuletzt gespeichert: Nie
         </div>
-        <div class="settings-corner-btn" @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('nav_upgrades_desc') }">⚙️</div>
+        <div class="settings-corner-btn" 
+             @click="$store.game.settingsOpen = true"
+             @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('settings_title'), desc: '' }">⚙️</div>
     </div>
 </nav>

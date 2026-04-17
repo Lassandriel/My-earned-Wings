@@ -134,7 +134,7 @@ export function createActionSystem() {
             }
 
             // Immediately check for new titles
-            game.checkTraits();
+
 
             // Satiation reduction
             if (id !== 'action-essen') {

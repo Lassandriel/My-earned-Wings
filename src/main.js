@@ -293,6 +293,13 @@ document.addEventListener('keydown', (e) => {
             store.prologue.advancePrologue(store);
         }
     }
+
+    // --- GAMEPLAY HOTKEYS ---
+    if (store.view === 'gameplay' && !store.settingsOpen) {
+        if (e.key === '1') { console.log('[HOTKEY] 1 - Essen'); store.executeAction('action-essen'); }
+        if (e.key === '2') { console.log('[HOTKEY] 2 - Ausruhen'); store.executeAction('action-ausruhen'); }
+        if (e.key === '3') { console.log('[HOTKEY] 3 - Meditieren'); store.executeAction('action-meditieren'); }
+    }
 });
 
 document.addEventListener('mousemove', (e) => {

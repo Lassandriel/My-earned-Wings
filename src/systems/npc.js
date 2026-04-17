@@ -40,6 +40,10 @@ export const createNPCSystem = () => {
             // Progress success
             store.npcProgress[progKey]++;
             const newProg = store.npcProgress[progKey];
+            
+            // Increment Trust (Numerical bond)
+            const currentTrust = store.npcTrust[progKey] || 0;
+            store.npcTrust[progKey] = currentTrust + 1;
 
             // Give reward
             if (step.reward) {
@@ -77,49 +81,35 @@ export const createNPCSystem = () => {
          * Processes salaries and resource generation for all active companions.
          */
         processTick(game) {
-            this.processBulkTick(game, 1);
-        },
-
-        /**
-         * Efficiently processes multiple ticks at once (O(1) calculation).
-         */
-        processBulkTick(game, seconds) {
             const store = Alpine.store('game');
             const activeIds = Object.keys(store.companions);
-            if (activeIds.length === 0 || seconds <= 0) return;
+            if (activeIds.length === 0) return;
 
-            let totalSalaryPerSec = 0;
-            const yieldPerSec = {};
+            let totalSalary = 0;
+            const currentYields = {};
 
             activeIds.forEach(id => {
                 const npcAction = store.actionDb[id];
                 if (npcAction && npcAction.companion) {
-                    totalSalaryPerSec += npcAction.companion.salary;
+                    totalSalary += npcAction.companion.salary;
                     Object.entries(npcAction.companion.yield).forEach(([res, amount]) => {
-                        yieldPerSec[res] = (yieldPerSec[res] || 0) + amount;
+                        currentYields[res] = (currentYields[res] || 0) + amount;
                     });
                 }
             });
 
             const currentShards = store.resources.shards || 0;
-            let ticksAffordable = seconds;
             
-            if (totalSalaryPerSec > 0) {
-                ticksAffordable = Math.min(seconds, Math.floor(currentShards / totalSalaryPerSec));
-            }
-
-            if (ticksAffordable > 0) {
-                // Consume total salary
-                store.resource.consume(store, 'shards', totalSalaryPerSec * ticksAffordable);
+            if (totalSalary > 0 && currentShards >= totalSalary) {
+                // Consume salary
+                store.resource.consume(store, 'shards', totalSalary);
                 
-                // Add total yields
-                Object.entries(yieldPerSec).forEach(([res, amount]) => {
-                    store.resource.add(store, res, amount * ticksAffordable);
+                // Add yields
+                Object.entries(currentYields).forEach(([res, amount]) => {
+                    store.resource.add(store, res, amount);
                 });
-            }
-
-            // If we ran out of money during bulk processing
-            if (ticksAffordable < seconds) {
+            } else if (totalSalary > 0) {
+                // Can't afford
                 store.companions = {};
                 store.bus.emit(store.EVENTS.LOG_ADDED, { id: 'fail_salary', color: 'var(--accent-red)' });
                 store.bus.emit(store.EVENTS.SOUND_TRIGGERED, { key: 'fail' });

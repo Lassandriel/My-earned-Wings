@@ -36,8 +36,6 @@ export const createPersistenceSystem = (initialState) => ({
         // Use recursive deep merge to preserve new keys in nested objects
         const deepMerge = (target, source) => {
             Object.keys(source).forEach(key => {
-                // Skip 'inventory' key if it exists in old saves (ignored due to new game policy)
-                if (key === 'inventory') return;
 
                 if (Array.isArray(source[key])) {
                     target[key] = [...new Set([...(target[key] || []), ...source[key]])];

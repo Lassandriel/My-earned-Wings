@@ -1,7 +1,7 @@
 /**
  * Resource Registry
  * Defines all resources and stats in the game.
- * Scalability: Add a new entry here and the UI/Logic will auto-detect it.
+ * Centralized for Core 2.0.
  */
 export const RESOURCE_REGISTRY = {
     // --- CORE STATS ---
@@ -10,7 +10,6 @@ export const RESOURCE_REGISTRY = {
         type: 'stat',
         category: 'vitality',
         color: 'var(--accent-teal)',
-        icon: '⚡',
         initial: 100,
         initialMax: 100,
         isEssential: true
@@ -19,8 +18,7 @@ export const RESOURCE_REGISTRY = {
         id: 'magic',
         type: 'stat',
         category: 'vitality',
-        color: '#a855f7', // Purple
-        icon: '✨',
+        color: 'var(--accent-purple)',
         initial: 100,
         initialMax: 100,
         isEssential: true
@@ -29,20 +27,18 @@ export const RESOURCE_REGISTRY = {
         id: 'satiation',
         type: 'stat',
         category: 'vitality',
-        color: '#f97316', // Orange
-        icon: '🍖',
+        color: 'var(--gold)',
         initial: 100,
         initialMax: 100,
         isEssential: true,
     },
 
-    // --- BASE RESOURCES ---
+    // --- BASE MATERIALS ---
     wood: {
         id: 'wood',
         type: 'resource',
         category: 'materials',
-        color: '#d97706', // Amber
-        icon: '🪵',
+        color: 'var(--gold)',
         initial: 0,
         initialLimit: 25,
     },
@@ -50,17 +46,25 @@ export const RESOURCE_REGISTRY = {
         id: 'stone',
         type: 'resource',
         category: 'materials',
-        color: '#64748b', // Slate
-        icon: '🪨',
+        color: 'var(--text-dim)',
         initial: 0,
         initialLimit: 25,
     },
+    shards: {
+        id: 'shards',
+        type: 'resource',
+        category: 'materials',
+        color: 'var(--accent-teal)',
+        initial: 0,
+        initialLimit: 1000,
+    },
+
+    // --- PROVISIONS ---
     meat: {
         id: 'meat',
         type: 'resource',
         category: 'provisions',
-        color: '#ef4444', // Red
-        icon: '🥩',
+        color: '#f87171',
         initial: 0,
         initialLimit: 10,
     },
@@ -68,39 +72,24 @@ export const RESOURCE_REGISTRY = {
         id: 'water',
         type: 'resource',
         category: 'provisions',
-        color: '#0ea5e9', // Sky Blue
-        icon: '💧',
+        color: '#60a5fa',
         initial: 0,
         initialLimit: 10
     },
+
+    // --- KNOWLEDGE ---
     books: {
         id: 'books',
         type: 'resource',
         category: 'knowledge',
-        color: '#6366f1', // Indigo
-        icon: '📚',
+        color: '#a78bfa',
         initial: 0,
         initialLimit: 0, 
-    },
-    shards: {
-        id: 'shards',
-        type: 'resource',
-        category: 'materials',
-        color: '#2dd4bf', // Teal
-        icon: '💎',
-        initial: 0,
-        initialLimit: 1000,
     }
 };
 
-/**
- * Helper to get essential stats
- */
 export const getEssentialStats = () => 
     Object.values(RESOURCE_REGISTRY).filter(r => r.type === 'stat');
 
-/**
- * Helper to get standard resources
- */
 export const getStandardResources = () => 
     Object.values(RESOURCE_REGISTRY).filter(r => r.type === 'resource');

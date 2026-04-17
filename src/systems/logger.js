@@ -6,13 +6,25 @@ export const createLoggerSystem = () => ({
     else if (color && (color.includes('purple') || color.includes('210, 180'))) type = 'story';
     else if (color && (color.includes('red') || color.includes('239, 68'))) type = 'failure';
 
+    const lastLog = store.logs[0];
+    const finalColor = color || 'rgba(226, 232, 240, 0.7)';
+    const finalContext = context || 'logs';
+
+    // Grouping logic: If identical to the last message, just increment count
+    if (lastLog && lastLog.id === id && lastLog.context === finalContext && lastLog.color === finalColor) {
+      lastLog.count++;
+      lastLog.timestamp = Date.now() + Math.random(); // Update timestamp to trigger Alpine :key update
+      return;
+    }
+
     store.logs.unshift({
       id: id,
-      context: context || 'logs',
+      context: finalContext,
       params: params || {},
-      color: color || 'rgba(226, 232, 240, 0.7)',
+      color: finalColor,
       type,
-      timestamp: Date.now() + Math.random() // Unique ID for Alpine :key
+      count: 1,
+      timestamp: Date.now() + Math.random()
     });
 
     if (store.logs.length > 40) store.logs.pop();

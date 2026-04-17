@@ -34,3 +34,17 @@
 .nav-item:hover .menu-icon-img {
   transform: scale(1.1);
 }
+
+.nav-item.active {
+  background: rgba(45, 212, 191, 0.15); /* Subtiler Teal-Hintergrund */
+  border: 1px solid rgba(45, 212, 191, 0.4);
+  box-shadow: 0 0 25px rgba(45, 212, 191, 0.1), inset 4px 0 0 0 var(--accent-teal);
+  color: #ffffff; /* Contrast fix: White text on active tab */
+  text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+  font-weight: 700;
+}
+
+.nav-item.active .menu-icon-img {
+  filter: drop-shadow(0 0 10px var(--accent-teal)) brightness(1.2);
+  transform: scale(1.05);
+}

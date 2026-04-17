@@ -3,7 +3,7 @@ export default {
     nav_story: "Main",
     nav_crafting: "Crafting",
     nav_housing: "Construction",
-    nav_upgrades: "Upgrades",
+    nav_upgrades: "Possessions",
     nav_village: "Village",
     cat_gather: "Gather",
     cat_trade: "Trade",
@@ -44,11 +44,12 @@ export default {
     ui_placeholder_desc: "Choose an action to learn more.",
     settings_title: "Settings",
     settings_lang: "Language / Sprache",
-    settings_scale: "UI Scaling",
-    settings_scale_auto: "Auto-Fit",
     settings_name: "Player Name",
-    settings_reset: "Reset Game",
-    confirm_reset: "Are you sure? All progress will be lost!",
+    settings_graphics: "Graphics & Performance",
+    settings_show_particles: "Particle Effects (Weather & Feedback)",
+    settings_system: "Save Management & System",
+    settings_reset: "Complete Progress Reset",
+    confirm_reset: "Are you sure? All progress will be permanently lost!",
     village_desc: "Speak with the inhabitants to learn more.",
     save_at: "Saved: ",
     save_never: "Last saved: Never",
@@ -79,7 +80,7 @@ export default {
     btn_assign_work: "Assign",
     btn_stop_work: "Stop",
     ui_use: "Use",
-    ui_upgrades_empty: "Your inventory is currently empty.",
+    ui_upgrades_empty: "Your possessions are currently empty.",
     ui_salary: "Cost",
     ui_yield: "Yield",
     ui_load_at: "Loaded at",
@@ -98,7 +99,7 @@ export default {
     'action-essen': {
       title: "Eat Berries",
       desc: "Gather wild berries from the ground. They taste of earth and power.",
-      effect: "+{sGain} Satiation, +{eGain} Energy"
+      effect: "+{val} Satiation"
     },
     'action-ausruhen': {
       title: "Rest",

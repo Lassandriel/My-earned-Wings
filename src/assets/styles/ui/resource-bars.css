@@ -11,3 +11,47 @@
     transform: translateX(5px);
     transition: all 0.3s ease;
 }
+
+/* BASIS & MILESTONES */
+.basis-row {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.basis-val {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.basis-val.active {
+  background: rgba(45, 212, 191, 0.1);
+  border-color: rgba(45, 212, 191, 0.2);
+  color: var(--accent-teal);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.basis-val.milestone {
+  background: rgba(251, 191, 36, 0.08);
+  border-color: rgba(251, 191, 36, 0.2);
+  color: var(--accent-gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: subtle-pulse 2s infinite ease-in-out;
+}
+
+@keyframes subtle-pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}

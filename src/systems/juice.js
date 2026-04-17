@@ -9,7 +9,8 @@ export const createJuiceSystem = () => ({
   },
 
   spawnParticle(x, y, text, type = 'normal') {
-    if (!this.container) return;
+    const store = Alpine.store('game');
+    if (!this.container || (store && store.settings && !store.settings.showParticles)) return;
 
     const el = document.createElement('div');
     el.className = `juice-particle p-${type}`;

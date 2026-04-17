@@ -7,15 +7,17 @@ export const gatheringActions = {
     yieldType: 'satiation',
     counter: 'food',
     rewards: { satiation: 'eat_satiation_gain' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'eat_satiation_gain', 1) };
+    },
     logKey: 'eat_log'
   },
   'action-ausruhen': {
     cost: 0, costType: 'none',
-    satiationCost: 10,
-    sfx: 'click',
-    particleText: '+ Energie',
-    particleType: 'energy',
     rewards: { energy: 'rest_energy_gain' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'rest_energy_gain', 1) };
+    },
     logKey: 'rest_log'
   },
   'action-meditieren': {
@@ -26,6 +28,9 @@ export const gatheringActions = {
     yieldType: 'magic',
     counter: 'magic',
     rewards: { magic: 15 },
+    calculateYield(store) {
+      return { val: 15 };
+    },
     logKey: 'meditate_log'
   },
   'action-study': {
@@ -34,6 +39,9 @@ export const gatheringActions = {
     particleText: '+ Magie Max',
     particleType: 'magic',
     rewards: { maxMagic: 'magic_limit_gain' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'magic_limit_gain', 1) };
+    },
     logKey: 'study_success',
     logColor: 'var(--accent-teal)'
   },
@@ -44,6 +52,9 @@ export const gatheringActions = {
     particleType: 'wood',
     counter: 'wood',
     rewards: { wood: 'wood_yield' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'wood_yield', 1) };
+    },
     logKey: 'wood_log'
   },
   'action-stone': {
@@ -53,6 +64,9 @@ export const gatheringActions = {
     particleType: 'stone',
     counter: 'stone',
     rewards: { stone: 'stone_yield' },
+    calculateYield(store) {
+      return { val: store.pipeline.calculate(store, 'stone_yield', 1) };
+    },
     logKey: 'stone_log'
   },
   'action-hunt': {
@@ -63,6 +77,9 @@ export const gatheringActions = {
     particleType: 'energy',
     counter: 'food',
     rewards: { meat: 2 },
+    calculateYield(store) {
+      return { val: 2 };
+    },
     logKey: 'hunt_log'
   }
 };

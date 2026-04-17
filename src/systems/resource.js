@@ -16,7 +16,7 @@ export const createResourceSystem = () => {
         const resDef = state.RESOURCE_REGISTRY[type];
         let finalAmount = amount;
         
-        if (resDef?.isEssential) {
+        if (resDef?.isEssential && type !== 'satiation') {
             finalAmount = finalAmount * getSatiationMultiplier(state);
         }
 
@@ -37,7 +37,7 @@ export const createResourceSystem = () => {
         const resDef = state.RESOURCE_REGISTRY[type];
         let finalAmount = amount;
 
-        if (resDef?.isEssential) {
+        if (resDef?.isEssential && type !== 'satiation') {
             finalAmount = finalAmount * getSatiationMultiplier(state);
         }
 

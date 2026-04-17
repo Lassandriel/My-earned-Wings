@@ -78,3 +78,26 @@
   box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
   transform: scale(1.15);
 }
+
+/* Keyboard Shortcut Tags */
+.key-tag {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 0.7rem;
+  font-family: 'Courier New', monospace;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.game-btn:hover .key-tag {
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.5);
+}

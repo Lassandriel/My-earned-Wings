@@ -1,5 +1,6 @@
 import de from './lang/de.js';
 import en from './lang/en.js';
+import { RESOURCE_REGISTRY } from './data/definitions/resources.js';
 
 const translations = { de, en };
 
@@ -30,11 +31,11 @@ export const initialState = {
   discoveredItems: [],
   unlockedRecipes: ['craft-wanderstock'],
   npcProgress: {},
+  npcTrust: {},
   unlockedNPCs: ['npc-baker', 'npc-teacher', 'npc-hunter'],
   hoveredAction: null,
   companions: {},
   currentObjective: '',
-  lastTick: Date.now(),
   logs: [],
   storyHistory: [],
   saveCode: '',
@@ -43,15 +44,14 @@ export const initialState = {
     volumeMusic: 0.7,
     volumeSfx: 1.0,
     mute: false,
-    activeTab: 'general',
-    uiScale: 'auto'
+    showParticles: true
   },
   counters: {
     totalActions: 0,
     study: 0
   },
-  demoCompleted: false,
-  demoCompletedHintSeen: false
+  demoCompletedHintSeen: false,
+  RESOURCE_REGISTRY
 };
 
 export const getTranslations = () => translations;

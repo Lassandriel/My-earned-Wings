@@ -29,7 +29,9 @@
         </div>
         <template x-for="stat in Object.values($store.game.RESOURCE_REGISTRY).filter(r => r.type === 'stat')" :key="stat.id">
             <div class="stat-row">
-                <span class="stat-name" :class="stat.id + '-label'" x-text="$store.game.t('ui_' + stat.id)">Name</span>
+                <span class="stat-name" :class="stat.id + '-label'">
+                    <span x-text="$store.game.t('ui_' + stat.id)"></span>
+                </span>
                 <div class="stat-bar-bg">
                     <div class="stat-bar-fill" :style="'width:' + $store.game[stat.id + 'Percent'] + '%; background-color: ' + stat.color"></div>
                 </div>
@@ -51,14 +53,15 @@
                 <div class="collapsible-content" x-show="expanded" x-collapse>
                     <template x-for="res in Object.values($store.game.RESOURCE_REGISTRY).filter(r => r.type === 'resource' && r.category === category)" :key="res.id">
                         <div class="stat-row" x-show="$store.game.discoveredResources.includes(res.id)">
-                            <span class="stat-name" x-text="$store.game.t('ui_' + res.id)">Name</span>
+                            <span class="stat-name">
+                                <span x-text="$store.game.t('ui_' + res.id)"></span>
+                            </span>
                             <div class="stat-bar-bg">
                                 <div class="stat-bar-fill" 
                                      :style="'width:' + Math.min(100, ($store.game.resources[res.id] / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color">
                                 </div>
                             </div>
                             <span class="stat-val">
-                                <span x-show="res.id === 'shards'">✦ </span>
                                 <span x-text="Math.floor($store.game.resources[res.id]) + '/' + ($store.game.limits[res.id] || '∞')"></span>
                             </span>
                         </div>
@@ -70,10 +73,10 @@
         <!-- Housing / Base Info -->
         <div class="stat-category" x-text="$store.game.t('ui_base')">Basis</div>
         <div class="stat-row basis-row">
-            <span x-show="!$store.game.housing.hasCampfire" class="stat-val basis-val">🌿 <span x-text="$store.game.t('ui_no_shelter')"></span></span>
-            <span x-show="$store.game.housing.hasCampfire && !$store.game.housing.hasTent" class="stat-val basis-val active">🏕️ <span x-text="$store.game.t('house-campfire', 'actions').title"></span></span>
-            <span x-show="$store.game.housing.hasTent && !$store.game.housing.hasHouse" class="stat-val basis-val active">⛺ <span x-text="$store.game.t('house-tent', 'actions').title"></span></span>
-            <span x-show="$store.game.housing.hasHouse" class="stat-val basis-val milestone">🏠 <span x-text="$store.game.t('house-build', 'actions').title"></span></span>
+            <span x-show="!$store.game.housing.hasCampfire" class="stat-val basis-val"><span x-text="$store.game.t('ui_no_shelter')"></span></span>
+            <span x-show="$store.game.housing.hasCampfire && !$store.game.housing.hasTent" class="stat-val basis-val active"><span x-text="$store.game.t('house-campfire', 'actions').title"></span></span>
+            <span x-show="$store.game.housing.hasTent && !$store.game.housing.hasHouse" class="stat-val basis-val active"><span x-text="$store.game.t('house-tent', 'actions').title"></span></span>
+            <span x-show="$store.game.housing.hasHouse" class="stat-val basis-val milestone"><span x-text="$store.game.t('house-build', 'actions').title"></span></span>
         </div>
     </div>
 </div>
