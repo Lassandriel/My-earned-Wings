@@ -22,61 +22,54 @@
 | **Stone** | Gathering / Mining | Construction & Crafting |
 | **Meat** | Hunting | Food & Trading |
 | **Shards** | Trading / Working | Currency & Salaries |
+| **Astral Shards**| Meditation (Sanctum) | Advanced Artifacts & Infusions |
 
-### 2.2 Vitality & Magic
+### 2.2 Survival Stats & Magic
 - **No Passive Regeneration**: Energy and Magic must be managed through active rest, meditation, and food.
-- **Satiation**: High satiation (>80%) provides a 20% cost reduction, while low satiation (<20%) increases costs by 50%.
-- **Study**: Permanently increases the magic limit.
-    - Requires: **Sturdy Table** to enable the action.
-    - Enhancements: **Chair** and **Books** (stored in the **Bookshelf**) increase the gain per study session.
+- **Satiation**: Keeping satiation high is vital. 
+    - **Neutral**: Satiation > 20% allows normal operation.
+    - **Malus**: Satiation < 20% significantly increases Energy/Magic costs (up to 50% more drain).
+- **Study**: Permanently increases the magic limit. Requires a **Sturdy Table** to enable.
 
-### 2.3 NPC Mentor & Community System
+### 2.3 NPC & Community
 NPCs unlock new abilities or items through repeated interaction (Progress X/5):
 - **Baker & Teacher**: Available from the start; provide world-building and early-game flavor.
-- **Hunter**: Teaches bowmaking (Level 2) and hunting (Level 5). Also offers meat trading.
+- **Hunter**: Teaches bowmaking (Level 2) and hunting (Level 5).
 - **Artisan**: Unlocked via Storage; teaches tool crafting (Level 3).
-- **Flower Girl**: Unlocked via Campfire; gateway to magic/shards and unlocks the Blacksmith.
-- **Blacksmith**: Advanced metalworking and tool refinement.
-- **Ancient Sage**: Grants the *Book of Knowledge* (Knowledge Level 1).
+- **Flower Girl**: Unlocked via Campfire; gateway to magic and unlocks Ellie.
+- **Ellie (Dream Wyvern)**: Unlocked via Flower Girl; provides Dream logic and time-speed-up bonuses.
+- **Archmage Aris**: Unlocked via the Arcane Sanctum; provides Astral Magic.
+- **Ancient Sage**: Grants the *Book of Knowledge*.
 
 ### 2.4 Housing & Synergies
-- **Campfire**: +10 energy recovery, unlocks the Flower Girl NPC.
-- **Tent**: Enables storage expansions and unlocks the Town Hall.
-- **House**: Permanent base, unlocks bed, chair, and stove.
-- **Stove**: Significantly increases satiation and energy gain from food (Berries/Meat).
-- **Furniture Synergies**: Combinations of furniture (e.g., Table + Chair + Bookshelf) maximize the efficiency of self-improvement actions.
+- **Campfire**: Unlocks early NPC interactions.
+- **House**: Permanent base, unlocks kitchen and sanctum.
+- **Kitchen**: Enables Gourmet Cooking for powerful, time-based buffs.
+- **Sanctum**: Enables Meditation for Astral Shards.
+- **Garden**: Level 2 expansion allows parallel planting slots.
 
-### 2.5 Village & Companions (Mid-Game)
-- **Assignments**: NPCs with maxed friendship can be assigned to work in the Village.
-- **Passive Yield**: Companions generate resources (Wood, Meat, Magic) over time.
-- **Salaries**: Each companion requires a salary in **Shards** per tick. If shards run out, work stops.
-
-### 2.6 Titles & Traits
-- **Milestones**: Performing actions cumulative amounts (e.g., chopping 100 wood) unlocks **Titles**.
-- **Permanent Boni**: Each title provides a passive multiplier to yields, speed, or cost efficiency.
+### 2.5 Automation & Flow (Loop Mode)
+To manage the repetitive nature of survival, the **Loop Mode** allows for the automation of specific actions:
+- **Scope**: Only actions tagged as `isLoopable` (Gathering, Mining, Watering) can be looped.
+- **Logic**: The engine automatically restarts the action as long as requirements are met and the toggle is active.
+- **Strategy**: Synergizes with Gourmet Meals to sustain high-speed automation.
 
 ---
 
 ## 3. UI & UX
 
-- **Tabbed Interface**:
-    - **Main**: Core actions (Gathering, Hunting, Rest).
-    - **Crafting**: Production of tools and basic items.
-    - **Housing**: Expansion of the base and furniture.
-    - **Village**: Assignment and management of Companions.
-    - **Titles**: Overview of unlocked traits and progress.
-    - **Chronicle**: A narrative journal of your journey.
 - **Aesthetics**: Glassmorphism with dark, transparent layers and vibrant accent colors (Teal, Gold, Purple).
-- **Juice**: White floating particles for successful actions and smooth transitions.
+- **Juice**: Floating feedback text (`+1 Meat`), magnetic hover effects, and pulsing resource bars.
+- **Tabs**: Modular architecture (Gameplay, Village, Upgrades, Story).
 
 ---
 
 ## 4. Technical Design
 
-- **Runtime**: Electron (Cross-platform support).
-- **Persistence**: LocalStorage with encrypted/structured savegames.
-- **Localization**: Full DE/EN support through a centralized translation system.
-- **Game Loop**: A background loop handles companion progress and periodic auto-saves.
+- **Runtime**: Electron.
+- **Bilingual**: Centralized i18n system (DE/EN) with 100% parity.
+- **Engine**: Draconia Engine 2.0 (Service-Oriented Architecture).
+- **Latency**: Consolidated tickers (100ms for Progress, 1s for Buffs, 30s for Autosave).
 
 ---
-_Last updated: April 2026 · v1.5_
+_Last updated: April 2026 · v2.0 Hardened_

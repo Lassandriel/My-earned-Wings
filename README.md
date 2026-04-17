@@ -6,47 +6,69 @@ This **Demo Version** features the first complete story arc: **The Heart of Drac
 
 ![Official Logo](public/img/logo_wings.webp)
 
-## 📖 The Journey (Phases 1-5)
+## 📖 The Journey (Phases 1-5.6)
 Experience the transformation of a grounded wanderer into a pillar of the community:
 1.  **Survival**: Learn to gather resources and manage your limited vitality (Energy, Magic, Satiation).
 2.  **Roots**: Build your first campfire, a tent, and eventually a permanent house at the edge of the village.
-3.  **Community**: Forge bonds with village inhabitants, from the quiet Baker to the Ancient Sage.
-4.  **Possessions (Besitz)**: Manage your treasures, tools, and rarities in your personal vault.
-5.  **The Finale**: Reach the legendary **Tree of Life** — the majestic heart of the ground.
+3.  **Community**: Forge bonds with village inhabitants, from the quiet Baker to the Ancient Sage and Ellie the Dream Wyvern.
+4.  **Upgrades (Possessions)**: Manage your tools and artifacts in your personal vault.
+5.  **Mastery**: Unlock the Arcane Sanctum, Master the Kitchen, and utilize the specialized Loop Mode.
+6.  **The Finale**: Reach the legendary **Tree of Life** once your community bonds and wisdom are maximized.
+
+---
 
 ## ✦ Core Features
 
-### 🛖 Modular Housing & Growth
-*   **Base Building Progression**: Develop your home from a simple fire to a fully equipped hut with a garden.
-*   **Furniture Synergies**: Items like beds, tables, and bookshelves double your recovery and study efficiency.
-*   **Satiation Mechanics**: A deep stat system where your nourishment level affects your magic efficiency and work power.
+### 🛖 Modular Housing & Masteries
+*   **Base Building Progression**: Develop your home from a simple fire to a fully equipped hut with a garden and specialized wings.
+*   **Kitchen & Arcanum**: Build unique stations for **Gourmet Cooking** (long-term buffs) and **Astral Meditation** (generating specialized shards).
+*   **Satiation Mechanics**: A deep cost-scaling system where your hunger level directly impacts magical drain and effort.
 
 ### 👥 NPC Companions & Mentors
-*   **Trust & Progress**: Unlock new crafting recipes and game areas through meaningful interactions.
-*   **Timed Tasks & Helpers**: Assign NPCs to tasks to generate passive resources, or sow herbs in your garden that grow while you play.
+*   **Trust & Progress**: Unlock 10+ unique interactions and secret lore through a data-driven NPC progression system.
+*   **Companionship**: Assign befriended NPCs to village tasks for passive yields, supported by a robust salary management system.
+
+### 🔄 Automation & Flow (Loop Mode)
+*   **Innate Looping**: Toggle repetitive "Loopable" actions (Gathering, Watering, Cooking) for a smoother gameplay flow.
+*   **Smart Ticker**: A centralized 100ms task-engine ensures automation is snappy, responsive, and resource-aware.
 
 ### 🔮 Senior Architecture (Core 2.0)
-*   **Value Pipeline**: All game values are calculated dynamically—upgrades and stats scale your power organically.
-*   **Event Bus**: Decoupled systems (Audio, Logs, Particles) communicate via a central Pub/Sub mechanism.
-*   **Registry-Driven**: Content (Items, NPCs, Resources) is defined as pure data, making the game extremely easy to extend.
-*   **Asynchronous Tasks**: A custom task ticker handles timed actions (like gardening) in the background.
+*   **SOA (Service-Oriented)**: Decoupled logic from the state store using 15 specialized system managers.
+*   **Value Pipeline**: Mathematical modifier system for dynamic cost and yield calculations.
+*   **Event Bus**: Pure pub/sub architecture for all side-effects (Audio, Logs, UI Triggers).
+*   **Bilingual Sync**: 100% parity between DE/EN localizations with key-fallback support.
+
+---
 
 ## 🏗️ Project Architecture
 
 ```text
 src/
-├── main.js             # Engine: Store assembly, event wiring & heartbeat loops.
-├── state.js            # Foundation: Defines the initial global state.
-├── systems/            # Logic & Services: Modular game managers.
-│   ├── bus.js          # Event Hub: Central Pub/Sub mechanism.
-│   ├── pipeline.js     # Calculations: Dynamic modifiers & Value Pipeline.
-│   ├── actions.js      # Effect Runner: Universal processor for (timed) actions.
-│   ├── resource.js     # Resource Manager: Logic for gains, costs & capacities.
-│   └── persistence.js  # Memory: LocalStorage handling & save-code management.
-├── data/               # Database: Pure data definitions (Actions, NPCs, Items).
+├── main.js             # Entry: System orchestration & service-proxy hub.
+├── state.js            # Foundation: Schema definition & initial state.
+├── data/               # Database: Registries for Resources, NPCs and Actions.
+├── lang/               # Localization: Synchronized DE/EN dictionaries.
 ├── partials/           # Interface: Modular HTML fragments (1:1 with tabs).
-└── assets/             # Aesthetics: CSS variables and grid-based styles.
+├── assets/             # Aesthetics: CSS grid-layouts and design tokens.
+└── systems/            # Logic: Decentralized service modules.
+    ├── bus.js          # Event Hub (Pub/Sub)
+    ├── pipeline.js     # Modifiers / Math
+    ├── actions.js      # Effect Execution
+    ├── resource.js     # Economy / Satiation logic
+    ├── persistence.js  # Memory / Save management
+    ├── audio.js        # Soundscapes
+    ├── logger.js       # Narrative Log management
+    ├── juice.js        # Visual Haptics
+    ├── ui.js           # View Flows / Scaling
+    ├── story.js        # Milestone / Finale logic
+    ├── prologue.js     # Sequential Narrative
+    ├── dialogue.js     # NPC Text Engine
+    ├── npc.js          # Progression / Companion logic
+    ├── engine.js       # Game Loops (100ms, 1s, 30s)
+    └── item.js         # Consumption / Upgrade logic
 ```
+
+---
 
 ## 🚀 Installation & Setup
 
@@ -66,4 +88,5 @@ To create a standalone Windows application (`.exe`):
 The finished app will be located in `BUILDS/My-earned-Wings-win32-x64`.
 
 ---
-*Created by Lassandriel · April 2026 · Draconia Core 2.0 Build*
+
+*Created by Lassandriel · April 2026 · Draconia Core 2.0 Hardened Build*

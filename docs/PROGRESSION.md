@@ -47,6 +47,12 @@ graph TD
     Bookshelf -- "Bonus" --> Study
     Stove -- "Bonus" --> Eat["Action: Cook & Eat"]
     
+    %% Ellie & Dream Magic (Phase 5+)
+    FlowerGirl --> Ellie["NPC: Ellie (Dream Wyvern)"]
+    Ellie -- "Magic Investment" --> DreamBloom["Action: Dream Bloom (Speed)"]
+    DreamBloom -- "Time Compression" --> Auto_Meat
+    DreamBloom -- "Time Compression" --> Auto_Wood
+
     %% Hunter Saga
     Hunter -- "Training 2/5" --> Bow["Recipe: Hunting Bow"]
     Bow --> Hunt["Action: Hunt (Meat)"]
@@ -70,7 +76,7 @@ graph TD
     Eat -- "Refills" --> Satiation["Satiation"]
     Satiation -- "Efficiency" --> Yield["Yield Multiplier"]
 
-    %% Stage 3: Refinement (NEW)
+    %% Stage 3: Refinement (The Mastery)
     House --> Kitchen["Upgrade: Kitchen Station"]
     House --> Sanctum["Build: Arcane Sanctum"]
     Kitchen --> Gourmet["Action: Gourmet Cooking (Buffs)"]
@@ -79,8 +85,17 @@ graph TD
     Meditation --> Astral["Resource: Astral Shards"]
     Astral --> Spells["Spells & Infusions"]
     
+    Artisan -- "Innate Insight" --> LoopMode["Ability: Loop Mode (Automation)"]
+
     Garden["Garden Stufe 1"] --> Garden2["Upgrade: Garden Lvl 2"]
     Garden2 --> Parallel["Action: Parallel Planting"]
+
+    %% Stage 4: Eternal Roots (The Finale)
+    Aris --> Finale_Check{"Finale Requirements"}
+    Sage --> Finale_Check
+    Baker --> Finale_Check
+    Study --> Finale_Check
+    Finale_Check -- "House + 3 Max NPCs + 3 Study" --> TreeOfLife["The Tree of Life"]
 ```
 
 ## Progression Stages
@@ -99,6 +114,15 @@ graph TD
     *   **Arcane Sanctum**: Unlocks Archmage Aris and the generation of Astral Shards.
     *   **Kitchen Station**: Unlocks Gourmet Cooking for long-lasting buffs.
     *   **Garden Expansion**: Doubles harvest capacity via parallel slots.
+    *   **Dream Wyvern**: Meeting Ellie and unlocking the Dream Bloom action for speed bonuses.
+
+### Stage 4: Eternal Roots (The Finale)
+*   **Focus**: Transcending the physical needs to touch the world's heart.
+*   **Requirements**:
+    *   **Structure**: Completed permanent House.
+    *   **Trust**: Full bond (Level 5) with the Baker, the Teacher, and the Ancient Sage (Mastery level reached).
+    *   **Wisdom**: At least 3 successful Study sessions performed.
+*   **Final Action**: Accessing the Tree of Life via the "Action Hub" once requirements are met.
 
 ## Explanation
 - **Draconia Reality**: In a world where magic is the fuel for life and the Lava Sea is ever-present, resources are more than just items—they are survival.
@@ -107,3 +131,4 @@ graph TD
 - **Companions**: Fully befriending an NPC allows you to employ them in the Village. This transitions the game from active gathering to passive management.
 - **Satiation**: Keeping your satiation high is crucial. It directly impacts your gathering efficiency and energy consumption.
 - **Tools**: The Axe and Pickaxe significantly boost resource yields, making them top priorities for early-game progression.
+- **Loop Mode**: Unlocked as an innate insight, this allows for the automation of "Loopable" tasks, freeing the player to focus on high-level strategy and magic.
