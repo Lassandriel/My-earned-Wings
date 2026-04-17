@@ -90,9 +90,18 @@ export const NPC_REGISTRY = {
         icon: '🌳',
         color: '#10b981',
         image: 'img/npcs/Tree of Life.png',
-        progKey: 'treeOfLife',
         maxProgress: 1,
         chapter: 'The Transformation'
+    },
+    'npc-ellie': {
+        id: 'npc-ellie',
+        nameKey: 'npc_ellie_name',
+        icon: '✨',
+        color: '#a78bfa',
+        image: 'img/npcs/Ellie.png',
+        progKey: 'ellie',
+        maxProgress: 5,
+        chapter: 'The Dream'
     }
 };
 

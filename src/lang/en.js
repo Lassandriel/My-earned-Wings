@@ -24,6 +24,7 @@ export default {
     ui_stone: "Stone",
     ui_meat: "Meat",
     ui_water: "Water",
+    ui_herbs: "Herbs",
     ui_nature: "Nature & Knowledge",
     ui_books: "Books",
     ui_materials: "Materials",
@@ -129,6 +130,11 @@ export default {
       desc: "Search for usable pebbles in the stream bed.",
       desc_alt: "Shatter rocks with your pickaxe for high-quality material.",
       effect: "+{val} Stone"
+    },
+    'action-garden-plant': {
+      title: "Sow Herbs",
+      desc: "Sow rare herbs into the fertile soil of your garden.",
+      effect: "+{val} Herbs (Growth time: 10s)"
     },
     'action-sell-wood': {
       title: "Trade Wood",
@@ -256,6 +262,9 @@ export default {
         desc: "A light but stable bow. Perfect for the ground.",
         effect: "Allows Hunting"
     },
+    'npc_hunter_name': "Hunter Kaelen",
+    'npc_ellie_name': "Ellie",
+    'npc_treeoflife_name': "Tree of Life",
     'house-campfire': {
         title: "Campfire",
         desc: "The fire drives away the shadows of passing wings.",
@@ -333,6 +342,7 @@ export default {
     milestone_table: "Massive table set up. A place of knowledge.",
     milestone_house: "House built. A monument to your will on the ground.",
     milestone_garden: "Garden built. The earth begins to bloom under your hands.",
+    garden_harvest_log: "Successfully harvested herbs. +{gain} Herbs.",
     npc_hunter: "Hunter: \"Hear that? That's the forest breathing.\"",
     npc_hunter_bow: "Hunter: \"You have talent. Here, that's how you build a bow.\"",
     npc_hunter_final: "Hunter: \"Take my old hunting spot. The forests are yours.\"",

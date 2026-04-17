@@ -93,7 +93,10 @@ export const housingActions = {
     sfx: 'success',
     particleText: 'Wunderschön!',
     particleType: 'shards',
-    onSuccess: { flags: { 'housing.hasGarden': true } },
+    onSuccess: { 
+        flags: { 'housing.hasGarden': true },
+        unlocks: ['npc-ellie']
+    },
     logKey: 'milestone_garden',
     logColor: 'var(--accent-teal)'
   },

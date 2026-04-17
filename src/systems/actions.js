@@ -11,6 +11,27 @@ export function createActionSystem() {
             const action = game.actionDb[id];
             if (!action) return false;
             
+            // Prevent double-execution if task is already active
+            if (game.activeTasks[id]) return false;
+
+            if (action.duration) {
+                // 1. Validate & Consume Costs immediately
+                const result = this.processAction(game, id, action, true); // 'true' for startOnly
+                if (result.success) {
+                    game.activeTasks[id] = {
+                        actionId: id,
+                        remaining: action.duration,
+                        total: action.duration,
+                        result: result
+                    };
+                    // Feedback for starting
+                    game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
+                    return true;
+                }
+                this.handleFailure(game, id, action);
+                return false;
+            }
+
             let result = null;
             if (action.execute) {
                 result = action.execute(game);
@@ -30,7 +51,7 @@ export function createActionSystem() {
         /**
          * Generic effect runner for data-driven actions.
          */
-        processAction(game, id, action) {
+        processAction(game, id, action, startOnly = false) {
             // 1. Check Requirements
             if (action.requirements) {
                 const met = Object.entries(action.requirements).every(([key, val]) => {
@@ -58,6 +79,11 @@ export function createActionSystem() {
                 if (!game.resource.consume(game, costs)) {
                     return { success: false };
                 }
+            }
+
+            // Return early if we only want to start a timed task
+            if (startOnly) {
+                return { success: true };
             }
 
             // 4. Handle Rewards

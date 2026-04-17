@@ -58,6 +58,14 @@ export const RESOURCE_REGISTRY = {
         initial: 0,
         initialLimit: 1000,
     },
+    herbs: {
+        id: 'herbs',
+        type: 'resource',
+        category: 'materials',
+        color: 'var(--accent-teal)',
+        initial: 0,
+        initialLimit: 50,
+    },
 
     // --- PROVISIONS ---
     meat: {

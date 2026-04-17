@@ -81,5 +81,15 @@ export const gatheringActions = {
       return { val: 2 };
     },
     logKey: 'hunt_log'
+  },
+  'action-garden-plant': {
+    cost: 10, costType: 'energy',
+    duration: 10000,
+    sfx: 'gather',
+    particleText: '+ Kräuter',
+    particleType: 'energy',
+    yieldType: 'herbs',
+    rewards: { herbs: 3 },
+    logKey: 'garden_harvest_log'
   }
 };

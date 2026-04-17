@@ -144,5 +144,24 @@ export const npcActions = {
         }
         return result;
     }
+  },
+  'npc-ellie': {
+    isStory: true, chapter: 'The Dream',
+    progKey: 'ellie', maxProgress: 5,
+    journalIcon: '✨', journalColor: '#a78bfa',
+    steps: [
+        { cost: 10, costType: 'energy' },
+        { cost: 15, costType: 'magic' },
+        { costs: { herbs: 5 }, reward: 'Dream Dust' },
+        { cost: 20, costType: 'magic' },
+        { cost: 25, costType: 'magic', reward: 'Wyvern Scale' }
+    ],
+    companion: {
+        salary: 3,
+        yield: { herbs: 0.5, magic: 1 }
+    },
+    execute: (state) => {
+        return state.npcExecute('npc-ellie');
+    }
   }
 };

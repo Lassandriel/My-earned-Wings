@@ -98,11 +98,32 @@
           <button
             x-show="$store.game.housing.hasGarden"
             class="game-btn craft-card compact-card"
-            @click="!$store.game.executeAction('garden-water') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            :class="$store.game.activeTasks['garden-water'] && 'is-working'"
+            @click="!$store.game.activeTasks['garden-water'] && !$store.game.executeAction('garden-water') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
             @mouseover="$store.game.hoveredAction = {id: 'garden-water', data: $store.game.actionDb['garden-water']}"
             @mouseout="$store.game.hoveredAction = null"
           >
             <span class="craft-item-name" x-text="$store.game.t('garden-water', 'actions').title"></span>
+          </button>
+
+          <!-- NEU: KRÄUTER SÄEN (MIT TIMER) -->
+          <button
+            x-show="$store.game.housing.hasGarden"
+            class="game-btn craft-card compact-card"
+            :class="$store.game.activeTasks['action-garden-plant'] && 'is-working'"
+            @click="!$store.game.activeTasks['action-garden-plant'] && $store.game.executeAction('action-garden-plant')"
+            @mouseover="$store.game.hoveredAction = {id: 'action-garden-plant', data: $store.game.actionDb['action-garden-plant']}"
+            @mouseout="$store.game.hoveredAction = null"
+            style="position: relative;"
+          >
+            <span class="craft-item-name" x-text="$store.game.t('action-garden-plant', 'actions').title"></span>
+            
+            <!-- Progress Bar Overlay -->
+            <div x-show="$store.game.activeTasks['action-garden-plant']" class="btn-progress-container">
+                <div class="btn-progress-fill" 
+                     :style="'width: ' + (100 - ($store.game.activeTasks['action-garden-plant'].remaining / $store.game.activeTasks['action-garden-plant'].total * 100)) + '%'">
+                </div>
+            </div>
           </button>
         </div>
       </template>

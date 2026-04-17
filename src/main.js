@@ -100,6 +100,9 @@ Alpine.store('game', {
         if (store.juice.boot) store.juice.boot(store);
         if (store.actions.boot) store.actions.boot(store);
         
+        this.startTaskTicker(store);
+        this.startHeartbeat(store);
+        
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
@@ -174,6 +177,32 @@ Alpine.store('game', {
     exportSave() { const store = Alpine.store('game'); store.saveCode = store.persistence.exportGameData(store); },
     importSave() { const store = Alpine.store('game'); store.persistence.importGameData(store, store.saveCode); },
     updateAudio() { const store = Alpine.store('game'); store.audio.init(store.settings); },
+
+    // --- ENGINE LOOPS ---
+    startHeartbeat(store) {
+        setInterval(() => {
+            store.npc.processTick(store);
+            store.saveGame(); // Auto-save
+        }, 30000); // 30s Heartbeat
+    },
+
+    startTaskTicker(store) {
+        setInterval(() => {
+            const taskIds = Object.keys(store.activeTasks);
+            if (taskIds.length === 0) return;
+
+            taskIds.forEach(id => {
+                const task = store.activeTasks[id];
+                task.remaining -= 100;
+                if (task.remaining <= 0) {
+                    const actionId = task.actionId;
+                    const action = store.actionDb[actionId];
+                    delete store.activeTasks[id];
+                    store.actions.handleSuccess(store, actionId, action, task.result);
+                }
+            });
+        }, 100);
+    },
 
     // --- VIEW LOGIC ---
     startNewGame() {

@@ -34,8 +34,33 @@
 }
 
 .game-btn:active {
-  transform: scale(0.96) translateY(1px);
-  filter: brightness(0.9);
+    transform: scale(0.96);
+    background: var(--glass-bg-heavy);
+}
+
+/* PROGRESS BAR FOR ASYNC ACTIONS */
+.btn-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+.btn-progress-fill {
+    height: 100%;
+    background: var(--accent-teal);
+    width: 0%;
+    box-shadow: 0 0 8px var(--accent-teal);
+}
+
+.game-btn.is-working {
+    cursor: wait;
+    opacity: 0.9;
 }
 
 .primary-btn {

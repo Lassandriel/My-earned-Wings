@@ -50,6 +50,7 @@ export const initialState = {
     totalActions: 0,
     study: 0
   },
+  activeTasks: {},
   demoCompletedHintSeen: false,
   RESOURCE_REGISTRY
 };
