@@ -7,14 +7,16 @@ export const gatheringActions = {
     yieldType: 'satiation',
     counter: 'food',
     rewards: { satiation: 'eat_satiation_gain' },
+    satiationCost: 0,
     calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'eat_satiation_gain', 1) };
+      return { val: store.pipeline.calculate(store, 'eat_satiation_gain', 10) };
     },
     logKey: 'eat_log'
   },
   'action-ausruhen': {
     cost: 0, costType: 'none',
     rewards: { energy: 'rest_energy_gain' },
+    satiationCost: 0,
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'rest_energy_gain', 1) };
     },
@@ -28,6 +30,7 @@ export const gatheringActions = {
     yieldType: 'magic',
     counter: 'magic',
     rewards: { magic: 15 },
+    satiationCost: 0,
     calculateYield(store) {
       return { val: 15 };
     },
@@ -46,7 +49,7 @@ export const gatheringActions = {
     logColor: 'var(--accent-teal)'
   },
   'action-wood': {
-    cost: 10, costType: 'energy', yieldType: 'wood',
+    cost: 8, costType: 'energy', yieldType: 'wood',
     sfx: 'gather',
     particleText: '+ Holz',
     particleType: 'wood',
@@ -59,7 +62,7 @@ export const gatheringActions = {
     logKey: 'wood_log'
   },
   'action-stone': {
-    cost: 15, costType: 'energy', yieldType: 'stone',
+    cost: 12, costType: 'energy', yieldType: 'stone',
     sfx: 'gather',
     particleText: '+ Stein',
     particleType: 'stone',

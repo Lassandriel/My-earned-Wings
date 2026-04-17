@@ -44,6 +44,7 @@ export const createPipelineSystem = () => {
                 if (store.upgrades.includes('craft-chair')) mods.push({ add: 7 });
                 const bookCount = store.resources.books || 0;
                 mods.push({ add: bookCount * 2 });
+                mods.push({ add: 9 }); // Total base gain becomes 1+9 = 10
             }
 
             if (key === 'rest_energy_gain') {

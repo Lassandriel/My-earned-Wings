@@ -10,8 +10,8 @@ export const RESOURCE_REGISTRY = {
         type: 'stat',
         category: 'vitality',
         color: 'var(--accent-teal)',
-        initial: 100,
-        initialMax: 100,
+        initial: 50,
+        initialMax: 50,
         isEssential: true
     },
     magic: {
@@ -19,8 +19,8 @@ export const RESOURCE_REGISTRY = {
         type: 'stat',
         category: 'vitality',
         color: 'var(--accent-purple)',
-        initial: 100,
-        initialMax: 100,
+        initial: 50,
+        initialMax: 50,
         isEssential: true
     },
     satiation: {

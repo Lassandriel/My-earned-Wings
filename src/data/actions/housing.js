@@ -35,7 +35,7 @@ export const housingActions = {
     particleType: 'shards',
     onSuccess: { 
         flags: { 'housing.hasWoodStorage': true },
-        limits: { wood: 10 },
+        limits: { wood: 25 },
         unlocks: ['npc-artisan']
     },
     logKey: 'milestone_wood_storage',
@@ -49,7 +49,7 @@ export const housingActions = {
     particleType: 'shards',
     onSuccess: { 
         flags: { 'housing.hasStoneStorage': true },
-        limits: { stone: 10 },
+        limits: { stone: 25 },
         unlocks: ['npc-artisan']
     },
     logKey: 'milestone_stone_storage',
@@ -71,8 +71,8 @@ export const housingActions = {
   'house-build': {
     isStory: true, chapter: 'Establishment',
     costType: 'mixed',
-    costs: { wood: 30, stone: 30 },
-    image: 'img/Housing_stove.webp', // Using existing if build not found
+    costs: { wood: 40, stone: 40 },
+    image: 'img/Housing_stove.webp', 
     requirements: { 'housing.hasLandDeed': true },
     sfx: 'craft',
     particleText: 'Hervorragend!',
