@@ -8,7 +8,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_baker_name',
         icon: '🍞',
         color: '#f59e0b',
-        image: 'img/npcs/Baker Geron.png',
+        image: 'img/npcs/Baker Geron.webp',
         progKey: 'baker', // Key in store.npcProgress
         maxProgress: 5,
         chapter: 'Village Life'
@@ -18,7 +18,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_flowergirl_name',
         icon: '🌸',
         color: '#ec4899',
-        image: 'img/npcs/Flower Girl.png',
+        image: 'img/npcs/Flower Girl.webp',
         progKey: 'flowerGirl',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -28,7 +28,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_artisan_name',
         icon: '🏗️',
         color: '#d97706',
-        image: 'img/npcs/Artisan.png',
+        image: 'img/npcs/Artisan.webp',
         progKey: 'artisan',
         maxProgress: 3,
         chapter: 'Village Life'
@@ -38,7 +38,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_teacher_name',
         icon: '📖',
         color: '#3b82f6',
-        image: 'img/npcs/Teacher.png',
+        image: 'img/npcs/Teacher.webp',
         progKey: 'teacher',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -48,7 +48,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_townhall_name',
         icon: '🏛️',
         color: '#94a3b8',
-        image: 'img/npcs/Town Hall.png',
+        image: 'img/npcs/Town Hall.webp',
         progKey: 'townHall',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -58,7 +58,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_blacksmith_name',
         icon: '⚒️',
         color: '#475569',
-        image: 'img/npcs/Blacksmith.png',
+        image: 'img/npcs/Blacksmith.webp',
         progKey: 'blacksmith',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -68,7 +68,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_sage_name',
         icon: '🔮',
         color: '#8b5cf6',
-        image: 'img/npcs/Sage.png',
+        image: 'img/npcs/Sage.webp',
         progKey: 'sage',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -78,7 +78,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_hunter_name',
         icon: '🏹',
         color: '#10b981',
-        image: 'img/npcs/Hunter.png',
+        image: 'img/npcs/Hunter.webp',
         progKey: 'hunter',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -88,7 +88,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_treeoflife_name',
         icon: '🌳',
         color: '#10b981',
-        image: 'img/npcs/Tree of Life.png',
+        image: 'img/npcs/Tree of Life.webp',
         progKey: 'treeOfLife',
         maxProgress: 1,
         chapter: 'The Transformation'
@@ -98,7 +98,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_ellie_name',
         icon: '✨',
         color: '#a78bfa',
-        image: 'img/npcs/Ellie.png',
+        image: 'img/npcs/Ellie.webp',
         progKey: 'ellie',
         maxProgress: 5,
         chapter: 'The Dream'
@@ -108,7 +108,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_aris_name',
         icon: '🧙‍♂️',
         color: '#8b5cf6',
-        image: 'img/npcs/Archmage.png',
+        image: 'img/npcs/Archmage.webp',
         progKey: 'aris',
         maxProgress: 5,
         chapter: 'The Dream'

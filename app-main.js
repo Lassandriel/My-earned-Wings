@@ -6,36 +6,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mainWindow;
-let splashWindow;
-
-function createSplashWindow() {
-  splashWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
-    transparent: true,
-    frame: false,
-    alwaysOnTop: true,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-    },
-  });
-
-  splashWindow.loadFile(path.join(__dirname, 'splash.html'));
-  splashWindow.center();
-}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1075,
-    minWidth: 960, // Minimal half resolution
+    minWidth: 960,
     minHeight: 537,
     useContentSize: true,
     resizable: true,
     frame: true,
     autoHideMenuBar: true,
-    show: false, // Initially hide to wait for splash screen
+    show: false, // Wait for ready-to-show
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -50,12 +32,10 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
   }
 
-  // Once the main window is ready to show, close the splash screen
+  // Once the main window is ready to show, show it
   mainWindow.once('ready-to-show', () => {
-    if (splashWindow) {
-      splashWindow.close();
-    }
     mainWindow.show();
+    mainWindow.center();
   });
 }
 
@@ -66,7 +46,6 @@ if (!gotTheLock) {
   app.quit();
 } else {
   app.on('second-instance', () => {
-    // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
       mainWindow.focus();
@@ -74,7 +53,6 @@ if (!gotTheLock) {
   });
 
   app.whenReady().then(() => {
-    createSplashWindow();
     createWindow();
 
     app.on('activate', () => {

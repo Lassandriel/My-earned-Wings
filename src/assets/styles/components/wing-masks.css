@@ -50,11 +50,11 @@
   top: 0px;
   left: 50%;
   transform: translateX(-50%);
-  mask-image: url('/img/Stat_head.png');
+  mask-image: url('/img/Stat_head.webp');
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;
-  -webkit-mask-image: url('/img/Stat_head.png');
+  -webkit-mask-image: url('/img/Stat_head.webp');
   -webkit-mask-size: contain;
   -webkit-mask-position: center;
   -webkit-mask-repeat: no-repeat;
