@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 5.8 COMPLETED (Demo Release Polish)
+## Current Status: Phase 5.9 COMPLETED (Draconia Core 3.0)
 
-The complete project audit cycle is finished. All core directories (Systems, Data, Styles, Partials, Lang, Core) have been modernized, hardened, and documented. The Draconia Engine 2.0 is now at a production-ready senior architecture level.
+The internal architecture has been fully refactored to a modern, data-driven "Draconia Core 3.0" standard. All game content is now managed via centralized registries and standardized ID prefixes, ensuring maximum scalability and modularity.
 
 ---
 
@@ -165,6 +165,14 @@ The complete project audit cycle is finished. All core directories (Systems, Dat
 - [x] **Legal Foundation**: Integrated MIT License and updated credits (Lassandriel).
 - [x] **UI Polish**: Added "DEMO" badge to main menu and repository links for community engagement.
 - [x] **Documentation**: Enhanced README with clear demo status and repo links.
+
+## Phase 5.9: Draconia Core 3.0 (Data-Driven Revolution) - **COMPLETED**
+- [x] **Registry-Centric Architecture**: Centralized all game content into registries (`ContentService`).
+- [x] **Standardized ID Prefixes**: Strict prefix system (`item-`, `act-`, `build-`, `npc-`) for robust data resolution.
+- [x] **Modular Effect Handlers**: Decoupled game logic (Flags, Unlocks, Limit Modifiers) into a reusable handler system.
+- [x] **Dynamic Template Engine**: UI Partials now dynamically resolve content from registries via standard IDs.
+- [x] **Flexible Flag System**: Replaced hardcoded housing states with a generic, extensible `flags` map.
+- [x] **Core System Decoupling**: Fully separated Game State from logic handlers (Actions, Items, NPCs).
 
 ---
 

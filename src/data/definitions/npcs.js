@@ -1,7 +1,6 @@
 /**
- * NPC Registry
- * Defines all characters and their base profiles.
- * Scalability: New characters are registered here with their visual data.
+ * NPC Registry - Core 3.0
+ * Standardized IDs with 'npc-' prefix.
  */
 export const NPC_REGISTRY = {
     'npc-baker': {
@@ -10,7 +9,7 @@ export const NPC_REGISTRY = {
         icon: '🍞',
         color: '#f59e0b',
         image: 'img/npcs/Baker Geron.png',
-        progKey: 'baker',
+        progKey: 'baker', // Key in store.npcProgress
         maxProgress: 5,
         chapter: 'Village Life'
     },
@@ -90,6 +89,7 @@ export const NPC_REGISTRY = {
         icon: '🌳',
         color: '#10b981',
         image: 'img/npcs/Tree of Life.png',
+        progKey: 'treeOfLife',
         maxProgress: 1,
         chapter: 'The Transformation'
     },
@@ -115,8 +115,5 @@ export const NPC_REGISTRY = {
     }
 };
 
-/**
- * Get all NPCs in a specific chapter
- */
 export const getNpcsByChapter = (chapter) => 
     Object.values(NPC_REGISTRY).filter(npc => npc.chapter === chapter);

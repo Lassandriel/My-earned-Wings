@@ -1,5 +1,10 @@
+/**
+ * Village Actions - Core 3.0
+ * Standardized with 'act-' prefix.
+ */
 export const villageActions = {
-  'action-sell-wood': {
+  'act-sell-wood': {
+    id: 'act-sell-wood',
     cost: 1, costType: 'wood', yieldType: 'shards',
     sfx: 'click',
     particleText: '+ Splitter',
@@ -9,7 +14,8 @@ export const villageActions = {
     logKey: 'sell_wood_log',
     logColor: 'var(--accent-teal)'
   },
-  'action-sell-stone': {
+  'act-sell-stone': {
+    id: 'act-sell-stone',
     cost: 1, costType: 'stone', yieldType: 'shards',
     sfx: 'click',
     particleText: '+ Splitter',
@@ -19,7 +25,8 @@ export const villageActions = {
     logKey: 'sell_stone_log',
     logColor: 'var(--accent-teal)'
   },
-  'action-sell-meat': {
+  'act-sell-meat': {
+    id: 'act-sell-meat',
     cost: 1, costType: 'meat', yieldType: 'shards',
     sfx: 'click',
     particleText: '+ Splitter',
@@ -29,7 +36,8 @@ export const villageActions = {
     logKey: 'sell_meat_log',
     logColor: 'var(--accent-teal)'
   },
-  'action-buy-meat': {
+  'act-buy-meat': {
+    id: 'act-buy-meat',
     cost: 12, costType: 'shards', yieldType: 'meat',
     sfx: 'click',
     particleText: '+ Fleisch',
@@ -37,7 +45,8 @@ export const villageActions = {
     rewards: { meat: 1 },
     logKey: 'buy_meat_log'
   },
-  'action-work': {
+  'act-work': {
+    id: 'act-work',
     cost: 30, costType: 'energy', yieldType: 'shards',
     sfx: 'click',
     particleText: '+ Splitter',

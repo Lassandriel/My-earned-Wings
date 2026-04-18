@@ -1,36 +1,35 @@
 /**
- * Item Database
- * Defines all discoverable and craftable items.
- * Titles and descriptions use translation keys.
+ * Item Database - Core 3.0
+ * Standardized IDs with 'item-' prefix for robustness.
  */
 export const itemDb = {
-  // Crafted Tools
-  'craft-wanderstock': {
-    id: 'craft-wanderstock',
+  // --- TOOLS ---
+  'item-walking-stick': {
+    id: 'item-walking-stick',
     title: 'item_wanderstock_title',
     desc: 'item_wanderstock_desc',
     image: 'img/Crafting_walkingstick.webp',
     consumable: false,
     category: 'tools'
   },
-  'craft-axe': {
-    id: 'craft-axe',
+  'item-axe': {
+    id: 'item-axe',
     title: 'item_axe_title',
     desc: 'item_axe_desc',
     image: 'img/Crafting_axe_1.webp',
     consumable: false,
     category: 'tools'
   },
-  'craft-pickaxe': {
-    id: 'craft-pickaxe',
+  'item-pickaxe': {
+    id: 'item-pickaxe',
     title: 'item_pickaxe_title',
     desc: 'item_pickaxe_desc',
     image: 'img/Crafting_pickaxe_1.webp',
     consumable: false,
     category: 'tools'
   },
-  'craft-bow': {
-    id: 'craft-bow',
+  'item-bow': {
+    id: 'item-bow',
     title: 'item_bow_title',
     desc: 'item_bow_desc',
     image: 'img/Crafting_bow.webp',
@@ -38,7 +37,7 @@ export const itemDb = {
     category: 'tools'
   },
   
-  // Consumables (Quest Rewards)
+  // --- PROVISIONS ---
   'item-bread': {
     id: 'item-bread',
     title: 'item_bread_title',
@@ -66,8 +65,8 @@ export const itemDb = {
     effect: { satiation: 15, energy: 15 },
     category: 'provisions'
   },
-  'gourmet-meal': {
-    id: 'gourmet-meal',
+  'item-gourmet-meal': {
+    id: 'item-gourmet-meal',
     title: 'item_gourmet_meal_title',
     desc: 'item_gourmet_meal_desc',
     image: 'img/Item_GourmetMeal.webp',
@@ -76,7 +75,7 @@ export const itemDb = {
     category: 'provisions'
   },
   
-  // Key Items
+  // --- ARTIFACTS ---
   'item-deed': {
     id: 'item-deed',
     title: 'item_deed_title',
@@ -125,8 +124,8 @@ export const itemDb = {
     consumable: false,
     category: 'artifacts'
   },
-  'astral-shards': {
-    id: 'astral-shards',
+  'item-astral-shards': {
+    id: 'item-astral-shards',
     title: 'item_astral_shards_title',
     desc: 'item_astral_shards_desc',
     image: 'img/Item_AstralShard.webp',

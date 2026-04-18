@@ -1,4 +1,4 @@
-<!-- VILLAGE VIEW -->
+<!-- VILLAGE VIEW - CORE 3.0 -->
 <div x-show="$store.game.view === 'village'" class="view-content-village">
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_village')">Das Dorf</h3>
@@ -8,7 +8,7 @@
   </div>
 
   <div class="village-grid">
-    <!-- 1. MARKTPLATZ (Statische Card für Ressourcenhandel) -->
+    <!-- 1. MARKTPLATZ -->
     <div class="village-card market-card">
         <div class="card-bg-glow"></div>
         <div class="card-portrait-box market-icon-box">
@@ -18,25 +18,21 @@
             <h4 class="card-title" x-text="$store.game.t('cat_trade')">Marktplatz</h4>
             <div class="market-actions">
                 <button
-                    id="market-sell-wood-btn"
                     class="game-btn market-trade-btn"
-                    @click="$store.game.executeAction('action-sell-wood')"
-                    @mouseover="$store.game.hoveredAction = {id: 'action-sell-wood', data: $store.game.actionDb['action-sell-wood']}"
+                    @click="$store.game.executeAction('act-sell-wood')"
+                    @mouseover="$store.game.hoveredAction = {id: 'act-sell-wood', data: $store.game.content.get('act-sell-wood')}"
                     @mouseout="$store.game.hoveredAction = null"
-                    aria-label="Sell Wood for Shards"
                 >
-                    <span x-text="$store.game.t('action-sell-wood', 'actions').title"></span>
+                    <span x-text="$store.game.t('act-sell-wood', 'actions').title"></span>
                     <span class="trade-yield">+5 ✦</span>
                 </button>
                 <button
-                    id="market-sell-stone-btn"
                     class="game-btn market-trade-btn"
-                    @click="$store.game.executeAction('action-sell-stone')"
-                    @mouseover="$store.game.hoveredAction = {id: 'action-sell-stone', data: $store.game.actionDb['action-sell-stone']}"
+                    @click="$store.game.executeAction('act-sell-stone')"
+                    @mouseover="$store.game.hoveredAction = {id: 'act-sell-stone', data: $store.game.content.get('act-sell-stone')}"
                     @mouseout="$store.game.hoveredAction = null"
-                    aria-label="Sell Stone for Shards"
                 >
-                    <span x-text="$store.game.t('action-sell-stone', 'actions').title"></span>
+                    <span x-text="$store.game.t('act-sell-stone', 'actions').title"></span>
                     <span class="trade-yield">+8 ✦</span>
                 </button>
             </div>
@@ -44,45 +40,40 @@
     </div>
 
     <!-- 2. NPC CARDS (Dynamisches Grid) -->
-    <template x-for="id in $store.game.unlockedNPCs" :key="id">
-        <div :id="'npc-' + id + '-card'" class="village-card npc-card" :class="[$store.game.companions[id] && 'is-active-companion', id]">
+    <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
+        <div :id="npcId + '-card'" class="village-card npc-card">
             <div class="card-header-visual">
                 <div class="npc-portrait-wrapper">
-                    <img x-show="$store.game.actionDb[id]?.image" :src="'img/' + $store.game.actionDb[id].image" class="npc-img">
-                    <div x-show="!$store.game.actionDb[id]?.image" class="npc-placeholder" x-text="$store.game.actionDb[id]?.journalIcon"></div>
-                </div>
-                    <!-- Companion Control Removed (Replaced by Arcane Focus) -->
+                    <img x-show="$store.game.content.get(npcId)?.image" :src="$store.game.content.get(npcId).image" class="npc-img">
+                    <div x-show="!$store.game.content.get(npcId)?.image" class="npc-placeholder" x-text="$store.game.content.get(npcId)?.icon"></div>
                 </div>
             </div>
 
             <div class="card-body">
                 <div class="npc-info-row">
-                    <h4 class="npc-display-name" x-text="($store.game.t(id, 'actions').title && $store.game.t(id, 'actions').title !== id) ? $store.game.t(id, 'actions').title : ($store.game.actionDb[id]?.title || id)"></h4>
-                    <!-- Progress Tracker Mini -->
+                    <h4 class="npc-display-name" x-text="$store.game.t($store.game.content.get(npcId).nameKey)"></h4>
+                    <!-- Progress Tracker -->
                     <div class="npc-progress-mini-track">
-                        <div class="npc-progress-fill" :style="'width: ' + (($store.game.npcProgress[id.replace('npc-', '')] || 0) / ($store.game.actionDb[id].maxProgress || 5) * 100) + '%'"></div>
+                        <div class="npc-progress-fill" :style="'width: ' + (($store.game.npcProgress[$store.game.content.get(npcId).progKey] || 0) / ($store.game.content.get(npcId).maxProgress || 5) * 100) + '%'"></div>
                     </div>
                 </div>
 
                 <div class="npc-interaction-area">
-                    <!-- Standard Interaction: Talk -->
                     <button
-                        :id="'npc-' + id + '-details-btn'"
                         class="game-btn npc-main-action-btn"
-                        x-show="($store.game.npcProgress[id.replace('npc-', '')] || 0) < ($store.game.actionDb[id].maxProgress)"
-                        @click="$store.game.executeAction(id)"
-                        @mouseover="$store.game.hoveredAction = {id, data: $store.game.actionDb[id]}"
+                        x-show="($store.game.npcProgress[$store.game.content.get(npcId).progKey] || 0) < ($store.game.content.get(npcId).maxProgress)"
+                        @click="$store.game.executeAction('act-' + npcId)"
+                        @mouseover="$store.game.hoveredAction = {id: 'act-' + npcId, data: $store.game.content.get('act-' + npcId)}"
                         @mouseout="$store.game.hoveredAction = null"
-                        :aria-label="'Talk to ' + id"
                     >
                         <span x-text="$store.game.t('ui_details')"></span>
                     </button>
 
-                    <!-- Hunter Specific: Meat Exchange -->
-                    <div class="npc-special-shop hunter-meat-exchange" x-show="id === 'npc-hunter' && $store.game.npcProgress.hunter >= 5">
+                    <!-- Hunter Shop -->
+                    <div class="npc-special-shop hunter-meat-exchange" x-show="npcId === 'npc-hunter' && $store.game.npcProgress.hunter >= 5">
                         <div class="shop-buttons-row">
-                            <button class="game-btn shop-btn" @click="$store.game.executeAction('action-buy-meat')" @mouseover="$store.game.hoveredAction = {id: 'action-buy-meat', data: $store.game.actionDb['action-buy-meat']}" @mouseout="$store.game.hoveredAction = null">🍖</button>
-                            <button class="game-btn shop-btn" @click="$store.game.executeAction('action-sell-meat')" @mouseover="$store.game.hoveredAction = {id: 'action-sell-meat', data: $store.game.actionDb['action-sell-meat']}" @mouseout="$store.game.hoveredAction = null">💰</button>
+                            <button class="game-btn shop-btn" @click="$store.game.executeAction('act-buy-meat')" @mouseover="$store.game.hoveredAction = {id: 'act-buy-meat', data: $store.game.content.get('act-buy-meat')}" @mouseout="$store.game.hoveredAction = null">🍖</button>
+                            <button class="game-btn shop-btn" @click="$store.game.executeAction('act-sell-meat')" @mouseover="$store.game.hoveredAction = {id: 'act-sell-meat', data: $store.game.content.get('act-sell-meat')}" @mouseout="$store.game.hoveredAction = null">💰</button>
                         </div>
                     </div>
                 </div>
@@ -94,11 +85,11 @@
     <div class="village-card finale-tree-card" x-show="$store.game.canAccessTreeOfLife && !$store.game.demoCompleted">
         <div class="finale-tree-visual">🌳</div>
         <div class="card-body">
-            <h4 x-text="$store.game.t('npc-treeOfLife', 'actions').title"></h4>
+            <h4 x-text="$store.game.t('npc_treeoflife_name')"></h4>
             <button 
                 class="game-btn finale-trigger-btn"
-                @click="$store.game.executeAction('npc-treeOfLife')"
-                @mouseover="$store.game.hoveredAction = {id: 'npc-treeOfLife', data: $store.game.actionDb['npc-treeOfLife']}"
+                @click="$store.game.executeAction('act-npc-treeOfLife')"
+                @mouseover="$store.game.hoveredAction = {id: 'act-npc-treeOfLife', data: $store.game.content.get('act-npc-treeOfLife')}"
                 @mouseout="$store.game.hoveredAction = null"
             >
                 Das Schicksal annehmen

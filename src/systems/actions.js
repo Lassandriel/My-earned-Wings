@@ -1,21 +1,47 @@
 /**
- * Action System - Handles the execution of player-triggered actions,
- * successes, failures, and stat updates.
+ * Action System - Core 3.0
+ * Modular execution of player-triggered actions using EffectHandlers.
  */
 export function createActionSystem() {
     return {
         /**
-         * The core execution logic for ANY action by ID.
+         * Modular Effect Handlers
+         * These can be extended easily without touching the core logic.
          */
+        effectHandlers: {
+            setFlag: (game, { flag, value }) => { game.flags[flag] = value; },
+            unlockNPC: (game, { id }) => { 
+                if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
+            },
+            unlockRecipe: (game, { id }) => { 
+                if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
+            },
+            unlockItem: (game, { id }) => {
+                if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
+                // Also set an item flag for requirements logic
+                game.flags[id] = true;
+            },
+            modifyLimit: (game, { resource, amount }) => { 
+                game.limits[resource] = (game.limits[resource] || 0) + amount; 
+            },
+            addBuff: (game, { buffId, override }) => {
+                const baseBuff = game.content.get(buffId, 'buffs') || {};
+                const finalBuff = { ...baseBuff, ...override };
+                game.activeBuffs[buffId] = { 
+                    ...finalBuff, 
+                    remaining: finalBuff.duration, 
+                    total: finalBuff.duration 
+                };
+            }
+        },
+
         execute(game, id) {
-            const action = game.actionDb[id];
+            const action = game.content.get(id, 'actions');
             if (!action) return false;
             
-            // Prevent double-execution if task is already active
             if (game.activeTasks[id]) return false;
 
             if (action.duration) {
-                // 1. Validate & Consume Costs immediately
                 const result = this.processAction(game, id, action, 'prepare'); 
                 if (result.success) {
                     game.activeTasks[id] = {
@@ -23,7 +49,6 @@ export function createActionSystem() {
                         remaining: action.duration,
                         total: action.duration
                     };
-                    // Feedback for starting
                     game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
                     return true;
                 }
@@ -31,12 +56,7 @@ export function createActionSystem() {
                 return false;
             }
 
-            let result = null;
-            if (action.execute) {
-                result = action.execute(game);
-            } else {
-                result = this.processAction(game, id, action);
-            }
+            let result = action.execute ? action.execute(game) : this.processAction(game, id, action);
 
             if (result === true || (result && result.success)) {
                 this.handleSuccess(game, id, action, result);
@@ -47,75 +67,48 @@ export function createActionSystem() {
             return false;
         },
 
-        /**
-         * Generic effect runner for data-driven actions.
-         * Modes: 
-         *  - 'prepare': Validates requirements and subtracts costs.
-         *  - 'finalize': Awards results and triggers success effects.
-         *  - 'full': Does both (standard for instant actions).
-         */
         processAction(game, id, action, mode = 'full') {
             const isPrepare = (mode === 'prepare' || mode === 'full');
             const isFinalize = (mode === 'finalize' || mode === 'full');
 
             if (isPrepare) {
-                // 1. Check Requirements
+                // 1. Requirements Check (Robust Path Access)
                 if (action.requirements) {
                     const met = Object.entries(action.requirements).every(([key, val]) => {
-                        if (key.includes('.')) {
-                            const parts = key.split('.');
-                            let target = game;
-                            for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
-                            return target[parts[parts.length - 1]] === val;
-                        }
-                        if (key === 'upgrades') return game.upgrades.includes(val);
-                        return game[key] === val;
+                        return this.resolvePath(game, key) === val;
                     });
                     if (!met) return { success: false };
                 }
 
-                // 2. Check Yield Limits (Prevent action if storage is full)
+                // 2. Storage Check
                 if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
                     return { success: false };
                 }
 
-                // 3. Handle Costs
+                // 3. Cost Handling
                 const costType = action.costType;
                 if (costType && costType !== 'none') {
                     const costs = costType === 'mixed' ? action.costs : { [costType]: action.cost };
-                    
-                    // FOKUS LOGIC: If action is focused, energy costs are waived (covered by magic drain)
                     if (game.activeFocus === id && costs.energy) {
                         const { energy, ...otherCosts } = costs;
-                        if (Object.keys(otherCosts).length > 0) {
-                            if (!game.resource.consume(game, otherCosts)) return { success: false };
-                        }
+                        if (!game.resource.consume(game, otherCosts)) return { success: false };
                     } else {
-                        if (!game.resource.consume(game, costs)) {
-                            return { success: false };
-                        }
+                        if (!game.resource.consume(game, costs)) return { success: false };
                     }
                 }
             }
 
-            // Return early if we only wanted to start a timed task
-            if (mode === 'prepare') {
-                return { success: true };
-            }
+            if (mode === 'prepare') return { success: true };
 
             let logGain = null;
             if (isFinalize) {
-                // 4. Handle Rewards
+                // 4. Rewards
                 if (action.rewards) {
                     Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
-                        let amount = amountOrKey;
-                        if (typeof amountOrKey === 'string') {
-                            amount = game.pipeline.calculate(game, amountOrKey, 1);
-                        }
-                        
-                        // Fix for decimal issues: round to nearest integer
+                        let amount = typeof amountOrKey === 'string' 
+                            ? game.pipeline.calculate(game, amountOrKey, 1) 
+                            : amountOrKey;
                         const finalAmount = Math.round(amount);
-                        
                         game.resource.add(game, res, finalAmount);
                         if (res === action.yieldType || (Object.keys(action.rewards).length === 1)) {
                             logGain = finalAmount;
@@ -123,49 +116,12 @@ export function createActionSystem() {
                     });
                 }
 
-                // 5. Side Effects (Upgrades, Flags, Limits, Unlocks)
-                if (action.onSuccess) {
-                    const os = action.onSuccess;
-                    if (os.upgrades) {
-                        os.upgrades.forEach(u => { if (!game.upgrades.includes(u)) game.upgrades.push(u); });
-                    }
-                    if (os.flags) {
-                        Object.entries(os.flags).forEach(([f, v]) => {
-                            if (f.includes('.')) {
-                                const parts = f.split('.');
-                                let target = game;
-                                for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
-                                target[parts[parts.length - 1]] = v;
-                            } else game[f] = v;
-                        });
-                    }
-                    if (os.limits) {
-                        Object.entries(os.limits).forEach(([r, a]) => { game.limits[r] = (game.limits[r] || 0) + a; });
-                    }
-                    if (os.unlocks) {
-                        os.unlocks.forEach(u => {
-                            if (u.startsWith('npc-')) {
-                                if (!game.unlockedNPCs.includes(u)) game.unlockedNPCs.push(u);
-                            } else {
-                                if (!game.unlockedRecipes.includes(u)) game.unlockedRecipes.push(u);
-                            }
-                        });
-                    }
-                    if (os.buffs) {
-                        Object.entries(os.buffs).forEach(([bid, bdata]) => {
-                            let finalBuff = bdata;
-                            // If it's just a ref to registry, or we want to pull defaults
-                            if (game.BUFF_REGISTRY && game.BUFF_REGISTRY[bid]) {
-                                finalBuff = { ...game.BUFF_REGISTRY[bid], ...bdata };
-                            }
-                            
-                            game.activeBuffs[bid] = { 
-                                ...finalBuff, 
-                                remaining: finalBuff.duration, 
-                                total: finalBuff.duration 
-                            };
-                        });
-                    }
+                // 5. Success Effects (Modular Handlers)
+                if (Array.isArray(action.onSuccess)) {
+                    action.onSuccess.forEach(effect => {
+                        const handler = this.effectHandlers[effect.type];
+                        if (handler) handler(game, effect);
+                    });
                 }
             }
 
@@ -177,46 +133,28 @@ export function createActionSystem() {
             };
         },
 
+        resolvePath(obj, path) {
+            return path.split('.').reduce((prev, curr) => {
+                return prev ? prev[curr] : undefined;
+            }, obj);
+        },
+
         handleSuccess(game, id, action, result) {
-            // Discovery tracking
-            game.upgrades.forEach(itemId => {
-                if (!game.discoveredItems.includes(itemId)) game.discoveredItems.push(itemId);
-            });
-
             game.counters.totalActions++;
-
-            // Counters and resources
-            if (action.counter) {
-                if (!game.counters[action.counter]) game.counters[action.counter] = 0;
-                
-                if (action.counter === 'shards' && result.logGain) {
-                    const amount = parseInt(result.logGain.toString().replace(/[^0-9]/g, '')) || 0;
-                    game.counters.shards += amount;
-                } else {
-                    game.counters[action.counter] += (result.yield || 1);
-                }
-            }
-
-            // Satiation reduction
-            if (id !== 'action-essen' && action.satiationCost !== 0) {
-                const satCost = action.satiationCost ?? 2;
-                game.resource.consume(game, 'satiation', satCost);
-            }
-
-            // Record history
-            if (action.isStory) {
-                game.story.recordStoryEntry(game, id, action);
-            }
-
-            // Feedback (SFX, Particles)
-            const sfxKey = action.sfx || 'click';
-            game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: sfxKey });
-
-            if (action.particleText) {
-                this.spawnParticles(game, action);
-            }
             
-            // Logging
+            if (action.counter) {
+                game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
+            }
+
+            if (id !== 'act-essen' && (action.satiationCost !== 0)) {
+                game.resource.consume(game, 'satiation', action.satiationCost ?? 2);
+            }
+
+            if (action.isStory) game.story.recordStoryEntry(game, id, action);
+
+            game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
+            if (action.particleText) this.spawnParticles(game, action);
+            
             if (result && result.logKey) {
                 game.bus.emit(game.EVENTS.LOG_ADDED, { 
                     id: result.logKey, 
@@ -235,33 +173,30 @@ export function createActionSystem() {
             if (!costType) return;
 
             const effectiveCosts = costType === 'mixed' ? action.costs : { [costType]: action.cost };
-
-            // Check if can't afford
             if (!game.resource.canAfford(game, effectiveCosts)) {
                 const failKey = (costType === 'energy' || costType === 'magic') ? 'fail_' + costType : 'fail_resources';
                 game.bus.emit(game.EVENTS.LOG_ADDED, { id: failKey, color: 'var(--accent-red)' });
-            } 
-            // Check if full
-            else if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
+            } else if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
                 game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + action.yieldType, color: 'var(--accent-red)' });
             }
         },
 
         spawnParticles(game, action) {
             let pText = action.particleText;
-            if (pText.startsWith('+ ')) {
-                const resKey = action.yieldType || action.costType || action.counter;
-                if (resKey) {
-                    const translated = game.t('ui_' + resKey);
-                    if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
-                }
+            const resKey = action.yieldType || action.costType || action.counter;
+            if (resKey) {
+                const translated = game.t('ui_' + resKey);
+                if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
             }
             game.bus.emit(game.EVENTS.PARTICLE_TRIGGERED, { 
-                x: game.lastMouseX, 
-                y: game.lastMouseY, 
+                x: game.lastMouseX, y: game.lastMouseY, 
                 text: pText, 
                 type: action.particleType || 'energy' 
             });
+        },
+
+        boot(game) {
+            // Integration hooks can go here
         }
     };
 }

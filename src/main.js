@@ -3,7 +3,7 @@ import collapse from '@alpinejs/collapse';
 import { initialState, getTranslations } from './state.js';
 
 Alpine.plugin(collapse);
-import { NPC_REGISTRY, RESOURCE_REGISTRY, actionDb, itemDb } from './data/index.js';
+import { registries } from './data/index.js';
 
 // Systems
 import { createResourceSystem } from './systems/resource.js';
@@ -21,20 +21,21 @@ import { createEngineSystem } from './systems/engine.js';
 import { createItemSystem } from './systems/item.js';
 import { createPipelineSystem } from './systems/pipeline.js';
 import { createEventBus, GAME_EVENTS } from './systems/bus.js';
+import { createContentService } from './systems/content.js';
 
 import './assets/styles/main.css';
 
 window.Alpine = Alpine;
 
 /**
- * CORE 2.0 STORE ASSEMBLY
+ * CORE 3.0 STORE ASSEMBLY
  * Dynamically builds the game store based on registries.
  */
 const buildInitialState = () => {
     const baseState = JSON.parse(JSON.stringify(initialState));
     
     // Auto-populate resources and stats from Registry
-    Object.values(RESOURCE_REGISTRY).forEach(res => {
+    Object.values(registries.resources).forEach(res => {
         if (res.type === 'resource') {
             baseState.resources[res.id] = res.initial || 0;
             baseState.limits[res.id] = res.initialLimit || 0;
@@ -45,8 +46,8 @@ const buildInitialState = () => {
         }
     });
 
-    // Auto-populate NPC progress from Registry
-    Object.values(NPC_REGISTRY).forEach(npc => {
+    // Auto-populate NPC progress
+    Object.values(registries.npcs).forEach(npc => {
         if (npc.progKey && baseState.npcProgress[npc.progKey] === undefined) {
             baseState.npcProgress[npc.progKey] = 0;
         }
@@ -59,17 +60,16 @@ const dynamicInitialState = buildInitialState();
 
 Alpine.store('game', {
     ...dynamicInitialState,
-    NPC_REGISTRY,
-    RESOURCE_REGISTRY,
-    actionDb,
-    itemDb,
     translations: getTranslations(),
     saveInfoText: '',
     lastMouseX: 0,
     lastMouseY: 0,
     selectedItem: null,
     
-    // System Instances (Modular Managers)
+    // Core Services
+    content: createContentService(registries),
+    
+    // System Instances
     resource: createResourceSystem(),
     audio: createAudioSystem(),
     juice: createJuiceSystem(),
@@ -89,31 +89,33 @@ Alpine.store('game', {
 
     init() {
         const store = Alpine.store('game');
+        
+        // --- CONTENT VALIDATION ---
+        store.content.validate(store);
+
         const hasSavedData = localStorage.getItem('wings_save');
         store.hasSave = !!hasSavedData;
 
         store.audio.init(store.settings);
         store.juice.init();
         
-        // --- SYSTEM BOOT (Event Wiring) ---
+        // --- SYSTEM BOOT ---
         if (store.audio.boot) store.audio.boot(store);
         if (store.logger.boot) store.logger.boot(store);
         if (store.persistence.boot) store.persistence.boot(store);
         if (store.juice.boot) store.juice.boot(store);
         if (store.actions.boot) store.actions.boot(store);
         if (store.ui.boot) store.ui.boot(store);
+        if (store.content.boot) store.content.boot(store);
         
-        // Engine handles all tickers (100ms, 1s, 30s)
         store.engine.init(store);
         
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
-        // State normalization
         store.view = 'menu';
         store.dialogueActive = false;
 
-        // Music Trigger
         const startMusicOnce = () => {
             store.audio.startMusic();
             document.removeEventListener('click', startMusicOnce);
@@ -121,7 +123,7 @@ Alpine.store('game', {
         document.addEventListener('click', startMusicOnce);
     },
 
-    // --- PROXIES & DELEGATES (HTML Compatibility) ---
+    // --- PROXIES & DELEGATES ---
     startNewGame() { const store = Alpine.store('game'); store.ui.startNewGame(store, buildInitialState); },
     continueGame() { const store = Alpine.store('game'); store.ui.continueGame(store); },
     finishPrologue() { const store = Alpine.store('game'); store.ui.finishPrologue(store); },
@@ -129,14 +131,14 @@ Alpine.store('game', {
     executeAction(id) { const store = Alpine.store('game'); return store.actions.execute(store, id); },
     toggleFocus(id) {
         const store = Alpine.store('game');
+        const action = store.content.get(id, 'actions');
         if (store.activeFocus === id) {
             store.activeFocus = null;
             store.playSound('click');
         } else {
             store.activeFocus = id;
             store.playSound('magic');
-            // Ensure action is loopable
-            if (store.actionDb[id] && store.actionDb[id].isLoopable) {
+            if (action && action.isLoopable) {
                 store.executeAction(id);
             }
         }
@@ -182,7 +184,6 @@ Alpine.store('game', {
     get satiationPercent() { return this.ui.getSatiationPercent(this); },
     get canAccessTreeOfLife() { return this.story.canAccessTreeOfLife(this); },
     
-    // Legacy/HTML Proxies
     get groupedHistory() { return this.story.getGroupedHistory(this); },
     getSatiationMultiplier() { return this.resource.getSatiationMultiplier(this); },
     get efficiency() { return this.resource.getEfficiency(this); }
@@ -210,11 +211,10 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
-    // --- GAMEPLAY HOTKEYS ---
     if (store.view !== 'menu' && store.view !== 'prologue' && !store.settingsOpen) {
-        if (e.key === '1') store.executeAction('action-essen');
-        if (e.key === '2') store.executeAction('action-ausruhen');
-        if (e.key === '3') store.executeAction('action-meditieren');
+        if (e.key === '1') store.executeAction('act-essen');
+        if (e.key === '2') store.executeAction('act-ausruhen');
+        if (e.key === '3') store.executeAction('act-meditieren');
     }
 });
 

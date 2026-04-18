@@ -1,6 +1,10 @@
+/**
+ * Magic Actions - Core 3.0
+ * Standardized with 'act-' prefix.
+ */
 export const magicActions = {
-  'action-dream-bloom': {
-    id: 'action-dream-bloom',
+  'act-dream-bloom': {
+    id: 'act-dream-bloom',
     cost: 15,
     costType: 'magic',
     satiationCost: 1,
@@ -17,12 +21,12 @@ export const magicActions = {
         return { success: true, logKey: 'dream_bloom_log' };
     }
   },
-  'action-meditate': {
-    id: 'action-meditate',
+  'act-meditate': {
+    id: 'act-meditate',
     duration: 10000,
     costType: 'magic', cost: 10,
     yieldType: 'astral_shards',
-    requirements: { 'housing.hasSanctum': true },
+    requirements: { 'flags.build-arcane-sanctum': true },
     sfx: 'magic',
     particleText: 'Innere Ruhe...',
     particleType: 'shards',
@@ -30,25 +34,27 @@ export const magicActions = {
     logKey: 'meditation_log',
     logColor: 'var(--accent-purple)'
   },
-  'action-spell-harvest': {
-    id: 'action-spell-harvest',
+  'act-spell-harvest': {
+    id: 'act-spell-harvest',
     costType: 'mixed',
     costs: { astral_shards: 1, magic: 20 },
-    requirements: { 'housing.hasSanctum': true, 'upgrades': 'Book of Knowledge' },
+    requirements: { 'flags.build-arcane-sanctum': true, 'flags.item-book-knowledge': true },
     sfx: 'magic',
     particleText: 'Segen!',
     particleType: 'shards',
-    onSuccess: {
-        buffs: {
-            'buff-harvest': {
+    onSuccess: [
+        { 
+            type: 'addBuff', 
+            buffId: 'buff-harvest', 
+            override: {
                 title: 'Segen der Ahnen',
                 desc: 'Die Natur antwortet auf deinen Ruf (+1 auf alle Sammelerträge).',
-                duration: 60, // 60 seconds
+                duration: 60,
                 type: 'yield_bonus',
                 value: 1
             }
         }
-    },
+    ],
     logKey: 'spell_harvest_log',
     logColor: 'var(--accent-purple)'
   }

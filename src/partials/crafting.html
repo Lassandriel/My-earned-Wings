@@ -1,67 +1,51 @@
-<!-- CRAFTING & HOUSING HUB (PREMIUM REDESIGN) -->
-<div x-show="$store.game.view === 'crafting'" 
-      class="view-content-crafting"
-      x-data="{
-        // Static blueprint list (Milestones)
-        blueprints: [
-          { id: 'house-campfire', cat: 'camp' },
-          { id: 'house-tent', cat: 'camp', req: 'hasCampfire' },
-          { id: 'house-wood-storage', cat: 'camp', req: 'hasTent' },
-          { id: 'house-stone-storage', cat: 'camp', req: 'hasTent' },
-          { id: 'house-build', cat: 'housing', req: 'hasStoneStorage' },
-          { id: 'house-table', cat: 'housing', req: 'hasHouse' },
-          { id: 'house-garden', cat: 'garden', req: 'hasHouse' },
-          { id: 'house-kitchen-station', cat: 'housing', req: 'hasHouse' },
-          { id: 'house-arcane-sanctum', cat: 'housing', req: 'hasTable' },
-          { id: 'house-garden-upgrade', cat: 'garden', req: 'hasGarden' }
-        ],
-        isCompleted(id) {
-            if (id.startsWith('craft-')) return this.$store.game.upgrades.includes(id);
-            const map = {
-                'house-campfire': 'hasCampfire',
-                'house-tent': 'hasTent',
-                'house-wood-storage': 'hasWoodStorage',
-                'house-stone-storage': 'hasStoneStorage',
-                'house-build': 'hasHouse',
-                'house-table': 'hasTable',
-                'house-garden': 'hasGarden',
-                'house-kitchen-station': 'hasKitchen',
-                'house-arcane-sanctum': 'hasSanctum'
-            };
-            if (id === 'house-garden-upgrade') return this.$store.game.housing.gardenLevel >= 2;
-            return this.$store.game.housing[map[id]];
-        },
-        isVisible(bp) {
-            if (this.isCompleted(bp.id)) return true;
-            if (!bp.req) return true;
-            return this.$store.game.housing[bp.req];
-        },
-        getSortedList() {
-            let list = [];
-            // Add static blueprints if visible
-            this.blueprints.forEach(bp => {
-                if (this.isVisible(bp)) list.push(bp);
-            });
-            // Add dynamic workshop recipes
-            this.$store.game.unlockedRecipes.forEach(rid => {
-                if (rid.startsWith('craft-')) list.push({ id: rid, cat: 'workshop' });
-            });
-
-            // Filter by subview
-            if (this.$store.game.craftingSubView !== 'all') {
-                list = list.filter(a => a.cat === this.$store.game.craftingSubView);
+<!-- CRAFTING & HOUSING HUB - CORE 3.0 -->
+    <div x-show="$store.game.view === 'crafting'" 
+          class="view-content-crafting"
+          x-data="{
+            // Dynamic resolution from ContentService
+            getConstructionItems() {
+                const categories = ['camp', 'housing', 'workshop', 'garden', 'kitchen'];
+                const allActions = this.$store.game.content.actions || {};
+                
+                let list = [];
+                Object.values(allActions).forEach(action => {
+                    if (categories.includes(action.category)) {
+                        if (this.isVisible(action)) {
+                            list.push({ id: action.id, cat: action.category });
+                        }
+                    }
+                });
+    
+                // Filter by subview
+                if (this.$store.game.craftingSubView !== 'all') {
+                    list = list.filter(a => a.cat === this.$store.game.craftingSubView);
+                }
+    
+                // Sort: Uncompleted first, then by priority/id
+                return list.sort((a, b) => {
+                    const compA = this.isCompleted(a.id);
+                    const compB = this.isCompleted(b.id);
+                    if (compA !== compB) return compA ? 1 : -1;
+                    return a.id.localeCompare(b.id);
+                });
+            },
+            isCompleted(id) {
+                return this.$store.game.flags[id] === true || this.$store.game.unlockedRecipes.includes(id);
+            },
+            isVisible(action) {
+                if (this.isCompleted(action.id)) return true;
+                if (!action.requirements) return true;
+                
+                // Show if all requirements (flags) are met
+                return Object.entries(action.requirements).every(([path, val]) => {
+                    return this.resolvePath(this.$store.game, path) === val;
+                });
+            },
+            resolvePath(obj, path) {
+                return path.split('.').reduce((prev, curr) => prev ? prev[curr] : undefined, obj);
             }
-
-            // Sort: Uncompleted first
-            return list.sort((a, b) => {
-                const compA = this.isCompleted(a.id);
-                const compB = this.isCompleted(b.id);
-                if (compA === compB) return 0;
-                return compA ? 1 : -1;
-            });
-        }
-      }"
->
+          }"
+    >
   <!-- CATEGORY HEADER -->
   <div class="category-header">
     <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px;">
@@ -83,18 +67,18 @@
   
   <div class="action-container">
     <div class="blueprint-grid" x-transition:enter="view-enter">
-      <template x-for="bp in getSortedList()" :key="bp.id">
+      <template x-for="bp in getConstructionItems()" :key="bp.id">
         <button class="blueprint-card" 
                 :class="isCompleted(bp.id) && 'is-completed'"
                 @click="!isCompleted(bp.id) && $store.game.executeAction(bp.id)"
-                @mouseover="$store.game.hoveredAction = {id: bp.id, data: $store.game.actionDb[bp.id]}"
+                @mouseover="$store.game.hoveredAction = {id: bp.id, data: $store.game.content.get(bp.id)}"
                 @mouseout="$store.game.hoveredAction = null"
         >
           <div class="blueprint-visual">
-            <template x-if="$store.game.actionDb[bp.id]?.image">
-              <img :src="$store.game.actionDb[bp.id]?.image" class="blueprint-img">
+            <template x-if="$store.game.content.get(bp.id)?.image">
+              <img :src="$store.game.content.get(bp.id)?.image" class="blueprint-img">
             </template>
-            <template x-if="!$store.game.actionDb[bp.id]?.image">
+            <template x-if="!$store.game.content.get(bp.id)?.image">
               <span style="font-size: 3rem;" x-text="bp.id.includes('garden') ? '🌿' : '🏗️'"></span>
             </template>
             <template x-if="isCompleted(bp.id)">
@@ -108,7 +92,7 @@
       </template>
     </div>
     
-    <div x-show="getSortedList().length === 0" class="vault-placeholder-box">
+    <div x-show="getConstructionItems().length === 0" class="vault-placeholder-box">
         <p>Noch keine Baupläne in dieser Kategorie freigeschaltet.</p>
     </div>
   </div>

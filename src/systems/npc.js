@@ -1,14 +1,14 @@
 /**
- * NPC System - Handles companion recruitment, execution of NPC quests,
- * and background resource generation (Salary & Yield).
+ * NPC System - Core 3.0
+ * Handles companion recruitment and NPC quest progress.
  */
 export const createNPCSystem = () => {
     return {
         /**
-         * Executes an NPC interaction step (Quest/Dialog progress).
+         * Executes an NPC interaction step (Quest progress).
          */
         execute(game, id) {
-            const action = game.actionDb[id];
+            const action = game.content.get(id, 'actions');
             
             if (!action || !action.steps) return false;
             
@@ -18,62 +18,46 @@ export const createNPCSystem = () => {
             
             if (!step) return false;
 
-            // Handle costs
+            // 1. Costs
             const costs = step.costs || (step.cost ? { [step.costType]: step.cost } : null);
-            
             if (costs && !game.resource.consume(game, costs)) {
                 game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
                 return false;
             }
 
-            // Progress success
+            // 2. Progress Logic
             game.npcProgress[progKey]++;
             const newProg = game.npcProgress[progKey];
             
-            // Increment Trust (Numerical bond)
-            const currentTrust = game.npcTrust[progKey] || 0;
-            game.npcTrust[progKey] = currentTrust + 1;
+            // Increment Trust
+            game.npcTrust[progKey] = (game.npcTrust[progKey] || 0) + 1;
 
-            // Give reward
+            // 3. Reward Handling (Modular)
             if (step.reward) {
-                if (!game.upgrades.includes(step.reward)) {
-                    game.upgrades.push(step.reward);
+                // Determine if reward is an item or specific flag
+                if (step.reward.startsWith('item-')) {
+                    game.actions.effectHandlers.unlockItem(game, { id: step.reward });
+                } else {
+                    // Fallback for named legacy rewards or special cases
+                    game.flags[step.reward] = true;
                 }
-                if (!game.discoveredItems.includes(step.reward)) game.discoveredItems.push(step.reward);
-                
-                if (step.reward === 'Official Land Deed') game.housing.hasLandDeed = true;
             }
 
-            // Logic side-effects (Generified)
-            if (step.onSuccess) {
-                const os = step.onSuccess;
-                // Handle Unlocks
-                if (os.unlocks) {
-                    os.unlocks.forEach(u => {
-                        if (u.startsWith('npc-')) {
-                            if (!game.unlockedNPCs.includes(u)) game.unlockedNPCs.push(u);
-                        } else {
-                            if (!game.unlockedRecipes.includes(u)) game.unlockedRecipes.push(u);
-                        }
-                    });
-                }
-                // Handle Flags
-                if (os.flags) {
-                    Object.entries(os.flags).forEach(([f, v]) => {
-                        if (f.includes('.')) {
-                            const parts = f.split('.');
-                            let target = game;
-                            for (let i = 0; i < parts.length - 1; i++) target = target[parts[i]];
-                            target[parts[parts.length - 1]] = v;
-                        } else game[f] = v;
-                    });
+            // 4. Side Effects (using ActionSystem's handlers for consistency)
+            if (Array.isArray(step.onSuccess)) {
+                step.onSuccess.forEach(effect => {
+                    const handler = game.actions.effectHandlers[effect.type];
+                    if (handler) handler(game, effect);
+                });
+            } else if (step.onSuccess && !Array.isArray(step.onSuccess)) {
+                // Legacy support during migration if needed
+                if (step.onSuccess.unlocks) {
+                    step.onSuccess.unlocks.forEach(u => game.actions.effectHandlers.unlockRecipe(game, { id: u }));
                 }
             }
 
             game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'success' });
             return { success: true, logKey: `npc_${progKey}_${newProg}` };
-        },
-
+        }
     };
 };
-

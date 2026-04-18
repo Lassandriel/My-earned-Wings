@@ -1,37 +1,31 @@
-<!-- GAMEPLAY VIEW -->
+<!-- GAMEPLAY VIEW - CORE 3.0 -->
 <div x-show="$store.game.view === 'gameplay'" class="view-content-gameplay">
   <div class="primary-actions-bar">
     <button
-      id="action-essen-btn"
       class="game-btn primary-btn primary-satiation"
-      @click="$store.game.executeAction('action-essen')"
-      @mouseover="$store.game.hoveredAction = {id: 'action-essen', data: $store.game.actionDb['action-essen']}"
+      @click="$store.game.executeAction('act-essen')"
+      @mouseover="$store.game.hoveredAction = {id: 'act-essen', data: $store.game.content.get('act-essen')}"
       @mouseout="$store.game.hoveredAction = null"
-      aria-label="Eat Berries"
     >
-      <span x-text="$store.game.t('action-essen', 'actions').title">Beeren essen</span>
+      <span x-text="$store.game.t('act-essen', 'actions').title">Beeren essen</span>
       <span class="key-tag">1</span>
     </button>
     <button
-      id="action-energy-btn"
       class="game-btn primary-btn primary-energy"
-      @click="$store.game.executeAction('action-ausruhen')"
-      @mouseover="$store.game.hoveredAction = {id: 'action-ausruhen', data: $store.game.actionDb['action-ausruhen']}"
+      @click="$store.game.executeAction('act-ausruhen')"
+      @mouseover="$store.game.hoveredAction = {id: 'act-ausruhen', data: $store.game.content.get('act-ausruhen')}"
       @mouseout="$store.game.hoveredAction = null"
-      aria-label="Rest"
     >
-      <span x-text="$store.game.t('action-ausruhen', 'actions').title">Ausruhen</span>
+      <span x-text="$store.game.t('act-ausruhen', 'actions').title">Ausruhen</span>
       <span class="key-tag">2</span>
     </button>
     <button
-      id="action-magic-btn"
       class="game-btn primary-btn primary-magic"
-      @click="$store.game.executeAction('action-meditieren')"
-      @mouseover="$store.game.hoveredAction = {id: 'action-meditieren', data: $store.game.actionDb['action-meditieren']}"
+      @click="$store.game.executeAction('act-meditieren')"
+      @mouseover="$store.game.hoveredAction = {id: 'act-meditieren', data: $store.game.content.get('act-meditieren')}"
       @mouseout="$store.game.hoveredAction = null"
-      aria-label="Look Upwards"
     >
-      <span x-text="$store.game.t('action-meditieren', 'actions').title">Blick nach oben</span>
+      <span x-text="$store.game.t('act-meditieren', 'actions').title">Blick nach oben</span>
       <span class="key-tag">3</span>
     </button>
   </div>
@@ -40,7 +34,7 @@
   <div class="automation-bar" x-transition>
     <div class="loop-toggle-wrapper" :class="$store.game.isLooping && 'active'">
       <label class="premium-toggle">
-        <input id="loop-toggle-input" type="checkbox" x-model="$store.game.isLooping" aria-label="Toggle loop mode">
+        <input type="checkbox" x-model="$store.game.isLooping" aria-label="Toggle loop mode">
         <div class="toggle-track">
           <div class="toggle-thumb">
              <span class="thumb-icon" x-show="!$store.game.isLooping">◎</span>
@@ -67,42 +61,33 @@
         </div>
         <div class="btn-list">
         <button
-            id="action-wood-btn"
             class="game-btn"
-            @click="!$store.game.executeAction('action-wood') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
-            @mouseover="$store.game.hoveredAction = {id: 'action-wood', data: $store.game.actionDb['action-wood']}"
+            @click="!$store.game.executeAction('act-wood') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'act-wood', data: $store.game.content.get('act-wood')}"
             @mouseout="$store.game.hoveredAction = null"
-            x-text="$store.game.upgrades.includes('craft-axe') ? $store.game.t('action-wood', 'actions').title_alt : $store.game.t('action-wood', 'actions').title"
-            aria-label="Gather Wood"
+            x-text="$store.game.flags['item-axe'] ? $store.game.t('act-wood', 'actions').title_alt : $store.game.t('act-wood', 'actions').title"
           >
-            Zweige sammeln
           </button>
-          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-wood' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-wood')">✨</button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'act-wood' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-wood')">✨</button>
         <button
-            id="action-stone-btn"
             class="game-btn"
-            @click="!$store.game.executeAction('action-stone') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
-            @mouseover="$store.game.hoveredAction = {id: 'action-stone', data: $store.game.actionDb['action-stone']}"
+            @click="!$store.game.executeAction('act-stone') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'act-stone', data: $store.game.content.get('act-stone')}"
             @mouseout="$store.game.hoveredAction = null"
-            x-text="$store.game.upgrades.includes('craft-pickaxe') ? $store.game.t('action-stone', 'actions').title_alt : $store.game.t('action-stone', 'actions').title"
-            aria-label="Gather Stone"
+            x-text="$store.game.flags['item-pickaxe'] ? $store.game.t('act-stone', 'actions').title_alt : $store.game.t('act-stone', 'actions').title"
           >
-            Kiesel sammeln
           </button>
-          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-stone' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-stone')">✨</button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'act-stone' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-stone')">✨</button>
         <button
-            id="action-hunt-btn"
-            x-show="$store.game.upgrades.includes('craft-bow')"
+            x-show="$store.game.flags['item-bow']"
             class="game-btn primary-magic"
-            @click="!$store.game.executeAction('action-hunt') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
-            @mouseover="$store.game.hoveredAction = {id: 'action-hunt', data: $store.game.actionDb['action-hunt']}"
+            @click="!$store.game.executeAction('act-hunt') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'act-hunt', data: $store.game.content.get('act-hunt')}"
             @mouseout="$store.game.hoveredAction = null"
-            x-text="$store.game.t('action-hunt', 'actions').title"
-            aria-label="Go Hunting"
+            x-text="$store.game.t('act-hunt', 'actions').title"
           >
-            Jagen
           </button>
-          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-hunt' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-hunt')">✨</button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'act-hunt' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-hunt')">✨</button>
         </div>
       </section>
     </div>
@@ -121,19 +106,18 @@
         <div class="btn-list">
           <button
             class="game-btn"
-            @click="$store.game.executeAction('action-work')"
-            @mouseover="$store.game.hoveredAction = {id: 'action-work', data: $store.game.actionDb['action-work']}"
+            @click="$store.game.executeAction('act-work')"
+            @mouseover="$store.game.hoveredAction = {id: 'act-work', data: $store.game.content.get('act-work')}"
             @mouseout="$store.game.hoveredAction = null"
-            x-text="$store.game.t('action-work', 'actions').title"
+            x-text="$store.game.t('act-work', 'actions').title"
           >
-            Pfade säubern
           </button>
-          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-work')">✨</button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-work')">✨</button>
         </div>
       </section>
 
-      <!-- KITCHEN SECTION (UNLOCKED) -->
-      <section class="action-group" x-show="$store.game.housing.hasKitchen" x-collapse>
+      <!-- KITCHEN SECTION -->
+      <section class="action-group" x-show="$store.game.flags['build-kitchen']" x-collapse>
         <div class="category-header">
           <h3 x-text="$store.game.t('ui_tab_kitchen')">Küche</h3>
           <div class="nav-help-icon" 
@@ -141,20 +125,20 @@
                @mouseleave="$store.game.hoveredAction = null">?</div>
         </div>
         <div class="btn-list">
-          <button class="game-btn" :class="$store.game.activeTasks['action-cook-gourmet'] && 'is-working'"
-                  @click="!$store.game.activeTasks['action-cook-gourmet'] && $store.game.executeAction('action-cook-gourmet')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-cook-gourmet', data: $store.game.actionDb['action-cook-gourmet']}" @mouseout="$store.game.hoveredAction = null"
+          <button class="game-btn" :class="$store.game.activeTasks['act-cook-gourmet'] && 'is-working'"
+                  @click="!$store.game.activeTasks['act-cook-gourmet'] && $store.game.executeAction('act-cook-gourmet')"
+                  @mouseover="$store.game.hoveredAction = {id: 'act-cook-gourmet', data: $store.game.content.get('act-cook-gourmet')}" @mouseout="$store.game.hoveredAction = null"
                   style="position: relative;">
-            <span x-text="$store.game.t('action-cook-gourmet', 'actions').title"></span>
-            <div x-show="$store.game.activeTasks['action-cook-gourmet']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['action-cook-gourmet'].remaining / $store.game.activeTasks['action-cook-gourmet'].total * 100)) + '%'"></div>
+            <span x-text="$store.game.t('act-cook-gourmet', 'actions').title"></span>
+            <div x-show="$store.game.activeTasks['act-cook-gourmet']" class="btn-progress-container">
+              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-cook-gourmet'].remaining / $store.game.activeTasks['act-cook-gourmet'].total * 100)) + '%'"></div>
             </div>
           </button>
         </div>
       </section>
 
-      <!-- MAGIC SECTION (UNLOCKED) -->
-      <section class="action-group" x-show="$store.game.unlockedRecipes.includes('action-dream-bloom')" x-collapse>
+      <!-- MAGIC SECTION -->
+      <section class="action-group" x-show="$store.game.unlockedRecipes.includes('act-dream-bloom')" x-collapse>
         <div class="category-header">
           <h3 x-text="$store.game.t('cat_magic')">Magie</h3>
           <div class="nav-help-icon" 
@@ -164,45 +148,43 @@
         <div class="btn-list">
           <button
             class="game-btn primary-magic"
-            @click="!$store.game.executeAction('action-dream-bloom') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
-            @mouseover="$store.game.hoveredAction = {id: 'action-dream-bloom', data: $store.game.actionDb['action-dream-bloom']}"
+            @click="!$store.game.executeAction('act-dream-bloom') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'act-dream-bloom', data: $store.game.content.get('act-dream-bloom')}"
             @mouseout="$store.game.hoveredAction = null"
-            x-text="$store.game.t('action-dream-bloom', 'actions').title"
+            x-text="$store.game.t('act-dream-bloom', 'actions').title"
           >
-            Traum-Blüte
           </button>
           
-          <!-- ARCANUM -->
           <button
-            x-show="$store.game.housing.hasSanctum"
+            x-show="$store.game.flags['build-arcane-sanctum']"
             class="game-btn primary-magic"
-            :class="$store.game.activeTasks['action-meditate'] && 'is-working'"
-            @click="!$store.game.activeTasks['action-meditate'] && $store.game.executeAction('action-meditate')"
-            @mouseover="$store.game.hoveredAction = {id: 'action-meditate', data: $store.game.actionDb['action-meditate']}"
+            :class="$store.game.activeTasks['act-meditate'] && 'is-working'"
+            @click="!$store.game.activeTasks['act-meditate'] && $store.game.executeAction('act-meditate')"
+            @mouseover="$store.game.hoveredAction = {id: 'act-meditate', data: $store.game.content.get('act-meditate')}"
             @mouseout="$store.game.hoveredAction = null"
             style="position: relative;"
           >
-            <span x-text="$store.game.t('action-meditate', 'actions').title"></span>
-            <div x-show="$store.game.activeTasks['action-meditate']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['action-meditate'].remaining / $store.game.activeTasks['action-meditate'].total * 100)) + '%'"></div>
+            <span x-text="$store.game.t('act-meditate', 'actions').title"></span>
+            <div x-show="$store.game.activeTasks['act-meditate']" class="btn-progress-container">
+              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-meditate'].remaining / $store.game.activeTasks['act-meditate'].total * 100)) + '%'"></div>
             </div>
           </button>
-          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'action-meditate' && 'is-focused'" @click.stop="$store.game.toggleFocus('action-meditate')">✨</button>
+          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'act-meditate' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-meditate')">✨</button>
 
           <button
-            x-show="$store.game.housing.hasSanctum"
+            x-show="$store.game.flags['build-arcane-sanctum']"
             class="game-btn primary-magic"
-            @click="!$store.game.executeAction('action-spell-harvest') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
-            @mouseover="$store.game.hoveredAction = {id: 'action-spell-harvest', data: $store.game.actionDb['action-spell-harvest']}"
+            @click="!$store.game.executeAction('act-spell-harvest') && ($el.classList.add('btn-shake'), setTimeout(()=>$el.classList.remove('btn-shake'), 400))"
+            @mouseover="$store.game.hoveredAction = {id: 'act-spell-harvest', data: $store.game.content.get('act-spell-harvest')}"
             @mouseout="$store.game.hoveredAction = null"
           >
-            <span x-text="$store.game.t('action-spell-harvest', 'actions').title"></span>
+            <span x-text="$store.game.t('act-spell-harvest', 'actions').title"></span>
           </button>
         </div>
       </section>
 
-      <!-- GARDEN SECTION (UNLOCKED) -->
-      <section class="action-group" x-show="$store.game.housing.hasGarden" x-collapse>
+      <!-- GARDEN SECTION -->
+      <section class="action-group" x-show="$store.game.flags['build-garden']" x-collapse>
         <div class="category-header">
           <h3 x-text="$store.game.t('ui_tab_garden')">Garten</h3>
           <div class="nav-help-icon" 
@@ -210,43 +192,41 @@
                @mouseleave="$store.game.hoveredAction = null">?</div>
         </div>
         <div class="btn-list">
-          <!-- Slot 1 -->
-          <button class="game-btn" :class="$store.game.activeTasks['action-garden-plant'] && 'is-working'"
-                  @click="!$store.game.activeTasks['action-garden-plant'] && $store.game.executeAction('action-garden-plant')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-garden-plant', data: $store.game.actionDb['action-garden-plant']}" @mouseout="$store.game.hoveredAction = null"
+          <button class="game-btn" :class="$store.game.activeTasks['act-garden-plant'] && 'is-working'"
+                  @click="!$store.game.activeTasks['act-garden-plant'] && $store.game.executeAction('act-garden-plant')"
+                  @mouseover="$store.game.hoveredAction = {id: 'act-garden-plant', data: $store.game.content.get('act-garden-plant')}" @mouseout="$store.game.hoveredAction = null"
                   style="position: relative;">
-            <span x-text="$store.game.t('action-garden-plant', 'actions').title + ' (Slot 1)'"></span>
-            <div x-show="$store.game.activeTasks['action-garden-plant']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['action-garden-plant'].remaining / $store.game.activeTasks['action-garden-plant'].total * 100)) + '%'"></div>
+            <span x-text="$store.game.t('act-garden-plant', 'actions').title + ' (1)'"></span>
+            <div x-show="$store.game.activeTasks['act-garden-plant']" class="btn-progress-container">
+              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-garden-plant'].remaining / $store.game.activeTasks['act-garden-plant'].total * 100)) + '%'"></div>
             </div>
           </button>
 
-          <!-- Slot 2 (Upgrade required) -->
-          <button x-show="$store.game.housing.gardenLevel >= 2" 
-                  class="game-btn" :class="$store.game.activeTasks['action-garden-plant-2'] && 'is-working'"
-                  @click="!$store.game.activeTasks['action-garden-plant-2'] && $store.game.executeAction('action-garden-plant-2')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-garden-plant-2', data: $store.game.actionDb['action-garden-plant-2']}" @mouseout="$store.game.hoveredAction = null"
-                  style="position: relative;" x-collapse>
-            <span x-text="$store.game.t('action-garden-plant', 'actions').title + ' (Slot 2)'"></span>
-            <div x-show="$store.game.activeTasks['action-garden-plant-2']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['action-garden-plant-2'].remaining / $store.game.activeTasks['action-garden-plant-2'].total * 100)) + '%'"></div>
+          <button x-show="$store.game.flags['gardenLevel'] >= 2" 
+                  class="game-btn" :class="$store.game.activeTasks['act-garden-plant-2'] && 'is-working'"
+                  @click="!$store.game.activeTasks['act-garden-plant-2'] && $store.game.executeAction('act-garden-plant-2')"
+                  @mouseover="$store.game.hoveredAction = {id: 'act-garden-plant-2', data: $store.game.content.get('act-garden-plant-2')}" @mouseout="$store.game.hoveredAction = null"
+                  style="position: relative;">
+            <span x-text="$store.game.t('act-garden-plant', 'actions').title + ' (2)'"></span>
+            <div x-show="$store.game.activeTasks['act-garden-plant-2']" class="btn-progress-container">
+              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-garden-plant-2'].remaining / $store.game.activeTasks['act-garden-plant-2'].total * 100)) + '%'"></div>
             </div>
           </button>
 
-          <button class="game-btn" :class="$store.game.activeTasks['garden-water'] && 'is-working'"
-                  @click="!$store.game.activeTasks['garden-water'] && $store.game.executeAction('garden-water')"
-                  @mouseover="$store.game.hoveredAction = {id: 'garden-water', data: $store.game.actionDb['garden-water']}" @mouseout="$store.game.hoveredAction = null">
-            <span x-text="$store.game.t('garden-water', 'actions').title"></span>
+          <button class="game-btn" :class="$store.game.activeTasks['act-garden-water'] && 'is-working'"
+                  @click="!$store.game.activeTasks['act-garden-water'] && $store.game.executeAction('act-garden-water')"
+                  @mouseover="$store.game.hoveredAction = {id: 'act-garden-water', data: $store.game.content.get('act-garden-water')}" @mouseout="$store.game.hoveredAction = null">
+            <span x-text="$store.game.t('act-garden-water', 'actions').title"></span>
           </button>
         </div>
       </section>
 
-      <!-- STUDY SECTION (UNLOCKED) -->
-      <section class="action-group" x-show="$store.game.upgrades.includes('item-book-knowledge')" x-collapse>
+      <!-- STUDY SECTION -->
+      <section class="action-group" x-show="$store.game.flags['item-book-knowledge']" x-collapse>
         <div class="btn-list">
-          <button class="game-btn" @click="$store.game.executeAction('action-study')"
-                  @mouseover="$store.game.hoveredAction = {id: 'action-study', data: $store.game.actionDb['action-study']}" @mouseout="$store.game.hoveredAction = null">
-            <span x-text="$store.game.t('action-study', 'actions').title"></span>
+          <button class="game-btn" @click="$store.game.executeAction('act-study')"
+                  @mouseover="$store.game.hoveredAction = {id: 'act-study', data: $store.game.content.get('act-study')}" @mouseout="$store.game.hoveredAction = null">
+            <span x-text="$store.game.t('act-study', 'actions').title"></span>
           </button>
         </div>
       </section>

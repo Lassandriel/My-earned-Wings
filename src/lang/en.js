@@ -2,14 +2,12 @@ export default {
   ui: {
     nav_story: "Main",
     nav_crafting: "Crafting",
-    nav_housing: "Construction",
     nav_upgrades: "Possessions",
     nav_village: "Village",
     cat_gather: "Gather",
     cat_trade: "Trade",
     cat_work: "Work",
-    cat_crafting: "Handicraft & Studies",
-    cat_housing: "Construction & Storage",
+    cat_crafting: "Craft & Build",
     cat_upgrades: "Upgrades & Items",
     cat_village: "The Village",
     cat_magic: "Magic",
@@ -104,250 +102,257 @@ export default {
     finale_congrats: "Congratulations! You have reached the end of the demo.",
     finale_hint: "You can continue living on the ground in this save (Sandbox), but the story ends here for now.",
     finale_stats: "Your journey in numbers:",
-    btn_continue_sandbox: "Continue",
-    dream_bloom_log: "Your magic floods the soil... time begins to bend. (+5s progress)",
-    fail_no_tasks: "There is currently nothing your magic could accelerate.",
-    fail_energy: "Too exhausted.",
-    fail_magic: "Not enough magic.",
-    fail_resources: "Not enough resources.",
-    fail_full_wood: "Wood storage full.",
-    fail_full_stone: "Stone storage full.",
-    fail_full_meat: "Meat storage full.",
-    fail_full_shards: "Wallet full (Max Shards).",
-    fail_salary: "Not enough Shards for salary! Work stopped."
+    btn_continue_sandbox: "Continue"
   },
   actions: {
-    'action-essen': {
+    'act-essen': {
       title: "Eat Berries",
       desc: "Gather wild berries from the ground. They taste of earth and power.",
       effect: "+{val} Satiation"
     },
-    'action-ausruhen': {
+    'act-ausruhen': {
       title: "Rest",
       desc: "Close your eyes and listen to the distant beating of wings.",
       effect: "+{val} Energy"
     },
-    'action-meditieren': {
+    'act-meditieren': {
       title: "Focusing",
       desc: "You look up. Their shadows cast questions on your heart, but you focus on your inner magic.",
       effect: "+{val} Magic"
     },
-    'action-study': {
+    'act-study': {
       title: "Study",
       desc: "Immerse yourself in old books on your massive table.",
       effect: "+{val} Magic Limit"
     },
-    'action-wood': {
+    'act-wood': {
       title: "Gather Twigs",
       title_alt: "Chop Wood",
       desc: "Laboriously gather fallen branches from the forest floor.",
       desc_alt: "Use your axe to chop healthy wood from the trees.",
       effect: "+{val} Wood"
     },
-    'action-stone': {
+    'act-stone': {
       title: "Gather Pebbles",
       title_alt: "Quarry Stones",
       desc: "Search for usable pebbles in the stream bed.",
       desc_alt: "Shatter rocks with your pickaxe for high-quality material.",
       effect: "+{val} Stone"
     },
-    'action-garden-plant': {
+    'act-garden-plant': {
       title: "Plant Herbs",
       desc: "Sow rare herbs in the fertile soil of your garden.",
       effect: "+{val} Herbs (Growth time: 10s)"
     },
-    'action-dream-bloom': {
+    'act-dream-bloom': {
         title: "Dream Bloom",
         desc: "Use your magic to instantly accelerate the growth of your plants.",
         effect: "Shortens all active timers by 5s"
     },
-    'action-sell-wood': {
+    'act-sell-wood': {
       title: "Trade Wood",
       desc: "Bring wood to the village market. They need it for their nests.",
       effect: "+5 Shards"
     },
-    'action-sell-stone': {
+    'act-sell-stone': {
       title: "Trade Stone",
       desc: "Their towers need foundations they don't want to build themselves.",
       effect: "+8 Shards"
     },
-    'action-work': {
+    'act-work': {
       title: "Clear Paths",
       desc: "Clean the walking trails. No one but you uses the ground.",
       effect: "+12 Shards"
     },
-    'npc-baker': {
+    'act-npc-baker': {
       title: "Baker",
       desc: "Baker: \"I need fresh wood for my oven to bake the best bread in Draconia.\"",
       effect: "Builds Bond"
     },
-    'npc-flowerGirl': {
+    'act-npc-flowerGirl': {
       title: "Flower Girl",
       desc: "She collects flowers she could never reach while flying.",
       effect: "Bloom Bond",
       unlocks: "Enables: 'Blacksmith'"
     },
-    'npc-artisan': {
+    'act-npc-artisan': {
       title: "Artisan",
       desc: "Artisan: \"You create order on the ground? I like that.\"",
       effect: "Teaches Toolmaking",
       unlocks: "Recipes: 'Axe', 'Pickaxe'"
     },
-    'npc-teacher': {
+    'act-npc-teacher': {
       title: "Teacher",
       desc: "He teaches the history of those who forgot the ground.",
       effect: "Knowledge Exchange",
       unlocks: "Preparation for the Finale"
     },
-    'npc-townHall': {
+    'act-npc-townHall': {
       title: "Town Hall",
       desc: "Bureaucracy and land deeds. This is where life is regulated.",
       effect: "Unlocks Bureaucracy",
       unlocks: "Enables House Building"
     },
-    'npc-blacksmith': {
+    'act-npc-blacksmith': {
       title: "Blacksmith",
       desc: "Forging metal on the anvil. He gives power to your tools.",
       effect: "Unlocks Metalworking"
     },
-    'npc-sage': {
+    'act-npc-sage': {
       title: "Old Sage",
       desc: "\"You touch the earth... you have true power, wanderer.\"",
       effect: "Gifts a Book of Knowledge",
       unlocks: "The Path to the Heart of the World"
     },
-    'npc-hunter': {
+    'act-npc-hunter': {
       title: "Hunter Kaelen",
       desc: "A silent man with scars on his arms. He knows the forests.",
       effect: "Teaches Bowmaking and Hunting",
       unlocks: "Recipes: 'Bow', Action: 'Hunt'"
     },
-    'npc-ellie': {
+    'act-npc-ellie': {
       title: "Ellie",
       desc: "The Dream-Wyvern. She glides between the mists of Draconia.",
       effect: "Teaches Nature Magic"
     },
-    'npc-treeOfLife': {
+    'act-npc-treeOfLife': {
       title: "Tree of Life",
       desc: "The majestic heart of the ground. This is where your search ends and your new life begins.",
       effect: "The Demo Finale"
     },
-    'house-garden': {
-      title: "Build Garden",
-      desc: "A piece of fertile ground for plants and water sources.",
-      effect: "Enables Water Collection"
-    },
-    'garden-water': {
+    'act-garden-water': {
       title: "Collect Water",
       desc: "Fresh spring water for the community.",
       effect: "+1 Water"
     },
-    'action-hunt': {
+    'act-hunt': {
       title: "Hunt",
       desc: "Go deep into the forest and search for game. Your bow sings when you shoot.",
       effect: "+{val} Meat"
     },
-    'action-sell-meat': {
+    'act-sell-meat': {
       title: "Sell Meat",
       desc: "Fresh meat is in high demand in the village, as few hunt on the ground.",
       effect: "+15 Shards"
     },
-    'action-buy-meat': {
+    'act-buy-meat': {
       title: "Buy Meat",
       desc: "Buy supplies from the hunter when your luck in the forest fails.",
       effect: "+1 Meat"
     },
-    'craft-wanderstock': {
+    'act-wanderstock': {
         title: "Walking Stick",
         desc: "A solid ash stick. It carries your burden on long journeys.",
         effect: "+1 Wood yield"
     },
-    'craft-axe': {
+    'act-axe': {
         title: "Stone Axe",
         desc: "A sturdy tool. Not pretty, but sharp enough.",
         effect: "Increases wood yield"
     },
-    'craft-pickaxe': {
+    'act-pickaxe': {
         title: "Pickaxe",
         desc: "Strike the stones with it. The metal sings.",
         effect: "Increases stone yield"
     },
-    'craft-bed': {
+    'act-bed': {
         title: "Bed",
         desc: "A soft place to sleep. Much better than bare earth.",
         effect: "Strong recovery (+25)"
     },
-    'craft-chair': {
+    'act-chair': {
         title: "Chair",
         desc: "Sit comfortably while reading. Increases concentration.",
-        effect: "Doubles study yield (+10 MS)"
+        effect: "Doubles study yield"
     },
-    'craft-stove': {
+    'act-stove': {
         title: "Stove",
         desc: "A cast-iron stove. It warms the hut and cooks your berries.",
         effect: "Doubles berry recovery"
     },
-    'craft-bow': {
+    'act-bow': {
         title: "Hunting Bow",
         desc: "A light but stable bow. Perfect for the ground.",
         effect: "Allows Hunting"
     },
-    'npc_hunter_name': "Hunter Kaelen",
-    'npc_ellie_name': "Ellie",
-    'npc_treeoflife_name': "Tree of Life",
-    'house-campfire': {
+    'build-campfire': {
         title: "Campfire",
         desc: "The fire drives away the shadows of passing wings.",
         effect: "+10 Recovery",
         unlocks: "Village NPC: 'Flower Girl', Next step: Tent"
     },
-    'house-tent': {
+    'build-tent': {
         title: "Tent",
         desc: "Your first real roof. A refuge from the wind.",
         effect: "More space",
         unlocks: "Village NPC: 'Town Hall', Next step: Storage Options"
     },
-    'house-wood-storage': {
+    'build-wood-storage': {
         title: "Wood Storage",
         desc: "A dry place for more supplies.",
-        effect: "+10 Max Wood",
+        effect: "+25 Max Wood",
         unlocks: "Village NPC: 'Artisan', Next step: Build Hut"
     },
-    'house-stone-storage': {
+    'build-stone-storage': {
         title: "Stone Storage",
         desc: "A stable foundation for your growing realm.",
-        effect: "+10 Max Stone",
+        effect: "+25 Max Stone",
         unlocks: "Village NPC: 'Artisan', Next step: Build Hut"
     },
-    'house-table': {
+    'build-table': {
         title: "Sturdy Table",
         desc: "A place to work and study your books.",
         effect: "Enables Study",
         unlocks: "Village NPC: 'Old Sage'"
     },
-    'craft-bookshelf': {
+    'act-bookshelf': {
         title: "Bookshelf",
         desc: "A place for collected knowledge. Increases focus while studying.",
         effect: "+5 Book capacity"
     },
-    'craft-book': {
+    'act-book': {
         title: "Scribe Book",
         desc: "Permanently record your findings. Each book increases the effectiveness of your studies.",
         effect: "+1 Book"
     },
-    'house-build': {
+    'build-house': {
         title: "Build Hut",
         desc: "Your hut stands firm on the ground. A monument to your will.",
         effect: "Permanent Base (+50 capacity)",
         unlocks: "Furniture: 'Massive Table', Next step: Garden"
-    }
+    },
+    'build-garden': {
+        title: "Build Garden",
+        desc: "A piece of fertile ground for plants and water sources.",
+        effect: "Enables Water Collection"
+    },
+    'build-kitchen': {
+        title: "Kitchen Station",
+        desc: "A place for true culinary magic. Unlocks Gourmet Recipes.",
+        effect: "Enables Cooking"
+    },
+    'build-arcane-sanctum': {
+        title: "Arcane Sanctum",
+        desc: "A silent place for deep meditation and the weaving of spells.",
+        effect: "Enables Arcane Actions"
+    },
+    'build-garden-upgrade': {
+        title: "Garden Expansion",
+        desc: "Doubles your capacity. Allows parallel planting.",
+        effect: "Slot 2 in Garden"
+    },
+    'act-meditate': { title: "Deep Meditation", desc: "Focus your mind to draw Astral Shards from the aether." },
+    'act-spell-harvest': { title: "Ancestral Blessing", desc: "Consumes an Astral Shard to temporarily increase your gathering yields." },
+    'act-cook-gourmet': { title: "Gourmet Cooking", desc: "Prepare a meal that strengthens and regenerates you." },
+    'act-cabinet': { title: "Kitchen Cabinet", desc: "Offers plenty of space for supplies (+10 food limit)." },
+    'act-spice-rack': { title: "Spice Rack", desc: "Gives your dishes that certain something." },
+    'act-grand-table': { title: "Grand Table", desc: "A magnificent piece of furniture for a true home." }
   },
   logs: {
     save_success: "Game saved successfully.",
     load_success: "Game loaded successfully.",
     study_success: "Your knowledge grows through concentration (+{gain} Magic Limit).",
     sage_gift: "The Sage gifts you an old book full of symbols.",
-    // Action Logs
     eat_log: "Berries eaten. +{gain} Satiation.",
     rest_log: "Rested. +{gain} Energy.",
     meditate_log: "Meditated. +15 Magic.",
@@ -358,26 +363,19 @@ export default {
     sell_wood_log: "Wood traded. +5 Soul Shards.",
     sell_stone_log: "Stone traded. +8 Soul Shards.",
     work_log: "Paths cleared. +12 Shards.",
-    // Crafting Logs
     craft_wanderstock: "Walking stick carved.",
     craft_axe: "Stone axe crafted.",
     craft_pickaxe: "Pickaxe crafted.",
     craft_bed: "Bed built.",
     craft_chair: "Chair crafted.",
-    // Milestones
     milestone_campfire: "Campfire lit. The warmth drives away the cold of night.",
     milestone_tent: "Tent pitched. Your first real roof over your head.",
-    milestone_wood_storage: "Wood storage built. +10 maximum wood.",
-    milestone_stone_storage: "Stone storage built. +10 maximum stone.",
+    milestone_wood_storage: "Wood storage built. +25 maximum wood.",
+    milestone_stone_storage: "Stone storage built. +25 maximum stone.",
     milestone_table: "Massive table set up. A place of knowledge.",
     milestone_house: "House built. A monument to your will on the ground.",
     milestone_garden: "Garden built. The earth begins to bloom under your hands.",
     garden_harvest_log: "Successfully harvested herbs. +{gain} Herbs.",
-    npc_hunter_1: "Hunter: \"The forest is watching you. Stay quiet if you want to survive.\"",
-    npc_hunter_2: "Hunter: \"Your step has become surer. You're beginning to hear the breath of the earth.\"",
-    npc_hunter_3: "Hunter: \"Take this bow. It will be your voice in the thicket, if you respect it.\"",
-    npc_hunter_4: "Hunter: \"Never waste a life. The ground gives us everything, but it takes back as well.\"",
-    npc_hunter_5: "Hunter: \"The shadows belong to both of us now. I hunt by your side, companion.\"",
     hunt_log: "Successfully hunted. +{gain} Meat.",
     water_gain: "Fresh water collected.",
     item_consumed: "Used {name}.",
@@ -387,7 +385,6 @@ export default {
     craft_bow: "Hunting bow finished.",
     craft_bookshelf: "Bookshelf set up. You can now collect more knowledge.",
     craft_book: "Book scribed. Your mental horizons are expanding.",
-    // Intro
     intro_1: "Above you, a magnificent Wind Dragon glides effortlessly from roof to roof.",
     intro_2: "You take the long way on foot. Your steps are heavy and earthbound.",
     intro_3: "Perhaps it is time to take root.",
@@ -395,7 +392,6 @@ export default {
     intro_5: "You stay below. You miss a connection you've never felt...",
     intro_6: "But here, at the edge of the village, you will build a life.",
     intro_7: "Welcome to your new home, you wingless mystery. A dragon without a dragon form...",
-    // NPC Dialogues
     npc_baker_1: "Baker: \"Welcome. Without wood for my fire, there would be no bread here. Do you have some today?\"",
     npc_baker_2: "Baker: \"You're a hard worker. The scent of fresh bread is much more intense on the ground, don't you think?\"",
     npc_baker_3: "Baker: \"The traders above often forget that grain grows on the earth, not in the clouds.\"",
@@ -434,91 +430,30 @@ export default {
     npc_hunter_2: "Hunter: \"Your step has become surer. You're beginning to hear the breath of the earth.\"",
     npc_hunter_3: "Hunter: \"Here, take this bow. It will be your voice in the thicket, if you respect it.\"",
     npc_hunter_4: "Hunter: \"Never waste a life. The ground gives us everything, but it takes back as well.\"",
-    npc_ellie_name: "Ellie",
+    npc_hunter_5: "Hunter: \"The shadows belong to both of us now. I hunt by your side, companion.\"",
     npc_ellie_1: "Ellie: \"Wanderer... The ground is not a prison for you. It is your foundation. Do you feel the magic of the deep pulsing through your soles?\"",
     npc_ellie_2: "Ellie: \"Beauty can also flourish in the shadows. I'll show you how to open your dreams like blossoms... feel the rhythm of time.\"",
     npc_ellie_3: "Ellie: \"Magic is like water. It flows where the heart opens. You are slowly learning to open yours.\"",
     npc_ellie_4: "Ellie: \"The wind dragons above sing of the sky. But the earth... the earth remembers the stars.\"",
     npc_ellie_5: "Ellie: \"You are the bridge between the depths and the light. Carry these dream scales with pride, wanderer. They are your true heritage.\"",
-    npc_aris_name: "Archmage Aris",
     npc_aris_1: "Aris: \"The earth trembles under the weight of your destiny. Do you feel the resonance of the stars in the stone?\"",
     npc_aris_2: "Aris: \"A dragon without form is like a chalice without wine – ready to be filled with something much greater.\"",
     npc_aris_3: "Aris: \"Meditation is not stillness. It is the weaving of fate in the silence of your mind.\"",
     npc_aris_4: "Aris: \"Astral Shards are fragments of the first breath. Use them wisely, they bind magic to matter.\"",
     npc_aris_5: "Aris: \"You walk the ground, but your spirit touches the edge of the aether. You are ready for true Arcanization.\"",
-    
-    // Actions & UI
-    ui_tab_kitchen: "Kitchen",
-    ui_all: "All",
-    ui_tab_all: "Total",
-    ui_astral_shards: "Astral Shards",
-    ui_loop_mode: "Loop Mode",
-    ui_loop_hint: "Actions will be repeated automatically...",
 
-    milestone_kitchen: "Kitchen Station established. The scent of adventure is in the air.",
-    milestone_sanctum: "Arcane Sanctum consecrated. The silence answers you.",
-    milestone_garden_upgrade: "Garden expanded. More room for life.",
-
-    meditation_log: "You meditated in silence and gained {gain} Astral Shards.",
-    spell_harvest_log: "You cast the Blessing of the Ancestors. The earth is well-disposed towards you.",
-    cook_gourmet_success: "You prepared a Gourmet Meal. A true feast!",
-    help_kitchen_desc: "Prepare delicious meals that grant powerful buffs.",
-    help_magic_desc: "Use your collected magic for powerful effects.",
-    help_garden_desc: "Maintain your garden for rare herbs.",
-
-    // Items
-    item_wanderstock_title: "Walking Stick",
-    item_wanderstock_desc: "A solid ash stick. It carries your burden on long paths.",
-    item_axe_title: "Stone Axe",
-    item_axe_desc: "A sturdy tool for woodcutting. Simple but sharp.",
-    item_pickaxe_title: "Pickaxe",
-    item_pickaxe_desc: "Capable of conquering even the hardest rocks.",
-    item_bow_title: "Hunting Bow",
-    item_bow_desc: "A light but stable bow. Perfect for hunting on the ground.",
-    item_bread_title: "Fresh Bread",
-    item_bread_desc: "Smells wonderful and satisfies hunger well.",
-    item_cookie_title: "Massive Cookie",
-    item_cookie_desc: "A gift from the baker. Incredibly sweet.",
-    item_dried_meat_title: "Dried Meat",
-    item_dried_meat_desc: "Tough but nutritious. Perfect for long treks.",
-    item_gourmet_meal_title: "Gourmet Meal",
-    item_gourmet_meal_desc: "A feast that revitalizes body and mind.",
-    item_deed_title: "Land Deed",
-    item_deed_desc: "An official document confirming your ownership of the land.",
-    item_book_knowledge_title: "Book of Knowledge",
-    item_book_knowledge_desc: "Contains the secrets of the first light.",
-    item_scroll_title: "Ancient Scroll",
-    item_scroll_desc: "Hard to decipher, but full of magical energy.",
-    item_whetstone_title: "Whetstone",
-    item_whetstone_desc: "Keeps your blades sharp and your will hardened.",
-    item_arrowhead_title: "Arrowhead",
-    item_arrowhead_desc: "A precisely crafted relic of the hunter.",
-    item_chisel_title: "Gilded Chisel",
-    item_chisel_desc: "A tool for true masters of shaping.",
-    item_astral_shards_title: "Astral Shards",
-    item_astral_shards_desc: "Crystallized starlight, filled with pure magic.",
-    item_dream_dust_title: "Dream Dust",
-    item_dream_dust_desc: "A glittering powder that loosens the boundaries of reality.",
-    item_wyvern_scale_title: "Wyvern Scale",
-    item_wyvern_scale_desc: "A shimmering scale that tells of great magic.",
-
-    // Buffs & VFX
-    buff_gourmet_title: "Gourmet Satiety",
-    buff_gourmet_desc: "Excellent food strengthens the constitution.",
-    vfx_gourmet: "Gourmet!",
-
-    'house-kitchen-station': { title: "Kitchen Station", desc: "A place for true culinary magic. Unlocks Gourmet Recipes." },
-    'house-arcane-sanctum': { title: "Arcane Sanctum", desc: "A silent place for deep meditation and the weaving of spells." },
-    'house-garden-upgrade': { title: "Garden Expansion", desc: "Doubles your capacity. Allows parallel planting." },
-    'action-meditate': { title: "Deep Meditation", desc: "Focus your mind to draw Astral Shards from the aether." },
-    'action-spell-harvest': { title: "Ancestral Blessing", desc: "Consumes an Astral Shard to temporarily increase your gathering yields." },
-    'action-cook-gourmet': { title: "Gourmet Cooking", desc: "Prepare a meal that strengthens and regenerates you." },
-
-    'craft-cabinet': { title: "Kitchen Cabinet", desc: "Offers plenty of space for supplies (+10 food limit)." },
-    'craft-spice-rack': { title: "Spice Rack", desc: "Gives your dishes that certain something." },
-    'craft-grand-table': { title: "Grand Table", desc: "A magnificent piece of furniture for a true home." },
-
-    fail_no_tasks: "There is currently nothing that could accelerate your magic.",
+    // Global
+    dream_bloom_log: "Your magic floods the soil... time begins to bend. (+5s progress)",
+    fail_no_tasks: "There is currently nothing your magic could accelerate.",
+    fail_energy: "Too exhausted.",
+    fail_magic: "Not enough magic.",
+    fail_resources: "Not enough resources.",
+    fail_full_wood: "Wood storage full.",
+    fail_full_stone: "Stone storage full.",
+    fail_full_meat: "Meat storage full.",
+    fail_full_shards: "Wallet full (Max Shards).",
     fail_salary: "Not enough Shards for salary! Work stopped.",
+    focus_broken_magic: "Your concentration breaks - magic exhausted!",
+    btn_stop_work: "Stop Work",
   },
 };

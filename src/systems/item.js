@@ -1,34 +1,49 @@
 /**
- * Item Consumption System Manager
+ * Item System - Core 3.0
+ * Manages item effects and consumption from the inventory.
  */
 export const createItemSystem = () => ({
     consumeItem(store, id) {
-    const item = store.itemDb[id];
-    if (!item || !item.consumable) return;
-    
-    // Check if player has the item
-    const idx = store.upgrades.indexOf(id);
-    if (idx === -1) return;
-    
-    // Check for effects
-    if (item.effect) {
-      Object.entries(item.effect).forEach(([stat, value]) => {
-        if (store.stats[stat] !== undefined) {
-          store.stats[stat] = Math.min(store.stats['max' + stat.charAt(0).toUpperCase() + stat.slice(1)], store.stats[stat] + value);
+        const item = store.content.get(id, 'items');
+        if (!item || !item.consumable) return;
+        
+        // Find instance in inventory
+        const idx = store.discoveredItems.indexOf(id);
+        if (idx === -1) return;
+        
+        // 1. Apply Effects (Stats)
+        if (item.effect) {
+            Object.entries(item.effect).forEach(([stat, value]) => {
+                if (store.stats[stat] !== undefined) {
+                    const maxKey = 'max' + stat.charAt(0).toUpperCase() + stat.slice(1);
+                    const maxValue = store.stats[maxKey] || 100;
+                    store.stats[stat] = Math.min(maxValue, store.stats[stat] + value);
+                }
+            });
         }
-      });
+
+        // 2. Side-Effects (onSuccess handlers)
+        if (Array.isArray(item.onSuccess)) {
+            item.onSuccess.forEach(effect => {
+                const handler = store.actions.effectHandlers[effect.type];
+                if (handler) handler(store, effect);
+            });
+        }
+
+        // 3. Remove instance
+        store.discoveredItems.splice(idx, 1);
+        
+        // 4. Feedback
+        store.addLog(store.t(item.title) + ' benutzt.', 'custom', 'var(--accent-teal)');
+        store.playSound(item.sfx || 'success');
+        
+        // Auto-select next item
+        if (store.discoveredItems.length > 0) {
+            store.selectedItem = store.discoveredItems[Math.max(0, idx - 1)];
+        } else {
+            store.selectedItem = null;
+        }
+
+        store.saveGame();
     }
-    
-    // Remove from upgrades
-    store.upgrades.splice(idx, 1);
-    store.addLog(item.title + ' benutzt.', 'custom', 'var(--accent-teal)');
-    store.playSound('success');
-    
-    // Auto-select next item if possible
-    if (store.upgrades.length > 0) {
-      store.selectedItem = store.upgrades[Math.max(0, idx - 1)];
-    } else {
-      store.selectedItem = null;
-    }
-  }
 });

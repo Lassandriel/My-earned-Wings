@@ -1,5 +1,6 @@
 export const gatheringActions = {
-  'action-essen': {
+  'act-essen': {
+    id: 'act-essen',
     cost: 0, costType: 'none',
     sfx: 'eat',
     particleText: '+ Sättigung',
@@ -13,7 +14,8 @@ export const gatheringActions = {
     },
     logKey: 'eat_log'
   },
-  'action-ausruhen': {
+  'act-ausruhen': {
+    id: 'act-ausruhen',
     cost: 0, costType: 'none',
     rewards: { energy: 'rest_energy_gain' },
     satiationCost: 0,
@@ -22,7 +24,8 @@ export const gatheringActions = {
     },
     logKey: 'rest_log'
   },
-  'action-meditieren': {
+  'act-meditieren': {
+    id: 'act-meditieren',
     cost: 0, costType: 'none',
     sfx: 'click',
     particleText: '+ Magie',
@@ -36,7 +39,8 @@ export const gatheringActions = {
     },
     logKey: 'meditate_log'
   },
-  'action-study': {
+  'act-study': {
+    id: 'act-study',
     cost: 20, costType: 'magic',
     sfx: 'click',
     particleText: '+ Magie Max',
@@ -48,7 +52,8 @@ export const gatheringActions = {
     logKey: 'study_success',
     logColor: 'var(--accent-teal)'
   },
-  'action-wood': {
+  'act-wood': {
+    id: 'act-wood',
     cost: 8, costType: 'energy', yieldType: 'wood',
     sfx: 'gather',
     particleText: '+ Holz',
@@ -61,7 +66,8 @@ export const gatheringActions = {
     },
     logKey: 'wood_log'
   },
-  'action-stone': {
+  'act-stone': {
+    id: 'act-stone',
     cost: 12, costType: 'energy', yieldType: 'stone',
     sfx: 'gather',
     particleText: '+ Stein',
@@ -74,9 +80,10 @@ export const gatheringActions = {
     },
     logKey: 'stone_log'
   },
-  'action-hunt': {
+  'act-hunt': {
+    id: 'act-hunt',
     cost: 25, costType: 'energy', yieldType: 'meat',
-    requirements: { upgrades: 'craft-bow' },
+    requirements: { 'item-bow': 1 }, // Changed to check for item ID in upgrades list logic
     sfx: 'gather',
     particleText: '+ Fleisch',
     particleType: 'energy',
@@ -88,10 +95,11 @@ export const gatheringActions = {
     },
     logKey: 'hunt_log'
   },
-  'action-garden-plant': {
+  'act-garden-plant': {
+    id: 'act-garden-plant',
     cost: 10, costType: 'energy',
     duration: 10000,
-    requirements: { 'housing.hasGarden': true },
+    requirements: { 'flags.build-garden': true },
     sfx: 'gather',
     particleText: '+ herbs',
     particleType: 'energy',
@@ -103,10 +111,11 @@ export const gatheringActions = {
     },
     logKey: 'garden_harvest_log'
   },
-  'action-garden-plant-2': {
+  'act-garden-plant-2': {
+    id: 'act-garden-plant-2',
     cost: 10, costType: 'energy',
     duration: 10000,
-    requirements: { 'housing.gardenLevel': 2 },
+    requirements: { 'flags.gardenLevel': 2 },
     sfx: 'gather',
     particleText: '+ herbs',
     particleType: 'energy',
@@ -118,19 +127,19 @@ export const gatheringActions = {
     },
     logKey: 'garden_harvest_log'
   },
-  'action-cook-gourmet': {
-    id: 'action-cook-gourmet',
+  'act-cook-gourmet': {
+    id: 'act-cook-gourmet',
     costType: 'mixed',
     costs: { water: 2, meat: 2, herbs: 1 },
     duration: 5000,
-    requirements: { 'housing.hasKitchen': true },
+    requirements: { 'flags.build-kitchen': true },
     sfx: 'eat',
     particleText: 'vfx_gourmet',
-    yieldType: 'gourmet-meal',
-    rewards: { 'gourmet-meal': 1 },
-    onSuccess: {
-        buffs: { 'buff-gourmet': {} } // Refers to registry, empty object overrides nothing
-    },
+    yieldType: 'item-gourmet-meal',
+    rewards: { 'item-gourmet-meal': 1 },
+    onSuccess: [
+        { type: 'addBuff', buffId: 'buff-gourmet' }
+    ],
     logKey: 'cook_gourmet_success'
   }
 };

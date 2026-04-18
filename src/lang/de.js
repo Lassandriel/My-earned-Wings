@@ -2,14 +2,12 @@ export default {
   ui: {
     nav_story: "Haupt",
     nav_crafting: "Handwerk",
-    nav_housing: "Hausbau",
     nav_upgrades: "Besitz",
     nav_village: "Dorf",
     cat_gather: "Sammeln",
     cat_trade: "Handel",
     cat_work: "Arbeit",
-    cat_crafting: "Baupläne & Studium",
-    cat_housing: "Hausbau & Lager",
+    cat_crafting: "Handwerk & Bau",
     cat_upgrades: "Upgrades & Gegenstände",
     cat_village: "Das Dorf",
     cat_magic: "Magie",
@@ -57,7 +55,7 @@ export default {
     ui_no_shelter: "Kein Lager",
     ui_placeholder: "Wanderer...",
     ui_placeholder_desc: "Wähle eine Handlung aus, um mehr zu erfahren.",
-    settings_title: "Einstellungen",
+    0: "Einstellungen",
     settings_lang: "Sprache / Language",
     settings_name: "Spieler Name",
     settings_graphics: "Grafik & Performance",
@@ -113,227 +111,248 @@ export default {
     btn_continue_sandbox: "Fortfahren"
   },
   actions: {
-    'action-essen': {
+    'act-essen': {
       title: "Beeren essen",
       desc: "Wilde Beeren vom Boden sammeln. Sie schmecken nach Erde und Kraft.",
       effect: "+{val} Sättigung"
     },
-    'action-ausruhen': {
+    'act-ausruhen': {
       title: "Ausruhen",
       desc: "Du schließt die Augen und lauschst dem fernen Schlagen von Schwingen.",
       effect: "+{val} Energie"
     },
-    'action-meditieren': {
+    'act-meditieren': {
       title: "Fokusieren",
       desc: "Dir wird bewusst das alles mit Magie verbunden ist.",
       effect: "+{val} Magie"
     },
-    'action-study': {
+    'act-study': {
       title: "Studieren",
       desc: "Vertiefe dich in die alten Bücher auf deinem massiven Tisch.",
       effect: "+{val} Magie-Limit"
     },
-    'action-wood': {
+    'act-wood': {
       title: "Zweige sammeln",
       title_alt: "Holz schlagen",
       desc: "Sammle mühsam herabgefallene Zweige vom Waldboden.",
       desc_alt: "Nutze deine Axt, um gesundes Holz von den Bäumen zu schlagen.",
       effect: "+{val} Holz"
     },
-    'action-stone': {
+    'act-stone': {
       title: "Kiesel sammeln",
       title_alt: "Steine klopfen",
       desc: "Suche nach brauchbaren Kieseln im Bachbett.",
       desc_alt: "Zertrümmere Felsen mit deiner Spitzhacke für hochwertiges Material.",
       effect: "+{val} Stein"
     },
-    'action-garden-plant': {
+    'act-garden-plant': {
       title: "Kräuter säen",
       desc: "Säe seltene Kräuter in den fruchtbaren Boden deines Gartens.",
       effect: "+{val} Kräuter (Wachstumszeit: 10s)"
     },
-    'action-dream-bloom': {
+    'act-dream-bloom': {
         title: "Traum-Blüte",
         desc: "Nutze deine Magie, um das Wachstum deiner Pflanzen sofort zu beschleunigen.",
         effect: "Verkürzt alle laufenden Timer um 5s"
     },
-    'action-sell-wood': {
+    'act-sell-wood': {
       title: "Holz tauschen",
       desc: "Bringe Holz zum Dorfmarkt. Sie brauchen es für ihre Nester.",
       effect: "+5 Splitter"
     },
-    'action-sell-stone': {
+    'act-sell-stone': {
       title: "Stein tauschen",
       desc: "Ihre Türme brauchen Fundamente, die sie selbst nicht bauen wollen.",
       effect: "+8 Splitter"
     },
-    'action-work': {
+    'act-work': {
       title: "Pfade säubern",
       desc: "Säubere die Wanderwege. Niemand außer dir nutzt den Boden.",
       effect: "+12 Splitter"
     },
-    'npc-baker': {
+    'act-npc-baker': {
       title: "Bäcker",
       desc: "Bäcker: \"Ich brauche immer frisches Holz für meinen Ofen, um das beste Brot zu backen.\"",
       effect: "Baut Bindung auf"
     },
-    'npc-flowerGirl': {
+    'act-npc-flowerGirl': {
       title: "Blumenmädchen",
       desc: "Sie sammelt Blumen, die sie im Flug nicht erreichen könnte.",
       effect: "Blüten-Bindung",
       unlocks: "Ermöglicht: 'Schmied'"
     },
-    'npc-artisan': {
+    'act-npc-artisan': {
       title: "Handwerker",
       desc: "Handwerker: \"Du schaffst Ordnung am Boden? Das gefällt mir.\"",
       effect: "Lehrt Werkzeugbau",
       unlocks: "Rezepte: 'Axt', 'Spitzhacke'"
     },
-    'npc-teacher': {
+    'act-npc-teacher': {
       title: "Lehrer",
       desc: "Er lehrt die Geschichte derer, die den Boden vergaßen.",
       effect: "Wissens-Austausch",
       unlocks: "Vorbereitung auf das Finale"
     },
-    'npc-townHall': {
+    'act-npc-townHall': {
       title: "Rathaus",
       desc: "Amtsschimmel und Landurkunden. Hier wird das Leben geregelt.",
       effect: "Schaltet Bürokratie frei",
       unlocks: "Ermöglicht Hausbau"
     },
-    'npc-blacksmith': {
+    'act-npc-blacksmith': {
       title: "Schmied",
       desc: "Metall klopfen auf dem Amboss. Er gibt deinen Werkzeugen Kraft.",
       effect: "Schaltet Metallbau frei"
     },
-    'npc-sage': {
+    'act-npc-sage': {
       title: "Alter Weiser",
       desc: "\"Du berührst die Erde... du hast wahre Kraft, Wanderer.\"",
       effect: "Schenkt ein Buch des Wissens",
       unlocks: "Der Pfad zum Herzen der Welt"
     },
-    'npc-hunter': {
+    'act-npc-hunter': {
       title: "Jäger Kaelen",
       desc: "Ein schweigsamer Mann mit Narben an den Armen. Er kennt die Wälder.",
       effect: "Lehrt Bogenbau und Jagd",
       unlocks: "Rezepte: 'Bogen', Aktion: 'Jagen'"
     },
-    'npc-ellie': {
+    'act-npc-ellie': {
       title: "Ellie",
       desc: "Die Traum-Wyvern. Sie gleitet zwischen den Nebeln Draconias umher.",
       effect: "Lehrt Naturmagie"
     },
-    'npc-treeOfLife': {
+    'act-npc-treeOfLife': {
       title: "Baum des Lebens",
       desc: "Das majestätische Herz des Bodens. Hier endet deine Suche und beginnt dein neues Leben.",
       effect: "Das Demo-Finale"
     },
-    'house-garden': {
-      title: "Garten anlegen",
-      desc: "Ein Stück fruchtbarer Boden für Pflanzen und Wasserquellen.",
-      effect: "Ermöglicht Wasser-Gewinnung"
-    },
-    'garden-water': {
+    'act-garden-water': {
       title: "Wasser sammeln",
       desc: "Frisches Quellwasser für die Gemeinschaft.",
       effect: "+1 Wasser"
     },
-    'action-hunt': {
+    'act-hunt': {
       title: "Jagen",
       desc: "Gehe tief in den Wald und suche nach Wild. Dein Bogen singt beim Schuss.",
       effect: "+{val} Fleisch"
     },
-    'action-sell-meat': {
+    'act-sell-meat': {
       title: "Fleisch verkaufen",
       desc: "Frisches Fleisch ist im Dorf begehrt, da kaum jemand am Boden jagt.",
       effect: "+15 Splitter"
     },
-    'action-buy-meat': {
+    'act-buy-meat': {
       title: "Fleisch kaufen",
       desc: "Kaufe Vorräte vom Jäger, wenn dein Glück im Wald nachlässt.",
       effect: "+1 Fleisch"
     },
-    'craft-wanderstock': {
+    'act-wanderstock': {
         title: "Wanderstock",
         desc: "Ein solider Stock aus Esche. Er trägt deine Last auf langen Wegen.",
         effect: "+1 Holz-Ertrag"
     },
-    'craft-axe': {
+    'act-axe': {
         title: "Steinaxt",
         desc: "Ein robustes Werkzeug. Nicht schön, aber scharf genug.",
         effect: "Erhöht Holz-Ertrag"
     },
-    'craft-pickaxe': {
+    'act-pickaxe': {
         title: "Spitzhacke",
         desc: "Schlag damit auf Steine ein. Das Metallsingt.",
         effect: "Erhöht Stein-Ertrag"
     },
-    'craft-bed': {
+    'act-bed': {
         title: "Bett",
         desc: "Ein weicher Ort zum Schlafen. Viel besser als nackte Erde.",
-        effect: "Starke Erholung (+25)"
+        effect: "Starkes Erholen (+25)"
     },
-    'craft-chair': {
+    'act-chair': {
         title: "Stuhl",
         desc: "Bequem sitzen beim Lesen. Erhöht die Konzentration.",
-        effect: "Verdoppelt Studium-Ertrag (+10 MS)"
+        effect: "Verdoppelt Studium-Ertrag"
     },
-    'craft-stove': {
+    'act-stove': {
         title: "Ofen",
         desc: "Ein gusseiserner Ofen. Er wärmt die Hütte und gart deine Beeren.",
         effect: "Verdoppelt Beeren-Erholung"
     },
-    'craft-bow': {
+    'act-bow': {
         title: "Jagdbogen",
         desc: "Ein leichter, aber stabiler Bogen. Perfekt für den Boden.",
         effect: "Ermöglicht Jagd"
     },
-    'house-campfire': {
+    'build-campfire': {
         title: "Lagerfeuer",
         desc: "Das Feuer vertreibt die Schatten der vorbeiziehenden Schwingen.",
         effect: "+10 Erholung",
         unlocks: "Dorf-NPC: 'Blumenmädchen', Nächster Schritt: Zelt"
     },
-    'house-tent': {
+    'build-tent': {
         title: "Zelt",
         desc: "Dein erstes echtes Dach. Ein Rückzugsort vor dem Wind.",
         effect: "Mehr Platz",
         unlocks: "Dorf-NPC: 'Rathaus', Nächster Schritt: Lager-Optionen"
     },
-    'house-wood-storage': {
+    'build-wood-storage': {
         title: "Holzlager",
         desc: "Ein trockener Ort für mehr Vorräte.",
-        effect: "+10 Max Holz",
+        effect: "+25 Max Holz",
         unlocks: "Dorf-NPC: 'Handwerker', Nächster Schritt: Hütte bauen"
     },
-    'house-stone-storage': {
+    'build-stone-storage': {
         title: "Steinlager",
         desc: "Ein stabiles Fundament für dein wachsendes Reich.",
-        effect: "+10 Max Stein",
+        effect: "+25 Max Stein",
         unlocks: "Dorf-NPC: 'Handwerker', Nächster Schritt: Hütte bauen"
     },
-    'house-table': {
+    'build-table': {
         title: "Massiver Tisch",
         desc: "Ein Ort zum Arbeiten und Studieren deiner Bücher.",
         effect: "Ermöglicht Studium",
         unlocks: "Dorf-NPC: 'Alter Weiser'"
     },
-    'craft-bookshelf': {
+    'act-bookshelf': {
         title: "Bücherregal",
         desc: "Ein Ort für gesammeltes Wissen. Erhöht den Fokus beim Studium.",
         effect: "+5 Buch-Kapazität"
     },
-    'craft-book': {
+    'act-book': {
         title: "Buch verfassen",
         desc: "Halte deine Erkenntnisse dauerhaft fest. Jedes Buch erhöht die Effektivität deines Studiums.",
         effect: "+1 Buch"
     },
-    'house-build': {
+    'build-house': {
         title: "Hütte bauen",
         desc: "Deine Hütte steht fest am Boden. Ein Denkmal deines Willens.",
         effect: "Permanente Basis (+50 Kapazität)",
         unlocks: "Möbel: 'Massiver Tisch', Nächster Schritt: Garten"
-    }
+    },
+    'build-garden': {
+        title: "Garten anlegen",
+        desc: "Ein Stück fruchtbarer Boden für Pflanzen und Wasserquellen.",
+        effect: "Ermöglicht Wasser-Gewinnung"
+    },
+    'build-kitchen': {
+        title: "Küchenstation",
+        desc: "Ein Ort für wahre kulinarische Magie. Schaltet Gourmet-Rezepte frei.",
+        effect: "Ermöglicht Kochen"
+    },
+    'build-arcane-sanctum': {
+        title: "Arkane Zuflucht",
+        desc: "Ein stiller Ort für tiefe Meditation und das Weben von Zaubersprüchen.",
+        effect: "Ermöglicht Arkan-Aktionen"
+    },
+    'build-garden-upgrade': {
+        title: "Garten-Erweiterung",
+        desc: "Verdoppelt deine Kapazität. Ermöglicht paralleles Anpflanzen.",
+        effect: "Slot 2 im Garten"
+    },
+    'act-meditate': { title: "Tiefen-Meditation", desc: "Konzentriere deinen Geist, um Astral-Splitter aus dem Aether zu ziehen." },
+    'act-spell-harvest': { title: "Segen der Ahnen", desc: "Verbraucht ein Astral-Splitter, um deine Sammelerträge kurzzeitig zu erhöhen." },
+    'act-cook-gourmet': { title: "Gourmet-Kochen", desc: "Bereite eine Mahlzeit zu, die dich stärkt und regeneriert." },
+    'act-cabinet': { title: "Küchenschrank", desc: "Bietet viel Platz für Vorräte (+10 Limit für Nahrung)." },
+    'act-spice-rack': { title: "Gewürzregal", desc: "Verleiht deinen Speisen das gewisse Extra." },
+    'act-grand-table': { title: "Massivholztisch", desc: "Ein prachtvolles Möbelstück für ein wahres Heim." }
   },
   logs: {
     save_success: "Spielstand gesichert.",
@@ -357,8 +376,8 @@ export default {
     craft_chair: "Stuhl gefertigt.",
     milestone_campfire: "Lagerfeuer entzündet. Die Wärme vertreibt die Kälte der Nacht.",
     milestone_tent: "Zelt aufgestellt. Dein erstes echtes Dach über dem Kopf.",
-    milestone_wood_storage: "Holzlager errichtet. +10 maximales Holz.",
-    milestone_stone_storage: "Steinlager errichtet. +10 maximaler Stein.",
+    milestone_wood_storage: "Holzlager errichtet. +25 maximales Holz.",
+    milestone_stone_storage: "Steinlager errichtet. +25 maximaler Stein.",
     milestone_table: "Massiver Tisch aufgestellt. Ein Ort des Wissens inmitten der Asche.",
     milestone_house: "Die Hütte steht fest am Boden – ein Monument deines Willens in dieser Welt aus Lava und Schwingen.",
     milestone_garden: "Garten angelegt. Die Erde beginnt unter deinen Händen zu blühen.",
@@ -433,7 +452,7 @@ export default {
     npc_aris_4: "Aris: \"Die Astral-Splitter sind Fragmente des ersten Atems. Nutze sie weise, sie binden die Magie an die Materie.\"",
     npc_aris_5: "Aris: \"Du wanderst am Boden, aber dein Geist berührt den Rand des Aethers. Du bist bereit für die wahre Arkanisierung.\"",
     
-    // Actions & UI
+    // UI Keys
     ui_tab_kitchen: "Küche",
     ui_all: "Alle",
     ui_tab_all: "Gesamt",
@@ -488,25 +507,7 @@ export default {
     item_wyvern_scale_title: "Wyvern-Schuppe",
     item_wyvern_scale_desc: "Eine schimmernde Schuppe, die von großer Magie erzählt.",
 
-    // Buffs & VFX
-    buff_gourmet_title: "Gourmet-Sättigung",
-    buff_gourmet_desc: "Hervorragende Speise stärkt die Konstitution.",
-    vfx_gourmet: "Gourmet!",
-    
-    'house-kitchen-station': { title: "Küchenstation", desc: "Ein Ort für wahre kulinarische Magie. Schaltet Gourmet-Rezepte frei." },
-    'house-arcane-sanctum': { title: "Arkane Zuflucht", desc: "Ein stiller Ort für tiefe Meditation und das Weben von Zaubersprüchen." },
-    'house-garden-upgrade': { title: "Garten-Erweiterung", desc: "Verdoppelt deine Kapazität. Ermöglicht paralleles Anpflanzen." },
-    'action-meditate': { title: "Tiefen-Meditation", desc: "Konzentriere deinen Geist, um Astral-Splitter aus dem Aether zu ziehen." },
-    'action-spell-harvest': { title: "Segen der Ahnen", desc: "Verbraucht ein Astral-Splitter, um deine Sammelerträge kurzzeitig zu erhöhen." },
-    'action-cook-gourmet': { title: "Gourmet-Kochen", desc: "Bereite eine Mahlzeit zu, die dich stärkt und regeneriert." },
-    
-    'craft-cabinet': { title: "Küchenschrank", desc: "Bietet viel Platz für Vorräte (+10 Limit für Nahrung)." },
-    'craft-spice-rack': { title: "Gewürzregal", desc: "Verleiht deinen Speisen das gewisse Extra." },
-    'craft-grand-table': { title: "Massivholztisch", desc: "Ein prachtvolles Möbelstück für ein wahres Heim." },
-
-    fail_no_tasks: "Es gibt aktuell nichts, was deine Magie beschleunigen könnte.",
-    fail_energy: "Zu erschöpft.",
-    fail_magic: "Nicht genug Magie.",
+    // Global
     fail_resources: "Nicht genügend Materialien!",
     focus_broken_magic: "Deine Konzentration bricht ab - Magie erschöpft!",
     btn_stop_work: "Arbeit beenden",
@@ -515,5 +516,7 @@ export default {
     fail_full_meat: "Fleischlager voll.",
     fail_full_shards: "Geldbeutel voll (Max Splitter).",
     fail_salary: "Nicht genug Splitter für Gehälter! Arbeit eingestellt.",
+    fail_energy: "Zu erschöpft.",
+    fail_magic: "Nicht genug Magie.",
   },
 };
