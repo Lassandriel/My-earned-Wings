@@ -12,22 +12,26 @@ export function createEngineSystem() {
             this.tickInterval = setInterval(() => {
                 const innerStore = Alpine.store('game');
                 
-                // 1. Process Active Buffs
-                if (innerStore.activeBuffs && Object.keys(innerStore.activeBuffs).length > 0) {
-                    Object.keys(innerStore.activeBuffs).forEach(id => {
-                        innerStore.activeBuffs[id].remaining = Math.max(0, innerStore.activeBuffs[id].remaining - 1);
-                        if (innerStore.activeBuffs[id].remaining <= 0) delete innerStore.activeBuffs[id];
+                // 1. Process Active Buffs (Safe iteration)
+                if (innerStore.activeBuffs) {
+                    const buffIds = Object.keys(innerStore.activeBuffs);
+                    buffIds.forEach(id => {
+                        const buff = innerStore.activeBuffs[id];
+                        if (buff) {
+                            buff.remaining = Math.max(0, buff.remaining - 1);
+                            if (buff.remaining <= 0) delete innerStore.activeBuffs[id];
+                        }
                     });
                 }
 
                 // 2. Arcane Focus (Magical Automation)
-                if (innerStore.activeFocus && !innerStore.view.includes('prologue')) {
+                // Fix: Only consume magic if the focused action is actually running!
+                if (innerStore.activeFocus && innerStore.activeTasks[innerStore.activeFocus]) {
                     const focusCost = 3;
                     if (innerStore.stats.magic >= focusCost) {
                         innerStore.resource.consume(innerStore, 'magic', focusCost);
                     } else {
                         // Focus broken
-                        const oldFocus = innerStore.activeFocus;
                         innerStore.activeFocus = null;
                         innerStore.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
                         innerStore.playSound('fail');
@@ -66,9 +70,44 @@ export function createEngineSystem() {
                 });
             }, 100);
 
-            // Autosave loop (every 30 seconds)
+            // 3. Passive Garden Ticker (every 10 seconds)
+            this.gardenInterval = setInterval(() => {
+                const innerStore = Alpine.store('game');
+                if (!innerStore.flags['build-garden'] || (innerStore.npcProgress['ellie'] || 0) < 2) return;
+
+                const magicCost = innerStore.pipeline.calculate(innerStore, 'garden_magic_cost', 5);
+                if (innerStore.stats.magic >= magicCost) {
+                    innerStore.resource.consume(innerStore, 'magic', magicCost);
+                    
+                    const yieldVal = Math.round(innerStore.pipeline.calculate(innerStore, 'garden_yield', 3));
+                    innerStore.resource.add(innerStore, 'herbs', yieldVal);
+                    
+                    // Periodic log to avoid spamming
+                    if (innerStore.counters.totalActions % 5 === 0) {
+                        innerStore.addLog('garden_harvest_log', 'logs', 'var(--accent-teal)');
+                    }
+                } else {
+                    // Not enough magic for garden
+                    if (innerStore.counters.totalActions % 5 === 0) {
+                        innerStore.addLog('garden_magic_fail_log', 'logs', 'var(--accent-red)');
+                    }
+                }
+            }, 10000);
+
+            // Autosave loop & Finale Check (every 30 seconds)
             this.saveInterval = setInterval(() => {
                 const innerStore = Alpine.store('game');
+                
+                // --- FINALE CHECK ---
+                if (!innerStore.unlockedNPCs.includes('npc-treeOfLife')) {
+                    if (innerStore.story && innerStore.story.canAccessTreeOfLife(innerStore)) {
+                        innerStore.bus.emit(innerStore.EVENTS.SOUND_TRIGGERED, { key: 'success' });
+                        innerStore.addLog('tree_unlocked_log', 'logs', 'var(--gold)');
+                        innerStore.unlockedNPCs.push('npc-treeOfLife');
+                        innerStore.currentObjective = 'obj_tree_of_life';
+                    }
+                }
+
                 innerStore.saveGame();
             }, 30000);
 
@@ -79,6 +118,7 @@ export function createEngineSystem() {
             if (this.tickInterval) clearInterval(this.tickInterval);
             if (this.taskInterval) clearInterval(this.taskInterval);
             if (this.saveInterval) clearInterval(this.saveInterval);
+            if (this.gardenInterval) clearInterval(this.gardenInterval);
         }
     };
 }

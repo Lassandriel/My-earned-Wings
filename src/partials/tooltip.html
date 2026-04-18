@@ -6,9 +6,6 @@
   x-transition:enter="tt-enter"
   x-transition:enter-start="tt-enter-start"
   x-transition:enter-end="tt-enter-end"
-  x-transition:leave="tt-leave"
-  x-transition:leave-start="tt-leave-start"
-  x-transition:leave-end="tt-leave-end"
 >
   <!-- 1. Title -->
   <div class="tt-title" x-text="(() => {
@@ -17,10 +14,18 @@
     if(h.isHelp) return h.title || '';
     if(h.isBuff) return h.title || '';
     const lang = $store.game.t(h.id, 'actions');
-    let title = lang ? (lang.title || h.id) : h.id;
+    let title = lang ? (lang.title || null) : null;
+
+    // Fallback for NPC actions: Use NPC name if action title is missing
+    if (!title && h.id.includes('npc-') && h.data) {
+        const npc = $store.game.content.get(h.data.npcId, 'npcs');
+        if (npc) title = $store.game.t(npc.nameKey);
+    }
+    
+    title = title || h.id; // Final fallback to ID
     
     // NPC Progress in Title
-    if (h.id.startsWith('npc-') && h.data) {
+    if (h.id.includes('npc-') && h.data) {
         const progKey = h.data.progKey;
         const currentProg = $store.game.npcProgress[progKey] || 0;
         title += ' (' + currentProg + '/' + h.data.maxProgress + ')';
@@ -36,7 +41,7 @@
     if(h.isBuff) return h.desc || '';
     
     // Dynamic NPC Dialog Preview
-    if (h.id.startsWith('npc-') && h.data) {
+    if (h.id.includes('npc-') && h.data) {
         const progKey = h.data.progKey;
         const currentProg = $store.game.npcProgress[progKey] || 0;
         if (currentProg < h.data.maxProgress) {
@@ -54,8 +59,9 @@
   <div class="tt-section" x-show="(() => {
     const h = $store.game.hoveredAction;
     if(!h || !h.data || h.isHelp) return false;
-    const prog = h.id.startsWith('npc-') ? ($store.game.npcProgress[h.data.progKey] || 0) : null;
-    return !!((prog !== null && h.data.steps && h.data.steps[prog]?.costs) || h.data.costs || h.data.cost);
+    const prog = h.id.includes('npc-') ? ($store.game.npcProgress[h.data.progKey] || 0) : null;
+    const step = (prog !== null && h.data.steps) ? h.data.steps[prog] : null;
+    return !!( (step && (step.costs || step.cost)) || h.data.costs || h.data.cost);
   })()">
     <div class="tt-section-header" x-text="'<< ' + $store.game.t('ui_salary') + ' >>'"></div>
     <div class="tt-cost-list">

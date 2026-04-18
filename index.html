@@ -27,6 +27,7 @@
         <!-- Overlays & Modals -->
         <%- include('./src/partials/menu.html') %>
         <%- include('./src/partials/prologue.html') %>
+        <%- include('./src/partials/naming.html') %>
         <%- include('./src/partials/settings.html') %>
         <%- include('./src/partials/finale.html') %>
 
@@ -55,21 +56,23 @@
             <%- include('./src/partials/ui/sidebar.html') %>
 
             <!-- Content Views -->
-            <section class="view-section" x-show="$store.game.view === 'gameplay'" x-transition:enter="view-enter">
-                <%- include('./src/partials/gameplay.html') %>
-            </section>
-            <section class="view-section" x-show="$store.game.view === 'crafting'" x-transition:enter="view-enter">
-                <%- include('./src/partials/crafting.html') %>
-            </section>
-            <section class="view-section" x-show="$store.game.view === 'upgrades'" x-transition:enter="view-enter">
-                <%- include('src/partials/upgrades.html') %>
-            </section>
-            <section class="view-section" x-show="$store.game.view === 'village'" x-transition:enter="view-enter">
-                <%- include('./src/partials/village.html') %>
-            </section>
-            <section class="view-section" x-show="$store.game.view === 'story'" x-transition:enter="view-enter">
-                <%- include('./src/partials/story.html') %>
-            </section>
+            <main>
+                <section class="view-section" x-show="$store.game.view === 'gameplay'" x-transition:enter="view-enter">
+                    <%- include('./src/partials/gameplay.html') %>
+                </section>
+                <section class="view-section" x-show="$store.game.view === 'crafting'" x-transition:enter="view-enter">
+                    <%- include('./src/partials/crafting.html') %>
+                </section>
+                <section class="view-section" x-show="$store.game.view === 'upgrades'" x-transition:enter="view-enter">
+                    <%- include('src/partials/upgrades.html') %>
+                </section>
+                <section class="view-section" x-show="$store.game.view === 'village'" x-transition:enter="view-enter">
+                    <%- include('./src/partials/village.html') %>
+                </section>
+                <section class="view-section" x-show="$store.game.view === 'story'" x-transition:enter="view-enter">
+                    <%- include('./src/partials/story.html') %>
+                </section>
+            </main>
 
             <!-- Global Log -->
             <%- include('./src/partials/log.html') %>

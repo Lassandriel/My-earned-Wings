@@ -102,30 +102,83 @@ export const createUISystem = () => ({
     }, 3000);
   },
 
-  // --- Visual Percentages ---
+  // --- Visual Percentages & Robustness ---
   getEnergyPercent(store) { return (store.stats.energy / (store.stats.maxEnergy || 100)) * 100; },
   getMagicPercent(store) { return (store.stats.magic / (store.stats.maxMagic || 100)) * 100; },
   getSatiationPercent(store) { return Math.max(0, Math.min(100, (store.stats.satiation / (store.stats.maxSatiation || 100)) * 100)); },
 
+  getTaskProgress(store, taskId) {
+    const task = store.activeTasks?.[taskId];
+    if (!task || !task.total || task.total === 0) return 0;
+    const remaining = task.remaining || 0;
+    return (100 - (remaining / task.total * 100));
+  },
+
+  getNPCProgressPercent(store, npcId) {
+    const npc = store.content.get(npcId);
+    if (!npc) return 0;
+    const current = store.npcProgress?.[npc.progKey] || 0;
+    const max = npc.maxProgress || 5;
+    return (current / max) * 100;
+  },
+
   // --- Tooltip & Action Formatting ---
   getActionEffect(store, hAction) {
     if (!hAction || !hAction.data) return '';
-    const lang = store.t(hAction.id, 'actions');
-    if (!lang || !lang.effect) return '';
+    const hId = hAction.id;
     const action = hAction.data;
+
+    // --- Dynamic NPC Quest Rewards ---
+    if (hId.startsWith('act-npc-')) {
+        const progKey = action.progKey;
+        const currentProg = store.npcProgress[progKey] || 0;
+        if (action.steps && action.steps[currentProg]) {
+            const step = action.steps[currentProg];
+            const rewards = [];
+
+            // 1. Explicit Item Rewards
+            if (step.reward) {
+                const itemName = store.t(step.reward, 'ui') || step.reward;
+                rewards.push(`+ ${itemName}`);
+            }
+
+            // 2. Success Effects (Unlocks)
+            if (step.onSuccess) {
+                step.onSuccess.forEach(eff => {
+                    if (eff.type === 'unlockNPC') {
+                        const npcName = store.t('npc_' + eff.id.replace('npc-', '') + '_name', 'ui');
+                        rewards.push(`Freischaltung: ${npcName}`);
+                    } else if (eff.type === 'unlockRecipe') {
+                        const recipeName = store.t(eff.id, 'actions')?.title || eff.id;
+                        rewards.push(`Rezept: ${recipeName}`);
+                    }
+                });
+            }
+
+            if (rewards.length > 0) return rewards.join(', ');
+            
+            // Fallback for steps without rewards
+            const npcName = store.t('npc_' + action.npcId.replace('npc-', '') + '_name', 'ui');
+            return `+ Bindung (${npcName})`;
+        }
+    }
+
+    const lang = store.t(hId, 'actions');
+    if (!lang || !lang.effect) return '';
+    
     if (action.calculateYield) {
         const yieldVal = action.calculateYield(store);
-                let effectText = lang.effect;
-                if (typeof yieldVal === 'object') {
-                    Object.entries(yieldVal).forEach(([key, val]) => {
-                        const displayVal = typeof val === 'number' ? Math.round(val) : val;
-                        effectText = effectText.replace(`{${key}}`, displayVal);
-                    });
-                    return effectText;
-                } else {
-                    const displayVal = typeof yieldVal === 'number' ? Math.round(yieldVal) : yieldVal;
-                    return effectText.replace('{val}', displayVal);
-                }
+        let effectText = lang.effect;
+        if (typeof yieldVal === 'object') {
+            Object.entries(yieldVal).forEach(([key, val]) => {
+                const displayVal = typeof val === 'number' ? Math.round(val) : val;
+                effectText = effectText.replace(`{${key}}`, displayVal);
+            });
+            return effectText;
+        } else {
+            const displayVal = typeof yieldVal === 'number' ? Math.round(yieldVal) : yieldVal;
+            return effectText.replace('{val}', displayVal);
+        }
     }
     return lang.effect;
   },
@@ -134,7 +187,7 @@ export const createUISystem = () => ({
     if (!hAction || !hAction.data) return [];
     
     // Handle NPC steps
-    const prog = hAction.id.startsWith('npc-') ? (store.npcProgress[hAction.data.progKey] || 0) : null;
+    const prog = hAction.id.includes('npc-') ? (store.npcProgress[hAction.data.progKey] || 0) : null;
     const currentStep = (prog !== null && hAction.data.steps) ? hAction.data.steps[prog] : null;
     const sourceData = currentStep || hAction.data;
 
@@ -209,19 +262,29 @@ export const createUISystem = () => ({
     const cleanState = buildInitialState();
     localStorage.removeItem('wings_save');
     
+    // Critical state reset
+    store.prologueStep = 1;
+    store.logs = []; // Clear old logs
+    store.hasSave = false;
+
     Object.keys(cleanState).forEach(key => {
-        if (key !== 'settings' && key !== 'language') {
+        if (key !== 'settings' && key !== 'language' && key !== 'prologueStep' && key !== 'logs') {
             store[key] = JSON.parse(JSON.stringify(cleanState[key]));
         }
     });
     
-    // Start Prologue
-    store.prologueStep = 1;
+    // Explicitly switch view BEFORE playing intro
     store.view = 'prologue';
-    if (store.prologue) store.prologue.playIntro(store);
     
-    store.hasSave = false;
-    try { store.audio.startMusic(); } catch (e) {}
+    // Trigger Intro System
+    if (store.prologue && typeof store.prologue.playIntro === 'function') {
+        store.prologue.playIntro(store);
+    } else {
+        // Fallback if system not yet ready
+        store.addLog('intro_1', 'logs', 'var(--accent-teal)');
+    }
+    
+    try { store.audio?.startMusic(); } catch (e) { console.warn('Music failed to start'); }
     store.saveGame();
   },
 
@@ -233,7 +296,52 @@ export const createUISystem = () => ({
   },
 
   finishPrologue(store) {
-    store.view = 'gameplay';
+    store.view = 'naming'; 
     store.saveGame();
+  },
+
+  confirmName(store, name) {
+    if (!name || name.trim().length === 0) return;
+    store.playerName = name.trim().substring(0, 16); // Safety limit
+    store.view = 'gameplay';
+    
+    store.addLog('intro_welcome', 'logs', 'var(--accent-teal)');
+    store.saveGame();
+  },
+
+  completeDemo(store) {
+    console.log('[FINALE] Demo completed! Preparing summary...');
+    
+    // 1. Calculate Stats
+    store.finalStats = {
+        shards: Math.floor(store.counters.shards || 0),
+        actions: store.counters.totalActions || 0,
+        energySpent: Math.floor(store.counters.totalEnergySpent || 0),
+        npcs: store.unlockedNPCs.length,
+        items: store.discoveredItems.length
+    };
+
+    // 2. Clear auto-loops and ongoing tasks
+    store.isLooping = false;
+    store.activeFocus = null;
+    store.activeTasks = {};
+
+    // 3. Set View
+    store.view = 'finale';
+    store.demoCompleted = true;
+    
+    try {
+        store.audio?.playSound('success');
+        // Start atmospheric finale music if available
+    } catch (e) {}
+    
+    store.saveGame();
+  },
+
+  returnToMenu(store) {
+    store.saveGame();
+    store.view = 'menu';
+    // Optionally restart menu music if needed
+    if (store.audio) store.audio.startMusic();
   }
 });

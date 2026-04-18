@@ -32,13 +32,13 @@ export const villageActions = {
     particleText: '+ Splitter',
     particleType: 'shards',
     counter: 'shards',
-    rewards: { shards: 15 },
+    rewards: { shards: 12 },
     logKey: 'sell_meat_log',
     logColor: 'var(--accent-teal)'
   },
   'act-buy-meat': {
     id: 'act-buy-meat',
-    cost: 12, costType: 'shards', yieldType: 'meat',
+    cost: 20, costType: 'shards', yieldType: 'meat',
     sfx: 'click',
     particleText: '+ Fleisch',
     particleType: 'energy',

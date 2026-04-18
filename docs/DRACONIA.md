@@ -64,3 +64,14 @@ Mystical beings made of pure starlight that fall from the sky as shooting stars.
 ## 🎪 Culture and Festivals
 * **Festival of the First Scale:** An important ritual for young dragons. During the "ritual flight," they take on their dragon form publicly for the first time. The dragons fly around together and bestow magic upon the islands so they do not plummet into the sea of lava.
 * **Tournament of Strength:** The greatest spectacle in Draconia. The most capable warriors from across the empire compete. The winner is allowed to face a member of the imperial family in an exhibition match.
+
+---
+
+## 🏘️ Life in the Village
+Life in the ground-settlement is built on trust and necessity.
+* **The Economy:** There is no central currency for the outcasts. Instead, trade is handled through **reputation and direct exchange**.
+* **NPC Roles:**
+    * **The Baker:** Provides basic sustenance and buys excess wood to fuel his ovens.
+    * **The Hunter:** Supplies meat and trades it for shards.
+    * **The Artisan:** The source of recipes and blueprints, valuing materials for his crafts.
+* **Reputation:** Interactions are gated by trust. An NPC will only buy or sell advanced goods once the player has proven their worth through quests or support.

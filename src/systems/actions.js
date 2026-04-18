@@ -70,39 +70,33 @@ export function createActionSystem() {
         processAction(game, id, action, mode = 'full') {
             const isPrepare = (mode === 'prepare' || mode === 'full');
             const isFinalize = (mode === 'finalize' || mode === 'full');
+            let totalYield = 0;
+            let logGain = null;
 
             if (isPrepare) {
-                // 1. Requirements Check (Robust Path Access)
+                // 1. Requirements Check (e.g. flags)
                 if (action.requirements) {
-                    const met = Object.entries(action.requirements).every(([key, val]) => {
-                        return this.resolvePath(game, key) === val;
+                    const met = Object.entries(action.requirements).every(([path, val]) => {
+                        return this.resolvePath(game, path) === val;
                     });
                     if (!met) return { success: false };
                 }
 
-                // 2. Storage Check
-                if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
-                    return { success: false };
-                }
+                // 2. Affordability Check
+                const costs = action.costType === 'mixed' ? action.costs : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost } : {});
+                if (!game.resource.canAfford(game, costs)) return { success: false };
+                
+                // 3. Storage Check
+                if (action.yieldType && game.resource.isFull(game, action.yieldType)) return { success: false };
 
-                // 3. Cost Handling
-                const costType = action.costType;
-                if (costType && costType !== 'none') {
-                    const costs = costType === 'mixed' ? action.costs : { [costType]: action.cost };
-                    if (game.activeFocus === id && costs.energy) {
-                        const { energy, ...otherCosts } = costs;
-                        if (!game.resource.consume(game, otherCosts)) return { success: false };
-                    } else {
-                        if (!game.resource.consume(game, costs)) return { success: false };
-                    }
+                // 4. Initial Consumption
+                if (costs && Object.keys(costs).length > 0) {
+                    game.resource.consume(game, costs);
                 }
             }
 
-            if (mode === 'prepare') return { success: true };
-
-            let logGain = null;
             if (isFinalize) {
-                // 4. Rewards
+                // 5. Rewards
                 if (action.rewards) {
                     Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
                         let amount = typeof amountOrKey === 'string' 
@@ -110,17 +104,21 @@ export function createActionSystem() {
                             : amountOrKey;
                         const finalAmount = Math.round(amount);
                         game.resource.add(game, res, finalAmount);
-                        if (res === action.yieldType || (Object.keys(action.rewards).length === 1)) {
+                        
+                        // Set log context for first or matching reward
+                        if (res === action.yieldType || logGain === null) {
                             logGain = finalAmount;
+                            totalYield = finalAmount;
                         }
                     });
                 }
 
-                // 5. Success Effects (Modular Handlers)
-                if (Array.isArray(action.onSuccess)) {
+                // 6. OnSuccess Effects
+                if (action.onSuccess) {
                     action.onSuccess.forEach(effect => {
-                        const handler = this.effectHandlers[effect.type];
-                        if (handler) handler(game, effect);
+                        if (this.effectHandlers[effect.type]) {
+                            this.effectHandlers[effect.type](game, effect);
+                        }
                     });
                 }
             }
@@ -129,7 +127,8 @@ export function createActionSystem() {
                 success: true, 
                 logKey: action.logKey, 
                 logGain: logGain, 
-                logColor: action.logColor 
+                logColor: action.logColor,
+                yield: totalYield
             };
         },
 
@@ -146,8 +145,9 @@ export function createActionSystem() {
                 game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
             }
 
-            if (id !== 'act-essen' && (action.satiationCost !== 0)) {
-                game.resource.consume(game, 'satiation', action.satiationCost ?? 2);
+            // 2. Satiation Consumption (Only if explicitly defined and > 0)
+            if (id !== 'act-essen' && action.satiationCost > 0) {
+                game.resource.consume(game, 'satiation', action.satiationCost);
             }
 
             if (action.isStory) game.story.recordStoryEntry(game, id, action);

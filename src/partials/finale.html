@@ -1,44 +1,38 @@
-<!-- DEMO FINALE MODAL -->
-<section id="finale-modal" x-show="$store.game.demoCompleted && !$store.game.demoCompletedHintSeen" class="modal-overlay finale-overlay" x-transition.opacity>
+<!-- DEMO FINALE OVERLAY -->
+<section id="finale-overlay" x-show="$store.game.view === 'finale'" class="modal-overlay finale-overlay" x-transition.opacity>
     <div class="modal-content finale-content">
-        <div class="finale-decoration">
-            <div class="finale-sparkle"></div>
-            <div class="finale-sparkle"></div>
-            <div class="finale-sparkle"></div>
+        <div class="finale-header">
+            <h2 class="finale-title" x-text="$store.game.t('finale_sandbox_title')">Demo abgeschlossen!</h2>
+            <div class="finale-divider"></div>
         </div>
         
-        <h2 class="finale-title" x-text="$store.game.t('finale_title')">Das Herz von Draconia</h2>
-        <p class="finale-congrats" x-text="$store.game.t('finale_congrats')">Gratulation!</p>
+        <p class="finale-desc" x-text="$store.game.t('finale_sandbox_desc')"></p>
         
         <div class="finale-stats-panel">
-            <h4 x-text="$store.game.t('finale_stats')">Deine Reise:</h4>
+            <h4 x-text="$store.game.t('finale_stats_title')">Deine Reise in Draconia:</h4>
             <div class="stats-grid-finale">
                 <div class="stat-item-f">
-                    <span class="s-label">✦</span>
-                    <span class="s-val" x-text="$store.game.counters.shards"></span>
+                    <span class="s-label" x-text="$store.game.t('finale_stat_shards')">Splitter</span>
+                    <span class="s-val" x-text="$store.game.finalStats.shards">0</span>
                 </div>
                 <div class="stat-item-f">
-                    <span class="s-label">🪵</span>
-                    <span class="s-val" x-text="$store.game.counters.wood"></span>
+                    <span class="s-label" x-text="$store.game.t('finale_stat_actions')">Aktionen</span>
+                    <span class="s-val" x-text="$store.game.finalStats.actions">0</span>
                 </div>
                 <div class="stat-item-f">
-                    <span class="s-label">🪨</span>
-                    <span class="s-val" x-text="$store.game.counters.stone"></span>
+                    <span class="s-label" x-text="$store.game.t('finale_stat_npcs')">Bindungen</span>
+                    <span class="s-val" x-text="$store.game.finalStats.npcs">0</span>
                 </div>
                 <div class="stat-item-f">
-                    <span class="s-label">📜</span>
-                    <span class="s-val" x-text="$store.game.counters.study"></span>
+                    <span class="s-label" x-text="$store.game.t('finale_stat_items')">Entdeckungen</span>
+                    <span class="s-val" x-text="$store.game.finalStats.items">0</span>
                 </div>
             </div>
         </div>
 
-        <div class="finale-hint-box">
-            <p x-text="$store.game.t('finale_hint')"></p>
-        </div>
-
-        <div class="modal-actions">
-            <button class="menu-btn primary" @click="$store.game.demoCompletedHintSeen = true; $store.game.saveGame()">
-                <span x-text="$store.game.t('btn_continue_sandbox')">Weiterleben</span>
+        <div class="modal-actions finale-actions">
+            <button class="menu-btn primary glow-btn" @click="$store.game.view = 'gameplay'; $store.game.saveGame()">
+                <span x-text="$store.game.t('finale_sandbox_btn')">Sandbox-Modus fortsetzen</span>
             </button>
         </div>
     </div>

@@ -53,10 +53,12 @@ graph TD
     DreamBloom -- "Time Compression" --> Auto_Meat
     DreamBloom -- "Time Compression" --> Auto_Wood
 
-    %% Hunter Saga
-    Hunter -- "Training 2/5" --> Bow["Recipe: Hunting Bow"]
-    Bow --> Hunt["Action: Hunt (Meat)"]
-    Hunter -- "Training 5/5" --> MeatTrade["Action: Meat Trade"]
+    %% Trader System (Decentralized)
+    Baker -- "Reputation 2/5" --> SellWood["Trade: Sell Wood"]
+    Hunter -- "Reputation 2/5" --> MeatTrade["Trade: Sell/Buy Meat"]
+    Artisan -- "Reputation 1/3" --> SellStone["Trade: Sell Stone"]
+    TownHall -- "Reputation 1/5" --> WorkAction["Work: Clean Paths"]
+    
     Hunt -- "Provides" --> Meat["Resource: Meat"]
     Meat --> MeatTrade
     
@@ -108,6 +110,11 @@ graph TD
 
 ### Stage 3: Refinement (The Mastery)
 *   **Focus**: Concentration of energy and optimization.
+*   **Decentralized Trade**: Trading is no longer a centralized market but a trust-based interaction with NPCs.
+    *   **Baker**: Buys Wood (Reputation 2+).
+    *   **Hunter**: Buys/Sells Meat (Reputation 2+).
+    *   **Artisan**: Buys Stone (Reputation 1+).
+    *   **Town Hall**: Allows working for Shards (Reputation 1+).
 *   **Arcane Focus**: Unlocking the ability to automate tasks using Magic Drain (3/s) instead of Energy.
 *   **Milestones**:
     *   **Arcane Sanctum**: Unlocks Archmage Aris and the generation of Astral Shards.

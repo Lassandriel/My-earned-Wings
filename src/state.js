@@ -9,11 +9,11 @@ const translations = { de, en };
  * from registries during boot.
  */
 export const initialState = {
-  playerName: 'Entdecker',
+  playerName: '',
   language: 'de',
   view: 'menu',
   hasSave: false,
-  prologueStep: 0,
+  prologueStep: 1,
   settingsOpen: false,
   currentScale: 1,
   craftingSubView: 'all',
@@ -24,13 +24,14 @@ export const initialState = {
   limits: {},
   stats: {},
   flags: {},          // Replaces hardcoded housing state
+  npcProgress: {},    // Tracks individual NPC story progress
   activeBuffs: {},
   
   // Lists
   upgrades: [],
   discoveredResources: [],
   discoveredItems: [],
-  unlockedRecipes: ['act-wanderstock'], // Using new ID prefix
+  unlockedRecipes: [],
   unlockedNPCs: ['npc-baker', 'npc-teacher', 'npc-hunter'],
   
   // HUD & UI
@@ -56,6 +57,7 @@ export const initialState = {
   },
   
   activeTasks: {},
+  demoCompleted: false,
   demoCompletedHintSeen: false
 };
 

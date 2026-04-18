@@ -86,7 +86,7 @@
 }
 .primary-magic:hover { 
   background: rgba(139, 92, 246, 0.15); 
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
 }
 
 .primary-satiation { 
@@ -220,4 +220,10 @@
 @keyframes text-pulse-glow {
     0%, 100% { opacity: 0.5; text-shadow: 0 0 0px transparent; }
     50% { opacity: 1; text-shadow: 0 0 10px var(--accent-teal); }
+}
+
+@keyframes magic-pulse {
+    0% { box-shadow: 0 0 4px var(--accent-purple); }
+    50% { box-shadow: 0 0 12px var(--accent-purple); }
+    100% { box-shadow: 0 0 4px var(--accent-purple); }
 }

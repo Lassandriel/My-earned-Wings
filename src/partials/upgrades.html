@@ -1,9 +1,9 @@
 <!-- UPGRADES VIEW (THE DRAGON'S VAULT) - CORE 3.0 -->
 <div x-show="$store.game.view === 'upgrades'" class="view-content-upgrades" x-data="{ activeCategory: 'all' }">
   <div class="category-header">
-    <h3 x-text="$store.game.t('cat_upgrades')">Besitz & Artefakte</h3>
+    <h3 x-text="$store.game.t('cat_upgrades')">Besitztümer & Artefakte</h3>
     <div class="nav-help-icon" 
-         @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('nav_upgrades_desc') }"
+         @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('cat_upgrades_desc') }"
          @mouseleave="$store.game.hoveredAction = null">?</div>
   </div>
 
@@ -11,9 +11,9 @@
     <!-- Category Filter Tabs -->
     <div class="vault-tabs">
         <button class="vault-tab-btn" :class="activeCategory === 'all' && 'active'" @click="activeCategory = 'all'" x-text="$store.game.t('ui_all')">Alle</button>
-        <button class="vault-tab-btn" :class="activeCategory === 'tools' && 'active'" @click="activeCategory = 'tools'" x-text="$store.game.t('ui_mixed')"></button>
-        <button class="vault-tab-btn" :class="activeCategory === 'artifacts' && 'active'" @click="activeCategory = 'artifacts'" x-text="$store.game.t('ui_knowledge')"></button>
-        <button class="vault-tab-btn" :class="activeCategory === 'provisions' && 'active'" @click="activeCategory = 'provisions'" x-text="$store.game.t('ui_provisions')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'tools' && 'active'" @click="activeCategory = 'tools'" x-text="$store.game.t('ui_tools')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'artifacts' && 'active'" @click="activeCategory = 'artifacts'" x-text="$store.game.t('cat_artifacts')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'provisions' && 'active'" @click="activeCategory = 'provisions'" x-text="$store.game.t('cat_provisions')"></button>
     </div>
 
     <div class="vault-layout">
@@ -58,9 +58,9 @@
                     
                     <div class="item-text-content">
                         <div class="item-type-badge" x-text="$store.game.t('ui_' + $store.game.content.get($store.game.selectedItem, 'items').category)"></div>
-                        <h2 class="item-name" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').title)"></h2>
+                        <h2 class="item-name" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').title, 'items')"></h2>
                         <div class="item-hr"></div>
-                        <p class="item-description" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').desc)"></p>
+                        <p class="item-description" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').desc, 'items')"></p>
                         
                         <!-- Effects -->
                         <template x-if="$store.game.content.get($store.game.selectedItem, 'items').effect">

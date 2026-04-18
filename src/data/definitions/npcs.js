@@ -8,17 +8,20 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_baker_name',
         icon: '🍞',
         color: '#f59e0b',
-        image: 'img/npcs/Baker Geron.webp',
+    image: 'img/npcs/Baker Geron.webp',
         progKey: 'baker', // Key in store.npcProgress
         maxProgress: 5,
-        chapter: 'Village Life'
+        chapter: 'Village Life',
+        tradeActions: [
+            { id: 'act-sell-wood', minProgress: 2 }
+        ]
     },
     'npc-flowerGirl': {
         id: 'npc-flowerGirl',
         nameKey: 'npc_flowergirl_name',
         icon: '🌸',
         color: '#ec4899',
-        image: 'img/npcs/Flower Girl.webp',
+        image: 'img/npcs/flowergirl.webp',
         progKey: 'flowerGirl',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -31,14 +34,17 @@ export const NPC_REGISTRY = {
         image: 'img/npcs/Artisan.webp',
         progKey: 'artisan',
         maxProgress: 3,
-        chapter: 'Village Life'
+        chapter: 'Village Life',
+        tradeActions: [
+            { id: 'act-sell-stone', minProgress: 1 }
+        ]
     },
     'npc-teacher': {
         id: 'npc-teacher',
         nameKey: 'npc_teacher_name',
         icon: '📖',
         color: '#3b82f6',
-        image: 'img/npcs/Teacher.webp',
+        image: 'img/npcs/teacher.webp',
         progKey: 'teacher',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -51,14 +57,17 @@ export const NPC_REGISTRY = {
         image: 'img/npcs/Town Hall.webp',
         progKey: 'townHall',
         maxProgress: 5,
-        chapter: 'Village Life'
+        chapter: 'Village Life',
+        tradeActions: [
+            { id: 'act-work', minProgress: 1 }
+        ]
     },
     'npc-blacksmith': {
         id: 'npc-blacksmith',
         nameKey: 'npc_blacksmith_name',
         icon: '⚒️',
         color: '#475569',
-        image: 'img/npcs/Blacksmith.webp',
+        image: 'img/npcs/blacksmith.webp',
         progKey: 'blacksmith',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -68,7 +77,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_sage_name',
         icon: '🔮',
         color: '#8b5cf6',
-        image: 'img/npcs/Sage.webp',
+        image: 'img/npcs/sage.webp',
         progKey: 'sage',
         maxProgress: 5,
         chapter: 'Village Life'
@@ -78,10 +87,14 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_hunter_name',
         icon: '🏹',
         color: '#10b981',
-        image: 'img/npcs/Hunter.webp',
+        image: 'img/npcs/hunter.webp',
         progKey: 'hunter',
         maxProgress: 5,
-        chapter: 'Village Life'
+        chapter: 'Village Life',
+        tradeActions: [
+            { id: 'act-sell-meat', minProgress: 2 },
+            { id: 'act-buy-meat', minProgress: 2 }
+        ]
     },
     'npc-treeOfLife': {
         id: 'npc-treeOfLife',
@@ -108,7 +121,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_aris_name',
         icon: '🧙‍♂️',
         color: '#8b5cf6',
-        image: 'img/npcs/Archmage.webp',
+        image: 'img/npcs/Aris.webp',
         progKey: 'aris',
         maxProgress: 5,
         chapter: 'The Dream'

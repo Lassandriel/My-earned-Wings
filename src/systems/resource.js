@@ -67,7 +67,14 @@ export const createResourceSystem = () => {
             const resDef = state.RESOURCE_REGISTRY[type];
             let changed = false;
             
-            if (state.stats[type] !== undefined) {
+            // Handle maxStat rewards (e.g. maxMagic)
+            if (type.startsWith('max')) {
+                const statBase = type.toLowerCase().replace('max', '');
+                if (state.stats[statBase] !== undefined) {
+                    state.stats[type] = (state.stats[type] || 0) + finalAmount;
+                    changed = true;
+                }
+            } else if (state.stats[type] !== undefined) {
                 const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
                 state.stats[type] = Math.min(state.stats[maxKey] || 100, state.stats[type] + finalAmount);
                 changed = true;

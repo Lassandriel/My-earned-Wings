@@ -11,6 +11,7 @@
 .village-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start; /* Allow cards to have dynamic heights */
     gap: 25px;
     margin-top: 25px;
     padding-bottom: 80px; /* Space at the bottom for scrolling comfort */
@@ -39,7 +40,7 @@
 
 /* Card Visual Header */
 .card-header-visual {
-    height: 220px;
+    height: 180px; /* Reduced from 220px to give more space for buttons */
     background: rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
@@ -57,9 +58,23 @@
 .npc-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: top;
+    object-fit: contain; /* Full portrait visible */
+    position: relative;
+    z-index: 2;
     transition: transform 0.6s ease;
+}
+
+.npc-img-blur-bg {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px) brightness(0.6);
+    opacity: 0.5;
+    z-index: 1;
 }
 
 .village-card:hover .npc-img {
@@ -74,10 +89,10 @@
 
 /* Card Body */
 .card-body {
-    padding: 20px;
+    padding: 16px 20px 20px 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     flex-grow: 1;
 }
 
@@ -112,10 +127,9 @@
 
 /* Actions */
 .npc-interaction-area {
-    margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .npc-main-action-btn {
@@ -124,6 +138,7 @@
     border-color: rgba(20, 184, 166, 0.3);
     color: var(--accent-teal);
     font-weight: 800;
+    margin-bottom: 4px; /* Tiny space between quest and trade buttons */
 }
 
 .npc-main-action-btn:hover {
@@ -159,45 +174,34 @@
     animation: pulse-white-dot 1.5s infinite;
 }
 
-/* Market Card */
-.market-card {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border-color: rgba(251, 191, 36, 0.2);
-}
-
-.market-icon-box {
-    height: 140px;
+/* NPC Trade Actions (Decentralized) */
+.npc-trade-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid rgba(251, 191, 36, 0.1);
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.market-symbol {
-    font-size: 4rem;
-    filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.4));
-}
-
-.market-trade-btn {
+.npc-trade-btn {
     width: 100%;
-    margin-bottom: 8px;
-    justify-content: space-between !important;
-    padding: 12px 20px !important;
-    font-size: 0.95rem !important;
-    border-color: rgba(251, 191, 36, 0.3);
-}
-
-.market-trade-btn:hover {
-    border-color: var(--gold);
-    background: rgba(251, 191, 36, 0.15);
-}
-
-.trade-yield {
-    font-weight: 800;
+    background: rgba(251, 191, 36, 0.05);
+    border-color: rgba(251, 191, 36, 0.2);
     color: var(--gold);
+    justify-content: space-between !important;
+    padding: 10px 15px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600;
 }
 
-/* Shop Row */
+.npc-trade-btn:hover {
+    background: rgba(251, 191, 36, 0.12);
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+}
+
+/* Shop Row (Deprecated if unused elsewhere, keeping structure for now) */
 .shop-buttons-row {
     display: flex;
     gap: 10px;

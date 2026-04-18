@@ -9,13 +9,13 @@ export const npcActions = {
     isStory: true, chapter: 'Village Life',
     progKey: 'baker', maxProgress: 5,
     journalIcon: '🍞', journalColor: '#f59e0b',
-    image: 'npcs/Baker Geron.png',
+    image: 'img/npcs/Baker Geron.webp',
     steps: [
-        { cost: 10, costType: 'energy' },
-        { costs: { wood: 30 }, reward: 'item-bread' }, // Corrected reward ID
-        { cost: 20, costType: 'energy' },
-        { costs: { wood: 15, stone: 15 }, reward: 'item-cookie' }, // Corrected reward ID
-        { cost: 25, costType: 'energy' }
+        { cost: 8, costType: 'energy', reward: 'item-bread' }, // Kennenlernen
+        { costs: { wood: 30 }, reward: 'item-bread', onSuccess: [{ type: 'setFlag', flag: 'unlock-baker-bread', value: true }] }, // Holz für Ofen -> Brot
+        { cost: 20, costType: 'energy', reward: 'item-cookie' }, // Ein Dankeschön
+        { costs: { wood: 15, stone: 15 }, reward: 'item-cookie' },
+        { cost: 25, costType: 'energy', reward: 'item-cookie' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-baker');
@@ -27,12 +27,13 @@ export const npcActions = {
     isStory: true, chapter: 'Village Life',
     progKey: 'flowerGirl', maxProgress: 5,
     journalIcon: '🌸', journalColor: '#ec4899',
+    image: 'img/npcs/flowergirl.webp',
     steps: [
-        { cost: 10, costType: 'energy' },
-        { cost: 15, costType: 'energy' },
-        { costs: { wood: 20 } },
-        { costs: { water: 1 } },
-        { cost: 20, costType: 'energy', onSuccess: [{ type: 'unlockNPC', id: 'npc-blacksmith' }] }
+        { cost: 5, costType: 'energy', onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 5 }] }, // Begrüßung + Kräuter
+        { costs: { water: 5 }, onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 10 }] }, // Hilfe beim Gießen
+        { cost: 10, costType: 'energy', reward: 'item-astral-shards' }, // Gespräch über den Garten
+        { costs: { herbs: 10 }, reward: 'item-wyvern-scale' }, // Dankbarkeit
+        { cost: 15, costType: 'energy', onSuccess: [{ type: 'unlockNPC', id: 'npc-blacksmith' }] } // Weg zum Schmied
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-flowerGirl');
@@ -45,9 +46,10 @@ export const npcActions = {
     progKey: 'artisan', maxProgress: 3,
     journalIcon: '🏗️', journalColor: '#d97706',
     steps: [
-        { costs: { wood: 20 } },
+        { costs: { wood: 20 }, onSuccess: [{ type: 'setFlag', flag: 'unlock-wanderstock', value: true }] },
         { costs: { stone: 20 } },
         { costs: { wood: 10, stone: 10 }, reward: 'item-chisel', onSuccess: [
+            { type: 'setFlag', flag: 'unlock-artisan-tools', value: true },
             { type: 'unlockRecipe', id: 'act-axe' },
             { type: 'unlockRecipe', id: 'act-pickaxe' }
         ] }
@@ -131,11 +133,11 @@ export const npcActions = {
     progKey: 'hunter', maxProgress: 5,
     journalIcon: '🏹', journalColor: '#10b981',
     steps: [
-        { cost: 15, costType: 'energy' },
-        { costs: { wood: 10 }, reward: 'item-arrowhead' },
+        { cost: 15, costType: 'energy', reward: 'item-arrowhead' }, // Begrüßung + Pfeilspitze
+        { costs: { wood: 10 }, onSuccess: [{ type: 'setFlag', flag: 'unlock-bow', value: true }, { type: 'unlockRecipe', id: 'act-bow' }] }, // Holz für Bogen -> Rezept
         { cost: 15, costType: 'energy', reward: 'item-dried-meat' },
-        { costs: { wood: 20 } },
-        { cost: 20, costType: 'energy' }
+        { costs: { wood: 20 }, reward: 'item-dried-meat' },
+        { cost: 20, costType: 'energy', reward: 'item-dried-meat' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-hunter');
@@ -173,6 +175,26 @@ export const npcActions = {
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-ellie');
+    }
+  },
+  'act-npc-aris': {
+    id: 'act-npc-aris',
+    npcId: 'npc-aris',
+    isStory: true, chapter: 'The Dream',
+    progKey: 'aris', maxProgress: 5,
+    journalIcon: '🧙‍♂️', journalColor: '#8b5cf6',
+    steps: [
+        { cost: 20, costType: 'magic' },
+        { cost: 30, costType: 'magic', reward: 'item-arcane-dust' },
+        { cost: 40, costType: 'magic' },
+        { cost: 50, costType: 'magic', reward: 'item-crystal-mana' },
+        { cost: 60, costType: 'magic', onSuccess: [
+            { type: 'unlockRecipe', id: 'act-bed-2' },
+            { type: 'unlockRecipe', id: 'act-stove-2' }
+        ] }
+    ],
+    execute: (state) => {
+        return state.npcExecute('act-npc-aris');
     }
   }
 };

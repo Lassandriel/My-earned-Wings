@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 5.9 COMPLETED (Draconia Core 3.0)
+## Current Status: Phase 6.1 COMPLETED (Social Trade & Polish)
 
-The internal architecture has been fully refactored to a modern, data-driven "Draconia Core 3.0" standard. All game content is now managed via centralized registries and standardized ID prefixes, ensuring maximum scalability and modularity.
+The internal architecture has been fully refactored to a modern, data-driven "Draconia Core 3.0" standard. Trading is now decentralized and narrative-driven, while an automated guardian system ensures localization integrity.
 
 ---
 
@@ -57,6 +57,8 @@ The internal architecture has been fully refactored to a modern, data-driven "Dr
 - [x] **Adaptive Breakpoints**: Custom layouts for Laptops and Tablets (Portrait/Landscape).
 - [x] **Rem-Scaling**: Lossless UI zoom by linking settings to root font-size.
 - [x] **Math Precision**: Full floating-point support for resource gain and costs (Jäger-Fix).
+- [x] **NPC Tooltip Optimization**: Redundancy removed & dynamic quest-reward indicators implemented.
+- [x] **Building Progression**: Logische Abhängigkeiten (Camp -> Zelt -> Haus) und NPC-gebundene Rezepte eingeführt.
 - [x] **Audio Integrity**: Integration of missing SFX (Water, Crafting).
 - [x] **Electron Compatibility**: Specific CSS fixes for name-input focus.
 
@@ -152,27 +154,26 @@ The internal architecture has been fully refactored to a modern, data-driven "Dr
 - [x] **Strategic De-Duplication**: Eliminated historical redundancy between heartbeat and ticker loops.
 - [x] **State Reset Integrity**: Encapsulated state reset logic for clean transitions in Electron environments.
 
-## Phase 5.7: The Arcane Shift (Balancing & Focus) - **COMPLETED**
-- [x] **Arcane Focus Implementation**: Replaced villager work assignments with magic-driven automation (Focus).
-- [x] **Magic-to-Energy Substitution**: Enabled focus-mode cost replacement (Magic drain instead of Energy cost).
-- [x] **Symmetric Balancing**: Unified primary stats to 50/50 Energy/Magic for better progression gating.
-- [x] **Storage Refinement**: Increased storage capacity to 50, enabling meaningful housing milestones (40/40 House).
-- [x] **QoL Optimization**: Significant reduction in clicking fatigue (Satiation +10 per click, 0 drain on rest).
-- [x] **Village Cleanup**: Streamlined the Village UI into a pure Story and Interaction hub.
+## Phase 6.0: Demo Ready (Final Polish) - **COMPLETED**
+- [x] **Asset Optimization**: Successfully migrated 100% of images to .webp, reducing build size by ~85% (17MB total).
+- [x] **Lore-Aligned Visuals**: Generated and integrated 11+ high-quality character and item assets following Draconia's humanoid-shifter lore.
+- [x] **Economic Hardening**: Resolved trade exploits (Meat Arbitrage) and balanced resource consumption.
+- [x] **Endgame Rewards**: Replaced generic transmutation with "Arcane Furniture" upgrades (Silk Bed, Magical Hearth).
+- [x] **Engine Guarding**: Implemented "Idle Prevention" for magic consumption and safe buff cleanup.
+- [x] **Full-Demo QA**: Verified Tree of Life finale, NPC progression (Levels 1-5), and Save/Load integrity.
+- [x] **Softlock Resolution**: Fixed prologue transition by integrating missing Naming-Modal and translations.
+- [x] **Vitality Balance**: Decoupled energy recovery from satiation and fixed global satiation consumption bug.
 
-## Phase 5.8: Demo Release Polish - **COMPLETED**
-- [x] **Metadata Alignment**: Synchronized package name (`my-earned-wings`) and version (`1.0.0-demo`).
-- [x] **Legal Foundation**: Integrated MIT License and updated credits (Lassandriel).
-- [x] **UI Polish**: Added "DEMO" badge to main menu and repository links for community engagement.
-- [x] **Documentation**: Enhanced README with clear demo status and repo links.
+## Phase 6.1: Narrative Economic Decentralization & Integrity - **COMPLETED**
+- [x] **Decentralized Trade**: Removed central marketplace; integrated trade directly into NPC cards.
+- [x] **Social Commerce Logic**: Trade options now unlock based on NPC reputation (e.g., Baker wood trade at Rep 2).
+- [x] **I18n Guardian System**: Integrated automated startup-validation for all language keys.
+- [x] **Start-Flow Stability**: Resolved prologue transition blockade and 'Entdecker' naming bug.
+- [x] **Zero-Warning Audit**: Achieved 100% localization coverage (0 Errors, 0 Warnings).
+- [x] **UI Localization Polish**: Refined all Sidebar, Nav, and Naming-Modal keys for full bilingual parity.
+- [x] **Build Integrity**: Verified stable build-exe and production-ready assets.
 
-## Phase 5.9: Draconia Core 3.0 (Data-Driven Revolution) - **COMPLETED**
-- [x] **Registry-Centric Architecture**: Centralized all game content into registries (`ContentService`).
-- [x] **Standardized ID Prefixes**: Strict prefix system (`item-`, `act-`, `build-`, `npc-`) for robust data resolution.
-- [x] **Modular Effect Handlers**: Decoupled game logic (Flags, Unlocks, Limit Modifiers) into a reusable handler system.
-- [x] **Dynamic Template Engine**: UI Partials now dynamically resolve content from registries via standard IDs.
-- [x] **Flexible Flag System**: Replaced hardcoded housing states with a generic, extensible `flags` map.
-- [x] **Core System Decoupling**: Fully separated Game State from logic handlers (Actions, Items, NPCs).
+---
 
 ---
 

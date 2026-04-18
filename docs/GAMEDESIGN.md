@@ -37,8 +37,8 @@
 ### 2.3 NPC & Community
 NPCs are the gateway to story, secrets, and trade.
 - **Story Progression**: Deepening bonds (Level 5) unlocks the finale.
-- **Marketplace**: Trading resources for shards happens at the central village hub.
-- **Specialized Shops**: NPCs like the Hunter offer direct resource exchanges (Meat/Shards).
+- **Decentralized Commerce**: Trading is integrated directly into NPC interactions. There is no central marketplace; instead, the player trades with trusted community members.
+- **Reputation-Gated Trades**: Trading options (e.g., selling wood to the Baker) unlock as the player increases their bond with the respective NPC.
 
 ### 2.4 Housing & Capacity
 - **Storage**: Increased early-game capacity (50) allows for smooth house progression.
@@ -67,4 +67,4 @@ The core of late-game efficiency is the **Arcane Focus**:
 - **Architecture**: Service-Oriented (SOA) with a centralized Event Bus and ValuePipeline for complex modifiers.
 
 ---
-_Last updated: April 2026 · v2.1 Arcane Focus_
+_Last updated: April 2026 · v3.0 Social Commerce Update_

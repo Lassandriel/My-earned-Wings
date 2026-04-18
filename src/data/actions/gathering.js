@@ -45,6 +45,7 @@ export const gatheringActions = {
     sfx: 'click',
     particleText: '+ Magie Max',
     particleType: 'magic',
+    counter: 'study',
     rewards: { maxMagic: 'magic_limit_gain' },
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'magic_limit_gain', 1) };
@@ -83,7 +84,7 @@ export const gatheringActions = {
   'act-hunt': {
     id: 'act-hunt',
     cost: 25, costType: 'energy', yieldType: 'meat',
-    requirements: { 'item-bow': 1 }, // Changed to check for item ID in upgrades list logic
+    requirements: { 'flags.item-bow': true }, // Corrected path to item flag
     sfx: 'gather',
     particleText: '+ Fleisch',
     particleType: 'energy',

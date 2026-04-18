@@ -31,7 +31,7 @@
   </div>
 
   <!-- Automation & Loop Control -->
-  <div class="automation-bar" x-transition>
+  <div class="automation-bar" x-show="$store.game.flags['item-walking-stick']" x-transition>
     <div class="loop-toggle-wrapper" :class="$store.game.isLooping && 'active'">
       <label class="premium-toggle">
         <input type="checkbox" x-model="$store.game.isLooping" aria-label="Toggle loop mode">
@@ -131,7 +131,7 @@
                   style="position: relative;">
             <span x-text="$store.game.t('act-cook-gourmet', 'actions').title"></span>
             <div x-show="$store.game.activeTasks['act-cook-gourmet']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-cook-gourmet'].remaining / $store.game.activeTasks['act-cook-gourmet'].total * 100)) + '%'"></div>
+              <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-cook-gourmet') + '%'"></div>
             </div>
           </button>
         </div>
@@ -166,10 +166,14 @@
           >
             <span x-text="$store.game.t('act-meditate', 'actions').title"></span>
             <div x-show="$store.game.activeTasks['act-meditate']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-meditate'].remaining / $store.game.activeTasks['act-meditate'].total * 100)) + '%'"></div>
+              <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-meditate') + '%'"></div>
             </div>
+            <!-- Magic Focus Toggle Badge -->
+            <div class="focus-toggle-btn" 
+                 :class="$store.game.activeFocus === 'act-meditate' && 'is-focused'" 
+                 @click.stop="$store.game.toggleFocus('act-meditate')"
+                 :title="$store.game.t('ui_focus_hint')">✨</div>
           </button>
-          <button class="focus-toggle-btn" :class="$store.game.activeFocus === 'act-meditate' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-meditate')">✨</button>
 
           <button
             x-show="$store.game.flags['build-arcane-sanctum']"
@@ -198,7 +202,7 @@
                   style="position: relative;">
             <span x-text="$store.game.t('act-garden-plant', 'actions').title + ' (1)'"></span>
             <div x-show="$store.game.activeTasks['act-garden-plant']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-garden-plant'].remaining / $store.game.activeTasks['act-garden-plant'].total * 100)) + '%'"></div>
+              <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-garden-plant') + '%'"></div>
             </div>
           </button>
 
@@ -209,7 +213,7 @@
                   style="position: relative;">
             <span x-text="$store.game.t('act-garden-plant', 'actions').title + ' (2)'"></span>
             <div x-show="$store.game.activeTasks['act-garden-plant-2']" class="btn-progress-container">
-              <div class="btn-progress-fill" :style="'width: ' + (100 - ($store.game.activeTasks['act-garden-plant-2'].remaining / $store.game.activeTasks['act-garden-plant-2'].total * 100)) + '%'"></div>
+              <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-garden-plant-2') + '%'"></div>
             </div>
           </button>
 

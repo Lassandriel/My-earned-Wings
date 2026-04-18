@@ -59,6 +59,11 @@ export const createAudioSystem = () => {
       store.bus.on(store.EVENTS.SOUND_TRIGGERED, (data) => {
         this.playSound(data.key);
       });
+
+      // Listen for settings updates to refresh volumes live
+      store.bus.on(store.EVENTS.SAVE_REQUESTED, () => {
+        this.updateVolumes(store.settings);
+      });
     }
   };
 };

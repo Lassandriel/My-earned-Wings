@@ -20,10 +20,16 @@ export const createLoggerSystem = () => ({
       return;
     }
 
+    let finalParams = params || {};
+    // Inject playerName for easy replacement in translations
+    if (!finalParams.playerName) {
+      finalParams.playerName = store.playerName || 'Entdecker';
+    }
+
     store.logs.unshift({
       id: id,
       context: finalContext,
-      params: params || {},
+      params: finalParams,
       color: finalColor,
       type,
       count: 1,

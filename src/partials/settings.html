@@ -95,11 +95,11 @@
         <h3 x-text="$store.game.t('settings_system')">System</h3>
         
         <div class="control-group stack">
-          <label>Save Code (Export/Import)</label>
-          <textarea x-model="$store.game.saveCode" class="modern-textarea" placeholder="Paste your save code here..."></textarea>
+          <label x-text="$store.game.t('settings_system')">Save Code (Export/Import)</label>
+          <textarea x-model="$store.game.saveCode" class="modern-textarea" :placeholder="$store.game.t('settings_import_placeholder')"></textarea>
           <div class="btn-row-flex">
-            <button class="action-btn-sm" @click="$store.game.saveCode = $store.game.persistence.exportGameData($store.game)">Export</button>
-            <button class="action-btn-sm" @click="$store.game.persistence.importGameData($store.game, $store.game.saveCode)">Import</button>
+            <button class="action-btn-sm" @click="$store.game.saveCode = $store.game.persistence.exportGameData($store.game)" x-text="$store.game.t('btn_export')">Export</button>
+            <button class="action-btn-sm" @click="$store.game.persistence.importGameData($store.game, $store.game.saveCode)" x-text="$store.game.t('btn_import')">Import</button>
           </div>
         </div>
 
@@ -111,6 +111,9 @@
           </button>
           <button class="game-btn-wide secondary" @click="$store.game.persistence.loadGame($store.game)">
             <span x-text="$store.game.t('btn_load')">Load</span>
+          </button>
+          <button class="game-btn-wide secondary" @click="$store.game.ui.returnToMenu($store.game); $store.game.settingsOpen = false;">
+            <span x-text="$store.game.t('btn_main_menu')">Main Menu</span>
           </button>
         </div>
 

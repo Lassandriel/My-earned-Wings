@@ -5,7 +5,7 @@
             // Dynamic resolution from ContentService
             getConstructionItems() {
                 const categories = ['camp', 'housing', 'workshop', 'garden', 'kitchen'];
-                const allActions = this.$store.game.content.actions || {};
+                const allActions = this.$store.game.content.registries.actions || {};
                 
                 let list = [];
                 Object.values(allActions).forEach(action => {

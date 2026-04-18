@@ -8,7 +8,7 @@ export const itemDb = {
     id: 'item-walking-stick',
     title: 'item_wanderstock_title',
     desc: 'item_wanderstock_desc',
-    image: 'img/Crafting_walkingstick.webp',
+    image: 'img/items/Crafting_walkingstick.webp',
     consumable: false,
     category: 'tools'
   },
@@ -16,7 +16,7 @@ export const itemDb = {
     id: 'item-axe',
     title: 'item_axe_title',
     desc: 'item_axe_desc',
-    image: 'img/Crafting_axe_1.webp',
+    image: 'img/items/Crafting_axe_1.webp',
     consumable: false,
     category: 'tools'
   },
@@ -24,7 +24,7 @@ export const itemDb = {
     id: 'item-pickaxe',
     title: 'item_pickaxe_title',
     desc: 'item_pickaxe_desc',
-    image: 'img/Crafting_pickaxe_1.webp',
+    image: 'img/items/Crafting_pickaxe_1.webp',
     consumable: false,
     category: 'tools'
   },
@@ -32,7 +32,7 @@ export const itemDb = {
     id: 'item-bow',
     title: 'item_bow_title',
     desc: 'item_bow_desc',
-    image: 'img/Crafting_bow.webp',
+    image: 'img/items/Crafting_bow.webp',
     consumable: false,
     category: 'tools'
   },
@@ -42,7 +42,7 @@ export const itemDb = {
     id: 'item-bread',
     title: 'item_bread_title',
     desc: 'item_bread_desc',
-    image: 'img/Item_Bread.webp',
+    image: 'img/items/Item_Bread.webp',
     consumable: true,
     effect: { satiation: 25 },
     category: 'provisions'
@@ -51,7 +51,7 @@ export const itemDb = {
     id: 'item-cookie',
     title: 'item_cookie_title',
     desc: 'item_cookie_desc',
-    image: 'img/Item_Cookie.webp',
+    image: 'img/items/Item_Cookie.webp',
     consumable: true,
     effect: { satiation: 40, energy: 5 },
     category: 'provisions'
@@ -60,7 +60,7 @@ export const itemDb = {
     id: 'item-dried-meat',
     title: 'item_dried_meat_title',
     desc: 'item_dried_meat_desc',
-    image: 'img/Item_DriedMeat.webp',
+    image: 'img/items/Item_DriedMeat.webp',
     consumable: true,
     effect: { satiation: 15, energy: 15 },
     category: 'provisions'
@@ -69,7 +69,7 @@ export const itemDb = {
     id: 'item-gourmet-meal',
     title: 'item_gourmet_meal_title',
     desc: 'item_gourmet_meal_desc',
-    image: 'img/Item_GourmetMeal.webp',
+    image: 'img/items/Item_GourmetMeal.webp',
     consumable: true,
     effect: { satiation: 50, energy: 30 },
     category: 'provisions'
@@ -80,7 +80,7 @@ export const itemDb = {
     id: 'item-deed',
     title: 'item_deed_title',
     desc: 'item_deed_desc',
-    image: 'img/Item_Deed.webp',
+    image: 'img/items/Item_Deed.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -88,7 +88,7 @@ export const itemDb = {
     id: 'item-book-knowledge',
     title: 'item_book_knowledge_title',
     desc: 'item_book_knowledge_desc',
-    image: 'img/Item_BookKnowledge.webp',
+    image: 'img/items/Item_BookKnowledge.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -96,7 +96,7 @@ export const itemDb = {
     id: 'item-scroll',
     title: 'item_scroll_title',
     desc: 'item_scroll_desc',
-    image: 'img/Item_Scroll.webp',
+    image: 'img/items/Item_Scroll.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -104,7 +104,7 @@ export const itemDb = {
     id: 'item-whetstone',
     title: 'item_whetstone_title',
     desc: 'item_whetstone_desc',
-    image: 'img/Item_Whetstone.webp',
+    image: 'img/items/Item_Whetstone.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -112,7 +112,7 @@ export const itemDb = {
     id: 'item-arrowhead',
     title: 'item_arrowhead_title',
     desc: 'item_arrowhead_desc',
-    image: 'img/Item_Arrowhead.webp',
+    image: 'img/items/Item_Arrowhead.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -120,7 +120,7 @@ export const itemDb = {
     id: 'item-chisel',
     title: 'item_chisel_title',
     desc: 'item_chisel_desc',
-    image: 'img/Item_Chisel.webp',
+    image: 'img/items/Item_Chisel.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -128,7 +128,7 @@ export const itemDb = {
     id: 'item-astral-shards',
     title: 'item_astral_shards_title',
     desc: 'item_astral_shards_desc',
-    image: 'img/Item_AstralShard.webp',
+    image: 'img/items/Item_AstralShard.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -136,7 +136,7 @@ export const itemDb = {
     id: 'item-dream-dust',
     title: 'item_dream_dust_title',
     desc: 'item_dream_dust_desc',
-    image: 'img/Item_DreamDust.webp',
+    image: 'img/items/Item_DreamDust.webp',
     consumable: false,
     category: 'artifacts'
   },
@@ -144,8 +144,40 @@ export const itemDb = {
     id: 'item-wyvern-scale',
     title: 'item_wyvern_scale_title',
     desc: 'item_wyvern_scale_desc',
-    image: 'img/Item_WyvernScale.webp',
+    image: 'img/items/Item_WyvernScale.webp',
     consumable: false,
     category: 'artifacts'
+  },
+  'item-arcane-dust': {
+    id: 'item-arcane-dust',
+    title: 'item_arcane_dust_title',
+    desc: 'item_arcane_dust_desc',
+    image: 'img/items/Arcane_dust.webp',
+    consumable: false,
+    category: 'artifacts'
+  },
+  'item-crystal-mana': {
+    id: 'item-crystal-mana',
+    title: 'item_crystal_mana_title',
+    desc: 'item_crystal_mana_desc',
+    image: 'img/items/mana_crystal.webp',
+    consumable: false,
+    category: 'artifacts'
+  },
+  'item-bed-2': {
+    id: 'item-bed-2',
+    title: 'item_bed_2_title',
+    desc: 'item_bed_2_desc',
+    image: 'img/items/bed_2.webp',
+    consumable: false,
+    category: 'tools'
+  },
+  'item-stove-2': {
+    id: 'item-stove-2',
+    title: 'item_stove_2_title',
+    desc: 'item_stove_2_desc',
+    image: 'img/items/stove_2.webp',
+    consumable: false,
+    category: 'tools'
   }
 };

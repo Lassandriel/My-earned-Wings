@@ -14,19 +14,13 @@
   </div>
 
   <div class="prologue-container">
-    <template x-for="i in 7" :key="i">
-      <div 
-        class="prologue-text" 
-        x-show="$store.game.prologueStep === i"
-        x-transition:enter="prologue-enter"
-        x-transition:enter-start="prologue-enter-start"
-        x-transition:enter-end="prologue-enter-end"
-        x-transition:leave="prologue-leave"
-        x-transition:leave-start="prologue-leave-start"
-        x-transition:leave-end="prologue-leave-end"
-        x-text="$store.game.t('intro_' + i, 'logs')"
-      ></div>
-    </template>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 1" x-transition x-text="$store.game.t('intro_1', 'logs')"></div>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 2" x-transition x-text="$store.game.t('intro_2', 'logs')"></div>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 3" x-transition x-text="$store.game.t('intro_3', 'logs')"></div>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 4" x-transition x-text="$store.game.t('intro_4', 'logs')"></div>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 5" x-transition x-text="$store.game.t('intro_5', 'logs')"></div>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 6" x-transition x-text="$store.game.t('intro_6', 'logs')"></div>
+    <div class="prologue-text" x-show="$store.game.prologueStep === 7" x-transition x-text="$store.game.t('intro_7', 'logs')"></div>
     
     <div class="prologue-advance-hint" x-show="$store.game.view === 'prologue'">
       Klicke um fortzufahren...

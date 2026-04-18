@@ -14,9 +14,11 @@ export const createNPCSystem = () => {
             
             const progKey = action.progKey;
             const currentProg = game.npcProgress[progKey] || 0;
+            const npcDef = game.content.get(action.npcId || '', 'npcs');
+            const maxProg = npcDef ? npcDef.maxProgress : (action.maxProgress || 0);
+
+            if (currentProg >= maxProg || !action.steps[currentProg]) return false;
             const step = action.steps[currentProg];
-            
-            if (!step) return false;
 
             // 1. Costs
             const costs = step.costs || (step.cost ? { [step.costType]: step.cost } : null);

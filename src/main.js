@@ -61,6 +61,7 @@ const dynamicInitialState = buildInitialState();
 Alpine.store('game', {
     ...dynamicInitialState,
     translations: getTranslations(),
+    RESOURCE_REGISTRY: registries.resources,
     saveInfoText: '',
     lastMouseX: 0,
     lastMouseY: 0,
@@ -90,8 +91,10 @@ Alpine.store('game', {
     init() {
         const store = Alpine.store('game');
         
-        // --- CONTENT VALIDATION ---
-        store.content.validate(store);
+        // --- CONTENT VALIDATION (Delayed for better stability) ---
+        setTimeout(() => {
+            store.content.validate(store);
+        }, 100);
 
         const hasSavedData = localStorage.getItem('wings_save');
         store.hasSave = !!hasSavedData;
@@ -170,7 +173,8 @@ Alpine.store('game', {
 
     completeDemo() {
         const store = Alpine.store('game');
-        store.view = 'finale';
+        store.demoCompleted = true;
+        store.view = 'gameplay'; // Return to gameplay but with modal on top
         store.addLog('milestone_tree_of_life', 'logs', 'var(--accent-teal)');
         store.playSound('success');
         store.saveGame();
