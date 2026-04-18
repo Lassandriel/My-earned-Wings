@@ -32,7 +32,6 @@ export const createContentService = (registries) => ({
         if (id.startsWith('item-')) return 'items';
         if (id.startsWith('act-')) return 'actions';
         if (id.startsWith('build-')) return 'actions'; // Buildings are actions that set flags
-        if (id.startsWith('house-')) return 'actions'; 
         if (id.startsWith('buff-')) return 'buffs';
         return null;
     },

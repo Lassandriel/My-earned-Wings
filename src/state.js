@@ -24,8 +24,6 @@ export const initialState = {
   limits: {},
   stats: {},
   flags: {},          // Replaces hardcoded housing state
-  npcProgress: {},    // Bond levels
-  npcTrust: {},       // Special trust points
   activeBuffs: {},
   
   // Lists

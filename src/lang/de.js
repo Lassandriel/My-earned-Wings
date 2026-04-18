@@ -23,6 +23,7 @@ export default {
     cat_log_enhanced: "Chronik",
     objective_label: "Ziel",
     objective_find_answers: "Finde heraus, wer du bist und werde stärker.",
+    cat_chronicle_world: "Welt-Chronik",
     ui_source_world: "Draconia",
     ui_empty_story: "Deine Geschichte hat gerade erst begonnen...",
     dream_bloom_log: "Deine Magie durchflutet den Boden... Zeit beginnt sich zu beugen. (+5s Fortschritt)",

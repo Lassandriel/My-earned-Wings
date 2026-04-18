@@ -28,9 +28,6 @@ export const createNPCSystem = () => {
             // 2. Progress Logic
             game.npcProgress[progKey]++;
             const newProg = game.npcProgress[progKey];
-            
-            // Increment Trust
-            game.npcTrust[progKey] = (game.npcTrust[progKey] || 0) + 1;
 
             // 3. Reward Handling (Modular)
             if (step.reward) {

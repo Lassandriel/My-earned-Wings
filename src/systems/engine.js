@@ -46,7 +46,7 @@ export function createEngineSystem() {
                     task.remaining -= 100;
                     if (task.remaining <= 0) {
                         const actionId = task.actionId;
-                        const action = innerStore.actionDb[actionId];
+                        const action = innerStore.content.get(actionId, 'actions');
                         delete innerStore.activeTasks[id];
                         
                         const result = innerStore.actions.processAction(innerStore, actionId, action, 'finalize');
