@@ -30,24 +30,6 @@
     </button>
   </div>
 
-  <!-- Automation & Loop Control -->
-  <div class="automation-bar" x-show="$store.game.flags['item-walking-stick']" x-transition>
-    <div class="loop-toggle-wrapper" :class="$store.game.isLooping && 'active'">
-      <label class="premium-toggle">
-        <input type="checkbox" x-model="$store.game.isLooping" aria-label="Toggle loop mode">
-        <div class="toggle-track">
-          <div class="toggle-thumb">
-             <span class="thumb-icon" x-show="!$store.game.isLooping">◎</span>
-             <span class="thumb-icon" x-show="$store.game.isLooping">🔄</span>
-          </div>
-        </div>
-      </label>
-      <span class="loop-label" x-text="$store.game.t('ui_loop_mode')">Dauerschleife</span>
-    </div>
-    
-    <div class="loop-status-hint" x-show="$store.game.isLooping" x-transition>
-      <span class="hint-text" x-text="$store.game.t('ui_loop_hint')">Aktionen werden automatisch wiederholt...</span>
-    </div>
   </div>
 
   <div class="action-container">
@@ -67,7 +49,7 @@
             @mouseout="$store.game.setHovered(null)"
           >
             <span x-text="$store.game.flags['item-axe'] ? $store.game.t('act-wood', 'actions').title_alt : $store.game.t('act-wood', 'actions').title"></span>
-            <div class="focus-toggle-btn" x-show="$store.game.flags['item-walking-stick']" :class="$store.game.activeFocus === 'act-wood' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-wood')">✨</div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-wood' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-wood')">✨</div>
           </button>
           <button
             class="game-btn"
@@ -76,7 +58,7 @@
             @mouseout="$store.game.setHovered(null)"
           >
             <span x-text="$store.game.flags['item-pickaxe'] ? $store.game.t('act-stone', 'actions').title_alt : $store.game.t('act-stone', 'actions').title"></span>
-            <div class="focus-toggle-btn" x-show="$store.game.flags['item-walking-stick']" :class="$store.game.activeFocus === 'act-stone' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-stone')">✨</div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-stone' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-stone')">✨</div>
           </button>
           <button
             x-show="$store.game.flags['item-bow']"
@@ -86,7 +68,7 @@
             @mouseout="$store.game.setHovered(null)"
           >
             <span x-text="$store.game.t('act-hunt', 'actions').title"></span>
-            <div class="focus-toggle-btn" x-show="$store.game.flags['item-walking-stick']" :class="$store.game.activeFocus === 'act-hunt' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-hunt')">✨</div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-hunt' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-hunt')">✨</div>
           </button>
         </div>
       </section>
@@ -96,7 +78,7 @@
 
     <div class="action-column">
 
-      <section class="action-group">
+      <section class="action-group" x-show="$store.game.flags['unlocked-work']">
         <div class="category-header">
           <h3 x-text="$store.game.t('cat_work')">Arbeit</h3>
           <div class="nav-help-icon" 
@@ -111,7 +93,7 @@
             @mouseout="$store.game.setHovered(null)"
           >
             <span x-text="$store.game.t('act-work', 'actions').title"></span>
-            <div class="focus-toggle-btn" x-show="$store.game.flags['item-walking-stick']" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-work')">✨</div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-work')">✨</div>
           </button>
         </div>
       </section>
@@ -170,7 +152,7 @@
             </div>
             <!-- Magic Focus Toggle Badge -->
             <div class="focus-toggle-btn" 
-                 x-show="$store.game.flags['item-walking-stick']"
+                 x-show="$store.game.flags['ability-arcane-focus']"
                  :class="$store.game.activeFocus === 'act-meditate' && 'is-focused'" 
                  @click.stop="$store.game.toggleFocus('act-meditate')"
                  :title="$store.game.t('ui_focus_hint')">✨</div>
@@ -205,6 +187,7 @@
             <div x-show="$store.game.activeTasks['act-garden-plant']" class="btn-progress-container">
               <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-garden-plant') + '%'"></div>
             </div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-garden-plant' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-garden-plant')">✨</div>
           </button>
 
           <button x-show="$store.game.flags['gardenLevel'] >= 2" 
@@ -216,6 +199,7 @@
             <div x-show="$store.game.activeTasks['act-garden-plant-2']" class="btn-progress-container">
               <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-garden-plant-2') + '%'"></div>
             </div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-garden-plant-2' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-garden-plant-2')">✨</div>
           </button>
 
           <button class="game-btn" :class="$store.game.isTaskActive('act-garden-water') && 'is-working'"

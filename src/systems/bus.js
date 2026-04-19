@@ -33,6 +33,10 @@ export const createEventBus = () => {
          */
         on(event, callback) {
             if (!listeners[event]) listeners[event] = [];
+            
+            // IDEMPOTENCY: Don't register the same callback twice for the same event
+            if (listeners[event].includes(callback)) return () => {}; 
+            
             listeners[event].push(callback);
             
             // Return an unsubscribe function

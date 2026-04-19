@@ -48,6 +48,7 @@ export const villageActions = {
   'act-work': {
     id: 'act-work',
     cost: 30, costType: 'energy', yieldType: 'shards',
+    requirements: { 'flags.unlocked-work': true },
     sfx: 'click',
     particleText: '+ Splitter',
     particleType: 'shards',

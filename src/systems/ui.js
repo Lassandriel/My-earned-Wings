@@ -27,12 +27,12 @@ export const createUISystem = () => ({
     store.lastMouseY = relY;
     
     // Bounding Box Logic for Tooltip
-    const tt = document.querySelector('.floating-tooltip');
+    if (!this._tt) this._tt = document.querySelector('.floating-tooltip');
     let offsetX = 20;
     let offsetY = 20;
 
-    if (tt) {
-        const ttRect = tt.getBoundingClientRect();
+    if (this._tt) {
+        const ttRect = this._tt.getBoundingClientRect();
         // If tooltip would go off right side
         if (e.clientX + ttRect.width + 40 > window.innerWidth) {
             offsetX = -ttRect.width - 20;
@@ -50,9 +50,9 @@ export const createUISystem = () => ({
 
     // Resource Highlighting Logic
     // Uses data-res attributes on .stat-bar-fill elements — language-independent
-    if (store.hoveredAction) {
+    if (store.hoveredAction && store.hoveredAction.data) {
         const costs = store.getTooltipCosts(store.hoveredAction);
-        const resourceTypes = costs.map(c => c.type).filter(Boolean);
+        const resourceTypes = Array.isArray(costs) ? costs.map(c => c.type).filter(Boolean) : [];
 
         document.querySelectorAll('.stat-row').forEach(row => {
             const fill = row.querySelector('[data-res]');
@@ -229,124 +229,15 @@ export const createUISystem = () => ({
             setTimeout(() => el.classList.remove('drain-flash'), 400);
         }
     });
-  },
-
-  // --- VIEW TRANSITIONS & FLOW ---
-
-  /** Keys excluded from state reset so player preferences are preserved. */
-  RESET_EXCLUDES: new Set(['settings', 'language', 'prologueStep', 'logs', 'hasSave', 'view', 'confirmModal']),
-
-  _doStartNewGame(store, buildInitialState) {
-    console.log('[CORE] Starting new game, resetting state...');
-
-    const cleanState = buildInitialState();
-    localStorage.removeItem('wings_save');
-
-    store.prologueStep = 1;
-    store.logs = [];
-    store.hasSave = false;
-
-    Object.keys(cleanState).forEach(key => {
-        if (!this.RESET_EXCLUDES.has(key)) {
-            store[key] = JSON.parse(JSON.stringify(cleanState[key]));
-        }
-    });
-
-    store.view = 'prologue';
-
-    if (store.prologue && typeof store.prologue.playIntro === 'function') {
-        store.prologue.playIntro(store);
-    } else {
-        store.addLog('intro_1', 'logs', 'var(--accent-teal)');
-    }
-
-    try { store.audio?.startMusic(); } catch (e) { console.warn('Music failed to start'); }
-    store.saveGame();
-  },
-
-  startNewGame(store, buildInitialState) {
-    if (store.hasSave) {
-        this.showConfirm(store, store.t('confirm_reset', 'ui'), () => {
-            this._doStartNewGame(store, buildInitialState);
-        });
-    } else {
-        this._doStartNewGame(store, buildInitialState);
-    }
-  },
-
-  /** Shows a styled in-game confirm dialog. Callback is called only on confirmation. */
-  showConfirm(store, message, onConfirm) {
-    store.confirmModal = { open: true, message, onConfirm };
-  },
-
-  /** Resolves the confirm dialog. Called from the confirm.html template. */
-  resolveConfirm(store, confirmed) {
-    const cb = store.confirmModal.onConfirm;
-    store.confirmModal = { open: false, message: '', onConfirm: null };
-    if (confirmed && typeof cb === 'function') cb();
-  },
-
-  /** Triggers a styled confirm before performing a hard reset. */
-  hardReset(store) {
-    this.showConfirm(store, store.t('confirm_reset', 'ui'), () => {
-        store.persistence.doHardReset(store);
-    });
-  },
-
-  continueGame(store) {
-    if (store.persistence.loadGame(store)) {
-        store.view = 'gameplay'; 
-        store.audio.startMusic();
-    }
-  },
-
-  finishPrologue(store) {
-    store.view = 'naming'; 
-    store.saveGame();
-  },
-
-  confirmName(store, name) {
-    if (!name || name.trim().length === 0) return;
-    store.playerName = name.trim().substring(0, 16); // Safety limit
-    store.view = 'gameplay';
-    
-    store.addLog('intro_welcome', 'logs', 'var(--accent-teal)');
-    store.saveGame();
-  },
-
-  completeDemo(store) {
-    console.log('[FINALE] Demo completed! Preparing summary...');
-    
-    // 1. Calculate Stats
-    store.finalStats = {
-        shards: Math.floor(store.counters.shards || 0),
-        actions: store.counters.totalActions || 0,
-        energySpent: Math.floor(store.counters.totalEnergySpent || 0),
-        npcs: store.unlockedNPCs.length,
-        items: store.discoveredItems.length
-    };
-
-    // 2. Clear auto-loops and ongoing tasks
-    store.isLooping = false;
-    store.activeFocus = null;
-    store.activeTasks = {};
-
-    // 3. Set View
-    store.view = 'finale';
-    store.demoCompleted = true;
-    
-    try {
-        store.audio?.playSound('success');
-        // Start atmospheric finale music if available
-    } catch (e) {}
-    
-    store.saveGame();
-  },
-
-  returnToMenu(store) {
+  },  returnToMenu(store) {
     store.saveGame();
     store.view = 'menu';
-    // Optionally restart menu music if needed
+    this.cleanupHover(store);
     if (store.audio) store.audio.startMusic();
+  },
+
+  cleanupHover(store) {
+    store.hoveredAction = null;
+    document.querySelectorAll('.stat-row.highlight-needed').forEach(r => r.classList.remove('highlight-needed'));
   }
 });

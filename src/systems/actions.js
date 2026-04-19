@@ -98,13 +98,42 @@ export function createActionSystem() {
                 }
 
                 // 2. Affordability Check
-                const costs = action.costType === 'mixed' ? action.costs : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost } : {});
+                let costs = action.costType === 'mixed' ? { ...action.costs } : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost } : {});
+                
+                // ARCANE FOCUS: Substitution Logic (Energy is skipped if magic focus ✨ is active for THIS action)
+                if (game.activeFocus === id && costs.energy) {
+                    delete costs.energy;
+                }
+
+                // ACTION SATIATION: Physical effort consumes food (1 point)
+                const isPhysical = action.costType === 'energy' || (action.costType === 'mixed' && action.costs && action.costs.energy);
+                if (isPhysical) {
+                    costs.satiation = (costs.satiation || 0) + 1;
+                }
+
                 if (!game.resource.canAfford(game, costs)) return { success: false };
                 
-                // 3. Storage Check
-                if (action.yieldType && game.resource.isFull(game, action.yieldType)) return { success: false };
+                // 3. Storage Check (Prevent yielding resources into full storage)
+                if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
+                    game.addLog('fail_full_' + action.yieldType, 'logs', 'var(--accent-red)');
+                    game.playSound('fail');
+                    return { success: false };
+                }
 
-                // 4. Initial Consumption
+                // 4. Buff Wastage Check (Prevent overwriting still-active buffs)
+                if (action.onSuccess) {
+                    const buffEffect = action.onSuccess.find(e => e.type === 'addBuff');
+                    if (buffEffect) {
+                        const existing = game.activeBuffs[buffEffect.buffId];
+                        if (existing && (existing.remaining / existing.total) > 0.1) {
+                            game.addLog('fail_buff_active', 'logs', 'var(--accent-red)');
+                            game.playSound('fail');
+                            return { success: false };
+                        }
+                    }
+                }
+
+                // 5. Initial Consumption
                 if (costs && Object.keys(costs).length > 0) {
                     game.resource.consume(game, costs);
                 }
@@ -207,19 +236,26 @@ export function createActionSystem() {
         handleFailure(game, id, action) {
             game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
             
+            // 1. Check Storage Failure (Highest Priority)
             if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
                 game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + action.yieldType, color: 'var(--accent-red)' });
                 return;
             }
 
+            // 2. Diagnose Cost Failure (Identify first missing resource)
             const costType = action.costType;
             if (!costType || costType === 'none') return;
 
             const effectiveCosts = costType === 'mixed' ? action.costs : { [costType]: action.cost };
-            if (!game.resource.canAfford(game, effectiveCosts)) {
-                // Generic failure key lookup (e.g., fail_energy, fail_magic)
-                // Falls back to fail_resources if specific key doesn't exist
-                const specificKey = 'fail_' + costType;
+            
+            // Find the first resource we can't afford
+            const firstMissing = Object.keys(effectiveCosts).find(resId => {
+                return !game.resource.canAfford(game, resId, effectiveCosts[resId]);
+            });
+
+            if (firstMissing) {
+                const specificKey = 'fail_' + firstMissing;
+                // Fallback mechanism: check if translation exists, otherwise use fail_resources
                 const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
                 game.bus.emit(game.EVENTS.LOG_ADDED, { id: logKey, color: 'var(--accent-red)' });
             }

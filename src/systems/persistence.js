@@ -12,7 +12,18 @@ const PERSISTENCE_CONFIG = {
 };
 
 export const createPersistenceSystem = (initialState) => ({
+  _lastSaveTime: 0,
+  _saveThrottleMs: 2000, // 2 seconds
+
   saveGame(store, isManual = false) {
+    const now = Date.now();
+    
+    // Throttle check: only skip if not manual and within throttle window
+    if (!isManual && (now - this._lastSaveTime < this._saveThrottleMs)) {
+        return; 
+    }
+    
+    this._lastSaveTime = now;
     const saveObj = {};
     
     Object.keys(initialState).forEach(key => {
@@ -88,13 +99,31 @@ export const createPersistenceSystem = (initialState) => ({
         };
 
         deepMerge(store, data);
+
+        // --- SANITY CHECK: Clamp stats and resources to their respective limits ---
+        if (store.stats) {
+            Object.keys(store.stats).forEach(statId => {
+                if (statId.startsWith('max')) return; // Ignore limits themselves
+                const maxKey = 'max' + statId.charAt(0).toUpperCase() + statId.slice(1);
+                if (store.stats[maxKey] !== undefined) {
+                    store.stats[statId] = Math.min(store.stats[maxKey], store.stats[statId]);
+                }
+            });
+        }
+
         if (store.bus) store.bus.emit(store.EVENTS.SETTINGS_UPDATED);
+
+        // --- TASK CLEANUP: Clear any orphan task bars on load ---
+        store.activeTasks = {};
 
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         store.saveInfoText = `${store.t('ui_load_at', 'ui')} ${time}`;
         return true;
       } catch (e) {
-        console.warn('Save data corrupted, starting fresh.', e);
+        console.error('[PERSISTENCE] Critical failure loading save data:', e);
+        // Clear corrupt data to allow a clean restart
+        localStorage.removeItem('wings_save');
+        return false;
       }
     }
     return false;
@@ -114,7 +143,9 @@ export const createPersistenceSystem = (initialState) => ({
   importGameData(store, code) {
     if (!code) return false;
     try {
-        const decoded = decodeURIComponent(escape(atob(code.trim())));
+        // CLEANUP: Remove whitespace and line breaks that often break atob
+        const cleanCode = code.trim().replace(/\s/g, '');
+        const decoded = decodeURIComponent(escape(atob(cleanCode)));
         JSON.parse(decoded); // Validation check
         localStorage.setItem('wings_save', decoded);
         window.location.reload();

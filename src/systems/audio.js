@@ -1,15 +1,24 @@
 export const createAudioSystem = () => {
-  const sfx = {
-    click: new Audio('sfx/click.mp3'),
-    gather: new Audio('sfx/gather.mp3'),
-    success: new Audio('sfx/success.mp3'),
-    eat: new Audio('sfx/eat.mp3'),
-    fail: new Audio('sfx/fail.mp3'),
-    magic: new Audio('sfx/click.mp3'),       // Alias — no dedicated magic SFX yet
-    water: new Audio('sfx/gather.mp3'),       // Alias — water.mp3 does not exist
-    craft: new Audio('sfx/success.mp3'),      // Alias — craft.mp3 does not exist
-    discovery: new Audio('sfx/success.mp3')
+  // SFX Source Registry
+  const sfxSources = {
+    click: 'sfx/click.mp3',
+    gather: 'sfx/gather.mp3',
+    success: 'sfx/success.mp3',
+    eat: 'sfx/eat.mp3',
+    fail: 'sfx/fail.mp3'
   };
+
+  // SFX Instance Cache
+  const sfx = {};
+  
+  // Logical Aliases (Maps action keys to physical files)
+  const sfxAliases = {
+    magic: 'click',
+    water: 'gather',
+    craft: 'success',
+    discovery: 'success'
+  };
+
   const bgm = new Audio('music/forest_ambient.mp3');
   let isMusicPlaying = false;
 
@@ -17,10 +26,11 @@ export const createAudioSystem = () => {
     const { volumeGlobal, volumeMusic, volumeSfx, mute } = settings;
     const globalMult = mute ? 0 : volumeGlobal;
 
-    Object.entries(sfx).forEach(([key, s]) => {
+    // Apply to loaded instances
+    Object.keys(sfx).forEach(key => {
       let mult = volumeSfx;
       if (key === 'fail') mult *= 0.3;
-      s.volume = minMax(mult * globalMult);
+      sfx[key].volume = minMax(mult * globalMult);
     });
 
     bgm.volume = minMax(volumeMusic * globalMult);
@@ -28,28 +38,49 @@ export const createAudioSystem = () => {
 
   const minMax = (val) => Math.max(0, Math.min(1, val));
 
-  return {
-    init(settings) {
-      bgm.loop = true;
-      updateVolumes(settings);
-    },
+    const safePlay = (audio) => {
+      if (!audio) return;
+      audio.currentTime = 0;
+      return audio.play().catch(e => {
+        if (e.name !== 'NotAllowedError') console.warn("SFX failed", e);
+      });
+    };
 
-    updateVolumes,
+    return {
+      init(settings) {
+        bgm.loop = true;
+        updateVolumes(settings);
+      },
 
-    playSound(key) {
-      if (sfx[key]) {
-        sfx[key].currentTime = 0;
-        sfx[key].play().catch(e => console.warn("SFX playback blocked", e));
-      }
-    },
+      updateVolumes,
 
-    startMusic() {
-      if (!isMusicPlaying) {
-        bgm.play()
-          .then(() => { isMusicPlaying = true; })
-          .catch(e => console.warn("BGM playback blocked. Waiting for interaction.", e));
-      }
-    },
+      playSound(key) {
+        // Resolve alias if needed
+        const actualKey = sfxAliases[key] || key;
+        const source = sfxSources[actualKey];
+        if (!source) return;
+
+        // Lazy initialize
+        if (!sfx[actualKey]) {
+            sfx[actualKey] = new Audio(source);
+            // Volume update logic would go here, but we can just use store settings
+            const game = Alpine.store('game');
+            if (game?.settings) updateVolumes(game.settings);
+        }
+
+        safePlay(sfx[actualKey]);
+      },
+
+      startMusic() {
+        if (!isMusicPlaying) {
+          bgm.play()
+            .then(() => { isMusicPlaying = true; })
+            .catch(e => {
+               // Log but don't crash if BGM is blocked
+               console.log("BGM blocked by browser policy. Interaction required.");
+            });
+        }
+      },
 
     stopMusic() {
       bgm.pause();

@@ -10,8 +10,26 @@ export const createItemSystem = () => ({
         // Find instance in inventory
         const idx = store.discoveredItems.indexOf(id);
         if (idx === -1) return;
+
+        // 1. Wastage Protection: Check if consumption is meaningful
+        if (item.effect) {
+            const statsBenefitted = Object.entries(item.effect).filter(([stat, value]) => {
+                const maxKey = 'max' + stat.charAt(0).toUpperCase() + stat.slice(1);
+                const maxValue = store.stats[maxKey] || 100;
+                return store.stats[stat] < maxValue;
+            });
+            
+            // If the item ONLY provides stats (e.g., Bread) and all regulated stats are full, block it.
+            // Items with side-effects (onSuccess/Buffs) like Gourmet Meals are always consumable.
+            if (statsBenefitted.length === 0 && !item.onSuccess) {
+                const firstStat = Object.keys(item.effect)[0];
+                store.addLog(`fail_full_${firstStat}`, 'logs', 'var(--accent-red)');
+                store.playSound('fail');
+                return;
+            }
+        }
         
-        // 1. Apply Effects (Stats)
+        // 2. Apply Effects (Stats)
         if (item.effect) {
             Object.entries(item.effect).forEach(([stat, value]) => {
                 if (store.stats[stat] !== undefined) {

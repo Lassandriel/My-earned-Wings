@@ -11,7 +11,10 @@ export const itemDb = {
     image: 'img/items/Crafting_walkingstick.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'wood_yield', add: 1 }]
+    modifiers: [
+      { key: 'wood_yield', add: 1 },
+      { key: 'stone_yield', add: 1 }
+    ]
   },
   'item-axe': {
     id: 'item-axe',

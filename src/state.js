@@ -17,7 +17,6 @@ export const initialState = {
   settingsOpen: false,
   currentScale: 1,
   craftingSubView: 'all',
-  isLooping: false,
   
   // Dynamic Containers
   resources: {},

@@ -158,7 +158,13 @@ export default {
         intro_welcome: "Welcome back to solid ground.",
         fail_energy: "Not enough energy left.",
         fail_resources: "Missing resources for this action.",
-        fail_magic: "Your magic is not strong enough.",
+        fail_magic: "Your magic is insufficient.",
+        fail_buff_active: "Effect is still active.",
+        fail_wood: "Not enough Wood.",
+        fail_stone: "Not enough Stone.",
+        fail_meat: "Not enough Meat.",
+        fail_water: "Not enough Water.",
+        fail_herbs: "Not enough Herbs.",
         
         // --- PROLOGUE (logs context) ---
         intro_1: "Above you slides a magnificent Wind Dragon effortlessly from roof to roof. In its humanoid form, its folded wings look like a noble cloak.",
@@ -277,9 +283,11 @@ export default {
       npc_hunter_3: "\"Take this bow. It will be your voice in the thicket.\"",
       npc_hunter_5: "\"Shadows belong to us both now. I hunt at your side.\"",
       npc_ellie_1: "\"Wanderer... The ground is no prison for you.\"",
-      npc_ellie_2: "\"Beauty can flourish in the shadows... feel the rhythm.\"",
+      npc_ellis_2: "\"Beauty can flourish in the shadows... feel the rhythm.\"",
       npc_aris_1: "\"The earth trembles under the weight of your destiny.\"",
-      npc_aris_5: "\"You walk the ground, but your spirit touches the aether.\""
+      npc_aris_5: "\"You walk the ground, but your spirit touches the aether.\"",
+      npc_townHall_1: "\"Welcome to the Town Hall. All Shifters must be properly registered before settling here.\"",
+      npc_townHall_2: "\"Your papers are in order. I hereby grant you official permission to perform day labor in the village.\""
     },
 
     buffs: {

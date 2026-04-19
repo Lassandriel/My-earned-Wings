@@ -2,15 +2,12 @@
  * Resource and Stats System Manager
  */
 export const createResourceSystem = () => {
-    const getSatiationMultiplier = (state) => {
-        // Essential costs use a multiplier that is the inverse of efficiency
-        return 1 / (state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1);
-    };
-
     const getScaledCost = (state, type, baseAmount) => {
         const resDef = state.RESOURCE_REGISTRY[type];
         if (resDef?.scalesWithSatiation) {
-            return baseAmount * getSatiationMultiplier(state);
+            // Costs scale inversely with worker efficiency
+            const efficiency = state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1;
+            return baseAmount * (1 / efficiency);
         }
         return baseAmount;
     };
@@ -106,11 +103,6 @@ export const createResourceSystem = () => {
             return false;
         },
 
-        getSatiationMultiplier,
-        getScaledCost,
-
-        getEfficiency(state) {
-            return state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1;
-        }
+        getScaledCost
     };
 };

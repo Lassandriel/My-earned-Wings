@@ -24,7 +24,9 @@
                     <h4 class="npc-display-name" x-text="$store.game.t($store.game.content.get(npcId)?.nameKey)"></h4>
                     <!-- Progress Tracker -->
                     <div class="npc-progress-mini-track">
-                        <div class="npc-progress-fill" :style="'width: ' + $store.game.ui.getNPCProgressPercent($store.game, npcId) + '%'"></div>
+                        <div class="npc-progress-fill" 
+                             :class="$store.game.ui.getNPCProgressPercent($store.game, npcId) >= 100 && 'is-maxed'"
+                             :style="'width: ' + $store.game.ui.getNPCProgressPercent($store.game, npcId) + '%'"></div>
                     </div>
                 </div>
 

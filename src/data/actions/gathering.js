@@ -8,9 +8,6 @@ export const gatheringActions = {
     counter: 'food',
     rewards: { satiation: 'eat_satiation_gain' },
     satiationCost: 0,
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'eat_satiation_gain', 10) };
-    },
     logKey: 'eat_log'
   },
   'act-ausruhen': {
@@ -22,9 +19,6 @@ export const gatheringActions = {
     counter: 'rest',
     rewards: { energy: 'rest_energy_gain' },
     satiationCost: 0,
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'rest_energy_gain', 1) };
-    },
     logKey: 'rest_log'
   },
   'act-meditieren': {
@@ -36,9 +30,6 @@ export const gatheringActions = {
     counter: 'magic',
     rewards: { magic: 15 },
     satiationCost: 0,
-    calculateYield(store) {
-      return { val: 15 };
-    },
     logKey: 'meditate_log'
   },
   'act-study': {
@@ -49,53 +40,44 @@ export const gatheringActions = {
     particleType: 'magic',
     counter: 'study',
     rewards: { maxMagic: 'magic_limit_gain' },
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'magic_limit_gain', 1) };
-    },
     logKey: 'study_success',
     logColor: 'var(--accent-teal)'
   },
   'act-wood': {
     id: 'act-wood',
     cost: 8, costType: 'energy', yieldType: 'wood',
+    duration: 1000,
     sfx: 'gather',
     counter: 'wood',
     isLoopable: true,
     rewards: { wood: 'wood_yield' },
     particleText: 'ui_wood',
     particleType: 'wood',
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'wood_yield', 1) };
-    },
     logKey: 'wood_log'
   },
   'act-stone': {
     id: 'act-stone',
     cost: 12, costType: 'energy', yieldType: 'stone',
+    duration: 1000,
     sfx: 'gather',
     counter: 'stone',
     isLoopable: true,
     rewards: { stone: 'stone_yield' },
     particleText: 'ui_stone',
     particleType: 'stone',
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'stone_yield', 1) };
-    },
     logKey: 'stone_log'
   },
   'act-hunt': {
     id: 'act-hunt',
     cost: 25, costType: 'energy', yieldType: 'meat',
+    duration: 1000,
     requirements: { 'flags.item-bow': true }, // Corrected path to item flag
     sfx: 'gather',
     particleText: '+ Fleisch',
     particleType: 'energy',
     counter: 'food',
     isLoopable: true,
-    rewards: { meat: 2 },
-    calculateYield(store) {
-      return { val: 2 };
-    },
+    rewards: { meat: 'meat_yield' },
     logKey: 'hunt_log'
   },
   'act-garden-plant': {
@@ -104,12 +86,10 @@ export const gatheringActions = {
     duration: 10000,
     requirements: { 'flags.build-garden': true },
     sfx: 'gather',
+    isLoopable: true,
     rewards: { herbs: 'garden_yield' },
     particleText: 'ui_herbs',
     particleType: 'energy',
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'garden_yield', 3) };
-    },
     logKey: 'garden_harvest_log'
   },
   'act-garden-plant-2': {
@@ -123,9 +103,6 @@ export const gatheringActions = {
     yieldType: 'herbs',
     isLoopable: true,
     rewards: { herbs: 'garden_yield' },
-    calculateYield(store) {
-      return { val: store.pipeline.calculate(store, 'garden_yield', 3) };
-    },
     logKey: 'garden_harvest_log'
   },
   'act-cook-gourmet': {

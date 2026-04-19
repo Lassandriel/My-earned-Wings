@@ -83,7 +83,7 @@ export const npcActions = {
     journalIcon: '🏛️', journalColor: '#94a3b8',
     steps: [
         { cost: 20, costType: 'energy' },
-        { cost: 25, costType: 'energy' },
+        { cost: 25, costType: 'energy', onSuccess: [{ type: 'setFlag', flag: 'unlocked-work', value: true }] },
         { costs: { shards: 100 } },
         { cost: 30, costType: 'energy' },
         { cost: 40, costType: 'energy', reward: 'item-deed' }
@@ -184,7 +184,7 @@ export const npcActions = {
     progKey: 'aris', maxProgress: 5,
     journalIcon: '🧙‍♂️', journalColor: '#8b5cf6',
     steps: [
-        { cost: 20, costType: 'magic' },
+        { cost: 20, costType: 'magic', onSuccess: [{ type: 'setFlag', flag: 'ability-arcane-focus', value: true }] },
         { cost: 30, costType: 'magic', reward: 'item-arcane-dust' },
         { cost: 40, costType: 'magic' },
         { cost: 50, costType: 'magic', reward: 'item-crystal-mana' },

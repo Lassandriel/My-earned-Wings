@@ -45,13 +45,13 @@ graph TD
     Garden --> Ellie["NPC: Ellie (Dream Wyvern)"]
     
     %% Trader System (Decentralized)
-    Baker -- "Reputation 2/5" --> SellWood["Trade: Sell Wood"]
+    Baker -- "Reputation 1/5" --> SellWood["Trade: Sell Wood"]
     Hunter -- "Reputation 2/5" --> MeatTrade["Trade: Sell/Buy Meat"]
     Artisan -- "Reputation 1/3" --> SellStone["Trade: Sell Stone"]
-    TownHall -- "Reputation 1/5" --> WorkAction["Work: Clean Paths"]
+    TownHall -- "Reputation 1/5" --> WorkAction["Work: Day Labor (Main Tab)"]
     
     %% Automation
-    Teacher -- "Invest Magic" --> ArcaneFocus["Ability: Arcane Focus"]
+    Aris -- "Level 1 Progress" --> ArcaneFocus["Ability: Arcane Focus"]
     
     %% Stage 4: Eternal Roots (The Transformation)
     Aris --> Finale_Check{"Finale Requirements"}

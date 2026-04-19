@@ -14,7 +14,7 @@ export const NPC_REGISTRY = {
         chapter: 'Village Life',
         unlockedAtStart: true,
         tradeActions: [
-            { id: 'act-sell-wood', minProgress: 2 }
+            { id: 'act-sell-wood', minProgress: 1 }
         ]
     },
     'npc-flowerGirl': {

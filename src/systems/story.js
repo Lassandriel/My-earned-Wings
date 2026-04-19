@@ -16,6 +16,11 @@ export const createStorySystem = () => ({
     
     store.storyHistory.unshift(historyEntry);
     
+    // Pruning: Keep only top 50 entries to prevent localStorage bloat
+    if (store.storyHistory.length > 50) {
+        store.storyHistory.pop();
+    }
+    
     // Milestones trigger success sound
     if (action.isStory || action.isMilestone) {
         store.bus.emit(store.EVENTS.SOUND_TRIGGERED, { key: 'success' });

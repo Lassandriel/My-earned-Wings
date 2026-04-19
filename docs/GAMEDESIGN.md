@@ -38,24 +38,22 @@
 
 ### 2.3 NPC & Community
 
-NPCs are the gateway to story, secrets, and trade.
+NPCs sind der Schlüssel zu Story, Geheimnissen und dem Markt.
+* **Story-Progression**: Das Vertiefen von Bindungen (Level 5) ist notwendig für das Finale.
+* **Dezentraler Markt**: Es gibt keinen zentralen Marktplatz. Handel findet individuell bei NPCs statt (Bäcker kauft Holz, Handwerker kauft Stein, Jäger handelt mit Fleisch).
+* **Zugangsbeschränkungen**: Bestimmte Aktionen wie der „Tagelohn“ (Work) müssen erst questbasiert freigeschaltet werden (z.B. durch die Arbeitserlaubnis des Rathaus-Beamten).
 
-* **Story Progression**: Deepening bonds (Level 5) unlocks the finale.
-* **Decentralized Commerce**: Trading is integrated directly into NPC interactions. There is no central marketplace; instead, the player trades with trusted community members.
-* **Reputation-Gated Trades**: Trading options (e.g., selling wood to the Baker) unlock as the player increases their bond with the respective NPC.
+### 2.4 Gehäuse & Kapazität
 
-### 2.4 Housing & Capacity
+* **Lagerraum**: Startkapazität von **25** sorgt für einen strategischen Start. Lagergebäude erhöhen dies massiv.
+* **Haus**: Kostet 40 Holz / 40 Stein. Schaltet Küche und Sanktum frei.
 
-* **Storage**: Initial capacity of **25** for primary resources ensures a strategic early game. Building dedicated storage units increases this limit significantly.
-* **House**: Costs 40 Wood / 40 Stone. Unlocks Kitchen and Sanctum.
+### 2.5 Automatisierung: Arkaner Fokus
 
-### 2.5 Automation: Arcane Focus
-
-The core of late-game efficiency is the **Arcane Focus**:
-
-* **Mechanism**: Automates any `isLoopable` action.
-* **Drain**: Consumes **3 Magic per second** while active.
-* **Benefit**: Replaces the **Energy cost** of the action with Magic, allowing effortless gathering while focused.
+Die Automatisierung ist ein exklusives Feature, das Magie erfordert:
+* **Mechanismus**: Der ✨ **Arcane Focus** automatisiert jede `isLoopable` Aktion.
+* **Kosten**: Verbraucht **3 Magie pro Sekunde**. Es gibt keine „Gratis-Dauerschleife“.
+* **Nutzen**: Ersetzt die **Energiekosten** der Aktion durch Magie, was das Sammeln während Ruhephasen ermöglicht.
 
 ---
 

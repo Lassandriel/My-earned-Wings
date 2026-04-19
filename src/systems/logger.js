@@ -10,13 +10,13 @@ export const createLoggerSystem = () => ({
     const finalColor = color || 'rgba(226, 232, 240, 0.7)';
     const finalContext = context || 'logs';
 
-    // IDs that should always show a new entry (no grouping)
-    const instantLogIds = ['herbs_gain', 'wood_gain', 'stone_gain', 'action_study', 'garden_harvest_log'];
-
     // Grouping logic: If identical to the last message, just increment count
-    if (!instantLogIds.includes(id) && lastLog && lastLog.id === id && lastLog.context === finalContext && lastLog.color === finalColor) {
+    // Exceptions: Story messages and specific one-off events
+    const noGroupIds = ['intro_1', 'intro_welcome', 'milestone_tree_of_life'];
+    
+    if (!noGroupIds.includes(id) && lastLog && lastLog.id === id && lastLog.context === finalContext) {
       lastLog.count++;
-      lastLog.timestamp = Date.now() + Math.random(); // Update timestamp to trigger Alpine :key update
+      lastLog.timestamp = Date.now() + Math.random(); 
       return;
     }
 

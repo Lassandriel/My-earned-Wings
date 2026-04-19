@@ -11,24 +11,38 @@ export const createContentService = (registries) => ({
 
     /**
      * Finds an entry by ID across all registries or in a specific one.
+     * Injects defaults to prevent UI crashes.
      */
     get(id, type = null) {
+        let data = null;
         if (type && this.registries[type]) {
-            return this.registries[type][id];
+            data = this.registries[type][id];
+        } else {
+            const detectedType = this.detectType(id);
+            if (detectedType && this.registries[detectedType]) {
+                data = this.registries[detectedType][id];
+            } else {
+                for (const reg of Object.values(this.registries)) {
+                    if (reg[id]) { data = reg[id]; break; }
+                }
+            }
         }
 
-        // Auto-detect by prefix if type is unknown
-        const detectedType = this.detectType(id);
-        if (detectedType && this.registries[detectedType]) {
-            return this.registries[detectedType][id];
+        if (!data) return null;
+
+        // --- TYPE-SPECIFIC DEFAULTS (The Guard) ---
+        const defaults = {
+            npcs: { nameKey: 'ui_unknown', icon: '👤', color: 'var(--text-main)', maxProgress: 5 },
+            items: { title: 'Unknown Item', desc: 'No description.', icon: '📦' },
+            actions: { title: 'Action', desc: '...', icon: '⚡' }
+        };
+
+        const detectedType = type || this.detectType(id);
+        if (defaults[detectedType]) {
+            return { ...defaults[detectedType], ...data };
         }
 
-        // Brute force search
-        for (const reg of Object.values(this.registries)) {
-            if (reg[id]) return reg[id];
-        }
-
-        return null;
+        return data;
     },
 
     /**

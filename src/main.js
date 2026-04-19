@@ -20,6 +20,7 @@ import { createActionSystem } from './systems/actions.js';
 import { createEngineSystem } from './systems/engine.js';
 import { createItemSystem } from './systems/item.js';
 import { createPipelineSystem } from './systems/pipeline.js';
+import { createViewManagerSystem } from './systems/viewManager.js';
 import { createEventBus, GAME_EVENTS } from './systems/bus.js';
 import { createContentService } from './systems/content.js';
 
@@ -37,12 +38,14 @@ const buildInitialState = () => {
     // Auto-populate resources and stats from Registry
     Object.values(registries.resources).forEach(res => {
         if (res.type === 'resource') {
-            baseState.resources[res.id] = res.initial || 0;
-            baseState.limits[res.id] = res.initialLimit || 0;
+            const limit = res.initialLimit || 0;
+            baseState.limits[res.id] = limit;
+            baseState.resources[res.id] = Math.min(limit, res.initial || 0);
         } else if (res.type === 'stat') {
-            baseState.stats[res.id] = res.initial || 100;
+            const max = res.initialMax || 100;
             const maxKey = 'max' + res.id.charAt(0).toUpperCase() + res.id.slice(1);
-            baseState.stats[maxKey] = res.initialMax || 100;
+            baseState.stats[maxKey] = max;
+            baseState.stats[res.id] = Math.min(max, res.initial || 100);
         }
     });
 
@@ -89,6 +92,7 @@ Alpine.store('game', {
     item: createItemSystem(),
     dialogue: createDialogueSystem(),
     pipeline: createPipelineSystem(),
+    viewManager: createViewManagerSystem(),
     bus: createEventBus(),
     EVENTS: GAME_EVENTS,
 
@@ -123,6 +127,21 @@ Alpine.store('game', {
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
+        // --- GLOBAL UI WATCHER: Auto-cleanup hovered state on view changes ---
+        Alpine.effect(() => {
+            const view = store.view;
+            const subView = store.craftingSubView;
+            
+            // VIEW SANITY GUARD (Wave 9)
+            const VALID_VIEWS = ['menu', 'prologue', 'naming', 'gameplay', 'village', 'finale'];
+            if (!VALID_VIEWS.includes(view)) {
+                console.warn(`[UI] Invalid view detected: ${view}. Falling back to menu.`);
+                store.view = 'menu';
+            }
+
+            if (store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);
+        });
+
         store.view = 'menu';
 
         const startMusicOnce = () => {
@@ -133,16 +152,16 @@ Alpine.store('game', {
     },
 
     // --- PROXIES & DELEGATES ---
-    startNewGame() { const store = Alpine.store('game'); store.ui.startNewGame(store, buildInitialState); },
-    continueGame() { const store = Alpine.store('game'); store.ui.continueGame(store); },
-    finishPrologue() { const store = Alpine.store('game'); store.ui.finishPrologue(store); },
+    startNewGame() { const store = Alpine.store('game'); store.viewManager.startNewGame(store, buildInitialState); },
+    continueGame() { const store = Alpine.store('game'); store.viewManager.continueGame(store); },
+    finishPrologue() { const store = Alpine.store('game'); store.viewManager.finishPrologue(store); },
+    confirmName(name) { const store = Alpine.store('game'); store.viewManager.confirmName(store, name); },
+    resolveConfirm(conf) { const store = Alpine.store('game'); store.viewManager.resolveConfirm(store, conf); },
     
-    isTaskActive(id) { return !!this.activeTasks[id]; },
-    
-    executeAction(id) { const store = Alpine.store('game'); return store.actions.execute(store, id); },
+    executeAction(id) { return this.actions.execute(this, id); },
     
     attemptAction(el, id) {
-        if (this.isTaskActive(id)) return;
+        if (this.activeTasks[id]) return;
         const res = this.executeAction(id);
         if (res === false || (res && res.success === false)) {
             if (el) {
@@ -166,14 +185,14 @@ Alpine.store('game', {
             }
         }
     },
-    npcExecute(id) { const store = Alpine.store('game'); return store.npc.execute(store, id); },
-    toggleCompanion(id) { const store = Alpine.store('game'); store.npc.toggleCompanion(store, id); },
-    consumeItem(id) { const store = Alpine.store('game'); store.item.consumeItem(store, id); },
+    npcExecute(id) { return this.npc.execute(this, id); },
+    consumeItem(id) { return this.item.consumeItem(this, id); },
     
     saveGame(isManual = false) { this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); },
     loadGame() { const store = Alpine.store('game'); return store.persistence.loadGame(store); },
     setLanguage(lang) { const store = Alpine.store('game'); store.language = lang; store.saveGame(); },
-    hardReset() { const store = Alpine.store('game'); store.ui.hardReset(store); },
+    hardReset() { const store = Alpine.store('game'); store.viewManager.hardReset(store); },
+    returnToMenu() { const store = Alpine.store('game'); store.viewManager.returnToMenu(store); },
     
     t(key, context = 'ui', params = {}) { 
         const store = Alpine.store('game');
@@ -191,14 +210,7 @@ Alpine.store('game', {
         this.bus.emit(this.EVENTS.LOG_ADDED, { id, context, color, params }); 
     },
 
-    completeDemo() {
-        const store = Alpine.store('game');
-        store.demoCompleted = true;
-        store.view = 'gameplay'; // Return to gameplay but with modal on top
-        store.addLog('milestone_tree_of_life', 'logs', 'var(--accent-teal)');
-        store.playSound('success');
-        store.saveGame();
-    },
+    completeDemo() { const store = Alpine.store('game'); store.viewManager.completeDemo(store); },
 
     // --- GETTERS ---
     getActionEffect(hAction) { return this.ui.getActionEffect(this, hAction); },
@@ -211,9 +223,7 @@ Alpine.store('game', {
     get magicPercent() { return this.ui.getStatPercent(this, 'magic'); },
     get satiationPercent() { return this.ui.getStatPercent(this, 'satiation'); },
     
-    get groupedHistory() { return this.story.getGroupedHistory(this); },
-    getSatiationMultiplier() { return this.resource.getSatiationMultiplier(this); },
-    get efficiency() { return this.resource.getEfficiency(this); }
+    get groupedHistory() { return this.story.getGroupedHistory(this); }
 });
 
 Alpine.start();
@@ -247,4 +257,10 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('mousemove', (e) => {
     const store = Alpine.store('game');
     if (store && store.ui) store.ui.handleMouseMove(e, store);
+});
+
+// --- UI SAFETY: Cleanup hover when mouse leaves the window ---
+window.addEventListener('mouseleave', () => {
+    const store = Alpine.store('game');
+    if (store && store.ui) store.ui.cleanupHover(store);
 });

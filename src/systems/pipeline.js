@@ -9,7 +9,13 @@ export const createPipelineSystem = () => {
          * Calculates a modified value for a given key.
          * Formula: (Base + TotalAdditive) * TotalMultiplicative
          */
-        calculate(store, key, baseValue) {
+        calculate(store, key, baseValue = 1) {
+            // Default base overrides for specific keys
+            let base = baseValue;
+            if (key === 'meat_yield') base = 2;
+            if (key === 'garden_yield') base = 3;
+            if (key === 'shards_yield') base = 15;
+
             const modifiers = this.getModifiers(store, key);
             
             let add = 0;
@@ -20,7 +26,15 @@ export const createPipelineSystem = () => {
                 if (m.mult) mult *= m.mult;
             });
             
-            return (baseValue + add) * mult;
+            const final = (base + add) * mult;
+            
+            // --- FINAL SAFETY GUARD (Wave 9) ---
+            if (isNaN(final) || !isFinite(final)) {
+                console.warn(`[PIPELINE] Invalid result for ${key}. Falling back to base.`, final);
+                return base;
+            }
+
+            return Math.round(final * 100) / 100;
         },
 
         /**

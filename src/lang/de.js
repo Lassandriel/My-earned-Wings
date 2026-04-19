@@ -159,6 +159,12 @@ export default {
         fail_energy: "Nicht genug Energie übrig.",
         fail_resources: "Mangelnde Ressourcen für diese Aktion.",
         fail_magic: "Deine Magie reicht nicht aus.",
+        fail_buff_active: "Wirkung ist noch aktiv.",
+        fail_wood: "Nicht genug Holz.",
+        fail_stone: "Nicht genug Stein.",
+        fail_meat: "Nicht genug Fleisch.",
+        fail_water: "Nicht genug Wasser.",
+        fail_herbs: "Nicht genug Kräuter.",
         
         // --- PROLOGUE (logs context) ---
         intro_1: "Über dir gleitet ein prächtiger Winddrache mühelos von Dach zu Dach. In seiner humanoiden Form wirken seine zusammengeklappten Schwingen wie ein edler Mantel.",
@@ -287,7 +293,9 @@ export default {
       npc_ellie_1: "\"Wanderer... Der Boden ist kein Gefängnis für dich.\"",
       npc_ellie_2: "\"Schönheit kann auch im Schatten gedeihen... spüre den Rhythmus.\"",
       npc_aris_1: "\"Die Erde bebt unter der Last deiner Bestimmung.\"",
-      npc_aris_5: "\"Du wanderst am Boden, aber dein Geist berührt den Aether.\""
+      npc_aris_5: "\"Du wanderst am Boden, aber dein Geist berührt den Aether.\"",
+      npc_townHall_1: "\"Willkommen im Rathaus. Alle Wandler müssen ordnungsgemäß registriert sein, bevor sie sich hier niederlassen.\"",
+      npc_townHall_2: "\"Deine Papiere sind nun in Ordnung. Hiermit erteile ich dir die offizielle Erlaubnis, im Dorf gegen Bezahlung zu arbeiten.\""
     },
 
     buffs: {
