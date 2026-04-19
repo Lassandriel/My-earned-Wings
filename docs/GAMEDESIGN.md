@@ -46,7 +46,7 @@ NPCs are the gateway to story, secrets, and trade.
 
 ### 2.4 Housing & Capacity
 
-* **Storage**: Increased early-game capacity (50) allows for smooth house progression.
+* **Storage**: Initial capacity of **25** for primary resources ensures a strategic early game. Building dedicated storage units increases this limit significantly.
 * **House**: Costs 40 Wood / 40 Stone. Unlocks Kitchen and Sanctum.
 
 ### 2.5 Automation: Arcane Focus
