@@ -1,6 +1,6 @@
 <!-- SETTINGS MODAL (Senior Unified Rework) -->
 <div id="modal-settings" class="modal-overlay" x-show="$store.game.settingsOpen" style="display: none" 
-     x-transition:enter="modal-fade-in" x-transition:leave="modal-fade-out" 
+     x-transition.opacity 
      @click.self="$store.game.settingsOpen = false">
   
   <div class="settings-modal-unified">
@@ -17,7 +17,7 @@
       <section class="settings-card">
         <h3 x-text="$store.game.t('settings_name')">Player</h3>
         <div class="control-group">
-          <input type="text" x-model="$store.game.playerName" :placeholder="$store.game.t('settings_name') + '...'" @input="$store.game.persistence.saveGame($store.game)" />
+          <input type="text" x-model="$store.game.playerName" :placeholder="$store.game.t('settings_name') + '...'" @change="$store.game.saveGame()" />
         </div>
       </section>
 
@@ -30,7 +30,7 @@
             <span x-text="$store.game.t('settings_vol_global')">Global</span>
             <span class="val-pill" x-text="Math.round($store.game.settings.volumeGlobal * 100) + '%'"></span>
           </label>
-          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeGlobal" @input="$store.game.audio.updateVolumes($store.game.settings)">
+          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeGlobal" @input="$store.game.audio.updateVolumes($store.game.settings)" @change="$store.game.saveGame()">
         </div>
 
         <div class="control-group">
@@ -38,7 +38,7 @@
             <span x-text="$store.game.t('settings_vol_music')">Music</span>
             <span class="val-pill" x-text="Math.round($store.game.settings.volumeMusic * 100) + '%'"></span>
           </label>
-          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeMusic" @input="$store.game.audio.updateVolumes($store.game.settings)">
+          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeMusic" @input="$store.game.audio.updateVolumes($store.game.settings)" @change="$store.game.saveGame()">
         </div>
 
         <div class="control-group">
@@ -46,13 +46,13 @@
             <span x-text="$store.game.t('settings_vol_sfx')">SFX</span>
             <span class="val-pill" x-text="Math.round($store.game.settings.volumeSfx * 100) + '%'"></span>
           </label>
-          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeSfx" @input="$store.game.audio.updateVolumes($store.game.settings)">
+          <input type="range" min="0" max="1" step="0.01" x-model="$store.game.settings.volumeSfx" @input="$store.game.audio.updateVolumes($store.game.settings)" @change="$store.game.saveGame()">
         </div>
 
         <div class="control-group row-flex">
           <span x-text="$store.game.t('settings_mute')">Mute</span>
           <label class="toggle-switch">
-            <input type="checkbox" x-model="$store.game.settings.mute" @change="$store.game.audio.updateVolumes($store.game.settings)">
+            <input type="checkbox" x-model="$store.game.settings.mute" @change="$store.game.audio.updateVolumes($store.game.settings); $store.game.saveGame()">
             <span class="slider round"></span>
           </label>
         </div>
@@ -64,7 +64,7 @@
         <div class="control-group row-flex">
           <span x-text="$store.game.t('settings_show_particles')">Particles</span>
           <label class="toggle-switch">
-            <input type="checkbox" x-model="$store.game.settings.showParticles">
+            <input type="checkbox" x-model="$store.game.settings.showParticles" @change="$store.game.saveGame()">
             <span class="slider round"></span>
           </label>
         </div>
@@ -72,7 +72,7 @@
         <div class="control-group row-flex">
           <span x-text="$store.game.t('settings_show_juice')">Floating Text</span>
           <label class="toggle-switch">
-            <input type="checkbox" x-model="$store.game.settings.showJuice">
+            <input type="checkbox" x-model="$store.game.settings.showJuice" @change="$store.game.saveGame()">
             <span class="slider round"></span>
           </label>
         </div>
@@ -81,10 +81,10 @@
 
         <h3 x-text="$store.game.t('settings_lang')">Language</h3>
         <div class="lang-grid">
-          <button class="lang-btn-modern" :class="$store.game.language === 'de' && 'active'" @click="$store.game.ui.setLanguage($store.game, 'de')">
+          <button class="lang-btn-modern" :class="$store.game.language === 'de' && 'active'" @click="$store.game.setLanguage('de')">
             Deutsch
           </button>
-          <button class="lang-btn-modern" :class="$store.game.language === 'en' && 'active'" @click="$store.game.ui.setLanguage($store.game, 'en')">
+          <button class="lang-btn-modern" :class="$store.game.language === 'en' && 'active'" @click="$store.game.setLanguage('en')">
             English
           </button>
         </div>
@@ -118,7 +118,7 @@
         </div>
 
         <div class="danger-zone">
-          <button class="danger-btn" @click="$store.game.persistence.hardReset($store.game)">
+          <button class="danger-btn" @click="$store.game.hardReset()">
             <span x-text="$store.game.t('settings_reset')">Hard Reset</span>
           </button>
           <button class="quit-btn-modern" @click="window.electronAPI?.quitApp()">

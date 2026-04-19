@@ -1,7 +1,7 @@
 <!-- FLOATING TOOLTIP (Senior Redesign) -->
 <div
   class="floating-tooltip"
-  x-show="$store.game.hoveredAction"
+  x-show="$store.game.hoveredAction && !$store.game.settingsOpen && !$store.game.confirmModal.open"
   style="display: none"
   x-transition:enter="tt-enter"
   x-transition:enter-start="tt-enter-start"

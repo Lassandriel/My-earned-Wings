@@ -1,44 +1,43 @@
+/** Total number of prologue slides. Update here only if new slides are added. */
+const PROLOGUE_STEPS = 7;
+
 export const createPrologueSystem = () => ({
   playIntro(state) {
     state.prologueStep = 1;
     state.view = 'prologue';
-    
+
     // Log the very first sentence immediately
-    state.addLog('intro_1', 'logs', 'rgba(210, 180, 140, 0.85)');
+    state.addLog('intro_1', 'logs', 'var(--accent-teal)');
   },
 
   advancePrologue(state) {
     if (state.view !== 'prologue') return;
     state.playSound('click');
 
-    if (state.prologueStep < 7) {
+    if (state.prologueStep < PROLOGUE_STEPS) {
       state.prologueStep++;
-      state.addLog(`intro_${state.prologueStep}`, 'logs', 'rgba(210, 180, 140, 0.85)');
+      state.addLog(`intro_${state.prologueStep}`, 'logs', 'var(--accent-teal)');
     } else {
-      state.prologue.finishPrologue(state);
+      // Directly call the store proxy — no empty delegation needed
+      state.finishPrologue();
     }
-  },
-
-  finishPrologue(state) {
-    state.finishPrologue();
   },
 
   skipPrologue(state) {
     if (state.view !== 'prologue') return;
-    
+
     state.playSound('click');
 
-    // Log all intro sentences that haven't been logged yet
-    for (let i = 1; i <= 7; i++) {
+    // Log all intro sentences that haven't been shown yet
+    for (let i = 1; i <= PROLOGUE_STEPS; i++) {
       const logKey = `intro_${i}`;
       const alreadyInLogs = state.logs.some(log => log.id === logKey);
-      
+
       if (!alreadyInLogs) {
-        state.addLog(logKey, 'logs', 'rgba(210, 180, 140, 0.85)');
+        state.addLog(logKey, 'logs', 'var(--accent-teal)');
       }
     }
-    
-    // Call the centralized store method directly
+
     state.finishPrologue();
   }
 });

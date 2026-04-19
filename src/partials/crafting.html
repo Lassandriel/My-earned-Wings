@@ -70,7 +70,7 @@
       <template x-for="bp in getConstructionItems()" :key="bp.id">
         <button class="blueprint-card" 
                 :class="isCompleted(bp.id) && 'is-completed'"
-                @click="!isCompleted(bp.id) && $store.game.executeAction(bp.id)"
+                @click="!isCompleted(bp.id) && $store.game.attemptAction($el, bp.id)"
                 @mouseover="$store.game.hoveredAction = {id: bp.id, data: $store.game.content.get(bp.id)}"
                 @mouseout="$store.game.hoveredAction = null"
         >

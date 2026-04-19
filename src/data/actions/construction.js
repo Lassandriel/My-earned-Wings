@@ -18,7 +18,8 @@ export const constructionActions = {
         { type: 'unlockNPC', id: 'npc-flowerGirl' }
     ],
     logKey: 'milestone_campfire',
-    logColor: 'var(--gold)'
+    logColor: 'var(--gold)',
+    modifiers: [{ key: 'rest_energy_gain', add: 10 }]
   },
   'build-tent': {
     id: 'build-tent',
@@ -36,7 +37,8 @@ export const constructionActions = {
         { type: 'unlockNPC', id: 'npc-townHall' }
     ],
     logKey: 'milestone_tent',
-    logColor: 'var(--gold)'
+    logColor: 'var(--gold)',
+    modifiers: [{ key: 'rest_energy_gain', add: 15 }]
   },
   'build-wood-storage': {
     id: 'build-wood-storage',
@@ -245,7 +247,8 @@ export const constructionActions = {
         { type: 'unlockRecipe', id: 'act-book' }
     ],
     logKey: 'craft_bookshelf',
-    logColor: 'rgba(20, 184, 166, 0.9)'
+    logColor: 'rgba(20, 184, 166, 0.9)',
+    modifiers: [{ key: 'magic_limit_gain', add: 5 }]
   },
   'act-book': {
     id: 'act-book',
@@ -315,7 +318,15 @@ export const constructionActions = {
         { type: 'unlockNPC', id: 'npc-ellie' }
     ],
     logKey: 'milestone_garden',
-    logColor: 'var(--accent-teal)'
+    logColor: 'var(--accent-teal)',
+    passiveProduction: {
+        id: 'garden-harvest',
+        resource: 'herbs',
+        interval: 10000,
+        baseYield: 3,
+        magicCost: 5,
+        requirements: { 'npcProgress.ellie': { op: '>=', val: 2 } }
+    }
   },
   'build-garden-upgrade': {
     id: 'build-garden-upgrade',
@@ -331,7 +342,8 @@ export const constructionActions = {
         { type: 'setFlag', flag: 'gardenLevel', value: 2 }
     ],
     logKey: 'milestone_garden_upgrade',
-    logColor: 'var(--accent-teal)'
+    logColor: 'var(--accent-teal)',
+    modifiers: [{ key: 'garden_yield', mult: 1.5 }]
   },
   'act-bed-2': {
     id: 'act-bed-2',

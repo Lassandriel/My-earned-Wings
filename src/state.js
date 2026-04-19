@@ -32,10 +32,12 @@ export const initialState = {
   discoveredResources: [],
   discoveredItems: [],
   unlockedRecipes: [],
-  unlockedNPCs: ['npc-baker', 'npc-teacher', 'npc-hunter'],
+  unlockedNPCs: [],
   
   // HUD & UI
   hoveredAction: null,
+  selectedItem: null,
+  confirmModal: { open: false, message: '', onConfirm: null },
   activeFocus: null,
   currentObjective: '',
   logs: [],
@@ -58,7 +60,8 @@ export const initialState = {
   
   activeTasks: {},
   demoCompleted: false,
-  demoCompletedHintSeen: false
+  demoCompletedHintSeen: false,
+  dialogueActive: false
 };
 
 export const getTranslations = () => translations;

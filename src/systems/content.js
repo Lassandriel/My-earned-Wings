@@ -4,6 +4,10 @@
  */
 export const createContentService = (registries) => ({
     registries,
+    cache: {
+        categories: {},
+        npcActions: {}
+    },
 
     /**
      * Finds an entry by ID across all registries or in a specific one.
@@ -25,6 +29,41 @@ export const createContentService = (registries) => ({
         }
 
         return null;
+    },
+
+    /**
+     * Optimized lookup for resource categories.
+     * Prevents large filter loops in template.
+     */
+    getCategorizedResources(category) {
+        if (this.cache.categories[category]) return this.cache.categories[category];
+        
+        const list = Object.values(this.registries.resources).filter(r => r.category === category);
+        this.cache.categories[category] = list;
+        return list;
+    },
+
+    /**
+     * Resolves all available actions for a specific NPC, 
+     * including trade offers and specialty sub-menus.
+     */
+    getNPCActions(store, npcId) {
+        const npc = this.registries.npcs[npcId];
+        if (!npc || !npc.tradeActions) return [];
+
+        return npc.tradeActions.filter(trade => {
+            // Check if requirement exists (legacy minProgress support or new rule)
+            if (trade.minProgress !== undefined) {
+                const progKey = npc.progKey;
+                return (store.npcProgress[progKey] || 0) >= trade.minProgress;
+            }
+            if (trade.requirements) {
+                return Object.entries(trade.requirements).every(([path, rule]) => {
+                    return store.actions.checkRequirement(store, path, rule);
+                });
+            }
+            return true;
+        }).map(trade => this.registries.actions[trade.id]).filter(Boolean);
     },
 
     detectType(id) {

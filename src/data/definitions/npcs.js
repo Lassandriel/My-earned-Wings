@@ -12,6 +12,7 @@ export const NPC_REGISTRY = {
         progKey: 'baker', // Key in store.npcProgress
         maxProgress: 5,
         chapter: 'Village Life',
+        unlockedAtStart: true,
         tradeActions: [
             { id: 'act-sell-wood', minProgress: 2 }
         ]
@@ -47,7 +48,8 @@ export const NPC_REGISTRY = {
         image: 'img/npcs/teacher.webp',
         progKey: 'teacher',
         maxProgress: 5,
-        chapter: 'Village Life'
+        chapter: 'Village Life',
+        unlockedAtStart: true
     },
     'npc-townHall': {
         id: 'npc-townHall',
@@ -91,6 +93,7 @@ export const NPC_REGISTRY = {
         progKey: 'hunter',
         maxProgress: 5,
         chapter: 'Village Life',
+        unlockedAtStart: true,
         tradeActions: [
             { id: 'act-sell-meat', minProgress: 2 },
             { id: 'act-buy-meat', minProgress: 2 }

@@ -62,26 +62,5 @@ export const createStorySystem = () => ({
         if (b.id === 'world') return 1;
         return a.name.localeCompare(b.name);
     });
-  },
-
-  /**
-   * Checks if the player meets all requirements to enter the finale (Tree of Life).
-   */
-  canAccessTreeOfLife(store) {
-    // 1. Requirement: House built
-    if (!store.flags['build-house']) return false;
-    
-    // 2. Requirement: Specific NPCs finished their story
-    const requiredNpcs = ['npc-baker', 'npc-teacher', 'npc-sage'];
-    const allNpcsDone = requiredNpcs.every(id => {
-        const npc = store.content.get(id, 'npcs');
-        if (!npc) return false;
-        return (store.npcProgress[npc.progKey] || 0) >= npc.maxProgress;
-    });
-
-    // 3. Requirement: Academic progress
-    const studyCount = store.counters.study || 0;
-
-    return allNpcsDone && studyCount >= 3;
   }
 });

@@ -20,6 +20,8 @@ export default {
         cat_log: "Ereignis-Log",
         cat_provisions: "Proviant",
         cat_artifacts: "Artefakte",
+        ui_materials: "Materialien",
+        ui_provisions: "Proviant",
         
         // --- RESOURCES & STATS ---
         ui_vitality: "Lebenskraft",
@@ -59,6 +61,8 @@ export default {
         btn_main_menu: "Hauptmenü",
         btn_quit: "Beenden",
         btn_back: "Zurück",
+        btn_confirm_yes: "Ja, fortfahren",
+        btn_confirm_no: "Abbrechen",
         btn_assign_work: "Zuweisen",
         btn_stop_work: "Stopp",
         menu_new_game: "Neues Spiel",
@@ -143,7 +147,9 @@ export default {
         // --- FALLBACKS ---
         objective_label: "Ziel",
         status_working: "Beschäftigt",
-        status_idle: "Bereit"
+        status_idle: "Bereit",
+        ui_details: "Details",
+        btn_embrace_destiny: "Schicksal annehmen"
     },
     
     logs: {
@@ -168,6 +174,12 @@ export default {
         stone_log: "+{val} Stein abgebaut.",
         meat_log: "+{val} Fleisch erbeutet.",
         shards_log: "+{val} Splitter verdient.",
+        eat_log: "+{val} Sättigung.",
+        rest_log: "+{val} Energie.",
+        meditate_log: "+{val} Magie.",
+        fail_full_satiation: "Du bist bereits vollkommen gesättigt.",
+        fail_full_energy: "Du bist vollkommen ausgeruht.",
+        fail_full_magic: "Dein arkaner Fokus ist bereits am Limit.",
         garden_harvest_log: "Frische Kräuter geerntet. +{gain}",
         cook_gourmet_success: "Das Festmahl ist bereit! Du fühlst dich gestärkt.",
         milestone_house: "Das Haus steht fest – ein Monument deines Willens.",

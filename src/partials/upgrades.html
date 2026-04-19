@@ -10,10 +10,10 @@
   <div class="upgrades-container">
     <!-- Category Filter Tabs -->
     <div class="vault-tabs">
-        <button class="vault-tab-btn" :class="activeCategory === 'all' && 'active'" @click="activeCategory = 'all'" x-text="$store.game.t('ui_all')">Alle</button>
-        <button class="vault-tab-btn" :class="activeCategory === 'tools' && 'active'" @click="activeCategory = 'tools'" x-text="$store.game.t('ui_tools')"></button>
-        <button class="vault-tab-btn" :class="activeCategory === 'artifacts' && 'active'" @click="activeCategory = 'artifacts'" x-text="$store.game.t('cat_artifacts')"></button>
-        <button class="vault-tab-btn" :class="activeCategory === 'provisions' && 'active'" @click="activeCategory = 'provisions'" x-text="$store.game.t('cat_provisions')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'all'" @click="activeCategory = 'all'" x-text="$store.game.t('ui_all')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'tools'" @click="activeCategory = 'tools'" x-text="$store.game.t('ui_tools')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'artifacts'" @click="activeCategory = 'artifacts'" x-text="$store.game.t('cat_artifacts')"></button>
+        <button class="vault-tab-btn" :class="activeCategory === 'provisions'" @click="activeCategory = 'provisions'" x-text="$store.game.t('cat_provisions')"></button>
     </div>
 
     <div class="vault-layout">
@@ -57,10 +57,10 @@
                     </div>
                     
                     <div class="item-text-content">
-                        <div class="item-type-badge" x-text="$store.game.t('ui_' + $store.game.content.get($store.game.selectedItem, 'items').category)"></div>
-                        <h2 class="item-name" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').title, 'items')"></h2>
+                        <div class="item-type-badge" x-text="$store.game.t('cat_' + $store.game.content.get($store.game.selectedItem, 'items').category)"></div>
+                        <h2 class="item-name" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').id + '_title', 'items')"></h2>
                         <div class="item-hr"></div>
-                        <p class="item-description" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').desc, 'items')"></p>
+                        <p class="item-description" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').id + '_desc', 'items')"></p>
                         
                         <!-- Effects -->
                         <template x-if="$store.game.content.get($store.game.selectedItem, 'items').effect">

@@ -20,7 +20,7 @@ graph TD
     Campfire --> Tent["Tent (15 Wood, 5 Stone)"]
     Tent --> TownHall["NPC: Town Hall"]
     Tent --> Storage["Storage (20 Wood / 20 Stone)"]
-    Storage --> Artisan["NPC: Artisan (Recipes)"]
+    Tent --> Artisan["NPC: Artisan (Recipes)"]
     
     %% Tools
     Artisan -- "Crafting Knowledge" --> Axe["Recipe: Stone Axe (+1 Wood)"]
@@ -85,7 +85,7 @@ graph TD
     
     Artisan -- "Innate Insight" --> LoopMode["Ability: Loop Mode (Manual Optimization)"]
 
-    Garden["Garden Stufe 1"] --> Garden2["Upgrade: Garden Lvl 2"]
+    Garden["Garden Level 1"] --> Garden2["Upgrade: Garden Lvl 2"]
     Garden2 --> Parallel["Action: Parallel Planting"]
 
     %% Stage 4: Eternal Roots (The Finale)
@@ -99,41 +99,46 @@ graph TD
 ## Progression Stages
 
 ### Stage 1: Survival (The Camp)
-*   **Focus**: Resource gathering and basic survival.
-*   **Core Stats**: 50 Max Energy / 50 Max Magic (Symmetric Balance).
-*   **Milestone**: Building the first tent and meeting the Baker.
+
+* **Focus**: Resource gathering and basic survival.
+* **Core Stats**: 50 Max Energy / 50 Max Magic (Symmetric Balance).
+* **Milestone**: Building the first tent and meeting the Baker.
 
 ### Stage 2: Settlement (The Home)
-*   **Focus**: Infrastructure and community.
-*   **Storage**: Maximum capacity of 50 for primary resources.
-*   **Milestone**: Obtaining the Land Deed and building the House (40 Wood / 40 Stone).
+
+* **Focus**: Infrastructure and community.
+* **Storage**: Maximum capacity of 50 for primary resources.
+* **Milestone**: Obtaining the Land Deed and building the House (40 Wood / 40 Stone).
 
 ### Stage 3: Refinement (The Mastery)
-*   **Focus**: Concentration of energy and optimization.
-*   **Decentralized Trade**: Trading is no longer a centralized market but a trust-based interaction with NPCs.
-    *   **Baker**: Buys Wood (Reputation 2+).
-    *   **Hunter**: Buys/Sells Meat (Reputation 2+).
-    *   **Artisan**: Buys Stone (Reputation 1+).
-    *   **Town Hall**: Allows working for Shards (Reputation 1+).
-*   **Arcane Focus**: Unlocking the ability to automate tasks using Magic Drain (3/s) instead of Energy.
-*   **Milestones**:
-    *   **Arcane Sanctum**: Unlocks Archmage Aris and the generation of Astral Shards.
-    *   **Kitchen Station**: Unlocks Gourmet Cooking for long-lasting buffs (+10 Satiation per meal).
-    *   **Garden Expansion**: Doubles harvest capacity via parallel slots.
-    *   **Dream Wyvern**: Meeting Ellie and unlocking the Dream Bloom action for speed bonuses.
+
+* **Focus**: Concentration of energy and optimization.
+* **Decentralized Trade**: Trading is no longer a centralized market but a trust-based interaction with NPCs.
+  * **Baker**: Buys Wood (Reputation 2+).
+  * **Hunter**: Buys/Sells Meat (Reputation 2+).
+  * **Artisan**: Buys Stone (Reputation 1+).
+  * **Town Hall**: Allows working for Shards (Reputation 1+).
+* **Arcane Focus**: Unlocking the ability to automate tasks using Magic Drain (3/s) instead of Energy.
+* **Milestones**:
+  * **Arcane Sanctum**: Unlocks Archmage Aris and the generation of Astral Shards.
+  * **Kitchen Station**: Unlocks Gourmet Cooking for long-lasting buffs (+10 Satiation per meal).
+  * **Garden Expansion**: Doubles harvest capacity via parallel slots.
+  * **Dream Wyvern**: Meeting Ellie and unlocking the Dream Bloom action for speed bonuses.
 
 ### Stage 4: Eternal Roots (The Finale)
-*   **Focus**: Transcending the physical needs to touch the world's heart (Requires 60 Magic via Study).
-*   **Requirements**:
-    *   **Structure**: Completed permanent House.
-    *   **Trust**: Full bond (Level 5) with the Baker, the Teacher, and the Ancient Sage (Mastery level reached).
-    *   **Wisdom**: At least 3 successful Study sessions performed (Expanding the Magic limit).
-*   **Final Action**: Accessing the Tree of Life via the "Action Hub" once requirements are met.
+
+* **Focus**: Transcending physical needs via the **Milestone System**.
+* **Requirements**: Managed by `milestones.js`.
+  * **Structure**: Completed permanent House.
+  * **Trust**: Full bond (Level 5) with key NPCs.
+  * **Wisdom**: Expanding the Magic limit via study.
+* **Final Action**: Accessing the Tree of Life once the engine validates all Milestone requirements.
 
 ## Explanation
-- **Draconia Reality**: In a world where magic is the fuel for life, resources are more than just items—they are survival.
-- **Teacher & Lore**: Investing **Magic** into the Teacher's lessons is the primary way to understand the world and progress through narrative milestones.
-- **Housing & NPCs**: Structures like the Campfire or House aren't just for rest; they attract NPCs like the Flower Girl or the Artisan, who provide recipes for the primary toolset.
-- **Arcane Focus**: Unlike previous iterations, automation is no longer handled by villagers but by the player's own focus. This drains magic constantly but replaces the energy cost of the automated action.
-- **Satiation**: Keeping your satiation high (+10 per click) is crucial. It directly impacts your gathering efficiency and prevents energy drain during rest.
-- **Loop Mode**: Unlocked as an innate insight, this allows for the manual repetition of tasks, while Arcane Focus handles the "Magic" version.
+
+* **Draconia Reality**: In a world where magic is the fuel for life, resources are more than just items—they are survival.
+* **Milestone System**: Replaces hardcoded progression checks with a generic requirement engine (`op: '>=', val: X`).
+* **Passive Production**: Buildings like the Garden now utilize a universal engine ticker for resource generation.
+* **Arcane Focus**: Automation is handled by the player's own focus, draining magic but eliminating energy costs.
+* **Satiation**: Keeps gathering efficiency high and facilitates recovery.
+* **Loop Mode**: Allows manual repetition of tasks, synergizing with Arcane Focus.

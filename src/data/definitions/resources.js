@@ -12,7 +12,9 @@ export const RESOURCE_REGISTRY = {
         color: 'var(--accent-teal)',
         initial: 50,
         initialMax: 50,
-        isEssential: true
+        isEssential: true,
+        wingSlot: 'left',
+        scalesWithSatiation: true
     },
     magic: {
         id: 'magic',
@@ -21,7 +23,9 @@ export const RESOURCE_REGISTRY = {
         color: 'var(--accent-purple)',
         initial: 50,
         initialMax: 50,
-        isEssential: true
+        isEssential: true,
+        wingSlot: 'right',
+        scalesWithSatiation: true
     },
     satiation: {
         id: 'satiation',
@@ -31,6 +35,8 @@ export const RESOURCE_REGISTRY = {
         initial: 100,
         initialMax: 100,
         isEssential: true,
+        wingSlot: 'head',
+        scalesWithSatiation: false
     },
 
     // --- BASE MATERIALS ---

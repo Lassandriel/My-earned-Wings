@@ -12,10 +12,7 @@ export const createUISystem = () => ({
 
     document.documentElement.style.setProperty('--app-scale', store.currentScale);
     
-    // These offsets are no longer needed for centering a fixed box, 
-    // but we reset them to 0 to avoid breaking any legacy absolute positioning.
-    document.documentElement.style.setProperty('--app-offset-x', '0px');
-    document.documentElement.style.setProperty('--app-offset-y', '0px');
+    // Legacy app-offsets removed. We rely on fluid CSS Grid since Phase 5.4.
   },
 
   handleMouseMove(e, store) {
@@ -52,30 +49,15 @@ export const createUISystem = () => ({
     document.documentElement.style.setProperty('--tt-off-y', offsetY + 'px');
 
     // Resource Highlighting Logic
+    // Uses data-res attributes on .stat-bar-fill elements — language-independent
     if (store.hoveredAction) {
         const costs = store.getTooltipCosts(store.hoveredAction);
-        const resourceTypes = costs.map(c => {
-            // Map labels back to UI classes/types if possible
-            if (c.label.includes('Holz') || c.label.includes('Wood')) return 'wood';
-            if (c.label.includes('Stein') || c.label.includes('Stone')) return 'stone';
-            if (c.label.includes('Splitter') || c.label.includes('Shards')) return 'shards';
-            if (c.label.includes('Fleisch') || c.label.includes('Meat')) return 'meat';
-            if (c.label.includes('Energie') || c.label.includes('Energy')) return 'energy';
-            if (c.label.includes('Magie') || c.label.includes('Magic')) return 'magic';
-            if (c.label.includes('Sättigung') || c.label.includes('Satiation')) return 'satiation';
-            return null;
-        }).filter(Boolean);
+        const resourceTypes = costs.map(c => c.type).filter(Boolean);
 
         document.querySelectorAll('.stat-row').forEach(row => {
-            const label = row.querySelector('.stat-name');
-            if (!label) return;
-            const text = label.innerText;
-            const matches = resourceTypes.some(type => {
-                const trans = store.t('ui_' + type);
-                return text.includes(trans);
-            });
-            if (matches) row.classList.add('highlight-needed');
-            else row.classList.remove('highlight-needed');
+            const fill = row.querySelector('[data-res]');
+            const matches = fill && resourceTypes.includes(fill.dataset.res);
+            row.classList.toggle('highlight-needed', !!matches);
         });
     } else {
         document.querySelectorAll('.stat-row.highlight-needed').forEach(r => r.classList.remove('highlight-needed'));
@@ -103,9 +85,12 @@ export const createUISystem = () => ({
   },
 
   // --- Visual Percentages & Robustness ---
-  getEnergyPercent(store) { return (store.stats.energy / (store.stats.maxEnergy || 100)) * 100; },
-  getMagicPercent(store) { return (store.stats.magic / (store.stats.maxMagic || 100)) * 100; },
-  getSatiationPercent(store) { return Math.max(0, Math.min(100, (store.stats.satiation / (store.stats.maxSatiation || 100)) * 100)); },
+  getStatPercent(store, statId) {
+    const current = store.stats[statId] || 0;
+    const maxKey = 'max' + statId.charAt(0).toUpperCase() + statId.slice(1);
+    const max = store.stats[maxKey] || 100;
+    return Math.max(0, Math.min(100, (current / max) * 100));
+  },
 
   getTaskProgress(store, taskId) {
     const task = store.activeTasks?.[taskId];
@@ -196,27 +181,23 @@ export const createUISystem = () => ({
     // Multi-resource costs
     if (sourceData.costs) {
         Object.entries(sourceData.costs).forEach(([type, amt]) => {
-            let finalAmt = amt;
-            if ((type === 'energy' || type === 'magic')) {
-                finalAmt = Math.round(finalAmt * store.resource.getSatiationMultiplier(store));
-            }
+            const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
             const current = store.resources[type] ?? store.stats[type] ?? 0;
             results.push({
+                type,  // Used for resource highlighting
                 label: store.t('ui_' + type) || type,
                 value: Math.floor(current) + ' / ' + finalAmt,
                 affordable: current >= finalAmt
             });
         });
     } 
-    // Single resource cost (legacy/simple)
+    // Single resource cost (Standardized)
     else if (sourceData.cost && sourceData.costType) {
         const type = sourceData.costType;
-        let finalAmt = sourceData.cost;
-        if ((type === 'energy' || type === 'magic')) {
-            finalAmt = Math.round(finalAmt * store.resource.getSatiationMultiplier(store));
-        }
+        const finalAmt = Math.round(store.resource.getScaledCost(store, type, sourceData.cost));
         const current = store.resources[type] ?? store.stats[type] ?? 0;
         results.push({
+            type,  // Used for resource highlighting
             label: store.t('ui_' + type) || type,
             value: Math.floor(current) + ' / ' + finalAmt,
             affordable: current >= finalAmt
@@ -251,41 +232,65 @@ export const createUISystem = () => ({
   },
 
   // --- VIEW TRANSITIONS & FLOW ---
-  startNewGame(store, buildInitialState) {
-    if (store.hasSave) {
-        if (!confirm(store.t('confirm_reset', 'ui'))) return;
-    }
-    
+
+  /** Keys excluded from state reset so player preferences are preserved. */
+  RESET_EXCLUDES: new Set(['settings', 'language', 'prologueStep', 'logs', 'hasSave', 'view', 'confirmModal']),
+
+  _doStartNewGame(store, buildInitialState) {
     console.log('[CORE] Starting new game, resetting state...');
-    
-    // Reset state but keep settings/language
+
     const cleanState = buildInitialState();
     localStorage.removeItem('wings_save');
-    
-    // Critical state reset
+
     store.prologueStep = 1;
-    store.logs = []; // Clear old logs
+    store.logs = [];
     store.hasSave = false;
 
     Object.keys(cleanState).forEach(key => {
-        if (key !== 'settings' && key !== 'language' && key !== 'prologueStep' && key !== 'logs') {
+        if (!this.RESET_EXCLUDES.has(key)) {
             store[key] = JSON.parse(JSON.stringify(cleanState[key]));
         }
     });
-    
-    // Explicitly switch view BEFORE playing intro
+
     store.view = 'prologue';
-    
-    // Trigger Intro System
+
     if (store.prologue && typeof store.prologue.playIntro === 'function') {
         store.prologue.playIntro(store);
     } else {
-        // Fallback if system not yet ready
         store.addLog('intro_1', 'logs', 'var(--accent-teal)');
     }
-    
+
     try { store.audio?.startMusic(); } catch (e) { console.warn('Music failed to start'); }
     store.saveGame();
+  },
+
+  startNewGame(store, buildInitialState) {
+    if (store.hasSave) {
+        this.showConfirm(store, store.t('confirm_reset', 'ui'), () => {
+            this._doStartNewGame(store, buildInitialState);
+        });
+    } else {
+        this._doStartNewGame(store, buildInitialState);
+    }
+  },
+
+  /** Shows a styled in-game confirm dialog. Callback is called only on confirmation. */
+  showConfirm(store, message, onConfirm) {
+    store.confirmModal = { open: true, message, onConfirm };
+  },
+
+  /** Resolves the confirm dialog. Called from the confirm.html template. */
+  resolveConfirm(store, confirmed) {
+    const cb = store.confirmModal.onConfirm;
+    store.confirmModal = { open: false, message: '', onConfirm: null };
+    if (confirmed && typeof cb === 'function') cb();
+  },
+
+  /** Triggers a styled confirm before performing a hard reset. */
+  hardReset(store) {
+    this.showConfirm(store, store.t('confirm_reset', 'ui'), () => {
+        store.persistence.doHardReset(store);
+    });
   },
 
   continueGame(store) {

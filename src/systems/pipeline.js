@@ -30,62 +30,59 @@ export const createPipelineSystem = () => {
         getModifiers(store, key) {
             const mods = [];
 
-            // --- ITEM & FLAG MODIFIERS ---
-            if (key === 'wood_yield') {
-                if (store.flags['item-axe']) mods.push({ mult: 2 });
-                if (store.flags['item-walking-stick']) mods.push({ add: 1 });
-            }
+            // 1. DATA-DRIVEN ITEM & ACTION MODIFIERS (via Flags)
+            Object.keys(store.flags).forEach(flagId => {
+                if (store.flags[flagId]) {
+                    // Check Items
+                    const item = store.content.get(flagId, 'items');
+                    if (item && item.modifiers) {
+                        item.modifiers.filter(m => m.key === key).forEach(m => mods.push(m));
+                    }
+                    // Check Actions/Buildings (some flags match action IDs)
+                    const action = store.content.get(flagId, 'actions');
+                    if (action && action.modifiers) {
+                        action.modifiers.filter(m => m.key === key).forEach(m => mods.push(m));
+                    }
+                }
+            });
+
+            // 2. DATA-DRIVEN BUFF MODIFIERS
+            Object.values(store.activeBuffs).forEach(buff => {
+                const buffDef = store.content.get(buff.id, 'buffs');
+                if (buffDef && buffDef.modifiers) {
+                    buffDef.modifiers.filter(m => m.key === key).forEach(m => mods.push(m));
+                }
+                // Legacy buff support
+                if (key === 'energy_reg_bonus' && buff.type === 'energy_reg_bonus') {
+                    mods.push({ add: buff.value });
+                }
+            });
+
+            // 3. CORE STATUS RULES (Internal Logic)
             
-            if (key === 'stone_yield') {
-                if (store.flags['item-pickaxe']) mods.push({ mult: 2 });
-            }
-
-            if (key === 'magic_limit_gain') {
-                if (store.flags['item-chair']) mods.push({ add: 5 });
-                if (store.flags['item-bookshelf']) mods.push({ add: 5 });
-                const bookCount = store.resources.books || 0;
-                mods.push({ add: bookCount * 2 });
-            }
-
-            if (key === 'rest_energy_gain') {
-                if (store.flags['item-bed-2']) mods.push({ add: 50 });
-                else if (store.flags['item-bed']) mods.push({ add: 25 });
-                
-                if (store.flags['build-campfire']) mods.push({ add: 10 });
-                if (store.flags['build-tent']) mods.push({ add: 15 });
-            }
-
-            if (key === 'eat_satiation_gain') {
-                if (store.flags['item-stove-2']) mods.push({ add: 50 });
-                else if (store.flags['item-stove']) mods.push({ add: 20 });
-            }
-
-            // --- STATUS / GLOBAL MODIFIERS ---
-            // Satiation efficiency (applies to gathering, work and resource costs)
+            // Satiation Efficiency Curve
             if (key === 'resource_efficiency' || ['wood_yield', 'stone_yield', 'meat_yield', 'shards_yield'].includes(key)) {
                 const sat = store.stats.satiation;
                 let efficiency = 1.0;
-                
                 if (sat >= 80) efficiency = 1.25; 
                 else if (sat <= 20) efficiency = 0.66;
                 else {
-                    const mult = 1.5 - ((sat - 20) / 60) * 0.7;
-                    efficiency = 1 / mult;
+                    const curve = 1.5 - ((sat - 20) / 60) * 0.7;
+                    efficiency = 1 / curve;
                 }
-                
                 mods.push({ mult: efficiency });
             }
 
-            // --- GARDEN MODIFIERS ---
+            // Ellie NPC Scaling
             if (key === 'garden_yield') {
                 const ellieProg = store.npcProgress['ellie'] || 0;
-                mods.push({ add: ellieProg }); // Level 1-5 adds +1 to +5 herbs
-                if (store.flags['build-garden-upgrade']) mods.push({ mult: 1.5 });
+                if (ellieProg > 0) mods.push({ add: ellieProg });
             }
 
-            if (key === 'garden_magic_cost') {
-                // Costs stay stable but could be reduced by Aris later
-                 if (store.flags['item-crystal-mana']) mods.push({ mult: 0.8 });
+            // Book Knowledge Scaling
+            if (key === 'magic_limit_gain') {
+                const bookCount = store.resources.books || 0;
+                if (bookCount > 0) mods.push({ add: bookCount * 2 });
             }
 
             return mods;

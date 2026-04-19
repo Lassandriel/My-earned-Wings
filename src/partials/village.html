@@ -41,16 +41,15 @@
                     </button>
 
                     <!-- Trade Actions (Decentralized Market) -->
-                    <div class="npc-trade-actions" x-show="$store.game.content.get(npcId)?.tradeActions">
-                        <template x-for="trade in ($store.game.content.get(npcId)?.tradeActions || [])" :key="trade.id">
+                    <div class="npc-trade-actions" x-show="$store.game.content.getNPCActions($store.game, npcId).length > 0">
+                        <template x-for="action in $store.game.content.getNPCActions($store.game, npcId)" :key="action.id">
                             <button
                                 class="game-btn npc-trade-btn"
-                                x-show="($store.game.npcProgress[$store.game.content.get(npcId).progKey] || 0) >= trade.minProgress"
-                                @click="$store.game.executeAction(trade.id)"
-                                @mouseover="$store.game.hoveredAction = {id: trade.id, data: $store.game.content.get(trade.id)}"
+                                @click="$store.game.attemptAction($el, action.id)"
+                                @mouseover="$store.game.hoveredAction = {id: action.id, data: action}"
                                 @mouseout="$store.game.hoveredAction = null"
                             >
-                                <span x-text="$store.game.t(trade.id, 'actions').title"></span>
+                                <span x-text="$store.game.t(action.id, 'actions').title"></span>
                             </button>
                         </template>
                     </div>
@@ -69,8 +68,8 @@
                 @click="$store.game.executeAction('act-npc-treeOfLife')"
                 @mouseover="$store.game.hoveredAction = {id: 'act-npc-treeOfLife', data: $store.game.content.get('act-npc-treeOfLife')}"
                 @mouseout="$store.game.hoveredAction = null"
+                x-text="$store.game.t('btn_embrace_destiny')"
             >
-                Das Schicksal annehmen
             </button>
         </div>
     </div>

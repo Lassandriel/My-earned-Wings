@@ -1,13 +1,7 @@
 <!-- Sidebar Navigation -->
 <nav class="sidebar">
     <ul class="nav-list nav-items-top">
-        <template x-for="item in [
-            { id: 'gameplay', icon: 'story', label: 'nav_story' },
-            { id: 'crafting', icon: 'crafting', label: 'nav_crafting' },
-            { id: 'upgrades', icon: 'upgrades', label: 'nav_upgrades' },
-            { id: 'village', icon: 'village', label: 'nav_village' },
-            { id: 'story', icon: 'chronic', label: 'nav_story_tab' }
-        ]" :key="item.id">
+        <template x-for="item in $store.game.content.registries.navigation" :key="item.id">
             <li class="nav-item" 
                  :id="'nav-' + item.id"
                  :class="$store.game.view === item.id && 'active'" 

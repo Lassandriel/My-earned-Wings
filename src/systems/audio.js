@@ -5,8 +5,9 @@ export const createAudioSystem = () => {
     success: new Audio('sfx/success.mp3'),
     eat: new Audio('sfx/eat.mp3'),
     fail: new Audio('sfx/fail.mp3'),
-    water: new Audio('sfx/water.mp3'),
-    craft: new Audio('sfx/craft.mp3'),
+    magic: new Audio('sfx/click.mp3'),       // Alias — no dedicated magic SFX yet
+    water: new Audio('sfx/gather.mp3'),       // Alias — water.mp3 does not exist
+    craft: new Audio('sfx/success.mp3'),      // Alias — craft.mp3 does not exist
     discovery: new Audio('sfx/success.mp3')
   };
   const bgm = new Audio('music/forest_ambient.mp3');
@@ -61,9 +62,8 @@ export const createAudioSystem = () => {
       });
 
       // Listen for settings updates to refresh volumes live
-      store.bus.on(store.EVENTS.SAVE_REQUESTED, () => {
-        this.updateVolumes(store.settings);
-      });
+      store.bus.on(store.EVENTS.SAVE_REQUESTED, () => this.updateVolumes(store.settings));
+      store.bus.on(store.EVENTS.SETTINGS_UPDATED, () => this.updateVolumes(store.settings));
     }
   };
 };

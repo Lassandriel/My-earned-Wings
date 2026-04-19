@@ -46,10 +46,15 @@ const buildInitialState = () => {
         }
     });
 
-    // Auto-populate NPC progress
+    // Auto-populate NPC data
     Object.values(registries.npcs).forEach(npc => {
+        // Initial Progress
         if (npc.progKey && baseState.npcProgress[npc.progKey] === undefined) {
             baseState.npcProgress[npc.progKey] = 0;
+        }
+        // Initial Unlocks
+        if (npc.unlockedAtStart && !baseState.unlockedNPCs.includes(npc.id)) {
+            baseState.unlockedNPCs.push(npc.id);
         }
     });
 
@@ -65,7 +70,6 @@ Alpine.store('game', {
     saveInfoText: '',
     lastMouseX: 0,
     lastMouseY: 0,
-    selectedItem: null,
     
     // Core Services
     content: createContentService(registries),
@@ -90,6 +94,9 @@ Alpine.store('game', {
 
     init() {
         const store = Alpine.store('game');
+        
+        // --- AUTO-LOAD SETTINGS (Global Preferences) ---
+        store.persistence.loadSettings(store);
         
         // --- CONTENT VALIDATION (Delayed for better stability) ---
         setTimeout(() => {
@@ -117,7 +124,6 @@ Alpine.store('game', {
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
         store.view = 'menu';
-        store.dialogueActive = false;
 
         const startMusicOnce = () => {
             store.audio.startMusic();
@@ -131,7 +137,21 @@ Alpine.store('game', {
     continueGame() { const store = Alpine.store('game'); store.ui.continueGame(store); },
     finishPrologue() { const store = Alpine.store('game'); store.ui.finishPrologue(store); },
     
+    isTaskActive(id) { return !!this.activeTasks[id]; },
+    
     executeAction(id) { const store = Alpine.store('game'); return store.actions.execute(store, id); },
+    
+    attemptAction(el, id) {
+        if (this.isTaskActive(id)) return;
+        const res = this.executeAction(id);
+        if (res === false || (res && res.success === false)) {
+            if (el) {
+                el.classList.add('btn-shake');
+                setTimeout(() => el.classList.remove('btn-shake'), 400);
+            }
+        }
+        return res;
+    },
     toggleFocus(id) {
         const store = Alpine.store('game');
         const action = store.content.get(id, 'actions');
@@ -153,7 +173,7 @@ Alpine.store('game', {
     saveGame(isManual = false) { this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); },
     loadGame() { const store = Alpine.store('game'); return store.persistence.loadGame(store); },
     setLanguage(lang) { const store = Alpine.store('game'); store.language = lang; store.saveGame(); },
-    hardReset() { const store = Alpine.store('game'); store.persistence.hardReset(store); },
+    hardReset() { const store = Alpine.store('game'); store.ui.hardReset(store); },
     
     t(key, context = 'ui', params = {}) { 
         const store = Alpine.store('game');
@@ -183,10 +203,13 @@ Alpine.store('game', {
     // --- GETTERS ---
     getActionEffect(hAction) { return this.ui.getActionEffect(this, hAction); },
     getTooltipCosts(hAction) { return this.ui.getTooltipCosts(this, hAction); },
-    get energyPercent() { return this.ui.getEnergyPercent(this); },
-    get magicPercent() { return this.ui.getMagicPercent(this); },
-    get satiationPercent() { return this.ui.getSatiationPercent(this); },
-    get canAccessTreeOfLife() { return this.story.canAccessTreeOfLife(this); },
+    setHovered(id, extra = null) {
+        if (!id) { this.hoveredAction = null; return; }
+        this.hoveredAction = extra ? { id, ...extra } : { id, data: this.content.get(id) };
+    },
+    get energyPercent() { return this.ui.getStatPercent(this, 'energy'); },
+    get magicPercent() { return this.ui.getStatPercent(this, 'magic'); },
+    get satiationPercent() { return this.ui.getStatPercent(this, 'satiation'); },
     
     get groupedHistory() { return this.story.getGroupedHistory(this); },
     getSatiationMultiplier() { return this.resource.getSatiationMultiplier(this); },
@@ -202,7 +225,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.key === 'Escape') {
         if (store.view === 'prologue') {
-            store.finishPrologue();
+            store.prologue.skipPrologue(store);
         } else {
             store.settingsOpen = !store.settingsOpen;
             store.playSound('click');
@@ -216,9 +239,8 @@ document.addEventListener('keydown', (e) => {
     }
 
     if (store.view !== 'menu' && store.view !== 'prologue' && !store.settingsOpen) {
-        if (e.key === '1') store.executeAction('act-essen');
-        if (e.key === '2') store.executeAction('act-ausruhen');
-        if (e.key === '3') store.executeAction('act-meditieren');
+        const SHORTCUTS = { '1': 'act-essen', '2': 'act-ausruhen', '3': 'act-meditieren' };
+        if (SHORTCUTS[e.key]) store.executeAction(SHORTCUTS[e.key]);
     }
 });
 

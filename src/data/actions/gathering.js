@@ -5,7 +5,6 @@ export const gatheringActions = {
     sfx: 'eat',
     particleText: '+ Sättigung',
     particleType: 'energy',
-    yieldType: 'satiation',
     counter: 'food',
     rewards: { satiation: 'eat_satiation_gain' },
     satiationCost: 0,
@@ -17,6 +16,10 @@ export const gatheringActions = {
   'act-ausruhen': {
     id: 'act-ausruhen',
     cost: 0, costType: 'none',
+    sfx: 'click',
+    particleText: '+ Energie',
+    particleType: 'energy',
+    counter: 'rest',
     rewards: { energy: 'rest_energy_gain' },
     satiationCost: 0,
     calculateYield(store) {
@@ -27,10 +30,9 @@ export const gatheringActions = {
   'act-meditieren': {
     id: 'act-meditieren',
     cost: 0, costType: 'none',
-    sfx: 'click',
+    sfx: 'magic',
     particleText: '+ Magie',
     particleType: 'magic',
-    yieldType: 'magic',
     counter: 'magic',
     rewards: { magic: 15 },
     satiationCost: 0,
@@ -57,11 +59,11 @@ export const gatheringActions = {
     id: 'act-wood',
     cost: 8, costType: 'energy', yieldType: 'wood',
     sfx: 'gather',
-    particleText: '+ Holz',
-    particleType: 'wood',
     counter: 'wood',
     isLoopable: true,
     rewards: { wood: 'wood_yield' },
+    particleText: 'ui_wood',
+    particleType: 'wood',
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'wood_yield', 1) };
     },
@@ -71,11 +73,11 @@ export const gatheringActions = {
     id: 'act-stone',
     cost: 12, costType: 'energy', yieldType: 'stone',
     sfx: 'gather',
-    particleText: '+ Stein',
-    particleType: 'stone',
     counter: 'stone',
     isLoopable: true,
     rewards: { stone: 'stone_yield' },
+    particleText: 'ui_stone',
+    particleType: 'stone',
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'stone_yield', 1) };
     },
@@ -102,11 +104,9 @@ export const gatheringActions = {
     duration: 10000,
     requirements: { 'flags.build-garden': true },
     sfx: 'gather',
-    particleText: '+ herbs',
-    particleType: 'energy',
-    yieldType: 'herbs',
-    isLoopable: true,
     rewards: { herbs: 'garden_yield' },
+    particleText: 'ui_herbs',
+    particleType: 'energy',
     calculateYield(store) {
       return { val: store.pipeline.calculate(store, 'garden_yield', 3) };
     },
@@ -135,12 +135,10 @@ export const gatheringActions = {
     duration: 5000,
     requirements: { 'flags.build-kitchen': true },
     sfx: 'eat',
-    particleText: 'vfx_gourmet',
-    yieldType: 'item-gourmet-meal',
-    rewards: { 'item-gourmet-meal': 1 },
     onSuccess: [
         { type: 'addBuff', buffId: 'buff-gourmet' }
     ],
+    particleText: 'item_gourmet_meal_title',
     logKey: 'cook_gourmet_success'
   }
 };

@@ -20,6 +20,7 @@ export const GAME_EVENTS = {
     
     // System Events
     SAVE_REQUESTED: 'save_requested',
+    SETTINGS_UPDATED: 'settings_updated',
     VIEW_CHANGED: 'view_changed'
 };
 

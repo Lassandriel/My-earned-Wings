@@ -54,17 +54,14 @@ main::-webkit-scrollbar {
 *::-webkit-scrollbar-thumb,
 .book-pages::-webkit-scrollbar-thumb,
 .story-timeline::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(20, 184, 166, 0.4) !important;
   border-radius: 20px !important;
-  border: 3px solid transparent !important;
-  background-clip: content-box !important;
   transition: all 0.3s ease !important;
 }
 *::-webkit-scrollbar-thumb:hover,
 .book-pages::-webkit-scrollbar-thumb:hover,
 .story-timeline::-webkit-scrollbar-thumb:hover {
   background: #14b8a6 !important; /* accent-teal */
-  background-clip: content-box !important;
 }
 
 /* Modern Standard Fallback */

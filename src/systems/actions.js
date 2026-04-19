@@ -5,26 +5,32 @@
 export function createActionSystem() {
     return {
         /**
-         * Modular Effect Handlers
-         * These can be extended easily without touching the core logic.
+         * Dynamic Effect Registry
+         * Systems can register their own handlers to extend action functionality.
          */
-        effectHandlers: {
-            setFlag: (game, { flag, value }) => { game.flags[flag] = value; },
-            unlockNPC: (game, { id }) => { 
+        effectHandlers: {},
+
+        registerEffect(type, handler) {
+            this.effectHandlers[type] = handler;
+            console.log(`[ACTIONS] Registered effect handler: ${type}`);
+        },
+
+        initEffects() {
+            this.registerEffect('setFlag', (game, { flag, value }) => { game.flags[flag] = value; });
+            this.registerEffect('unlockNPC', (game, { id }) => { 
                 if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
-            },
-            unlockRecipe: (game, { id }) => { 
+            });
+            this.registerEffect('unlockRecipe', (game, { id }) => { 
                 if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
-            },
-            unlockItem: (game, { id }) => {
+            });
+            this.registerEffect('unlockItem', (game, { id }) => {
                 if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
-                // Also set an item flag for requirements logic
                 game.flags[id] = true;
-            },
-            modifyLimit: (game, { resource, amount }) => { 
+            });
+            this.registerEffect('modifyLimit', (game, { resource, amount }) => { 
                 game.limits[resource] = (game.limits[resource] || 0) + amount; 
-            },
-            addBuff: (game, { buffId, override }) => {
+            });
+            this.registerEffect('addBuff', (game, { buffId, override }) => {
                 const baseBuff = game.content.get(buffId, 'buffs') || {};
                 const finalBuff = { ...baseBuff, ...override };
                 game.activeBuffs[buffId] = { 
@@ -32,7 +38,16 @@ export function createActionSystem() {
                     remaining: finalBuff.duration, 
                     total: finalBuff.duration 
                 };
-            }
+            });
+            this.registerEffect('setObjective', (game, { id }) => {
+                game.currentObjective = id;
+            });
+            this.registerEffect('playSound', (game, { id }) => {
+                game.playSound(id);
+            });
+            this.registerEffect('log', (game, { id, color }) => {
+                game.addLog(id, 'logs', color);
+            });
         },
 
         execute(game, id) {
@@ -74,10 +89,10 @@ export function createActionSystem() {
             let logGain = null;
 
             if (isPrepare) {
-                // 1. Requirements Check (e.g. flags)
+                // 1. Requirements Check (Modular Requirement Engine)
                 if (action.requirements) {
-                    const met = Object.entries(action.requirements).every(([path, val]) => {
-                        return this.resolvePath(game, path) === val;
+                    const met = Object.entries(action.requirements).every(([path, rule]) => {
+                        return this.checkRequirement(game, path, rule);
                     });
                     if (!met) return { success: false };
                 }
@@ -131,6 +146,28 @@ export function createActionSystem() {
                 yield: totalYield
             };
         },
+        
+        checkRequirement(game, path, rule) {
+            const actual = this.resolvePath(game, path);
+            
+            // Simple equality check
+            if (typeof rule !== 'object' || rule === null) {
+                return actual === rule;
+            }
+
+            // Operator-based check
+            const { op, val } = rule;
+            switch (op) {
+                case '>=': return actual >= val;
+                case '<=': return actual <= val;
+                case '>':  return actual > val;
+                case '<':  return actual < val;
+                case '!=': return actual !== val;
+                case 'includes': return Array.isArray(actual) && actual.includes(val);
+                case 'not_includes': return Array.isArray(actual) && !actual.includes(val);
+                default:   return actual === val;
+            }
+        },
 
         resolvePath(obj, path) {
             return path.split('.').reduce((prev, curr) => {
@@ -145,8 +182,8 @@ export function createActionSystem() {
                 game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
             }
 
-            // 2. Satiation Consumption (Only if explicitly defined and > 0)
-            if (id !== 'act-essen' && action.satiationCost > 0) {
+            // 2. Satiation Consumption (Only if defined and > 0)
+            if (action.satiationCost > 0) {
                 game.resource.consume(game, 'satiation', action.satiationCost);
             }
 
@@ -160,7 +197,7 @@ export function createActionSystem() {
                     id: result.logKey, 
                     context: 'logs', 
                     color: result.logColor, 
-                    params: { gain: result.logGain ?? '' } 
+                    params: { gain: result.logGain ?? '', val: result.logGain ?? '' } 
                 });
             }
 
@@ -169,25 +206,36 @@ export function createActionSystem() {
 
         handleFailure(game, id, action) {
             game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
+            
+            if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
+                game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + action.yieldType, color: 'var(--accent-red)' });
+                return;
+            }
+
             const costType = action.costType;
-            if (!costType) return;
+            if (!costType || costType === 'none') return;
 
             const effectiveCosts = costType === 'mixed' ? action.costs : { [costType]: action.cost };
             if (!game.resource.canAfford(game, effectiveCosts)) {
-                const failKey = (costType === 'energy' || costType === 'magic') ? 'fail_' + costType : 'fail_resources';
-                game.bus.emit(game.EVENTS.LOG_ADDED, { id: failKey, color: 'var(--accent-red)' });
-            } else if (action.yieldType && game.resource.isFull(game, action.yieldType)) {
-                game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + action.yieldType, color: 'var(--accent-red)' });
+                // Generic failure key lookup (e.g., fail_energy, fail_magic)
+                // Falls back to fail_resources if specific key doesn't exist
+                const specificKey = 'fail_' + costType;
+                const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
+                game.bus.emit(game.EVENTS.LOG_ADDED, { id: logKey, color: 'var(--accent-red)' });
             }
         },
 
         spawnParticles(game, action) {
-            let pText = action.particleText;
+            let pText = action.particleText ? game.t(action.particleText) : null;
             const resKey = action.yieldType || action.costType || action.counter;
-            if (resKey) {
+            
+            if (!pText && resKey) {
                 const translated = game.t('ui_' + resKey);
                 if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
             }
+            
+            if (!pText) pText = action.particleText || '';
+
             game.bus.emit(game.EVENTS.PARTICLE_TRIGGERED, { 
                 x: game.lastMouseX, y: game.lastMouseY, 
                 text: pText, 
@@ -196,7 +244,8 @@ export function createActionSystem() {
         },
 
         boot(game) {
-            // Integration hooks can go here
+            // Initialize dynamic effect handlers
+            this.initEffects();
         }
     };
 }

@@ -18,20 +18,17 @@
         </template>
     </div>
     
-    <!-- Wing Visualizer -->
+    <!-- Wing Visualizer (Dynamic Slots) -->
     <div class="wing-profile-container">
-        <div class="wing-status-wrapper head" :class="$store.game.stats.satiation < 15 && 'pulse-critical'">
-            <div class="wing-mask-bg"></div>
-            <div class="wing-mask-fill satiation" :style="'clip-path: inset(' + (100 - $store.game.satiationPercent) + '% 0 0 0)'"></div>
-        </div>
-        <div class="wing-status-wrapper left" :class="$store.game.stats.energy < 15 && 'pulse-critical'">
-            <div class="wing-mask-bg"></div>
-            <div class="wing-mask-fill energy" :style="'clip-path: inset(' + (100 - $store.game.energyPercent) + '% 0 0 0)'"></div>
-        </div>
-        <div class="wing-status-wrapper right" :class="$store.game.stats.magic < 15 && 'pulse-critical'">
-            <div class="wing-mask-bg"></div>
-            <div class="wing-mask-fill magic" :style="'clip-path: inset(' + (100 - $store.game.magicPercent) + '% 0 0 0)'"></div>
-        </div>
+        <template x-for="stat in Object.values($store.game.content.registries.resources).filter(r => r.wingSlot)" :key="stat.id">
+            <div class="wing-status-wrapper" 
+                 :class="[stat.wingSlot, $store.game.stats[stat.id] < 15 && 'pulse-critical']">
+                <div class="wing-mask-bg"></div>
+                <div class="wing-mask-fill" 
+                     :class="stat.id"
+                     :style="'clip-path: inset(' + (100 - $store.game.ui.getStatPercent($store.game, stat.id)) + '% 0 0 0)'"></div>
+            </div>
+        </template>
     </div>
 
     <!-- Dynamic Stats & Resources -->
@@ -41,7 +38,7 @@
         <div class="stat-header-flex">
             <div class="stat-category" x-text="$store.game.t('ui_vitality')">Vitalität</div>
         </div>
-        <template x-for="stat in Object.values($store.game.content.registries.resources).filter(r => r.type === 'stat')" :key="stat.id">
+        <template x-for="stat in $store.game.content.getCategorizedResources('stat')" :key="stat.id">
             <div class="stat-row">
                 <span class="stat-name" :class="stat.id + '-label'">
                     <span x-text="$store.game.t('ui_' + stat.id)"></span>
@@ -68,7 +65,7 @@
                 </div>
 
                 <div class="collapsible-content" x-show="expanded" x-collapse>
-                    <template x-for="res in Object.values($store.game.content.registries.resources).filter(r => r.type === 'resource' && r.category === category)" :key="res.id">
+                    <template x-for="res in $store.game.content.getCategorizedResources(category)" :key="res.id">
                         <div class="stat-row" x-show="$store.game.discoveredResources.includes(res.id)">
                             <span class="stat-name">
                                 <span x-text="$store.game.t('ui_' + res.id)"></span>

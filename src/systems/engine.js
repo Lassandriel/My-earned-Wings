@@ -57,8 +57,9 @@ export function createEngineSystem() {
                         innerStore.actions.handleSuccess(innerStore, actionId, action, result);
 
                         // LOOP MODE or ARCANE FOCUS
-                        const isFocused = innerStore.activeFocus === actionId;
-                        if ((innerStore.isLooping || isFocused) && action.isLoopable) {
+                        const isAutomationActive = innerStore.isLooping || innerStore.activeFocus === actionId;
+                        
+                        if (isAutomationActive && action.isLoopable) {
                             setTimeout(() => {
                                 if ((innerStore.isLooping || innerStore.activeFocus === actionId) && 
                                      innerStore.view !== 'menu' && !innerStore.activeTasks[actionId]) {
@@ -70,45 +71,79 @@ export function createEngineSystem() {
                 });
             }, 100);
 
-            // 3. Passive Garden Ticker (every 10 seconds)
-            this.gardenInterval = setInterval(() => {
-                const innerStore = Alpine.store('game');
-                if (!innerStore.flags['build-garden'] || (innerStore.npcProgress['ellie'] || 0) < 2) return;
-
-                const magicCost = innerStore.pipeline.calculate(innerStore, 'garden_magic_cost', 5);
-                if (innerStore.stats.magic >= magicCost) {
-                    innerStore.resource.consume(innerStore, 'magic', magicCost);
-                    
-                    const yieldVal = Math.round(innerStore.pipeline.calculate(innerStore, 'garden_yield', 3));
-                    innerStore.resource.add(innerStore, 'herbs', yieldVal);
-                    
-                    // Periodic log to avoid spamming
-                    if (innerStore.counters.totalActions % 5 === 0) {
-                        innerStore.addLog('garden_harvest_log', 'logs', 'var(--accent-teal)');
-                    }
-                } else {
-                    // Not enough magic for garden
-                    if (innerStore.counters.totalActions % 5 === 0) {
-                        innerStore.addLog('garden_magic_fail_log', 'logs', 'var(--accent-red)');
-                    }
-                }
-            }, 10000);
-
-            // Autosave loop & Finale Check (every 30 seconds)
-            this.saveInterval = setInterval(() => {
-                const innerStore = Alpine.store('game');
+            // 3. UNIVERSAL PRODUCTION TICKER (Run every 1s, check intervals)
+            this.productionInterval = setInterval(() => {
+                const store = Alpine.store('game');
                 
-                // --- FINALE CHECK ---
-                if (!innerStore.unlockedNPCs.includes('npc-treeOfLife')) {
-                    if (innerStore.story && innerStore.story.canAccessTreeOfLife(innerStore)) {
-                        innerStore.bus.emit(innerStore.EVENTS.SOUND_TRIGGERED, { key: 'success' });
-                        innerStore.addLog('tree_unlocked_log', 'logs', 'var(--gold)');
-                        innerStore.unlockedNPCs.push('npc-treeOfLife');
-                        innerStore.currentObjective = 'obj_tree_of_life';
-                    }
-                }
+                // Identify all active sources that might have passive production
+                // (Currently scans all unlocked buildings/actions flags)
+                Object.keys(store.flags).forEach(id => {
+                    const action = store.content.get(id, 'actions');
+                    if (action && action.passiveProduction) {
+                        const prod = action.passiveProduction;
+                        
+                        // Check custom interval (e.g. 10s)
+                        if (store.counters.totalTime % (prod.interval / 1000) !== 0) return;
+                        
+                        // Check Requirements
+                        if (prod.requirements) {
+                            const met = Object.entries(prod.requirements).every(([path, rule]) => {
+                                return store.actions.checkRequirement(store, path, rule);
+                            });
+                            if (!met) return;
+                        }
 
-                innerStore.saveGame();
+                        // Magic Cost Logic (Optional scaling)
+                        if (prod.magicCost) {
+                            const cost = store.pipeline.calculate(store, id + '_cost', prod.magicCost);
+                            if (store.stats.magic < cost) {
+                                if (store.counters.totalActions % 5 === 0) {
+                                    store.addLog(id + '_fail_log', 'logs', 'var(--accent-red)');
+                                }
+                                return;
+                            }
+                            store.resource.consume(store, 'magic', cost);
+                        }
+
+                        // Add Reward
+                        const yieldVal = Math.round(store.pipeline.calculate(store, id + '_yield', prod.baseYield));
+                        store.resource.add(store, prod.resource, yieldVal);
+                        
+                        // Periodic log
+                        if (store.counters.totalActions % 5 === 0) {
+                            store.addLog(id + '_log', 'logs', 'var(--accent-teal)');
+                        }
+                    }
+                });
+            }, 1000);
+
+            // 4. UNIVERSAL MILESTONE & SAVE TICKER (every 30 seconds)
+            this.saveInterval = setInterval(() => {
+                const store = Alpine.store('game');
+                
+                // --- MILESTONE CHECK ---
+                Object.values(store.content.registries.milestones).forEach(milestone => {
+                    // Skip if already unlocked or flag already exists (e.g. treeOfLife)
+                    if (store.flags[milestone.id]) return;
+                    
+                    const met = Object.entries(milestone.requirements).every(([path, rule]) => {
+                        return store.actions.checkRequirement(store, path, rule);
+                    });
+
+                    if (met) {
+                        store.flags[milestone.id] = true;
+                        if (milestone.onUnlock) {
+                            milestone.onUnlock.forEach(effect => {
+                                if (effect.type === 'unlockNPC') store.unlockedNPCs.push(effect.id);
+                                if (effect.type === 'setObjective') store.currentObjective = effect.id;
+                                if (effect.type === 'playSound') store.playSound(effect.id);
+                                if (effect.type === 'log') store.addLog(effect.id, 'logs', effect.color);
+                            });
+                        }
+                    }
+                });
+
+                store.saveGame();
             }, 30000);
 
             console.log("[CORE] Game Engine initialized (Full Ticker Mode).");

@@ -10,7 +10,8 @@ export const itemDb = {
     desc: 'item_wanderstock_desc',
     image: 'img/items/Crafting_walkingstick.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
+    modifiers: [{ key: 'wood_yield', add: 1 }]
   },
   'item-axe': {
     id: 'item-axe',
@@ -18,7 +19,8 @@ export const itemDb = {
     desc: 'item_axe_desc',
     image: 'img/items/Crafting_axe_1.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
+    modifiers: [{ key: 'wood_yield', mult: 2 }]
   },
   'item-pickaxe': {
     id: 'item-pickaxe',
@@ -26,7 +28,8 @@ export const itemDb = {
     desc: 'item_pickaxe_desc',
     image: 'img/items/Crafting_pickaxe_1.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
+    modifiers: [{ key: 'stone_yield', mult: 2 }]
   },
   'item-bow': {
     id: 'item-bow',
@@ -162,7 +165,8 @@ export const itemDb = {
     desc: 'item_crystal_mana_desc',
     image: 'img/items/mana_crystal.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
+    modifiers: [{ key: 'garden_magic_cost', mult: 0.8 }]
   },
   'item-bed-2': {
     id: 'item-bed-2',
@@ -170,7 +174,8 @@ export const itemDb = {
     desc: 'item_bed_2_desc',
     image: 'img/items/bed_2.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
+    modifiers: [{ key: 'rest_energy_gain', add: 50 }]
   },
   'item-stove-2': {
     id: 'item-stove-2',
@@ -178,6 +183,7 @@ export const itemDb = {
     desc: 'item_stove_2_desc',
     image: 'img/items/stove_2.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
+    modifiers: [{ key: 'eat_satiation_gain', add: 50 }]
   }
 };

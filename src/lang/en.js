@@ -20,6 +20,8 @@ export default {
         cat_log: "Event Log",
         cat_provisions: "Provisions",
         cat_artifacts: "Artifacts",
+        ui_materials: "Materials",
+        ui_provisions: "Provisions",
         
         // --- RESOURCES & STATS ---
         ui_vitality: "Vitality",
@@ -59,6 +61,8 @@ export default {
         btn_main_menu: "Menu",
         btn_quit: "Quit",
         btn_back: "Back",
+        btn_confirm_yes: "Yes, proceed",
+        btn_confirm_no: "Cancel",
         btn_assign_work: "Assign",
         btn_stop_work: "Stop",
         menu_new_game: "New Game",
@@ -117,6 +121,8 @@ export default {
         ui_loop_hint: "Actions will be repeated automatically...",
         ui_focus_hint: "Enable continuous focus (consumes energy)",
         ui_continue_hint: "Click to continue...",
+        ui_skip_hint: "[ESC] to skip | [ENTER] to continue",
+        ui_skip_btn: "Skip Intro",
         nav_gather_desc: "Gather resources from the immediate surroundings of Draconia.",
         nav_work_desc: "Perform simple tasks in the village to earn shards.",
         help_kitchen_desc: "Prepare complex foods that grant stronger bonuses.",
@@ -141,7 +147,9 @@ export default {
         // --- FALLBACKS ---
         objective_label: "Goal",
         status_working: "Working",
-        status_idle: "Ready"
+        status_idle: "Ready",
+        ui_details: "Details",
+        btn_embrace_destiny: "Embrace Destiny"
     },
     
     logs: {

@@ -7,18 +7,21 @@ export const createResourceSystem = () => {
         return 1 / (state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1);
     };
 
+    const getScaledCost = (state, type, baseAmount) => {
+        const resDef = state.RESOURCE_REGISTRY[type];
+        if (resDef?.scalesWithSatiation) {
+            return baseAmount * getSatiationMultiplier(state);
+        }
+        return baseAmount;
+    };
+
     const canAfford = (state, typeOrCosts, amount) => {
         if (typeof typeOrCosts === 'object') {
             return Object.entries(typeOrCosts).every(([type, amt]) => canAfford(state, type, amt));
         }
 
         const type = typeOrCosts;
-        const resDef = state.RESOURCE_REGISTRY[type];
-        let finalAmount = amount;
-        
-        if (resDef?.isEssential && type !== 'satiation') {
-            finalAmount = finalAmount * getSatiationMultiplier(state);
-        }
+        let finalAmount = getScaledCost(state, type, amount);
 
         if (state.stats[type] !== undefined) return state.stats[type] >= finalAmount;
         if (state.resources[type] !== undefined) return state.resources[type] >= finalAmount;
@@ -34,12 +37,7 @@ export const createResourceSystem = () => {
         }
         
         const type = typeOrCosts;
-        const resDef = state.RESOURCE_REGISTRY[type];
-        let finalAmount = amount;
-
-        if (resDef?.isEssential && type !== 'satiation') {
-            finalAmount = finalAmount * getSatiationMultiplier(state);
-        }
+        let finalAmount = getScaledCost(state, type, amount);
 
         let consumed = false;
         if (state.stats[type] !== undefined) {
@@ -109,6 +107,7 @@ export const createResourceSystem = () => {
         },
 
         getSatiationMultiplier,
+        getScaledCost,
 
         getEfficiency(state) {
             return state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1;
