@@ -32,6 +32,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.eslintcache
 
 # Environment variables
 .env
@@ -39,16 +40,12 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+*.local
 
 # OS files
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-
-# Ergänze diese Zeilen am Ende der .gitignore
-.eslintcache
-*.log
-*.local
 
 # Electron / Packager temporary files
 *-win32-x64/
