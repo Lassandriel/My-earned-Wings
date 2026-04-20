@@ -1,15 +1,17 @@
+import { NPCDefinition } from '../../types/game';
+
 /**
- * NPC Registry - Core 3.0
+ * NPC Registry - TypeScript Edition
  * Standardized IDs with 'npc-' prefix.
  */
-export const NPC_REGISTRY = {
+export const NPC_REGISTRY: Record<string, NPCDefinition> = {
     'npc-baker': {
         id: 'npc-baker',
         nameKey: 'npc_baker_name',
         icon: '🍞',
         color: '#f59e0b',
-    image: 'img/npcs/Baker Geron.webp',
-        progKey: 'baker', // Key in store.npcProgress
+        image: 'img/npcs/Baker Geron.webp',
+        progKey: 'baker',
         maxProgress: 5,
         chapter: 'Village Life',
         unlockedAtStart: true,
@@ -56,7 +58,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_townhall_name',
         icon: '🏛️',
         color: '#94a3b8',
-        image: 'img/npcs/Town Hall.webp',
+        image: 'img/npcs/Town Hall.png',
         progKey: 'townHall',
         maxProgress: 5,
         chapter: 'Village Life',
@@ -131,5 +133,5 @@ export const NPC_REGISTRY = {
     }
 };
 
-export const getNpcsByChapter = (chapter) => 
+export const getNpcsByChapter = (chapter: string): NPCDefinition[] => 
     Object.values(NPC_REGISTRY).filter(npc => npc.chapter === chapter);

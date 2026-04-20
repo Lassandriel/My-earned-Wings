@@ -1,5 +1,7 @@
+import { GameState } from '../types/game';
+
 /**
- * NPC System - Core 3.0
+ * NPC System - TypeScript Edition
  * Handles companion recruitment and NPC quest progress.
  */
 export const createNPCSystem = () => {
@@ -7,7 +9,7 @@ export const createNPCSystem = () => {
         /**
          * Executes an NPC interaction step (Quest progress).
          */
-        execute(game, id) {
+        execute(game: GameState, id: string): any {
             const action = game.content.get(id, 'actions');
             
             if (!action || !action.steps) return false;
@@ -43,14 +45,14 @@ export const createNPCSystem = () => {
 
             // 4. Side Effects (using ActionSystem's handlers for consistency)
             if (Array.isArray(step.onSuccess)) {
-                step.onSuccess.forEach(effect => {
+                step.onSuccess.forEach((effect: any) => {
                     const handler = game.actions.effectHandlers[effect.type];
                     if (handler) handler(game, effect);
                 });
             } else if (step.onSuccess && !Array.isArray(step.onSuccess)) {
                 // Legacy support during migration if needed
-                if (step.onSuccess.unlocks) {
-                    step.onSuccess.unlocks.forEach(u => game.actions.effectHandlers.unlockRecipe(game, { id: u }));
+                if ((step.onSuccess as any).unlocks) {
+                    (step.onSuccess as any).unlocks.forEach((u: string) => game.actions.effectHandlers.unlockRecipe(game, { id: u }));
                 }
             }
 

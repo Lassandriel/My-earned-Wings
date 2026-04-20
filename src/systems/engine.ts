@@ -1,13 +1,20 @@
+import { GameState } from '../types/game';
+
+// Declare Alpine globally for TS
+declare const Alpine: any;
+
 /**
- * Engine System - Handles the main game loop, periodic ticks,
- * and autosave management.
+ * Engine System - TypeScript Edition
+ * Handles the main game loop, periodic ticks, and autosave management.
  */
 export function createEngineSystem() {
   return {
-    tickInterval: null,
-    saveInterval: null,
-    lastTickTime: null,
-    lastTaskTime: null,
+    tickInterval: null as any,
+    taskInterval: null as any,
+    saveInterval: null as any,
+    lastTickTime: 0,
+    lastTaskTime: 0,
+    lastHungerLog: 0,
 
     init() {
       this.lastTickTime = Date.now();
@@ -15,7 +22,7 @@ export function createEngineSystem() {
 
       // --- 1. Main Simulation Loop (approx every 1s) ---
       this.tickInterval = setInterval(() => {
-        const innerStore = Alpine.store('game');
+        const innerStore = Alpine.store('game') as unknown as GameState;
         const now = Date.now();
         const deltaTime = (now - this.lastTickTime) / 1000;
         this.lastTickTime = now;
@@ -63,12 +70,12 @@ export function createEngineSystem() {
         }
 
         // E. Universal Passive Production
-        this.processPassiveProduction(innerStore);
+        (this as any).processPassiveProduction(innerStore);
       }, 1000);
 
       // --- 2. Task Ticker (approx every 100ms) ---
       this.taskInterval = setInterval(() => {
-        const innerStore = Alpine.store('game');
+        const innerStore = Alpine.store('game') as unknown as GameState;
         const now = Date.now();
         const deltaMs = now - this.lastTaskTime;
         this.lastTaskTime = now;
@@ -92,14 +99,15 @@ export function createEngineSystem() {
             );
             innerStore.actions.handleSuccess(innerStore, actionId, action, result);
 
-            if (innerStore.activeFocus === actionId && action.isLoopable) {
+            if (innerStore.activeFocus === actionId && (action as any).isLoopable) {
               setTimeout(() => {
+                const currentStore = Alpine.store('game') as unknown as GameState;
                 if (
-                  innerStore.activeFocus === actionId &&
-                  innerStore.view !== 'menu' &&
-                  !innerStore.activeTasks[actionId]
+                  currentStore.activeFocus === actionId &&
+                  currentStore.view !== 'menu' &&
+                  !currentStore.activeTasks[actionId]
                 ) {
-                  innerStore.executeAction(actionId);
+                  currentStore.executeAction(actionId);
                 }
               }, 300);
             }
@@ -109,14 +117,14 @@ export function createEngineSystem() {
 
       // --- 3. Save Ticker ---
       this.saveInterval = setInterval(() => {
-        this.checkMilestones(Alpine.store('game'));
-        Alpine.store('game').saveGame();
+        (this as any).checkMilestones(Alpine.store('game') as unknown as GameState);
+        (Alpine.store('game') as unknown as GameState).saveGame();
       }, 30000);
 
       console.log('[CORE] High-Precision Engine initialized.');
     },
 
-    processPassiveProduction(store) {
+    processPassiveProduction(store: GameState) {
       Object.keys(store.flags).forEach((id) => {
         const action = store.content.get(id, 'actions');
         if (action && action.passiveProduction) {
@@ -154,8 +162,8 @@ export function createEngineSystem() {
       });
     },
 
-    checkMilestones(store) {
-      Object.values(store.content.registries.milestones).forEach((milestone) => {
+    checkMilestones(store: GameState) {
+      Object.values(store.content.registries.milestones).forEach((milestone: any) => {
         if (store.flags[milestone.id]) return;
         const met = Object.entries(milestone.requirements).every(([path, rule]) => {
           return store.actions.checkRequirement(store, path, rule);
@@ -163,7 +171,7 @@ export function createEngineSystem() {
         if (met) {
           store.flags[milestone.id] = true;
           if (milestone.onUnlock) {
-            milestone.onUnlock.forEach((effect) => {
+            milestone.onUnlock.forEach((effect: any) => {
               if (effect.type === 'unlockNPC') store.unlockedNPCs.push(effect.id);
               if (effect.type === 'setObjective') store.currentObjective = effect.id;
               if (effect.type === 'playSound') store.playSound(effect.id);

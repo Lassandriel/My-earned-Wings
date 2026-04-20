@@ -1,5 +1,5 @@
 /**
- * Event Bus System
+ * Event Bus System - TypeScript Edition
  * A lightweight pub/sub mechanism to decouple systems.
  */
 
@@ -25,13 +25,13 @@ export const GAME_EVENTS = {
 };
 
 export const createEventBus = () => {
-    const listeners = {};
+    const listeners: Record<string, Function[]> = {};
 
     return {
         /**
          * Subscribe to an event.
          */
-        on(event, callback) {
+        on(event: string, callback: Function) {
             if (!listeners[event]) listeners[event] = [];
             
             // IDEMPOTENCY: Don't register the same callback twice for the same event
@@ -48,7 +48,7 @@ export const createEventBus = () => {
         /**
          * Emit an event.
          */
-        emit(event, data) {
+        emit(event: string, data?: any) {
             if (!listeners[event]) return;
             listeners[event].forEach(callback => callback(data));
         }

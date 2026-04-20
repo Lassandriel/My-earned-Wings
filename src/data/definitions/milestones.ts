@@ -1,8 +1,10 @@
+import { MilestoneDefinition } from '../../types/game';
+
 /**
- * Milestone Registry - Core 3.0
+ * Milestone Registry - TypeScript Edition
  * Defines major game goals and chapter transitions.
  */
-export const MILESTONE_REGISTRY = {
+export const MILESTONE_REGISTRY: Record<string, MilestoneDefinition> = {
     'milestone-treeOfLife': {
         id: 'milestone-treeOfLife',
         requirements: {

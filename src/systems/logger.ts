@@ -1,17 +1,22 @@
+import { GameState } from '../types/game';
+
+/**
+ * Logger System - TypeScript Edition
+ * Manages game logs, grouping, and history pruning.
+ */
 export const createLoggerSystem = () => ({
-  addLog(store, id, context, color, params) {
+  addLog(store: GameState, id: string, context?: string, color?: string, params?: any) {
     let type = 'normal';
     if (color && (color.includes('teal') || color.includes('184, 166'))) type = 'success';
     else if (color && (color.includes('gold') || color.includes('251, 191'))) type = 'milestone';
     else if (color && (color.includes('purple') || color.includes('210, 180'))) type = 'story';
     else if (color && (color.includes('red') || color.includes('239, 68'))) type = 'failure';
 
-    const lastLog = store.logs[0];
+    const lastLog = (store as any).logs[0];
     const finalColor = color || 'rgba(226, 232, 240, 0.7)';
     const finalContext = context || 'logs';
 
     // Grouping logic: If identical to the last message, just increment count
-    // Exceptions: Story messages and specific one-off events
     const noGroupIds = ['intro_1', 'intro_welcome', 'milestone_tree_of_life'];
     
     let finalParams = params || {};
@@ -30,9 +35,7 @@ export const createLoggerSystem = () => ({
       return;
     }
 
-
-
-    store.logs.unshift({
+    (store as any).logs.unshift({
       id: id,
       context: finalContext,
       params: finalParams,
@@ -42,11 +45,11 @@ export const createLoggerSystem = () => ({
       timestamp: Date.now() + Math.random()
     });
 
-    if (store.logs.length > 40) store.logs.pop();
+    if ((store as any).logs.length > 40) (store as any).logs.pop();
   },
 
-  boot(store) {
-    store.bus.on(store.EVENTS.LOG_ADDED, (data) => {
+  boot(store: GameState) {
+    store.bus.on(store.EVENTS.LOG_ADDED, (data: any) => {
       this.addLog(store, data.id, data.context, data.color, data.params);
     });
   }

@@ -1,15 +1,15 @@
 import { actionDb } from './actions/index.js';
-import { itemDb } from './definitions/items.js';
-import { NPC_REGISTRY } from './definitions/npcs.js';
+import { itemDb } from './definitions/items';
+import { NPC_REGISTRY } from './definitions/npcs';
 import { RESOURCE_REGISTRY } from './definitions/resources';
-import { BUFF_REGISTRY } from './definitions/buffs.js';
-import { MILESTONE_REGISTRY } from './definitions/milestones.js';
+import { BUFF_REGISTRY } from './definitions/buffs';
+import { MILESTONE_REGISTRY } from './definitions/milestones';
 import { NAVIGATION_REGISTRY } from './definitions/navigation.js';
 
 /**
- * Organized registries for the ContentService
+ * Organized registries for the ContentService - TypeScript Edition
  */
-export const registries = {
+export const registries: Record<string, any> = {
     actions: actionDb,
     items: itemDb,
     npcs: NPC_REGISTRY,

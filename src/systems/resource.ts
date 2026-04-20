@@ -1,8 +1,10 @@
+import { GameState, ResourceId } from '../types/game';
+
 /**
- * Resource and Stats System Manager
+ * Resource and Stats System Manager - TypeScript Edition
  */
 export const createResourceSystem = () => {
-    const getScaledCost = (state, type, baseAmount) => {
+    const getScaledCost = (state: GameState, type: ResourceId, baseAmount: number): number => {
         const resDef = state.RESOURCE_REGISTRY[type];
         if (resDef?.scalesWithSatiation) {
             // Costs scale inversely with worker efficiency
@@ -12,20 +14,20 @@ export const createResourceSystem = () => {
         return baseAmount;
     };
 
-    const canAfford = (state, typeOrCosts, amount) => {
+    const canAfford = (state: GameState, typeOrCosts: string | Record<string, number>, amount: number = 0): boolean => {
         if (typeof typeOrCosts === 'object') {
             return Object.entries(typeOrCosts).every(([type, amt]) => canAfford(state, type, amt));
         }
 
-        const type = typeOrCosts;
-        let finalAmount = getScaledCost(state, type, amount);
+        const type = typeOrCosts as ResourceId;
+        const finalAmount = getScaledCost(state, type, amount);
 
         if (state.stats[type] !== undefined) return state.stats[type] >= finalAmount;
         if (state.resources[type] !== undefined) return state.resources[type] >= finalAmount;
         return false;
     };
 
-    const consume = (state, typeOrCosts, amount) => {
+    const consume = (state: GameState, typeOrCosts: string | Record<string, number>, amount: number = 0): boolean => {
         if (!canAfford(state, typeOrCosts, amount)) return false;
 
         if (typeof typeOrCosts === 'object') {
@@ -33,8 +35,8 @@ export const createResourceSystem = () => {
             return true;
         }
         
-        const type = typeOrCosts;
-        let finalAmount = getScaledCost(state, type, amount);
+        const type = typeOrCosts as ResourceId;
+        const finalAmount = getScaledCost(state, type, amount);
 
         let consumed = false;
         if (state.stats[type] !== undefined) {
@@ -55,8 +57,8 @@ export const createResourceSystem = () => {
         canAfford,
         consume,
         
-        add(state, type, amount) {
-            let finalAmount = amount;
+        add(state: GameState, type: string, amount: number): boolean {
+            const finalAmount = amount;
             if (finalAmount <= 0) return false;
             
             let changed = false;
@@ -87,11 +89,11 @@ export const createResourceSystem = () => {
             return changed;
         },
 
-        getLimit(state, type) {
+        getLimit(state: GameState, type: ResourceId): number {
             return state.limits[type] || 0;
         },
 
-        isFull(state, type) {
+        isFull(state: GameState, type: ResourceId): boolean {
             if (state.resources[type] !== undefined) {
                 return state.resources[type] >= (state.limits[type] || Infinity);
             }

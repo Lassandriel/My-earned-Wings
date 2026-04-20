@@ -1,9 +1,11 @@
+import { GameState } from '../types/game';
+
 /**
- * Item System - Core 3.0
+ * Item System - TypeScript Edition
  * Manages item effects and consumption from the inventory.
  */
 export const createItemSystem = () => ({
-    consumeItem(store, id) {
+    consumeItem(store: GameState, id: string) {
         const item = store.content.get(id, 'items');
         if (!item || !item.consumable) return;
         
@@ -35,14 +37,14 @@ export const createItemSystem = () => ({
                 if (store.stats[stat] !== undefined) {
                     const maxKey = 'max' + stat.charAt(0).toUpperCase() + stat.slice(1);
                     const maxValue = store.stats[maxKey] || 100;
-                    store.stats[stat] = Math.min(maxValue, store.stats[stat] + value);
+                    store.stats[stat] = Math.min(maxValue, store.stats[stat] + (value as number));
                 }
             });
         }
 
         // 2. Side-Effects (onSuccess handlers)
         if (Array.isArray(item.onSuccess)) {
-            item.onSuccess.forEach(effect => {
+            item.onSuccess.forEach((effect: { type: string, [key: string]: any }) => {
                 const handler = store.actions.effectHandlers[effect.type];
                 if (handler) handler(store, effect);
             });

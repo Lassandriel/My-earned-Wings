@@ -1,14 +1,14 @@
 import de from './lang/de.js';
 import en from './lang/en.js';
 
-const translations = { de, en };
+const translations: Record<string, any> = { de, en };
 
 /**
- * CORE 3.0 STATE DEFINITION
+ * CORE 3.5 STATE DEFINITION - TypeScript Edition
  * Minimal hardcoded state. Most properties are injected dynamically 
  * from registries during boot.
  */
-export const initialState = {
+export const initialState: any = {
   playerName: '',
   language: 'de',
   view: 'menu',
@@ -23,8 +23,8 @@ export const initialState = {
   resources: {},
   limits: {},
   stats: {},
-  flags: {},          // Replaces hardcoded housing state
-  npcProgress: {},    // Tracks individual NPC story progress
+  flags: {},          
+  npcProgress: {},    
   activeBuffs: {},
   
   // Lists
@@ -43,6 +43,7 @@ export const initialState = {
   logs: [],
   storyHistory: [],
   saveCode: '',
+  saveInfoText: '',
   
   settings: {
     volumeGlobal: 0.5,
@@ -63,6 +64,11 @@ export const initialState = {
   demoCompleted: false,
   demoCompletedHintSeen: false,
   dialogueActive: false,
+  dialogueNpcId: null,
+  dialogueText: '',
+  dialogueTitle: '',
+  dialogueChoices: [],
+  dialogueWaiting: false,
   
   finalStats: {
     shards: 0,

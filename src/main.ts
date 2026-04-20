@@ -1,43 +1,43 @@
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
-import { initialState, getTranslations } from './state.js';
+import { initialState, getTranslations } from './state';
+import { registries } from './data/index';
 
-Alpine.plugin(collapse);
-import { registries } from './data/index.js';
-
-// Systems
-import { createResourceSystem } from './systems/resource.js';
-import { createAudioSystem } from './systems/audio.js';
-import { createPersistenceSystem } from './systems/persistence.js';
-import { createLoggerSystem } from './systems/logger.js';
-import { createJuiceSystem } from './systems/juice.js';
-import { createUISystem } from './systems/ui.js';
-import { createStorySystem } from './systems/story.js';
-import { createPrologueSystem } from './systems/prologue.js';
-import { createDialogueSystem } from './systems/dialogue.js';
-import { createNPCSystem } from './systems/npc.js';
-import { createActionSystem } from './systems/actions.js';
-import { createEngineSystem } from './systems/engine.js';
-import { createItemSystem } from './systems/item.js';
+import { createResourceSystem } from './systems/resource';
+import { createAudioSystem } from './systems/audio';
+import { createPersistenceSystem } from './systems/persistence';
+import { createLoggerSystem } from './systems/logger';
+import { createJuiceSystem } from './systems/juice';
+import { createUISystem } from './systems/ui';
+import { createStorySystem } from './systems/story';
+import { createPrologueSystem } from './systems/prologue';
+import { createDialogueSystem } from './systems/dialogue';
+import { createNPCSystem } from './systems/npc';
+import { createActionSystem } from './systems/actions';
+import { createEngineSystem } from './systems/engine';
+import { createItemSystem } from './systems/item';
 import { createPipelineSystem } from './systems/pipeline';
-import { createViewManagerSystem } from './systems/viewManager.js';
-import { createEllieSystem } from './systems/ellie.js';
-import { createEventBus, GAME_EVENTS } from './systems/bus.js';
-import { createContentService } from './systems/content.js';
+import { createViewManagerSystem } from './systems/viewManager';
+import { createEllieSystem } from './systems/ellie';
+import { createEventBus, GAME_EVENTS } from './systems/bus';
+import { createContentService } from './systems/content';
+
+import { GameState } from './types/game';
 
 import './assets/styles/main.css';
 
-window.Alpine = Alpine;
+Alpine.plugin(collapse);
+(window as any).Alpine = Alpine;
 
 /**
- * CORE 3.0 STORE ASSEMBLY
+ * CORE 3.5 STORE ASSEMBLY - TypeScript Edition
  * Dynamically builds the game store based on registries.
  */
-const buildInitialState = () => {
+const buildInitialState = (): any => {
     const baseState = JSON.parse(JSON.stringify(initialState));
     
     // Auto-populate resources and stats from Registry
-    Object.values(registries.resources).forEach(res => {
+    Object.values(registries.resources).forEach((res: any) => {
         if (res.type === 'resource') {
             const limit = res.initialLimit || 0;
             baseState.limits[res.id] = limit;
@@ -51,12 +51,10 @@ const buildInitialState = () => {
     });
 
     // Auto-populate NPC data
-    Object.values(registries.npcs).forEach(npc => {
-        // Initial Progress
+    Object.values(registries.npcs).forEach((npc: any) => {
         if (npc.progKey && baseState.npcProgress[npc.progKey] === undefined) {
             baseState.npcProgress[npc.progKey] = 0;
         }
-        // Initial Unlocks
         if (npc.unlockedAtStart && !baseState.unlockedNPCs.includes(npc.id)) {
             baseState.unlockedNPCs.push(npc.id);
         }
@@ -67,10 +65,10 @@ const buildInitialState = () => {
 
 const dynamicInitialState = buildInitialState();
 
-Alpine.store('game', {
+const gameStore: any = {
     ...dynamicInitialState,
     translations: getTranslations(),
-    RESOURCE_REGISTRY: registries.resources,
+    RESOURCE_REGISTRY: (registries as any).resources,
     saveInfoText: '',
     lastMouseX: 0,
     lastMouseY: 0,
@@ -99,26 +97,26 @@ Alpine.store('game', {
     EVENTS: GAME_EVENTS,
 
     init() {
-        const store = Alpine.store('game');
+        const store = Alpine.store('game') as unknown as GameState;
         
-        // --- AUTO-LOAD SETTINGS (Global Preferences) ---
+        // --- AUTO-LOAD SETTINGS ---
         store.persistence.loadSettings(store);
         
-        // --- CONTENT VALIDATION (Delayed for better stability) ---
+        // --- CONTENT VALIDATION ---
         setTimeout(() => {
-            store.content.validate(store);
+            (store.content as any).validate(store);
         }, 100);
 
         const hasSavedData = localStorage.getItem('wings_save');
         store.hasSave = !!hasSavedData;
 
-        store.audio.init(store.settings);
-        store.juice.init();
+        store.audio.init((store as any).settings);
+        store.juice.boot(store);
         
         // --- SYSTEM BOOT ---
-        const systemsToBoot = ['audio', 'logger', 'persistence', 'juice', 'actions', 'ui', 'content'];
+        const systemsToBoot = ['audio', 'logger', 'persistence', 'actions', 'ui'];
         systemsToBoot.forEach(sys => {
-            if (store[sys]?.boot) store[sys].boot(store);
+            if ((store as any)[sys]?.boot) (store as any)[sys].boot(store);
         });
         
         store.engine.init();
@@ -126,17 +124,14 @@ Alpine.store('game', {
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
 
-        // --- GLOBAL UI WATCHER: Auto-cleanup hovered state on view changes ---
-        Alpine.effect(() => {
+        // --- GLOBAL UI WATCHER ---
+        (Alpine as any).effect(() => {
             const view = store.view;
-            
-            // VIEW SANITY GUARD (Wave 9)
             const VALID_VIEWS = ['menu', 'prologue', 'naming', 'gameplay', 'crafting', 'upgrades', 'village', 'story', 'finale'];
             if (!VALID_VIEWS.includes(view)) {
                 console.warn(`[UI] Invalid view detected: ${view}. Falling back to menu.`);
                 store.view = 'menu';
             }
-
             if (store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);
         });
 
@@ -153,16 +148,16 @@ Alpine.store('game', {
     startNewGame() { this.viewManager.startNewGame(this, buildInitialState); },
     continueGame() { this.viewManager.continueGame(this); },
     finishPrologue() { this.viewManager.finishPrologue(this); },
-    confirmName(name) { this.viewManager.confirmName(this, name); },
-    resolveConfirm(conf) { this.viewManager.resolveConfirm(this, conf); },
+    confirmName(name: string) { this.viewManager.confirmName(this, name); },
+    resolveConfirm(conf: boolean) { this.viewManager.resolveConfirm(this, conf); },
     
-    executeAction(id) { return this.actions.execute(this, id); },
-    isTaskActive(id) { return !!this.activeTasks[id]; },
+    executeAction(id: string) { return this.actions.execute(this, id); },
+    isTaskActive(id: string) { return !!this.activeTasks[id]; },
     
-    attemptAction(el, id) {
+    attemptAction(el: HTMLElement, id: string) {
         if (this.activeTasks[id]) return;
         const res = this.executeAction(id);
-        if (res === false || (res && res.success === false)) {
+        if (res === false || (res && (res as any).success === false)) {
             if (el) {
                 el.classList.add('btn-shake');
                 setTimeout(() => el.classList.remove('btn-shake'), 400);
@@ -170,7 +165,7 @@ Alpine.store('game', {
         }
         return res;
     },
-    toggleFocus(id) {
+    toggleFocus(id: string) {
         const action = this.content.get(id, 'actions');
         if (this.activeFocus === id) {
             this.activeFocus = null;
@@ -183,12 +178,12 @@ Alpine.store('game', {
             }
         }
     },
-    npcExecute(id) { return this.npc.execute(this, id); },
-    consumeItem(id) { return this.item.consumeItem(this, id); },
+    npcExecute(id: string) { return this.npc.execute(this, id); },
+    consumeItem(id: string) { return this.item.consumeItem(this, id); },
     
     saveGame(isManual = false) { this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); },
     loadGame() { return this.persistence.loadGame(this); },
-    setLanguage(lang) { this.language = lang; this.saveGame(); },
+    setLanguage(lang: string) { this.language = lang; this.saveGame(); },
     hardReset() { this.viewManager.hardReset(this); },
     returnToMenu() { this.viewManager.returnToMenu(this); },
     
@@ -210,13 +205,11 @@ Alpine.store('game', {
         this.settingsOpen = false;
     },
     
-    t(key, context = 'ui', params = {}) { 
+    t(key: string, context = 'ui', params = {}) { 
         const data = this.translations[this.language][context]?.[key] || key;
-        
-        // Auto-inject player name
-        const finalParams = { player: this.playerName || 'Wandler', ...params };
+        const finalParams: Record<string, any> = { player: this.playerName || 'Wandler', ...params };
 
-        const replaceRecursive = (val) => {
+        const replaceRecursive = (val: any): any => {
             if (typeof val === 'string') {
                 let replaced = val;
                 Object.entries(finalParams).forEach(([k, v]) => {
@@ -224,7 +217,7 @@ Alpine.store('game', {
                 });
                 return replaced;
             } else if (typeof val === 'object' && val !== null) {
-                const result = Array.isArray(val) ? [] : {};
+                const result: any = Array.isArray(val) ? [] : {};
                 for (let k in val) {
                     result[k] = replaceRecursive(val[k]);
                 }
@@ -236,17 +229,17 @@ Alpine.store('game', {
         return replaceRecursive(data); 
     },
 
-    playSound(key) { this.bus.emit(this.EVENTS.SOUND_TRIGGERED, { key }); },
-    addLog(id, context = 'logs', color = null, params = {}) { 
+    playSound(key: string) { this.bus.emit(this.EVENTS.SOUND_TRIGGERED, { key }); },
+    addLog(id: string, context = 'logs', color: string | null = null, params = {}) { 
         this.bus.emit(this.EVENTS.LOG_ADDED, { id, context, color, params }); 
     },
 
     completeDemo() { this.viewManager.completeDemo(this); },
 
     // --- GETTERS ---
-    getActionEffect(hAction) { return this.ui.getActionEffect(this, hAction); },
-    getTooltipCosts(hAction) { return this.ui.getTooltipCosts(this, hAction); },
-    setHovered(id, extra = null) {
+    getActionEffect(hAction: any) { return this.ui.getActionEffect(this, hAction); },
+    getTooltipCosts(hAction: any) { return this.ui.getTooltipCosts(this, hAction); },
+    setHovered(id: string | null, extra: any = null) {
         if (!id) { this.hoveredAction = null; return; }
         this.hoveredAction = extra ? { id, ...extra } : { id, data: this.content.get(id) };
     },
@@ -259,44 +252,46 @@ Alpine.store('game', {
     },
     
     get groupedHistory() { return this.story.getGroupedHistory(this); }
-});
+};
+
+Alpine.store('game', gameStore);
+
 
 Alpine.start();
 
 // --- Event Listeners ---
 document.addEventListener('keydown', (e) => {
-    const store = Alpine.store('game');
+    const store = Alpine.store('game') as unknown as GameState;
     if (!store) return;
 
     if (e.key === 'Escape') {
         if (store.view === 'prologue') {
-            store.prologue.skipPrologue(store);
+            (store.prologue as any).skipPrologue(store);
         } else {
-            store.settingsOpen = !store.settingsOpen;
-            if (!store.settingsOpen && store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);
+            (store as any).settingsOpen = !(store as any).settingsOpen;
+            if (!(store as any).settingsOpen && store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);
             store.playSound('click');
         }
     }
     
     if (e.key === 'Enter') {
         if (store.view === 'prologue') {
-            store.prologue.advancePrologue(store);
+            (store.prologue as any).advancePrologue(store);
         }
     }
 
-    if (store.view !== 'menu' && store.view !== 'prologue' && !store.settingsOpen) {
-        const SHORTCUTS = { '1': 'act-essen', '2': 'act-ausruhen', '3': 'act-meditieren' };
+    if (store.view !== 'menu' && store.view !== 'prologue' && !(store as any).settingsOpen) {
+        const SHORTCUTS: Record<string, string> = { '1': 'act-essen', '2': 'act-ausruhen', '3': 'act-meditieren' };
         if (SHORTCUTS[e.key]) store.executeAction(SHORTCUTS[e.key]);
     }
 });
 
 document.addEventListener('mousemove', (e) => {
-    const store = Alpine.store('game');
+    const store = Alpine.store('game') as unknown as GameState;
     if (store && store.ui) store.ui.handleMouseMove(e, store);
 });
 
-// --- UI SAFETY: Cleanup hover when mouse leaves the window ---
 window.addEventListener('mouseleave', () => {
-    const store = Alpine.store('game');
+    const store = Alpine.store('game') as unknown as GameState;
     if (store && store.ui) store.ui.cleanupHover(store);
 });

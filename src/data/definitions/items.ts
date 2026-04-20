@@ -1,8 +1,10 @@
+import { ItemDefinition } from '../../types/game';
+
 /**
- * Item Database - Core 3.0
+ * Item Database - TypeScript Edition
  * Standardized IDs with 'item-' prefix for robustness.
  */
-export const itemDb = {
+export const itemDb: Record<string, ItemDefinition> = {
   // --- TOOLS ---
   'item-walking-stick': {
     id: 'item-walking-stick',
@@ -199,7 +201,7 @@ export const itemDb = {
     id: 'item-dream-dust',
     title: 'item_dream_dust_title',
     desc: 'item_dream_dust_desc',
-    image: 'img/items/Item_DreamDust.webp',
+    image: 'img/items/Item_DreamDust.png',
     consumable: false,
     category: 'artifacts'
   },

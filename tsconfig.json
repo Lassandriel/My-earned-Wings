@@ -11,15 +11,15 @@
     "esModuleInterop": true,
     "noEmit": true,
     "allowJs": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    },
-    "ignoreDeprecations": "6.0"
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.js", "scripts/**/*.js"],
   "exclude": ["node_modules", "dist"]

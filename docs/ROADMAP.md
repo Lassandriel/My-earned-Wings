@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 8.1 COMPLETE (Golden Master - Core 3.5 Balance & Assets)
+## Current Status: Phase 8.2 COMPLETE (TypeScript Ascension & Architecture Hardening)
 
 The internal architecture has been fully refactored to "Draconia Core 3.5". The engine is now 100% content-agnostic, with all gameplay logic, navigation, and effects residing in modular data registries. This "Golden Master" state ensures maximum scalability and stability.
 
@@ -165,7 +165,7 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". The 
 - [x] **100% Key Synchronization**: Ensured full parity between `de.js` and `en.js` (No missing strings in either language).
 - [x] **Dialogue Consolidation**: Harmonized NPC dialogue keys into a consistent `npc_..._1-5` schema.
 - [x] **Finale Coverage**: Backported missing English finale descriptions and milestones to the German localization.
-- [x] **Structural De-Duplication**: Removed redundant dialogue entries from UI sections, optimizing file size and clarity.
+- [x] **Dialogue De-Duplication**: Removed redundant dialogue entries from UI sections, optimizing file size and clarity.
 - [x] **UI String Completion**: Finalized all remaining technical strings (Objectives, Loop Mode, Error Logs).
 
 ## Phase 5.6: Core Engine Decoupling & Loop Consolidation - **COMPLETED**
@@ -267,15 +267,15 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". The 
     - [x] **Scaling Fix**: Removed whole-wrapper scale transformations to eliminate black borders and tiny UI.
     - [x] **Scroll Restoration**: Fixed inheritance and overflow rules to re-enable mouse wheel and scrollbar usage. Global page scroll enabled for stacked layouts.
     - [x] **Background Stability**: Fixed background attachment to stay steady during scrolling in compact modes.
-    - [x] **Tooltip Intelligence**: Implemented pipeline-fallback for `{val}` interpolation in dynamic tooltips.
+    - [x] **Tooltip Intelligence**: Implemented pipeline-fallback for {val} interpolation in dynamic tooltips.
     - [x] **Portrait Optimization**: Stabilized panel stacking for narrow windows to prevent content overlap.
     - [x] **Final UX Polish**:
       - [x] **Total Scroll Unlock**: Forced auto-height on all root containers for seamless page scrolling on small screens.
       - [x] **Tab Wrapping**: Implemented flex-wrap on category tabs in Upgrades and Crafting views.
       - [x] **Responsive Padding**: Optimized view padding for compact displays to maximize content area.
     - [x] **Final Alignment & Logic Correction**:
-      - [x] **Alpine Fix**: Defined missing `isTaskActive` helper in main store to prevent JS crashes.
-      - [x] **Environmental Scroll Unlock**: Forced `overflow: auto` to override IDE-injected scroll-locks on body.
+      - [x] **Alpine Fix**: Defined missing isTaskActive helper in main store to prevent JS crashes.
+      - [x] **Environmental Scroll Unlock**: Forced overflow: auto to override IDE-injected scroll-locks on body.
       - [x] **Aesthetic Centers**: Centered all sub-category navigation tabs for balanced visual presentation.
     - [x] **Dialogue Integrity**: Fixed Ellie's tutorial log grouping to ensure all intro messages are visible.
     - [x] **Stat Visibility**: Restored Satiation, Energy, and Magic bars for better resource tracking.
@@ -289,6 +289,13 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". The 
     - [x] **Workshop Core Fix**: Resolved recipe-completion bugs, missing tool icons, and technical ID leaks in the crafting interface.
     - [x] **UI Bar Alignment**: Fixed variable-width status bars by implementing rigid width constraints for labels and values.
     - [x] **Visual Excellence (v3.5 Assets)**: Integrated high-res hand-drawn assets (transparent .webp) for the House, Table, Kitchen, Sanctum, Garden, Gourmet Meal, Astral Shards, and Wyvern Scale.
+
+- [x] **Phase 8.2: TypeScript Ascension & Architecture Hardening**:
+  - [x] **Full TypeScript Migration**: Converted all 20+ core systems and infrastructure modules to TypeScript.
+  - [x] **Type-Safe State Management**: Hardened the global `GameState` interface, ensuring zero "undefined" property leaks.
+  - [x] **Logic Integrity**: Achieved 100% logic coverage in `.ts` (Systems, Content, State, and Entry Point).
+  - [x] **Infrastructure Hardening**: Migrated Persistence, Event Bus, and Registry lookup to strictly typed services.
+  - [x] **Build Reliability**: Verified zero-error production builds and Electron packaging via `tsc` audit.
 
 ---
 
