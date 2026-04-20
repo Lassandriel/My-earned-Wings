@@ -117,6 +117,12 @@
           </button>
         </div>
 
+        <div class="danger-zone" x-show="$store.game.playerName === 'CHEAT'">
+          <button class="game-btn-wide" style="background: var(--gold); color: black;" @click="$store.game.applyCheats()">
+            <span>Unlock All (Dev Cheats)</span>
+          </button>
+        </div>
+
         <div class="danger-zone">
           <button class="danger-btn" @click="$store.game.hardReset()">
             <span x-text="$store.game.t('settings_reset')">Hard Reset</span>

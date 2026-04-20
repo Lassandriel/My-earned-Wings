@@ -1,5 +1,7 @@
+import { GameState, GameModifier, ItemDefinition, ActionDefinition } from '../types/game';
+
 /**
- * Value Pipeline System
+ * Value Pipeline System - TypeScript EDITION
  * Handles complex mathematical calculations with additive and multiplicative modifiers.
  * Centralizing this logic makes balancing and scaling much easier.
  */
@@ -9,7 +11,7 @@ export const createPipelineSystem = () => {
      * Calculates a modified value for a given key.
      * Formula: (Base + TotalAdditive) * TotalMultiplicative
      */
-    calculate(store, key, baseValue = 1) {
+    calculate(store: GameState, key: string, baseValue: number = 1): number {
       // Default base overrides for specific keys
       let base = baseValue;
       if (key === 'meat_yield') base = 2;
@@ -26,7 +28,7 @@ export const createPipelineSystem = () => {
       let add = 0;
       let mult = 1;
 
-      modifiers.forEach((m) => {
+      modifiers.forEach((m: GameModifier) => {
         if (m.add) add += m.add;
         if (m.mult) mult *= m.mult;
       });
@@ -44,21 +46,20 @@ export const createPipelineSystem = () => {
 
     /**
      * Returns all active modifiers for a specific key.
-     * In a more advanced version, this could be data-driven.
      */
-    getModifiers(store, key) {
-      const mods = [];
+    getModifiers(store: GameState, key: string): GameModifier[] {
+      const mods: GameModifier[] = [];
 
       // 1. DATA-DRIVEN ITEM & ACTION MODIFIERS (via Flags)
       Object.keys(store.flags).forEach((flagId) => {
         if (store.flags[flagId]) {
           // Check Items
-          const item = store.content.get(flagId, 'items');
+          const item = store.content.get(flagId, 'items') as ItemDefinition | null;
           if (item && item.modifiers) {
             item.modifiers.filter((m) => m.key === key).forEach((m) => mods.push(m));
           }
-          // Check Actions/Buildings (some flags match action IDs)
-          const action = store.content.get(flagId, 'actions');
+          // Check Actions/Buildings
+          const action = store.content.get(flagId, 'actions') as ActionDefinition | null;
           if (action && action.modifiers) {
             action.modifiers.filter((m) => m.key === key).forEach((m) => mods.push(m));
           }
@@ -66,10 +67,10 @@ export const createPipelineSystem = () => {
       });
 
       // 2. DATA-DRIVEN BUFF MODIFIERS
-      Object.values(store.activeBuffs).forEach((buff) => {
+      Object.values(store.activeBuffs).forEach((buff: any) => {
         const buffDef = store.content.get(buff.id, 'buffs');
         if (buffDef && buffDef.modifiers) {
-          buffDef.modifiers.filter((m) => m.key === key).forEach((m) => mods.push(m));
+          buffDef.modifiers.filter((m: GameModifier) => m.key === key).forEach((m: GameModifier) => mods.push(m));
         }
         // Legacy buff support
         if (key === 'energy_reg_bonus' && buff.type === 'energy_reg_bonus') {
@@ -78,14 +79,12 @@ export const createPipelineSystem = () => {
       });
 
       // 3. CORE STATUS RULES (Internal Logic)
-
-      // Satiation Efficiency Curve
       if (
         key === 'resource_efficiency' ||
         ['wood_yield', 'stone_yield', 'meat_yield', 'shards_yield'].includes(key)
       ) {
         const sat = store.stats.satiation;
-        let efficiency;
+        let efficiency: number;
         if (sat >= 80) efficiency = 1.25;
         else if (sat <= 20) efficiency = 0.66;
         else {

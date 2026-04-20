@@ -1,7 +1,7 @@
 import { actionDb } from './actions/index.js';
 import { itemDb } from './definitions/items.js';
 import { NPC_REGISTRY } from './definitions/npcs.js';
-import { RESOURCE_REGISTRY } from './definitions/resources.js';
+import { RESOURCE_REGISTRY } from './definitions/resources';
 import { BUFF_REGISTRY } from './definitions/buffs.js';
 import { MILESTONE_REGISTRY } from './definitions/milestones.js';
 import { NAVIGATION_REGISTRY } from './definitions/navigation.js';

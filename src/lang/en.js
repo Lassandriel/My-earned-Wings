@@ -45,6 +45,8 @@ export default {
         ui_yield: "Yield",
         ui_study: "Study",
         ui_study_yield: "Knowledge gain",
+        'ui_gourmet-meal': "Gourmet Meal",
+        ui_focus: "Focus",
 
         // --- NAMING MODAL & SETTINGS ---
         ui_naming_title: "Your Name",
@@ -223,7 +225,21 @@ export default {
         spell_harvest_log: "Drew magic energy from the aether.",
         meditation_log: "Deep concentration... an astral shard manifests.",
         nav_crafting_desc: "Shape tools from the gifts of nature.",
-        nav_chronicle_desc: "Records of your life on the ground."
+        nav_chronicle_desc: "Records of your life on the ground.",
+        craft_wanderstock: "You carved a sturdy walking stick.",
+        craft_axe: "A new stone axe has been crafted.",
+        craft_pickaxe: "Your first pickaxe is ready.",
+        craft_bow: "You strung a robust hunting bow.",
+        craft_bed: "A simple bed was built – for better dreams.",
+        craft_chair: "A comfortable wooden chair was assembled.",
+        craft_stove: "A stone stove is ready for warm meals.",
+        craft_bookshelf: "A shelf for all your gathered knowledge.",
+        craft_book: "You bound an empty book.",
+        craft_cabinet: "Your pantry now offers more space for provisions.",
+        'act-spice-rack': "A spice rack for herbs and alchemy.",
+        'act-grand-table': "A massive table, symbol of a growing community.",
+        craft_bed_2: "You wove a luxurious silk bed.",
+        craft_stove_2: "The Eternal Stove grants you boundless arcane heat."
     },
 
     items: {
@@ -268,7 +284,21 @@ export default {
       item_bed_2_title: "Silk Bed",
       item_bed_2_desc: "Maximum relaxation while sleeping (+100).",
       item_stove_2_title: "Eternal Stove",
-      item_stove_2_desc: "A stove whose flame never fades."
+      item_stove_2_desc: "A stove whose flame never fades.",
+      item_bed_title: "Simple Bed",
+      item_bed_desc: "Improves your recovery while sleeping.",
+      item_chair_title: "Wooden Chair",
+      item_chair_desc: "A simple seat for your home.",
+      item_stove_title: "Stone Stove",
+      item_stove_desc: "A rustic stove for cooking.",
+      item_bookshelf_title: "Bookshelf",
+      item_bookshelf_desc: "Provides space for storing knowledge.",
+      item_cabinet_title: "Provisions Cabinet",
+      item_cabinet_desc: "Increases storage capacity for provisions.",
+      item_spice_rack_title: "Spice Rack",
+      item_spice_rack_desc: "A place for rare herbs.",
+      item_grand_table_title: "Massive Dining Table",
+      item_grand_table_desc: "A magnificent table for your home."
     },
 
     actions: {
@@ -293,7 +323,7 @@ export default {
       'act-sell-stone': { title: "Sell Stone", desc: "Sell boulders for shards.", effect: "+8 Shards" },
       'act-buy-meat': { title: "Buy Meat", desc: "Fresh hunting provisions from the merchant.", effect: "+1 Meat" },
       'act-hunt': { title: "Hunt", desc: "Use the bow in the forest.", effect: "+{val} Meat" },
-      'act-wood': { title: "Gather Pebbles", title_alt: "Quarry Stones", effect: "+{val} Wood" },
+      'act-wood': { title: "Gather Twigs", title_alt: "Quarry Stones", effect: "+{val} Wood" },
       'act-stone': { title: "Gather Pebbles", title_alt: "Quarry Stones", effect: "+{val} Stone" },
       'act-essen': { title: "Eat Berries", desc: "Nourish yourself from the gifts of the earth.", effect: "+{val} Satiation" },
       'act-ausruhen': { title: "Rest", desc: "Listen to the beating of wings in the distance.", effect: "+{val} Energy" },

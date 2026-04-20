@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 7.0 COMPLETED (Golden Master - True Data-Driven Mastery)
+## Current Status: Phase 8.1 COMPLETE (Golden Master - Core 3.5 Balance & Assets)
 
-The internal architecture has been fully refactored to "Draconia Core 3.0". The engine is now 100% content-agnostic, with all gameplay logic, navigation, and effects residing in modular data registries. This "Golden Master" state ensures maximum scalability and stability.
+The internal architecture has been fully refactored to "Draconia Core 3.5". The engine is now 100% content-agnostic, with all gameplay logic, navigation, and effects residing in modular data registries. This "Golden Master" state ensures maximum scalability and stability.
 
 ---
 
@@ -251,47 +251,48 @@ The internal architecture has been fully refactored to "Draconia Core 3.0". The 
 
 ## Phase 8: Production Balance & Polish - **IN PROGRESS**
 
-- [x] **Phase 8.1: Early-Flow Balancing**: 
-    - [x] **Storage Fix**: Increased wood/stone limits to 50.
-    - [x] **Regen Overhaul**: Buffed energy/satiation recovery 10x.
-    - [x] **Focus Efficiency**: Reduced focus cost to 1.0/s.
-    - [x] **Yield Scaling**: Snappy resource progression.
-    - [x] **Interaction Stability**: Fixed broken event handlers in Confirm, Naming, and Settings modals by synchronizing them with the root Store-Proxies.
-    - [x] **Gameplay Tab Fix**: Resolved structural HTML bugs and restored full mathematical precision for resource rewards.
-    - [x] **Crafting Stability**: Fixed visibility logic for complex requirements and synchronized tooltip management.
-    - [x] **Hybrid Scaling**: Implemented a transition-less auto-scale system that preserves readability on laptops while protecting UI integrity on small screens.
-    - [x] **Button Polish**: Refined action bar layout with flex-wrap and adaptive widths to prevent text clipping.
-    - [x] **UI Compactness**: Reduced global button padding and height for a more professional, "tighter" aesthetic.
-    - [x] **VFX Polish**: Fixed shadow clipping in the primary actions container by enforcing full-width rendering.
-    - [x] **UI Rescue Package**: 
-        - [x] **Scaling Fix**: Removed whole-wrapper scale transformations to eliminate black borders and tiny UI.
-        - [x] **Scroll Restoration**: Fixed inheritance and overflow rules to re-enable mouse wheel and scrollbar usage. Global page scroll enabled for stacked layouts.
-        - [x] **Background Stability**: Fixed background attachment to stay steady during scrolling in compact modes.
-        - [x] **Tooltip Intelligence**: Implemented pipeline-fallback for `{val}` interpolation in dynamic tooltips.
-        - [x] **Portrait Optimization**: Stabilized panel stacking for narrow windows to prevent content overlap.
-        - [x] **Final UX Polish**: 
-            - [x] **Total Scroll Unlock**: Forced auto-height on all root containers for seamless page scrolling on small screens.
-            - [x] **Tab Wrapping**: Implemented flex-wrap on category tabs in Upgrades and Crafting views.
-            - [x] **Responsive Padding**: Optimized view padding for compact displays to maximize content area.
-        - [x] **Final Alignment & Logic Correction**: 
-            - [x] **Alpine Fix**: Defined missing `isTaskActive` helper in main store to prevent JS crashes.
-            - [x] **Environmental Scroll Unlock**: Forced `overflow: auto` to override IDE-injected scroll-locks on body.
-            - [x] **Aesthetic Centers**: Centered all sub-category navigation tabs for balanced visual presentation.
-        - [x] **Dialogue Integrity**: Fixed Ellie's tutorial log grouping to ensure all intro messages are visible.
-        - [x] **Stat Visibility**: Restored Satiation, Energy, and Magic bars for better resource tracking.
-        - [x] **Navigation Polish**: Balanced sidebar layout with optimized icon scaling and spacing for long text.
-        - [x] **Stability Patch**: Resolved background crashes by initializing finale state data on startup.
-        - [x] **Atmospheric Logs**: NPC dialogue is now correctly logged with speaker names in the Event Log.
-        - [x] **1080p Layout Refinement**: Optimized panel widths, gaps, and navigation balance for Full HD displays.
-        - [x] **Scroll Stability & UI Reliability**: Implemented internal sidebar scrolling and universal premium scrollbar designs with layout-shift protection.
-        - [x] **Village View Scaling Fix**: Resolved nested scrollbar conflicts and implemented responsive NPC cards for small monitors.
-        - [x] **Omni-Audit & Translation Parity**: Achieved 100% synchronization between de.js and en.js, including all secondary logs and milestones.
-        - [x] **Workshop Core Fix**: Resolved recipe-completion bugs, missing tool icons, and technical ID leaks in the crafting interface.
-        - [x] **UI Bar Alignment**: Fixed variable-width status bars by implementing rigid width constraints for labels and values.
+- [x] **Phase 8.1: Early-Flow Balancing**:
+  - [x] **Storage Fix**: Increased wood/stone limits to 50.
+  - [x] **Regen Overhaul**: Buffed energy/satiation recovery 10x.
+  - [x] **Focus Efficiency**: Reduced focus cost to 1.0/s.
+  - [x] **Yield Scaling**: Snappy resource progression.
+  - [x] **Interaction Stability**: Fixed broken event handlers in Confirm, Naming, and Settings modals by synchronizing them with the root Store-Proxies.
+  - [x] **Gameplay Tab Fix**: Resolved structural HTML bugs and restored full mathematical precision for resource rewards.
+  - [x] **Crafting Stability**: Fixed visibility logic for complex requirements and synchronized tooltip management.
+  - [x] **Hybrid Scaling**: Implemented a transition-less auto-scale system that preserves readability on laptops while protecting UI integrity on small screens.
+  - [x] **Button Polish**: Refined action bar layout with flex-wrap and adaptive widths to prevent text clipping.
+  - [x] **UI Compactness**: Reduced global button padding and height for a more professional, "tighter" aesthetic.
+  - [x] **VFX Polish**: Fixed shadow clipping in the primary actions container by enforcing full-width rendering.
+  - [x] **UI Rescue Package**:
+    - [x] **Scaling Fix**: Removed whole-wrapper scale transformations to eliminate black borders and tiny UI.
+    - [x] **Scroll Restoration**: Fixed inheritance and overflow rules to re-enable mouse wheel and scrollbar usage. Global page scroll enabled for stacked layouts.
+    - [x] **Background Stability**: Fixed background attachment to stay steady during scrolling in compact modes.
+    - [x] **Tooltip Intelligence**: Implemented pipeline-fallback for `{val}` interpolation in dynamic tooltips.
+    - [x] **Portrait Optimization**: Stabilized panel stacking for narrow windows to prevent content overlap.
+    - [x] **Final UX Polish**:
+      - [x] **Total Scroll Unlock**: Forced auto-height on all root containers for seamless page scrolling on small screens.
+      - [x] **Tab Wrapping**: Implemented flex-wrap on category tabs in Upgrades and Crafting views.
+      - [x] **Responsive Padding**: Optimized view padding for compact displays to maximize content area.
+    - [x] **Final Alignment & Logic Correction**:
+      - [x] **Alpine Fix**: Defined missing `isTaskActive` helper in main store to prevent JS crashes.
+      - [x] **Environmental Scroll Unlock**: Forced `overflow: auto` to override IDE-injected scroll-locks on body.
+      - [x] **Aesthetic Centers**: Centered all sub-category navigation tabs for balanced visual presentation.
+    - [x] **Dialogue Integrity**: Fixed Ellie's tutorial log grouping to ensure all intro messages are visible.
+    - [x] **Stat Visibility**: Restored Satiation, Energy, and Magic bars for better resource tracking.
+    - [x] **Navigation Polish**: Balanced sidebar layout with optimized icon scaling and spacing for long text.
+    - [x] **Stability Patch**: Resolved background crashes by initializing finale state data on startup.
+    - [x] **Atmospheric Logs**: NPC dialogue is now correctly logged with speaker names in the Event Log.
+    - [x] **1080p Layout Refinement**: Optimized panel widths, gaps, and navigation balance for Full HD displays.
+    - [x] **Scroll Stability & UI Reliability**: Implemented internal sidebar scrolling and universal premium scrollbar designs with layout-shift protection.
+    - [x] **Village View Scaling Fix**: Resolved nested scrollbar conflicts and implemented responsive NPC cards for small monitors.
+    - [x] **Omni-Audit & Translation Parity**: Achieved 100% synchronization between de.js and en.js, including all secondary logs and milestones.
+    - [x] **Workshop Core Fix**: Resolved recipe-completion bugs, missing tool icons, and technical ID leaks in the crafting interface.
+    - [x] **UI Bar Alignment**: Fixed variable-width status bars by implementing rigid width constraints for labels and values.
+    - [x] **Visual Excellence (v3.5 Assets)**: Integrated high-res hand-drawn assets (transparent .webp) for the House, Table, Kitchen, Sanctum, Garden, Gourmet Meal, Astral Shards, and Wyvern Scale.
 
 ---
 
 ## Future Horizons
 
 - [ ] **Phase 9: Diplomacy**
-- [ ] **Phase 10: True Wings**
+- [ ] **Phase 10: More content and islands**

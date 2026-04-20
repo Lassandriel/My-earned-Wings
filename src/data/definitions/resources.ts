@@ -1,9 +1,10 @@
+import { ResourceDefinition } from '../../types/game';
+
 /**
- * Resource Registry
+ * Resource Registry - TypeScript Edition
  * Defines all resources and stats in the game.
- * Centralized for Core 2.0.
  */
-export const RESOURCE_REGISTRY = {
+export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
   // --- CORE STATS ---
   energy: {
     id: 'energy',
@@ -127,8 +128,8 @@ export const RESOURCE_REGISTRY = {
   },
 };
 
-export const getEssentialStats = () =>
+export const getEssentialStats = (): ResourceDefinition[] =>
   Object.values(RESOURCE_REGISTRY).filter((r) => r.type === 'stat');
 
-export const getStandardResources = () =>
+export const getStandardResources = (): ResourceDefinition[] =>
   Object.values(RESOURCE_REGISTRY).filter((r) => r.type === 'resource');

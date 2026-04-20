@@ -1,8 +1,8 @@
 {
   "name": "my-earned-wings",
-  "version": "1.0.0-stable",
+  "version": "1.1.0-stable",
   "private": true,
-  "description": "Ein atmosphärisches Spiel über das Finden der eigenen Flügel - Draconia Core 3.0.",
+  "description": "Ein atmosphärisches Spiel über das Finden der eigenen Flügel - Golden Master Core 3.5.",
   "author": "Lassandriel",
   "type": "module",
   "main": "app-main.js",
@@ -10,6 +10,9 @@
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development .\\node_modules\\.bin\\electron.cmd .\"",
     "build": "vite build",
     "preview": "vite preview",
+    "check-i18n": "node scripts/check-i18n.js",
+    "check-assets": "node scripts/check-assets.js",
+    "check-logic": "node scripts/check-logic.js",
     "dist": "npm run build && electron-builder",
     "build-exe": "npm run build && powershell -Command \"Remove-Item -Recurse -Force dist_electron -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Path dist_electron; Copy-Item -Recurse dist dist_electron/dist; Copy-Item app-main.js, package.json, preload.js dist_electron/; New-Item -ItemType Directory -Path dist_electron/public/img -Force; Copy-Item public/img/Game_icon.ico dist_electron/public/img/; electron-packager dist_electron My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --asar --icon=dist_electron/public/img/Game_icon.ico\""
   },
@@ -37,6 +40,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/alpinejs": "^3.13.11",
+    "@types/node": "^25.6.0",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "electron": "^41.2.0",
@@ -44,6 +49,7 @@
     "electron-packager": "^17.1.2",
     "eslint": "^10.2.1",
     "png-to-ico": "^3.0.1",
+    "typescript": "^6.0.3",
     "vite": "^8.0.4",
     "vite-plugin-ejs": "^1.7.0",
     "wait-on": "^9.0.4"

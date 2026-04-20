@@ -1,6 +1,6 @@
 # Game Design Document: Your Earned Wings
 
-**Status:** v3.5 — Golden Master (Core 3.0)
+**Status:** v3.5 — Golden Master (Core 3.5)
 **Aesthetics:** Survival · Somber Cozy · High Fantasy
 
 ---
@@ -22,7 +22,7 @@
 | **Wood** | Gathering / Chopping | Construction & Crafting |
 | **Stone** | Gathering / Mining | Construction & Crafting |
 | **Meat** | Hunting | Food & Trading |
-| **Shards** | Trading / Working | Currency & Salaries |
+| **Shards** | Trading / Working | Currency |
 | **Astral Shards** | Meditation (Sanctum) | Advanced Artifacts & Infusions |
 
 ### 2.2 Survival Stats & Magic
@@ -31,46 +31,45 @@
 * **Satiation**: Keeping satiation high is vital.
   * **Neutral**: Satiation > 20% allows normal operation.
   * **Malus**: Satiation < 20% significantly increases Energy/Magic costs (up to 50% more drain).
-* **Study**: Permanently increases the magic limit. Requires a **Sturdy Table** to enable.
-  * **Malus**: Satiation < 20% significantly increases costs.
 * **Resting**: Energy recovery is optimized; no satiation is drained during rest.
-* **Study**: Permanently increases the magic limit (e.g., to 60 for the finale).
+* **Study**: Permanently increases the magic limit (e.g., to 60 for the finale). Requires a **Sturdy Table** to enable.
 
 ### 2.3 NPC & Community
 
-NPCs sind der Schlüssel zu Story, Geheimnissen und dem Markt.
-* **Story-Progression**: Das Vertiefen von Bindungen (Level 5) ist notwendig für das Finale.
-* **Dezentraler Markt**: Es gibt keinen zentralen Marktplatz. Handel findet individuell bei NPCs statt (Bäcker kauft Holz, Handwerker kauft Stein, Jäger handelt mit Fleisch).
-* **Zugangsbeschränkungen**: Bestimmte Aktionen wie der „Tagelohn“ (Work) müssen erst questbasiert freigeschaltet werden (z.B. durch die Arbeitserlaubnis des Rathaus-Beamten).
+NPCs are the key to story progression, secrets, and the decentralized market.
+* **Story Progression**: Deepening bonds (Level 5) with key inhabitants is required for the finale.
+* **Decentralized Market**: There is no central marketplace. All trades occur on character cards (e.g., Baker buys Wood, Hunter buys/sells Meat).
+* **Unlocks**: Key actions (like 'Work' or 'Study') are gated behind reputation or specific story milestones.
 
-### 2.4 Gehäuse & Kapazität
+### 2.4 Construction & Capacity
 
-* **Lagerraum**: Startkapazität von **25** sorgt für einen strategischen Start. Lagergebäude erhöhen dies massiv.
-* **Haus**: Kostet 40 Holz / 40 Stein. Schaltet Küche und Sanktum frei.
+* **Storage**: Starting capacity is **25**. Building specific **Stone and Wood Storages** expands this to 50.
+* **The House**: Unlocks advanced upgrades (Kitchen, Sanctum, Garden) and further expands global storage limits to 125+.
+* **Consolidated Crafting**: All buildings and furniture are managed via a single, unified construction registry.
 
-### 2.5 Automatisierung: Arkaner Fokus
+### 2.5 Automation: Arcane Focus
 
-Die Automatisierung ist ein exklusives Feature, das Magie erfordert:
-* **Mechanismus**: Der ✨ **Arcane Focus** automatisiert jede `isLoopable` Aktion.
-* **Kosten**: Verbraucht **3 Magie pro Sekunde**. Es gibt keine „Gratis-Dauerschleife“.
-* **Nutzen**: Ersetzt die **Energiekosten** der Aktion durch Magie, was das Sammeln während Ruhephasen ermöglicht.
+Automation is a high-level feature unlocked via Archmage Aris:
+* **Mechanism**: The ✨ **Arcane Focus** automates any `isLoopable` action.
+* **Efficiency**: Consumes **1.0 Magic per second**.
+* **Utility**: Replaces the **Energy cost** of an action with Magic, enabling continuous gathering.
 
 ---
 
 ## 3. UI & UX
 
-* **Aesthetics**: Glassmorphism with dark, transparent layers and vibrant accent colors (Teal, Gold, Purple).
-* **Automation UI**: Loopable actions feature a "Magic Eye" ✨ toggle for Arcane Focus.
-* **Tabs**: Modular architecture (Gameplay, Village, Upgrades, Story).
+* **Aesthetics**: Premium Glassmorphism with dark, transparent layers and vibrant accent colors (Teal, Gold, Purple).
+* **Responsive Layout**: Native fluid grid supporting wide screens (1080p) down to tablet viewports.
+* **Haptics**: Pulse-danger animations, magnetic hover effects, and progress-tracking scanbeams.
 
 ---
 
 ## 4. Technical Design
 
 * **Runtime**: Electron / Vite.
-* **Engine**: Draconia Engine 3.0 (The Golden Master).
-* **Architecture**: 100% Data-Driven & Modular. Effects and Navigation are registered dynamically. The core systems are content-agnostic and rely on static registries for all gameplay rules.
-* **Logic**: Modifiers, Passive Production, and Milestones are managed via specialized JSON-like registries.
+* **Engine**: Draconia Engine 3.5 (The Golden Master).
+* **Architecture**: 100% Data-Driven & Modular.
+* **Logic**: Modifiers, Passive Production, and Milestones are entirely managed via static registries, ensuring a content-agnostic core.
 
 ---
 

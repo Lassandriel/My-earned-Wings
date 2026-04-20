@@ -42,6 +42,63 @@ export const itemDb = {
     consumable: false,
     category: 'tools'
   },
+  'item-bed': {
+    id: 'item-bed',
+    title: 'item_bed_title',
+    desc: 'item_bed_desc',
+    image: 'img/items/Crafting_bed.webp',
+    consumable: false,
+    category: 'tools',
+    modifiers: [{ key: 'rest_energy_gain', add: 30 }]
+  },
+  'item-chair': {
+    id: 'item-chair',
+    title: 'item_chair_title',
+    desc: 'item_chair_desc',
+    image: 'img/items/Crafting_chair.webp',
+    consumable: false,
+    category: 'tools'
+  },
+  'item-stove': {
+    id: 'item-stove',
+    title: 'item_stove_title',
+    desc: 'item_stove_desc',
+    image: 'img/items/Crafting_stove.webp',
+    consumable: false,
+    category: 'tools',
+    modifiers: [{ key: 'eat_satiation_gain', add: 20 }]
+  },
+  'item-bookshelf': {
+    id: 'item-bookshelf',
+    title: 'item_bookshelf_title',
+    desc: 'item_bookshelf_desc',
+    image: 'img/items/Crafting_bookshelf.webp',
+    consumable: false,
+    category: 'tools'
+  },
+  'item-cabinet': {
+    id: 'item-cabinet',
+    title: 'item_cabinet_title',
+    desc: 'item_cabinet_desc',
+    image: 'img/items/Crafting_cabinet.png',
+    consumable: false,
+    category: 'tools'
+  },
+  'item-spice-rack': {
+    id: 'item-spice-rack',
+    title: 'item_spice_rack_title',
+    desc: 'item_spice_rack_desc',
+    consumable: false,
+    category: 'tools'
+  },
+  'item-grand-table': {
+    id: 'item-grand-table',
+    title: 'item_grand_table_title',
+    desc: 'item_grand_table_desc',
+    image: 'img/items/Crafting_table_massive.png',
+    consumable: false,
+    category: 'tools'
+  },
   
   // --- PROVISIONS ---
   'item-bread': {
@@ -150,7 +207,7 @@ export const itemDb = {
     id: 'item-wyvern-scale',
     title: 'item_wyvern_scale_title',
     desc: 'item_wyvern_scale_desc',
-    image: 'img/items/Item_WyvernScale.webp',
+    image: 'img/items/Item_WyvernShard.webp',
     consumable: false,
     category: 'artifacts'
   },

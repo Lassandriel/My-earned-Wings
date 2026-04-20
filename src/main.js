@@ -19,7 +19,7 @@ import { createNPCSystem } from './systems/npc.js';
 import { createActionSystem } from './systems/actions.js';
 import { createEngineSystem } from './systems/engine.js';
 import { createItemSystem } from './systems/item.js';
-import { createPipelineSystem } from './systems/pipeline.js';
+import { createPipelineSystem } from './systems/pipeline';
 import { createViewManagerSystem } from './systems/viewManager.js';
 import { createEllieSystem } from './systems/ellie.js';
 import { createEventBus, GAME_EVENTS } from './systems/bus.js';
@@ -191,6 +191,24 @@ Alpine.store('game', {
     setLanguage(lang) { this.language = lang; this.saveGame(); },
     hardReset() { this.viewManager.hardReset(this); },
     returnToMenu() { this.viewManager.returnToMenu(this); },
+    
+    applyCheats() {
+        this.stats.energy = 9999;
+        this.stats.maxEnergy = 9999;
+        this.stats.magic = 9999;
+        this.stats.maxMagic = 9999;
+        this.stats.satiation = 9999;
+        this.stats.maxSatiation = 9999;
+        this.stats.shards = 99999;
+        Object.keys(this.limits).forEach(k => this.limits[k] = 9999);
+        Object.keys(this.content.registries.resources).forEach(k => this.resources[k] = 9999);
+        Object.keys(this.content.registries.npcs).forEach(k => {
+             if (!this.unlockedNPCs.includes(k)) this.unlockedNPCs.push(k);
+        });
+        this.saveGame();
+        this.ui.showToast('Dev Cheats applied successfully!', 'success');
+        this.settingsOpen = false;
+    },
     
     t(key, context = 'ui', params = {}) { 
         const data = this.translations[this.language][context]?.[key] || key;
