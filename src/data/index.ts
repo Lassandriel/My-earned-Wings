@@ -1,10 +1,10 @@
-import { actionDb } from './actions/index.js';
+import { actionDb } from './actions/index';
 import { itemDb } from './definitions/items';
 import { NPC_REGISTRY } from './definitions/npcs';
 import { RESOURCE_REGISTRY } from './definitions/resources';
 import { BUFF_REGISTRY } from './definitions/buffs';
 import { MILESTONE_REGISTRY } from './definitions/milestones';
-import { NAVIGATION_REGISTRY } from './definitions/navigation.js';
+import { NAVIGATION_REGISTRY } from './definitions/navigation';
 
 /**
  * Organized registries for the ContentService - TypeScript Edition

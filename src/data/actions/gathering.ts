@@ -1,4 +1,7 @@
-export const gatheringActions = {
+/**
+ * Gathering & Basic Actions - TypeScript Version
+ */
+export const gatheringActions: Record<string, any> = {
   'act-essen': {
     id: 'act-essen',
     cost: 0, costType: 'none',
@@ -40,6 +43,7 @@ export const gatheringActions = {
     particleType: 'magic',
     counter: 'study',
     rewards: { maxMagic: 'magic_limit_gain' },
+    maxCount: 99,
     logKey: 'study_success',
     logColor: 'var(--accent-teal)'
   },
@@ -68,7 +72,7 @@ export const gatheringActions = {
   'act-hunt': {
     id: 'act-hunt',
     cost: 25, costType: 'energy', yieldType: 'meat',
-    requirements: { 'flags.item-bow': true }, // Corrected path to item flag
+    requirements: { 'flags.item-bow': true },
     sfx: 'gather',
     particleText: '+ Fleisch',
     particleType: 'energy',

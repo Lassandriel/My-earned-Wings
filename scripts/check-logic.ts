@@ -1,31 +1,21 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-// Fix for ES module __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Import registries
-import { registries } from '../src/data/index.js';
+import { registries } from '../src/data/index';
 
 let errors = 0;
 
 const checkLogic = () => {
-    console.log("=== LOGIK & PROGRESSION PRÜFUNG (Advanced) ===\n");
+    console.log("=== LOGIK & PROGRESSION PRÜFUNG (TypeScript) ===\n");
 
-    const providedFlags = new Set();
-    const requiredFlags = new Set();
-    const requirementsMap = {}; 
+    const providedFlags = new Set<string>();
+    const requiredFlags = new Set<string>();
+    const requirementsMap: Record<string, string[]> = {}; 
 
     // Helper to collect effects
-    const collectEffects = (effects) => {
+    const collectEffects = (effects: any[]) => {
         if (!effects) return;
         effects.forEach(eff => {
             if (eff.type === 'setFlag' && eff.flag) providedFlags.add(eff.flag);
             if (eff.type === 'unlockItem' && eff.id) {
                 providedFlags.add(eff.id);
-                // Also provide as item flag
                 providedFlags.add('item-' + eff.id.replace('item-', ''));
             }
             if (eff.type === 'unlockRecipe' && eff.id) providedFlags.add(eff.id);
@@ -34,24 +24,21 @@ const checkLogic = () => {
     };
 
     // 1. Collect all providers
-    Object.values(registries.actions).forEach(act => {
-        // Direct Success
+    Object.values(registries.actions).forEach((act: any) => {
         collectEffects(act.onSuccess);
-        
-        // NPC Steps
         if (act.steps) {
-            act.steps.forEach(step => {
+            act.steps.forEach((step: any) => {
                 collectEffects(step.onSuccess);
                 if (step.reward) providedFlags.add(step.reward);
             });
         }
     });
 
-    // 2. Initial Unlocks or built-in flags
-    providedFlags.add('build-campfire'); // Usually start or first action
+    // 2. Initial Unlocks
+    providedFlags.add('build-campfire'); 
 
     // 3. Collect all requirements
-    Object.values(registries.actions).forEach(act => {
+    Object.values(registries.actions).forEach((act: any) => {
         if (act.requirements) {
             Object.keys(act.requirements).forEach(reqPath => {
                 if (reqPath.startsWith('flags.')) {
@@ -66,7 +53,7 @@ const checkLogic = () => {
     });
 
     // 4. Milestone requirements
-    Object.values(registries.milestones).forEach(stone => {
+    Object.values(registries.milestones).forEach((stone: any) => {
         if (stone.requirements) {
             Object.keys(stone.requirements).forEach(reqPath => {
                 if (reqPath.startsWith('flags.')) {
@@ -82,8 +69,6 @@ const checkLogic = () => {
     // Cross-check
     requiredFlags.forEach(flag => {
         if (!providedFlags.has(flag)) {
-            // Check if it's an item ID that might be in discoveredItems indirectly
-            // but for now let's be strict
             console.error(`[DEAD-END] Flag '${flag}' wird verlangt, ist aber unerreichbar!`);
             console.log(`  -> Benötigt von: ${requirementsMap[flag].join(', ')}`);
             errors++;

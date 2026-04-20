@@ -120,12 +120,15 @@ export const createViewManagerSystem = () => ({
         
         // 1. Calculate Stats
         const counters = (store as any).counters || {};
+        const totalItemsAvailable = Object.keys(store.content.registries.items || {}).length;
+        const totalNpcsAvailable = Object.keys(store.content.registries.npcs || {}).length;
+
         store.finalStats = {
             shards: Math.floor(counters.shards || 0),
             actions: counters.totalActions || 0,
             energySpent: Math.floor(counters.totalEnergySpent || 0),
-            npcs: store.unlockedNPCs.length,
-            items: store.discoveredItems.length
+            npcs: `${store.unlockedNPCs.length} / ${totalNpcsAvailable}`,
+            items: `${store.discoveredItems.length} / ${totalItemsAvailable}`
         };
 
         // 2. Clear auto-loops and ongoing tasks

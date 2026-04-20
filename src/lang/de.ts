@@ -1,4 +1,7 @@
-export default {
+/**
+ * German Translations - TypeScript Version
+ */
+const de: Record<string, any> = {
   ui: {
     // --- NAVIGATION & TABS ---
     nav_story: 'Hauptseite',
@@ -516,7 +519,7 @@ export default {
       '"Diese Urkunde besiegelt deinen Platz in Draconia, {player}. Du darfst nun ein Haus bauen. Wenn du Hilfe brauchst, bin ich mir sicher das die anderen Dorfbewohner dir gerne helfen."',
 
     // Blacksmith Thorin
-    npc_blacksmith_1: '"Wer stört in der Schmiede? Ah... ich bin Thorin. Und du?"',
+    npc_blacksmith_1: '"Wer stört in der Schmiede? Ah... ich bin Thorin. und du?"',
     npc_blacksmith_2: '"Magie im Feuer, {player}. Du verstehst das Handwerk."',
     npc_blacksmith_3: '"Ein Felsen ist nur ein Hindernis, {player}, bis man ihn bricht."',
     npc_blacksmith_4: '"Ein guter Wetzstein ist Gold wert, {player}. Er hält deine Ziele scharf."',
@@ -549,3 +552,5 @@ export default {
     buff_gourmet_desc: 'Nährt den Körper nachhaltig.',
   },
 };
+
+export default de;

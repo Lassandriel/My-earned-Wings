@@ -1,15 +1,14 @@
 /**
- * Magic Actions - Core 3.0
- * Standardized with 'act-' prefix.
+ * Magic Actions - TypeScript Version
  */
-export const magicActions = {
+export const magicActions: Record<string, any> = {
   'act-dream-bloom': {
     id: 'act-dream-bloom',
     cost: 15,
     costType: 'magic',
     satiationCost: 1,
     logKey: 'dream_bloom_log',
-    execute: (game) => {
+    execute: (game: any) => {
         const taskIds = Object.keys(game.activeTasks);
         if (taskIds.length === 0) return { success: false, logKey: 'fail_no_tasks' };
         

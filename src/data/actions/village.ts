@@ -1,8 +1,7 @@
 /**
- * Village Actions - Core 3.0
- * Standardized with 'act-' prefix.
+ * Village Actions - TypeScript Version
  */
-export const villageActions = {
+export const villageActions: Record<string, any> = {
   'act-sell-wood': {
     id: 'act-sell-wood',
     cost: 1, costType: 'wood', yieldType: 'shards',

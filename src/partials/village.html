@@ -60,20 +60,5 @@
         </div>
     </template>
 
-    <!-- 3. Baum des Lebens (Finale) -->
-    <div class="village-card finale-tree-card" x-show="$store.game.canAccessTreeOfLife && !$store.game.demoCompleted">
-        <div class="finale-tree-visual">🌳</div>
-        <div class="card-body">
-            <h4 x-text="$store.game.t('npc_treeoflife_name')"></h4>
-            <button 
-                class="game-btn finale-trigger-btn"
-                @click="$store.game.executeAction('act-npc-treeOfLife')"
-                @mouseover="$store.game.hoveredAction = {id: 'act-npc-treeOfLife', data: $store.game.content.get('act-npc-treeOfLife')}"
-                @mouseout="$store.game.hoveredAction = null"
-                x-text="$store.game.t('btn_embrace_destiny')"
-            >
-            </button>
-        </div>
-    </div>
   </div>
 </div>

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let mainWindow;
+let mainWindow: BrowserWindow | null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -34,8 +34,10 @@ function createWindow() {
 
   // Once the main window is ready to show, show it
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-    mainWindow.center();
+    if (mainWindow) {
+      mainWindow.show();
+      mainWindow.center();
+    }
   });
 }
 
@@ -65,7 +67,7 @@ ipcMain.on('quit-app', () => {
   app.quit();
 });
 
-ipcMain.on('resize-window', (event, width, height) => {
+ipcMain.on('resize-window', (_event, width: number, height: number) => {
   if (mainWindow) {
     mainWindow.setContentSize(width, height, true);
     mainWindow.center();

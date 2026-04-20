@@ -196,12 +196,10 @@ const gameStore: any = {
         this.stats.maxSatiation = 9999;
         this.stats.shards = 99999;
         Object.keys(this.limits).forEach(k => this.limits[k] = 9999);
-        Object.keys(this.content.registries.resources).forEach(k => this.resources[k] = 9999);
-        Object.keys(this.content.registries.npcs).forEach(k => {
-             if (!this.unlockedNPCs.includes(k)) this.unlockedNPCs.push(k);
-        });
+        Object.keys(this.resources).forEach(k => this.resources[k] = 9999);
+        
         this.saveGame();
-        this.ui.showToast('Dev Cheats applied successfully!', 'success');
+        this.ui.showToast('Resources & Stats maximized! (NPCs remain locked for testing)', 'success');
         this.settingsOpen = false;
     },
     

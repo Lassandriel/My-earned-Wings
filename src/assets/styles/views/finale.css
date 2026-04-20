@@ -102,6 +102,12 @@
 
 .stat-item-f .s-val { font-size: 1.8rem; font-weight: 700; color: #fff; }
 
+.finale-actions {
+    display: flex;
+    justify-content: center !important;
+    width: 100%;
+}
+
 .finale-sparkle {
     position: absolute;
     width: 6px; height: 6px;
