@@ -3,11 +3,29 @@
  * Unified interfaces for the data-driven architecture.
  */
 
-export type ResourceId = string;
-export type FlagId = string;
-export type ActionId = string;
-export type ItemId = string;
-export type NPCId = string;
+export type ResourceId = 'energy' | 'magic' | 'satiation' | 'wood' | 'stone' | 'shards' | 'herbs' | 'astral_shards' | 'meat' | 'water' | 'gourmet-meal' | 'books' | 'focus' | 'knowledge';
+export type FlagId = 
+    | 'build-campfire' 
+    | 'build-tent' 
+    | 'build-house' 
+    | 'build-wood-storage' 
+    | 'build-stone-storage' 
+    | 'build-table' 
+    | 'build-kitchen' 
+    | 'build-arcane-sanctum' 
+    | 'build-garden' 
+    | 'build-garden-upgrade' 
+    | 'milestone-treeOfLife';
+export type ActionId = string; // Too many to list, kept as string/alias for now
+export type ItemId = 
+    | 'item-walking-stick' | 'item-axe' | 'item-pickaxe' | 'item-bow' | 'item-bed' | 'item-chair' | 'item-stove' 
+    | 'item-bookshelf' | 'item-cabinet' | 'item-spice-rack' | 'item-grand-table' | 'item-bread' | 'item-cookie' 
+    | 'item-dried-meat' | 'item-gourmet-meal' | 'item-deed' | 'item-book-knowledge' | 'item-scroll' | 'item-whetstone' 
+    | 'item-arrowhead' | 'item-chisel' | 'item-astral-shards' | 'item-dream-dust' | 'item-wyvern-scale' 
+    | 'item-arcane-dust' | 'item-crystal-mana' | 'item-bed-2' | 'item-stove-2';
+export type NPCId = 
+    | 'npc-baker' | 'npc-flowerGirl' | 'npc-artisan' | 'npc-teacher' | 'npc-townHall' | 'npc-blacksmith' 
+    | 'npc-sage' | 'npc-hunter' | 'npc-treeOfLife' | 'npc-ellie' | 'npc-aris';
 
 export interface ResourceDefinition {
     id: ResourceId;
@@ -35,7 +53,7 @@ export interface ItemDefinition {
     image?: string;
     consumable: boolean;
     category: 'tools' | 'provisions' | 'artifacts';
-    effect?: Record<ResourceId, number>;
+    effect?: Partial<Record<ResourceId, number>>;
     modifiers?: GameModifier[];
 }
 
@@ -44,18 +62,6 @@ export type RequirementOperator = '>=' | '<=' | '>' | '<' | '!=' | 'includes' | 
 export interface GameRequirement {
     op?: RequirementOperator;
     val: any;
-}
-
-export interface GameEffect {
-    type: 'setFlag' | 'unlockNPC' | 'unlockRecipe' | 'unlockItem' | 'modifyLimit' | 'addBuff' | 'setObjective' | 'playSound' | 'log' | 'modifyResource';
-    flag?: FlagId;
-    value?: any;
-    id?: string;
-    resource?: ResourceId;
-    amount?: number;
-    buffId?: string;
-    override?: any;
-    color?: string;
 }
 
 export interface NPCStep {
@@ -67,27 +73,48 @@ export interface NPCStep {
     onSuccess?: GameEffect[];
 }
 
+export type GameEffect = 
+    | { type: 'setFlag'; flag: FlagId; value: any }
+    | { type: 'unlockNPC'; id: NPCId }
+    | { type: 'unlockRecipe'; id: string }
+    | { type: 'unlockItem'; id: ItemId }
+    | { type: 'modifyLimit'; resource: ResourceId; amount: number }
+    | { type: 'addBuff'; buffId: string; override?: Partial<BuffDefinition> }
+    | { type: 'setObjective'; id: string }
+    | { type: 'playSound'; id: string }
+    | { type: 'log'; logKey: string; color?: string; params?: any }
+    | { type: 'modifyResource'; resource: ResourceId; amount: number };
+
 export interface ActionDefinition {
     id: ActionId;
     category: string;
+    title?: string; // Optional if handled via i18n keys
+    desc?: string;
     isStory?: boolean;
     chapter?: string;
     requirements?: Record<string, any | GameRequirement>;
     cost?: number;
     costType?: ResourceId | 'mixed' | 'none';
     costs?: Record<ResourceId, number>;
+    satiationCost?: number;
     image?: string;
     sfx?: string;
     particleText?: string;
     particleType?: string;
     onSuccess?: GameEffect[];
+    onFailure?: GameEffect[];
     logKey?: string;
     logColor?: string;
     rewards?: Record<ResourceId, number | string>;
+    yieldType?: ResourceId;
     modifiers?: GameModifier[];
     steps?: NPCStep[];
     isLoopable?: boolean;
     duration?: number;
+    maxCount?: number;
+    maxProgress?: number;
+    progKey?: string;
+    npcId?: NPCId;
     counter?: string;
     passiveProduction?: {
         id: string;
@@ -108,12 +135,19 @@ export interface GameState {
     limits: Record<ResourceId, number>;
     stats: Record<string, number>;
     npcProgress: Record<string, number>;
-    activeBuffs: Record<string, any>;
+    activeBuffs: Record<string, {
+        id: string;
+        title: string;
+        desc: string;
+        remaining: number;
+        total: number;
+        modifiers?: GameModifier[];
+    }>;
     unlockedNPCs: NPCId[];
     activeTasks: Record<string, any>;
     activeFocus: string | null;
     selectedItem: ItemId | null;
-    hoveredAction: any | null;
+    hoveredAction: ActionDefinition | null;
     dialogueActive: boolean;
     showEllieIntro: boolean;
     prologueStep: number;
@@ -123,7 +157,7 @@ export interface GameState {
     confirmModal: { open: boolean; message: string; onConfirm: (() => void) | null };
     demoCompleted: boolean;
     finalStats: any;
-    dialogueNpcId: string | null;
+    dialogueNpcId: NPCId | null;
     dialogueText: string;
     dialogueTitle: string;
     dialogueChoices: Array<{ text: string, callback: () => void }>;
@@ -138,29 +172,29 @@ export interface GameState {
     
     // Systems & Content
     content: {
-        get: (id: string, type?: string) => any;
-        registries: Record<string, any>;
+        get: <T = any>(id: string, type?: keyof Registries) => T;
+        registries: Registries;
     };
     RESOURCE_REGISTRY: Record<ResourceId, ResourceDefinition>;
     resource: {
-        canAfford: (state: GameState, typeOrCosts: string | Record<string, number>, amount?: number) => boolean;
-        consume: (state: GameState, typeOrCosts: string | Record<string, number>, amount?: number) => boolean;
-        add: (state: GameState, type: string, amountValue: number) => boolean;
-        isFull: (state: GameState, type: string) => boolean;
+        canAfford: (state: GameState, typeOrCosts: ResourceId | Record<string, number>, amount?: number) => boolean;
+        consume: (state: GameState, typeOrCosts: ResourceId | Record<string, number>, amount?: number) => boolean;
+        add: (state: GameState, type: ResourceId | string, amountValue: number) => boolean;
+        isFull: (state: GameState, type: ResourceId) => boolean;
     };
     actions: {
-        execute: (game: GameState, id: string) => boolean;
-        processAction: (game: GameState, id: string, actionValue: any, mode?: string) => any;
+        execute: (game: GameState, id: ActionId) => boolean;
+        processAction: (game: GameState, id: ActionId, actionValue: ActionDefinition, mode?: string) => any;
         checkRequirement: (game: GameState, path: string, rule: any) => boolean;
-        handleSuccess: (game: GameState, id: string, action: any, result: any) => void;
-        handleFailure: (game: GameState, id: string, action: any) => void;
+        handleSuccess: (game: GameState, id: ActionId, action: ActionDefinition, result: any) => void;
+        handleFailure: (game: GameState, id: ActionId, action: ActionDefinition) => void;
         effectHandlers: Record<string, (game: GameState, effect: any) => void>;
     };
     pipeline: {
         calculate: (state: GameState, key: string, baseValue: number) => number;
     };
     npc: {
-        execute: (game: GameState, id: string) => boolean;
+        execute: (game: GameState, id: NPCId) => boolean;
     };
     item: {
         consumeItem: (store: GameState, id: ItemId) => void;
@@ -170,7 +204,7 @@ export interface GameState {
         stop: () => void;
     };
     story: {
-        recordStoryEntry: (game: GameState, id: string, action: any, dialogueText: string | null) => void;
+        recordStoryEntry: (game: GameState, id: string, action: ActionDefinition, dialogueText: string | null) => void;
         getGroupedHistory: (game: GameState) => any;
     };
     persistence: {
@@ -198,7 +232,7 @@ export interface GameState {
         boot: (store: GameState) => void;
     };
     dialogue: {
-        queueDialogue: (game: GameState, npcId: string, dialogueId: string) => void;
+        queueDialogue: (game: GameState, npcId: NPCId, dialogueId: string) => void;
         clearDialogue: (game: GameState) => void;
     };
     audio: {
@@ -211,8 +245,8 @@ export interface GameState {
         handleMouseMove: (e: MouseEvent, store: GameState) => void;
         cleanupHover: (store: GameState) => void;
         getStatPercent: (store: GameState, stat: string) => number;
-        getActionEffect: (store: GameState, action: any) => string;
-        getTooltipCosts: (store: GameState, action: any) => any;
+        getActionEffect: (store: GameState, action: ActionDefinition) => string;
+        getTooltipCosts: (store: GameState, action: ActionDefinition) => any;
         showToast: (message: string, type: 'info' | 'error' | 'success') => void;
     };
     viewManager: {
@@ -239,7 +273,7 @@ export interface GameState {
     addLog: (id: string, context?: string, color?: string, params?: any) => void;
     playSound: (id: string) => void;
     saveGame: (isManual?: boolean) => void;
-    executeAction: (id: string) => boolean;
+    executeAction: (id: string | ActionId) => boolean;
 
     // Viewport/Input
     lastMouseX: number;
@@ -274,4 +308,20 @@ export interface MilestoneDefinition {
     id: string;
     requirements: Record<string, any | GameRequirement>;
     onUnlock?: GameEffect[];
+}
+
+export interface NavigationDefinition {
+    id: string;
+    icon: string;
+    label: string;
+}
+
+export interface Registries {
+    actions: Record<ActionId, ActionDefinition>;
+    items: Record<ItemId, ItemDefinition>;
+    npcs: Record<NPCId, NPCDefinition>;
+    resources: Record<ResourceId, ResourceDefinition>;
+    buffs: Record<string, BuffDefinition>;
+    milestones: Record<string, MilestoneDefinition>;
+    navigation: Record<string, NavigationDefinition>;
 }

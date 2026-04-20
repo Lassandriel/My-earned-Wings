@@ -18,7 +18,7 @@ export const MILESTONE_REGISTRY: Record<string, MilestoneDefinition> = {
             { type: 'unlockNPC', id: 'npc-treeOfLife' },
             { type: 'setObjective', id: 'obj_tree_of_life' },
             { type: 'playSound', id: 'success' },
-            { type: 'log', id: 'tree_unlocked_log', color: 'var(--gold)' }
+            { type: 'log', logKey: 'tree_unlocked_log', color: 'var(--gold)' }
         ]
     }
 };

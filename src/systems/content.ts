@@ -1,10 +1,10 @@
-import { GameState } from '../types/game';
+import { GameState, Registries, NPCId } from '../types/game';
 
 /**
  * Content Service - TypeScript Edition
  * The central hub for all game data registries. Handles validation and lookup.
  */
-export const createContentService = (registries: Record<string, any>) => ({
+export const createContentService = (registries: Registries) => ({
     registries,
     cache: {
         categories: {} as Record<string, any[]>,
@@ -15,17 +15,17 @@ export const createContentService = (registries: Record<string, any>) => ({
      * Finds an entry by ID across all registries or in a specific one.
      * Injects defaults to prevent UI crashes.
      */
-    get(id: string, type: string | null = null): any {
-        let data = null;
+    get<T = any>(id: string, type: keyof Registries | null = null): T | null {
+        let data: any = null;
         if (type && this.registries[type]) {
-            data = this.registries[type][id];
+            data = (this.registries[type] as any)[id];
         } else {
             const detectedType = this.detectType(id);
             if (detectedType && this.registries[detectedType]) {
-                data = this.registries[detectedType][id];
+                data = (this.registries[detectedType] as any)[id];
             } else {
                 for (const reg of Object.values(this.registries)) {
-                    if (reg[id]) { data = reg[id]; break; }
+                    if ((reg as any)[id]) { data = (reg as any)[id]; break; }
                 }
             }
         }
@@ -33,7 +33,7 @@ export const createContentService = (registries: Record<string, any>) => ({
         if (!data) return null;
 
         // --- TYPE-SPECIFIC DEFAULTS (The Guard) ---
-        const defaults: Record<string, any> = {
+        const defaults: Partial<Record<keyof Registries, any>> = {
             npcs: { nameKey: 'ui_unknown', icon: '👤', color: 'var(--text-main)', maxProgress: 5 },
             items: { title: 'Unknown Item', desc: 'No description.', icon: '📦' },
             actions: { title: 'Action', desc: '...', icon: '⚡' }
@@ -41,59 +41,55 @@ export const createContentService = (registries: Record<string, any>) => ({
 
         const detectedType = type || this.detectType(id);
         if (detectedType && defaults[detectedType]) {
-            return { ...defaults[detectedType], ...data };
+            return { ...defaults[detectedType], ...data } as T;
         }
 
-        return data;
+        return data as T;
     },
 
     /**
      * Optimized lookup for resource categories.
-     * Prevents large filter loops in template.
      */
-    getCategorizedResources(category: string): any[] {
+    getCategorizedResources(category: string) {
         if (this.cache.categories[category]) return this.cache.categories[category];
         
-        const list = Object.values(this.registries.resources).filter((r: any) => r.category === category);
+        const list = Object.values(this.registries.resources).filter(r => r.category === category);
         this.cache.categories[category] = list;
         return list;
     },
 
     /**
-     * Resolves all available available available available available available available available available available available available available available available available available available actions for a specific NPC, 
-     * including trade offers and specialty sub-menus.
+     * Resolves all available available available actions for a specific NPC.
      */
-    getNPCActions(store: GameState, npcId: string): any[] {
+    getNPCActions(store: GameState, npcId: NPCId) {
         const npc = this.registries.npcs[npcId];
         if (!npc || !npc.tradeActions) return [];
 
-        return npc.tradeActions.filter((trade: any) => {
-            // Check if requirement exists (legacy minProgress support or new rule)
+        return npc.tradeActions.filter(trade => {
             if (trade.minProgress !== undefined) {
                 const progKey = npc.progKey;
                 return (store.npcProgress[progKey] || 0) >= trade.minProgress;
             }
-            if (trade.requirements) {
-                return Object.entries(trade.requirements).every(([path, rule]) => {
+            if ((trade as any).requirements) {
+                return Object.entries((trade as any).requirements).every(([path, rule]) => {
                     return store.actions.checkRequirement(store, path, rule);
                 });
             }
             return true;
-        }).map((trade: any) => this.registries.actions[trade.id]).filter(Boolean);
+        }).map(trade => this.registries.actions[trade.id]).filter(Boolean);
     },
 
-    detectType(id: string): string | null {
+    detectType(id: string): keyof Registries | null {
         if (id.startsWith('npc-')) return 'npcs';
         if (id.startsWith('item-')) return 'items';
         if (id.startsWith('act-')) return 'actions';
-        if (id.startsWith('build-')) return 'actions'; // Buildings are actions that set flags
+        if (id.startsWith('build-')) return 'actions'; 
         if (id.startsWith('buff-')) return 'buffs';
         return null;
     },
 
     /**
      * Validates all entries in all registries.
-     * Checks for missing images, localizations, and structural consistency.
      */
     validate(store: any): boolean {
         console.group('%c 🐲 Draconia Content Validation ', 'background: #2dd4bf; color: #000; font-weight: bold; padding: 2px 4px; border-radius: 4px;');
@@ -103,17 +99,15 @@ export const createContentService = (registries: Record<string, any>) => ({
 
         Object.entries(this.registries).forEach(([regName, items]) => {
             Object.entries(items).forEach(([id, data]: [string, any]) => {
-                // 1. ID Consistency
                 if (id !== data.id) {
                     console.error(`[ID MISMATCH] Registry key "${id}" does not match object ID "${data.id}"`);
                     errors++;
                 }
 
-                // 2. Localization Check (Deep Validation)
                 languages.forEach(lang => {
                     const checkKeys: Array<{ key: string, context: string }> = [];
                     if (data.nameKey) checkKeys.push({ key: data.nameKey, context: 'ui' });
-                    if (data.title) checkKeys.push({ key: data.title, context: regName }); // e.g. regName 'items' or 'actions'
+                    if (data.title) checkKeys.push({ key: data.title, context: regName }); 
                     if (data.desc) checkKeys.push({ key: data.desc, context: regName });
 
                     checkKeys.forEach(({ key, context }) => {
@@ -125,7 +119,6 @@ export const createContentService = (registries: Record<string, any>) => ({
                     });
                 });
 
-                // 3. Image Check
                 if (data.image && !data.image.startsWith('img/')) {
                     console.warn(`[INVALID IMAGE] ${id} has suspicious path: ${data.image}`);
                     warnings++;

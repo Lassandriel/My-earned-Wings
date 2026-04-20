@@ -1,6 +1,6 @@
 # Game Design Document: Your Earned Wings
 
-**Status:** v3.5 — Golden Master (Core 3.5)
+**Status:** v3.6 — TypeScript Hardened (Core 3.6)
 **Aesthetics:** Survival · Somber Cozy · High Fantasy
 
 ---
@@ -51,7 +51,7 @@ NPCs are the key to story progression, secrets, and the decentralized market.
 
 Automation is a high-level feature unlocked via Archmage Aris:
 * **Mechanism**: The ✨ **Arcane Focus** automates any `isLoopable` action.
-* **Efficiency**: Consumes **1.0 Magic per second**.
+* **Efficiency**: Consumes **3.0 Magic per second**.
 * **Utility**: Replaces the **Energy cost** of an action with Magic, enabling continuous gathering.
 
 ---
@@ -66,11 +66,12 @@ Automation is a high-level feature unlocked via Archmage Aris:
 
 ## 4. Technical Design
 
-* **Runtime**: Electron / Vite.
-* **Engine**: Draconia Engine 3.5 (The Golden Master).
+* **Runtime**: Electron / Vite / TypeScript.
+* **Engine**: Draconia Engine 3.6 (The TypeScript Ascension).
 * **Architecture**: 100% Data-Driven & Modular.
+* **Type Safety**: Full coverage of all game IDs, IPC channels, and registries via strict TypeScript definitions.
 * **Logic**: Modifiers, Passive Production, and Milestones are entirely managed via static registries, ensuring a content-agnostic core.
 
 ---
 
-Last updated: April 2026 · v3.5 Golden Master Update
+Last updated: April 2026 · v3.6 TypeScript Hardened Update

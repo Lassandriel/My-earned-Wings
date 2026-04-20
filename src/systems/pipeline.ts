@@ -1,4 +1,4 @@
-import { GameState, GameModifier, ItemDefinition, ActionDefinition } from '../types/game';
+import { GameState, GameModifier, ItemDefinition, ActionDefinition, FlagId } from '../types/game';
 
 /**
  * Value Pipeline System - TypeScript EDITION
@@ -51,7 +51,8 @@ export const createPipelineSystem = () => {
       const mods: GameModifier[] = [];
 
       // 1. DATA-DRIVEN ITEM & ACTION MODIFIERS (via Flags)
-      Object.keys(store.flags).forEach((flagId) => {
+      Object.keys(store.flags).forEach((f) => {
+        const flagId = f as FlagId;
         if (store.flags[flagId]) {
           // Check Items
           const item = store.content.get(flagId, 'items') as ItemDefinition | null;

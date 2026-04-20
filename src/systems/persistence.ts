@@ -1,4 +1,4 @@
-import { GameState } from '../types/game';
+import { GameState, ResourceId } from '../types/game';
 
 // Persistence Configuration
 const PERSISTENCE_CONFIG = {
@@ -12,7 +12,7 @@ const PERSISTENCE_CONFIG = {
   ])
 };
 
-export const createPersistenceSystem = (initialState: any) => {
+export const createPersistenceSystem = (initialState: Partial<GameState>) => {
   let _lastSaveTime = 0;
   const _saveThrottleMs = 2000; // 2 seconds
 
@@ -28,11 +28,12 @@ export const createPersistenceSystem = (initialState: any) => {
       _lastSaveTime = now;
       const saveObj: Record<string, any> = {};
       
-      Object.keys(initialState).forEach(key => {
-        if (key === 'settingsOpen') {
+      Object.keys(initialState).forEach(k => {
+        const key = k as keyof GameState;
+        if (key === 'settingsOpen' as any) {
           saveObj[key] = false; 
         } else if (!PERSISTENCE_CONFIG.exclude.includes(key)) {
-          saveObj[key] = (store as any)[key];
+          saveObj[key] = store[key];
         }
       });
       localStorage.setItem('wings_save', JSON.stringify(saveObj));
@@ -40,7 +41,7 @@ export const createPersistenceSystem = (initialState: any) => {
       this.saveSettings(store); // Also save settings independently for boot-load
       
       const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      (store as any).saveInfoText = `${store.t('save_at', 'ui')} ${time}`;
+      store.saveInfoText = `${store.t('save_at', 'ui')} ${time}`;
 
       if (isManual) {
         store.addLog('save_success', 'logs', 'var(--accent-teal)');
@@ -54,7 +55,7 @@ export const createPersistenceSystem = (initialState: any) => {
     saveSettings(store: GameState) {
       const settingsObj = {
           language: store.language,
-          settings: (store as any).settings
+          settings: (store as any).settings // settings is still a bit loose
       };
       localStorage.setItem('wings_settings', JSON.stringify(settingsObj));
     },
@@ -105,7 +106,7 @@ export const createPersistenceSystem = (initialState: any) => {
           // --- SANITY CHECK: Clamp stats and resources to their respective limits ---
           if (store.stats) {
               Object.keys(store.stats).forEach(statId => {
-                  if (statId.startsWith('max')) return; // Ignore limits themselves
+                  if (statId.startsWith('max')) return; 
                   const maxKey = 'max' + statId.charAt(0).toUpperCase() + statId.slice(1);
                   if (store.stats[maxKey] !== undefined) {
                       store.stats[statId] = Math.min(store.stats[maxKey], store.stats[statId]);
@@ -114,7 +115,8 @@ export const createPersistenceSystem = (initialState: any) => {
           }
 
           if (store.resources && store.limits) {
-              Object.keys(store.resources).forEach(resId => {
+              Object.keys(store.resources).forEach(r => {
+                  const resId = r as ResourceId;
                   if (store.limits[resId] !== undefined) {
                       store.resources[resId] = Math.min(store.limits[resId], store.resources[resId]);
                   }
@@ -127,7 +129,7 @@ export const createPersistenceSystem = (initialState: any) => {
           store.activeTasks = {};
 
           const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          (store as any).saveInfoText = `${store.t('ui_load_at', 'ui')} ${time}`;
+          store.saveInfoText = `${store.t('ui_load_at', 'ui')} ${time}`;
           return true;
         } catch (e) {
           console.error('[PERSISTENCE] Critical failure loading save data:', e);
@@ -142,10 +144,9 @@ export const createPersistenceSystem = (initialState: any) => {
       const saved = localStorage.getItem('wings_save');
       if (!saved) return "";
       try {
-          // Simple Base64 "Save Code"
           return btoa(unescape(encodeURIComponent(saved)));
       } catch {
-          return saved; // Fallback to raw JSON if encoding fails
+          return saved; 
       }
     },
 
@@ -170,7 +171,7 @@ export const createPersistenceSystem = (initialState: any) => {
     },
 
     boot(store: GameState) {
-      this.loadSettings(store); // Initial load of global preferences
+      this.loadSettings(store); 
       store.bus.on(store.EVENTS.SAVE_REQUESTED, (data: any) => {
         this.saveGame(store, data?.isManual || false);
       });

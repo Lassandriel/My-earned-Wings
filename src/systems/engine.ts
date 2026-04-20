@@ -1,17 +1,32 @@
-import { GameState } from '../types/game';
+import { GameState, FlagId, ActionDefinition, MilestoneDefinition, ActionId } from '../types/game';
 
 // Declare Alpine globally for TS
-declare const Alpine: any;
+declare const Alpine: {
+    store: (name: string) => any;
+};
+
+interface Engine {
+    tickInterval: ReturnType<typeof setInterval> | null;
+    taskInterval: ReturnType<typeof setInterval> | null;
+    saveInterval: ReturnType<typeof setInterval> | null;
+    lastTickTime: number;
+    lastTaskTime: number;
+    lastHungerLog: number;
+    init: () => void;
+    processPassiveProduction: (store: GameState) => void;
+    checkMilestones: (store: GameState) => void;
+    stop: () => void;
+}
 
 /**
  * Engine System - TypeScript Edition
  * Handles the main game loop, periodic ticks, and autosave management.
  */
-export function createEngineSystem() {
+export function createEngineSystem(): Engine {
   return {
-    tickInterval: null as any,
-    taskInterval: null as any,
-    saveInterval: null as any,
+    tickInterval: null,
+    taskInterval: null,
+    saveInterval: null,
     lastTickTime: 0,
     lastTaskTime: 0,
     lastHungerLog: 0,
@@ -30,8 +45,8 @@ export function createEngineSystem() {
         if (innerStore.view === 'menu') return;
 
         // A. Update Global Timers
-        innerStore.counters.totalTime = (innerStore.counters.totalTime || 0) + 1; // Increment by expected second
-        innerStore.counters.totalActions = (innerStore.counters.totalActions || 0) + 1; // Tick for logs
+        innerStore.counters.totalTime = (innerStore.counters.totalTime || 0) + 1; 
+        innerStore.counters.totalActions = (innerStore.counters.totalActions || 0) + 1;
 
         // B. Passive Stat Drain (Hunger)
         if (innerStore.stats.satiation > 0) {
@@ -70,7 +85,7 @@ export function createEngineSystem() {
         }
 
         // E. Universal Passive Production
-        (this as any).processPassiveProduction(innerStore);
+        this.processPassiveProduction(innerStore);
       }, 1000);
 
       // --- 2. Task Ticker (approx every 100ms) ---
@@ -87,29 +102,31 @@ export function createEngineSystem() {
           const task = innerStore.activeTasks[id];
           task.remaining -= deltaMs;
           if (task.remaining <= 0) {
-            const actionId = task.actionId;
-            const action = innerStore.content.get(actionId, 'actions');
+            const actionId = task.actionId as ActionId;
+            const action = innerStore.content.get<ActionDefinition>(actionId, 'actions');
             delete innerStore.activeTasks[id];
 
-            const result = innerStore.actions.processAction(
-              innerStore,
-              actionId,
-              action,
-              'finalize'
-            );
-            innerStore.actions.handleSuccess(innerStore, actionId, action, result);
-
-            if (innerStore.activeFocus === actionId && (action as any).isLoopable) {
-              setTimeout(() => {
-                const currentStore = Alpine.store('game') as unknown as GameState;
-                if (
-                  currentStore.activeFocus === actionId &&
-                  currentStore.view !== 'menu' &&
-                  !currentStore.activeTasks[actionId]
-                ) {
-                  currentStore.executeAction(actionId);
+            if (action) {
+                const result = innerStore.actions.processAction(
+                  innerStore,
+                  actionId,
+                  action,
+                  'finalize'
+                );
+                innerStore.actions.handleSuccess(innerStore, actionId, action, result);
+    
+                if (innerStore.activeFocus === actionId && action.isLoopable) {
+                  setTimeout(() => {
+                    const currentStore = Alpine.store('game') as unknown as GameState;
+                    if (
+                      currentStore.activeFocus === actionId &&
+                      currentStore.view !== 'menu' &&
+                      !currentStore.activeTasks[actionId]
+                    ) {
+                      currentStore.executeAction(actionId);
+                    }
+                  }, 300);
                 }
-              }, 300);
             }
           }
         });
@@ -117,7 +134,7 @@ export function createEngineSystem() {
 
       // --- 3. Save Ticker ---
       this.saveInterval = setInterval(() => {
-        (this as any).checkMilestones(Alpine.store('game') as unknown as GameState);
+        this.checkMilestones(Alpine.store('game') as unknown as GameState);
         (Alpine.store('game') as unknown as GameState).saveGame();
       }, 30000);
 
@@ -125,8 +142,9 @@ export function createEngineSystem() {
     },
 
     processPassiveProduction(store: GameState) {
-      Object.keys(store.flags).forEach((id) => {
-        const action = store.content.get(id, 'actions');
+      Object.keys(store.flags).forEach((f) => {
+        const id = f as ActionId;
+        const action = store.content.get<ActionDefinition>(id, 'actions');
         if (action && action.passiveProduction) {
           const prod = action.passiveProduction;
           const intervalSeconds = prod.interval / 1000;
@@ -163,19 +181,20 @@ export function createEngineSystem() {
     },
 
     checkMilestones(store: GameState) {
-      Object.values(store.content.registries.milestones).forEach((milestone: any) => {
-        if (store.flags[milestone.id]) return;
+      Object.values(store.content.registries.milestones).forEach((milestone: MilestoneDefinition) => {
+        const fid = milestone.id as FlagId;
+        if (store.flags[fid]) return;
         const met = Object.entries(milestone.requirements).every(([path, rule]) => {
           return store.actions.checkRequirement(store, path, rule);
         });
         if (met) {
-          store.flags[milestone.id] = true;
+          store.flags[fid] = true;
           if (milestone.onUnlock) {
-            milestone.onUnlock.forEach((effect: any) => {
-              if (effect.type === 'unlockNPC') store.unlockedNPCs.push(effect.id);
-              if (effect.type === 'setObjective') store.currentObjective = effect.id;
-              if (effect.type === 'playSound') store.playSound(effect.id);
-              if (effect.type === 'log') store.addLog(effect.id, 'logs', effect.color);
+            milestone.onUnlock.forEach((effect) => {
+              const handler = store.actions.effectHandlers[effect.type];
+              if (handler) {
+                  handler(store, effect);
+              }
             });
           }
         }

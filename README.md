@@ -1,14 +1,14 @@
-# Your Earned Wings ✦ (Golden Master - Core 3.5)
+# Your Earned Wings ✦ (Golden Master - Core 3.6)
 
-`Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **Electron**, **Vite**, and **Alpine.js**.
+`Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **TypeScript**, **Electron**, **Vite**, and **Alpine.js**.
 
 > [!IMPORTANT]
-> **GOLDEN MASTER VERSION 1.1.0-STABLE**
-> This build features the fully decoupled, 100% data-driven **Golden Master (Core 3.5)** engine with modular effects and registry-based navigation.
+> **GOLDEN MASTER VERSION 1.2.0-STABLE**
+> This build features the fully decoupled, **TypeScript-Hardened Core 3.6** engine with strict literal typing for all game IDs and an enum-guarded IPC bridge.
 
 ![Official Logo](public/img/logo_wings.webp)
 
-## 📖 The Journey (The Core 3.5 Refactor)
+## 📖 The Journey (The TypeScript Ascension)
 
 Experience the transformation of a grounded wanderer into a pillar of the community:
 
@@ -28,7 +28,7 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 * **Modular Progression**: Develop your home in the unified "Crafting" tab.
 * **Premium Assets**: Full **WebP integration** for all high-res assets, including specific custom renders for storage facilities and tools.
-* **Balancing v3.5**: A refined economy with symmetric stats and optimized resource storage (adaptive limits up to 125+).
+* **Balancing v3.6**: A refined economy with symmetric stats and optimized resource storage (adaptive limits up to 125+).
 
 ### 👥 NPC Story & Narrative
 
@@ -40,12 +40,12 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 * **Magical Automation**: Toggle the "Magic Eye" ✨ on loopable actions to automate them at the cost of **3.0 Magic per second**.
 * **Effect Replacement**: Focused actions consume Magic instead of Energy, allowing for effortless progress during active play.
 
-### 🔮 Architecture (Golden Master Core 3.5)
+### 🔮 Architecture (TypeScript Hardened Core 3.6)
 
-* **100% Data-Driven**: Every gameplay rule, modifier, and requirement lives in a registry. The engine is entirely content-agnostic.
+* **100% Type-Safe**: Every gameplay rule, modifier, and requirement is verified by TypeScript. Zero hidden ID typos.
 * **Modular Effect System**: Dynamic effect registration (`registerEffect`) allows for seamless expansion without core code changes.
-* **Generic Milestone Engine**: A powerful requirement engine (`milestones.js`) manages all progression and finale logic.
-* **SOA (Service-Oriented)**: Decoupled logic from the state store using specialized system managers.
+* **Generic Milestone Engine**: A powerful requirement engine manages all progression and finale logic.
+* **Hardened IPC**: Shared Enum communication between Electron Main and Render processes.
 * **Event Bus**: Pure pub/sub architecture for all side-effects (Audio, Logs, UI Triggers).
 
 ---
@@ -54,16 +54,17 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 ```text
 src/
-├── main.js             # Entry: System orchestration & service-hub.
-├── state.js            # Foundation: Schema definition & initial state.
-├── data/               # Database: Registries for Resources, NPCs, Actions, Navigation and Milestones.
+├── main.ts             # Entry: System orchestration & service-hub.
+├── state.ts            # Foundation: Schema definition & initial state.
+├── data/               # Database: Registries for Resources, NPCs, Actions, and Navigation.
+├── types/              # Definitions: Shared TypeScript interfaces and enums.
 ├── lang/               # Localization: Synchronized DE/EN dictionaries.
 ├── partials/           # Interface: Modular HTML fragments.
 ├── assets/             # Aesthetics: CSS grid-layouts and design tokens.
 ├── systems/            # Logic: Decentralized service modules.
-    ├── pipeline.js     # Registry-driven Modifier System
-    ├── engine.js       # Universal Production & Milestone Tickers
-    ├── persistence.js  # Metadata-driven Save & Load
+    ├── pipeline.ts     # Registry-driven Modifier System
+    ├── engine.ts       # Universal Production & Milestone Tickers
+    ├── persistence.ts  # Metadata-driven Save & Load
     └── ...             # Audio, Juice, UI, etc.
 ```
 
@@ -83,27 +84,27 @@ src/
 
 ### 🛠️ Developer Tools
 
-To ensure stability across languages, an automatic validation script is provided:
+To ensure stability across languages and logic, automated validation scripts are provided:
 
+* Run `npm run check-ts` (or `npx tsc --noEmit`) to perform a full type audit.
 * Run `npm run check-i18n` to validate all translations (DE/EN).
 * Run `npm run check-assets` to verify that all images/icons defined in data exist on disk.
 * Run `npm run check-logic` to detect dead-ends and unreachable requirements in progression.
 
-> [!TIP]
-> **Integrity Checks:** These tools ensure that Core 3.5's data-driven architecture remains robust even as the content database grows. All scripts provide detailed terminal output for any issues found.
+---
 
-### 📦 Building the Executable
+## 📦 Building the Executable
 
 To create a standalone Windows application (`.exe`):
 
 1. `npm run build`
 2. `npm run build-exe`
 
-The finished app will be located in `BUILDS/My-earned-Wings-win32-x64`.
+The finished app will be located in `dist_electron`.
 
 ---
 
-Created by Lassandriel · April 2026 · Golden Master Core 3.5
+Created by Lassandriel · April 2026 · TypeScript Hardened Core 3.6
 
 ---
 

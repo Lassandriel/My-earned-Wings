@@ -1,11 +1,11 @@
-import { GameState } from '../types/game';
+import { GameState, ItemId } from '../types/game';
 
 /**
  * Item System - TypeScript Edition
  * Manages item effects and consumption from the inventory.
  */
 export const createItemSystem = () => ({
-    consumeItem(store: GameState, id: string) {
+    consumeItem(store: GameState, id: ItemId) {
         const item = store.content.get(id, 'items');
         if (!item || !item.consumable) return;
         

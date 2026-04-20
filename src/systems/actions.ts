@@ -1,4 +1,4 @@
-import { GameState, ActionDefinition } from '../types/game';
+import { GameState, ActionDefinition, ResourceId, FlagId, GameEffect, ActionId } from '../types/game';
 
 /**
  * Action System - TypeScript Edition
@@ -7,47 +7,62 @@ import { GameState, ActionDefinition } from '../types/game';
 export function createActionSystem() {
     const effectHandlers: Record<string, (game: GameState, effect: any) => void> = {};
 
-    const registerEffect = (type: string, handler: (game: GameState, effect: any) => void) => {
-        effectHandlers[type] = handler;
+    const registerEffect = <T extends GameEffect['type']>(
+        type: T, 
+        handler: (game: GameState, effect: Extract<GameEffect, { type: T }>) => void
+    ) => {
+        effectHandlers[type] = handler as (game: GameState, effect: any) => void;
         console.log(`[ACTIONS] Registered effect handler: ${type}`);
     };
 
     const initEffects = () => {
-        const effects: Record<string, (game: GameState, effect: any) => void> = {
-            setFlag: (game, { flag, value }) => { game.flags[flag] = value; },
-            unlockNPC: (game, { id }) => { 
-                if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
-            },
-            unlockRecipe: (game, { id }) => { 
-                if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
-            },
-            unlockItem: (game, { id }) => {
-                if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
-                game.flags[id] = true;
-            },
-            modifyLimit: (game, { resource, amount }) => { 
-                game.limits[resource] = (game.limits[resource] || 0) + amount; 
-            },
-            addBuff: (game, { buffId, override }) => {
-                const baseBuff = game.content.get(buffId, 'buffs') || {};
-                const finalBuff = { ...baseBuff, ...override };
-                game.activeBuffs[buffId] = { 
-                    ...finalBuff, 
-                    remaining: finalBuff.duration, 
-                    total: finalBuff.duration 
-                };
-            },
-            setObjective: (game, { id }) => {
-                game.currentObjective = id;
-            },
-            playSound: (game, { id }) => {
-                game.playSound(id);
-            },
-            log: (game, { id, color }) => {
-                game.addLog(id, 'logs', color);
-            }
-        };
-        Object.entries(effects).forEach(([type, handler]) => registerEffect(type, handler));
+        registerEffect('setFlag', (game, { flag, value }) => { 
+            game.flags[flag] = value; 
+        });
+        
+        registerEffect('unlockNPC', (game, { id }) => { 
+            if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
+        });
+        
+        registerEffect('unlockRecipe', (game, { id }) => { 
+            if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
+        });
+        
+        registerEffect('unlockItem', (game, { id }) => {
+            if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
+            game.flags[id as unknown as FlagId] = true;
+        });
+        
+        registerEffect('modifyLimit', (game, { resource, amount }) => { 
+            game.limits[resource] = (game.limits[resource] || 0) + amount; 
+        });
+        
+        registerEffect('addBuff', (game, { buffId, override }) => {
+            const baseBuff = game.content.get(buffId, 'buffs');
+            if (!baseBuff) return;
+            const finalBuff = { ...baseBuff, ...override };
+            game.activeBuffs[buffId] = { 
+                ...finalBuff, 
+                remaining: finalBuff.duration, 
+                total: finalBuff.duration 
+            };
+        });
+        
+        registerEffect('setObjective', (game, { id }) => {
+            game.currentObjective = id;
+        });
+        
+        registerEffect('playSound', (game, { id }) => {
+            game.playSound(id);
+        });
+        
+        registerEffect('log', (game, { logKey, color, params }) => {
+            game.addLog(logKey, 'logs', color, params);
+        });
+
+        registerEffect('modifyResource', (game, { resource, amount }) => {
+            game.resource.add(game, resource, amount);
+        });
     };
 
     const resolvePath = (obj: any, path: string): any => {
@@ -59,12 +74,10 @@ export function createActionSystem() {
     const checkRequirement = (game: GameState, path: string, rule: any): boolean => {
         const actual = resolvePath(game, path);
         
-        // Simple equality check
         if (typeof rule !== 'object' || rule === null) {
             return actual === rule;
         }
 
-        // Operator-based check
         const { op, val } = rule;
         switch (op) {
             case '>=': return actual >= val;
@@ -80,9 +93,9 @@ export function createActionSystem() {
 
     const spawnParticles = (game: GameState, action: ActionDefinition) => {
         let pText = action.particleText ? game.t(action.particleText) : null;
-        const resKey = (action as any).yieldType || action.costType || action.counter;
+        const resKey = action.yieldType || action.costType || action.counter;
         
-        if (!pText && resKey) {
+        if (!pText && typeof resKey === 'string' && resKey !== 'none' && resKey !== 'mixed') {
             const translated = game.t('ui_' + resKey);
             if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
         }
@@ -96,16 +109,15 @@ export function createActionSystem() {
         });
     };
 
-    const handleSuccess = (game: GameState, id: string, action: ActionDefinition, result: any) => {
+    const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: any) => {
         game.counters.totalActions++;
         
         if (action.counter) {
             game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
         }
 
-        // 2. Satiation Consumption (Only if defined and > 0)
-        const satiationCost = (action as any).satiationCost;
-        if (satiationCost > 0) {
+        const satiationCost = action.satiationCost;
+        if (satiationCost && satiationCost > 0) {
             game.resource.consume(game, 'satiation', satiationCost);
         }
 
@@ -115,7 +127,7 @@ export function createActionSystem() {
         }
 
         game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
-        if (action.particleText) spawnParticles(game, action);
+        if (action.particleText || action.yieldType) spawnParticles(game, action);
         
         if (result && result.logKey) {
             game.bus.emit(game.EVENTS.LOG_ADDED, { 
@@ -133,43 +145,39 @@ export function createActionSystem() {
         game.bus.emit(game.EVENTS.SAVE_REQUESTED);
     };
 
-    const handleFailure = (game: GameState, _id: string, action: ActionDefinition) => {
+    const handleFailure = (game: GameState, _id: ActionId, action: ActionDefinition) => {
         game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
         
-        // 1. Check Storage Failure (Highest Priority)
-        const yieldType = (action as any).yieldType;
+        const yieldType = action.yieldType;
         if (yieldType && game.resource.isFull(game, yieldType)) {
             game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + yieldType, color: 'var(--accent-red)' });
             return;
         }
 
-        // 2. Diagnose Cost Failure (Identify first missing resource)
         const costType = action.costType;
         if (!costType || costType === 'none') return;
 
         const effectiveCosts = costType === 'mixed' ? action.costs! : { [costType]: action.cost! };
         
-        // Find the first resource we can't afford
-        const firstMissing = Object.keys(effectiveCosts).find(resId => {
-            return !game.resource.canAfford(game, resId, effectiveCosts[resId]);
+        const firstMissing = Object.keys(effectiveCosts).find(r => {
+            const resId = r as ResourceId;
+            return !game.resource.canAfford(game, resId, (effectiveCosts as any)[resId]);
         });
 
         if (firstMissing) {
             const specificKey = 'fail_' + firstMissing;
-            // Fallback mechanism: check if translation exists, otherwise use fail_resources
             const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
             game.addLog(logKey, 'logs', 'var(--accent-red)');
         }
     };
 
-    const processAction = (game: GameState, id: string, action: ActionDefinition, mode: string = 'full'): any => {
+    const processAction = (game: GameState, id: ActionId, action: ActionDefinition, mode: string = 'full'): any => {
         const isPrepare = (mode === 'prepare' || mode === 'full');
         const isFinalize = (mode === 'finalize' || mode === 'full');
         let totalYield = 0;
         let logGain: any = null;
 
         if (isPrepare) {
-            // 1. Requirements Check (Modular Requirement Engine)
             if (action.requirements) {
                 const met = Object.entries(action.requirements).every(([path, rule]) => {
                     return checkRequirement(game, path, rule);
@@ -177,17 +185,14 @@ export function createActionSystem() {
                 if (!met) return { success: false };
             }
 
-            // 2. Affordability Check
             let costs: Record<string, number> = action.costType === 'mixed' 
                 ? { ...action.costs } 
                 : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
             
-            // ARCANE FOCUS: Substitution Logic (Energy is skipped if magic focus ✨ is active for THIS action)
             if (game.activeFocus === id && costs.energy) {
                 delete costs.energy;
             }
 
-            // ACTION SATIATION: Physical effort consumes food (1 point)
             const isPhysical = action.costType === 'energy' || (action.costType === 'mixed' && action.costs && action.costs.energy);
             if (isPhysical) {
                 costs.satiation = (costs.satiation || 0) + 1;
@@ -195,19 +200,17 @@ export function createActionSystem() {
 
             if (!game.resource.canAfford(game, costs)) return { success: false };
             
-            // 3. Storage Check (Prevent yielding resources into full storage)
-            const yieldType = (action as any).yieldType;
+            const yieldType = action.yieldType;
             if (yieldType && game.resource.isFull(game, yieldType)) {
                 game.addLog('fail_full_' + yieldType, 'logs', 'var(--accent-red)');
                 game.playSound('fail');
                 return { success: false };
             }
 
-            // 4. Buff Wastage Check (Prevent overwriting still-active buffs)
             if (action.onSuccess) {
                 const buffEffect = action.onSuccess.find(e => e.type === 'addBuff');
-                if (buffEffect) {
-                    const existing = game.activeBuffs[buffEffect.buffId!];
+                if (buffEffect && buffEffect.type === 'addBuff') {
+                    const existing = game.activeBuffs[buffEffect.buffId];
                     if (existing && (existing.remaining / existing.total) > 0.1) {
                         game.addLog('fail_buff_active', 'logs', 'var(--accent-red)');
                         game.playSound('fail');
@@ -216,24 +219,22 @@ export function createActionSystem() {
                 }
             }
 
-            // 5. Initial Consumption
             if (costs && Object.keys(costs).length > 0) {
                 game.resource.consume(game, costs);
             }
         }
 
         if (isFinalize) {
-            // 5. Rewards
             if (action.rewards) {
                 Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
                     let amount = typeof amountOrKey === 'string' 
                         ? game.pipeline.calculate(game, amountOrKey, 1) 
                         : amountOrKey;
                     const finalAmount = amount;
-                    game.resource.add(game, res, finalAmount);
+                    const resId = res as ResourceId;
+                    game.resource.add(game, resId, finalAmount);
                     
-                    // Set log context for first or matching reward
-                    const yieldType = (action as any).yieldType;
+                    const yieldType = action.yieldType;
                     if (res === yieldType || logGain === null) {
                         logGain = finalAmount;
                         totalYield = finalAmount;
@@ -241,7 +242,6 @@ export function createActionSystem() {
                 });
             }
 
-            // 6. OnSuccess Effects
             if (action.onSuccess) {
                 action.onSuccess.forEach(effect => {
                     if (effectHandlers[effect.type]) {
@@ -269,11 +269,11 @@ export function createActionSystem() {
         handleSuccess,
         handleFailure,
 
-        execute(game: GameState, id: string): boolean {
-            const action = game.content.get(id, 'actions');
+        execute(game: GameState, id: ActionId): boolean {
+            const action = game.content.get<ActionDefinition>(id, 'actions');
             if (!action) return false;
             
-            if (game.activeTasks[id]) return false;
+            if (id in game.activeTasks) return false;
 
             if (action.duration) {
                 const result = processAction(game, id, action, 'prepare'); 
@@ -290,9 +290,9 @@ export function createActionSystem() {
                 return false;
             }
 
-            let result = (action as any).execute ? (action as any).execute(game) : processAction(game, id, action);
+            let result = processAction(game, id, action);
 
-            if (result === true || (result && result.success)) {
+            if (result && result.success) {
                 handleSuccess(game, id, action, result);
                 return true;
             }

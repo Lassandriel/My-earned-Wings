@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { IpcChannel } from './ipc.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,11 +64,11 @@ if (!gotTheLock) {
   });
 }
 
-ipcMain.on('quit-app', () => {
+ipcMain.on(IpcChannel.QUIT_APP, () => {
   app.quit();
 });
 
-ipcMain.on('resize-window', (_event, width: number, height: number) => {
+ipcMain.on(IpcChannel.RESIZE_WINDOW, (_event, width: number, height: number) => {
   if (mainWindow) {
     mainWindow.setContentSize(width, height, true);
     mainWindow.center();

@@ -65,7 +65,7 @@ export const createResourceSystem = () => {
             
             // Handle maxStat rewards (e.g. maxMagic)
             if (type.startsWith('max')) {
-                const statBase = type.toLowerCase().replace('max', '');
+                const statBase = type.toLowerCase().replace('max', '') as ResourceId;
                 if (state.stats[statBase] !== undefined) {
                     state.stats[type] = (state.stats[type] || 0) + finalAmount;
                     changed = true;
@@ -74,12 +74,13 @@ export const createResourceSystem = () => {
                 const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
                 state.stats[type] = Math.min(state.stats[maxKey] || 100, state.stats[type] + finalAmount);
                 changed = true;
-            } else if (state.resources[type] !== undefined) {
-                if (state.discoveredResources && !state.discoveredResources.includes(type)) {
-                    state.discoveredResources.push(type);
+            } else if (state.resources[type as ResourceId] !== undefined) {
+                const resId = type as ResourceId;
+                if (state.discoveredResources && !state.discoveredResources.includes(resId)) {
+                    state.discoveredResources.push(resId);
                 }
-                const limit = state.limits[type] || Infinity;
-                state.resources[type] = Math.min(limit, state.resources[type] + finalAmount);
+                const limit = state.limits[resId] || Infinity;
+                state.resources[resId] = Math.min(limit, state.resources[resId] + finalAmount);
                 changed = true;
             }
 
@@ -97,9 +98,9 @@ export const createResourceSystem = () => {
             if (state.resources[type] !== undefined) {
                 return state.resources[type] >= (state.limits[type] || Infinity);
             }
-            if (state.stats[type] !== undefined) {
-                const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
-                return state.stats[type] >= (state.stats[maxKey] || 100);
+            if (state.stats[type as string] !== undefined) {
+                const maxKey = 'max' + (type as string).charAt(0).toUpperCase() + (type as string).slice(1);
+                return (state.stats[type as string] || 0) >= (state.stats[maxKey] || 100);
             }
             return false;
         },

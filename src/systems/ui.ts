@@ -1,4 +1,4 @@
-import { GameState, NPCId } from '../types/game';
+import { GameState, NPCId, ResourceId } from '../types/game';
 
 /**
  * UI System - TypeScript Edition
@@ -25,8 +25,9 @@ export const createUISystem = () => {
         // Multi-resource costs
         if (sourceData.costs) {
             Object.entries(sourceData.costs).forEach(([type, amt]) => {
-                const finalAmt = Math.round((store as any).resource.getScaledCost(store, type, amt));
-                const current = (store.resources[type] ?? (store as any).stats[type]) ?? 0;
+                const resId = type as ResourceId;
+                const finalAmt = Math.round((store as any).resource.getScaledCost(store, resId, amt as number));
+                const current = (store.resources[resId] ?? (store as any).stats[type]) ?? 0;
                 results.push({
                     type,
                     label: store.t('ui_' + type) || type,
@@ -38,8 +39,9 @@ export const createUISystem = () => {
         // Single resource cost (Standardized)
         else if (sourceData.cost && sourceData.costType) {
             const type = sourceData.costType;
-            const finalAmt = Math.round((store as any).resource.getScaledCost(store, type, sourceData.cost));
-            const current = (store.resources[type] ?? (store as any).stats[type]) ?? 0;
+            const resId = type as ResourceId;
+            const finalAmt = Math.round((store as any).resource.getScaledCost(store, resId, sourceData.cost));
+            const current = (store.resources[resId] ?? (store as any).stats[type]) ?? 0;
             results.push({
                 type,
                 label: store.t('ui_' + type) || type,
@@ -103,7 +105,7 @@ export const createUISystem = () => {
             document.documentElement.style.setProperty('--tt-off-y', offsetY + 'px');
 
             // Resource Highlighting Logic
-            if (store.hoveredAction && store.hoveredAction.data) {
+            if (store.hoveredAction) {
                 const costs = getTooltipCosts(store, store.hoveredAction);
                 const resourceTypes = Array.isArray(costs) ? costs.map(c => c.type).filter(Boolean) : [];
 

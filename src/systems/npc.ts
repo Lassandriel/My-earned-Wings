@@ -1,4 +1,4 @@
-import { GameState } from '../types/game';
+import { GameState, ItemId, FlagId, ActionDefinition, NPCDefinition, NPCId } from '../types/game';
 
 /**
  * NPC System - TypeScript Edition
@@ -9,21 +9,22 @@ export const createNPCSystem = () => {
         /**
          * Executes an NPC interaction step (Quest progress).
          */
-        execute(game: GameState, id: string): any {
-            const action = game.content.get(id, 'actions');
+        execute(game: GameState, id: string): { success: boolean; logKey?: string; logParams?: any } | false {
+            const action = game.content.get<ActionDefinition>(id, 'actions');
             
             if (!action || !action.steps) return false;
             
-            const progKey = action.progKey;
+            const progKey = (action as any).progKey || id; // Fallback to id if progKey is missing
             const currentProg = game.npcProgress[progKey] || 0;
-            const npcDef = game.content.get(action.npcId || '', 'npcs');
+            const npcId = (action as any).npcId as NPCId;
+            const npcDef = game.content.get<NPCDefinition>(npcId || '', 'npcs');
             const maxProg = npcDef ? npcDef.maxProgress : (action.maxProgress || 0);
 
             if (currentProg >= maxProg || !action.steps[currentProg]) return false;
             const step = action.steps[currentProg];
 
             // 1. Costs
-            const costs = step.costs || (step.cost ? { [step.costType]: step.cost } : null);
+            const costs = step.costs || (step.cost && step.costType ? { [step.costType]: step.cost } : null);
             if (costs && !game.resource.consume(game, costs)) {
                 game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
                 return false;
@@ -34,32 +35,26 @@ export const createNPCSystem = () => {
 
             // 3. Reward Handling (Modular)
             if (step.reward) {
-                // Determine if reward is an item or specific flag
                 if (step.reward.startsWith('item-')) {
-                    game.actions.effectHandlers.unlockItem(game, { id: step.reward });
+                    game.actions.effectHandlers.unlockItem(game, { type: 'unlockItem', id: step.reward as ItemId });
                 } else {
-                    // Fallback for named legacy rewards or special cases
-                    game.flags[step.reward] = true;
+                    const fid = step.reward as FlagId;
+                    game.flags[fid] = true;
                 }
             }
 
             // 4. Side Effects (using ActionSystem's handlers for consistency)
             if (Array.isArray(step.onSuccess)) {
-                step.onSuccess.forEach((effect: any) => {
+                step.onSuccess.forEach((effect: import('../types/game').GameEffect) => {
                     const handler = game.actions.effectHandlers[effect.type];
                     if (handler) handler(game, effect);
                 });
-            } else if (step.onSuccess && !Array.isArray(step.onSuccess)) {
-                // Legacy support during migration if needed
-                if ((step.onSuccess as any).unlocks) {
-                    (step.onSuccess as any).unlocks.forEach((u: string) => game.actions.effectHandlers.unlockRecipe(game, { id: u }));
-                }
             }
 
             game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'success' });
 
             // Format Log: "Name: 'Satz'"
-            if (step.dialogueKey) {
+            if (step.dialogueKey && npcDef) {
                 const npcName = game.t(npcDef.nameKey, 'ui');
                 const dialogue = game.t(step.dialogueKey, 'npcs');
                 return { 
