@@ -59,7 +59,6 @@ export const createResourceSystem = () => {
             let finalAmount = amount;
             if (finalAmount <= 0) return false;
             
-            const resDef = state.RESOURCE_REGISTRY[type];
             let changed = false;
             
             // Handle maxStat rewards (e.g. maxMagic)

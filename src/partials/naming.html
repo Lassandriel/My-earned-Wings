@@ -25,7 +25,7 @@
         x-model="$store.game.playerName"
         :placeholder="$store.game.t('ui_naming_placeholder')"
         maxlength="16"
-        @keydown.enter="$store.game.ui.confirmName($store.game, $store.game.playerName)"
+        @keydown.enter="$store.game.confirmName($store.game.playerName)"
         class="premium-input"
       >
       <div class="input-focus-line"></div>
@@ -34,7 +34,7 @@
     <div class="modal-footer">
       <button 
         class="game-btn premium-confirm-btn" 
-        @click="$store.game.ui.confirmName($store.game, $store.game.playerName)"
+        @click="$store.game.confirmName($store.game.playerName)"
       >
         <span x-text="$store.game.t('ui_naming_confirm')">Reise beginnen</span>
         <span class="btn-shine"></span>

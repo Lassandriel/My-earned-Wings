@@ -148,7 +148,6 @@ export default {
         objective_label: "Goal",
         status_working: "Working",
         status_idle: "Ready",
-        ui_details: "Details",
         btn_embrace_destiny: "Embrace Destiny"
     },
     
@@ -174,6 +173,9 @@ export default {
         intro_5: "You stay below, as always. You miss a connection you never had...",
         intro_6: "But here, at the edge of the village, you want to build a life. With your own hands.",
         intro_7: "Welcome to your new home. You wingless mystery shifter... a riddle in Draconia.",
+        ellie_tutorial_1: "I'm Ellie. Your goal is to discover why you cannot take your dragon form.",
+        ellie_tutorial_2: "Talk to the village and gather resources to find the truth behind your missing wings.",
+        ellie_tutorial_3: "Use Main for actions, Workshop to craft and build, Possessions for upgrades, Village for NPCs, and Story for your journey notes.",
         
         // --- JOURNEY LOGS ---
         wood_log: "+{val} Wood gathered.",
@@ -185,7 +187,8 @@ export default {
         milestone_house: "The house stands firm – a monument to your will.",
         garden_magic_fail_log: "The garden's magic fades... not enough power left.",
         tree_unlocked_log: "An ancient tremor shakes the earth. The Tree of Life has awakened!",
-        obj_tree_of_life: "Visit the Tree of Life in the village."
+        obj_tree_of_life: "Visit the Tree of Life in the village.",
+        npc_dialogue_log: "{name}: {text}"
     },
 
     items: {
@@ -279,17 +282,67 @@ export default {
     },
 
     npcs: {
-      npc_baker_1: "\"Welcome. Without wood for my furnace, there'd be no bread.\"",
-      npc_hunter_3: "\"Take this bow. It will be your voice in the thicket.\"",
-      npc_hunter_5: "\"Shadows belong to us both now. I hunt at your side.\"",
-      npc_ellie_1: "\"Wanderer... The ground is no prison for you.\"",
-      npc_ellis_2: "\"Beauty can flourish in the shadows... feel the rhythm.\"",
-      npc_aris_1: "\"The earth trembles under the weight of your destiny.\"",
-      npc_aris_5: "\"You walk the ground, but your spirit touches the aether.\"",
-      npc_townHall_1: "\"Welcome to the Town Hall. All Shifters must be properly registered before settling here.\"",
-      npc_townHall_2: "\"Your papers are in order. I hereby grant you official permission to perform day labor in the village.\""
-    },
+      // --- QUEST DIALOGUES ---
+      // Baker Geron
+      npc_baker_1: "\"Welcome! I am Geron. And what is your name, stranger?\"",
+      npc_baker_2: "\"The furnace is burning hot. Thanks for the wood, {player}.\"",
+      npc_baker_3: "\"A cookie, perhaps, {player}? They keep you on your toes.\"",
+      npc_baker_4: "\"More and more people come for my pastries. You are a blessing, {player}.\"",
+      npc_baker_5: "\"{player}, take this last supply. You've done much for us.\"",
 
+      // Flower Girl Ellie
+      npc_flowerGirl_1: "\"Wanderer... I am Ellie. Do you also feel the tremor of the earth?\"",
+      npc_flowerGirl_2: "\"Beauty can flourish in the shadows, {player}... feel the rhythm.\"",
+      npc_flowerGirl_3: "\"The world's colors change, {player}, if you look closely.\"",
+      npc_flowerGirl_4: "\"This scale... take it, {player}. It belongs to the aether.\"",
+      npc_flowerGirl_5: "\"Thorin needs someone like you, {player}. Tell him I sent you.\"",
+
+      // Artisan Kael
+      npc_artisan_1: "\"I am Kael. Wood is the beginning of everything. A walking stick gives you support.\"",
+      npc_artisan_2: "\"Stone is patient, {player}. It shapes the world, step by step.\"",
+      npc_artisan_3: "\"Precision is everything. Take this chisel, {player}, and shape your destiny.\"",
+
+      // Master Aris
+      npc_teacher_1: "\"The earth trembles under the weight of your destiny. I am Aris.\"",
+      npc_teacher_2: "\"Your focus sharpens, {player}. The world is more than just matter.\"",
+      npc_teacher_3: "\"In this scroll, {player}, lies the truth about the ground.\"",
+      npc_teacher_4: "\"Magic flows through you, {player}, even without wings.\"",
+      npc_teacher_5: "\"You walk the ground, {player}, but your spirit touches the aether.\"",
+
+      // Town Hall
+      npc_townHall_1: "\"Welcome to the Town Hall. I am the official. All Shifters must be properly registered.\"",
+      npc_townHall_2: "\"Your papers are in order, {player}. You may now work in the village.\"",
+      npc_townHall_3: "\"Taxes and duties... only then can our village grow, {player}.\"",
+      npc_townHall_4: "\"You are well-known here now, {player}. A valued member of our community.\"",
+      npc_townHall_5: "\"This deed seals your place in Draconia, {player}.\"",
+
+      // Blacksmith Thorin
+      npc_blacksmith_1: "\"Who disturbs the forge? Ah... I am Thorin. And you?\"",
+      npc_blacksmith_2: "\"Magic in the fire, {player}. You understand the craft.\"",
+      npc_blacksmith_3: "\"A rock is just an obstacle, {player}, until you break it.\"",
+      npc_blacksmith_4: "\"A good whetstone is worth gold, {player}. It keeps your goals sharp.\"",
+      npc_blacksmith_5: "\"{player}, no flight, but a firm stand. That's your true strength.\"",
+
+      // Hunter Nyx
+      npc_hunter_1: "\"Halt! Who stalks there? ... Ah, a new face. I am Nyx.\"",
+      npc_hunter_2: "\"A bow takes patience, {player}. And good ash wood.\"",
+      npc_hunter_3: "\"Take this bow, {player}. It will be your voice in the thicket.\"",
+      npc_hunter_4: "\"The forest gives what we need, {player}. If we respect it.\"",
+      npc_hunter_5: "\"shadows belong to us both now. I hunt at your side, {player}.\"",
+
+      // Old Sage
+      npc_sage_1: "\"Knowledge is a burden. I am the Sage. Read this book, Shifter.\"",
+      npc_sage_2: "\"The stars whisper of past ages, {player}.\"",
+      npc_sage_3: "\"Your mind expands, {player}... do you see the patterns?\"",
+      npc_sage_4: "\"History doesn't repeat itself, {player}, but it does rhyme.\"",
+      npc_sage_5: "\"{player}, you're no longer a mystery, but a part of Draconia.\"",
+
+      // Shared/Misc
+      npc_ellie_1: "\"Do you feel the tremor of the earth?\"",
+      npc_ellie_2: "\"The dreams show us the way.\"",
+      npc_aris_1: "\"Every spell begins with a single thought.\"",
+      npc_aris_5: "\"You have touched the heart of Draconia.\""
+    },
     buffs: {
       buff_gourmet_title: "Gourmet Delight",
       item_gourmet_meal_title: "Gourmet Meal",

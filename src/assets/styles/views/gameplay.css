@@ -2,17 +2,28 @@
 .primary-actions-bar {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  padding: 10px 0 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px 0 30px;
+  width: 100%;
   border-bottom: 1px solid var(--panel-border);
   margin-bottom: 30px;
 }
 
 .primary-btn {
-  min-width: 180px;
-  height: 55px;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
+  flex: 1;
+  min-width: 150px;
+  max-width: 200px;
+  min-height: 48px;
+  height: auto;
+  padding: 8px 12px;
+  line-height: 1.25;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .action-container {

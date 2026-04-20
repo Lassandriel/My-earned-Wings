@@ -75,7 +75,7 @@ export const createAudioSystem = () => {
         if (!isMusicPlaying) {
           bgm.play()
             .then(() => { isMusicPlaying = true; })
-            .catch(e => {
+            .catch(() => {
                // Log but don't crash if BGM is blocked
                console.log("BGM blocked by browser policy. Interaction required.");
             });

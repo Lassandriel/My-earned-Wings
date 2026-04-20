@@ -112,7 +112,7 @@
           <button class="game-btn-wide secondary" @click="$store.game.persistence.loadGame($store.game)">
             <span x-text="$store.game.t('btn_load')">Load</span>
           </button>
-          <button class="game-btn-wide secondary" @click="$store.game.ui.returnToMenu($store.game); $store.game.settingsOpen = false;">
+          <button class="game-btn-wide secondary" @click="$store.game.returnToMenu(); $store.game.settingsOpen = false;">
             <span x-text="$store.game.t('btn_main_menu')">Main Menu</span>
           </button>
         </div>

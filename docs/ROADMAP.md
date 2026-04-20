@@ -249,8 +249,44 @@ The internal architecture has been fully refactored to "Draconia Core 3.0". The 
 
 ---
 
-## Phase 8: Production Readiness & Beyond
+## Phase 8: Production Balance & Polish - **IN PROGRESS**
 
-- [ ] **Phase 8.1**: Final Balance Pass across all Chapters.
-- [ ] **Phase 9: Diplomacy**: Visiting other floating islands via trade routes.
-- [ ] **Phase 10: True Wings**: Final evolution of the player character.
+- [x] **Phase 8.1: Early-Flow Balancing**: 
+    - [x] **Storage Fix**: Increased wood/stone limits to 50.
+    - [x] **Regen Overhaul**: Buffed energy/satiation recovery 10x.
+    - [x] **Focus Efficiency**: Reduced focus cost to 1.0/s.
+    - [x] **Yield Scaling**: Snappy resource progression.
+    - [x] **Interaction Stability**: Fixed broken event handlers in Confirm, Naming, and Settings modals by synchronizing them with the root Store-Proxies.
+    - [x] **Gameplay Tab Fix**: Resolved structural HTML bugs and restored full mathematical precision for resource rewards.
+    - [x] **Crafting Stability**: Fixed visibility logic for complex requirements and synchronized tooltip management.
+    - [x] **Hybrid Scaling**: Implemented a transition-less auto-scale system that preserves readability on laptops while protecting UI integrity on small screens.
+    - [x] **Button Polish**: Refined action bar layout with flex-wrap and adaptive widths to prevent text clipping.
+    - [x] **UI Compactness**: Reduced global button padding and height for a more professional, "tighter" aesthetic.
+    - [x] **VFX Polish**: Fixed shadow clipping in the primary actions container by enforcing full-width rendering.
+    - [x] **UI Rescue Package**: 
+        - [x] **Scaling Fix**: Removed whole-wrapper scale transformations to eliminate black borders and tiny UI.
+        - [x] **Scroll Restoration**: Fixed inheritance and overflow rules to re-enable mouse wheel and scrollbar usage. Global page scroll enabled for stacked layouts.
+        - [x] **Background Stability**: Fixed background attachment to stay steady during scrolling in compact modes.
+        - [x] **Tooltip Intelligence**: Implemented pipeline-fallback for `{val}` interpolation in dynamic tooltips.
+        - [x] **Portrait Optimization**: Stabilized panel stacking for narrow windows to prevent content overlap.
+        - [x] **Final UX Polish**: 
+            - [x] **Total Scroll Unlock**: Forced auto-height on all root containers for seamless page scrolling on small screens.
+            - [x] **Tab Wrapping**: Implemented flex-wrap on category tabs in Upgrades and Crafting views.
+            - [x] **Responsive Padding**: Optimized view padding for compact displays to maximize content area.
+        - [x] **Final Alignment & Logic Correction**: 
+            - [x] **Alpine Fix**: Defined missing `isTaskActive` helper in main store to prevent JS crashes.
+            - [x] **Environmental Scroll Unlock**: Forced `overflow: auto` to override IDE-injected scroll-locks on body.
+            - [x] **Aesthetic Centers**: Centered all sub-category navigation tabs for balanced visual presentation.
+        - [x] **NPC Dialogue & Tooltip Redesign**:
+            - [x] **Step Mapping**: 1-based progress display in tooltips (e.g. 1/5).
+            - [x] **Dialogues**: Integration of NPC quotes directly into the tooltip story area.
+            - [x] **Full Localization**: Automatic translation of all costs and rewards in tooltips.
+            - [x] **Atmospheric Logs**: NPC dialogue is now correctly logged with speaker names in the Event Log.
+
+---
+
+## Future Horizons
+
+- [ ] **Phase 8.2: Final Content Review**
+- [ ] **Phase 9: Diplomacy**
+- [ ] **Phase 10: True Wings**

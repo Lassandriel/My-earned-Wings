@@ -1,11 +1,23 @@
 export const createUISystem = () => ({
   calculateScale(store) {
-    const setting = store.settings.uiScale;
+    const setting = store.settings.uiScale || 'auto';
     
-    // In the new system, we default to 1:1 pixel mapping.
-    // We can still allow manual UI scaling (Zoom), but we don't force-fit resolutions.
     if (setting === 'auto') {
-        store.currentScale = 1;
+        /**
+         * HYBRID AUTO-SCALE (Core 3.5)
+         * Keeps 1:1 scale for typical laptops (>= 1260px width).
+         * Soft-scaling only kicks in for small windows or tablets.
+         */
+        const thresholdW = 1260;
+        const thresholdH = 800;
+        
+        const scaleW = window.innerWidth < thresholdW ? window.innerWidth / thresholdW : 1;
+        const scaleH = window.innerHeight < thresholdH ? window.innerHeight / thresholdH : 1;
+        
+        let scale = Math.min(scaleW, scaleH);
+        
+        // Cap at 0.65 to ensure basic readability even on phones/small tablets
+        store.currentScale = Math.max(0.65, Math.min(1, scale));
     } else {
         store.currentScale = parseFloat(setting) || 1;
     }
@@ -117,14 +129,17 @@ export const createUISystem = () => ({
     if (hId.startsWith('act-npc-')) {
         const progKey = action.progKey;
         const currentProg = store.npcProgress[progKey] || 0;
-        if (action.steps && action.steps[currentProg]) {
-            const step = action.steps[currentProg];
+        const steps = action.steps || [];
+        
+        if (steps[currentProg]) {
+            const step = steps[currentProg];
             const rewards = [];
 
             // 1. Explicit Item Rewards
             if (step.reward) {
-                const itemName = store.t(step.reward, 'ui') || step.reward;
-                rewards.push(`+ ${itemName}`);
+                const item = store.content.get(step.reward, 'items');
+                const itemName = item ? store.t(item.title, 'items') : step.reward;
+                rewards.push(`1 ${itemName}`); // e.g. "1 Brot"
             }
 
             // 2. Success Effects (Unlocks)
@@ -136,6 +151,9 @@ export const createUISystem = () => ({
                     } else if (eff.type === 'unlockRecipe') {
                         const recipeName = store.t(eff.id, 'actions')?.title || eff.id;
                         rewards.push(`Rezept: ${recipeName}`);
+                    } else if (eff.type === 'modifyResource') {
+                        const resName = store.t('ui_' + eff.resource) || eff.resource;
+                        rewards.push(`${eff.amount > 0 ? '+' : ''}${eff.amount} ${resName}`);
                     }
                 });
             }
@@ -143,16 +161,27 @@ export const createUISystem = () => ({
             if (rewards.length > 0) return rewards.join(', ');
             
             // Fallback for steps without rewards
-            const npcName = store.t('npc_' + action.npcId.replace('npc-', '') + '_name', 'ui');
-            return `+ Bindung (${npcName})`;
+            return store.t('ui_ready'); // "Bereit"
         }
     }
 
     const lang = store.t(hId, 'actions');
     if (!lang || !lang.effect) return '';
     
+    let yieldVal = null;
     if (action.calculateYield) {
-        const yieldVal = action.calculateYield(store);
+        yieldVal = action.calculateYield(store);
+    } else if (action.rewards) {
+        // Fallback for actions defined with static rewards or pipeline keys
+        const firstReward = Object.entries(action.rewards)[0];
+        if (firstReward) {
+            yieldVal = typeof firstReward[1] === 'string' 
+                ? store.pipeline.calculate(store, firstReward[1]) 
+                : firstReward[1];
+        }
+    }
+
+    if (yieldVal !== null) {
         let effectText = lang.effect;
         if (typeof yieldVal === 'object') {
             Object.entries(yieldVal).forEach(([key, val]) => {
@@ -165,6 +194,7 @@ export const createUISystem = () => ({
             return effectText.replace('{val}', displayVal);
         }
     }
+    
     return lang.effect;
   },
 
@@ -184,9 +214,9 @@ export const createUISystem = () => ({
             const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
             const current = store.resources[type] ?? store.stats[type] ?? 0;
             results.push({
-                type,  // Used for resource highlighting
+                type,
                 label: store.t('ui_' + type) || type,
-                value: Math.floor(current) + ' / ' + finalAmt,
+                value: finalAmt, // Only the number, label handles the name
                 affordable: current >= finalAmt
             });
         });
@@ -197,9 +227,9 @@ export const createUISystem = () => ({
         const finalAmt = Math.round(store.resource.getScaledCost(store, type, sourceData.cost));
         const current = store.resources[type] ?? store.stats[type] ?? 0;
         results.push({
-            type,  // Used for resource highlighting
+            type,
             label: store.t('ui_' + type) || type,
-            value: Math.floor(current) + ' / ' + finalAmt,
+            value: finalAmt, 
             affordable: current >= finalAmt
         });
     }

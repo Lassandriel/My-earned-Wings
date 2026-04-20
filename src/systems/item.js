@@ -13,7 +13,7 @@ export const createItemSystem = () => ({
 
         // 1. Wastage Protection: Check if consumption is meaningful
         if (item.effect) {
-            const statsBenefitted = Object.entries(item.effect).filter(([stat, value]) => {
+            const statsBenefitted = Object.entries(item.effect).filter(([stat]) => {
                 const maxKey = 'max' + stat.charAt(0).toUpperCase() + stat.slice(1);
                 const maxValue = store.stats[maxKey] || 100;
                 return store.stats[stat] < maxValue;

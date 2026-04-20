@@ -29,7 +29,6 @@ export const createNPCSystem = () => {
 
             // 2. Progress Logic
             game.npcProgress[progKey]++;
-            const newProg = game.npcProgress[progKey];
 
             // 3. Reward Handling (Modular)
             if (step.reward) {
@@ -56,7 +55,19 @@ export const createNPCSystem = () => {
             }
 
             game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'success' });
-            return { success: true, logKey: `npc_${progKey}_${newProg}` };
+
+            // Format Log: "Name: 'Satz'"
+            if (step.dialogueKey) {
+                const npcName = game.t(npcDef.nameKey, 'ui');
+                const dialogue = game.t(step.dialogueKey, 'npcs');
+                return { 
+                    success: true, 
+                    logKey: 'npc_dialogue_log', 
+                    logParams: { name: npcName, text: dialogue }
+                };
+            }
+
+            return { success: true };
         }
     };
 };

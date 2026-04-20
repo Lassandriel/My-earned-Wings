@@ -49,7 +49,8 @@ export const initialState = {
     volumeSfx: 1.0,
     mute: false,
     showParticles: true,
-    showJuice: true
+    showJuice: true,
+    uiScale: 'auto'
   },
   
   counters: {

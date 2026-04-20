@@ -122,7 +122,7 @@ Alpine.store('game', {
         if (store.ui.boot) store.ui.boot(store);
         if (store.content.boot) store.content.boot(store);
         
-        store.engine.init(store);
+        store.engine.init();
         
         store.ui.calculateScale(store);
         window.addEventListener('resize', () => store.ui.calculateScale(store));
@@ -130,10 +130,9 @@ Alpine.store('game', {
         // --- GLOBAL UI WATCHER: Auto-cleanup hovered state on view changes ---
         Alpine.effect(() => {
             const view = store.view;
-            const subView = store.craftingSubView;
             
             // VIEW SANITY GUARD (Wave 9)
-            const VALID_VIEWS = ['menu', 'prologue', 'naming', 'gameplay', 'village', 'finale'];
+            const VALID_VIEWS = ['menu', 'prologue', 'naming', 'gameplay', 'crafting', 'upgrades', 'village', 'story', 'finale'];
             if (!VALID_VIEWS.includes(view)) {
                 console.warn(`[UI] Invalid view detected: ${view}. Falling back to menu.`);
                 store.view = 'menu';
@@ -159,6 +158,7 @@ Alpine.store('game', {
     resolveConfirm(conf) { const store = Alpine.store('game'); store.viewManager.resolveConfirm(store, conf); },
     
     executeAction(id) { return this.actions.execute(this, id); },
+    isTaskActive(id) { return !!this.activeTasks[id]; },
     
     attemptAction(el, id) {
         if (this.activeTasks[id]) return;
@@ -196,13 +196,29 @@ Alpine.store('game', {
     
     t(key, context = 'ui', params = {}) { 
         const store = Alpine.store('game');
-        let text = store.translations[store.language][context]?.[key] || key;
-        if (params) {
-            Object.entries(params).forEach(([k, v]) => {
-                text = text.replace(`{${k}}`, v);
-            });
-        }
-        return text; 
+        const data = store.translations[store.language][context]?.[key] || key;
+        
+        // Auto-inject player name
+        const finalParams = { player: store.playerName || 'Wandler', ...params };
+
+        const replaceRecursive = (val) => {
+            if (typeof val === 'string') {
+                let replaced = val;
+                Object.entries(finalParams).forEach(([k, v]) => {
+                    replaced = replaced.replace(new RegExp(`{${k}}`, 'g'), v);
+                });
+                return replaced;
+            } else if (typeof val === 'object' && val !== null) {
+                const result = Array.isArray(val) ? [] : {};
+                for (let k in val) {
+                    result[k] = replaceRecursive(val[k]);
+                }
+                return result;
+            }
+            return val;
+        };
+
+        return replaceRecursive(data); 
     },
 
     playSound(key) { this.bus.emit(this.EVENTS.SOUND_TRIGGERED, { key }); },
@@ -222,6 +238,10 @@ Alpine.store('game', {
     get energyPercent() { return this.ui.getStatPercent(this, 'energy'); },
     get magicPercent() { return this.ui.getStatPercent(this, 'magic'); },
     get satiationPercent() { return this.ui.getStatPercent(this, 'satiation'); },
+
+    get canAccessTreeOfLife() {
+        return this.unlockedNPCs.includes('npc-treeOfLife') && !this.demoCompleted;
+    },
     
     get groupedHistory() { return this.story.getGroupedHistory(this); }
 });
@@ -238,6 +258,7 @@ document.addEventListener('keydown', (e) => {
             store.prologue.skipPrologue(store);
         } else {
             store.settingsOpen = !store.settingsOpen;
+            if (!store.settingsOpen && store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);
             store.playSound('click');
         }
     }

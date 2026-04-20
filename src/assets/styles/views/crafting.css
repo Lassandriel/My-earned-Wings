@@ -9,9 +9,18 @@
 /* Sub-Tab Navigation (Mirroring Vault Tabs) */
 .crafting-tabs {
     display: flex;
-    gap: 12px;
-    padding-bottom: 20px;
+    flex-wrap: wrap; /* Allow tabs to stack if window is narrow */
+    justify-content: center; /* Center tabs aesthetically */
+    gap: 15px;
+    padding: 10px 0 20px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive adjustment for crafting */
+@media (max-width: 1100px) {
+    .crafting-view-root {
+        padding: 20px 15px; /* Narrower padding for small screens */
+    }
 }
 
 .craft-tab-btn {

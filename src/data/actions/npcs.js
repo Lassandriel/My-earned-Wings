@@ -11,11 +11,11 @@ export const npcActions = {
     journalIcon: '🍞', journalColor: '#f59e0b',
     image: 'img/npcs/Baker Geron.webp',
     steps: [
-        { cost: 8, costType: 'energy', reward: 'item-bread' }, // Kennenlernen
-        { costs: { wood: 30 }, reward: 'item-bread', onSuccess: [{ type: 'setFlag', flag: 'unlock-baker-bread', value: true }] }, // Holz für Ofen -> Brot
-        { cost: 20, costType: 'energy', reward: 'item-cookie' }, // Ein Dankeschön
-        { costs: { wood: 15, stone: 15 }, reward: 'item-cookie' },
-        { cost: 25, costType: 'energy', reward: 'item-cookie' }
+        { cost: 8, costType: 'energy', reward: 'item-bread', dialogueKey: 'npc_baker_1' }, 
+        { costs: { wood: 30 }, reward: 'item-bread', onSuccess: [{ type: 'setFlag', flag: 'unlock-baker-bread', value: true }], dialogueKey: 'npc_baker_2' }, 
+        { cost: 20, costType: 'energy', reward: 'item-cookie', dialogueKey: 'npc_baker_3' }, 
+        { costs: { wood: 15, stone: 15 }, reward: 'item-cookie', dialogueKey: 'npc_baker_4' },
+        { cost: 25, costType: 'energy', reward: 'item-cookie', dialogueKey: 'npc_baker_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-baker');
@@ -29,11 +29,11 @@ export const npcActions = {
     journalIcon: '🌸', journalColor: '#ec4899',
     image: 'img/npcs/flowergirl.webp',
     steps: [
-        { cost: 5, costType: 'energy', onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 5 }] }, // Begrüßung + Kräuter
-        { costs: { water: 5 }, onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 10 }] }, // Hilfe beim Gießen
-        { cost: 10, costType: 'energy', reward: 'item-astral-shards' }, // Gespräch über den Garten
-        { costs: { herbs: 10 }, reward: 'item-wyvern-scale' }, // Dankbarkeit
-        { cost: 15, costType: 'energy', onSuccess: [{ type: 'unlockNPC', id: 'npc-blacksmith' }] } // Weg zum Schmied
+        { cost: 5, costType: 'energy', onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 5 }], dialogueKey: 'npc_flowerGirl_1' }, 
+        { costs: { water: 5 }, onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 10 }], dialogueKey: 'npc_flowerGirl_2' }, 
+        { cost: 10, costType: 'energy', reward: 'item-astral-shards', dialogueKey: 'npc_flowerGirl_3' }, 
+        { costs: { herbs: 10 }, reward: 'item-wyvern-scale', dialogueKey: 'npc_flowerGirl_4' }, 
+        { cost: 15, costType: 'energy', onSuccess: [{ type: 'unlockNPC', id: 'npc-blacksmith' }], dialogueKey: 'npc_flowerGirl_5' } 
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-flowerGirl');
@@ -46,13 +46,13 @@ export const npcActions = {
     progKey: 'artisan', maxProgress: 3,
     journalIcon: '🏗️', journalColor: '#d97706',
     steps: [
-        { costs: { wood: 20 }, onSuccess: [{ type: 'setFlag', flag: 'unlock-wanderstock', value: true }] },
-        { costs: { stone: 20 } },
+        { costs: { wood: 20 }, onSuccess: [{ type: 'setFlag', flag: 'unlock-wanderstock', value: true }], dialogueKey: 'npc_artisan_1' },
+        { costs: { stone: 20 }, dialogueKey: 'npc_artisan_2' },
         { costs: { wood: 10, stone: 10 }, reward: 'item-chisel', onSuccess: [
             { type: 'setFlag', flag: 'unlock-artisan-tools', value: true },
             { type: 'unlockRecipe', id: 'act-axe' },
             { type: 'unlockRecipe', id: 'act-pickaxe' }
-        ] }
+        ], dialogueKey: 'npc_artisan_3' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-artisan');
@@ -65,11 +65,11 @@ export const npcActions = {
     progKey: 'teacher', maxProgress: 5,
     journalIcon: '📖', journalColor: '#3b82f6',
     steps: [
-        { cost: 12, costType: 'magic' },
-        { cost: 15, costType: 'magic' },
-        { cost: 20, costType: 'magic', reward: 'item-scroll' },
-        { cost: 25, costType: 'magic' },
-        { cost: 30, costType: 'magic' }
+        { cost: 12, costType: 'magic', dialogueKey: 'npc_teacher_1' },
+        { cost: 15, costType: 'magic', dialogueKey: 'npc_teacher_2' },
+        { cost: 20, costType: 'magic', reward: 'item-scroll', dialogueKey: 'npc_teacher_3' },
+        { cost: 25, costType: 'magic', dialogueKey: 'npc_teacher_4' },
+        { cost: 30, costType: 'magic', dialogueKey: 'npc_teacher_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-teacher');
@@ -82,11 +82,11 @@ export const npcActions = {
     progKey: 'townHall', maxProgress: 5,
     journalIcon: '🏛️', journalColor: '#94a3b8',
     steps: [
-        { cost: 20, costType: 'energy' },
-        { cost: 25, costType: 'energy', onSuccess: [{ type: 'setFlag', flag: 'unlocked-work', value: true }] },
-        { costs: { shards: 100 } },
-        { cost: 30, costType: 'energy' },
-        { cost: 40, costType: 'energy', reward: 'item-deed' }
+        { cost: 20, costType: 'energy', dialogueKey: 'npc_townHall_1' },
+        { cost: 25, costType: 'energy', onSuccess: [{ type: 'setFlag', flag: 'unlocked-work', value: true }], dialogueKey: 'npc_townHall_2' },
+        { costs: { shards: 100 }, dialogueKey: 'npc_townHall_3' },
+        { cost: 30, costType: 'energy', dialogueKey: 'npc_townHall_4' },
+        { cost: 40, costType: 'energy', reward: 'item-deed', dialogueKey: 'npc_townHall_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-townHall');
@@ -99,11 +99,11 @@ export const npcActions = {
     progKey: 'blacksmith', maxProgress: 5,
     journalIcon: '⚒️', journalColor: '#475569',
     steps: [
-        { cost: 20, costType: 'energy' },
-        { cost: 15, costType: 'magic' },
-        { costs: { stone: 30 } },
-        { cost: 15, costType: 'energy', reward: 'item-whetstone' },
-        { cost: 25, costType: 'energy' }
+        { cost: 20, costType: 'energy', dialogueKey: 'npc_blacksmith_1' },
+        { cost: 15, costType: 'magic', dialogueKey: 'npc_blacksmith_2' },
+        { costs: { stone: 30 }, dialogueKey: 'npc_blacksmith_3' },
+        { cost: 15, costType: 'energy', reward: 'item-whetstone', dialogueKey: 'npc_blacksmith_4' },
+        { cost: 25, costType: 'energy', dialogueKey: 'npc_blacksmith_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-blacksmith');
@@ -116,11 +116,11 @@ export const npcActions = {
     progKey: 'sage', maxProgress: 5,
     journalIcon: '🔮', journalColor: '#8b5cf6',
     steps: [
-        { cost: 20, costType: 'magic', reward: 'item-book-knowledge' },
-        { cost: 30, costType: 'magic' },
-        { cost: 40, costType: 'magic' },
-        { cost: 50, costType: 'magic' },
-        { cost: 60, costType: 'magic' }
+        { cost: 20, costType: 'magic', reward: 'item-book-knowledge', dialogueKey: 'npc_sage_1' },
+        { cost: 30, costType: 'magic', dialogueKey: 'npc_sage_2' },
+        { cost: 40, costType: 'magic', dialogueKey: 'npc_sage_3' },
+        { cost: 50, costType: 'magic', dialogueKey: 'npc_sage_4' },
+        { cost: 60, costType: 'magic', dialogueKey: 'npc_sage_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-sage');
@@ -133,11 +133,11 @@ export const npcActions = {
     progKey: 'hunter', maxProgress: 5,
     journalIcon: '🏹', journalColor: '#10b981',
     steps: [
-        { cost: 15, costType: 'energy', reward: 'item-arrowhead' }, // Begrüßung + Pfeilspitze
-        { costs: { wood: 10 }, onSuccess: [{ type: 'setFlag', flag: 'unlock-bow', value: true }, { type: 'unlockRecipe', id: 'act-bow' }] }, // Holz für Bogen -> Rezept
-        { cost: 15, costType: 'energy', reward: 'item-dried-meat' },
-        { costs: { wood: 20 }, reward: 'item-dried-meat' },
-        { cost: 20, costType: 'energy', reward: 'item-dried-meat' }
+        { cost: 15, costType: 'energy', reward: 'item-arrowhead', dialogueKey: 'npc_hunter_1' }, 
+        { costs: { wood: 10 }, onSuccess: [{ type: 'setFlag', flag: 'unlock-bow', value: true }, { type: 'unlockRecipe', id: 'act-bow' }], dialogueKey: 'npc_hunter_2' }, 
+        { cost: 15, costType: 'energy', reward: 'item-dried-meat', dialogueKey: 'npc_hunter_3' },
+        { costs: { wood: 20 }, reward: 'item-dried-meat', dialogueKey: 'npc_hunter_4' },
+        { cost: 20, costType: 'energy', reward: 'item-dried-meat', dialogueKey: 'npc_hunter_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-hunter');
@@ -150,7 +150,7 @@ export const npcActions = {
     progKey: 'treeOfLife', maxProgress: 1,
     journalIcon: '🌳', journalColor: '#10b981',
     steps: [
-        { cost: 0, costType: 'none' }
+        { cost: 0, costType: 'none', dialogueKey: 'npc_aris_5' } // Fallback to aris quote for tree
     ],
     execute: (state) => {
         const result = state.npcExecute('act-npc-treeOfLife');
@@ -167,11 +167,11 @@ export const npcActions = {
     progKey: 'ellie', maxProgress: 5,
     journalIcon: '✨', journalColor: '#a78bfa',
     steps: [
-        { cost: 10, costType: 'energy' },
+        { cost: 10, costType: 'energy', dialogueKey: 'npc_ellie_1' },
         { cost: 15, costType: 'magic', onSuccess: [{ type: 'unlockRecipe', id: 'act-dream-bloom' }] },
         { costs: { herbs: 5 }, reward: 'item-dream-dust' },
         { cost: 20, costType: 'magic' },
-        { cost: 25, costType: 'magic', reward: 'item-wyvern-scale' }
+        { cost: 25, costType: 'magic', reward: 'item-wyvern-scale', dialogueKey: 'npc_ellie_2' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-ellie');
@@ -184,14 +184,14 @@ export const npcActions = {
     progKey: 'aris', maxProgress: 5,
     journalIcon: '🧙‍♂️', journalColor: '#8b5cf6',
     steps: [
-        { cost: 20, costType: 'magic', onSuccess: [{ type: 'setFlag', flag: 'ability-arcane-focus', value: true }] },
+        { cost: 20, costType: 'magic', onSuccess: [{ type: 'setFlag', flag: 'ability-arcane-focus', value: true }], dialogueKey: 'npc_aris_1' },
         { cost: 30, costType: 'magic', reward: 'item-arcane-dust' },
         { cost: 40, costType: 'magic' },
         { cost: 50, costType: 'magic', reward: 'item-crystal-mana' },
         { cost: 60, costType: 'magic', onSuccess: [
             { type: 'unlockRecipe', id: 'act-bed-2' },
             { type: 'unlockRecipe', id: 'act-stove-2' }
-        ] }
+        ], dialogueKey: 'npc_aris_5' }
     ],
     execute: (state) => {
         return state.npcExecute('act-npc-aris');

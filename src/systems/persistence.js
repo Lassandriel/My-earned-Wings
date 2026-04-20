@@ -34,6 +34,7 @@ export const createPersistenceSystem = (initialState) => ({
       }
     });
     localStorage.setItem('wings_save', JSON.stringify(saveObj));
+    store.hasSave = true;
     this.saveSettings(store); // Also save settings independently for boot-load
     
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -111,6 +112,14 @@ export const createPersistenceSystem = (initialState) => ({
             });
         }
 
+        if (store.resources && store.limits) {
+            Object.keys(store.resources).forEach(resId => {
+                if (store.limits[resId] !== undefined) {
+                    store.resources[resId] = Math.min(store.limits[resId], store.resources[resId]);
+                }
+            });
+        }
+
         if (store.bus) store.bus.emit(store.EVENTS.SETTINGS_UPDATED);
 
         // --- TASK CLEANUP: Clear any orphan task bars on load ---
@@ -129,13 +138,13 @@ export const createPersistenceSystem = (initialState) => ({
     return false;
   },
 
-  exportGameData(store) {
+  exportGameData() {
     const saved = localStorage.getItem('wings_save');
     if (!saved) return "";
     try {
         // Simple Base64 "Save Code"
         return btoa(unescape(encodeURIComponent(saved)));
-    } catch (e) {
+    } catch {
         return saved; // Fallback to raw JSON if encoding fails
     }
   },
@@ -156,7 +165,7 @@ export const createPersistenceSystem = (initialState) => ({
     }
   },
 
-  doHardReset(store) {
+  doHardReset() {
     localStorage.removeItem('wings_save');
     window.location.reload();
   },

@@ -13,23 +13,21 @@
     if(!h) return '';
     if(h.isHelp) return h.title || '';
     if(h.isBuff) return h.title || '';
-    const lang = $store.game.t(h.id, 'actions');
-    let title = lang ? (lang.title || null) : null;
 
-    // Fallback for NPC actions: Use NPC name if action title is missing
-    if (!title && h.id.includes('npc-') && h.data) {
-        const npc = $store.game.content.get(h.data.npcId, 'npcs');
-        if (npc) title = $store.game.t(npc.nameKey);
-    }
-    
-    title = title || h.id; // Final fallback to ID
-    
-    // NPC Progress in Title
+    let title = '';
+    const lang = $store.game.t(h.id, 'actions');
+
     if (h.id.includes('npc-') && h.data) {
+        const npc = $store.game.content.get(h.data.npcId, 'npcs');
+        title = npc ? $store.game.t(npc.nameKey) : h.id;
         const progKey = h.data.progKey;
         const currentProg = $store.game.npcProgress[progKey] || 0;
-        title += ' (' + currentProg + '/' + h.data.maxProgress + ')';
+        const displayStep = Math.min(h.data.maxProgress, currentProg + 1);
+        title += ' (' + displayStep + '/' + h.data.maxProgress + ')';
+    } else {
+        title = lang ? (lang.title || h.id) : h.id;
     }
+    
     return title;
   })()"></div>
 
@@ -40,13 +38,12 @@
     if(h.isHelp) return h.desc || '';
     if(h.isBuff) return h.desc || '';
     
-    // Dynamic NPC Dialog Preview
     if (h.id.includes('npc-') && h.data) {
         const progKey = h.data.progKey;
         const currentProg = $store.game.npcProgress[progKey] || 0;
         if (currentProg < h.data.maxProgress) {
             const dialogKey = `npc_${progKey}_${currentProg + 1}`;
-            const dialogText = $store.game.t(dialogKey, 'logs');
+            const dialogText = $store.game.t(dialogKey, 'npcs');
             if (dialogText && dialogText !== dialogKey) return dialogText;
         }
     }
@@ -63,7 +60,7 @@
     const step = (prog !== null && h.data.steps) ? h.data.steps[prog] : null;
     return !!( (step && (step.costs || step.cost)) || h.data.costs || h.data.cost);
   })()">
-    <div class="tt-section-header" x-text="'<< ' + $store.game.t('ui_salary') + ' >>'"></div>
+    <div class="tt-section-header" x-text="$store.game.t('ui_salary') + ':'"></div>
     <div class="tt-cost-list">
       <template x-for="line in $store.game.getTooltipCosts($store.game.hoveredAction)" :key="line.label">
         <div class="tt-data-line" :class="line.affordable ? 'tt-ready' : 'tt-blocked'">
@@ -76,7 +73,7 @@
 
   <!-- 4. Effects Section (Action Only) -->
   <div class="tt-section" x-show="!$store.game.hoveredAction?.isHelp && $store.game.getActionEffect($store.game.hoveredAction)">
-    <div class="tt-section-header" x-text="'[ ' + $store.game.t('ui_yield') + ' ]'"></div>
+    <div class="tt-section-header" x-text="$store.game.t('ui_yield') + ':'"></div>
     <div class="tt-effect-list">
       <div class="tt-data-line tt-bonus">
         <span x-text="$store.game.getActionEffect($store.game.hoveredAction)"></span>

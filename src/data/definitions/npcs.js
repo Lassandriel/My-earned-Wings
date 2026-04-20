@@ -104,7 +104,7 @@ export const NPC_REGISTRY = {
         nameKey: 'npc_treeoflife_name',
         icon: '🌳',
         color: '#10b981',
-        image: 'img/npcs/Tree of Life.webp',
+        image: 'img/npcs/NPC_TreeofLife.webp',
         progKey: 'treeOfLife',
         maxProgress: 1,
         chapter: 'The Transformation'

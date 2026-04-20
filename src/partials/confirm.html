@@ -5,7 +5,7 @@
   x-show="$store.game.confirmModal.open"
   style="display: none;"
   x-transition.opacity
-  @keydown.escape.window="$store.game.ui.resolveConfirm($store.game, false)"
+  @keydown.escape.window="$store.game.resolveConfirm(false)"
 >
   <div class="confirm-dialog" @click.stop>
     <div class="confirm-icon">⚠️</div>
@@ -13,12 +13,12 @@
     <div class="confirm-actions">
       <button
         class="confirm-btn confirm-btn-yes"
-        @click="$store.game.ui.resolveConfirm($store.game, true)"
+        @click="$store.game.resolveConfirm(true)"
         x-text="$store.game.t('btn_confirm_yes')"
       ></button>
       <button
         class="confirm-btn confirm-btn-no"
-        @click="$store.game.ui.resolveConfirm($store.game, false)"
+        @click="$store.game.resolveConfirm(false)"
         x-text="$store.game.t('btn_confirm_no')"
       ></button>
     </div>

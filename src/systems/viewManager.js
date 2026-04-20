@@ -32,11 +32,12 @@ export const createViewManagerSystem = () => ({
             store.addLog('intro_1', 'logs', 'var(--accent-teal)');
         }
 
-        try { store.audio?.startMusic(); } catch (e) { console.warn('Music failed to start'); }
+        try { store.audio?.startMusic(); } catch { console.warn('Music failed to start'); }
         store.saveGame();
     },
 
     startNewGame(store, buildInitialState) {
+        store.playSound('click');
         if (store.hasSave) {
             this.showConfirm(store, store.t('confirm_reset', 'ui'), () => {
                 this._doStartNewGame(store, buildInitialState);
@@ -53,6 +54,7 @@ export const createViewManagerSystem = () => ({
 
     /** Resolves the confirm dialog. Called from the confirm.html template. */
     resolveConfirm(store, confirmed) {
+        store.playSound('click');
         const cb = store.confirmModal.onConfirm;
         store.confirmModal = { open: false, message: '', onConfirm: null };
         if (confirmed && typeof cb === 'function') cb();
@@ -66,9 +68,19 @@ export const createViewManagerSystem = () => ({
     },
 
     continueGame(store) {
+        store.playSound('click');
         if (store.persistence.loadGame(store)) {
             store.view = 'gameplay'; 
             store.audio.startMusic();
+
+            // --- AUTO-RESUME FOCUS: Start the automation loop if a focus was loaded ---
+            if (store.activeFocus) {
+                setTimeout(() => {
+                    if (store.activeFocus && store.executeAction) {
+                        store.executeAction(store.activeFocus);
+                    }
+                }, 500);
+            }
         }
     },
 
@@ -78,11 +90,24 @@ export const createViewManagerSystem = () => ({
     },
 
     confirmName(store, name) {
+        store.playSound('click');
         if (!name || name.trim().length === 0) return;
         store.playerName = name.trim().substring(0, 16); // Safety limit
         store.view = 'gameplay';
         
         store.addLog('intro_welcome', 'logs', 'var(--accent-teal)');
+        store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
+            name: store.t('npc_ellie_name'),
+            text: store.t('ellie_tutorial_1', 'logs')
+        });
+        store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
+            name: store.t('npc_ellie_name'),
+            text: store.t('ellie_tutorial_2', 'logs')
+        });
+        store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
+            name: store.t('npc_ellie_name'),
+            text: store.t('ellie_tutorial_3', 'logs')
+        });
         store.saveGame();
     },
 
@@ -109,12 +134,14 @@ export const createViewManagerSystem = () => ({
         
         try {
             store.audio?.playSound('success');
-        } catch (e) {}
+        } catch { // Ignore errors
+        }
         
         store.saveGame();
     },
 
     returnToMenu(store) {
+        store.playSound('click');
         store.saveGame();
         store.view = 'menu';
         if (store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);

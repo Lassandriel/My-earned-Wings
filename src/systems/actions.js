@@ -146,7 +146,7 @@ export function createActionSystem() {
                         let amount = typeof amountOrKey === 'string' 
                             ? game.pipeline.calculate(game, amountOrKey, 1) 
                             : amountOrKey;
-                        const finalAmount = Math.round(amount);
+                        const finalAmount = amount;
                         game.resource.add(game, res, finalAmount);
                         
                         // Set log context for first or matching reward
@@ -226,7 +226,11 @@ export function createActionSystem() {
                     id: result.logKey, 
                     context: 'logs', 
                     color: result.logColor, 
-                    params: { gain: result.logGain ?? '', val: result.logGain ?? '' } 
+                    params: { 
+                        gain: result.logGain ?? '', 
+                        val: result.logGain ?? '',
+                        ...(result.logParams || {}) 
+                    } 
                 });
             }
 
@@ -257,7 +261,7 @@ export function createActionSystem() {
                 const specificKey = 'fail_' + firstMissing;
                 // Fallback mechanism: check if translation exists, otherwise use fail_resources
                 const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
-                game.bus.emit(game.EVENTS.LOG_ADDED, { id: logKey, color: 'var(--accent-red)' });
+                game.addLog(logKey, 'logs', 'var(--accent-red)');
             }
         },
 
@@ -279,7 +283,7 @@ export function createActionSystem() {
             });
         },
 
-        boot(game) {
+        boot() {
             // Initialize dynamic effect handlers
             this.initEffects();
         }
