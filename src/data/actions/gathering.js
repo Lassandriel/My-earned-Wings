@@ -46,7 +46,6 @@ export const gatheringActions = {
   'act-wood': {
     id: 'act-wood',
     cost: 8, costType: 'energy', yieldType: 'wood',
-    duration: 1000,
     sfx: 'gather',
     counter: 'wood',
     isLoopable: true,
@@ -58,7 +57,6 @@ export const gatheringActions = {
   'act-stone': {
     id: 'act-stone',
     cost: 12, costType: 'energy', yieldType: 'stone',
-    duration: 1000,
     sfx: 'gather',
     counter: 'stone',
     isLoopable: true,
@@ -70,7 +68,6 @@ export const gatheringActions = {
   'act-hunt': {
     id: 'act-hunt',
     cost: 25, costType: 'energy', yieldType: 'meat',
-    duration: 1000,
     requirements: { 'flags.item-bow': true }, // Corrected path to item flag
     sfx: 'gather',
     particleText: '+ Fleisch',
