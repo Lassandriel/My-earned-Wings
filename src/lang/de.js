@@ -18,6 +18,7 @@ export default {
     cat_village: 'Das Dorf',
     cat_magic: 'Magie',
     cat_log: 'Ereignis-Log',
+    cat_chronicle_world: 'Die Welt der Chronik',
     cat_provisions: 'Proviant',
     cat_artifacts: 'Artefakte',
     ui_materials: 'Materialien',
@@ -128,6 +129,9 @@ export default {
     ui_skip_btn: 'Intro überspringen',
     nav_gather_desc: 'Sammle Rohstoffe aus der unmittelbaren Umgebung von Draconia.',
     nav_work_desc: 'Verrichte einfache Arbeiten im Dorf, um Splitter zu verdienen.',
+    nav_village_desc: 'Triff die Bewohner der Dorfgemeinschaft.',
+    nav_crafting_desc: 'Forme Werkzeuge aus den Gaben der Natur.',
+    nav_chronicle_desc: 'Die Aufzeichnungen deines Lebens am Boden.',
     help_kitchen_desc: 'Bereite komplexe Nahrungsmittel zu, die stärkere Boni gewähren.',
     help_magic_desc: 'Erforsche die arkanen Energien deiner Seelenform.',
     help_garden_desc: 'Säe seltene Kräuter, die für Alchemie und Verpflegung wichtig sind.',
@@ -146,6 +150,10 @@ export default {
     settings_import_placeholder: 'Hier den Speicher-Code einfügen...',
     btn_export: 'Exportieren',
     btn_import: 'Importieren',
+    save_at: 'Gespeichert um',
+    save_never: 'Noch nicht gespeichert',
+    ui_load_at: 'Geladen um',
+    ui_unlocks: 'Schaltet frei',
 
     // --- FALLBACKS ---
     objective_label: 'Ziel',
