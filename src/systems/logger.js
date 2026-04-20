@@ -14,17 +14,23 @@ export const createLoggerSystem = () => ({
     // Exceptions: Story messages and specific one-off events
     const noGroupIds = ['intro_1', 'intro_welcome', 'milestone_tree_of_life'];
     
-    if (!noGroupIds.includes(id) && lastLog && lastLog.id === id && lastLog.context === finalContext) {
-      lastLog.count++;
-      lastLog.timestamp = Date.now() + Math.random(); 
-      return;
-    }
-
     let finalParams = params || {};
     // Inject playerName for easy replacement in translations
     if (!finalParams.playerName) {
       finalParams.playerName = store.playerName || 'Entdecker';
     }
+
+    if (!noGroupIds.includes(id) && 
+        lastLog && 
+        lastLog.id === id && 
+        lastLog.context === finalContext &&
+        JSON.stringify(lastLog.params) === JSON.stringify(finalParams)) {
+      lastLog.count++;
+      lastLog.timestamp = Date.now() + Math.random(); 
+      return;
+    }
+
+
 
     store.logs.unshift({
       id: id,

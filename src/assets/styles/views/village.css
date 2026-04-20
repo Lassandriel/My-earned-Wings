@@ -1,10 +1,8 @@
-/* VILLAGE VIEW - PREMIUM GRID REVAMP */
-.village-view-container {
-    padding: var(--gap) var(--gap) 0 var(--gap);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto; /* Internal scroll source */
+.view-content-village {
+    padding: 0;
+    height: auto;
+    display: block;
+    overflow: visible;
     animation: fadeInVillage 0.5s ease-out;
 }
 
@@ -48,6 +46,16 @@
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: height 0.3s ease;
+}
+
+/* Responsive height for small monitors */
+@media (max-height: 850px) {
+    .card-header-visual { height: 140px; }
+}
+
+@media (max-height: 750px) {
+    .card-header-visual { height: 110px; }
 }
 
 .npc-portrait-wrapper {

@@ -1,6 +1,7 @@
-/* UPGRADES VIEW - THE DRAGON'S VAULT (PREMIUM REVAMP) */
-.upgrades-view-root {
+.view-content-upgrades {
     padding: 30px 40px;
+    height: auto;
+    overflow: visible;
     animation: fadeInVaultMotion 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -14,11 +15,16 @@
 /* Category Tabs */
 .vault-tabs {
     display: flex;
-    flex-wrap: wrap; /* Allow tabs to stack if window is narrow */
-    justify-content: center; /* Center tabs aesthetically */
-    gap: 15px;
-    padding: 10px 0 20px 0;
+    flex-wrap: nowrap; /* Single line navigation */
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 10px;
+    padding: 10px 5px 20px 5px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vault-tabs::-webkit-scrollbar {
+    display: none;
 }
 
 /* Responsive adjustment for vault */
@@ -32,9 +38,10 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.5);
-    padding: 10px 24px;
+    padding: 8px 18px;
     border-radius: 30px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -57,8 +64,8 @@
 /* Layout Panes */
 .vault-layout {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 35px;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
     align-items: flex-start;
 }
 
@@ -308,9 +315,10 @@
 }
 
 /* Mobile Responsive Adjustments */
-@media (max-width: 1100px) {
+@media (max-width: 1350px) { /* Increased breakpoint to prevent squeezing */
     .vault-layout {
         grid-template-columns: 1fr;
+        gap: 30px;
     }
     
     .vault-detail-pane {

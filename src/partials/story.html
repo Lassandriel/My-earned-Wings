@@ -16,7 +16,7 @@
           <div class="journal-events">
             <template x-for="(entry, eIdx) in group.entries" :key="eIdx">
               <div class="journal-line">
-                <span x-text="$store.game.t(entry.id, 'actions').desc"></span>
+                <span x-text="entry.text || $store.game.t(entry.id, 'actions').desc"></span>
               </div>
             </template>
           </div>

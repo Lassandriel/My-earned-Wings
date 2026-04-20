@@ -277,16 +277,21 @@ The internal architecture has been fully refactored to "Draconia Core 3.0". The 
             - [x] **Alpine Fix**: Defined missing `isTaskActive` helper in main store to prevent JS crashes.
             - [x] **Environmental Scroll Unlock**: Forced `overflow: auto` to override IDE-injected scroll-locks on body.
             - [x] **Aesthetic Centers**: Centered all sub-category navigation tabs for balanced visual presentation.
-        - [x] **NPC Dialogue & Tooltip Redesign**:
-            - [x] **Step Mapping**: 1-based progress display in tooltips (e.g. 1/5).
-            - [x] **Dialogues**: Integration of NPC quotes directly into the tooltip story area.
-            - [x] **Full Localization**: Automatic translation of all costs and rewards in tooltips.
-            - [x] **Atmospheric Logs**: NPC dialogue is now correctly logged with speaker names in the Event Log.
+        - [x] **Dialogue Integrity**: Fixed Ellie's tutorial log grouping to ensure all intro messages are visible.
+        - [x] **Stat Visibility**: Restored Satiation, Energy, and Magic bars for better resource tracking.
+        - [x] **Navigation Polish**: Balanced sidebar layout with optimized icon scaling and spacing for long text.
+        - [x] **Stability Patch**: Resolved background crashes by initializing finale state data on startup.
+        - [x] **Atmospheric Logs**: NPC dialogue is now correctly logged with speaker names in the Event Log.
+        - [x] **1080p Layout Refinement**: Optimized panel widths, gaps, and navigation balance for Full HD displays.
+        - [x] **Scroll Stability & UI Reliability**: Implemented internal sidebar scrolling and universal premium scrollbar designs with layout-shift protection.
+        - [x] **Village View Scaling Fix**: Resolved nested scrollbar conflicts and implemented responsive NPC cards for small monitors.
+        - [x] **Omni-Audit & Translation Parity**: Achieved 100% synchronization between de.js and en.js, including all secondary logs and milestones.
+        - [x] **Workshop Core Fix**: Resolved recipe-completion bugs, missing tool icons, and technical ID leaks in the crafting interface.
+        - [x] **UI Bar Alignment**: Fixed variable-width status bars by implementing rigid width constraints for labels and values.
 
 ---
 
 ## Future Horizons
 
-- [ ] **Phase 8.2: Final Content Review**
 - [ ] **Phase 9: Diplomacy**
 - [ ] **Phase 10: True Wings**

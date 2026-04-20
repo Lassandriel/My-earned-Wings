@@ -95,6 +95,9 @@ export const createViewManagerSystem = () => ({
         store.playerName = name.trim().substring(0, 16); // Safety limit
         store.view = 'gameplay';
         
+        // Show Ellie intro modal
+        store.ellie.showIntro(store);
+        
         store.addLog('intro_welcome', 'logs', 'var(--accent-teal)');
         store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
             name: store.t('npc_ellie_name'),

@@ -33,7 +33,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 0 4px;
+  padding: 2px 0 2px;
   cursor: pointer;
   transition: all 0.2s;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -65,15 +65,15 @@
 .stat-row {
   display: flex;
   align-items: center;
-  padding: 8px 0;
-  gap: 12px;
+  padding: 2px 0;
+  gap: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .stat-name {
-  width: 85px;
+  width: 82px;
   flex-shrink: 0;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -106,7 +106,8 @@
 .stone-fill { background: linear-gradient(to right, #475569, #64748b); }
 
 .stat-val {
-  min-width: 60px;
+  width: 52px;
+  flex-shrink: 0;
   text-align: right;
   font-size: 0.9rem;
   font-weight: 700;

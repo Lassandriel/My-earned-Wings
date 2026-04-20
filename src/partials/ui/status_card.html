@@ -38,15 +38,16 @@
         <div class="stat-header-flex">
             <div class="stat-category" x-text="$store.game.t('ui_vitality')">Vitalität</div>
         </div>
-        <template x-for="stat in $store.game.content.getCategorizedResources('stat')" :key="stat.id">
+        <template x-for="stat in $store.game.content.getCategorizedResources('vitality')" :key="stat.id">
             <div class="stat-row">
                 <span class="stat-name" :class="stat.id + '-label'">
                     <span x-text="$store.game.t('ui_' + stat.id)"></span>
                 </span>
-                <div class="stat-bar-bg">
+                <div class="stat-bar-bg" :title="$store.game.t('ui_' + stat.id)">
                     <div class="stat-bar-fill" 
+                         :class="stat.id + '-fill'"
                          :data-res="stat.id"
-                         :style="'width:' + $store.game[stat.id + 'Percent'] + '%; background-color: ' + stat.color">
+                         :style="'width:' + $store.game[stat.id + 'Percent'] + '%;'">
                     </div>
                 </div>
                 <span class="stat-val" x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"></span>

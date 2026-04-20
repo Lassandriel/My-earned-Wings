@@ -6,12 +6,13 @@ export const createStorySystem = () => ({
   /**
    * Records a chronicle entry.
    */
-  recordStoryEntry(store, id, action) {
+  recordStoryEntry(store, id, action, text = null) {
     const historyEntry = {
       id: id,
       npcId: action.npcId || null,
       timestamp: Date.now(),
-      chapter: action.chapter || 'Chronicles'
+      chapter: action.chapter || 'Chronicles',
+      text: text
     };
     
     store.storyHistory.unshift(historyEntry);

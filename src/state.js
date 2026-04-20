@@ -17,6 +17,7 @@ export const initialState = {
   settingsOpen: false,
   currentScale: 1,
   craftingSubView: 'all',
+  showEllieIntro: false,
   
   // Dynamic Containers
   resources: {},
@@ -61,7 +62,15 @@ export const initialState = {
   activeTasks: {},
   demoCompleted: false,
   demoCompletedHintSeen: false,
-  dialogueActive: false
+  dialogueActive: false,
+  
+  finalStats: {
+    shards: 0,
+    actions: 0,
+    npcs: 0,
+    items: 0,
+    energySpent: 0
+  }
 };
 
 export const getTranslations = () => translations;

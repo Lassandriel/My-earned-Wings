@@ -5,9 +5,9 @@
 }
 
 .nav-item {
-  padding: 0 var(--space-md);
-  height: 4.7rem;
-  margin-bottom: 0.75rem;
+  padding: 0 1.25rem;
+  height: 4.8rem;
+  margin-bottom: 0.6rem;
   background: rgba(255, 255, 255, 0.08); 
   backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
@@ -18,15 +18,15 @@
   align-items: center;
   transition: all var(--trans-mid);
   color: #ffffff;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   font-size: 1.1rem;
 }
 
 .menu-icon-img {
-  height: 2.6rem;
+  height: 95%;
   width: auto;
-  margin-right: 1.25rem;
+  margin-right: 1.2rem;
   filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
   object-fit: contain;
   transition: transform 0.3s ease;
@@ -39,7 +39,7 @@
 .nav-item.active {
   background: rgba(45, 212, 191, 0.15); /* Subtiler Teal-Hintergrund */
   border: 1px solid rgba(45, 212, 191, 0.4);
-  box-shadow: 0 0 25px rgba(45, 212, 191, 0.1), inset 4px 0 0 0 var(--accent-teal);
+  box-shadow: 0 0 25px rgba(11, 98, 86, 0.1), inset 4px 0 0 0 var(--accent-teal);
   color: #ffffff; /* Contrast fix: White text on active tab */
   text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
   font-weight: 700;
@@ -48,4 +48,5 @@
 .nav-item.active .menu-icon-img {
   filter: drop-shadow(0 0 10px var(--accent-teal)) brightness(1.2);
   transform: scale(1.05);
+  margin-right: 0.5rem;
 }

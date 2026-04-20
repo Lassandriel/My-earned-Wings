@@ -191,6 +191,7 @@ export const constructionActions = {
     category: 'workshop',
     requirements: { 'flags.unlock-bow': true },
     cost: 30, costType: 'wood',
+    image: 'img/items/Crafting_bow.webp',
     sfx: 'craft',
     particleText: 'Hervorragend!',
     particleType: 'shards',

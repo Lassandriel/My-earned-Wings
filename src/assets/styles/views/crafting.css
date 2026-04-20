@@ -1,19 +1,26 @@
 /* CRAFTING & HOUSING VIEW - PREMIUM REDESIGN */
-.crafting-view-root {
+.view-content-crafting {
     padding: var(--gap);
     display: flex;
     flex-direction: column;
     gap: 30px;
+    height: auto;
+    overflow: visible;
 }
 
 /* Sub-Tab Navigation (Mirroring Vault Tabs) */
 .crafting-tabs {
     display: flex;
-    flex-wrap: wrap; /* Allow tabs to stack if window is narrow */
-    justify-content: center; /* Center tabs aesthetically */
-    gap: 15px;
-    padding: 10px 0 20px 0;
+    flex-wrap: nowrap; /* Single line navigation */
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    gap: 10px;
+    padding: 10px 5px 20px 5px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.crafting-tabs::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
 }
 
 /* Responsive adjustment for crafting */
@@ -27,9 +34,10 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.5);
-    padding: 10px 24px;
+    padding: 8px 18px;
     border-radius: 30px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

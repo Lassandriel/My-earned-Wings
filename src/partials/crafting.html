@@ -28,10 +28,23 @@
                 });
             },
             isCompleted(id) {
-                return this.$store.game.flags[id] === true || this.$store.game.unlockedRecipes.includes(id);
+                // Buildings usually set a flag with their ID
+                if (this.$store.game.flags[id] === true) return true;
+                
+                // For items, check if the resulting item is already in the inventory/discovered
+                const action = this.$store.game.content.get(id, 'actions');
+                if (action && action.onSuccess) {
+                    const unlockItem = action.onSuccess.find(e => e.type === 'unlockItem');
+                    if (unlockItem && this.$store.game.discoveredItems.includes(unlockItem.id)) return true;
+                }
+                return false;
             },
             isVisible(action) {
                 if (this.isCompleted(action.id)) return true;
+                
+                // If it's explicitly unlocked as a recipe, show it
+                if (this.$store.game.unlockedRecipes.includes(action.id)) return true;
+
                 if (!action.requirements) return true;
                 
                 // Use the global requirement engine (Core 3.0)

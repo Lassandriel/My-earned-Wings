@@ -216,7 +216,7 @@ export const createUISystem = () => ({
             results.push({
                 type,
                 label: store.t('ui_' + type) || type,
-                value: finalAmt, // Only the number, label handles the name
+                value: `${Math.floor(current)} / ${finalAmt}`,
                 affordable: current >= finalAmt
             });
         });
@@ -229,7 +229,7 @@ export const createUISystem = () => ({
         results.push({
             type,
             label: store.t('ui_' + type) || type,
-            value: finalAmt, 
+            value: `${Math.floor(current)} / ${finalAmt}`,
             affordable: current >= finalAmt
         });
     }

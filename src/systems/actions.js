@@ -219,7 +219,10 @@ export function createActionSystem() {
                 game.resource.consume(game, 'satiation', action.satiationCost);
             }
 
-            if (action.isStory) game.story.recordStoryEntry(game, id, action);
+            if (action.isStory) {
+                const dialogueText = result?.logParams?.text || null;
+                game.story.recordStoryEntry(game, id, action, dialogueText);
+            }
 
             game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
             if (action.particleText) this.spawnParticles(game, action);

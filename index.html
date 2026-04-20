@@ -32,6 +32,22 @@
         <%- include('./src/partials/finale.html') %>
         <%- include('./src/partials/confirm.html') %>
 
+        <!-- Ellie Intro Modal -->
+        <div x-show="$store.game.showEllieIntro" class="ellie-intro-modal" @click="$store.game.ellie.close($store.game)">
+          <div class="ellie-intro-inner" @click.stop>
+            <div class="ellie-image-shell">
+              <img src="img/npcs/Ellie.webp" alt="Ellie" class="ellie-image">
+            </div>
+            <div class="ellie-text-card">
+              <h4 x-text="$store.game.t('npc_ellie_name')"></h4>
+              <p x-text="$store.game.t('ellie_tutorial_1', 'logs')"></p>
+              <p x-text="$store.game.t('ellie_tutorial_2', 'logs')"></p>
+              <p x-text="$store.game.t('ellie_tutorial_3', 'logs')"></p>
+              <button class="game-btn btn-small" @click="$store.game.ellie.close($store.game)">Schließen</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Main Game UI -->
         <div 
             id="game-wrapper" 

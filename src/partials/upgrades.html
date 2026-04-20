@@ -58,9 +58,9 @@
                     
                     <div class="item-text-content">
                         <div class="item-type-badge" x-text="$store.game.t('cat_' + $store.game.content.get($store.game.selectedItem, 'items').category)"></div>
-                        <h2 class="item-name" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').id + '_title', 'items')"></h2>
+                        <h2 class="item-name" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').title, 'items')"></h2>
                         <div class="item-hr"></div>
-                        <p class="item-description" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').id + '_desc', 'items')"></p>
+                        <p class="item-description" x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').desc, 'items')"></p>
                         
                         <!-- Effects -->
                         <template x-if="$store.game.content.get($store.game.selectedItem, 'items').effect">

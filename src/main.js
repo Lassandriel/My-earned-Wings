@@ -21,6 +21,7 @@ import { createEngineSystem } from './systems/engine.js';
 import { createItemSystem } from './systems/item.js';
 import { createPipelineSystem } from './systems/pipeline.js';
 import { createViewManagerSystem } from './systems/viewManager.js';
+import { createEllieSystem } from './systems/ellie.js';
 import { createEventBus, GAME_EVENTS } from './systems/bus.js';
 import { createContentService } from './systems/content.js';
 
@@ -92,6 +93,7 @@ Alpine.store('game', {
     item: createItemSystem(),
     dialogue: createDialogueSystem(),
     pipeline: createPipelineSystem(),
+    ellie: createEllieSystem(),
     viewManager: createViewManagerSystem(),
     bus: createEventBus(),
     EVENTS: GAME_EVENTS,
