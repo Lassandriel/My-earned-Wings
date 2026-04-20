@@ -16,38 +16,41 @@ export function createActionSystem() {
         },
 
         initEffects() {
-            this.registerEffect('setFlag', (game, { flag, value }) => { game.flags[flag] = value; });
-            this.registerEffect('unlockNPC', (game, { id }) => { 
-                if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
-            });
-            this.registerEffect('unlockRecipe', (game, { id }) => { 
-                if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
-            });
-            this.registerEffect('unlockItem', (game, { id }) => {
-                if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
-                game.flags[id] = true;
-            });
-            this.registerEffect('modifyLimit', (game, { resource, amount }) => { 
-                game.limits[resource] = (game.limits[resource] || 0) + amount; 
-            });
-            this.registerEffect('addBuff', (game, { buffId, override }) => {
-                const baseBuff = game.content.get(buffId, 'buffs') || {};
-                const finalBuff = { ...baseBuff, ...override };
-                game.activeBuffs[buffId] = { 
-                    ...finalBuff, 
-                    remaining: finalBuff.duration, 
-                    total: finalBuff.duration 
-                };
-            });
-            this.registerEffect('setObjective', (game, { id }) => {
-                game.currentObjective = id;
-            });
-            this.registerEffect('playSound', (game, { id }) => {
-                game.playSound(id);
-            });
-            this.registerEffect('log', (game, { id, color }) => {
-                game.addLog(id, 'logs', color);
-            });
+            const effects = {
+                setFlag: (game, { flag, value }) => { game.flags[flag] = value; },
+                unlockNPC: (game, { id }) => { 
+                    if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
+                },
+                unlockRecipe: (game, { id }) => { 
+                    if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
+                },
+                unlockItem: (game, { id }) => {
+                    if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
+                    game.flags[id] = true;
+                },
+                modifyLimit: (game, { resource, amount }) => { 
+                    game.limits[resource] = (game.limits[resource] || 0) + amount; 
+                },
+                addBuff: (game, { buffId, override }) => {
+                    const baseBuff = game.content.get(buffId, 'buffs') || {};
+                    const finalBuff = { ...baseBuff, ...override };
+                    game.activeBuffs[buffId] = { 
+                        ...finalBuff, 
+                        remaining: finalBuff.duration, 
+                        total: finalBuff.duration 
+                    };
+                },
+                setObjective: (game, { id }) => {
+                    game.currentObjective = id;
+                },
+                playSound: (game, { id }) => {
+                    game.playSound(id);
+                },
+                log: (game, { id, color }) => {
+                    game.addLog(id, 'logs', color);
+                }
+            };
+            Object.entries(effects).forEach(([type, handler]) => this.registerEffect(type, handler));
         },
 
         execute(game, id) {

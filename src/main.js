@@ -114,13 +114,10 @@ Alpine.store('game', {
         store.juice.init();
         
         // --- SYSTEM BOOT ---
-        if (store.audio.boot) store.audio.boot(store);
-        if (store.logger.boot) store.logger.boot(store);
-        if (store.persistence.boot) store.persistence.boot(store);
-        if (store.juice.boot) store.juice.boot(store);
-        if (store.actions.boot) store.actions.boot(store);
-        if (store.ui.boot) store.ui.boot(store);
-        if (store.content.boot) store.content.boot(store);
+        const systemsToBoot = ['audio', 'logger', 'persistence', 'juice', 'actions', 'ui', 'content'];
+        systemsToBoot.forEach(sys => {
+            if (store[sys]?.boot) store[sys].boot(store);
+        });
         
         store.engine.init();
         
@@ -151,11 +148,11 @@ Alpine.store('game', {
     },
 
     // --- PROXIES & DELEGATES ---
-    startNewGame() { const store = Alpine.store('game'); store.viewManager.startNewGame(store, buildInitialState); },
-    continueGame() { const store = Alpine.store('game'); store.viewManager.continueGame(store); },
-    finishPrologue() { const store = Alpine.store('game'); store.viewManager.finishPrologue(store); },
-    confirmName(name) { const store = Alpine.store('game'); store.viewManager.confirmName(store, name); },
-    resolveConfirm(conf) { const store = Alpine.store('game'); store.viewManager.resolveConfirm(store, conf); },
+    startNewGame() { this.viewManager.startNewGame(this, buildInitialState); },
+    continueGame() { this.viewManager.continueGame(this); },
+    finishPrologue() { this.viewManager.finishPrologue(this); },
+    confirmName(name) { this.viewManager.confirmName(this, name); },
+    resolveConfirm(conf) { this.viewManager.resolveConfirm(this, conf); },
     
     executeAction(id) { return this.actions.execute(this, id); },
     isTaskActive(id) { return !!this.activeTasks[id]; },
@@ -172,16 +169,15 @@ Alpine.store('game', {
         return res;
     },
     toggleFocus(id) {
-        const store = Alpine.store('game');
-        const action = store.content.get(id, 'actions');
-        if (store.activeFocus === id) {
-            store.activeFocus = null;
-            store.playSound('click');
+        const action = this.content.get(id, 'actions');
+        if (this.activeFocus === id) {
+            this.activeFocus = null;
+            this.playSound('click');
         } else {
-            store.activeFocus = id;
-            store.playSound('magic');
+            this.activeFocus = id;
+            this.playSound('magic');
             if (action && action.isLoopable) {
-                store.executeAction(id);
+                this.executeAction(id);
             }
         }
     },
@@ -189,17 +185,16 @@ Alpine.store('game', {
     consumeItem(id) { return this.item.consumeItem(this, id); },
     
     saveGame(isManual = false) { this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); },
-    loadGame() { const store = Alpine.store('game'); return store.persistence.loadGame(store); },
-    setLanguage(lang) { const store = Alpine.store('game'); store.language = lang; store.saveGame(); },
-    hardReset() { const store = Alpine.store('game'); store.viewManager.hardReset(store); },
-    returnToMenu() { const store = Alpine.store('game'); store.viewManager.returnToMenu(store); },
+    loadGame() { return this.persistence.loadGame(this); },
+    setLanguage(lang) { this.language = lang; this.saveGame(); },
+    hardReset() { this.viewManager.hardReset(this); },
+    returnToMenu() { this.viewManager.returnToMenu(this); },
     
     t(key, context = 'ui', params = {}) { 
-        const store = Alpine.store('game');
-        const data = store.translations[store.language][context]?.[key] || key;
+        const data = this.translations[this.language][context]?.[key] || key;
         
         // Auto-inject player name
-        const finalParams = { player: store.playerName || 'Wandler', ...params };
+        const finalParams = { player: this.playerName || 'Wandler', ...params };
 
         const replaceRecursive = (val) => {
             if (typeof val === 'string') {
@@ -226,7 +221,7 @@ Alpine.store('game', {
         this.bus.emit(this.EVENTS.LOG_ADDED, { id, context, color, params }); 
     },
 
-    completeDemo() { const store = Alpine.store('game'); store.viewManager.completeDemo(store); },
+    completeDemo() { this.viewManager.completeDemo(this); },
 
     // --- GETTERS ---
     getActionEffect(hAction) { return this.ui.getActionEffect(this, hAction); },
