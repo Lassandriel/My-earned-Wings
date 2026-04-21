@@ -1,106 +1,136 @@
 <!-- Status Card (Right Panel) - CORE 3.0 -->
 <div class="status-card">
-    <div class="status-header">
-        <div class="player-name" x-text="$store.game.playerName">Player Name</div>
-    </div>
+  <div class="status-header">
+    <div class="player-name" x-text="$store.game.playerName">Player Name</div>
+  </div>
 
-    <!-- Active Buffs -->
-    <div class="buff-container" x-show="Object.keys($store.game.activeBuffs).length > 0" x-collapse>
-        <template x-for="(buff, id) in $store.game.activeBuffs" :key="id">
-            <div class="buff-badge" 
-                 @mouseover="$store.game.hoveredAction = { id: id, isBuff: true, title: buff.title, desc: buff.desc, remaining: buff.remaining }"
-                 @mouseout="$store.game.hoveredAction = null">
-                <div class="buff-glow"></div>
-                <span class="buff-icon">✨</span>
-                <span class="buff-label" x-text="buff.title">Buff</span>
-                <span class="buff-timer" x-text="Math.ceil(buff.remaining) + 's'">0s</span>
-            </div>
-        </template>
-    </div>
-    
-    <!-- Wing Visualizer (Dynamic Slots) -->
-    <div class="wing-profile-container">
-        <template x-for="stat in Object.values($store.game.content.registries.resources).filter(r => r.wingSlot)" :key="stat.id">
-            <div class="wing-status-wrapper" 
-                 :class="[stat.wingSlot, $store.game.stats[stat.id] < 15 && 'pulse-critical']">
-                <div class="wing-mask-bg"></div>
-                <div class="wing-mask-fill" 
-                     :class="stat.id"
-                     :style="'clip-path: inset(' + (100 - $store.game.ui.getStatPercent($store.game, stat.id)) + '% 0 0 0)'"></div>
-            </div>
-        </template>
-    </div>
+  <!-- Active Buffs -->
+  <div class="buff-container" x-show="Object.keys($store.game.activeBuffs).length > 0" x-collapse>
+    <template x-for="(buff, id) in $store.game.activeBuffs" :key="id">
+      <div
+        class="buff-badge"
+        @mouseover="$store.game.hoveredAction = { id: id, isBuff: true, title: buff.title, desc: buff.desc, remaining: buff.remaining }"
+        @mouseout="$store.game.hoveredAction = null"
+      >
+        <div class="buff-glow"></div>
+        <span class="buff-icon">✨</span>
+        <span class="buff-label" x-text="buff.title">Buff</span>
+        <span class="buff-timer" x-text="Math.ceil(buff.remaining) + 's'">0s</span>
+      </div>
+    </template>
+  </div>
 
-    <!-- Dynamic Stats & Resources -->
-    <div class="compact-stats">
-        
-        <!-- Vitality Section (Essential Stats) -->
-        <div class="stat-header-flex">
-            <div class="stat-category" x-text="$store.game.t('ui_vitality')">Vitalität</div>
+  <!-- Wing Visualizer (Dynamic Slots) -->
+  <div class="wing-profile-container">
+    <template
+      x-for="stat in Object.values($store.game.content.registries.resources).filter(r => r.wingSlot)"
+      :key="stat.id"
+    >
+      <div
+        class="wing-status-wrapper"
+        :class="[stat.wingSlot, $store.game.stats[stat.id] < 15 && 'pulse-critical']"
+      >
+        <div class="wing-mask-bg"></div>
+        <div
+          class="wing-mask-fill"
+          :class="stat.id"
+          :style="'clip-path: inset(' + (100 - $store.game.ui.getStatPercent($store.game, stat.id)) + '% 0 0 0)'"
+        ></div>
+      </div>
+    </template>
+  </div>
+
+  <!-- Dynamic Stats & Resources -->
+  <div class="compact-stats">
+    <!-- Vitality Section (Essential Stats) -->
+    <div class="stat-header-flex">
+      <div class="stat-category" x-text="$store.game.t('ui_vitality')">Vitalität</div>
+    </div>
+    <template
+      x-for="stat in $store.game.content.getCategorizedResources('vitality')"
+      :key="stat.id"
+    >
+      <div class="stat-row">
+        <span class="stat-name" :class="stat.id + '-label'">
+          <span x-text="$store.game.t('ui_' + stat.id)"></span>
+        </span>
+        <div class="stat-bar-bg" :title="$store.game.t('ui_' + stat.id)">
+          <div
+            class="stat-bar-fill"
+            :class="stat.id + '-fill'"
+            :data-res="stat.id"
+            :style="'width:' + $store.game[stat.id + 'Percent'] + '%;'"
+          ></div>
         </div>
-        <template x-for="stat in $store.game.content.getCategorizedResources('vitality')" :key="stat.id">
-            <div class="stat-row">
-                <span class="stat-name" :class="stat.id + '-label'">
-                    <span x-text="$store.game.t('ui_' + stat.id)"></span>
-                </span>
-                <div class="stat-bar-bg" :title="$store.game.t('ui_' + stat.id)">
-                    <div class="stat-bar-fill" 
-                         :class="stat.id + '-fill'"
-                         :data-res="stat.id"
-                         :style="'width:' + $store.game[stat.id + 'Percent'] + '%;'">
-                    </div>
-                </div>
-                <span class="stat-val" x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"></span>
-            </div>
-        </template>
+        <span
+          class="stat-val"
+          x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"
+        ></span>
+      </div>
+    </template>
 
-        <!-- Dynamic Resource Groups -->
-        <template x-for="category in ['materials', 'provisions', 'knowledge']" :key="category">
-            <div x-data="{ expanded: true }" 
-                 x-show="$store.game.discoveredResources.some(r => $store.game.content.registries.resources[r]?.category === category)"
-                 style="margin-top: 10px">
-                
-                <div class="stat-subcategory" @click="expanded = !expanded">
-                    <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
-                    <span class="subcategory-name" x-text="$store.game.t('ui_' + category)">Kategorie</span>
-                </div>
-
-                <div class="collapsible-content" x-show="expanded" x-collapse>
-                    <template x-for="res in $store.game.content.getCategorizedResources(category)" :key="res.id">
-                        <div class="stat-row" x-show="$store.game.discoveredResources.includes(res.id)">
-                            <span class="stat-name">
-                                <span x-text="$store.game.t('ui_' + res.id)"></span>
-                            </span>
-                            <div class="stat-bar-bg">
-                                <div class="stat-bar-fill" 
-                                     :data-res="res.id"
-                                     :style="'width:' + Math.min(100, ($store.game.resources[res.id] / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color">
-                                </div>
-                            </div>
-                            <span class="stat-val">
-                                <span x-text="Math.floor($store.game.resources[res.id]) + '/' + ($store.game.limits[res.id] || '∞')"></span>
-                            </span>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </template>
-
-        <!-- Housing / Base Info -->
-        <div class="stat-category" x-text="$store.game.t('ui_base')">Basis</div>
-        <div class="stat-row basis-row">
-            <template x-if="!$store.game.flags['build-campfire']">
-                <span class="stat-val basis-val"><span x-text="$store.game.t('ui_no_shelter')"></span></span>
-            </template>
-            <template x-if="$store.game.flags['build-campfire'] && !$store.game.flags['build-tent']">
-                <span class="stat-val basis-val active"><span x-text="$store.game.t('build-campfire', 'actions').title"></span></span>
-            </template>
-            <template x-if="$store.game.flags['build-tent'] && !$store.game.flags['build-house']">
-                <span class="stat-val basis-val active"><span x-text="$store.game.t('build-tent', 'actions').title"></span></span>
-            </template>
-            <template x-if="$store.game.flags['build-house']">
-                <span class="stat-val basis-val milestone"><span x-text="$store.game.t('build-house', 'actions').title"></span></span>
-            </template>
+    <!-- Dynamic Resource Groups -->
+    <template x-for="category in ['materials', 'provisions', 'knowledge']" :key="category">
+      <div
+        x-data="{ expanded: true }"
+        x-show="$store.game.discoveredResources.some(r => $store.game.content.registries.resources[r]?.category === category)"
+        style="margin-top: 10px"
+      >
+        <div class="stat-subcategory" @click="expanded = !expanded">
+          <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
+          <span class="subcategory-name" x-text="$store.game.t('ui_' + category)">Kategorie</span>
         </div>
+
+        <div class="collapsible-content" x-show="expanded" x-collapse>
+          <template
+            x-for="res in $store.game.content.getCategorizedResources(category)"
+            :key="res.id"
+          >
+            <div class="stat-row" x-show="$store.game.discoveredResources.includes(res.id)">
+              <span class="stat-name">
+                <span x-text="$store.game.t('ui_' + res.id)"></span>
+              </span>
+              <div class="stat-bar-bg">
+                <div
+                  class="stat-bar-fill"
+                  :data-res="res.id"
+                  :style="'width:' + Math.min(100, ($store.game.resources[res.id] / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color"
+                ></div>
+              </div>
+              <span class="stat-val">
+                <span
+                  x-text="Math.floor($store.game.resources[res.id]) + '/' + ($store.game.limits[res.id] || '∞')"
+                ></span>
+              </span>
+            </div>
+          </template>
+        </div>
+      </div>
+    </template>
+
+    <!-- Housing / Base Info -->
+    <div class="stat-category" x-text="$store.game.t('ui_base')">Basis</div>
+    <div class="stat-row basis-row">
+      <template x-if="!$store.game.flags['build-campfire']">
+        <span class="stat-val basis-val"
+          ><span x-text="$store.game.t('ui_no_shelter')"></span
+        ></span>
+      </template>
+      <template x-if="$store.game.flags['build-campfire'] && !$store.game.flags['build-tent']">
+        <span class="stat-val basis-val active"
+          ><span x-text="$store.game.t('build-campfire', 'actions').title"></span
+        ></span>
+      </template>
+      <template x-if="$store.game.flags['build-tent'] && !$store.game.flags['build-house']">
+        <span class="stat-val basis-val active"
+          ><span x-text="$store.game.t('build-tent', 'actions').title"></span
+        ></span>
+      </template>
+      <template x-if="$store.game.flags['build-house']">
+        <span class="stat-val basis-val milestone"
+          ><span x-text="$store.game.t('build-house', 'actions').title"></span
+        ></span>
+      </template>
     </div>
+  </div>
 </div>

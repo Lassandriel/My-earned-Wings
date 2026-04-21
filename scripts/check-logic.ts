@@ -3,7 +3,7 @@ import { registries } from '../src/data/index';
 let errors = 0;
 
 const checkLogic = () => {
-    console.log("=== LOGIK & PROGRESSION PRÜFUNG (TypeScript) ===\n");
+    console.log("=== LOGIC & PROGRESSION VALIDATION (TypeScript) ===\n");
 
     const providedFlags = new Set<string>();
     const requiredFlags = new Set<string>();
@@ -69,17 +69,17 @@ const checkLogic = () => {
     // Cross-check
     requiredFlags.forEach(flag => {
         if (!providedFlags.has(flag)) {
-            console.error(`[DEAD-END] Flag '${flag}' wird verlangt, ist aber unerreichbar!`);
-            console.log(`  -> Benötigt von: ${requirementsMap[flag].join(', ')}`);
+            console.error(`[DEAD-END] Flag '${flag}' is required but unreachable!`);
+            console.log(`  -> Required by: ${requirementsMap[flag].join(', ')}`);
             errors++;
         }
     });
 
     console.log("\n=============================");
     if (errors === 0) {
-        console.log("Perfekt! Alle vorausgesetzten Flags sind erreichbar.");
+        console.log("Perfect! All required flags are reachable.");
     } else {
-        console.log(`Logik-Prüfung abgeschlossen: ${errors} Dead-Ends gefunden.`);
+        console.log(`Logic check completed: ${errors} dead-ends found.`);
         process.exit(1);
     }
 };

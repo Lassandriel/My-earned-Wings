@@ -5,7 +5,7 @@ const translations: Record<string, any> = { de, en };
 
 /**
  * CORE 3.5 STATE DEFINITION - TypeScript Edition
- * Minimal hardcoded state. Most properties are injected dynamically 
+ * Minimal hardcoded state. Most properties are injected dynamically
  * from registries during boot.
  */
 export const initialState: any = {
@@ -18,22 +18,23 @@ export const initialState: any = {
   currentScale: 1,
   craftingSubView: 'all',
   showEllieIntro: false,
-  
+  selectedStoryNpc: 'world',
+
   // Dynamic Containers
   resources: {},
   limits: {},
   stats: {},
-  flags: {},          
-  npcProgress: {},    
+  flags: {},
+  npcProgress: {},
   activeBuffs: {},
-  
+
   // Lists
   upgrades: [],
   discoveredResources: [],
   discoveredItems: [],
   unlockedRecipes: [],
   unlockedNPCs: [],
-  
+
   // HUD & UI
   hoveredAction: null,
   selectedItem: null,
@@ -44,7 +45,7 @@ export const initialState: any = {
   storyHistory: [],
   saveCode: '',
   saveInfoText: '',
-  
+
   settings: {
     volumeGlobal: 0.5,
     volumeMusic: 0.7,
@@ -52,14 +53,14 @@ export const initialState: any = {
     mute: false,
     showParticles: true,
     showJuice: true,
-    uiScale: 'auto'
+    uiScale: 'auto',
   },
-  
+
   counters: {
     totalActions: 0,
-    study: 0
+    study: 0,
   },
-  
+
   activeTasks: {},
   demoCompleted: false,
   demoCompletedHintSeen: false,
@@ -69,14 +70,14 @@ export const initialState: any = {
   dialogueTitle: '',
   dialogueChoices: [],
   dialogueWaiting: false,
-  
+
   finalStats: {
     shards: 0,
     actions: 0,
     npcs: 0,
     items: 0,
-    energySpent: 0
-  }
+    energySpent: 0,
+  },
 };
 
 export const getTranslations = () => translations;

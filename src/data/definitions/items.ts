@@ -15,8 +15,8 @@ export const itemDb: Record<string, ItemDefinition> = {
     category: 'tools',
     modifiers: [
       { key: 'wood_yield', add: 1 },
-      { key: 'stone_yield', add: 1 }
-    ]
+      { key: 'stone_yield', add: 1 },
+    ],
   },
   'item-axe': {
     id: 'item-axe',
@@ -25,7 +25,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Crafting_axe_1.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'wood_yield', mult: 2 }]
+    modifiers: [{ key: 'wood_yield', mult: 2 }],
   },
   'item-pickaxe': {
     id: 'item-pickaxe',
@@ -34,7 +34,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Crafting_pickaxe_1.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'stone_yield', mult: 2 }]
+    modifiers: [{ key: 'stone_yield', mult: 2 }],
   },
   'item-bow': {
     id: 'item-bow',
@@ -42,7 +42,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_bow_desc',
     image: 'img/items/Crafting_bow.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
   },
   'item-bed': {
     id: 'item-bed',
@@ -51,7 +51,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Crafting_bed.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'rest_energy_gain', add: 30 }]
+    modifiers: [{ key: 'rest_energy_gain', add: 30 }],
   },
   'item-chair': {
     id: 'item-chair',
@@ -59,7 +59,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_chair_desc',
     image: 'img/items/Crafting_chair.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
   },
   'item-stove': {
     id: 'item-stove',
@@ -68,7 +68,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Crafting_stove.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'eat_satiation_gain', add: 20 }]
+    modifiers: [{ key: 'eat_satiation_gain', add: 20 }],
   },
   'item-bookshelf': {
     id: 'item-bookshelf',
@@ -76,7 +76,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_bookshelf_desc',
     image: 'img/items/Crafting_bookshelf.webp',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
   },
   'item-cabinet': {
     id: 'item-cabinet',
@@ -84,14 +84,14 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_cabinet_desc',
     image: 'img/items/Crafting_cabinet.png',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
   },
   'item-spice-rack': {
     id: 'item-spice-rack',
     title: 'item_spice_rack_title',
     desc: 'item_spice_rack_desc',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
   },
   'item-grand-table': {
     id: 'item-grand-table',
@@ -99,9 +99,9 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_grand_table_desc',
     image: 'img/items/Crafting_table_massive.png',
     consumable: false,
-    category: 'tools'
+    category: 'tools',
   },
-  
+
   // --- PROVISIONS ---
   'item-bread': {
     id: 'item-bread',
@@ -110,7 +110,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Item_Bread.webp',
     consumable: true,
     effect: { satiation: 25 },
-    category: 'provisions'
+    category: 'provisions',
   },
   'item-cookie': {
     id: 'item-cookie',
@@ -119,7 +119,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Item_Cookie.webp',
     consumable: true,
     effect: { satiation: 40, energy: 5 },
-    category: 'provisions'
+    category: 'provisions',
   },
   'item-dried-meat': {
     id: 'item-dried-meat',
@@ -128,7 +128,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Item_DriedMeat.webp',
     consumable: true,
     effect: { satiation: 15, energy: 15 },
-    category: 'provisions'
+    category: 'provisions',
   },
   'item-gourmet-meal': {
     id: 'item-gourmet-meal',
@@ -137,9 +137,9 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/Item_GourmetMeal.webp',
     consumable: true,
     effect: { satiation: 50, energy: 30 },
-    category: 'provisions'
+    category: 'provisions',
   },
-  
+
   // --- ARTIFACTS ---
   'item-deed': {
     id: 'item-deed',
@@ -147,7 +147,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_deed_desc',
     image: 'img/items/Item_Deed.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-book-knowledge': {
     id: 'item-book-knowledge',
@@ -155,7 +155,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_book_knowledge_desc',
     image: 'img/items/Item_BookKnowledge.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-scroll': {
     id: 'item-scroll',
@@ -163,7 +163,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_scroll_desc',
     image: 'img/items/Item_Scroll.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-whetstone': {
     id: 'item-whetstone',
@@ -171,7 +171,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_whetstone_desc',
     image: 'img/items/Item_Whetstone.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-arrowhead': {
     id: 'item-arrowhead',
@@ -179,7 +179,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_arrowhead_desc',
     image: 'img/items/Item_Arrowhead.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-chisel': {
     id: 'item-chisel',
@@ -187,7 +187,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_chisel_desc',
     image: 'img/items/Item_Chisel.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-astral-shards': {
     id: 'item-astral-shards',
@@ -195,7 +195,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_astral_shards_desc',
     image: 'img/items/Item_AstralShard.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-dream-dust': {
     id: 'item-dream-dust',
@@ -203,7 +203,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_dream_dust_desc',
     image: 'img/items/Item_DreamDust.png',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-wyvern-scale': {
     id: 'item-wyvern-scale',
@@ -211,7 +211,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_wyvern_scale_desc',
     image: 'img/items/Item_WyvernShard.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-arcane-dust': {
     id: 'item-arcane-dust',
@@ -219,7 +219,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_arcane_dust_desc',
     image: 'img/items/Arcane_dust.webp',
     consumable: false,
-    category: 'artifacts'
+    category: 'artifacts',
   },
   'item-crystal-mana': {
     id: 'item-crystal-mana',
@@ -228,7 +228,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/mana_crystal.webp',
     consumable: false,
     category: 'artifacts',
-    modifiers: [{ key: 'garden_magic_cost', mult: 0.8 }]
+    modifiers: [{ key: 'garden_magic_cost', mult: 0.8 }],
   },
   'item-bed-2': {
     id: 'item-bed-2',
@@ -237,7 +237,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/bed_2.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'rest_energy_gain', add: 50 }]
+    modifiers: [{ key: 'rest_energy_gain', add: 50 }],
   },
   'item-stove-2': {
     id: 'item-stove-2',
@@ -246,6 +246,6 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/stove_2.webp',
     consumable: false,
     category: 'tools',
-    modifiers: [{ key: 'eat_satiation_gain', add: 50 }]
-  }
+    modifiers: [{ key: 'eat_satiation_gain', add: 50 }],
+  },
 };

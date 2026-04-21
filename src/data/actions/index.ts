@@ -12,5 +12,5 @@ export const actionDb: Record<string, any> = {
   ...constructionActions,
   ...npcActions,
   ...villageActions,
-  ...magicActions
+  ...magicActions,
 };

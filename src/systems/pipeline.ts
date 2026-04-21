@@ -71,7 +71,9 @@ export const createPipelineSystem = () => {
       Object.values(store.activeBuffs).forEach((buff: any) => {
         const buffDef = store.content.get(buff.id, 'buffs');
         if (buffDef && buffDef.modifiers) {
-          buffDef.modifiers.filter((m: GameModifier) => m.key === key).forEach((m: GameModifier) => mods.push(m));
+          buffDef.modifiers
+            .filter((m: GameModifier) => m.key === key)
+            .forEach((m: GameModifier) => mods.push(m));
         }
         // Legacy buff support
         if (key === 'energy_reg_bonus' && buff.type === 'energy_reg_bonus') {

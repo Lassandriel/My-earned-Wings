@@ -79,8 +79,12 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.stat-name.energy-label { color: var(--accent-teal); }
-.stat-name.magic-label { color: var(--accent-purple); }
+.stat-name.energy-label {
+  color: var(--accent-teal);
+}
+.stat-name.magic-label {
+  color: var(--accent-purple);
+}
 
 .stat-bar-bg {
   flex: 1;
@@ -99,11 +103,24 @@
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-.energy-fill { background: linear-gradient(to right, #14b8a6, #5eead4); box-shadow: 0 0 8px rgba(20, 184, 166, 0.4); }
-.magic-fill { background: linear-gradient(to right, #8b5cf6, #c084fc); box-shadow: 0 0 8px rgba(139, 92, 246, 0.4); }
-.satiation-fill { background: linear-gradient(to right, #f59e0b, #fbbf24); box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
-.wood-fill { background: linear-gradient(to right, #854d0e, #a16207); }
-.stone-fill { background: linear-gradient(to right, #475569, #64748b); }
+.energy-fill {
+  background: linear-gradient(to right, #14b8a6, #5eead4);
+  box-shadow: 0 0 8px rgba(20, 184, 166, 0.4);
+}
+.magic-fill {
+  background: linear-gradient(to right, #8b5cf6, #c084fc);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+}
+.satiation-fill {
+  background: linear-gradient(to right, #f59e0b, #fbbf24);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+.wood-fill {
+  background: linear-gradient(to right, #854d0e, #a16207);
+}
+.stone-fill {
+  background: linear-gradient(to right, #475569, #64748b);
+}
 
 .stat-val {
   width: 52px;
@@ -117,9 +134,13 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.stat-val.shard-inline { color: var(--accent-teal); }
+.stat-val.shard-inline {
+  color: var(--accent-teal);
+}
 
-.basis-row { padding: 7px 0; }
+.basis-row {
+  padding: 7px 0;
+}
 .basis-val {
   min-width: unset;
   text-align: left;
@@ -127,8 +148,12 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-.basis-val.active { color: var(--accent-teal); }
-.basis-val.milestone { color: var(--gold); }
+.basis-val.active {
+  color: var(--accent-teal);
+}
+.basis-val.milestone {
+  color: var(--gold);
+}
 
 /* --- BUFF SYSTEM STYLES --- */
 .buff-container {

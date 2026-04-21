@@ -9,21 +9,22 @@ export const magicActions: Record<string, any> = {
     satiationCost: 1,
     logKey: 'dream_bloom_log',
     execute: (game: any) => {
-        const taskIds = Object.keys(game.activeTasks);
-        if (taskIds.length === 0) return { success: false, logKey: 'fail_no_tasks' };
-        
-        taskIds.forEach(id => {
-            // Accelerate: Skip 5 seconds of work
-            game.activeTasks[id].remaining = Math.max(0, game.activeTasks[id].remaining - 5000);
-        });
-        
-        return { success: true, logKey: 'dream_bloom_log' };
-    }
+      const taskIds = Object.keys(game.activeTasks);
+      if (taskIds.length === 0) return { success: false, logKey: 'fail_no_tasks' };
+
+      taskIds.forEach((id) => {
+        // Accelerate: Skip 5 seconds of work
+        game.activeTasks[id].remaining = Math.max(0, game.activeTasks[id].remaining - 5000);
+      });
+
+      return { success: true, logKey: 'dream_bloom_log' };
+    },
   },
   'act-meditate': {
     id: 'act-meditate',
     duration: 10000,
-    costType: 'magic', cost: 10,
+    costType: 'magic',
+    cost: 10,
     yieldType: 'astral_shards',
     requirements: { 'flags.build-arcane-sanctum': true },
     sfx: 'magic',
@@ -31,7 +32,7 @@ export const magicActions: Record<string, any> = {
     particleType: 'shards',
     rewards: { astral_shards: 1 },
     logKey: 'meditation_log',
-    logColor: 'var(--accent-purple)'
+    logColor: 'var(--accent-purple)',
   },
   'act-spell-harvest': {
     id: 'act-spell-harvest',
@@ -42,19 +43,19 @@ export const magicActions: Record<string, any> = {
     particleText: 'Segen!',
     particleType: 'shards',
     onSuccess: [
-        { 
-            type: 'addBuff', 
-            buffId: 'buff-harvest', 
-            override: {
-                title: 'Segen der Ahnen',
-                desc: 'Die Natur antwortet auf deinen Ruf (+1 auf alle Sammelerträge).',
-                duration: 60,
-                type: 'yield_bonus',
-                value: 1
-            }
-        }
+      {
+        type: 'addBuff',
+        buffId: 'buff-harvest',
+        override: {
+          title: 'Segen der Ahnen',
+          desc: 'Die Natur antwortet auf deinen Ruf (+1 auf alle Sammelerträge).',
+          duration: 60,
+          type: 'yield_bonus',
+          value: 1,
+        },
+      },
     ],
     logKey: 'spell_harvest_log',
-    logColor: 'var(--accent-purple)'
-  }
+    logColor: 'var(--accent-purple)',
+  },
 };

@@ -3,5 +3,5 @@
  */
 export enum IpcChannel {
   QUIT_APP = 'quit-app',
-  RESIZE_WINDOW = 'resize-window'
+  RESIZE_WINDOW = 'resize-window',
 }

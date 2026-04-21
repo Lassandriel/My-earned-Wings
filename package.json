@@ -14,6 +14,11 @@
     "check-i18n": "tsx scripts/check-i18n.ts",
     "check-assets": "tsx scripts/check-assets.ts",
     "check-logic": "tsx scripts/check-logic.ts",
+    "check-all": "tsx scripts/check-all.ts",
+    "format": "prettier --write \"src/**/*.{ts,js,css,html}\" \"index.html\"",
+    "stats": "tsx scripts/stats.ts",
+    "check-unused": "tsx scripts/check-unused.ts",
+    "clean": "tsx scripts/clean.ts",
     "dist": "npm run build && npm run build-electron && electron-builder",
     "build-exe": "powershell -Command \"Remove-Item -Recurse -Force dist_electron -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Path dist_electron\" && npm run build && npm run build-electron && powershell -Command \"Copy-Item package.json dist_electron/; New-Item -ItemType Directory -Path dist_electron/public/img -Force; Copy-Item public/img/Game_icon.ico dist_electron/public/img/; Copy-Item -Recurse dist dist_electron/dist; electron-packager dist_electron My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --asar --icon=dist_electron/public/img/Game_icon.ico\""
   },
@@ -49,11 +54,16 @@
     "electron-builder": "^26.8.1",
     "electron-packager": "^17.1.2",
     "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
     "png-to-ico": "^3.0.1",
+    "prettier": "^3.8.3",
     "tsx": "^4.21.0",
+    "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
     "vite": "^8.0.4",
     "vite-plugin-ejs": "^1.7.0",
+    "vitest": "^4.1.4",
     "wait-on": "^9.0.4"
   },
   "dependencies": {

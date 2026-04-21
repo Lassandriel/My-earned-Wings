@@ -4,18 +4,18 @@
 */
 
 #game-wrapper .view-section {
-    display: block; /* Flexible content flow */
-    min-width: 0;
-    min-height: 0; /* Crucial for Grid stability */
-    height: auto;
-    min-height: 100%;
-    width: 100%;
-    overflow: visible; /* Let parent 'main' handle the scrolling */
+  display: block; /* Flexible content flow */
+  min-width: 0;
+  min-height: 0; /* Crucial for Grid stability */
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+  overflow: visible; /* Let parent 'main' handle the scrolling */
 }
 
 #game-wrapper main {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

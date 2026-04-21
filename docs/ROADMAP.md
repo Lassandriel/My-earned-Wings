@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 8.2 COMPLETE (TypeScript Ascension & Architecture Hardening)
+## Current Status: Phase 8.4 COMPLETE (Story Archive & System Synchronization)
 
-The internal architecture has been fully refactored to "Draconia Core 3.5". The engine is now 100% content-agnostic, with all gameplay logic, navigation, and effects residing in modular data registries. This "Golden Master" state ensures maximum scalability and stability.
+The internal architecture has been fully refactored to "Draconia Core 3.5". Narrative progression is now fully supported by a premium NPC Dialogue Archive, with synchronized system-to-content recording and automated project validation.
 
 ---
 
@@ -304,6 +304,15 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". The 
   - [x] **System Audit**: Fully typed the Passive Production (Engine), Quest Progress (NPC), and persistence (Save/Load) systems.
   - [x] **Strict ID Architecture**: Standardized literal unions for `ResourceId`, `ItemId`, `NPCId`, and `FlagId` to eliminate typos.
   - [x] **Zero-Error Benchmark**: Achieved a 100% clean `tsc --noEmit` build state across the entire repository.
+
+- [x] **Phase 8.4: Narrative Clarity & UI Refinement (Mina's Whisper)**:
+  - [x] **Chronicle Redesign**: Transformed the "Story" tab into a premium two-column NPC dialogue archive.
+  - [x] **Sidebar Navigation**: Implemented character-based filtering for past conversations.
+  - [x] **Glassmorphism Aesthetic**: Applied modern, responsive UI tokens to the story interface.
+  - [x] **Dialogue Integrity**: Fixed a core bug in the `ActionSystem` to ensure real spoken text is captured in the archive.
+  - [x] **Placeholder Cleanup**: Removed legacy placeholder descriptions system-wide for a cleaner UI.
+  - [x] **Validation Mastery**: Added `check-all` command for comprehensive, one-click project health audits.
+  - [x] **Lore Update**: Renamed the primary guide NPC to **Mina** (formerly Ellie) to strengthen her narrative identity.
 
 ---
 

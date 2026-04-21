@@ -8,7 +8,7 @@
   padding: 0 1.25rem;
   height: 4.8rem;
   margin-bottom: 0.6rem;
-  background: rgba(255, 255, 255, 0.08); 
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
   box-shadow: var(--glass-shadow);
@@ -27,7 +27,7 @@
   height: 95%;
   width: auto;
   margin-right: 1.2rem;
-  filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
   object-fit: contain;
   transition: transform 0.3s ease;
 }
@@ -39,7 +39,9 @@
 .nav-item.active {
   background: rgba(45, 212, 191, 0.15); /* Subtiler Teal-Hintergrund */
   border: 1px solid rgba(45, 212, 191, 0.4);
-  box-shadow: 0 0 25px rgba(11, 98, 86, 0.1), inset 4px 0 0 0 var(--accent-teal);
+  box-shadow:
+    0 0 25px rgba(11, 98, 86, 0.1),
+    inset 4px 0 0 0 var(--accent-teal);
   color: #ffffff; /* Contrast fix: White text on active tab */
   text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
   font-weight: 700;

@@ -12,7 +12,9 @@
   color: #fff;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all var(--trans-mid), transform var(--trans-fast);
+  transition:
+    all var(--trans-mid),
+    transform var(--trans-fast);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +22,7 @@
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
   letter-spacing: 0.3px;
-  box-shadow: 
+  box-shadow:
     var(--glass-shadow),
     inset 0 0 10px rgba(255, 255, 255, 0.05);
   overflow: hidden;
@@ -30,69 +32,71 @@
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 
+  box-shadow:
     0 12px 30px rgba(0, 0, 0, 0.4),
     inset 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 /* SCANNING LIGHT FOR ACTIVE BUTTONS */
 .game-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-        to right, 
-        transparent, 
-        rgba(255, 255, 255, 0.15), 
-        transparent
-    );
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+  pointer-events: none;
 }
 
 .game-btn.is-working::after {
-    animation: scanning-light 2s infinite linear;
+  animation: scanning-light 2s infinite linear;
 }
 
 .game-btn:active {
-    transform: scale(0.94);
-    background: rgba(255, 255, 255, 0.15);
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* PROGRESS BAR FOR ASYNC ACTIONS */
 .btn-progress-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: rgba(0, 0, 0, 0.6);
-    overflow: hidden;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
 
 .btn-progress-fill {
-    height: 100%;
-    background: linear-gradient(to right, var(--accent-teal), #5eead4);
-    width: 0%;
-    box-shadow: 0 0 12px var(--accent-teal);
-    transition: width 0.1s linear;
+  height: 100%;
+  background: linear-gradient(to right, var(--accent-teal), #5eead4);
+  width: 0%;
+  box-shadow: 0 0 12px var(--accent-teal);
+  transition: width 0.1s linear;
 }
 
 .game-btn.is-working {
-    cursor: wait;
-    opacity: 1;
-    border-color: var(--accent-teal);
-    animation: button-pulse 2s infinite ease-in-out;
+  cursor: wait;
+  opacity: 1;
+  border-color: var(--accent-teal);
+  animation: button-pulse 2s infinite ease-in-out;
 }
 
 @keyframes button-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(20, 184, 166, 0.2); }
-    100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .primary-btn {
@@ -161,45 +165,51 @@
 
 /* ARCANE FOCUS STYLES */
 .focus-toggle-btn {
-    position: absolute;
-    top: 50%;
-    right: 8px;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    background: rgba(139, 92, 246, 0.1);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 50%;
-    color: var(--accent-purple);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 5;
-    transition: all 0.3s ease;
-    padding: 0;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 50%;
+  color: var(--accent-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  padding: 0;
 }
 
 .focus-toggle-btn:hover {
-    background: rgba(139, 92, 246, 0.3);
-    border-color: var(--accent-purple);
-    transform: translateY(-50%) scale(1.1);
+  background: rgba(139, 92, 246, 0.3);
+  border-color: var(--accent-purple);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .focus-toggle-btn.is-focused {
-    background: var(--accent-purple);
-    color: #fff;
-    box-shadow: 0 0 15px var(--accent-purple);
-    animation: magic-pulse 2s infinite ease-in-out;
+  background: var(--accent-purple);
+  color: #fff;
+  box-shadow: 0 0 15px var(--accent-purple);
+  animation: magic-pulse 2s infinite ease-in-out;
 }
 
 .game-btn.is-focused {
-    border-color: var(--accent-purple);
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
 }
 
 @keyframes magic-pulse {
-    0% { box-shadow: 0 0 5px var(--accent-purple); }
-    50% { box-shadow: 0 0 20px var(--accent-purple); }
-    100% { box-shadow: 0 0 5px var(--accent-purple); }
+  0% {
+    box-shadow: 0 0 5px var(--accent-purple);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--accent-purple);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--accent-purple);
+  }
 }

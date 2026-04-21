@@ -51,16 +51,16 @@ const checkLanguage = () => {
         checkKey(`[ui] resource key '${key}'`, 'ui', key);
     });
 
-    console.log(`\n=== ÜBERSETZUNGS-PRÜFUNG (TypeScript) ===\n`);
+    console.log(`\n=== I18N VALIDATION (TypeScript) ===\n`);
     
     const keys = Object.keys(missingMap);
     if (keys.length === 0) {
-        console.log(`Perfekt! Alle überprüften Übersetzungs-Schlüssel in Deutsch und Englisch sind vollständig vorhanden.`);
+        console.log(`Perfect! All checked translation keys in German and English are fully present.`);
     } else {
-        console.log(`Es wurden Fehler bei ${keys.length} Schlüsseln gefunden:\n`);
+        console.log(`Errors found in ${keys.length} keys:\n`);
         keys.forEach(k => {
             const langs = missingMap[k];
-            const langStr = langs.length === 2 ? 'Fehlt in BEIDEN Sprachen (DE & EN)' : `Fehlt nur in: ${langs[0]}`;
+            const langStr = langs.length === 2 ? 'Missing in BOTH languages (DE & EN)' : `Missing only in: ${langs[0]}`;
             console.log(`  - ${k}`);
             console.log(`      -> ${langStr}`);
         });

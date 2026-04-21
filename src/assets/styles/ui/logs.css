@@ -25,7 +25,7 @@
 .log-entry {
   font-size: 0.95rem;
   line-height: 1.5;
-  color: #e2e8f0; 
+  color: #e2e8f0;
   padding: 10px 14px;
   background: rgba(255, 255, 255, 0.03);
   border-left: 3px solid #444;
@@ -40,10 +40,18 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
-.log-entry.log-highlight { border-left-color: var(--gold); }
-.log-entry.log-discovery { border-left-color: var(--accent-teal); }
-.log-entry.log-danger { border-left-color: #ef4444; }
-.log-entry.log-quest { border-left-color: #8b5cf6; }
+.log-entry.log-highlight {
+  border-left-color: var(--gold);
+}
+.log-entry.log-discovery {
+  border-left-color: var(--accent-teal);
+}
+.log-entry.log-danger {
+  border-left-color: #ef4444;
+}
+.log-entry.log-quest {
+  border-left-color: #8b5cf6;
+}
 
 .empty-history-watermark {
   padding: 100px 40px;
@@ -60,6 +68,12 @@
 }
 
 @keyframes log-fade-in {
-    0% { opacity: 0; transform: translateX(-10px); }
-    100% { opacity: 1; transform: translateX(0); }
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

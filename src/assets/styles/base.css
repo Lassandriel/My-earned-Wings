@@ -9,7 +9,9 @@ html {
   font-family: 'Outfit', sans-serif;
 }
 
-input, textarea, [contenteditable] {
+input,
+textarea,
+[contenteditable] {
   user-select: text !important;
 }
 
@@ -28,13 +30,15 @@ body {
 
 /* Scroll Release for stacked layouts */
 @media (max-width: 1100px) {
-  html, body, #app {
+  html,
+  body,
+  #app {
     height: auto !important;
     min-height: 100vh;
     overflow: visible !important;
     overflow-x: hidden !important; /* Prevent horizontal wobble */
   }
-  
+
   /* Force override even for environmental locks */
   body.antigravity-scroll-lock {
     overflow: auto !important;
@@ -78,4 +82,3 @@ body::after {
   scrollbar-width: thin !important;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent !important;
 }
-

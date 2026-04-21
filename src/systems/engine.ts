@@ -2,20 +2,20 @@ import { GameState, FlagId, ActionDefinition, MilestoneDefinition, ActionId } fr
 
 // Declare Alpine globally for TS
 declare const Alpine: {
-    store: (name: string) => any;
+  store: (name: string) => any;
 };
 
 interface Engine {
-    tickInterval: ReturnType<typeof setInterval> | null;
-    taskInterval: ReturnType<typeof setInterval> | null;
-    saveInterval: ReturnType<typeof setInterval> | null;
-    lastTickTime: number;
-    lastTaskTime: number;
-    lastHungerLog: number;
-    init: () => void;
-    processPassiveProduction: (store: GameState) => void;
-    checkMilestones: (store: GameState) => void;
-    stop: () => void;
+  tickInterval: ReturnType<typeof setInterval> | null;
+  taskInterval: ReturnType<typeof setInterval> | null;
+  saveInterval: ReturnType<typeof setInterval> | null;
+  lastTickTime: number;
+  lastTaskTime: number;
+  lastHungerLog: number;
+  init: () => void;
+  processPassiveProduction: (store: GameState) => void;
+  checkMilestones: (store: GameState) => void;
+  stop: () => void;
 }
 
 /**
@@ -45,7 +45,7 @@ export function createEngineSystem(): Engine {
         if (innerStore.view === 'menu') return;
 
         // A. Update Global Timers
-        innerStore.counters.totalTime = (innerStore.counters.totalTime || 0) + 1; 
+        innerStore.counters.totalTime = (innerStore.counters.totalTime || 0) + 1;
         innerStore.counters.totalActions = (innerStore.counters.totalActions || 0) + 1;
 
         // B. Passive Stat Drain (Hunger)
@@ -107,26 +107,26 @@ export function createEngineSystem(): Engine {
             delete innerStore.activeTasks[id];
 
             if (action) {
-                const result = innerStore.actions.processAction(
-                  innerStore,
-                  actionId,
-                  action,
-                  'finalize'
-                );
-                innerStore.actions.handleSuccess(innerStore, actionId, action, result);
-    
-                if (innerStore.activeFocus === actionId && action.isLoopable) {
-                  setTimeout(() => {
-                    const currentStore = Alpine.store('game') as unknown as GameState;
-                    if (
-                      currentStore.activeFocus === actionId &&
-                      currentStore.view !== 'menu' &&
-                      !currentStore.activeTasks[actionId]
-                    ) {
-                      currentStore.executeAction(actionId);
-                    }
-                  }, 300);
-                }
+              const result = innerStore.actions.processAction(
+                innerStore,
+                actionId,
+                action,
+                'finalize'
+              );
+              innerStore.actions.handleSuccess(innerStore, actionId, action, result);
+
+              if (innerStore.activeFocus === actionId && action.isLoopable) {
+                setTimeout(() => {
+                  const currentStore = Alpine.store('game') as unknown as GameState;
+                  if (
+                    currentStore.activeFocus === actionId &&
+                    currentStore.view !== 'menu' &&
+                    !currentStore.activeTasks[actionId]
+                  ) {
+                    currentStore.executeAction(actionId);
+                  }
+                }, 300);
+              }
             }
           }
         });
@@ -181,24 +181,26 @@ export function createEngineSystem(): Engine {
     },
 
     checkMilestones(store: GameState) {
-      Object.values(store.content.registries.milestones).forEach((milestone: MilestoneDefinition) => {
-        const fid = milestone.id as FlagId;
-        if (store.flags[fid]) return;
-        const met = Object.entries(milestone.requirements).every(([path, rule]) => {
-          return store.actions.checkRequirement(store, path, rule);
-        });
-        if (met) {
-          store.flags[fid] = true;
-          if (milestone.onUnlock) {
-            milestone.onUnlock.forEach((effect) => {
-              const handler = store.actions.effectHandlers[effect.type];
-              if (handler) {
+      Object.values(store.content.registries.milestones).forEach(
+        (milestone: MilestoneDefinition) => {
+          const fid = milestone.id as FlagId;
+          if (store.flags[fid]) return;
+          const met = Object.entries(milestone.requirements).every(([path, rule]) => {
+            return store.actions.checkRequirement(store, path, rule);
+          });
+          if (met) {
+            store.flags[fid] = true;
+            if (milestone.onUnlock) {
+              milestone.onUnlock.forEach((effect) => {
+                const handler = store.actions.effectHandlers[effect.type];
+                if (handler) {
                   handler(store, effect);
-              }
-            });
+                }
+              });
+            }
           }
         }
-      });
+      );
     },
 
     stop() {

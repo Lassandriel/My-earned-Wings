@@ -80,12 +80,12 @@
   box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
 }
 
-.wing-mask-fill.energy { 
+.wing-mask-fill.energy {
   background: linear-gradient(to top, #14b8a6, #5eead4, #ccfbf1);
   box-shadow: 0 0 30px rgba(20, 184, 166, 0.5);
 }
 
-.wing-mask-fill.magic { 
+.wing-mask-fill.magic {
   background: linear-gradient(to top, #8b5cf6, #c084fc, #f5f3ff);
   box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
 }
@@ -95,7 +95,9 @@
   filter: brightness(1.3);
 }
 
-.wing-status-wrapper.left:hover { transform: scale(1.1) rotate(-5deg); }
+.wing-status-wrapper.left:hover {
+  transform: scale(1.1) rotate(-5deg);
+}
 
 .wing-status-wrapper.pulse-critical {
   animation: pulse-danger 2s infinite ease-in-out;

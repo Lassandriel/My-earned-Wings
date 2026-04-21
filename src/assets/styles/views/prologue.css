@@ -27,7 +27,9 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 3s ease-in-out, transform 10s linear;
+  transition:
+    opacity 3s ease-in-out,
+    transform 10s linear;
   filter: brightness(0.6) contrast(1.1);
   transform: scale(1.05); /* Slow zoom effect */
 }
@@ -38,21 +40,21 @@
 }
 
 .prologue-footer {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-    z-index: 11005;
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 11005;
 }
 
 .skip-hint {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: 'Outfit', sans-serif;
-    letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .prologue-container {
@@ -73,7 +75,9 @@
   font-size: 2.2rem;
   line-height: 1.5;
   color: #fff;
-  text-shadow: 0 5px 20px rgba(0, 0, 0, 1), 0 0 40px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    0 5px 20px rgba(0, 0, 0, 1),
+    0 0 40px rgba(0, 0, 0, 0.5);
   letter-spacing: 2px;
   width: 100%;
   padding: 0 20px;
@@ -106,27 +110,31 @@
 }
 
 /* Cinematic Transitions */
-.prologue-enter { 
-  transition: opacity 2.5s cubic-bezier(.4, 0, .2, 1), transform 2.5s cubic-bezier(.4, 0, .2, 1); 
+.prologue-enter {
+  transition:
+    opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.prologue-enter-start { 
-  opacity: 0; 
-  transform: scale(0.97) translateY(5px); 
+.prologue-enter-start {
+  opacity: 0;
+  transform: scale(0.97) translateY(5px);
 }
-.prologue-enter-end { 
-  opacity: 1; 
-  transform: scale(1) translateY(0); 
+.prologue-enter-end {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
-.prologue-leave { 
-  transition: opacity 2s cubic-bezier(.4, 0, .2, 1), transform 2s cubic-bezier(.4, 0, .2, 1); 
+.prologue-leave {
+  transition:
+    opacity 2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.prologue-leave-start { 
-  opacity: 1; 
+.prologue-leave-start {
+  opacity: 1;
   transform: scale(1);
 }
-.prologue-leave-end { 
-  opacity: 0; 
+.prologue-leave-end {
+  opacity: 0;
   transform: scale(1.03) translateY(-5px);
 }
 
@@ -144,6 +152,13 @@
 }
 
 @keyframes hint-pulse {
-  0%, 100% { opacity: 0.2; transform: translateX(-50%) translateY(0); }
-  50% { opacity: 0.5; transform: translateX(-50%) translateY(-5px); }
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(-50%) translateY(-5px);
+  }
 }

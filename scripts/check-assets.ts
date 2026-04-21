@@ -19,13 +19,13 @@ const checkImage = (context: string, imgPath: string) => {
     const fullPath = path.join(rootDir, 'public', imgPath);
     
     if (!fs.existsSync(fullPath)) {
-        console.error(`[FEHLER] ${context}\n   -> Bild '${imgPath}' fehlt in 'public/'!`);
+        console.error(`[ERROR] ${context}\n   -> Image '${imgPath}' missing in 'public/'!`);
         errors++;
     }
 };
 
 const checkAll = () => {
-    console.log("=== ASSET-PRÜFUNG GESTARTET (TypeScript) ===\n");
+    console.log("=== ASSET VALIDATION STARTED (TypeScript) ===\n");
 
     Object.values(registries.items).forEach((item: any) => {
         if (item.image) checkImage(`Item '${item.id}'`, item.image);
@@ -50,9 +50,9 @@ const checkAll = () => {
 
     console.log("\n=============================");
     if (errors === 0) {
-        console.log("Perfekt! Alle verknüpften Assets wurden auf der Festplatte gefunden.");
+        console.log("Perfect! All linked assets found on disk.");
     } else {
-        console.log(`Asset-Prüfung fehlgeschlagen: ${errors} Bilder nicht gefunden.`);
+        console.log(`Asset check failed: ${errors} images not found.`);
         process.exit(1); 
     }
 };

@@ -1,34 +1,85 @@
 <!-- PROLOGUE VIEW -->
-<section 
-  id="prologue-view" 
-  x-show="$store.game.view === 'prologue'" 
+<section
+  id="prologue-view"
+  x-show="$store.game.view === 'prologue'"
   class="prologue-overlay"
   @click="$store.game.prologue.advancePrologue($store.game)"
   style="cursor: pointer"
 >
   <!-- Image Backgrounds -->
   <div class="prologue-images">
-      <img src="img/prologue/LM_islands.webp" class="pro-img" :class="{ 'active': [1,2].includes($store.game.prologueStep) }" />
-      <img src="img/prologue/LM_Luxana.webp" class="pro-img" :class="{ 'active': [3,4,5].includes($store.game.prologueStep) }" />
-      <img src="img/prologue/LM_Dorf.webp" class="pro-img" :class="{ 'active': [6,7].includes($store.game.prologueStep) }" />
+    <img
+      src="img/prologue/LM_islands.webp"
+      class="pro-img"
+      :class="{ 'active': [1,2].includes($store.game.prologueStep) }"
+    />
+    <img
+      src="img/prologue/LM_Luxana.webp"
+      class="pro-img"
+      :class="{ 'active': [3,4,5].includes($store.game.prologueStep) }"
+    />
+    <img
+      src="img/prologue/LM_Dorf.webp"
+      class="pro-img"
+      :class="{ 'active': [6,7].includes($store.game.prologueStep) }"
+    />
   </div>
 
   <div class="prologue-container">
-    <div class="prologue-text" x-show="$store.game.prologueStep === 1" x-transition x-text="$store.game.t('intro_1', 'logs')"></div>
-    <div class="prologue-text" x-show="$store.game.prologueStep === 2" x-transition x-text="$store.game.t('intro_2', 'logs')"></div>
-    <div class="prologue-text" x-show="$store.game.prologueStep === 3" x-transition x-text="$store.game.t('intro_3', 'logs')"></div>
-    <div class="prologue-text" x-show="$store.game.prologueStep === 4" x-transition x-text="$store.game.t('intro_4', 'logs')"></div>
-    <div class="prologue-text" x-show="$store.game.prologueStep === 5" x-transition x-text="$store.game.t('intro_5', 'logs')"></div>
-    <div class="prologue-text" x-show="$store.game.prologueStep === 6" x-transition x-text="$store.game.t('intro_6', 'logs')"></div>
-    <div class="prologue-text" x-show="$store.game.prologueStep === 7" x-transition x-text="$store.game.t('intro_7', 'logs')"></div>
-    
-    <div class="prologue-advance-hint" x-show="$store.game.view === 'prologue'" x-text="$store.game.t('ui_continue_hint')"></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 1"
+      x-transition
+      x-text="$store.game.t('intro_1', 'logs')"
+    ></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 2"
+      x-transition
+      x-text="$store.game.t('intro_2', 'logs')"
+    ></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 3"
+      x-transition
+      x-text="$store.game.t('intro_3', 'logs')"
+    ></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 4"
+      x-transition
+      x-text="$store.game.t('intro_4', 'logs')"
+    ></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 5"
+      x-transition
+      x-text="$store.game.t('intro_5', 'logs')"
+    ></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 6"
+      x-transition
+      x-text="$store.game.t('intro_6', 'logs')"
+    ></div>
+    <div
+      class="prologue-text"
+      x-show="$store.game.prologueStep === 7"
+      x-transition
+      x-text="$store.game.t('intro_7', 'logs')"
+    ></div>
+
+    <div
+      class="prologue-advance-hint"
+      x-show="$store.game.view === 'prologue'"
+      x-text="$store.game.t('ui_continue_hint')"
+    ></div>
   </div>
-  
+
   <div class="prologue-footer">
-      <div class="skip-hint" x-text="$store.game.t('ui_skip_hint')"></div>
-      <button class="skip-btn" @click.stop="$store.game.prologue.skipPrologue($store.game)">
-        <span x-text="$store.game.t('ui_skip_btn')"></span> <span>»</span>
-      </button>
+    <div class="skip-hint" x-text="$store.game.t('ui_skip_hint')"></div>
+    <button class="skip-btn" @click.stop="$store.game.prologue.skipPrologue($store.game)">
+      <span x-text="$store.game.t('ui_skip_btn')"></span> <span>»</span>
+    </button>
   </div>
 </section>

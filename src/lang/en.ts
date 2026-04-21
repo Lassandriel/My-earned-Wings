@@ -1,20 +1,15 @@
 /**
- * English Translations - TypeScript Version
+ * English Translations - CLEANED & OPTIMIZED
  */
-const en: Record<string, any> = {
+const lang: Record<string, any> = {
   ui: {
-    // --- NAVIGATION & TABS ---
     nav_story: 'Main',
     nav_story_tab: 'Story',
     nav_story_tab_header: 'Your Journey',
     nav_crafting: 'Workshop',
     nav_upgrades: 'Possessions',
     nav_village: 'Village',
-    nav_chronicle: 'Chronicle',
-
-    // --- CATEGORIES ---
     cat_gather: 'Gather',
-    cat_trade: 'Trade',
     cat_work: 'Work',
     cat_crafting: 'Craft & Build',
     cat_upgrades: 'Upgrades & Items',
@@ -24,10 +19,6 @@ const en: Record<string, any> = {
     cat_chronicle_world: 'Chronicle World',
     cat_provisions: 'Provisions',
     cat_artifacts: 'Artifacts',
-    ui_materials: 'Materials',
-    ui_provisions: 'Provisions',
-
-    // --- RESOURCES & STATS ---
     ui_vitality: 'Vitality',
     ui_energy: 'Energy',
     ui_magic: 'Magic',
@@ -40,18 +31,13 @@ const en: Record<string, any> = {
     ui_herbs: 'Herbs',
     ui_books: 'Books',
     ui_astral_shards: 'Astral Shards',
-    ui_knowledge: 'Knowledge',
     ui_details: 'Details',
     ui_base: 'Base Building',
     ui_no_shelter: 'No Shelter',
     ui_salary: 'Cost',
     ui_yield: 'Yield',
-    ui_study: 'Study',
-    ui_study_yield: 'Knowledge gain',
     'ui_gourmet-meal': 'Gourmet Meal',
     ui_focus: 'Focus',
-
-    // --- NAMING MODAL & SETTINGS ---
     ui_naming_title: 'Your Name',
     ui_naming_desc: 'How shall the world of Draconia call you?',
     ui_naming_placeholder: 'Shifter name...',
@@ -60,39 +46,28 @@ const en: Record<string, any> = {
     settings_lang: 'Language',
     settings_system: 'System',
     confirm_reset: 'Are you sure? All progress will be lost.',
-
-    // --- BUTTONS ---
     btn_save: 'Save',
     btn_load: 'Load',
     btn_main_menu: 'Menu',
     btn_quit: 'Quit',
-    btn_back: 'Back',
     btn_confirm_yes: 'Yes, proceed',
     btn_confirm_no: 'Cancel',
-    btn_assign_work: 'Assign',
-    btn_stop_work: 'Stop',
     menu_new_game: 'New Game',
     menu_continue: 'Continue',
     menu_version: 'v1.0.0-stable',
     ui_use: 'Use',
     ui_ready: 'Ready',
-    ui_need: 'Requires',
-
-    // --- FINALE ---
     finale_stats_title: 'Your Journey in Draconia',
     finale_stat_shards: 'Soul Shards collected',
     finale_stat_actions: 'Actions performed',
-    finale_stat_energy: 'Energy consumed',
     finale_stat_npcs: 'Bonds forged',
     finale_stat_items: 'Items discovered',
     finale_sandbox_title: 'Demo Completed!',
     finale_sandbox_desc:
       'You have touched the heart of the ground. In the full version, your ascent to the Sky Palace awaits.',
     finale_sandbox_btn: 'Continue in Sandbox Mode',
-
-    // --- NPC NAMES ---
     npc_baker_name: 'Baker Geron',
-    npc_flowergirl_name: 'Flower Girl Ellie',
+    npc_flowergirl_name: 'Flower Girl Mina',
     npc_artisan_name: 'Artisan Kael',
     npc_teacher_name: 'Master Aris',
     npc_townhall_name: 'Town Hall Official',
@@ -100,33 +75,22 @@ const en: Record<string, any> = {
     npc_sage_name: 'Old Sage',
     npc_hunter_name: 'Hunter Nyx',
     npc_treeoflife_name: 'Tree of Life',
-    npc_ellie_name: 'Ellie',
+    npc_ellie_name: 'Mina',
     npc_aris_name: 'Aris',
-
-    // --- DESCRIPTIONS ---
     chronicle_desc: 'Records of your life on the ground.',
-    village_desc: 'Meet the inhabitants of Draconia.',
-    crafting_desc: 'Shape tools from the gifts of nature.',
-
-    // --- BUFFS ---
-    buff_gourmet_title: 'Gourmet Food',
     buff_gourmet_desc: 'Your gourmet meal nourishes your body sustainably.',
-
     cat_upgrades_desc: 'Manage your tools, magical artifacts, and provisions here.',
     ui_all: 'All',
     ui_tools: 'Tools',
     ui_placeholder_desc: 'Select an item from the vault to see details.',
     ui_upgrades_empty: 'Your vault is empty. Discover or craft items to fill it!',
-    ui_empty_story:
-      'Your story on the ground is just beginning. Perform deeds to write them here.',
+    ui_empty_story: 'Your story on the ground is just beginning. Perform deeds to write them here.',
     ui_tab_all: 'All',
     ui_tab_camp: 'Camp Life',
     ui_tab_housing: 'Housing',
     ui_tab_workshop: 'Workshop',
     ui_tab_garden: 'Gardening',
     ui_tab_kitchen: 'Kitchen',
-    ui_loop_mode: 'Loop Mode',
-    ui_loop_hint: 'Actions will be repeated automatically...',
     ui_focus_hint: 'Enable continuous focus (consumes energy)',
     ui_continue_hint: 'Click to continue...',
     ui_skip_hint: '[ESC] to skip | [ENTER] to continue',
@@ -139,8 +103,6 @@ const en: Record<string, any> = {
     help_kitchen_desc: 'Prepare complex foods that grant stronger bonuses.',
     help_magic_desc: 'Explore the arcane energies of your soul form.',
     help_garden_desc: 'Sow rare herbs important for alchemy and provisions.',
-
-    // --- SETTINGS DETAILS ---
     settings_name: "Shifter's Name",
     settings_tab_audio: 'Audio & Sounds',
     settings_vol_global: 'Global Volume',
@@ -158,29 +120,13 @@ const en: Record<string, any> = {
     save_never: 'Never saved',
     ui_load_at: 'Loaded at',
     ui_unlocks: 'Unlocks',
-
-    // --- FALLBACKS ---
     objective_label: 'Goal',
-    status_working: 'Working',
-    status_idle: 'Ready',
-    btn_embrace_destiny: 'Embrace Destiny',
   },
-
   logs: {
     save_success: 'Game saved successfully.',
-    load_success: 'Game loaded successfully.',
     intro_welcome: 'Welcome back to solid ground.',
-    fail_energy: 'Not enough energy left.',
     fail_resources: 'Missing resources for this action.',
-    fail_magic: 'Your magic is insufficient.',
     fail_buff_active: 'Effect is still active.',
-    fail_wood: 'Not enough Wood.',
-    fail_stone: 'Not enough Stone.',
-    fail_meat: 'Not enough Meat.',
-    fail_water: 'Not enough Water.',
-    fail_herbs: 'Not enough Herbs.',
-
-    // --- PROLOGUE (logs context) ---
     intro_1:
       'Above you slides a magnificent Wind Dragon effortlessly from roof to roof. In its humanoid form, its folded wings look like a noble cloak.',
     intro_2:
@@ -189,20 +135,15 @@ const en: Record<string, any> = {
       "A merchant wyvern lands in front of the village gate. It doesn't notice you. You've grown used to others being more powerful.",
     intro_4: 'Rain sets in. The others shake their wings and fly home. You stay on the ground.',
     intro_5: 'You stay below, as always. You miss a connection you never had...',
-    intro_6:
-      'But here, at the edge of the village, you want to build a life. With your own hands.',
+    intro_6: 'But here, at the edge of the village, you want to build a life. With your own hands.',
     intro_7: 'Welcome to your new home. You wingless mystery shifter... a riddle in Draconia.',
-    ellie_tutorial_1: "I'm Ellie. Your goal is to discover why you cannot take your dragon form.",
+    ellie_tutorial_1: "I'm Mina. Your goal is to discover why you cannot take your dragon form.",
     ellie_tutorial_2:
       'Talk to the village and gather resources to find the truth behind your missing wings.',
     ellie_tutorial_3:
       'Use Main for actions, Workshop to craft and build, Possessions for upgrades, Village for NPCs, and Story for your journey notes.',
-
-    // --- JOURNEY LOGS ---
     wood_log: '+{val} Wood gathered.',
     stone_log: '+{val} Stone quarried.',
-    meat_log: '+{val} Meat hunted.',
-    shards_log: '+{val} Shards earned.',
     garden_harvest_log: 'Harvested fresh herbs. +{gain}',
     cook_gourmet_success: 'The feast is ready! You feel strengthened.',
     milestone_house: 'The house stands firm – a monument to your will.',
@@ -215,17 +156,12 @@ const en: Record<string, any> = {
     milestone_sanctum: 'The Arcane Sanctum has been erected.',
     milestone_garden: 'The garden has been laid out and is ready for sowing.',
     milestone_garden_upgrade: 'The garden has been expanded with a second bed.',
-    garden_magic_fail_log: "The garden's magic fades... not enough power.",
-    tree_unlocked_log:
-      'An ancient shudder runs through the earth. The Tree of Life has awakened!',
+    tree_unlocked_log: 'An ancient shudder runs through the earth. The Tree of Life has awakened!',
     obj_tree_of_life: 'Visit the Tree of Life in the village.',
     npc_dialogue_log: '{name}: {text}',
     eat_log: '+{val} Satiation.',
     rest_log: '+{val} Energy.',
     meditate_log: '+{val} Magic.',
-    fail_full_satiation: 'You are already fully satiated.',
-    fail_full_energy: 'You are fully rested.',
-    fail_full_magic: 'Your arcane focus is already at its limit.',
     sell_wood_log: 'Exchanged wood for shards.',
     sell_stone_log: 'Exchanged stone for shards.',
     sell_meat_log: 'Exchanged meat for shards.',
@@ -253,7 +189,6 @@ const en: Record<string, any> = {
     craft_bed_2: 'You wove a luxurious silk bed.',
     craft_stove_2: 'The Eternal Stove grants you boundless arcane heat.',
   },
-
   items: {
     item_wanderstock_title: 'Walking Stick',
     item_wanderstock_desc: 'A matching ash wood staff.',
@@ -312,16 +247,39 @@ const en: Record<string, any> = {
     item_grand_table_title: 'Massive Dining Table',
     item_grand_table_desc: 'A magnificent table for your home.',
   },
-
   actions: {
-    'build-campfire': { title: 'Light Campfire', desc: 'Warmth in the dark.' },
-    'build-tent': { title: 'Pitch Tent', desc: 'First modest protection.' },
-    'build-house': { title: 'Build House', desc: 'Your firm foundation on the ground.' },
-    'build-wood-storage': { title: 'Wood Storage', desc: 'Space for more supplies (+25).' },
-    'build-stone-storage': { title: 'Stone Storage', desc: 'More stone capacity (+25).' },
-    'build-table': { title: 'Massive Table', desc: 'Place for study and strategy.' },
-    'build-kitchen': { title: 'Kitchen Station', desc: 'Enables cooking complex recipes.' },
-    'build-arcane-sanctum': { title: 'Arcane Sanctum', desc: 'Research the magic of the aether.' },
+    'build-campfire': {
+      title: 'Light Campfire',
+      desc: 'Warmth in the dark.',
+    },
+    'build-tent': {
+      title: 'Pitch Tent',
+      desc: 'First modest protection.',
+    },
+    'build-house': {
+      title: 'Build House',
+      desc: 'Your firm foundation on the ground.',
+    },
+    'build-wood-storage': {
+      title: 'Wood Storage',
+      desc: 'Space for more supplies (+25).',
+    },
+    'build-stone-storage': {
+      title: 'Stone Storage',
+      desc: 'More stone capacity (+25).',
+    },
+    'build-table': {
+      title: 'Massive Table',
+      desc: 'Place for study and strategy.',
+    },
+    'build-kitchen': {
+      title: 'Kitchen Station',
+      desc: 'Enables cooking complex recipes.',
+    },
+    'build-arcane-sanctum': {
+      title: 'Arcane Sanctum',
+      desc: 'Research the magic of the aether.',
+    },
     'build-garden': {
       title: 'Create Garden',
       desc: 'Sow herbs and flowers.',
@@ -342,8 +300,16 @@ const en: Record<string, any> = {
       desc: 'Draw astral shards from the air.',
       effect: '+1 Astral Shard',
     },
-    'act-cook-gourmet': { title: 'Gourmet Cooking', desc: 'Prepare a feast.', effect: '+1 Gourmet Meal' },
-    'act-garden-plant': { title: 'Plant (Slot 1)', desc: 'Sow herbs.', effect: '+{val} Herbs' },
+    'act-cook-gourmet': {
+      title: 'Gourmet Cooking',
+      desc: 'Prepare a feast.',
+      effect: '+1 Gourmet Meal',
+    },
+    'act-garden-plant': {
+      title: 'Plant (Slot 1)',
+      desc: 'Sow herbs.',
+      effect: '+{val} Herbs',
+    },
     'act-garden-plant-2': {
       title: 'Plant (Slot 2)',
       desc: 'Use the parallel bed.',
@@ -354,17 +320,41 @@ const en: Record<string, any> = {
       desc: 'Accelerates plant growth.',
       effect: 'Garden growth accelerated',
     },
-    'act-sell-wood': { title: 'Sell Wood', desc: 'Trade wood for shards.', effect: '+5 Shards' },
-    'act-sell-meat': { title: 'Sell Meat', desc: 'Give away prey for shards.', effect: '+12 Shards' },
-    'act-sell-stone': { title: 'Sell Stone', desc: 'Sell boulders for shards.', effect: '+8 Shards' },
+    'act-sell-wood': {
+      title: 'Sell Wood',
+      desc: 'Trade wood for shards.',
+      effect: '+5 Shards',
+    },
+    'act-sell-meat': {
+      title: 'Sell Meat',
+      desc: 'Give away prey for shards.',
+      effect: '+12 Shards',
+    },
+    'act-sell-stone': {
+      title: 'Sell Stone',
+      desc: 'Sell boulders for shards.',
+      effect: '+8 Shards',
+    },
     'act-buy-meat': {
       title: 'Buy Meat',
       desc: 'Fresh hunting provisions from the merchant.',
       effect: '+1 Meat',
     },
-    'act-hunt': { title: 'Hunt', desc: 'Use the bow in the forest.', effect: '+{val} Meat' },
-    'act-wood': { title: 'Gather Twigs', title_alt: 'Quarry Stones', effect: '+{val} Wood' },
-    'act-stone': { title: 'Gather Pebbles', title_alt: 'Quarry Stones', effect: '+{val} Stone' },
+    'act-hunt': {
+      title: 'Hunt',
+      desc: 'Use the bow in the forest.',
+      effect: '+{val} Meat',
+    },
+    'act-wood': {
+      title: 'Gather Twigs',
+      title_alt: 'Quarry Stones',
+      effect: '+{val} Wood',
+    },
+    'act-stone': {
+      title: 'Gather Pebbles',
+      title_alt: 'Quarry Stones',
+      effect: '+{val} Stone',
+    },
     'act-essen': {
       title: 'Eat Berries',
       desc: 'Nourish yourself from the gifts of the earth.',
@@ -380,40 +370,38 @@ const en: Record<string, any> = {
       desc: 'Look up, but roots on the ground.',
       effect: '+{val} Magic',
     },
-
-    // --- NPC ACTIONS ---
-    'act-npc-baker': { title: 'Baker Geron', desc: 'Discuss flour supply or offer your help.' },
+    'act-npc-baker': {
+      title: 'Baker Geron',
+    },
     'act-npc-flowerGirl': {
-      title: 'Flower Girl Ellie',
-      desc: "Trade herbs or talk about Draconia's flora.",
+      title: 'Flower Girl Mina',
     },
     'act-npc-artisan': {
       title: 'Artisan Kael',
-      desc: 'Learn more about building tools and structures.',
     },
     'act-npc-teacher': {
       title: 'Teacher Aris',
-      desc: 'Expand your understanding of the arcane currents.',
     },
     'act-npc-townHall': {
       title: 'Town Hall Official',
-      desc: 'Handle bureaucratic matters for your land ownership.',
     },
     'act-npc-blacksmith': {
       title: 'Blacksmith Thorin',
-      desc: 'Strengthen your equipment or learn metalworking.',
     },
-    'act-npc-sage': { title: 'Old Sage', desc: 'Request wisdom about the history of the Shifters.' },
+    'act-npc-sage': {
+      title: 'Old Sage',
+    },
     'act-npc-hunter': {
       title: 'Hunter Nyx',
-      desc: 'Learn the art of silent stalking and bow crafting.',
     },
-    'act-npc-ellie': { title: 'Ellie', desc: 'Deepen your connection to the wonders of nature.' },
-    'act-npc-aris': { title: 'Aris', desc: 'Master the high arts of magic.' },
+    'act-npc-ellie': {
+      title: 'Ellie',
+    },
+    'act-npc-aris': {
+      title: 'Aris',
+    },
     'act-npc-treeOfLife': {
       title: 'Tree of Life',
-      desc: 'Touch the heart of Draconia and recognize your destiny.',
-      effect: 'Finale: Reach the Ascension.',
     },
     'act-work': {
       title: 'Day Labor',
@@ -430,90 +418,113 @@ const en: Record<string, any> = {
       desc: 'Gain pure energy from your arcane studies.',
       effect: '+{val} Magic',
     },
-    'act-wanderstock': { title: 'Carve Walking Stick', desc: 'A faithful companion for your travels.' },
-    'act-axe': { title: 'Craft Stone Axe', desc: 'Enables felling trees.' },
-    'act-pickaxe': { title: 'Craft Pickaxe', desc: 'Enables mining rocks.' },
-    'act-bow': { title: 'Build Hunting Bow', desc: 'Essential for hunting in the forest.' },
-    'act-bed': { title: 'Simple Bed', desc: 'Improves your recovery while sleeping.' },
-    'act-chair': { title: 'Wooden Chair', desc: 'A simple seat for your home.' },
-    'act-stove': { title: 'Stone Stove', desc: 'Enables baking and cooking.' },
-    'act-bookshelf': { title: 'Bookshelf', desc: 'Space for gathered knowledge.' },
-    'act-book': { title: 'Bind Book', desc: 'Record your insights.' },
-    'act-cabinet': { title: 'Provisions Cabinet', desc: 'Increases storage capacity for provisions.' },
-    'act-spice-rack': { title: 'Spice Rack', desc: 'Space for more herbs.' },
-    'act-grand-table': { title: 'Massive Dining Table', desc: 'A magnificent piece of furniture.' },
-    'act-bed-2': { title: 'Weave Silk Bed', desc: 'Maximum comfort through magical silk.' },
-    'act-stove-2': { title: 'Eternal Stove', desc: 'A stove with infinite arcane heat.' },
+    'act-wanderstock': {
+      title: 'Carve Walking Stick',
+      desc: 'A faithful companion for your travels.',
+    },
+    'act-axe': {
+      title: 'Craft Stone Axe',
+      desc: 'Enables felling trees.',
+    },
+    'act-pickaxe': {
+      title: 'Craft Pickaxe',
+      desc: 'Enables mining rocks.',
+    },
+    'act-bow': {
+      title: 'Build Hunting Bow',
+      desc: 'Essential for hunting in the forest.',
+    },
+    'act-bed': {
+      title: 'Simple Bed',
+      desc: 'Improves your recovery while sleeping.',
+    },
+    'act-chair': {
+      title: 'Wooden Chair',
+      desc: 'A simple seat for your home.',
+    },
+    'act-stove': {
+      title: 'Stone Stove',
+      desc: 'Enables baking and cooking.',
+    },
+    'act-bookshelf': {
+      title: 'Bookshelf',
+      desc: 'Space for gathered knowledge.',
+    },
+    'act-book': {
+      title: 'Bind Book',
+      desc: 'Record your insights.',
+    },
+    'act-cabinet': {
+      title: 'Provisions Cabinet',
+      desc: 'Increases storage capacity for provisions.',
+    },
+    'act-spice-rack': {
+      title: 'Spice Rack',
+      desc: 'Space for more herbs.',
+    },
+    'act-grand-table': {
+      title: 'Massive Dining Table',
+      desc: 'A magnificent piece of furniture.',
+    },
+    'act-bed-2': {
+      title: 'Weave Silk Bed',
+      desc: 'Maximum comfort through magical silk.',
+    },
+    'act-stove-2': {
+      title: 'Eternal Stove',
+      desc: 'A stove with infinite arcane heat.',
+    },
   },
-
   npcs: {
-    // --- QUEST DIALOGUES ---
-    // Baker Geron
     npc_baker_1: '"Welcome! I am Geron. And what is your name, stranger?"',
     npc_baker_2: '"The furnace is burning hot. Thanks for the wood, {player}."',
     npc_baker_3: '"A cookie, perhaps, {player}? They keep you on your toes."',
     npc_baker_4: '"More and more people come for my pastries. You are a blessing, {player}."',
     npc_baker_5: '"{player}, take this last supply. You\'ve done much for us."',
-
-    // Flower Girl Ellie
-    npc_flowerGirl_1: '"Wanderer... I am Ellie. Do you also feel the tremor of the earth?"',
+    npc_flowerGirl_1: '"Wanderer... I am Mina. Do you also feel the tremor of the earth?"',
     npc_flowerGirl_2: '"Beauty can flourish in the shadows, {player}... feel the rhythm."',
     npc_flowerGirl_3: '"The world\'s colors change, {player}, if you look closely."',
     npc_flowerGirl_4: '"This scale... take it, {player}. It belongs to the aether."',
     npc_flowerGirl_5: '"Thorin needs someone like you, {player}. Tell him I sent you."',
-
-    // Artisan Kael
-    npc_artisan_1: '"I am Kael. Wood is the beginning of everything. A walking stick gives you support."',
+    npc_artisan_1:
+      '"I am Kael. Wood is the beginning of everything. A walking stick gives you support."',
     npc_artisan_2: '"Stone is patient, {player}. It shapes the world, step by step."',
     npc_artisan_3: '"Precision is everything. Take this chisel, {player}, and shape your destiny."',
-
-    // Master Aris
     npc_teacher_1: '"The earth trembles under the weight of your destiny. I am Aris."',
     npc_teacher_2: '"Your focus sharpens, {player}. The world is more than just matter."',
     npc_teacher_3: '"In this scroll, {player}, lies the truth about the ground."',
     npc_teacher_4: '"Magic flows through you, {player}, even without wings."',
     npc_teacher_5: '"You walk the ground, {player}, but your spirit touches the aether."',
-
-    // Town Hall
     npc_townHall_1:
       '"Welcome to the Town Hall. I am the official. All Shifters must be properly registered."',
     npc_townHall_2: '"Your papers are in order, {player}. You may now work in the village."',
     npc_townHall_3: '"Taxes and duties... only then can our village grow, {player}."',
     npc_townHall_4: '"You are well-known here now, {player}. A valued member of our community."',
     npc_townHall_5: '"This deed seals your place in Draconia, {player}."',
-
-    // Blacksmith Thorin
     npc_blacksmith_1: '"Who disturbs the forge? Ah... I am Thorin. And you?"',
     npc_blacksmith_2: '"Magic in the fire, {player}. You understand the craft."',
     npc_blacksmith_3: '"A rock is just an obstacle, {player}, until you break it."',
     npc_blacksmith_4: '"A good whetstone is worth gold, {player}. It keeps your goals sharp."',
     npc_blacksmith_5: '"{player}, no flight, but a firm stand. That\'s your true strength."',
-
-    // Hunter Nyx
     npc_hunter_1: '"Halt! Who stalks there? ... Ah, a new face. I am Nyx."',
     npc_hunter_2: '"A bow takes patience, {player}. And good ash wood."',
     npc_hunter_3: '"Take this bow, {player}. It will be your voice in the thicket."',
     npc_hunter_4: '"The forest gives what we need, {player}. If we respect it."',
     npc_hunter_5: '"shadows belong to us both now. I hunt at your side, {player}."',
-
-    // Old Sage
     npc_sage_1: '"Knowledge is a burden. I am the Sage. Read this book, Shifter."',
     npc_sage_2: '"The stars whisper of past ages, {player}."',
     npc_sage_3: '"Your mind expands, {player}... do you see the patterns?"',
     npc_sage_4: '"History doesn\'t repeat itself, {player}, but it does rhyme."',
     npc_sage_5: '"{player}, you\'re no longer a mystery, but a part of Draconia."',
-
-    // Shared/Misc
     npc_ellie_1: '"Do you feel the tremor of the earth?"',
     npc_ellie_2: '"The dreams show us the way."',
     npc_aris_1: '"Every spell begins with a single thought."',
     npc_aris_5: '"You have touched the heart of Draconia."',
   },
   buffs: {
-    buff_gourmet_title: 'Gourmet Delight',
     item_gourmet_meal_title: 'Gourmet Meal',
     buff_gourmet_desc: 'Nourishes the body sustainably.',
   },
 };
 
-export default en;
+export default lang;

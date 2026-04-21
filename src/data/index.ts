@@ -11,19 +11,13 @@ import { Registries } from '../types/game';
  * Organized registries for the ContentService - TypeScript Edition
  */
 export const registries: Registries = {
-    actions: actionDb,
-    items: itemDb,
-    npcs: NPC_REGISTRY,
-    resources: RESOURCE_REGISTRY,
-    buffs: BUFF_REGISTRY,
-    milestones: MILESTONE_REGISTRY,
-    navigation: NAVIGATION_REGISTRY
+  actions: actionDb,
+  items: itemDb,
+  npcs: NPC_REGISTRY,
+  resources: RESOURCE_REGISTRY,
+  buffs: BUFF_REGISTRY,
+  milestones: MILESTONE_REGISTRY,
+  navigation: NAVIGATION_REGISTRY,
 };
 
-export {
-    actionDb,
-    itemDb,
-    NPC_REGISTRY,
-    RESOURCE_REGISTRY,
-    BUFF_REGISTRY
-};
+export { actionDb, itemDb, NPC_REGISTRY, RESOURCE_REGISTRY, BUFF_REGISTRY };

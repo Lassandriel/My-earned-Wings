@@ -7,101 +7,124 @@
     <title>Your earned Wings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+    />
     <script type="module" src="src/main.js"></script>
   </head>
   <body>
     <div id="app" x-data>
-        <!-- Feedback Particles -->
-        <div id="juice-container"></div>
-        <div id="toast-container"></div>
+      <!-- Feedback Particles -->
+      <div id="juice-container"></div>
+      <div id="toast-container"></div>
 
-        <!-- Ambient Magic Effects -->
-        <div id="ambient-magic">
-          <div class="magic-layer layer-feathers-light"></div>
-          <div class="magic-layer layer-scales-dark"></div>
-          <div class="magic-layer layer-feathers-color"></div>
-          <div class="magic-layer layer-scales-shimmer"></div>
+      <!-- Ambient Magic Effects -->
+      <div id="ambient-magic">
+        <div class="magic-layer layer-feathers-light"></div>
+        <div class="magic-layer layer-scales-dark"></div>
+        <div class="magic-layer layer-feathers-color"></div>
+        <div class="magic-layer layer-scales-shimmer"></div>
+      </div>
+
+      <!-- Overlays & Modals -->
+      <%- include('./src/partials/menu.html') %> <%- include('./src/partials/prologue.html') %> <%-
+      include('./src/partials/naming.html') %> <%- include('./src/partials/settings.html') %> <%-
+      include('./src/partials/finale.html') %> <%- include('./src/partials/confirm.html') %>
+
+      <!-- Ellie Intro Modal -->
+      <div
+        x-show="$store.game.showEllieIntro"
+        class="ellie-intro-modal"
+        @click="$store.game.ellie.close($store.game)"
+      >
+        <div class="ellie-intro-inner" @click.stop>
+          <div class="ellie-image-shell">
+            <img src="img/npcs/Ellie.webp" alt="Ellie" class="ellie-image" />
+          </div>
+          <div class="ellie-text-card">
+            <h4 x-text="$store.game.t('npc_ellie_name')"></h4>
+            <p x-text="$store.game.t('ellie_tutorial_1', 'logs')"></p>
+            <p x-text="$store.game.t('ellie_tutorial_2', 'logs')"></p>
+            <p x-text="$store.game.t('ellie_tutorial_3', 'logs')"></p>
+            <button class="game-btn btn-small" @click="$store.game.ellie.close($store.game)">
+              Schließen
+            </button>
+          </div>
         </div>
+      </div>
 
-        <!-- Overlays & Modals -->
-        <%- include('./src/partials/menu.html') %>
-        <%- include('./src/partials/prologue.html') %>
-        <%- include('./src/partials/naming.html') %>
-        <%- include('./src/partials/settings.html') %>
-        <%- include('./src/partials/finale.html') %>
-        <%- include('./src/partials/confirm.html') %>
-
-        <!-- Ellie Intro Modal -->
-        <div x-show="$store.game.showEllieIntro" class="ellie-intro-modal" @click="$store.game.ellie.close($store.game)">
-          <div class="ellie-intro-inner" @click.stop>
-            <div class="ellie-image-shell">
-              <img src="img/npcs/Ellie.webp" alt="Ellie" class="ellie-image">
-            </div>
-            <div class="ellie-text-card">
-              <h4 x-text="$store.game.t('npc_ellie_name')"></h4>
-              <p x-text="$store.game.t('ellie_tutorial_1', 'logs')"></p>
-              <p x-text="$store.game.t('ellie_tutorial_2', 'logs')"></p>
-              <p x-text="$store.game.t('ellie_tutorial_3', 'logs')"></p>
-              <button class="game-btn btn-small" @click="$store.game.ellie.close($store.game)">Schließen</button>
-            </div>
+      <!-- Main Game UI -->
+      <div
+        id="game-wrapper"
+        x-show="$store.game.view !== 'menu' && $store.game.view !== 'prologue'"
+        :style="'--app-scale: ' + $store.game.currentScale + '; z-index: 10;'"
+      >
+        <!-- Current Objective -->
+        <div class="objective-bar-container" x-show="$store.game.currentObjective">
+          <div class="objective-bar" x-transition>
+            <span class="obj-label" x-text="$store.game.t('objective_label')">Ziel</span>
+            <span class="obj-text" x-text="$store.game.t($store.game.currentObjective)">...</span>
           </div>
         </div>
 
-        <!-- Main Game UI -->
-        <div 
-            id="game-wrapper" 
-            x-show="$store.game.view !== 'menu' && $store.game.view !== 'prologue'"
-            :style="'--app-scale: ' + $store.game.currentScale + '; z-index: 10;'"
-        >
-            <!-- Current Objective -->
-            <div class="objective-bar-container" x-show="$store.game.currentObjective">
-                <div class="objective-bar" x-transition>
-                    <span class="obj-label" x-text="$store.game.t('objective_label')">Ziel</span>
-                    <span class="obj-text" x-text="$store.game.t($store.game.currentObjective)">...</span>
-                </div>
-            </div>
+        <header class="main-header">
+          <div class="logo-container">
+            <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
+            <h1 class="game-title">Your earned Wings</h1>
+          </div>
+        </header>
 
-            <header class="main-header">
-                <div class="logo-container">
-                    <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
-                    <h1 class="game-title">Your earned Wings</h1>
-                </div>
-            </header>
+        <!-- Modular Sidebar -->
+        <%- include('./src/partials/ui/sidebar.html') %>
 
-            <!-- Modular Sidebar -->
-            <%- include('./src/partials/ui/sidebar.html') %>
+        <!-- Content Views -->
+        <main>
+          <section
+            class="view-section"
+            x-show="$store.game.view === 'gameplay'"
+            x-transition:enter="view-enter"
+          >
+            <%- include('./src/partials/gameplay.html') %>
+          </section>
+          <section
+            class="view-section"
+            x-show="$store.game.view === 'crafting'"
+            x-transition:enter="view-enter"
+          >
+            <%- include('./src/partials/crafting.html') %>
+          </section>
+          <section
+            class="view-section"
+            x-show="$store.game.view === 'upgrades'"
+            x-transition:enter="view-enter"
+          >
+            <%- include('src/partials/upgrades.html') %>
+          </section>
+          <section
+            class="view-section"
+            x-show="$store.game.view === 'village'"
+            x-transition:enter="view-enter"
+          >
+            <%- include('./src/partials/village.html') %>
+          </section>
+          <section
+            class="view-section"
+            x-show="$store.game.view === 'story'"
+            x-transition:enter="view-enter"
+          >
+            <%- include('./src/partials/story.html') %>
+          </section>
+        </main>
 
-            <!-- Content Views -->
-            <main>
-                <section class="view-section" x-show="$store.game.view === 'gameplay'" x-transition:enter="view-enter">
-                    <%- include('./src/partials/gameplay.html') %>
-                </section>
-                <section class="view-section" x-show="$store.game.view === 'crafting'" x-transition:enter="view-enter">
-                    <%- include('./src/partials/crafting.html') %>
-                </section>
-                <section class="view-section" x-show="$store.game.view === 'upgrades'" x-transition:enter="view-enter">
-                    <%- include('src/partials/upgrades.html') %>
-                </section>
-                <section class="view-section" x-show="$store.game.view === 'village'" x-transition:enter="view-enter">
-                    <%- include('./src/partials/village.html') %>
-                </section>
-                <section class="view-section" x-show="$store.game.view === 'story'" x-transition:enter="view-enter">
-                    <%- include('./src/partials/story.html') %>
-                </section>
-            </main>
+        <!-- Global Log -->
+        <%- include('./src/partials/log.html') %>
 
-            <!-- Global Log -->
-            <%- include('./src/partials/log.html') %>
+        <!-- Right Panel (Status Card) -->
+        <aside class="right-panel"><%- include('./src/partials/ui/status_card.html') %></aside>
+      </div>
 
-            <!-- Right Panel (Status Card) -->
-            <aside class="right-panel">
-                <%- include('./src/partials/ui/status_card.html') %>
-            </aside>
-        </div>
-
-
-        <%- include('./src/partials/tooltip.html') %>
+      <%- include('./src/partials/tooltip.html') %>
     </div>
   </body>
 </html>

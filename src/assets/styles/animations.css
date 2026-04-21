@@ -1,95 +1,212 @@
 @keyframes sway-fall {
-  0% { transform: translateY(-30vh) rotate(0deg) translateX(0); }
-  20% { transform: translateY(0vh) rotate(20deg) translateX(80px); }
-  40% { transform: translateY(30vh) rotate(-15deg) translateX(-60px); }
-  60% { transform: translateY(60vh) rotate(15deg) translateX(40px); }
-  80% { transform: translateY(90vh) rotate(-10deg) translateX(-20px); }
-  100% { transform: translateY(120vh) rotate(0deg) translateX(0); }
+  0% {
+    transform: translateY(-30vh) rotate(0deg) translateX(0);
+  }
+  20% {
+    transform: translateY(0vh) rotate(20deg) translateX(80px);
+  }
+  40% {
+    transform: translateY(30vh) rotate(-15deg) translateX(-60px);
+  }
+  60% {
+    transform: translateY(60vh) rotate(15deg) translateX(40px);
+  }
+  80% {
+    transform: translateY(90vh) rotate(-10deg) translateX(-20px);
+  }
+  100% {
+    transform: translateY(120vh) rotate(0deg) translateX(0);
+  }
 }
 
 @keyframes logoFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 @keyframes menuFadeIn {
-  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes bgRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes log-fade-in {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes particle-float {
-  0% { opacity: 0; transform: translateY(0) scale(0.8); }
-  15% { opacity: 1; transform: translateY(-20px) scale(1.1); }
-  100% { opacity: 0; transform: translateY(-120px) scale(1.0); }
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) scale(1);
+  }
 }
 
 @keyframes rotateGlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes sparkleFloat {
-    0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-    50% { transform: translateY(-30px) scale(1.5); opacity: 0.8; }
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-30px) scale(1.5);
+    opacity: 0.8;
+  }
 }
 
 @keyframes pulse-teal {
-    0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(20, 184, 166, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(20, 184, 166, 0);
+  }
 }
 
 /* --- POLISH ANIMATIONS --- */
 
 @keyframes tooltip-pop {
-    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 @keyframes pulse-danger {
-    0% { filter: brightness(1) drop-shadow(0 0 0px #ef4444); }
-    50% { filter: brightness(1.4) drop-shadow(0 0 15px #ef4444); }
-    100% { filter: brightness(1) drop-shadow(0 0 0px #ef4444); }
+  0% {
+    filter: brightness(1) drop-shadow(0 0 0px #ef4444);
+  }
+  50% {
+    filter: brightness(1.4) drop-shadow(0 0 15px #ef4444);
+  }
+  100% {
+    filter: brightness(1) drop-shadow(0 0 0px #ef4444);
+  }
 }
 
 @keyframes scanning-light {
-    0% { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
-    20% { opacity: 0.6; }
-    50% { opacity: 0.6; }
-    80% { opacity: 0.6; }
-    100% { transform: translateX(200%) skewX(-20deg); opacity: 0; }
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(200%) skewX(-20deg);
+    opacity: 0;
+  }
 }
 
 @keyframes pulse-gain {
-    0% { transform: scale(1); filter: brightness(1); }
-    20% { transform: scale(1.05); filter: brightness(1.5) drop-shadow(0 0 10px rgba(74, 222, 128, 0.5)); }
-    100% { transform: scale(1); filter: brightness(1); }
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  20% {
+    transform: scale(1.05);
+    filter: brightness(1.5) drop-shadow(0 0 10px rgba(74, 222, 128, 0.5));
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
 }
 
 @keyframes float-up-fade-juice {
-    0% { opacity: 0; transform: translateY(0) scale(0.8); }
-    15% { opacity: 1; transform: translateY(-15px) scale(1.1); }
-    85% { opacity: 0.8; }
-    100% { opacity: 0; transform: translateY(-60px) scale(1.0); }
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(-15px) scale(1.1);
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(1);
+  }
 }
 
 @keyframes view-enter {
-    0% { opacity: 0; transform: scale(0.98) translateY(15px); filter: blur(8px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+  0% {
+    opacity: 0;
+    transform: scale(0.98) translateY(15px);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
 }
 
 @keyframes wave-glow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

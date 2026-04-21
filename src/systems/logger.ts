@@ -18,20 +18,22 @@ export const createLoggerSystem = () => ({
 
     // Grouping logic: If identical to the last message, just increment count
     const noGroupIds = ['intro_1', 'intro_welcome', 'milestone_tree_of_life'];
-    
+
     let finalParams = params || {};
     // Inject playerName for easy replacement in translations
     if (!finalParams.playerName) {
       finalParams.playerName = store.playerName || 'Entdecker';
     }
 
-    if (!noGroupIds.includes(id) && 
-        lastLog && 
-        lastLog.id === id && 
-        lastLog.context === finalContext &&
-        JSON.stringify(lastLog.params) === JSON.stringify(finalParams)) {
+    if (
+      !noGroupIds.includes(id) &&
+      lastLog &&
+      lastLog.id === id &&
+      lastLog.context === finalContext &&
+      JSON.stringify(lastLog.params) === JSON.stringify(finalParams)
+    ) {
       lastLog.count++;
-      lastLog.timestamp = Date.now() + Math.random(); 
+      lastLog.timestamp = Date.now() + Math.random();
       return;
     }
 
@@ -42,7 +44,7 @@ export const createLoggerSystem = () => ({
       color: finalColor,
       type,
       count: 1,
-      timestamp: Date.now() + Math.random()
+      timestamp: Date.now() + Math.random(),
     });
 
     if ((store as any).logs.length > 40) (store as any).logs.pop();
@@ -52,5 +54,5 @@ export const createLoggerSystem = () => ({
     store.bus.on(store.EVENTS.LOG_ADDED, (data: any) => {
       this.addLog(store, data.id, data.context, data.color, data.params);
     });
-  }
+  },
 });

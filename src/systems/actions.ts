@@ -1,308 +1,347 @@
-import { GameState, ActionDefinition, ResourceId, FlagId, GameEffect, ActionId } from '../types/game';
+import {
+  GameState,
+  ActionDefinition,
+  ResourceId,
+  FlagId,
+  GameEffect,
+  ActionId,
+} from '../types/game';
 
 /**
  * Action System - TypeScript Edition
  * Modular execution of player-triggered actions using EffectHandlers.
  */
 export function createActionSystem() {
-    const effectHandlers: Record<string, (game: GameState, effect: any) => void> = {};
+  const effectHandlers: Record<string, (game: GameState, effect: any) => void> = {};
 
-    const registerEffect = <T extends GameEffect['type']>(
-        type: T, 
-        handler: (game: GameState, effect: Extract<GameEffect, { type: T }>) => void
-    ) => {
-        effectHandlers[type] = handler as (game: GameState, effect: any) => void;
-        console.log(`[ACTIONS] Registered effect handler: ${type}`);
-    };
+  const registerEffect = <T extends GameEffect['type']>(
+    type: T,
+    handler: (game: GameState, effect: Extract<GameEffect, { type: T }>) => void
+  ) => {
+    effectHandlers[type] = handler as (game: GameState, effect: any) => void;
+    console.log(`[ACTIONS] Registered effect handler: ${type}`);
+  };
 
-    const initEffects = () => {
-        registerEffect('setFlag', (game, { flag, value }) => { 
-            game.flags[flag] = value; 
-        });
-        
-        registerEffect('unlockNPC', (game, { id }) => { 
-            if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id); 
-        });
-        
-        registerEffect('unlockRecipe', (game, { id }) => { 
-            if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id); 
-        });
-        
-        registerEffect('unlockItem', (game, { id }) => {
-            if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
-            game.flags[id as unknown as FlagId] = true;
-        });
-        
-        registerEffect('modifyLimit', (game, { resource, amount }) => { 
-            game.limits[resource] = (game.limits[resource] || 0) + amount; 
-        });
-        
-        registerEffect('addBuff', (game, { buffId, override }) => {
-            const baseBuff = game.content.get(buffId, 'buffs');
-            if (!baseBuff) return;
-            const finalBuff = { ...baseBuff, ...override };
-            game.activeBuffs[buffId] = { 
-                ...finalBuff, 
-                remaining: finalBuff.duration, 
-                total: finalBuff.duration 
-            };
-        });
-        
-        registerEffect('setObjective', (game, { id }) => {
-            game.currentObjective = id;
-        });
-        
-        registerEffect('playSound', (game, { id }) => {
-            game.playSound(id);
-        });
-        
-        registerEffect('log', (game, { logKey, color, params }) => {
-            game.addLog(logKey, 'logs', color, params);
-        });
+  const initEffects = () => {
+    registerEffect('setFlag', (game, { flag, value }) => {
+      game.flags[flag] = value;
+    });
 
-        registerEffect('modifyResource', (game, { resource, amount }) => {
-            game.resource.add(game, resource, amount);
-        });
-    };
+    registerEffect('unlockNPC', (game, { id }) => {
+      if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id);
+    });
 
-    const resolvePath = (obj: any, path: string): any => {
-        return path.split('.').reduce((prev, curr) => {
-            return prev ? prev[curr] : undefined;
-        }, obj);
-    };
+    registerEffect('unlockRecipe', (game, { id }) => {
+      if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id);
+    });
 
-    const checkRequirement = (game: GameState, path: string, rule: any): boolean => {
-        const actual = resolvePath(game, path);
-        
-        if (typeof rule !== 'object' || rule === null) {
-            return actual === rule;
-        }
+    registerEffect('unlockItem', (game, { id }) => {
+      if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
+      game.flags[id as unknown as FlagId] = true;
+    });
 
-        const { op, val } = rule;
-        switch (op) {
-            case '>=': return actual >= val;
-            case '<=': return actual <= val;
-            case '>':  return actual > val;
-            case '<':  return actual < val;
-            case '!=': return actual !== val;
-            case 'includes': return Array.isArray(actual) && actual.includes(val);
-            case 'not_includes': return Array.isArray(actual) && !actual.includes(val);
-            default:   return actual === val;
-        }
-    };
+    registerEffect('modifyLimit', (game, { resource, amount }) => {
+      game.limits[resource] = (game.limits[resource] || 0) + amount;
+    });
 
-    const spawnParticles = (game: GameState, action: ActionDefinition) => {
-        let pText = action.particleText ? game.t(action.particleText) : null;
-        const resKey = action.yieldType || action.costType || action.counter;
-        
-        if (!pText && typeof resKey === 'string' && resKey !== 'none' && resKey !== 'mixed') {
-            const translated = game.t('ui_' + resKey);
-            if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
-        }
-        
-        if (!pText) pText = action.particleText || '';
+    registerEffect('addBuff', (game, { buffId, override }) => {
+      const baseBuff = game.content.get(buffId, 'buffs');
+      if (!baseBuff) return;
+      const finalBuff = { ...baseBuff, ...override };
+      game.activeBuffs[buffId] = {
+        ...finalBuff,
+        remaining: finalBuff.duration,
+        total: finalBuff.duration,
+      };
+    });
 
-        game.bus.emit(game.EVENTS.PARTICLE_TRIGGERED, { 
-            x: game.lastMouseX, y: game.lastMouseY, 
-            text: pText, 
-            type: action.particleType || 'energy' 
-        });
-    };
+    registerEffect('setObjective', (game, { id }) => {
+      game.currentObjective = id;
+    });
 
-    const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: any) => {
-        game.counters.totalActions++;
-        
-        if (action.counter) {
-            game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
-        }
+    registerEffect('playSound', (game, { id }) => {
+      game.playSound(id);
+    });
 
-        const satiationCost = action.satiationCost;
-        if (satiationCost && satiationCost > 0) {
-            game.resource.consume(game, 'satiation', satiationCost);
-        }
+    registerEffect('log', (game, { logKey, color, params }) => {
+      game.addLog(logKey, 'logs', color, params);
+    });
 
-        if (action.isStory) {
-            const dialogueText = result?.logParams?.text || null;
-            game.story.recordStoryEntry(game, id, action, dialogueText);
-        }
+    registerEffect('modifyResource', (game, { resource, amount }) => {
+      game.resource.add(game, resource, amount);
+    });
+  };
 
-        game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
-        if (action.particleText || action.yieldType) spawnParticles(game, action);
-        
-        if (result && result.logKey) {
-            game.bus.emit(game.EVENTS.LOG_ADDED, { 
-                id: result.logKey, 
-                context: 'logs', 
-                color: result.logColor, 
-                params: { 
-                    gain: result.logGain ?? '', 
-                    val: result.logGain ?? '',
-                    ...(result.logParams || {}) 
-                } 
-            });
-        }
+  const resolvePath = (obj: any, path: string): any => {
+    return path.split('.').reduce((prev, curr) => {
+      return prev ? prev[curr] : undefined;
+    }, obj);
+  };
 
-        game.bus.emit(game.EVENTS.SAVE_REQUESTED);
-    };
+  const checkRequirement = (game: GameState, path: string, rule: any): boolean => {
+    const actual = resolvePath(game, path);
 
-    const handleFailure = (game: GameState, _id: ActionId, action: ActionDefinition) => {
-        game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
-        
-        const yieldType = action.yieldType;
-        if (yieldType && game.resource.isFull(game, yieldType)) {
-            game.bus.emit(game.EVENTS.LOG_ADDED, { id: 'fail_full_' + yieldType, color: 'var(--accent-red)' });
-            return;
-        }
+    if (typeof rule !== 'object' || rule === null) {
+      return actual === rule;
+    }
 
-        const costType = action.costType;
-        if (!costType || costType === 'none') return;
+    const { op, val } = rule;
+    switch (op) {
+      case '>=':
+        return actual >= val;
+      case '<=':
+        return actual <= val;
+      case '>':
+        return actual > val;
+      case '<':
+        return actual < val;
+      case '!=':
+        return actual !== val;
+      case 'includes':
+        return Array.isArray(actual) && actual.includes(val);
+      case 'not_includes':
+        return Array.isArray(actual) && !actual.includes(val);
+      default:
+        return actual === val;
+    }
+  };
 
-        const effectiveCosts = costType === 'mixed' ? action.costs! : { [costType]: action.cost! };
-        
-        const firstMissing = Object.keys(effectiveCosts).find(r => {
-            const resId = r as ResourceId;
-            return !game.resource.canAfford(game, resId, (effectiveCosts as any)[resId]);
-        });
+  const spawnParticles = (game: GameState, action: ActionDefinition) => {
+    let pText = action.particleText ? game.t(action.particleText) : null;
+    const resKey = action.yieldType || action.costType || action.counter;
 
-        if (firstMissing) {
-            const specificKey = 'fail_' + firstMissing;
-            const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
-            game.addLog(logKey, 'logs', 'var(--accent-red)');
-        }
-    };
+    if (!pText && typeof resKey === 'string' && resKey !== 'none' && resKey !== 'mixed') {
+      const translated = game.t('ui_' + resKey);
+      if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
+    }
 
-    const processAction = (game: GameState, id: ActionId, action: ActionDefinition, mode: string = 'full'): any => {
-        const isPrepare = (mode === 'prepare' || mode === 'full');
-        const isFinalize = (mode === 'finalize' || mode === 'full');
-        let totalYield = 0;
-        let logGain: any = null;
+    if (!pText) pText = action.particleText || '';
 
-        if (isPrepare) {
-            if (action.requirements) {
-                const met = Object.entries(action.requirements).every(([path, rule]) => {
-                    return checkRequirement(game, path, rule);
-                });
-                if (!met) return { success: false };
-            }
+    game.bus.emit(game.EVENTS.PARTICLE_TRIGGERED, {
+      x: game.lastMouseX,
+      y: game.lastMouseY,
+      text: pText,
+      type: action.particleType || 'energy',
+    });
+  };
 
-            let costs: Record<string, number> = action.costType === 'mixed' 
-                ? { ...action.costs } 
-                : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
-            
-            if (game.activeFocus === id && costs.energy) {
-                delete costs.energy;
-            }
+  const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: any) => {
+    game.counters.totalActions++;
 
-            const isPhysical = action.costType === 'energy' || (action.costType === 'mixed' && action.costs && action.costs.energy);
-            if (isPhysical) {
-                costs.satiation = (costs.satiation || 0) + 1;
-            }
+    if (action.counter) {
+      game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
+    }
 
-            if (!game.resource.canAfford(game, costs)) return { success: false };
-            
-            const yieldType = action.yieldType;
-            if (yieldType && game.resource.isFull(game, yieldType)) {
-                game.addLog('fail_full_' + yieldType, 'logs', 'var(--accent-red)');
-                game.playSound('fail');
-                return { success: false };
-            }
+    const satiationCost = action.satiationCost;
+    if (satiationCost && satiationCost > 0) {
+      game.resource.consume(game, 'satiation', satiationCost);
+    }
 
-            if (action.onSuccess) {
-                const buffEffect = action.onSuccess.find(e => e.type === 'addBuff');
-                if (buffEffect && buffEffect.type === 'addBuff') {
-                    const existing = game.activeBuffs[buffEffect.buffId];
-                    if (existing && (existing.remaining / existing.total) > 0.1) {
-                        game.addLog('fail_buff_active', 'logs', 'var(--accent-red)');
-                        game.playSound('fail');
-                        return { success: false };
-                    }
-                }
-            }
+    if (action.isStory) {
+      const dialogueText = result?.logParams?.text || null;
+      game.story.recordStoryEntry(game, id, action, dialogueText);
+    }
 
-            if (costs && Object.keys(costs).length > 0) {
-                game.resource.consume(game, costs);
-            }
-        }
+    game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
+    if (action.particleText || action.yieldType) spawnParticles(game, action);
 
-        if (isFinalize) {
-            if (action.rewards) {
-                Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
-                    let amount = typeof amountOrKey === 'string' 
-                        ? game.pipeline.calculate(game, amountOrKey, 1) 
-                        : amountOrKey;
-                    const finalAmount = amount;
-                    const resId = res as ResourceId;
-                    game.resource.add(game, resId, finalAmount);
-                    
-                    const yieldType = action.yieldType;
-                    if (res === yieldType || logGain === null) {
-                        logGain = finalAmount;
-                        totalYield = finalAmount;
-                    }
-                });
-            }
-
-            if (action.onSuccess) {
-                action.onSuccess.forEach(effect => {
-                    if (effectHandlers[effect.type]) {
-                        effectHandlers[effect.type](game, effect);
-                    }
-                });
-            }
-        }
-
-        return { 
-            success: true, 
-            logKey: action.logKey, 
-            logGain: logGain, 
-            logColor: action.logColor,
-            yield: totalYield
-        };
-    };
-
-    return {
-        effectHandlers,
-        registerEffect,
-        initEffects,
-        processAction,
-        checkRequirement,
-        handleSuccess,
-        handleFailure,
-
-        execute(game: GameState, id: ActionId): boolean {
-            const action = game.content.get<ActionDefinition>(id, 'actions');
-            if (!action) return false;
-            
-            if (id in game.activeTasks) return false;
-
-            if (action.duration) {
-                const result = processAction(game, id, action, 'prepare'); 
-                if (result.success) {
-                    game.activeTasks[id] = {
-                        actionId: id,
-                        remaining: action.duration,
-                        total: action.duration
-                    };
-                    game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
-                    return true;
-                }
-                handleFailure(game, id, action);
-                return false;
-            }
-
-            let result = processAction(game, id, action);
-
-            if (result && result.success) {
-                handleSuccess(game, id, action, result);
-                return true;
-            }
-            
-            handleFailure(game, id, action);
-            return false;
+    if (result && result.logKey) {
+      game.bus.emit(game.EVENTS.LOG_ADDED, {
+        id: result.logKey,
+        context: 'logs',
+        color: result.logColor,
+        params: {
+          gain: result.logGain ?? '',
+          val: result.logGain ?? '',
+          ...(result.logParams || {}),
         },
+      });
+    }
 
-        boot() {
-            initEffects();
+    game.bus.emit(game.EVENTS.SAVE_REQUESTED);
+  };
+
+  const handleFailure = (game: GameState, _id: ActionId, action: ActionDefinition) => {
+    game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
+
+    const yieldType = action.yieldType;
+    if (yieldType && game.resource.isFull(game, yieldType)) {
+      game.bus.emit(game.EVENTS.LOG_ADDED, {
+        id: 'fail_full_' + yieldType,
+        color: 'var(--accent-red)',
+      });
+      return;
+    }
+
+    const costType = action.costType;
+    if (!costType || costType === 'none') return;
+
+    const effectiveCosts = costType === 'mixed' ? action.costs! : { [costType]: action.cost! };
+
+    const firstMissing = Object.keys(effectiveCosts).find((r) => {
+      const resId = r as ResourceId;
+      return !game.resource.canAfford(game, resId, (effectiveCosts as any)[resId]);
+    });
+
+    if (firstMissing) {
+      const specificKey = 'fail_' + firstMissing;
+      const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
+      game.addLog(logKey, 'logs', 'var(--accent-red)');
+    }
+  };
+
+  const processAction = (
+    game: GameState,
+    id: ActionId,
+    action: ActionDefinition,
+    mode: string = 'full'
+  ): any => {
+    const isPrepare = mode === 'prepare' || mode === 'full';
+    const isFinalize = mode === 'finalize' || mode === 'full';
+    let totalYield = 0;
+    let logGain: any = null;
+
+    if (isPrepare) {
+      if (action.requirements) {
+        const met = Object.entries(action.requirements).every(([path, rule]) => {
+          return checkRequirement(game, path, rule);
+        });
+        if (!met) return { success: false };
+      }
+
+      let costs: Record<string, number> =
+        action.costType === 'mixed'
+          ? { ...action.costs }
+          : action.costType && action.costType !== 'none'
+            ? { [action.costType]: action.cost! }
+            : {};
+
+      if (game.activeFocus === id && costs.energy) {
+        delete costs.energy;
+      }
+
+      const isPhysical =
+        action.costType === 'energy' ||
+        (action.costType === 'mixed' && action.costs && action.costs.energy);
+      if (isPhysical) {
+        costs.satiation = (costs.satiation || 0) + 1;
+      }
+
+      if (!game.resource.canAfford(game, costs)) return { success: false };
+
+      const yieldType = action.yieldType;
+      if (yieldType && game.resource.isFull(game, yieldType)) {
+        game.addLog('fail_full_' + yieldType, 'logs', 'var(--accent-red)');
+        game.playSound('fail');
+        return { success: false };
+      }
+
+      if (action.onSuccess) {
+        const buffEffect = action.onSuccess.find((e) => e.type === 'addBuff');
+        if (buffEffect && buffEffect.type === 'addBuff') {
+          const existing = game.activeBuffs[buffEffect.buffId];
+          if (existing && existing.remaining / existing.total > 0.1) {
+            game.addLog('fail_buff_active', 'logs', 'var(--accent-red)');
+            game.playSound('fail');
+            return { success: false };
+          }
         }
+      }
+
+      if (costs && Object.keys(costs).length > 0) {
+        game.resource.consume(game, costs);
+      }
+    }
+
+    if (isFinalize) {
+      if (action.rewards) {
+        Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
+          let amount =
+            typeof amountOrKey === 'string'
+              ? game.pipeline.calculate(game, amountOrKey, 1)
+              : amountOrKey;
+          const finalAmount = amount;
+          const resId = res as ResourceId;
+          game.resource.add(game, resId, finalAmount);
+
+          const yieldType = action.yieldType;
+          if (res === yieldType || logGain === null) {
+            logGain = finalAmount;
+            totalYield = finalAmount;
+          }
+        });
+      }
+
+      if (action.onSuccess) {
+        action.onSuccess.forEach((effect) => {
+          if (effectHandlers[effect.type]) {
+            effectHandlers[effect.type](game, effect);
+          }
+        });
+      }
+    }
+
+    let result = {
+      success: true,
+      logKey: action.logKey,
+      logGain: logGain,
+      logColor: action.logColor,
+      yield: totalYield,
     };
+
+    if (isFinalize && (action as any).execute) {
+      const execResult = (action as any).execute(game);
+      if (execResult) {
+        result = { ...result, ...execResult };
+      }
+    }
+
+    return result;
+  };
+
+  return {
+    effectHandlers,
+    registerEffect,
+    initEffects,
+    processAction,
+    checkRequirement,
+    handleSuccess,
+    handleFailure,
+
+    execute(game: GameState, id: ActionId): boolean {
+      const action = game.content.get<ActionDefinition>(id, 'actions');
+      if (!action) return false;
+
+      if (id in game.activeTasks) return false;
+
+      if (action.duration) {
+        const result = processAction(game, id, action, 'prepare');
+        if (result.success) {
+          game.activeTasks[id] = {
+            actionId: id,
+            remaining: action.duration,
+            total: action.duration,
+          };
+          game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
+          return true;
+        }
+        handleFailure(game, id, action);
+        return false;
+      }
+
+      let result = processAction(game, id, action);
+
+      if (result && result.success) {
+        handleSuccess(game, id, action, result);
+        return true;
+      }
+
+      handleFailure(game, id, action);
+      return false;
+    },
+
+    boot() {
+      initEffects();
+    },
+  };
 }

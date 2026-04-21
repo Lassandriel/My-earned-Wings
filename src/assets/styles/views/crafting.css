@@ -1,202 +1,215 @@
 /* CRAFTING & HOUSING VIEW - PREMIUM REDESIGN */
 .view-content-crafting {
-    padding: var(--gap);
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    height: auto;
-    overflow: visible;
+  padding: var(--gap);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: auto;
+  overflow: visible;
 }
 
 /* Sub-Tab Navigation (Mirroring Vault Tabs) */
 .crafting-tabs {
-    display: flex;
-    flex-wrap: nowrap; /* Single line navigation */
-    overflow-x: auto;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
-    gap: 10px;
-    padding: 10px 5px 20px 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-wrap: nowrap; /* Single line navigation */
+  overflow-x: auto;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+  gap: 10px;
+  padding: 10px 5px 20px 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .crafting-tabs::-webkit-scrollbar {
-    display: none; /* Hide scrollbar Chrome/Safari */
+  display: none; /* Hide scrollbar Chrome/Safari */
 }
 
 /* Responsive adjustment for crafting */
 @media (max-width: 1100px) {
-    .crafting-view-root {
-        padding: 20px 15px; /* Narrower padding for small screens */
-    }
+  .crafting-view-root {
+    padding: 20px 15px; /* Narrower padding for small screens */
+  }
 }
 
 .craft-tab-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
-    padding: 8px 18px;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'Outfit', sans-serif;
-    letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .craft-tab-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 .craft-tab-btn.active {
-    background: var(--accent-teal);
-    border-color: var(--accent-teal);
-    color: #fff;
-    box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+  background: var(--accent-teal);
+  border-color: var(--accent-teal);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
 }
 
 /* Blueprint Grid Layout */
 .blueprint-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  width: 100%;
 }
 
 /* Base Blueprint Card */
 .blueprint-card {
-    position: relative;
-    aspect-ratio: 1 / 1;
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
 }
 
 .blueprint-card:hover:not(.is-completed) {
-    border-color: var(--accent-teal);
-    background: rgba(45, 212, 191, 0.1);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(45, 212, 191, 0.2);
+  border-color: var(--accent-teal);
+  background: rgba(45, 212, 191, 0.1);
+  transform: translateY(-5px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(45, 212, 191, 0.2);
 }
 
 .blueprint-card:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 
 /* Image Showcase */
 .blueprint-visual {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .blueprint-img {
-    width: 80%;
-    height: 80%;
-    object-fit: contain;
-    transition: transform 0.5s ease;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
 }
 
 .blueprint-card:hover .blueprint-img {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 /* Footer Label */
 .blueprint-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 12px 8px;
-    background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 70%, transparent 100%);
-    text-align: center;
-    z-index: 2;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 8px;
+  background: linear-gradient(
+    to top,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(15, 23, 42, 0.7) 70%,
+    transparent 100%
+  );
+  text-align: center;
+  z-index: 2;
 }
 
 .blueprint-name {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Progress States */
 .btn-progress-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    z-index: 10;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 10;
 }
 
 .btn-progress-fill {
-    height: 100%;
-    background: var(--accent-teal);
-    box-shadow: 0 0 10px var(--accent-teal);
-    transition: width 0.1s linear;
+  height: 100%;
+  background: var(--accent-teal);
+  box-shadow: 0 0 10px var(--accent-teal);
+  transition: width 0.1s linear;
 }
 
 .blueprint-card.is-working {
-    border-color: var(--accent-teal);
-    cursor: wait;
+  border-color: var(--accent-teal);
+  cursor: wait;
 }
 
 /* Completed & Status States */
 .blueprint-card.is-completed {
-    cursor: default;
-    border-color: rgba(45, 212, 191, 0.2);
+  cursor: default;
+  border-color: rgba(45, 212, 191, 0.2);
 }
 
 .blueprint-card.is-completed .blueprint-img {
-    filter: grayscale(0.6) brightness(0.6) opacity(0.5);
+  filter: grayscale(0.6) brightness(0.6) opacity(0.5);
 }
 
 .status-check {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(45, 212, 191, 0.15);
-    border: 1px solid var(--accent-teal);
-    color: var(--accent-teal);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    z-index: 5;
-    box-shadow: 0 0 25px rgba(45, 212, 191, 0.4);
-    animation: scaleInCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(45, 212, 191, 0.15);
+  border: 1px solid var(--accent-teal);
+  color: var(--accent-teal);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  z-index: 5;
+  box-shadow: 0 0 25px rgba(45, 212, 191, 0.4);
+  animation: scaleInCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes scaleInCheck {
-    from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }

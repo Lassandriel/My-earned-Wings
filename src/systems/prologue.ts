@@ -32,14 +32,14 @@ export const createPrologueSystem = () => ({
 
     // Log all intro sentences that haven't been shown yet
     for (let i = 1; i <= PROLOGUE_STEPS; i++) {
-        const logKey = `intro_${i}`;
-        const alreadyInLogs = (state as any).logs.some((log: any) => log.id === logKey);
+      const logKey = `intro_${i}`;
+      const alreadyInLogs = (state as any).logs.some((log: any) => log.id === logKey);
 
-        if (!alreadyInLogs) {
-            state.addLog(logKey, 'logs', 'var(--accent-teal)');
-        }
+      if (!alreadyInLogs) {
+        state.addLog(logKey, 'logs', 'var(--accent-teal)');
+      }
     }
 
     (state as any).finishPrologue();
-  }
+  },
 });

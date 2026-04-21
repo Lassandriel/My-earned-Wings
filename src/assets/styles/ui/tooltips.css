@@ -12,13 +12,15 @@
   width: 22.5rem; /* 360px */
   pointer-events: none;
   z-index: 10000;
-  box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.8), 0 0 1px rgba(255,255,255,0.1);
+  box-shadow:
+    0 1.25rem 2.5rem rgba(0, 0, 0, 0.8),
+    0 0 1px rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  
+
   /* Cursor following logic with bounds check offsets */
   left: calc(var(--mx) + var(--tt-off-x, 1.25rem));
   top: calc(var(--my) + var(--tt-off-y, 1.25rem));
-  
+
   display: flex;
   flex-direction: column;
   gap: 0.75rem; /* 12px */
@@ -51,7 +53,8 @@
   letter-spacing: 1px;
 }
 
-.tt-cost-list, .tt-effect-list {
+.tt-cost-list,
+.tt-effect-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -64,11 +67,23 @@
   justify-content: space-between;
 }
 
-.tt-ready { color: #4ade80 !important; }
-.tt-blocked { color: #f87171 !important; }
-.tt-bonus { color: #fbbf24 !important; }
+.tt-ready {
+  color: #4ade80 !important;
+}
+.tt-blocked {
+  color: #f87171 !important;
+}
+.tt-bonus {
+  color: #fbbf24 !important;
+}
 
 @keyframes tooltip-pop {
-    0% { opacity: 0; transform: scale(0.95) translateY(5px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }

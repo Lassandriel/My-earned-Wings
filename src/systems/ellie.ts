@@ -5,11 +5,11 @@ import { GameState } from '../types/game';
  * Specific logic for the tutorial companion.
  */
 export const createEllieSystem = () => ({
-    showIntro(store: GameState) {
-        store.showEllieIntro = true;
-    },
+  showIntro(store: GameState) {
+    store.showEllieIntro = true;
+  },
 
-    close(store: GameState) {
-        store.showEllieIntro = false;
-    }
+  close(store: GameState) {
+    store.showEllieIntro = false;
+  },
 });

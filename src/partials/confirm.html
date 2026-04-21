@@ -3,7 +3,7 @@
   id="confirm-modal"
   class="modal-overlay confirm-overlay"
   x-show="$store.game.confirmModal.open"
-  style="display: none;"
+  style="display: none"
   x-transition.opacity
   @keydown.escape.window="$store.game.resolveConfirm(false)"
 >

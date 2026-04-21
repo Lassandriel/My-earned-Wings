@@ -11,34 +11,27 @@
     </div>
 
     <div class="menu-actions">
-      <button 
-        class="menu-btn primary" 
+      <button
+        class="menu-btn primary"
         x-show="$store.game.hasSave"
         @click="$store.game.continueGame()"
       >
         <span class="btn-glow"></span>
         <span x-text="$store.game.t('menu_continue')">Fortfahren</span>
       </button>
-      
-      <button 
-        class="menu-btn" 
-        @click="$store.game.startNewGame()"
-      >
+
+      <button class="menu-btn" @click="$store.game.startNewGame()">
         <span x-text="$store.game.t('menu_new_game')">Neues Spiel</span>
       </button>
 
-
-      <button 
-        class="menu-btn" 
+      <button
+        class="menu-btn"
         @click="$store.game.settingsOpen = true; $store.game.playSound('click')"
       >
         <span x-text="$store.game.t('settings_title')">Einstellungen</span>
       </button>
 
-      <button 
-        class="menu-btn quit" 
-        @click="window.electronAPI?.quitApp()"
-      >
+      <button class="menu-btn quit" @click="window.electronAPI?.quitApp()">
         <span x-text="$store.game.t('btn_quit')">Beenden</span>
       </button>
     </div>
@@ -46,6 +39,11 @@
 
   <div class="menu-footer">
     <span x-text="$store.game.t('menu_version')">v1.0.0</span>
-    <a href="https://github.com/Lassandriel/My-earned-Wings" target="_blank" class="footer-repo-link">github.com/Lassandriel/My-earned-Wings</a>
+    <a
+      href="https://github.com/Lassandriel/My-earned-Wings"
+      target="_blank"
+      class="footer-repo-link"
+      >github.com/Lassandriel/My-earned-Wings</a
+    >
   </div>
 </section>

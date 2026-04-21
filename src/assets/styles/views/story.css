@@ -1,134 +1,184 @@
-/* Story / Chronicle Tab */
-.story-timeline { 
-  position: relative; 
-  padding: 10px 0 30px 60px; 
-}
-
-.journal-block {
-  margin-bottom: 25px;
-  position: relative;
-  border-left: 2px solid rgba(255, 255, 255, 0.05); /* Unified timeline line */
-  margin-left: 20px;
-}
-
-.journal-speaker-node {
-  position: absolute;
-  left: -21px; /* Integrated into timeline */
-  top: 0;
-  width: 40px;
-  height: 40px;
-  background: #0a0a0a;
-  border: 1px solid #444;
-  border-radius: 4px; /* Industrial sharp edges */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  z-index: 10;
-  transition: all 0.3s ease;
-}
-
-.journal-block:hover .journal-speaker-node {
-  transform: scale(1.1);
-  border-color: var(--accent-teal);
-  box-shadow: 0 0 15px var(--accent-teal);
-}
-
-.journal-content {
-  background: transparent;
-  padding: 0 0 0 35px;
-  transition: all 0.2s ease;
-}
-
-.journal-block:hover .journal-content {
-  background: rgba(255, 255, 255, 0.04);
-  border-left-color: var(--accent-teal);
-}
-
-.journal-name {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #fff;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.journal-line {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #eee;
-  position: relative;
-  padding-left: 15px;
-  margin-bottom: 6px;
-}
-
-.journal-line::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  border-radius: 50%;
-  opacity: 0.6;
-}
-
-.journal-line-effect {
-  font-size: 0.85rem;
-  color: var(--gold);
-  font-weight: 700;
-  margin-top: 4px;
-  font-style: italic;
-  display: block;
-}
-
-/* History Grid Structure */
-.story-chronicle-container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.story-chapter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.story-chapter-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1.5rem;
-  color: var(--accent-purple);
-  border-bottom: 2px solid var(--accent-purple);
-  padding-bottom: 5px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-}
-
-.story-cards-grid {
+/* Story Archive Layout */
+.story-archive-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 280px 1fr;
   gap: 20px;
+  height: 65vh;
+  min-height: 500px;
+  margin-top: 10px;
 }
 
-.story-card {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  transition: transform 0.3s, border-color 0.3s;
+.story-archive-sidebar {
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto;
 }
 
-.story-card:hover {
-  transform: translateY(-50px);
+.npc-archive-tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--trans-fast);
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.npc-archive-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.npc-archive-tab.active {
+  background: rgba(20, 184, 166, 0.15);
   border-color: var(--accent-teal);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.15);
+}
+
+.npc-archive-icon {
+  font-size: 1.5rem;
+}
+
+.npc-archive-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.npc-archive-tab.active .npc-archive-name {
+  color: #fff;
+  font-weight: 600;
+}
+
+.story-archive-content {
+  background: rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.archive-scroll-container {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.archive-entry {
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--accent-purple);
+  padding: 16px 24px;
+  border-radius: 4px 12px 12px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.archive-entry-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.archive-entry-chapter {
+  color: var(--accent-teal);
+  font-weight: 800;
+}
+
+.archive-entry-time {
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.archive-entry-body {
+  position: relative;
+}
+
+.archive-entry-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  white-space: pre-line;
+}
+
+.empty-archive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-dim);
+  font-style: italic;
+  opacity: 0.4;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Custom Scrollbar */
+.archive-scroll-container::-webkit-scrollbar,
+.story-archive-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.archive-scroll-container::-webkit-scrollbar-track,
+.story-archive-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.archive-scroll-container::-webkit-scrollbar-thumb,
+.story-archive-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.archive-scroll-container::-webkit-scrollbar-thumb:hover,
+.story-archive-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1080px) {
+  .story-archive-layout {
+    grid-template-columns: 220px 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .story-archive-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: 75vh;
+  }
+
+  .story-archive-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .npc-archive-tab {
+    flex-shrink: 0;
+    padding: 10px 15px;
+  }
+
+  .npc-archive-name {
+    display: none;
+  }
 }
