@@ -28,20 +28,40 @@ export function createActionSystem() {
     });
 
     registerEffect('unlockNPC', (game, { id }) => {
-      if (!game.unlockedNPCs.includes(id)) game.unlockedNPCs.push(id);
+      if (!game.unlockedNPCs.includes(id)) {
+        game.unlockedNPCs = [...game.unlockedNPCs, id];
+        const npc = game.content.get(id, 'npcs');
+        const name = npc ? game.t(npc.nameKey) : id;
+        game.addLog('reward_unlock_npc', 'logs', 'var(--gold)', { name });
+      }
     });
 
     registerEffect('unlockRecipe', (game, { id }) => {
-      if (!game.unlockedRecipes.includes(id)) game.unlockedRecipes.push(id);
+      if (!game.unlockedRecipes.includes(id)) {
+        game.unlockedRecipes = [...game.unlockedRecipes, id];
+        const action = game.content.get(id, 'actions');
+        const title = action ? game.t(action.title, 'actions') : id;
+        game.addLog('reward_unlock_recipe', 'logs', 'var(--gold)', { title });
+      }
     });
 
     registerEffect('unlockItem', (game, { id }) => {
-      if (!game.discoveredItems.includes(id)) game.discoveredItems.push(id);
+      if (!game.discoveredItems.includes(id)) {
+        game.discoveredItems = [...game.discoveredItems, id];
+        const item = game.content.get(id, 'items');
+        const title = item ? game.t(item.title, 'items') : id;
+        game.addLog('reward_unlock_item', 'logs', 'var(--gold)', { title });
+      }
       game.flags[id as unknown as FlagId] = true;
     });
 
     registerEffect('modifyLimit', (game, { resource, amount }) => {
-      game.limits[resource] = (game.limits[resource] || 0) + amount;
+      if (game.stats[resource] !== undefined || resource === 'energy' || resource === 'magic') {
+        const maxKey = 'max' + resource.charAt(0).toUpperCase() + resource.slice(1);
+        game.stats[maxKey] = (game.stats[maxKey] || 0) + amount;
+      } else {
+        game.limits[resource] = (game.limits[resource] || 0) + amount;
+      }
     });
 
     registerEffect('addBuff', (game, { buffId, override }) => {
@@ -69,6 +89,10 @@ export function createActionSystem() {
 
     registerEffect('modifyResource', (game, { resource, amount }) => {
       game.resource.add(game, resource, amount);
+    });
+
+    registerEffect('setHome', (game, { id }) => {
+      game.activeHome = id;
     });
   };
 

@@ -54,7 +54,8 @@ export const createItemSystem = () => ({
     store.discoveredItems.splice(idx, 1);
 
     // 4. Feedback
-    store.addLog(store.t(item.title) + ' benutzt.', 'custom', 'var(--accent-teal)');
+    const itemName = store.t(item.title, 'items');
+    store.addLog('item_used', 'logs', 'var(--accent-teal)', { item: itemName });
     store.playSound(item.sfx || 'success');
 
     // Auto-select next item

@@ -19,6 +19,7 @@ export const initialState: any = {
   craftingSubView: 'all',
   showEllieIntro: false,
   selectedStoryNpc: 'world',
+  activeHome: null,
 
   // Dynamic Containers
   resources: {},
@@ -32,6 +33,7 @@ export const initialState: any = {
   upgrades: [],
   discoveredResources: [],
   discoveredItems: [],
+  placedItems: [], // NEW: Track which furniture is currently active
   unlockedRecipes: [],
   unlockedNPCs: [],
 
@@ -77,6 +79,20 @@ export const initialState: any = {
     npcs: 0,
     items: 0,
     energySpent: 0,
+  },
+
+  exportGameData() {
+    return this.persistence.exportGameData(this);
+  },
+
+  quit() {
+    if (window.electronAPI) {
+      window.electronAPI.quitApp();
+    } else {
+      console.warn('Quit only works in Electron');
+      this.returnToMenu();
+      this.settingsOpen = false;
+    }
   },
 };
 

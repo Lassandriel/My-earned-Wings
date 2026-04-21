@@ -1,11 +1,10 @@
-/**
- * Navigation Registry - CORE 3.5 TypeScript Edition
- * Defines sidebar tabs and main game views.
- */
+import { FlagId } from '../../types/game';
+
 export interface NavigationItem {
   id: string;
   icon: string;
   label: string;
+  requiredFlag?: FlagId;
 }
 
 export const NAVIGATION_REGISTRY: Record<string, NavigationItem> = {
@@ -13,5 +12,6 @@ export const NAVIGATION_REGISTRY: Record<string, NavigationItem> = {
   crafting: { id: 'crafting', icon: 'crafting', label: 'nav_crafting' },
   upgrades: { id: 'upgrades', icon: 'upgrades', label: 'nav_upgrades' },
   village: { id: 'village', icon: 'village', label: 'nav_village' },
+  housing: { id: 'housing', icon: 'housing', label: 'nav_housing', requiredFlag: 'build-house' },
   story: { id: 'story', icon: 'chronic', label: 'nav_story_tab' },
 };

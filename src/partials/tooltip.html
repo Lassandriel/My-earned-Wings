@@ -86,13 +86,18 @@
   <!-- 4. Effects Section (Action Only) -->
   <div
     class="tt-section"
-    x-show="!$store.game.hoveredAction?.isHelp && $store.game.getActionEffect($store.game.hoveredAction)"
+    x-show="!$store.game.hoveredAction?.isHelp && $store.game.getActionEffect($store.game.hoveredAction).length > 0"
   >
     <div class="tt-section-header" x-text="$store.game.t('ui_yield') + ':'"></div>
     <div class="tt-effect-list">
-      <div class="tt-data-line tt-bonus">
-        <span x-text="$store.game.getActionEffect($store.game.hoveredAction)"></span>
-      </div>
+      <template
+        x-for="eff in $store.game.getActionEffect($store.game.hoveredAction)"
+        :key="eff"
+      >
+        <div class="tt-data-line tt-bonus">
+          <span x-text="eff"></span>
+        </div>
+      </template>
       <!-- UNLOCKS (Enhanced List View) -->
       <div
         class="tt-section"

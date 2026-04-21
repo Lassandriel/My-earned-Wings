@@ -60,6 +60,7 @@ export type ItemId =
   | 'item-crystal-mana'
   | 'item-bed-2'
   | 'item-stove-2';
+export type HomeId = 'home-tent' | 'home-house' | 'home-lake' | 'home-tower';
 export type NPCId =
   | 'npc-baker'
   | 'npc-flowerGirl'
@@ -98,9 +99,10 @@ export interface ItemDefinition {
   desc: string;
   image?: string;
   consumable: boolean;
-  category: 'tools' | 'provisions' | 'artifacts';
+  category: 'tools' | 'items' | 'crafting';
   effect?: Partial<Record<ResourceId, number>>;
   modifiers?: GameModifier[];
+  spaceCost?: number;
 }
 
 export type RequirementOperator = '>=' | '<=' | '>' | '<' | '!=' | 'includes' | 'not_includes';
@@ -129,7 +131,8 @@ export type GameEffect =
   | { type: 'setObjective'; id: string }
   | { type: 'playSound'; id: string }
   | { type: 'log'; logKey: string; color?: string; params?: any }
-  | { type: 'modifyResource'; resource: ResourceId; amount: number };
+  | { type: 'modifyResource'; resource: ResourceId; amount: number }
+  | { type: 'setHome'; id: HomeId };
 
 export interface ActionDefinition {
   id: ActionId;
@@ -211,6 +214,7 @@ export interface GameState {
   dialogueTitle: string;
   dialogueChoices: Array<{ text: string; callback: () => void }>;
   dialogueWaiting: boolean;
+  activeHome: HomeId | null;
 
   // Discovery & Progress
   discoveredResources: ResourceId[];
@@ -377,10 +381,21 @@ export interface MilestoneDefinition {
   onUnlock?: GameEffect[];
 }
 
+export interface HomeDefinition {
+  id: HomeId;
+  nameKey: string;
+  descKey: string;
+  image: string;
+  capacity: number;
+  modifiers?: GameModifier[];
+  baseLimits?: Partial<Record<ResourceId, number>>;
+}
+
 export interface NavigationDefinition {
   id: string;
   icon: string;
   label: string;
+  requiredFlag?: FlagId;
 }
 
 export interface Registries {
@@ -391,4 +406,15 @@ export interface Registries {
   buffs: Record<string, BuffDefinition>;
   milestones: Record<string, MilestoneDefinition>;
   navigation: Record<string, NavigationDefinition>;
+  homes: Record<HomeId, HomeDefinition>;
+}
+
+declare global {
+  interface Window {
+    electronAPI?: {
+      saveGame: (data: string) => Promise<boolean>;
+      loadGame: () => Promise<string | null>;
+      quitApp: () => void;
+    };
+  }
 }

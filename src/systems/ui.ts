@@ -172,11 +172,26 @@ export const createUISystem = () => {
       return (current / max) * 100;
     },
 
-    getActionEffect(store: GameState, hAction: any) {
-      if (!hAction || !hAction.data) return '';
+    getActionEffect(store: GameState, hAction: any): string[] {
+      if (!hAction) return [];
+      const effects: string[] = [];
+
+      // 0. BUFF TOOLTIP (New)
+      if (hAction.isBuff) {
+        if (hAction.desc) effects.push(store.t(hAction.desc, 'buffs'));
+        if (hAction.remaining) {
+          effects.push(
+            `${store.t('ui_remaining') || 'Noch'} ${Math.ceil(hAction.remaining)} Sekunden`
+          );
+        }
+        return effects;
+      }
+
+      if (!hAction.data) return [];
       const hId = hAction.id;
       const action = hAction.data;
 
+      // 1. NPC STEP REWARDS
       if (hId.startsWith('act-npc-')) {
         const progKey = action.progKey;
         const currentProg = store.npcProgress[progKey] || 0;
@@ -184,65 +199,135 @@ export const createUISystem = () => {
 
         if (steps[currentProg]) {
           const step = steps[currentProg];
-          const rewards: string[] = [];
 
           if (step.reward) {
             const item = store.content.get(step.reward, 'items');
             const itemName = item ? store.t(item.title, 'items') : step.reward;
-            rewards.push(`1 ${itemName}`);
+            effects.push(`1 ${itemName}`);
           }
 
           if (step.onSuccess) {
             step.onSuccess.forEach((eff: any) => {
               if (eff.type === 'unlockNPC') {
                 const npcName = store.t('npc_' + eff.id.replace('npc-', '') + '_name', 'ui');
-                rewards.push(`Freischaltung: ${npcName}`);
+                effects.push(`${store.t('ui_bonus')} ${npcName} ${store.t('ui_ready')}`);
               } else if (eff.type === 'unlockRecipe') {
-                const recipeName = store.t(eff.id, 'actions')?.title || eff.id;
-                rewards.push(`Rezept: ${recipeName}`);
+                const recipeAction = store.content.get(eff.id, 'actions');
+                const recipeName = recipeAction ? store.t(eff.id, 'actions')?.title : eff.id;
+                effects.push(
+                  `${store.t('ui_bonus')} ${store.t('ui_recipe') || 'Rezept'}: ${recipeName}`
+                );
               } else if (eff.type === 'modifyResource') {
                 const resName = store.t('ui_' + eff.resource) || eff.resource;
-                rewards.push(`${eff.amount > 0 ? '+' : ''}${eff.amount} ${resName}`);
+                effects.push(`${eff.amount > 0 ? '+' : ''}${eff.amount} ${resName}`);
+              } else if (eff.type === 'modifyLimit') {
+                const resName = store.t('ui_' + eff.resource) || eff.resource;
+                const propertyLabel = store.t('ui_property') || 'Eigenschaft:';
+                const limitLabel = store.t('ui_limit') || 'Limit:';
+                effects.push(`${propertyLabel} ${resName} ${limitLabel} +${eff.amount}`);
               }
             });
           }
 
-          if (rewards.length > 0) return rewards.join(', ');
-          return store.t('ui_ready');
+          if (effects.length > 0) return effects;
+          return [store.t('ui_ready')];
         }
       }
 
+      // 2. PRIMARY ACTION YIELD
       const lang = store.t(hId, 'actions') as any;
-      if (!lang || !lang.effect) return '';
-
-      let yieldVal: any = null;
-      if (action.calculateYield) {
-        yieldVal = action.calculateYield(store);
-      } else if (action.rewards) {
-        const firstReward = Object.entries(action.rewards)[0];
-        if (firstReward) {
-          yieldVal =
-            typeof firstReward[1] === 'string'
-              ? store.pipeline.calculate(store, firstReward[1], 1)
-              : firstReward[1];
+      if (lang && lang.effect) {
+        let yieldVal: any = null;
+        if (action.calculateYield) {
+          yieldVal = action.calculateYield(store);
+        } else if (action.rewards) {
+          const firstReward = Object.entries(action.rewards)[0];
+          if (firstReward) {
+            yieldVal =
+              typeof firstReward[1] === 'string'
+                ? store.pipeline.calculate(store, firstReward[1], 1)
+                : firstReward[1];
+          }
         }
-      }
 
-      if (yieldVal !== null) {
-        let effectText = lang.effect;
-        if (typeof yieldVal === 'object') {
-          Object.entries(yieldVal).forEach(([key, val]) => {
-            const displayVal = typeof val === 'number' ? Math.round(val) : val;
-            effectText = effectText.replace(`{${key}}`, displayVal);
-          });
-          return effectText;
+        if (yieldVal !== null) {
+          let effectText = lang.effect;
+          if (typeof yieldVal === 'object') {
+            Object.entries(yieldVal).forEach(([key, val]) => {
+              const displayVal = typeof val === 'number' ? Math.round(val) : val;
+              effectText = effectText.replace(`{${key}}`, displayVal);
+            });
+            effects.push(effectText);
+          } else {
+            const displayVal = typeof yieldVal === 'number' ? Math.round(yieldVal) : yieldVal;
+            effects.push(effectText.replace('{val}', displayVal.toString()));
+          }
         } else {
-          const displayVal = typeof yieldVal === 'number' ? Math.round(yieldVal) : yieldVal;
-          return effectText.replace('{val}', displayVal.toString());
+          effects.push(lang.effect);
         }
       }
 
-      return lang.effect;
+      // 3. AUTOMATIC SUCCESS BONUSES
+      if (action.onSuccess) {
+        action.onSuccess.forEach((eff: any) => {
+          if (eff.type === 'modifyLimit') {
+            const resName = store.t('ui_' + eff.resource) || eff.resource;
+            const propertyLabel = store.t('ui_property') || 'Eigenschaft:';
+            const limitLabel = store.t('ui_limit') || 'Limit:';
+            effects.push(`${propertyLabel} ${resName} ${limitLabel} +${eff.amount}`);
+          } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
+            const npcName = store.t('npc_' + eff.id.replace('npc-', '') + '_name', 'ui');
+            effects.push(`${store.t('ui_bonus')} ${npcName} ${store.t('ui_ready')}`);
+          } else if (eff.type === 'unlockRecipe') {
+            const recipeAction = store.content.get(eff.id, 'actions');
+            const recipeName = recipeAction ? store.t(eff.id, 'actions')?.title : eff.id;
+            effects.push(`${store.t('ui_bonus')} ${store.t('ui_recipe')}: ${recipeName}`);
+          }
+        });
+      }
+
+      // 4. STATIC MODIFIERS (Yields, Regens)
+      if (action.modifiers) {
+        action.modifiers.forEach((mod: any) => {
+          const isLimit = mod.key.endsWith('_limit');
+          const labelPrefix = isLimit
+            ? store.t('ui_property') || 'Eigenschaft:'
+            : store.t('ui_bonus') || 'Bonus:';
+
+          const modId = isLimit ? mod.key.replace('_limit', '') : mod.key;
+          const modLabel =
+            store.t('ui_' + modId) || (store.t(modId, 'actions') as any)?.title || mod.key;
+
+          const limitSuffix = isLimit ? ` ${store.t('ui_limit') || 'Limit'}` : '';
+
+          effects.push(`${labelPrefix} ${modLabel}${limitSuffix} +${mod.add || mod.mult || ''}`);
+        });
+      }
+
+      // 5. SPACE COST
+      if (action.spaceCost) {
+        const spaceLabel = store.t('ui_space_cost') || 'Platz';
+        effects.push(`${spaceLabel}: ${action.spaceCost}`);
+      }
+
+      return effects;
+    },
+
+    getUsedFurnitureSpace(store: GameState): number {
+      let total = 0;
+      store.placedItems.forEach((id) => {
+        const item = store.content.get(id, 'items');
+        if (item && item.category === 'crafting') {
+          total += item.spaceCost || 1;
+        }
+      });
+      return total;
+    },
+
+    getHomeCapacity(store: GameState): number {
+      if (!store.activeHome) return 0;
+      const home = store.content.get(store.activeHome, 'homes');
+      return home ? home.capacity : 0;
     },
 
     getTooltipCosts,

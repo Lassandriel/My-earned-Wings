@@ -16,9 +16,9 @@ export const createPipelineSystem = () => {
       let base = baseValue;
       if (key === 'meat_yield') base = 2;
       if (key === 'garden_yield') base = 3;
-      if (key === 'shards_yield') base = 15;
+      if (key === 'shards_yield') base = 25;
       if (key === 'eat_satiation_gain') base = 10;
-      if (key === 'rest_energy_gain') base = 15;
+      if (key === 'rest_energy_gain') base = 10;
       if (key === 'wood_yield') base = 3;
       if (key === 'stone_yield') base = 2;
       if (key === 'magic_yield') base = 15;
@@ -57,17 +57,32 @@ export const createPipelineSystem = () => {
           // Check Items
           const item = store.content.get(flagId, 'items') as ItemDefinition | null;
           if (item && item.modifiers) {
-            item.modifiers.filter((m) => m.key === key).forEach((m) => mods.push(m));
+            // ONLY apply furniture modifiers if they are in placedItems
+            if (item.category !== 'furniture' || store.placedItems.includes(item.id)) {
+              item.modifiers
+                .filter((m: GameModifier) => m.key === key)
+                .forEach((m: GameModifier) => mods.push(m));
+            }
           }
           // Check Actions/Buildings
           const action = store.content.get(flagId, 'actions') as ActionDefinition | null;
           if (action && action.modifiers) {
-            action.modifiers.filter((m) => m.key === key).forEach((m) => mods.push(m));
+            action.modifiers.filter((m: GameModifier) => m.key === key).forEach((m: GameModifier) => mods.push(m));
           }
         }
       });
 
-      // 2. DATA-DRIVEN BUFF MODIFIERS
+      // 2. ACTIVE HOME MODIFIERS (NEW)
+      if (store.activeHome) {
+        const home = store.content.get(store.activeHome, 'homes');
+        if (home && home.modifiers) {
+          home.modifiers
+            .filter((m: GameModifier) => m.key === key)
+            .forEach((m: GameModifier) => mods.push(m));
+        }
+      }
+
+      // 3. DATA-DRIVEN BUFF MODIFIERS
       Object.values(store.activeBuffs).forEach((buff: any) => {
         const buffDef = store.content.get(buff.id, 'buffs');
         if (buffDef && buffDef.modifiers) {
@@ -88,11 +103,11 @@ export const createPipelineSystem = () => {
       ) {
         const sat = store.stats.satiation;
         let efficiency: number;
-        if (sat >= 80) efficiency = 1.25;
-        else if (sat <= 20) efficiency = 0.66;
+        if (sat >= 85) efficiency = 1.3;
+        else if (sat <= 15) efficiency = 0.4;
         else {
-          const curve = 1.5 - ((sat - 20) / 60) * 0.7;
-          efficiency = 1 / curve;
+          // Steeper linear interpolation between 0.4 and 1.3
+          efficiency = 0.4 + ((sat - 15) / 70) * 0.9;
         }
         mods.push({ mult: efficiency });
       }

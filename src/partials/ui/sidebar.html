@@ -1,7 +1,7 @@
 <!-- Sidebar Navigation -->
 <nav class="sidebar">
   <ul class="nav-list nav-items-top">
-    <template x-for="item in $store.game.content.registries.navigation" :key="item.id">
+    <template x-for="item in Object.values($store.game.content.registries.navigation).filter(i => !i.requiredFlag || $store.game.flags[i.requiredFlag])" :key="item.id">
       <li
         class="nav-item"
         :id="'nav-' + item.id"

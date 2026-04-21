@@ -84,8 +84,8 @@ export const npcActions: Record<string, any> = {
       { costs: { stone: 20 }, dialogueKey: 'npc_artisan_2' },
       {
         costs: { wood: 10, stone: 10 },
-        reward: 'item-chisel',
         onSuccess: [
+          { type: 'unlockRecipe', id: 'act-chisel' },
           { type: 'setFlag', flag: 'unlock-artisan-tools', value: true },
           { type: 'unlockRecipe', id: 'act-axe' },
           { type: 'unlockRecipe', id: 'act-pickaxe' },

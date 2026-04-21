@@ -80,14 +80,15 @@ export const createResourceSystem = () => {
         }
       } else if (state.stats[type] !== undefined) {
         const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
-        state.stats[type] = Math.min(state.stats[maxKey] || 100, state.stats[type] + finalAmount);
+        const max = state.stats[maxKey] || 100;
+        state.stats[type] = Math.min(max, state.stats[type] + finalAmount);
         changed = true;
       } else if (state.resources[type as ResourceId] !== undefined) {
         const resId = type as ResourceId;
         if (state.discoveredResources && !state.discoveredResources.includes(resId)) {
           state.discoveredResources.push(resId);
         }
-        const limit = state.limits[resId] || Infinity;
+        const limit = this.getLimit(state, resId);
         state.resources[resId] = Math.min(limit, state.resources[resId] + finalAmount);
         changed = true;
       }
@@ -99,12 +100,34 @@ export const createResourceSystem = () => {
     },
 
     getLimit(state: GameState, type: ResourceId): number {
-      return state.limits[type] || 0;
+      const res = state.RESOURCE_REGISTRY[type];
+      const base = res?.initialLimit || 0;
+
+      // Calculate dynamic bonus from pipeline (Buildings + Furniture)
+      const bonus = state.pipeline?.calculate(state, type + '_limit', 0) || 0;
+
+      let homeBonus = 0;
+      if (state.activeHome) {
+        const home = state.content.get(state.activeHome, 'homes');
+        homeBonus = home?.baseLimits?.[type] || 0;
+      }
+
+      return base + bonus + homeBonus;
+    },
+
+    getMaxStat(state: GameState, type: string): number {
+      const res = state.RESOURCE_REGISTRY[type];
+      const base = res?.initialMax || 100;
+
+      // Calculate dynamic bonus (e.g., energy_limit)
+      const bonus = state.pipeline?.calculate(state, type + '_limit', 0) || 0;
+
+      return base + bonus;
     },
 
     isFull(state: GameState, type: ResourceId): boolean {
       if (state.resources[type] !== undefined) {
-        return state.resources[type] >= (state.limits[type] || Infinity);
+        return state.resources[type] >= (this.getLimit(state, type) || Infinity);
       }
       if (state.stats[type as string] !== undefined) {
         const maxKey = 'max' + (type as string).charAt(0).toUpperCase() + (type as string).slice(1);

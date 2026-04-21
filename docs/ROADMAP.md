@@ -1,6 +1,7 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 8.4 COMPLETE (Story Archive & System Synchronization)
+## Current Status: Phase 8.7 COMPLETE (Stability & Housing Management)
+
 
 The internal architecture has been fully refactored to "Draconia Core 3.5". Narrative progression is now fully supported by a premium NPC Dialogue Archive, with synchronized system-to-content recording and automated project validation.
 
@@ -316,6 +317,23 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". Narr
 
 ---
 
+
+## Phase 8.6: The Housing Revolution - **COMPLETED**
+
+- [x] **Home Progression Fix**: Initialized activeHome as null to ensure correct early-game experience.
+- [x] **Housing Navigation**: Introduced a specialized Housing Tab, decoupled from generic Possessions.
+- [x] **Gated Visibility**: Implemented logic-bound navigation tabs that respond to story flags (build-house).
+- [x] **Relocation Engine**: Added setHome effect for automated transitions between shelters.
+- [x] **UI Migration**: Dedicated housing interface with furniture management and aesthetic home cards.
+- [x] **Type Integrity**: Hardened internal systems with null-checks and strict TypeScript interfaces for shelters.
+
+- [x] **Phase 8.7: Housing Stability & i18n Hardening**:
+  - [x] **Interactive Furniture**: Implemented a dynamic placement system for furniture, replacing passive/permanent modifiers.
+  - [x] **Relocation Engine**: Updated `resource.ts` and `pipeline.ts` to calculate stats dynamically based on `placedItems`.
+  - [x] **Housing UI Redesign**: Created a premium management interface for "Placed" and "Stored" furniture with space validation.
+  - [x] **i18n Zero-Lie Policy**: Hardened `check-i18n.ts` with full parity checks between DE and EN across all registries.
+  - [x] **Content Loop Fix**: Converted Artisan Kael's reward to a Chisel Recipe to enforce the intended crafting progression.
+  - [x] **Buff HUD Integrity**: Resolved technical key leaks in the HUD by enforcing localized translations for all active buffs.
 ## Future Horizons
 
 - [ ] **Phase 9: Diplomacy**

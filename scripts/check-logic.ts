@@ -1,85 +1,174 @@
+import fs from 'fs';
+import path from 'path';
 import { registries } from '../src/data/index';
 
 let errors = 0;
+let warnings = 0;
+
+const logError = (msg: string) => {
+    console.error(`❌ ERROR: ${msg}`);
+    errors++;
+};
+
+const logWarning = (msg: string) => {
+    console.warn(`⚠️ WARNING: ${msg}`);
+    warnings++;
+};
+
+const checkFileExists = (relPath: string) => {
+    if (!relPath) return true;
+    const fullPath = path.join(process.cwd(), 'public', relPath);
+    return fs.existsSync(fullPath);
+};
+
+// SFX Registry from audio.ts
+const validSfx = new Set(['click', 'gather', 'success', 'eat', 'fail', 'magic', 'water', 'craft', 'discovery']);
 
 const checkLogic = () => {
-    console.log("=== LOGIC & PROGRESSION VALIDATION (TypeScript) ===\n");
+    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION ===\n");
 
     const providedFlags = new Set<string>();
     const requiredFlags = new Set<string>();
     const requirementsMap: Record<string, string[]> = {}; 
 
-    // Helper to collect effects
-    const collectEffects = (effects: any[]) => {
-        if (!effects) return;
-        effects.forEach(eff => {
-            if (eff.type === 'setFlag' && eff.flag) providedFlags.add(eff.flag);
-            if (eff.type === 'unlockItem' && eff.id) {
-                providedFlags.add(eff.id);
-                providedFlags.add('item-' + eff.id.replace('item-', ''));
-            }
-            if (eff.type === 'unlockRecipe' && eff.id) providedFlags.add(eff.id);
-            if (eff.type === 'unlockNPC' && eff.id) providedFlags.add(eff.id);
-        });
-    };
+    const itemIds = new Set(Object.keys(registries.items));
+    const actionIds = new Set(Object.keys(registries.actions));
 
-    // 1. Collect all providers
-    Object.values(registries.actions).forEach((act: any) => {
-        collectEffects(act.onSuccess);
-        if (act.steps) {
-            act.steps.forEach((step: any) => {
-                collectEffects(step.onSuccess);
-                if (step.reward) providedFlags.add(step.reward);
+    const itemsUnlockedBy = new Map<string, string>(); // itemID -> actionID
+    const referencedModifiers = new Set<string>();
+
+    // 1. Validate Items
+    console.log("--- Validating Items ---");
+    Object.entries(registries.items).forEach(([id, item]: [string, any]) => {
+        // Image Check
+        if (item.image && !checkFileExists(item.image)) {
+            logError(`Item '${id}' refers to missing image: ${item.image}`);
+        }
+
+        // Space Cost Check for Crafting
+        if (item.category === 'crafting') {
+            if (item.spaceCost === undefined || item.spaceCost <= 0) {
+                logError(`Crafting item '${id}' has no (or zero) spaceCost! Furniture must occupy space.`);
+            }
+        }
+
+        // Modifiers
+        if (item.modifiers) {
+            item.modifiers.forEach((mod: any) => {
+                const modKey = mod.key.endsWith('_limit') ? mod.key.replace('_limit', '') : mod.key;
+                referencedModifiers.add(modKey);
             });
         }
     });
 
-    // 2. Initial Unlocks
-    providedFlags.add('build-campfire'); 
+    // 2. Validate Actions
+    console.log("--- Validating Actions ---");
+    
+    const checkEffects = (effects: any[], source: string) => {
+        if (!effects) return;
+        effects.forEach((eff: any) => {
+            if (eff.type === 'setFlag' && eff.flag) providedFlags.add(eff.flag);
+            
+            if (eff.type === 'unlockItem' && eff.id) {
+                if (!itemIds.has(eff.id)) {
+                    logError(`${source} unlocks non-existent item: '${eff.id}'`);
+                } else {
+                    itemsUnlockedBy.set(eff.id, source);
+                }
+                providedFlags.add(eff.id);
+            }
+            
+            if (eff.type === 'unlockRecipe' && eff.id) {
+                if (!actionIds.has(eff.id)) {
+                    logError(`${source} unlocks non-existent action: '${eff.id}'`);
+                }
+                providedFlags.add(eff.id);
+            }
+            
+            if (eff.type === 'unlockNPC' && eff.id) providedFlags.add(eff.id);
+            
+            if (eff.type === 'modifyLimit' && eff.resource) {
+                referencedModifiers.add(eff.resource);
+            }
+        });
+    };
 
-    // 3. Collect all requirements
-    Object.values(registries.actions).forEach((act: any) => {
+    Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
+        // Image Check
+        if (act.image && !checkFileExists(act.image)) {
+            logError(`Action '${id}' refers to missing image: ${act.image}`);
+        }
+
+        // SFX Check
+        if (act.sfx && !validSfx.has(act.sfx)) {
+            logError(`Action '${id}' uses unknown sound effect: '${act.sfx}'`);
+        }
+
+        checkEffects(act.onSuccess, `Action '${id}'`);
+        
+        if (act.steps) {
+            act.steps.forEach((step: any, idx: number) => {
+                checkEffects(step.onSuccess, `Action '${id}' (Step ${idx})`);
+                if (step.reward) {
+                    if (!itemIds.has(step.reward)) {
+                        logError(`Action '${id}' (Step ${idx}) rewards non-existent item: '${step.reward}'`);
+                    } else {
+                        itemsUnlockedBy.set(step.reward, `Action '${id}'`);
+                    }
+                    providedFlags.add(step.reward);
+                }
+            });
+        }
+
+        // Requirements
         if (act.requirements) {
             Object.keys(act.requirements).forEach(reqPath => {
                 if (reqPath.startsWith('flags.')) {
                     const flagName = reqPath.replace('flags.', '');
                     requiredFlags.add(flagName);
-                    
                     if (!requirementsMap[flagName]) requirementsMap[flagName] = [];
-                    requirementsMap[flagName].push(act.id);
+                    requirementsMap[flagName].push(id);
                 }
             });
         }
     });
 
-    // 4. Milestone requirements
-    Object.values(registries.milestones).forEach((stone: any) => {
-        if (stone.requirements) {
-            Object.keys(stone.requirements).forEach(reqPath => {
-                if (reqPath.startsWith('flags.')) {
-                    const flagName = reqPath.replace('flags.', '');
-                    requiredFlags.add(flagName);
-                    if (!requirementsMap[flagName]) requirementsMap[flagName] = [];
-                    requirementsMap[flagName].push(`Milestone: ${stone.id}`);
-                }
-            });
+    // 3. The "Smart" Counterpart Check
+    console.log("--- Validating Crafting Bridges ---");
+    Object.entries(registries.items).forEach(([id, item]: [string, any]) => {
+        if (item.category === 'crafting' || item.category === 'tools') {
+            if (!itemsUnlockedBy.has(id)) {
+                logError(`ORPHANED ITEM: '${id}' (category: ${item.category}) exists in items.ts but is never unlocked by any action!`);
+            }
         }
     });
 
-    // Cross-check
+    // 4. Modifier Translation Bridge
+    console.log("--- Validating Translation Bridges ---");
+    // This part is hard because we can't easily read the TS translation files here without complex parsing
+    // but we can warn that these resources should have 'ui_' keys.
+    const resourceIds = new Set(Object.keys(registries.resources));
+    referencedModifiers.forEach(mod => {
+        // Check if it's a known resource or should be one
+        if (!resourceIds.has(mod as any)) {
+            logWarning(`Modifier refers to key '${mod}' which is not a registered resource. Ensure 'ui_${mod}' exists in lang files.`);
+        }
+    });
+
+    // 5. Progression Check
+    console.log("--- Cross-Checking Progression ---");
+    providedFlags.add('build-campfire'); 
     requiredFlags.forEach(flag => {
         if (!providedFlags.has(flag)) {
-            console.error(`[DEAD-END] Flag '${flag}' is required but unreachable!`);
-            console.log(`  -> Required by: ${requirementsMap[flag].join(', ')}`);
-            errors++;
+            logError(`Flag '${flag}' is required but never provided!`);
+            console.log(`   -> Required by: ${requirementsMap[flag].join(', ')}`);
         }
     });
 
     console.log("\n=============================");
-    if (errors === 0) {
-        console.log("Perfect! All required flags are reachable.");
-    } else {
-        console.log(`Logic check completed: ${errors} dead-ends found.`);
+    console.log(`Validation completed with ${errors} Errors and ${warnings} Warnings.`);
+    
+    if (errors > 0) {
         process.exit(1);
     }
 };

@@ -1,0 +1,110 @@
+<!-- HOUSING VIEW - Dedicated Home Management -->
+<div
+  x-show="$store.game.view === 'housing'"
+  class="view-content-housing"
+>
+  <div class="category-header">
+    <h3 x-text="$store.game.t('nav_housing')">Zuhause</h3>
+  </div>
+
+  <!-- ACTIVE HOME PANEL -->
+  <template x-if="$store.game.activeHome">
+    <div class="active-home-panel-wrapper">
+      <div class="active-home-card shadow-premium" x-transition>
+        <div class="home-visual">
+          <img
+            :src="$store.game.content.get($store.game.activeHome, 'homes')?.image"
+            class="home-img"
+          />
+          <div class="home-overlay-glow"></div>
+        </div>
+        <div class="home-details">
+          <div class="home-header">
+            <span class="home-badge" x-text="$store.game.t('ui_home')"></span>
+            <h4
+              x-text="$store.game.t($store.game.content.get($store.game.activeHome, 'homes')?.nameKey)"
+            ></h4>
+          </div>
+          <p
+            class="home-flavor"
+            x-text="$store.game.t($store.game.content.get($store.game.activeHome, 'homes')?.descKey)"
+          ></p>
+
+          <div class="home-stats-row">
+            <div class="home-stat-item">
+              <span class="stat-label" x-text="$store.game.t('ui_furniture_space')"></span>
+              <div class="space-progress-bar">
+                <div
+                  class="space-fill"
+                  :style="`width: ${Math.min(100, ($store.game.ui.getUsedFurnitureSpace($store.game) / $store.game.ui.getHomeCapacity($store.game)) * 100)}%`"
+                  :class="$store.game.ui.getUsedFurnitureSpace($store.game) > $store.game.ui.getHomeCapacity($store.game) ? 'space-overload' : ''"
+                ></div>
+              </div>
+              <span class="stat-numeric">
+                <span x-text="$store.game.ui.getUsedFurnitureSpace($store.game)"></span> /
+                <span x-text="$store.game.ui.getHomeCapacity($store.game)"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- No Home Placeholder -->
+  <template x-if="!$store.game.activeHome">
+    <div class="housing-empty-notice shadow-premium">
+        <p x-text="$store.game.t('ui_no_shelter')">Kein festes Zuhause definiert.</p>
+    </div>
+  </template>
+
+  <!-- Furniture Management UI -->
+  <template x-if="$store.game.activeHome">
+    <div class="housing-management-container">
+      <!-- Placed Furniture -->
+      <div class="furniture-group shadow-premium">
+        <div class="group-header">
+           <h4 x-text="$store.game.t('ui_placed_furniture') || 'Platzierte Möbel'"></h4>
+        </div>
+        <div class="furniture-grid">
+           <template x-for="id in $store.game.placedFurnitureList" :key="id">
+             <div class="furniture-card" @mouseenter="$store.game.setHovered(id)" @mouseleave="$store.game.setHovered(null)">
+                <img :src="$store.game.content.get(id, 'items')?.image" class="furn-icon" />
+                <span class="furn-name" x-text="$store.game.t($store.game.content.get(id, 'items')?.title, 'items')"></span>
+                <button class="furn-btn remove" @click="$store.game.toggleFurniture(id)">
+                  <span x-text="$store.game.t('ui_remove') || 'Entfernen'"></span>
+                </button>
+             </div>
+           </template>
+           <template x-if="$store.game.placedFurnitureList.length === 0">
+             <div class="empty-state-info" x-text="$store.game.t('ui_no_furniture_placed') || 'Keine Möbel platziert.'"></div>
+           </template>
+        </div>
+      </div>
+
+      <!-- Storage / Available -->
+      <div class="furniture-group shadow-premium">
+        <div class="group-header">
+           <h4 x-text="$store.game.t('ui_stored_furniture') || 'Lagerhaus'"></h4>
+        </div>
+        <div class="furniture-grid">
+           <template x-for="id in $store.game.availableFurniture" :key="id">
+             <div class="furniture-card stored" @mouseenter="$store.game.setHovered(id)" @mouseleave="$store.game.setHovered(null)">
+                <img :src="$store.game.content.get(id, 'items')?.image" class="furn-icon" />
+                <div class="furn-info-box">
+                  <span class="furn-name" x-text="$store.game.t($store.game.content.get(id, 'items')?.title, 'items')"></span>
+                  <span class="furn-cost" x-text="$store.game.content.get(id, 'items')?.spaceCost + ' ' + ($store.game.t('ui_space_cost') || 'Platz')"></span>
+                </div>
+                <button class="furn-btn" @click="$store.game.toggleFurniture(id)">
+                  <span x-text="$store.game.t('ui_place') || 'Platzieren'"></span>
+                </button>
+             </div>
+           </template>
+           <template x-if="$store.game.availableFurniture.length === 0">
+             <div class="empty-state-info" x-text="$store.game.t('ui_no_more_furniture') || 'Keine weiteren Möbel verfügbar.'"></div>
+           </template>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>

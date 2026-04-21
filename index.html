@@ -110,6 +110,13 @@
           </section>
           <section
             class="view-section"
+            x-show="$store.game.view === 'housing'"
+            x-transition:enter="view-enter"
+          >
+            <%- include('./src/partials/housing.html') %>
+          </section>
+          <section
+            class="view-section"
             x-show="$store.game.view === 'story'"
             x-transition:enter="view-enter"
           >

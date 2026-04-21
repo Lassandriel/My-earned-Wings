@@ -91,6 +91,7 @@ export const createContentService = (registries: Registries) => ({
     if (id.startsWith('act-')) return 'actions';
     if (id.startsWith('build-')) return 'actions';
     if (id.startsWith('buff-')) return 'buffs';
+    if (id.startsWith('home-')) return 'homes';
     return null;
   },
 

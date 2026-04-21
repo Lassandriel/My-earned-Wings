@@ -5,7 +5,7 @@
   x-data="{
             // Dynamic resolution from ContentService
             getConstructionItems() {
-                const categories = ['camp', 'housing', 'workshop', 'garden'];
+                const categories = ['camp', 'housing', 'crafting', 'tools', 'garden'];
                 const allActions = this.$store.game.content.registries.actions || {};
                 
                 let list = [];
@@ -97,11 +97,19 @@
     </button>
     <button
       class="craft-tab-btn"
-      :class="$store.game.craftingSubView === 'workshop' && 'active'"
-      @click="$store.game.craftingSubView = 'workshop'; $store.game.playSound('click')"
-      x-text="$store.game.t('ui_tab_workshop')"
+      :class="$store.game.craftingSubView === 'crafting' && 'active'"
+      @click="$store.game.craftingSubView = 'crafting'; $store.game.playSound('click')"
+      x-text="$store.game.t('ui_tab_crafting')"
     >
-      Werkstatt
+      Handwerk
+    </button>
+    <button
+      class="craft-tab-btn"
+      :class="$store.game.craftingSubView === 'tools' && 'active'"
+      @click="$store.game.craftingSubView = 'tools'; $store.game.playSound('click')"
+      x-text="$store.game.t('ui_tab_tools')"
+    >
+      Werkzeuge
     </button>
     <button
       class="craft-tab-btn"

@@ -135,6 +135,7 @@ const gameStore: any = {
         'crafting',
         'upgrades',
         'village',
+        'housing',
         'story',
         'finale',
       ];
@@ -204,6 +205,39 @@ const gameStore: any = {
   },
   npcExecute(id: string) {
     return this.npc.execute(this, id);
+  },
+  toggleFurniture(id: string) {
+    const item = this.content.get(id, 'items');
+    if (!item || item.category !== 'crafting') return;
+
+    const isPlaced = this.placedItems.includes(id);
+
+    if (isPlaced) {
+      // Remove
+      this.placedItems = this.placedItems.filter((i: string) => i !== id);
+      this.playSound('click');
+      this.addLog(this.t(item.title) + ' entfernt.', 'custom', 'var(--text-muted)');
+    } else {
+      // Place - Exclusive Rule: Only one bed at a time
+      if (id.includes('bed')) {
+        this.placedItems = this.placedItems.filter((i: string) => !i.includes('bed'));
+      }
+
+      const spaceRequired = item.spaceCost || 1;
+      const currentSpace = this.ui.getUsedFurnitureSpace(this);
+      const capacity = this.ui.getHomeCapacity(this);
+
+      if (currentSpace + spaceRequired > capacity) {
+        this.playSound('fail');
+        this.ui.showToast(this.t('fail_furniture_space') || 'Nicht genug Platz!', 'error');
+        return;
+      }
+
+      this.placedItems = [...this.placedItems, id];
+      this.playSound('magic');
+      this.addLog(this.t(item.title) + ' platziert.', 'custom', 'var(--accent-teal)');
+    }
+    this.saveGame();
   },
   consumeItem(id: string) {
     return this.item.consumeItem(this, id);
@@ -300,6 +334,15 @@ const gameStore: any = {
   get satiationPercent() {
     return this.ui.getStatPercent(this, 'satiation');
   },
+  get maxEnergy() {
+    return this.resource.getMaxStat(this, 'energy');
+  },
+  get maxMagic() {
+    return this.resource.getMaxStat(this, 'magic');
+  },
+  get maxSatiation() {
+    return this.resource.getMaxStat(this, 'satiation');
+  },
 
   get canAccessTreeOfLife() {
     return this.unlockedNPCs.includes('npc-treeOfLife') && !this.demoCompleted;
@@ -307,6 +350,18 @@ const gameStore: any = {
 
   get groupedHistory() {
     return this.story.getGroupedHistory(this);
+  },
+  get availableFurniture() {
+    return this.discoveredItems.filter((id: string) => {
+      const item = this.content.get(id, 'items');
+      return item?.category === 'crafting' && !this.placedItems.includes(id);
+    });
+  },
+  get placedFurnitureList() {
+    return this.placedItems.filter((id: string) => {
+      const item = this.content.get(id, 'items');
+      return item?.category === 'crafting';
+    });
   },
 };
 

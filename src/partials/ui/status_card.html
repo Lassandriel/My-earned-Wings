@@ -14,7 +14,7 @@
       >
         <div class="buff-glow"></div>
         <span class="buff-icon">✨</span>
-        <span class="buff-label" x-text="buff.title">Buff</span>
+        <span class="buff-label" x-text="$store.game.t(buff.title, 'buffs')">Buff</span>
         <span class="buff-timer" x-text="Math.ceil(buff.remaining) + 's'">0s</span>
       </div>
     </template>
@@ -64,7 +64,7 @@
         </div>
         <span
           class="stat-val"
-          x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"
+          x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"
         ></span>
       </div>
     </template>

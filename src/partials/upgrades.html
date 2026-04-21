@@ -15,6 +15,7 @@
     </div>
   </div>
 
+
   <div class="upgrades-container">
     <!-- Category Filter Tabs -->
     <div class="vault-tabs">
@@ -35,6 +36,12 @@
         :class="activeCategory === 'artifacts'"
         @click="activeCategory = 'artifacts'"
         x-text="$store.game.t('cat_artifacts')"
+      ></button>
+      <button
+        class="vault-tab-btn"
+        :class="activeCategory === 'furniture'"
+        @click="activeCategory = 'furniture'"
+        x-text="$store.game.t('cat_furniture')"
       ></button>
       <button
         class="vault-tab-btn"
@@ -114,6 +121,16 @@
                 class="item-description"
                 x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').desc, 'items')"
               ></p>
+
+              <!-- Space Cost for Furniture -->
+              <template
+                x-if="$store.game.content.get($store.game.selectedItem, 'items').category === 'furniture'"
+              >
+                <div class="item-space-badge">
+                  <span x-text="$store.game.t('ui_furniture_space')"></span>:
+                  <span x-text="$store.game.content.get($store.game.selectedItem, 'items').spaceCost"></span>
+                </div>
+              </template>
 
               <!-- Effects -->
               <template x-if="$store.game.content.get($store.game.selectedItem, 'items').effect">

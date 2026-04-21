@@ -118,6 +118,16 @@ export const gatheringActions: Record<string, any> = {
     rewards: { herbs: 'garden_yield' },
     logKey: 'garden_harvest_log',
   },
+  'act-garden-water': {
+    id: 'act-garden-water',
+    cost: 5,
+    costType: 'energy',
+    sfx: 'gather',
+    rewards: { water: 2 },
+    particleText: 'ui_water',
+    particleType: 'energy',
+    logKey: 'garden_water_log',
+  },
   'act-cook-gourmet': {
     id: 'act-cook-gourmet',
     costType: 'mixed',
