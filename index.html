@@ -11,7 +11,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap"
     />
-    <script type="module" src="src/main.js"></script>
+    <script type="module" src="src/main.ts"></script>
   </head>
   <body>
     <div id="app" x-data>
@@ -28,9 +28,12 @@
       </div>
 
       <!-- Overlays & Modals -->
-      <%- include('./src/partials/menu.html') %> <%- include('./src/partials/prologue.html') %> <%-
-      include('./src/partials/naming.html') %> <%- include('./src/partials/settings.html') %> <%-
-      include('./src/partials/finale.html') %> <%- include('./src/partials/confirm.html') %>
+      <%- include('./src/features/ui/menu.view.html') %> <%-
+      include('./src/features/story/prologue.view.html') %> <%-
+      include('./src/features/ui/naming.view.html') %> <%-
+      include('./src/features/ui/settings.view.html') %> <%-
+      include('./src/features/story/finale.view.html') %> <%-
+      include('./src/features/ui/confirm.view.html') %>
 
       <!-- Ellie Intro Modal -->
       <div
@@ -44,9 +47,9 @@
           </div>
           <div class="ellie-text-card">
             <h4 x-text="$store.game.t('npc_ellie_name')"></h4>
-            <p x-text="$store.game.t('ellie_tutorial_1', 'logs')"></p>
-            <p x-text="$store.game.t('ellie_tutorial_2', 'logs')"></p>
-            <p x-text="$store.game.t('ellie_tutorial_3', 'logs')"></p>
+            <p x-html="$store.game.t('ellie_tutorial_1', 'logs')"></p>
+            <p x-html="$store.game.t('ellie_tutorial_2', 'logs')"></p>
+            <p x-html="$store.game.t('ellie_tutorial_3', 'logs')"></p>
             <button class="game-btn btn-small" @click="$store.game.ellie.close($store.game)">
               Schließen
             </button>
@@ -76,7 +79,7 @@
         </header>
 
         <!-- Modular Sidebar -->
-        <%- include('./src/partials/ui/sidebar.html') %>
+        <%- include('./src/features/ui/sidebar.view.html') %>
 
         <!-- Content Views -->
         <main>
@@ -85,53 +88,53 @@
             x-show="$store.game.view === 'gameplay'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/partials/gameplay.html') %>
+            <%- include('./src/features/gameplay/gameplay.view.html') %>
           </section>
           <section
             class="view-section"
             x-show="$store.game.view === 'crafting'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/partials/crafting.html') %>
+            <%- include('./src/features/crafting/crafting.view.html') %>
           </section>
           <section
             class="view-section"
             x-show="$store.game.view === 'upgrades'"
             x-transition:enter="view-enter"
           >
-            <%- include('src/partials/upgrades.html') %>
+            <%- include('./src/features/crafting/upgrades.view.html') %>
           </section>
           <section
             class="view-section"
             x-show="$store.game.view === 'village'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/partials/village.html') %>
+            <%- include('./src/features/village/village.view.html') %>
           </section>
           <section
             class="view-section"
             x-show="$store.game.view === 'housing'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/partials/housing.html') %>
+            <%- include('./src/features/housing/housing.view.html') %>
           </section>
           <section
             class="view-section"
             x-show="$store.game.view === 'story'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/partials/story.html') %>
+            <%- include('./src/features/story/story.view.html') %>
           </section>
         </main>
 
         <!-- Global Log -->
-        <%- include('./src/partials/log.html') %>
+        <%- include('./src/features/ui/log.view.html') %>
 
         <!-- Right Panel (Status Card) -->
-        <aside class="right-panel"><%- include('./src/partials/ui/status_card.html') %></aside>
+        <aside class="right-panel"><%- include('./src/features/ui/status_card.view.html') %></aside>
       </div>
 
-      <%- include('./src/partials/tooltip.html') %>
+      <%- include('./src/features/ui/tooltip.view.html') %>
     </div>
   </body>
 </html>

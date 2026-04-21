@@ -1,11 +1,11 @@
 import { actionDb } from './actions/index';
-import { itemDb } from './definitions/items';
-import { NPC_REGISTRY } from './definitions/npcs';
+import { itemDb } from '../features/crafting/items.data';
+import { NPC_REGISTRY } from '../features/village/village.data';
 import { RESOURCE_REGISTRY } from './definitions/resources';
 import { BUFF_REGISTRY } from './definitions/buffs';
-import { MILESTONE_REGISTRY } from './definitions/milestones';
+import { MILESTONE_REGISTRY } from '../features/story/story.data';
 import { NAVIGATION_REGISTRY } from './definitions/navigation';
-import { HOME_REGISTRY } from './definitions/homes';
+import { HOME_REGISTRY } from '../features/housing/housing.data';
 import { Registries } from '../types/game';
 
 /**

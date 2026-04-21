@@ -1,0 +1,49 @@
+<!-- MAIN MENU VIEW -->
+<section id="main-menu" x-show="$store.game.view === 'menu'" class="main-menu-overlay">
+  <div class="menu-content">
+    <div class="menu-logo-container">
+      <img src="img/logo_wings.webp" alt="Wings Logo" class="menu-logo" />
+      <h1 class="menu-title" x-text="$store.game.t('menu_title') || 'Your earned Wings'"></h1>
+      <div class="menu-subtitle">
+        <span x-text="$store.game.t('menu_subtitle')"></span>
+        <span class="demo-badge" x-text="$store.game.t('ui_demo_badge')"></span>
+      </div>
+    </div>
+
+    <div class="menu-actions">
+      <button
+        class="menu-btn primary"
+        x-show="$store.game.hasSave"
+        @click="$store.game.continueGame()"
+      >
+        <span class="btn-glow"></span>
+        <span x-text="$store.game.t('menu_continue')"></span>
+      </button>
+
+      <button class="menu-btn" @click="$store.game.startNewGame()">
+        <span x-text="$store.game.t('menu_new_game')"></span>
+      </button>
+
+      <button
+        class="menu-btn"
+        @click="$store.game.settingsOpen = true; $store.game.playSound('click')"
+      >
+        <span x-text="$store.game.t('settings_title')"></span>
+      </button>
+
+      <button class="menu-btn quit" @click="window.electronAPI?.quitApp()">
+        <span x-text="$store.game.t('btn_quit')"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-footer">
+    <span x-text="$store.game.t('menu_version')"></span>
+    <a
+      href="https://github.com/Lassandriel/My-earned-Wings"
+      target="_blank"
+      class="footer-repo-link"
+      x-text="'github.com/Lassandriel/My-earned-Wings'"></a>
+    >
+  </div>
+</section>

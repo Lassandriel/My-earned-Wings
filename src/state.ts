@@ -18,6 +18,7 @@ export const initialState: any = {
   currentScale: 1,
   craftingSubView: 'all',
   showEllieIntro: false,
+  ellieIntroSeen: false,
   selectedStoryNpc: 'world',
   activeHome: null,
 
@@ -56,6 +57,7 @@ export const initialState: any = {
     showParticles: true,
     showJuice: true,
     uiScale: 'auto',
+    resolution: 'auto',
   },
 
   counters: {

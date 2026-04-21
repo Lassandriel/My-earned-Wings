@@ -6,8 +6,6 @@ export const constructionActions: Record<string, any> = {
   // === CAMP & STORAGE (Chapter: The Beginning) ===
   'build-campfire': {
     id: 'build-campfire',
-    isStory: true,
-    chapter: 'The Beginning',
     category: 'housing',
     cost: 5,
     costType: 'wood',
@@ -24,8 +22,6 @@ export const constructionActions: Record<string, any> = {
   },
   'build-tent': {
     id: 'build-tent',
-    isStory: true,
-    chapter: 'The Beginning',
     category: 'housing',
     requirements: { 'flags.build-campfire': true, 'flags.build-tent': { op: '!=', val: true } },
     costs: { wood: 15, stone: 5 },
@@ -45,7 +41,7 @@ export const constructionActions: Record<string, any> = {
   },
   'build-wood-storage': {
     id: 'build-wood-storage',
-    isStory: true,
+    
     chapter: 'Establishment',
     category: 'housing',
     requirements: {
@@ -66,7 +62,7 @@ export const constructionActions: Record<string, any> = {
   },
   'build-stone-storage': {
     id: 'build-stone-storage',
-    isStory: true,
+    
     chapter: 'Establishment',
     category: 'housing',
     requirements: {
@@ -89,7 +85,7 @@ export const constructionActions: Record<string, any> = {
   // === HOUSING (Chapter: Establishment) ===
   'build-house': {
     id: 'build-house',
-    isStory: true,
+    
     chapter: 'Establishment',
     category: 'housing',
     costs: { wood: 40, stone: 40 },
@@ -112,7 +108,7 @@ export const constructionActions: Record<string, any> = {
   },
   'build-table': {
     id: 'build-table',
-    isStory: true,
+    
     chapter: 'Establishment',
     category: 'housing',
     requirements: { 'flags.build-house': true, 'flags.build-table': { op: '!=', val: true } },
@@ -130,7 +126,7 @@ export const constructionActions: Record<string, any> = {
   },
   'build-kitchen': {
     id: 'build-kitchen',
-    isStory: true,
+    
     chapter: 'Refinement',
     category: 'housing',
     costs: { wood: 80, stone: 40 },
@@ -143,7 +139,7 @@ export const constructionActions: Record<string, any> = {
   },
   'build-arcane-sanctum': {
     id: 'build-arcane-sanctum',
-    isStory: true,
+    
     chapter: 'Refinement',
     category: 'housing',
     costs: { stone: 150, magic: 50 },
@@ -269,6 +265,7 @@ export const constructionActions: Record<string, any> = {
   },
   'act-book': {
     id: 'act-book',
+    icon: '📖',
     category: 'crafting',
     requirements: { 'flags.build-bookshelf': true },
     costs: { shards: 10, wood: 5 },
@@ -323,7 +320,7 @@ export const constructionActions: Record<string, any> = {
   'build-garden': {
     id: 'build-garden',
     category: 'garden',
-    isStory: true,
+    
     chapter: 'Establishment',
     costs: { wood: 20, stone: 20 },
     image: 'img/housing/garden.webp',
@@ -338,8 +335,9 @@ export const constructionActions: Record<string, any> = {
   },
   'build-garden-upgrade': {
     id: 'build-garden-upgrade',
+    icon: '🏗️',
     category: 'garden',
-    isStory: true,
+    
     chapter: 'Refinement',
     costs: { wood: 50, stone: 50, water: 20 },
     requirements: {

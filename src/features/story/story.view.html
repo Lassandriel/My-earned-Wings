@@ -1,0 +1,75 @@
+<!-- CHRONICLE VIEW -->
+<div x-show="$store.game.view === 'story'" class="view-content-story">
+  <div class="category-header">
+    <h3 x-text="$store.game.t('nav_story_tab_header')"></h3>
+    <div
+      class="nav-help-icon"
+      @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('nav_story_tab_header'), desc: $store.game.t('nav_chronicle_desc') }"
+      @mouseleave="$store.game.hoveredAction = null"
+    >
+      ?
+    </div>
+  </div>
+
+  <div class="story-archive-layout">
+    <!-- Sidebar: NPC List -->
+    <div class="story-archive-sidebar">
+      <div
+        class="npc-archive-tab"
+        :class="$store.game.selectedStoryNpc === 'world' ? 'active' : ''"
+        @click="$store.game.selectedStoryNpc = 'world'; $store.game.playSound('click')"
+      >
+        <span class="npc-archive-icon">📜</span>
+        <span class="npc-archive-name" x-text="$store.game.t('cat_chronicle_world')"></span>
+      </div>
+
+      <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
+        <div
+          class="npc-archive-tab"
+          :class="$store.game.selectedStoryNpc === npcId ? 'active' : ''"
+          @click="$store.game.selectedStoryNpc = npcId; $store.game.playSound('click')"
+          x-show="$store.game.storyHistory.some(e => e.npcId === npcId)"
+        >
+          <span
+            class="npc-archive-icon"
+            x-text="$store.game.content.get(npcId, 'npcs').icon"
+          ></span>
+          <span
+            class="npc-archive-name"
+            x-text="$store.game.t($store.game.content.get(npcId, 'npcs').nameKey)"
+          ></span>
+        </div>
+      </template>
+    </div>
+
+    <!-- Main Content: Dialogue Log -->
+    <div class="story-archive-content">
+      <div class="archive-scroll-container">
+        <template
+          x-for="entry in $store.game.storyHistory.filter(e => (e.npcId || 'world') === $store.game.selectedStoryNpc)"
+          :key="entry.timestamp"
+        >
+          <div class="archive-entry" x-transition:enter="view-enter">
+            <div class="archive-entry-header">
+              <span class="archive-entry-chapter" x-text="entry.chapter"></span>
+              <span
+                class="archive-entry-time"
+                x-text="new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })"
+              ></span>
+            </div>
+            <div class="archive-entry-body">
+              <div class="archive-entry-text" x-html="entry.text || ''"></div>
+            </div>
+          </div>
+        </template>
+
+        <div
+          x-show="$store.game.storyHistory.filter(e => (e.npcId || 'world') === $store.game.selectedStoryNpc).length === 0"
+          class="empty-archive"
+        >
+          <p x-text="$store.game.t('ui_empty_story')"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,41 +13,72 @@
 }
 
 /* BASIS & MILESTONES */
-.basis-row {
+.basis-container {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .basis-val {
-  padding: 6px 12px;
+  padding: 10px 15px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
   color: var(--text-dim);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  gap: 12px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.basis-icon {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+}
+
+.basis-val.empty-state {
+  opacity: 0.6;
+  border-style: dashed;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.basis-val.empty-state .basis-icon {
+  filter: grayscale(1) opacity(0.5);
+  animation: ghost-float 3s infinite ease-in-out;
 }
 
 .basis-val.active {
-  background: rgba(45, 212, 191, 0.1);
-  border-color: rgba(45, 212, 191, 0.2);
-  color: var(--accent-teal);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(45, 212, 191, 0.08);
+  border-color: rgba(45, 212, 191, 0.3);
+  color: #fff;
+  border-style: solid;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 0 10px rgba(45, 212, 191, 0.1);
 }
 
 .basis-val.milestone {
-  background: rgba(251, 191, 36, 0.08);
-  border-color: rgba(251, 191, 36, 0.2);
-  color: var(--accent-gold);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05));
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fff;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  animation: subtle-pulse 2s infinite ease-in-out;
+  letter-spacing: 1px;
+  animation: milestone-glow 3s infinite ease-in-out;
+}
+
+@keyframes ghost-float {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-3px); opacity: 0.7; }
+}
+
+@keyframes milestone-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(251, 191, 36, 0.2); border-color: rgba(251, 191, 36, 0.6); }
 }
 
 @keyframes subtle-pulse {

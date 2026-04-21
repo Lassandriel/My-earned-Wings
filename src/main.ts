@@ -3,67 +3,39 @@ import collapse from '@alpinejs/collapse';
 import { initialState, getTranslations } from './state';
 import { registries } from './data/index';
 
-import { createResourceSystem } from './systems/resource';
-import { createAudioSystem } from './systems/audio';
-import { createPersistenceSystem } from './systems/persistence';
-import { createLoggerSystem } from './systems/logger';
-import { createJuiceSystem } from './systems/juice';
-import { createUISystem } from './systems/ui';
-import { createStorySystem } from './systems/story';
-import { createPrologueSystem } from './systems/prologue';
-import { createDialogueSystem } from './systems/dialogue';
-import { createNPCSystem } from './systems/npc';
-import { createActionSystem } from './systems/actions';
-import { createEngineSystem } from './systems/engine';
-import { createItemSystem } from './systems/item';
-import { createPipelineSystem } from './systems/pipeline';
-import { createViewManagerSystem } from './systems/viewManager';
-import { createEllieSystem } from './systems/ellie';
-import { createEventBus, GAME_EVENTS } from './systems/bus';
-import { createContentService } from './systems/content';
+import { createResourceSystem } from './features/gameplay/resource.logic';
+import { createAudioSystem } from './core/audio';
+import { createPersistenceSystem } from './core/persistence';
+import { createLoggerSystem } from './core/logger';
+import { createJuiceSystem } from './core/juice';
+import { createUISystem } from './core/ui';
+import { createStorySystem } from './features/story/story.logic';
+import { createPrologueSystem } from './features/story/prologue.logic';
+import { createDialogueSystem } from './features/story/dialogue.logic';
+import { createNPCSystem } from './features/village/village.logic';
+import { createHousingSystem } from './features/housing/housing.logic';
+import { createActionSystem } from './features/gameplay/actions.logic';
+import { createEngineSystem } from './core/engine';
+import { createItemSystem } from './features/crafting/items.logic';
+import { createPipelineSystem } from './core/pipeline';
+import { createViewManagerSystem } from './core/viewManager';
+import { createEllieSystem } from './features/village/ellie.logic';
+import { createSettingsSystem } from './features/ui/settings.logic';
+import { createI18nSystem } from './core/i18n';
+import { createEventBus, GAME_EVENTS } from './core/bus';
+import { createContentService } from './core/content';
 
 import { GameState } from './types/game';
+
+import { createBootSystem } from './core/boot';
 
 import './assets/styles/main.css';
 
 Alpine.plugin(collapse);
 (window as any).Alpine = Alpine;
 
-/**
- * CORE 3.5 STORE ASSEMBLY - TypeScript Edition
- * Dynamically builds the game store based on registries.
- */
-const buildInitialState = (): any => {
-  const baseState = JSON.parse(JSON.stringify(initialState));
-
-  // Auto-populate resources and stats from Registry
-  Object.values(registries.resources).forEach((res: any) => {
-    if (res.type === 'resource') {
-      const limit = res.initialLimit || 0;
-      baseState.limits[res.id] = limit;
-      baseState.resources[res.id] = Math.min(limit, res.initial || 0);
-    } else if (res.type === 'stat') {
-      const max = res.initialMax || 100;
-      const maxKey = 'max' + res.id.charAt(0).toUpperCase() + res.id.slice(1);
-      baseState.stats[maxKey] = max;
-      baseState.stats[res.id] = Math.min(max, res.initial || 100);
-    }
-  });
-
-  // Auto-populate NPC data
-  Object.values(registries.npcs).forEach((npc: any) => {
-    if (npc.progKey && baseState.npcProgress[npc.progKey] === undefined) {
-      baseState.npcProgress[npc.progKey] = 0;
-    }
-    if (npc.unlockedAtStart && !baseState.unlockedNPCs.includes(npc.id)) {
-      baseState.unlockedNPCs.push(npc.id);
-    }
-  });
-
-  return baseState;
-};
-
-const dynamicInitialState = buildInitialState();
+const bootSystem = createBootSystem();
+const dynamicInitialState = bootSystem.buildInitialState(initialState);
 
 const gameStore: any = {
   ...dynamicInitialState,
@@ -89,10 +61,13 @@ const gameStore: any = {
   actions: createActionSystem(),
   engine: createEngineSystem(),
   item: createItemSystem(),
+  housing: createHousingSystem(),
   dialogue: createDialogueSystem(),
   pipeline: createPipelineSystem(),
   ellie: createEllieSystem(),
   viewManager: createViewManagerSystem(),
+  settingsSystem: createSettingsSystem(),
+  i18n: createI18nSystem(),
   bus: createEventBus(),
   EVENTS: GAME_EVENTS,
 
@@ -121,8 +96,8 @@ const gameStore: any = {
 
     store.engine.init();
 
-    store.ui.calculateScale(store);
-    window.addEventListener('resize', () => store.ui.calculateScale(store));
+    store.settingsSystem.calculateScale(store);
+    window.addEventListener('resize', () => store.settingsSystem.calculateScale(store));
 
     // --- GLOBAL UI WATCHER ---
     (Alpine as any).effect(() => {
@@ -157,7 +132,7 @@ const gameStore: any = {
 
   // --- PROXIES & DELEGATES ---
   startNewGame() {
-    this.viewManager.startNewGame(this, buildInitialState);
+    this.viewManager.startNewGame(this, () => bootSystem.buildInitialState(initialState));
   },
   continueGame() {
     this.viewManager.continueGame(this);
@@ -180,64 +155,16 @@ const gameStore: any = {
   },
 
   attemptAction(el: HTMLElement, id: string) {
-    if (this.activeTasks[id]) return;
-    const res = this.executeAction(id);
-    if (res === false || (res && (res as any).success === false)) {
-      if (el) {
-        el.classList.add('btn-shake');
-        setTimeout(() => el.classList.remove('btn-shake'), 400);
-      }
-    }
-    return res;
+    return this.actions.attemptAction(this, el, id as import('./types/game').ActionId);
   },
   toggleFocus(id: string) {
-    const action = this.content.get(id, 'actions');
-    if (this.activeFocus === id) {
-      this.activeFocus = null;
-      this.playSound('click');
-    } else {
-      this.activeFocus = id;
-      this.playSound('magic');
-      if (action && action.isLoopable) {
-        this.executeAction(id);
-      }
-    }
+    this.actions.toggleFocus(this, id as import('./types/game').ActionId);
   },
   npcExecute(id: string) {
     return this.npc.execute(this, id);
   },
   toggleFurniture(id: string) {
-    const item = this.content.get(id, 'items');
-    if (!item || item.category !== 'crafting') return;
-
-    const isPlaced = this.placedItems.includes(id);
-
-    if (isPlaced) {
-      // Remove
-      this.placedItems = this.placedItems.filter((i: string) => i !== id);
-      this.playSound('click');
-      this.addLog(this.t(item.title) + ' entfernt.', 'custom', 'var(--text-muted)');
-    } else {
-      // Place - Exclusive Rule: Only one bed at a time
-      if (id.includes('bed')) {
-        this.placedItems = this.placedItems.filter((i: string) => !i.includes('bed'));
-      }
-
-      const spaceRequired = item.spaceCost || 1;
-      const currentSpace = this.ui.getUsedFurnitureSpace(this);
-      const capacity = this.ui.getHomeCapacity(this);
-
-      if (currentSpace + spaceRequired > capacity) {
-        this.playSound('fail');
-        this.ui.showToast(this.t('fail_furniture_space') || 'Nicht genug Platz!', 'error');
-        return;
-      }
-
-      this.placedItems = [...this.placedItems, id];
-      this.playSound('magic');
-      this.addLog(this.t(item.title) + ' platziert.', 'custom', 'var(--accent-teal)');
-    }
-    this.saveGame();
+    this.housing.toggleFurniture(this, id);
   },
   consumeItem(id: string) {
     return this.item.consumeItem(this, id);
@@ -250,8 +177,7 @@ const gameStore: any = {
     return this.persistence.loadGame(this);
   },
   setLanguage(lang: string) {
-    this.language = lang;
-    this.saveGame();
+    this.settingsSystem.setLanguage(this, lang);
   },
   hardReset() {
     this.viewManager.hardReset(this);
@@ -261,43 +187,11 @@ const gameStore: any = {
   },
 
   applyCheats() {
-    this.stats.energy = 9999;
-    this.stats.maxEnergy = 9999;
-    this.stats.magic = 9999;
-    this.stats.maxMagic = 9999;
-    this.stats.satiation = 9999;
-    this.stats.maxSatiation = 9999;
-    this.stats.shards = 99999;
-    Object.keys(this.limits).forEach((k) => (this.limits[k] = 9999));
-    Object.keys(this.resources).forEach((k) => (this.resources[k] = 9999));
-
-    this.saveGame();
-    this.ui.showToast('Resources & Stats maximized! (NPCs remain locked for testing)', 'success');
-    this.settingsOpen = false;
+    this.settingsSystem.applyCheats(this);
   },
 
   t(key: string, context = 'ui', params = {}) {
-    const data = this.translations[this.language][context]?.[key] || key;
-    const finalParams: Record<string, any> = { player: this.playerName || 'Wandler', ...params };
-
-    const replaceRecursive = (val: any): any => {
-      if (typeof val === 'string') {
-        let replaced = val;
-        Object.entries(finalParams).forEach(([k, v]) => {
-          replaced = replaced.replace(new RegExp(`{${k}}`, 'g'), v);
-        });
-        return replaced;
-      } else if (typeof val === 'object' && val !== null) {
-        const result: any = Array.isArray(val) ? [] : {};
-        for (let k in val) {
-          result[k] = replaceRecursive(val[k]);
-        }
-        return result;
-      }
-      return val;
-    };
-
-    return replaceRecursive(data);
+    return this.i18n.t(this, key, context, params);
   },
 
   playSound(key: string) {
@@ -325,14 +219,20 @@ const gameStore: any = {
     }
     this.hoveredAction = extra ? { id, ...extra } : { id, data: this.content.get(id) };
   },
+  getUsedFurnitureSpace() {
+    return this.housing.getUsedFurnitureSpace(this);
+  },
+  getHomeCapacity() {
+    return this.housing.getHomeCapacity(this);
+  },
   get energyPercent() {
-    return this.ui.getStatPercent(this, 'energy');
+    return this.resource.getStatPercent(this, 'energy');
   },
   get magicPercent() {
-    return this.ui.getStatPercent(this, 'magic');
+    return this.resource.getStatPercent(this, 'magic');
   },
   get satiationPercent() {
-    return this.ui.getStatPercent(this, 'satiation');
+    return this.resource.getStatPercent(this, 'satiation');
   },
   get maxEnergy() {
     return this.resource.getMaxStat(this, 'energy');
@@ -345,23 +245,17 @@ const gameStore: any = {
   },
 
   get canAccessTreeOfLife() {
-    return this.unlockedNPCs.includes('npc-treeOfLife') && !this.demoCompleted;
+    return this.npc.canAccessTreeOfLife(this);
   },
 
   get groupedHistory() {
     return this.story.getGroupedHistory(this);
   },
   get availableFurniture() {
-    return this.discoveredItems.filter((id: string) => {
-      const item = this.content.get(id, 'items');
-      return item?.category === 'crafting' && !this.placedItems.includes(id);
-    });
+    return this.housing.getAvailableFurniture(this);
   },
   get placedFurnitureList() {
-    return this.placedItems.filter((id: string) => {
-      const item = this.content.get(id, 'items');
-      return item?.category === 'crafting';
-    });
+    return this.housing.getPlacedFurnitureList(this);
   },
 };
 
@@ -378,10 +272,7 @@ document.addEventListener('keydown', (e) => {
     if (store.view === 'prologue') {
       (store.prologue as any).skipPrologue(store);
     } else {
-      (store as any).settingsOpen = !(store as any).settingsOpen;
-      if (!(store as any).settingsOpen && store.ui && store.ui.cleanupHover)
-        store.ui.cleanupHover(store);
-      store.playSound('click');
+      (store as any).settingsSystem.toggleSettings(store);
     }
   }
 

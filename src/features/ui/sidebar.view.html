@@ -1,0 +1,33 @@
+<!-- Sidebar Navigation -->
+<nav class="sidebar">
+  <ul class="nav-list nav-items-top">
+    <template x-for="item in Object.values($store.game.content.registries.navigation).filter(i => !i.requiredFlag || $store.game.flags[i.requiredFlag])" :key="item.id">
+      <li
+        class="nav-item"
+        :id="'nav-' + item.id"
+        :class="$store.game.view === item.id && 'active'"
+        @click="$store.game.view = item.id; $store.game.playSound('click')"
+        :aria-label="$store.game.t('nav_to_prefix') + ' ' + $store.game.t(item.label)"
+      >
+        <img :src="'img/menu_' + item.icon + '.webp'" :alt="$store.game.t(item.label)" class="menu-icon-img" />
+        <span x-text="$store.game.t(item.label)"></span>
+      </li>
+    </template>
+  </ul>
+
+  <div class="sidebar-footer">
+    <div
+      class="save-status-sidebar"
+      x-text="$store.game.saveInfoText || $store.game.t('save_never')"
+    >
+    </div>
+    <div
+      class="settings-corner-btn"
+      @click="$store.game.settingsOpen = true"
+      @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('settings_title'), desc: '' }"
+      @mouseleave="$store.game.hoveredAction = null"
+    >
+      ⚙️
+    </div>
+  </div>
+</nav>

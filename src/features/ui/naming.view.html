@@ -1,0 +1,46 @@
+<!-- CHARACTER NAMING VIEW -->
+<section
+  class="naming-modal-overlay"
+  x-show="$store.game.view === 'naming'"
+  x-transition:enter="modal-overlay-enter"
+  x-transition:leave="modal-overlay-leave"
+>
+  <div
+    class="naming-modal-card"
+    x-transition:enter="modal-card-enter"
+    x-transition:leave="modal-card-leave"
+    x-init="$watch('$store.game.view', v => v === 'naming' && $nextTick(() => $el.querySelector('input').focus()))"
+  >
+    <div class="modal-decor-top"></div>
+
+    <div class="modal-header">
+      <h2 x-html="$store.game.t('ui_naming_title')"></h2>
+      <p x-html="$store.game.t('ui_naming_desc')"></p>
+    </div>
+
+    <div class="naming-input-wrapper">
+      <input
+        type="text"
+        id="player-name-input"
+        x-model="$store.game.playerName"
+        :placeholder="$store.game.t('ui_naming_placeholder')"
+        maxlength="16"
+        @keydown.enter="$store.game.confirmName($store.game.playerName)"
+        class="premium-input"
+      />
+      <div class="input-focus-line"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        class="game-btn premium-confirm-btn"
+        @click="$store.game.confirmName($store.game.playerName)"
+      >
+        <span x-text="$store.game.t('ui_naming_confirm')"></span>
+        <span class="btn-shine"></span>
+      </button>
+    </div>
+
+    <div class="modal-decor-bottom"></div>
+  </div>
+</section>

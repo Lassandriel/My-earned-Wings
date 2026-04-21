@@ -1,180 +1,22 @@
+import { 
+  ResourceId, FlagId, ActionId, ItemId, HomeId, NPCId, 
+  GameModifier, MilestoneDefinition, NavigationDefinition 
+} from './core/base';
+import { ResourceDefinition, BuffDefinition } from './features/resources';
+import { ItemDefinition, ActionDefinition } from './features/actions';
+import { NPCDefinition } from './features/npcs';
+import { HomeDefinition } from './features/homes';
+
+export * from './core/base';
+export * from './features/resources';
+export * from './features/actions';
+export * from './features/npcs';
+export * from './features/homes';
+
 /**
- * CORE 3.5 TYPES - Draconia
- * Unified interfaces for the data-driven architecture.
+ * CORE GAME STATE INTERFACE
+ * Orchestrates all systems and data registries.
  */
-
-export type ResourceId =
-  | 'energy'
-  | 'magic'
-  | 'satiation'
-  | 'wood'
-  | 'stone'
-  | 'shards'
-  | 'herbs'
-  | 'astral_shards'
-  | 'meat'
-  | 'water'
-  | 'gourmet-meal'
-  | 'books'
-  | 'focus'
-  | 'knowledge';
-export type FlagId =
-  | 'build-campfire'
-  | 'build-tent'
-  | 'build-house'
-  | 'build-wood-storage'
-  | 'build-stone-storage'
-  | 'build-table'
-  | 'build-kitchen'
-  | 'build-arcane-sanctum'
-  | 'build-garden'
-  | 'build-garden-upgrade'
-  | 'milestone-treeOfLife';
-export type ActionId = string; // Too many to list, kept as string/alias for now
-export type ItemId =
-  | 'item-walking-stick'
-  | 'item-axe'
-  | 'item-pickaxe'
-  | 'item-bow'
-  | 'item-bed'
-  | 'item-chair'
-  | 'item-stove'
-  | 'item-bookshelf'
-  | 'item-cabinet'
-  | 'item-spice-rack'
-  | 'item-grand-table'
-  | 'item-bread'
-  | 'item-cookie'
-  | 'item-dried-meat'
-  | 'item-gourmet-meal'
-  | 'item-deed'
-  | 'item-book-knowledge'
-  | 'item-scroll'
-  | 'item-whetstone'
-  | 'item-arrowhead'
-  | 'item-chisel'
-  | 'item-astral-shards'
-  | 'item-dream-dust'
-  | 'item-wyvern-scale'
-  | 'item-arcane-dust'
-  | 'item-crystal-mana'
-  | 'item-bed-2'
-  | 'item-stove-2';
-export type HomeId = 'home-tent' | 'home-house' | 'home-lake' | 'home-tower';
-export type NPCId =
-  | 'npc-baker'
-  | 'npc-flowerGirl'
-  | 'npc-artisan'
-  | 'npc-teacher'
-  | 'npc-townHall'
-  | 'npc-blacksmith'
-  | 'npc-sage'
-  | 'npc-hunter'
-  | 'npc-treeOfLife'
-  | 'npc-ellie'
-  | 'npc-aris';
-
-export interface ResourceDefinition {
-  id: ResourceId;
-  type: 'resource' | 'stat';
-  category: string;
-  color: string;
-  initial?: number;
-  initialMax?: number;
-  initialLimit?: number;
-  isEssential?: boolean;
-  wingSlot?: string;
-  scalesWithSatiation?: boolean;
-}
-
-export interface GameModifier {
-  key?: string;
-  add?: number;
-  mult?: number;
-}
-
-export interface ItemDefinition {
-  id: ItemId;
-  title: string;
-  desc: string;
-  image?: string;
-  consumable: boolean;
-  category: 'tools' | 'items' | 'crafting';
-  effect?: Partial<Record<ResourceId, number>>;
-  modifiers?: GameModifier[];
-  spaceCost?: number;
-}
-
-export type RequirementOperator = '>=' | '<=' | '>' | '<' | '!=' | 'includes' | 'not_includes';
-
-export interface GameRequirement {
-  op?: RequirementOperator;
-  val: any;
-}
-
-export interface NPCStep {
-  cost?: number;
-  costType?: ResourceId;
-  costs?: Record<ResourceId, number>;
-  reward?: ItemId | string;
-  dialogueKey?: string;
-  onSuccess?: GameEffect[];
-}
-
-export type GameEffect =
-  | { type: 'setFlag'; flag: FlagId; value: any }
-  | { type: 'unlockNPC'; id: NPCId }
-  | { type: 'unlockRecipe'; id: string }
-  | { type: 'unlockItem'; id: ItemId }
-  | { type: 'modifyLimit'; resource: ResourceId; amount: number }
-  | { type: 'addBuff'; buffId: string; override?: Partial<BuffDefinition> }
-  | { type: 'setObjective'; id: string }
-  | { type: 'playSound'; id: string }
-  | { type: 'log'; logKey: string; color?: string; params?: any }
-  | { type: 'modifyResource'; resource: ResourceId; amount: number }
-  | { type: 'setHome'; id: HomeId };
-
-export interface ActionDefinition {
-  id: ActionId;
-  category: string;
-  title?: string; // Optional if handled via i18n keys
-  desc?: string;
-  isStory?: boolean;
-  chapter?: string;
-  requirements?: Record<string, any | GameRequirement>;
-  cost?: number;
-  costType?: ResourceId | 'mixed' | 'none';
-  costs?: Record<ResourceId, number>;
-  satiationCost?: number;
-  image?: string;
-  sfx?: string;
-  particleText?: string;
-  particleType?: string;
-  onSuccess?: GameEffect[];
-  onFailure?: GameEffect[];
-  logKey?: string;
-  logColor?: string;
-  rewards?: Record<ResourceId, number | string>;
-  yieldType?: ResourceId;
-  modifiers?: GameModifier[];
-  steps?: NPCStep[];
-  isLoopable?: boolean;
-  duration?: number;
-  maxCount?: number;
-  maxProgress?: number;
-  progKey?: string;
-  npcId?: NPCId;
-  counter?: string;
-  passiveProduction?: {
-    id: string;
-    resource: ResourceId;
-    interval: number;
-    baseYield: number;
-    magicCost?: number;
-    requirements?: Record<string, any | GameRequirement>;
-  };
-}
-
 export interface GameState {
   playerName: string;
   language: string;
@@ -183,6 +25,7 @@ export interface GameState {
   resources: Record<ResourceId, number>;
   limits: Record<ResourceId, number>;
   stats: Record<string, number>;
+  placedItems: ItemId[];
   npcProgress: Record<string, number>;
   activeBuffs: Record<
     string,
@@ -202,6 +45,7 @@ export interface GameState {
   hoveredAction: ActionDefinition | null;
   dialogueActive: boolean;
   showEllieIntro: boolean;
+  ellieIntroSeen: boolean;
   prologueStep: number;
   hasSave: boolean;
   saveInfoText: string;
@@ -227,6 +71,8 @@ export interface GameState {
   content: {
     get: <T = any>(id: string, type?: keyof Registries) => T;
     registries: Registries;
+    getNPCActions: (store: GameState, npcId: NPCId) => ActionDefinition[];
+    getCategorizedResources: (category: string) => ResourceDefinition[];
   };
   RESOURCE_REGISTRY: Record<ResourceId, ResourceDefinition>;
   resource: {
@@ -242,9 +88,14 @@ export interface GameState {
     ) => boolean;
     add: (state: GameState, type: ResourceId | string, amountValue: number) => boolean;
     isFull: (state: GameState, type: ResourceId) => boolean;
+    getLimit: (state: GameState, type: ResourceId) => number;
+    getMaxStat: (state: GameState, type: ResourceId) => number;
+    getStatPercent: (state: GameState, stat: string) => number;
   };
   actions: {
     execute: (game: GameState, id: ActionId) => boolean;
+    attemptAction: (game: GameState, el: HTMLElement, id: ActionId) => boolean;
+    toggleFocus: (game: GameState, id: ActionId) => void;
     processAction: (
       game: GameState,
       id: ActionId,
@@ -260,7 +111,8 @@ export interface GameState {
     calculate: (state: GameState, key: string, baseValue: number) => number;
   };
   npc: {
-    execute: (game: GameState, id: NPCId) => boolean;
+    execute: (game: GameState, id: NPCId) => any;
+    canAccessTreeOfLife: (game: GameState) => boolean;
   };
   item: {
     consumeItem: (store: GameState, id: ItemId) => void;
@@ -319,6 +171,8 @@ export interface GameState {
     getActionEffect: (store: GameState, action: ActionDefinition) => string;
     getTooltipCosts: (store: GameState, action: ActionDefinition) => any;
     showToast: (message: string, type: 'info' | 'error' | 'success') => void;
+    getTaskProgress: (store: GameState, taskId: string) => number;
+    getNPCProgressPercent: (store: GameState, npcId: NPCId) => number;
   };
   viewManager: {
     startNewGame: (store: GameState, stateFactory: () => any) => void;
@@ -330,6 +184,23 @@ export interface GameState {
     returnToMenu: (store: GameState) => void;
     completeDemo: (store: GameState) => void;
     showConfirm: (store: GameState, message: string, onConfirm: () => void) => void;
+  };
+  settingsSystem: {
+    calculateScale: (store: GameState) => void;
+    setResolution: (store: GameState, res: string) => void;
+    setLanguage: (store: GameState, lang: string) => void;
+    toggleSettings: (store: GameState) => void;
+    applyCheats: (store: GameState) => void;
+  };
+  housing: {
+    toggleFurniture: (store: GameState, id: string) => void;
+    getUsedFurnitureSpace: (store: GameState) => number;
+    getHomeCapacity: (store: GameState) => number;
+    getAvailableFurniture: (store: GameState) => string[];
+    getPlacedFurnitureList: (store: GameState) => string[];
+  };
+  i18n: {
+    t: (store: GameState, key: string, context?: string, params?: any) => any;
   };
 
   // Infrastructure
@@ -345,57 +216,12 @@ export interface GameState {
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;
   executeAction: (id: string | ActionId) => boolean;
+  isTaskActive: (id: string) => boolean;
+  setHovered: (id: string | null, customData?: any) => void;
 
   // Viewport/Input
   lastMouseX: number;
   lastMouseY: number;
-}
-
-export interface BuffDefinition {
-  id: string;
-  title: string;
-  desc: string;
-  duration: number; // in seconds
-  modifiers?: GameModifier[];
-}
-
-export interface NPCDefinition {
-  id: NPCId;
-  nameKey: string;
-  icon: string;
-  color: string;
-  image?: string;
-  progKey: string;
-  maxProgress: number;
-  chapter: string;
-  unlockedAtStart?: boolean;
-  tradeActions?: Array<{
-    id: ActionId;
-    minProgress: number;
-  }>;
-}
-
-export interface MilestoneDefinition {
-  id: string;
-  requirements: Record<string, any | GameRequirement>;
-  onUnlock?: GameEffect[];
-}
-
-export interface HomeDefinition {
-  id: HomeId;
-  nameKey: string;
-  descKey: string;
-  image: string;
-  capacity: number;
-  modifiers?: GameModifier[];
-  baseLimits?: Partial<Record<ResourceId, number>>;
-}
-
-export interface NavigationDefinition {
-  id: string;
-  icon: string;
-  label: string;
-  requiredFlag?: FlagId;
 }
 
 export interface Registries {
@@ -407,14 +233,4 @@ export interface Registries {
   milestones: Record<string, MilestoneDefinition>;
   navigation: Record<string, NavigationDefinition>;
   homes: Record<HomeId, HomeDefinition>;
-}
-
-declare global {
-  interface Window {
-    electronAPI?: {
-      saveGame: (data: string) => Promise<boolean>;
-      loadGame: () => Promise<string | null>;
-      quitApp: () => void;
-    };
-  }
 }

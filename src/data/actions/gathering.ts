@@ -4,6 +4,7 @@
 export const gatheringActions: Record<string, any> = {
   'act-essen': {
     id: 'act-essen',
+    icon: '🍱',
     cost: 0,
     costType: 'none',
     sfx: 'eat',
@@ -16,6 +17,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-ausruhen': {
     id: 'act-ausruhen',
+    icon: '💤',
     cost: 0,
     costType: 'none',
     sfx: 'click',
@@ -28,6 +30,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-meditieren': {
     id: 'act-meditieren',
+    icon: '🧘',
     cost: 0,
     costType: 'none',
     sfx: 'magic',
@@ -40,6 +43,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-study': {
     id: 'act-study',
+    icon: '📜',
     cost: 20,
     costType: 'magic',
     sfx: 'click',
@@ -53,6 +57,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-wood': {
     id: 'act-wood',
+    icon: '🪓',
     cost: 8,
     costType: 'energy',
     yieldType: 'wood',
@@ -66,6 +71,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-stone': {
     id: 'act-stone',
+    icon: '⛏️',
     cost: 12,
     costType: 'energy',
     yieldType: 'stone',
@@ -79,6 +85,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-hunt': {
     id: 'act-hunt',
+    icon: '🏹',
     cost: 25,
     costType: 'energy',
     yieldType: 'meat',
@@ -93,6 +100,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-garden-plant': {
     id: 'act-garden-plant',
+    icon: '🌿',
     cost: 10,
     costType: 'energy',
     duration: 10000,
@@ -106,6 +114,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-garden-plant-2': {
     id: 'act-garden-plant-2',
+    icon: '🌻',
     cost: 10,
     costType: 'energy',
     duration: 10000,
@@ -120,6 +129,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-garden-water': {
     id: 'act-garden-water',
+    icon: '💧',
     cost: 5,
     costType: 'energy',
     sfx: 'gather',
@@ -130,6 +140,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-cook-gourmet': {
     id: 'act-cook-gourmet',
+    icon: '🍳',
     costType: 'mixed',
     costs: { water: 2, meat: 2, herbs: 1 },
     duration: 5000,

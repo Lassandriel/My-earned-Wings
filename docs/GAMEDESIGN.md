@@ -68,9 +68,10 @@ Automation is a high-level feature unlocked via Archmage Aris:
 
 * **Runtime**: Electron / Vite / TypeScript.
 * **Engine**: Draconia Engine 3.6 (The TypeScript Ascension).
-* **Architecture**: 100% Data-Driven & Modular.
-* **Type Safety**: Full coverage of all game IDs, IPC channels, and registries via strict TypeScript definitions.
-* **Logic**: Modifiers, Passive Production, and Milestones are entirely managed via static registries, ensuring a content-agnostic core.
+* **Architecture**: Domain-Driven Modular Architecture.
+* **Separation of Concerns**: Features are isolated in `src/features/`, while technical services reside in `src/core/`.
+* **Type Safety**: 100% strict TypeScript coverage for all game IDs, IPC channels, and state.
+* **Logic**: Content-agnostic engine; all gameplay rules, production loops, and milestones are managed via external registries.
 
 ---
 

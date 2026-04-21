@@ -1,0 +1,47 @@
+<!-- DEMO FINALE OVERLAY -->
+<section
+  id="finale-overlay"
+  x-show="$store.game.view === 'finale'"
+  class="modal-overlay finale-overlay"
+  x-transition.opacity
+>
+  <div class="modal-content finale-content">
+    <div class="finale-header">
+      <h2 class="finale-title" x-text="$store.game.t('finale_sandbox_title')"></h2>
+      <div class="finale-divider"></div>
+    </div>
+
+    <p class="finale-desc" x-html="$store.game.t('finale_sandbox_desc')"></p>
+
+    <div class="finale-stats-panel">
+      <h4 x-text="$store.game.t('finale_stats_title')"></h4>
+      <div class="stats-grid-finale">
+        <div class="stat-item-f">
+          <span class="s-label" x-text="$store.game.t('finale_stat_shards')"></span>
+          <span class="s-val" x-text="$store.game.finalStats.shards">0</span>
+        </div>
+        <div class="stat-item-f">
+          <span class="s-label" x-text="$store.game.t('finale_stat_actions')"></span>
+          <span class="s-val" x-text="$store.game.finalStats.actions">0</span>
+        </div>
+        <div class="stat-item-f">
+          <span class="s-label" x-text="$store.game.t('finale_stat_npcs')"></span>
+          <span class="s-val" x-text="$store.game.finalStats.npcs">0</span>
+        </div>
+        <div class="stat-item-f">
+          <span class="s-label" x-text="$store.game.t('finale_stat_items')"></span>
+          <span class="s-val" x-text="$store.game.finalStats.items">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions finale-actions">
+      <button
+        class="menu-btn primary glow-btn"
+        @click="$store.game.view = 'gameplay'; $store.game.saveGame()"
+      >
+        <span x-text="$store.game.t('finale_sandbox_btn')"></span>
+      </button>
+    </div>
+  </div>
+</section>

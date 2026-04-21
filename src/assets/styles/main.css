@@ -24,18 +24,18 @@
 
 /* Specialized Components */
 @import './components/wing-masks.css';
-@import './views/stats.css';
+@import '../../features/ui/stats.style.css';
 
 /* View-Specific Styles */
-@import './views/gameplay.css';
-@import './views/village.css';
-@import './views/crafting.css';
-@import './views/upgrades.css';
-@import './views/housing.css';
-@import './views/story.css';
-@import './views/menu.css';
-@import './views/settings.css';
-@import './views/finale.css';
+@import '../../features/gameplay/gameplay.style.css';
+@import '../../features/village/village.style.css';
+@import '../../features/crafting/crafting.style.css';
+@import '../../features/crafting/upgrades.style.css';
+@import '../../features/housing/housing.style.css';
+@import '../../features/story/story.style.css';
+@import '../../features/ui/menu.style.css';
+@import '../../features/ui/settings.style.css';
+@import '../../features/story/finale.style.css';
 
 /* External Overlays */
-@import './views/prologue.css';
+@import '../../features/story/prologue.style.css';

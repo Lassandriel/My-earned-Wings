@@ -52,20 +52,24 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 ## 🏗️ Project Structure
 
+The project follows a **Domain-Driven Modular Architecture**, ensuring that features are self-contained and the core engine remains clean and maintainable.
+
 ```text
 src/
 ├── main.ts             # Entry: System orchestration & service-hub.
 ├── state.ts            # Foundation: Schema definition & initial state.
+├── core/               # Services: Technical infrastructure (Audio, Engine, Pipeline, UI).
+├── features/           # Domains: Self-contained gameplay modules.
+│   ├── housing/        # Home management, furniture, and upgrades.
+│   ├── village/        # NPC interactions and decentralized trade.
+│   ├── crafting/       # Construction and tool creation logic.
+│   ├── story/          # Dialogue archive, milestones, and narrative.
+│   └── gameplay/       # Basic resource gathering and production loops.
 ├── data/               # Database: Registries for Resources, NPCs, Actions, and Navigation.
-├── types/              # Definitions: Shared TypeScript interfaces and enums.
+├── types/              # Definitions: Strictly typed interfaces and enums.
 ├── lang/               # Localization: Synchronized DE/EN dictionaries.
-├── partials/           # Interface: Modular HTML fragments.
-├── assets/             # Aesthetics: CSS grid-layouts and design tokens.
-├── systems/            # Logic: Decentralized service modules.
-    ├── pipeline.ts     # Registry-driven Modifier System
-    ├── engine.ts       # Universal Production & Milestone Tickers
-    ├── persistence.ts  # Metadata-driven Save & Load
-    └── ...             # Audio, Juice, UI, etc.
+└── assets/             # Aesthetics: Global CSS tokens and grid-layouts.
+
 ```
 
 ---

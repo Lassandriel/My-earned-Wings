@@ -4,6 +4,7 @@
 export const villageActions: Record<string, any> = {
   'act-sell-wood': {
     id: 'act-sell-wood',
+    icon: '🪵',
     cost: 1,
     costType: 'wood',
     yieldType: 'shards',
@@ -17,6 +18,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-sell-stone': {
     id: 'act-sell-stone',
+    icon: '🪨',
     cost: 1,
     costType: 'stone',
     yieldType: 'shards',
@@ -30,6 +32,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-sell-meat': {
     id: 'act-sell-meat',
+    icon: '🥩',
     cost: 1,
     costType: 'meat',
     yieldType: 'shards',
@@ -37,12 +40,13 @@ export const villageActions: Record<string, any> = {
     particleText: '+ Splitter',
     particleType: 'shards',
     counter: 'shards',
-    rewards: { shards: 8 },
+    rewards: { shards: 10 },
     logKey: 'sell_meat_log',
     logColor: 'var(--accent-teal)',
   },
   'act-buy-meat': {
     id: 'act-buy-meat',
+    icon: '🛒',
     cost: 20,
     costType: 'shards',
     yieldType: 'meat',
@@ -54,6 +58,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-work': {
     id: 'act-work',
+    icon: '👷',
     cost: 30,
     costType: 'energy',
     yieldType: 'shards',

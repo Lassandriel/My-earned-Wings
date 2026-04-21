@@ -4,9 +4,11 @@
 export const magicActions: Record<string, any> = {
   'act-dream-bloom': {
     id: 'act-dream-bloom',
+    icon: '🌀',
     cost: 15,
     costType: 'magic',
     satiationCost: 1,
+    onSuccess: [{ type: 'modifyResource', resource: 'magic', amount: 5 }],
     logKey: 'dream_bloom_log',
     execute: (game: any) => {
       const taskIds = Object.keys(game.activeTasks);
@@ -22,6 +24,7 @@ export const magicActions: Record<string, any> = {
   },
   'act-meditate': {
     id: 'act-meditate',
+    icon: '🧘',
     duration: 10000,
     costType: 'magic',
     cost: 10,
@@ -36,6 +39,7 @@ export const magicActions: Record<string, any> = {
   },
   'act-spell-harvest': {
     id: 'act-spell-harvest',
+    icon: '🌿',
     costType: 'mixed',
     costs: { astral_shards: 1, magic: 20 },
     requirements: { 'flags.build-arcane-sanctum': true, 'flags.item-book-knowledge': true },

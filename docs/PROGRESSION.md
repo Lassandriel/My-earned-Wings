@@ -1,6 +1,6 @@
 # Progression Tree: Your Earned Wings
 
-This document provides an overview of the dependencies and unlock chains in Draconia, aligned with the **Golden Master (Core 3.5)** architecture.
+This document provides an overview of the dependencies and unlock chains in Draconia, aligned with the **Golden Master (Core 3.6)** architecture.
 
 ```mermaid
 graph TD
@@ -98,7 +98,7 @@ graph TD
 
 ## Core Systems Alignment
 
-- **Milestone System**: Logic is fully handled by `milestones.js`. No hardcoded story triggers in the codebase.
+- **Milestone System**: Logic is fully handled by `milestones.logic.ts` in the Story feature. No hardcoded story triggers in the codebase.
 - **Passive Production**: The Garden and other periodic gains use a universal engine ticker.
 - **Arcane Focus**: Magical automation that eliminates energy costs in exchange for magic drain.
 - **Interaction**: All social interactions are bond-driven. Salary-based companion logic has been removed to favor a magic-based system.

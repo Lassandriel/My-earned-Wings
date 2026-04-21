@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 8.7 COMPLETE (Stability & Housing Management)
+## Current Status: Phase 8.10 COMPLETE (Hardening & Stabilization)
 
 
 The internal architecture has been fully refactored to "Draconia Core 3.5". Narrative progression is now fully supported by a premium NPC Dialogue Archive, with synchronized system-to-content recording and automated project validation.
@@ -36,12 +36,6 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". Narr
 - [x] **The Tree of Life**: Epic encounter with the majestic heart of the ground.
 - [x] **Demo Conclusion**: Summary overlay with stats and Sandbox mode hint.
 
-## Phase 4.1: Demo Refinement (Systems) - **COMPLETED**
-
-- [x] **Architecture Fusion**: Combined Crafting and Housing into a single progression hub.
-- [x] **UI Renaming**: "Chronicle" tab renamed to "Story".
-- [x] **Modular CSS**: Extracted logic into 10+ specific style files.
-- [x] **System Refactor**: Logic extracted into Action, NPC, and Engine systems.
 
 ## Phase 4.2: Survival & Lore Refinement (Polish) - **COMPLETED**
 
@@ -252,88 +246,33 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". Narr
 
 ## Phase 8: Production Balance & Polish - **IN PROGRESS**
 
-- [x] **Phase 8.1: Early-Flow Balancing**:
-  - [x] **Storage Fix**: Increased wood/stone limits to 50.
-  - [x] **Regen Overhaul**: Buffed energy/satiation recovery 10x.
-  - [x] **Focus Efficiency**: Reduced focus cost to 1.0/s.
-  - [x] **Yield Scaling**: Snappy resource progression.
-  - [x] **Interaction Stability**: Fixed broken event handlers in Confirm, Naming, and Settings modals by synchronizing them with the root Store-Proxies.
-  - [x] **Gameplay Tab Fix**: Resolved structural HTML bugs and restored full mathematical precision for resource rewards.
-  - [x] **Crafting Stability**: Fixed visibility logic for complex requirements and synchronized tooltip management.
-  - [x] **Hybrid Scaling**: Implemented a transition-less auto-scale system that preserves readability on laptops while protecting UI integrity on small screens.
-  - [x] **Button Polish**: Refined action bar layout with flex-wrap and adaptive widths to prevent text clipping.
-  - [x] **UI Compactness**: Reduced global button padding and height for a more professional, "tighter" aesthetic.
-  - [x] **VFX Polish**: Fixed shadow clipping in the primary actions container by enforcing full-width rendering.
-  - [x] **UI Rescue Package**:
-    - [x] **Scaling Fix**: Removed whole-wrapper scale transformations to eliminate black borders and tiny UI.
-    - [x] **Scroll Restoration**: Fixed inheritance and overflow rules to re-enable mouse wheel and scrollbar usage. Global page scroll enabled for stacked layouts.
-    - [x] **Background Stability**: Fixed background attachment to stay steady during scrolling in compact modes.
-    - [x] **Tooltip Intelligence**: Implemented pipeline-fallback for {val} interpolation in dynamic tooltips.
-    - [x] **Portrait Optimization**: Stabilized panel stacking for narrow windows to prevent content overlap.
-    - [x] **Final UX Polish**:
-      - [x] **Total Scroll Unlock**: Forced auto-height on all root containers for seamless page scrolling on small screens.
-      - [x] **Tab Wrapping**: Implemented flex-wrap on category tabs in Upgrades and Crafting views.
-      - [x] **Responsive Padding**: Optimized view padding for compact displays to maximize content area.
-    - [x] **Final Alignment & Logic Correction**:
-      - [x] **Alpine Fix**: Defined missing isTaskActive helper in main store to prevent JS crashes.
-      - [x] **Environmental Scroll Unlock**: Forced overflow: auto to override IDE-injected scroll-locks on body.
-      - [x] **Aesthetic Centers**: Centered all sub-category navigation tabs for balanced visual presentation.
-    - [x] **Dialogue Integrity**: Fixed Ellie's tutorial log grouping to ensure all intro messages are visible.
-    - [x] **Stat Visibility**: Restored Satiation, Energy, and Magic bars for better resource tracking.
-    - [x] **Navigation Polish**: Balanced sidebar layout with optimized icon scaling and spacing for long text.
-    - [x] **Stability Patch**: Resolved background crashes by initializing finale state data on startup.
-    - [x] **Atmospheric Logs**: NPC dialogue is now correctly logged with speaker names in the Event Log.
-    - [x] **1080p Layout Refinement**: Optimized panel widths, gaps, and navigation balance for Full HD displays.
-    - [x] **Scroll Stability & UI Reliability**: Implemented internal sidebar scrolling and universal premium scrollbar designs with layout-shift protection.
-    - [x] **Village View Scaling Fix**: Resolved nested scrollbar conflicts and implemented responsive NPC cards for small monitors.
-    - [x] **Omni-Audit & Translation Parity**: Achieved 100% synchronization between de.js and en.js, including all secondary logs and milestones.
-    - [x] **Workshop Core Fix**: Resolved recipe-completion bugs, missing tool icons, and technical ID leaks in the crafting interface.
-    - [x] **UI Bar Alignment**: Fixed variable-width status bars by implementing rigid width constraints for labels and values.
-    - [x] **Visual Excellence (v3.5 Assets)**: Integrated high-res hand-drawn assets (transparent .webp) for the House, Table, Kitchen, Sanctum, Garden, Gourmet Meal, Astral Shards, and Wyvern Scale.
+- [x] **Phase 8.1: Early-Flow Balancing**
+- [x] **Phase 8.2: TypeScript Ascension & Architecture Hardening**
+- [x] **Phase 8.3: TypeScript stabilization & Project Clean-Code**
+- [x] **Phase 8.4: Narrative Clarity & UI Refinement (Mina's Whisper)**
+- [x] **Phase 8.6: The Housing Revolution**
+- [x] **Phase 8.7: Housing Stability & Ultimate I18N**
+- [x] **Phase 8.9: Resolution Scaling & UX Polish**
+- [x] **Phase 8.8: Modular Domain Architecture**
 
-- [x] **Phase 8.2: TypeScript Ascension & Architecture Hardening**:
-  - [x] **Full TypeScript Migration**: Converted all 20+ core systems and infrastructure modules to TypeScript.
-  - [x] **Type-Safe State Management**: Hardened the global `GameState` interface, ensuring zero "undefined" property leaks.
-  - [x] **Logic Integrity**: Achieved 100% logic coverage in `.ts` (Systems, Content, State, and Entry Point).
-  - [x] **Infrastructure Hardening**: Migrated Persistence, Event Bus, and Registry lookup to strictly typed services.
-  - [x] **Build Reliability**: Verified zero-error production builds and Electron packaging via `tsc` audit.
+## Phase 8.10: Core Architecture Hardening & Stabilization - **COMPLETED**
 
-- [x] **Phase 8.3: TypeScript stabilization & Project Clean-Code**:
-  - [x] **Discriminated Unions**: Implemented strict literal unions for `GameEffect` and `GameRequirement`, enforcing exact data structures for all gameplay logic.
-  - [x] **Registry Härtung**: Introduced TypeScript Generics for the `content.get<T>()` service, eliminating manual casting during registry lookups.
-  - [x] **Action System Refactoring**: Removed 100% of legacy `as any` casts from effect handlers and the action execution engine.
-  - [x] **System Audit**: Fully typed the Passive Production (Engine), Quest Progress (NPC), and persistence (Save/Load) systems.
-  - [x] **Strict ID Architecture**: Standardized literal unions for `ResourceId`, `ItemId`, `NPCId`, and `FlagId` to eliminate typos.
-  - [x] **Zero-Error Benchmark**: Achieved a 100% clean `tsc --noEmit` build state across the entire repository.
+- [x] **Striktes Ganzzahl-Design**: Umstellung aller Berechnungen auf Ganzzahlen zur Vermeidung von Drift.
+- [x] **Content-Sicherheit**: Null-Object Pattern verhindert Abstürze bei fehlenden Daten-IDs.
+- [x] **Save-Game Versionierung**: Einführung von Version v1 und Migrations-Logik.
+- [x] **Audio-Resilienz**: Intelligente Sound-Fallbacks verhindern Stille.
+- [x] **I18N-Guarding**: Härtung des Übersetzungssystems mit Warnungen.
+- [x] **Automatisierungs-Sicherheit**: Fix der "Geister-Partikel" und Absicherung der Trigger.
+- [x] **Logik-Validierung**: Echtzeit-Pfadprüfung für Aktions-Anforderungen.
 
-- [x] **Phase 8.4: Narrative Clarity & UI Refinement (Mina's Whisper)**:
-  - [x] **Chronicle Redesign**: Transformed the "Story" tab into a premium two-column NPC dialogue archive.
-  - [x] **Sidebar Navigation**: Implemented character-based filtering for past conversations.
-  - [x] **Glassmorphism Aesthetic**: Applied modern, responsive UI tokens to the story interface.
-  - [x] **Dialogue Integrity**: Fixed a core bug in the `ActionSystem` to ensure real spoken text is captured in the archive.
-  - [x] **Placeholder Cleanup**: Removed legacy placeholder descriptions system-wide for a cleaner UI.
-  - [x] **Validation Mastery**: Added `check-all` command for comprehensive, one-click project health audits.
-  - [x] **Lore Update**: Renamed the primary guide NPC to **Mina** (formerly Ellie) to strengthen her narrative identity.
+## Phase 8.11: UI Refinement & Content Validation - **COMPLETED**
 
----
+- [x] **UI/UX Refinement**: Tooltips bereinigt, `[ui_ready]` Platzhalter entfernt.
+- [x] **Journal-Optimierung**: Keine leeren Story-Einträge mehr im Journal.
+- [x] **Quest-Standardisierung**: Alle NPC-Schritte haben nun Kosten, Belohnungen und Dialoge.
+- [x] **Content-Validierungs-System**: Automatischer Check für Daten-Integrität (Icons, Rewards, L10n).
+- [x] **Bugfixes**: Doppelte Sprach-Keys und Electron-Importfehler behoben.
 
-
-## Phase 8.6: The Housing Revolution - **COMPLETED**
-
-- [x] **Home Progression Fix**: Initialized activeHome as null to ensure correct early-game experience.
-- [x] **Housing Navigation**: Introduced a specialized Housing Tab, decoupled from generic Possessions.
-- [x] **Gated Visibility**: Implemented logic-bound navigation tabs that respond to story flags (build-house).
-- [x] **Relocation Engine**: Added setHome effect for automated transitions between shelters.
-- [x] **UI Migration**: Dedicated housing interface with furniture management and aesthetic home cards.
-- [x] **Type Integrity**: Hardened internal systems with null-checks and strict TypeScript interfaces for shelters.
-
-- [x] **Phase 8.7: Housing Stability & i18n Hardening**:
-  - [x] **Interactive Furniture**: Implemented a dynamic placement system for furniture, replacing passive/permanent modifiers.
-  - [x] **Relocation Engine**: Updated `resource.ts` and `pipeline.ts` to calculate stats dynamically based on `placedItems`.
-  - [x] **Housing UI Redesign**: Created a premium management interface for "Placed" and "Stored" furniture with space validation.
-  - [x] **i18n Zero-Lie Policy**: Hardened `check-i18n.ts` with full parity checks between DE and EN across all registries.
-  - [x] **Content Loop Fix**: Converted Artisan Kael's reward to a Chisel Recipe to enforce the intended crafting progression.
-  - [x] **Buff HUD Integrity**: Resolved technical key leaks in the HUD by enforcing localized translations for all active buffs.
 ## Future Horizons
 
 - [ ] **Phase 9: Diplomacy**
