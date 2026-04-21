@@ -1,9 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 8.10 COMPLETE (Hardening & Stabilization)
+## Current Status: Phase 8 COMPLETE (Stabilization & Final Polish)
 
-
-The internal architecture has been fully refactored to "Draconia Core 3.5". Narrative progression is now fully supported by a premium NPC Dialogue Archive, with synchronized system-to-content recording and automated project validation.
+The internal architecture has been fully refactored to "Draconia Core 3.7". Narrative progression is fully supported by HTML-safe rendering, optimized settings navigation, and 100% I18N integrity verified by the automated validator.
 
 ---
 
@@ -35,7 +34,6 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". Narr
 - [x] **Finale Requirements**: Logic check for House, Max NPC Bond, and Wisdom.
 - [x] **The Tree of Life**: Epic encounter with the majestic heart of the ground.
 - [x] **Demo Conclusion**: Summary overlay with stats and Sandbox mode hint.
-
 
 ## Phase 4.2: Survival & Lore Refinement (Polish) - **COMPLETED**
 
@@ -244,7 +242,7 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". Narr
 
 ---
 
-## Phase 8: Production Balance & Polish - **IN PROGRESS**
+## Phase 8: Production Balance & Polish - **COMPLETED**
 
 - [x] **Phase 8.1: Early-Flow Balancing**
 - [x] **Phase 8.2: TypeScript Ascension & Architecture Hardening**
@@ -271,7 +269,10 @@ The internal architecture has been fully refactored to "Draconia Core 3.5". Narr
 - [x] **Journal-Optimierung**: Keine leeren Story-Einträge mehr im Journal.
 - [x] **Quest-Standardisierung**: Alle NPC-Schritte haben nun Kosten, Belohnungen und Dialoge.
 - [x] **Content-Validierungs-System**: Automatischer Check für Daten-Integrität (Icons, Rewards, L10n).
-- [x] **Bugfixes**: Doppelte Sprach-Keys und Electron-Importfehler behoben.
+- [x] **HTML-Rendering**: Globale Umstellung auf `x-html` für dynamische Story-Texte und Formatierungen (Fettgedruckte Namen/Hervorhebungen).
+- [x] **Settings-Navigation**: Implementierung des "Speichern & Zurück"-Buttons und Umbenennung des "Generell"-Tabs.
+- [x] **I18N-Härtung**: 100% Integrität durch den "God-Tier Validator" erreicht (Fix von doppelten Keys und fehlenden Logs).
+- [x] **Type-Safety Shield**: Vollständige TypeScript-Abdeckung für alle Ressourcen-IDs und Milestone-Definitionen.
 
 ## Future Horizons
 

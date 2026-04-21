@@ -1,6 +1,6 @@
 # Game Design Document: Your Earned Wings
 
-**Status:** v3.6 — TypeScript Hardened (Core 3.6)
+**Status:** v3.7 — TypeScript Hardened (Core 3.7)
 **Aesthetics:** Survival · Somber Cozy · High Fantasy
 
 ---

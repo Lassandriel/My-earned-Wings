@@ -1,6 +1,6 @@
 # Progression Tree: Your Earned Wings
 
-This document provides an overview of the dependencies and unlock chains in Draconia, aligned with the **Golden Master (Core 3.6)** architecture.
+This document provides an overview of the dependencies and unlock chains in Draconia, aligned with the **Golden Master (Core 3.7)** architecture.
 
 ```mermaid
 graph TD

@@ -1,10 +1,10 @@
-# Your Earned Wings ✦ (Golden Master - Core 3.6)
+# Your Earned Wings ✦ (Golden Master - Core 3.7)
 
 `Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **TypeScript**, **Electron**, **Vite**, and **Alpine.js**.
 
 > [!IMPORTANT]
-> **GOLDEN MASTER VERSION 1.2.0-STABLE**
-> This build features the fully decoupled, **TypeScript-Hardened Core 3.6** engine with strict literal typing for all game IDs and an enum-guarded IPC bridge.
+> **GOLDEN MASTER VERSION 1.2.1-STABLE**
+> This build features the fully decoupled, **TypeScript-Hardened Core 3.7** engine with 100% verified I18N integrity and refined UI/UX rendering.
 
 ![Official Logo](public/img/logo_wings.webp)
 
@@ -14,7 +14,7 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 1. **Survival**: Learn to gather resources and manage your symmetric vitality (50 Energy, 50 Magic).
 2. **Crafting & Construction (Consolidated)**: A unified construction system. Build everything from your first campfire to a permanent house within a single registry.
-3. **Refined Visuals**: Integrated high-quality 2D assets for all infrastructure, including the new **Stone and Wood Storages**.
+3. **Refined UI & Rendering**: All narrative texts use **HTML-Safe Rendering** to ensure premium typography and emphasis (bold names, colored lore).
 4. **Community & Story**: Forge bonds with village inhabitants. Your journey is tracked in an NPC-based log, grouping memories by the people you've met.
 5. **Upgrades**: Manage your tools and artifacts in your personal vault.
 6. **Arcane Focus**: Master the art of magically driven automation.
@@ -28,49 +28,25 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 * **Modular Progression**: Develop your home in the unified "Crafting" tab.
 * **Premium Assets**: Full **WebP integration** for all high-res assets, including specific custom renders for storage facilities and tools.
-* **Balancing v3.6**: A refined economy with symmetric stats and optimized resource storage (adaptive limits up to 125+).
+* **Balancing v3.7**: A refined economy with symmetric stats and optimized resource storage (adaptive limits up to 125+).
 
 ### 👥 NPC Story & Narrative
 
-* **Grouped Progress**: The journal automatically groups narrative milestones by NPC characters, providing a clear overview of your social standing.
-* **World Events**: Generic milestones are gathered in the "World Story" section.
+* **Grouped Progress**: The journal automatically groups narrative milestones by NPC characters.
+* **HTML Narrative**: Bold player names and narrative highlights are rendered natively for maximum immersion.
 
 ### 🔄 Arcane Focus (Automation)
 
 * **Magical Automation**: Toggle the "Magic Eye" ✨ on loopable actions to automate them at the cost of **3.0 Magic per second**.
 * **Effect Replacement**: Focused actions consume Magic instead of Energy, allowing for effortless progress during active play.
 
-### 🔮 Architecture (TypeScript Hardened Core 3.6)
+### 🔮 Architecture (TypeScript Hardened Core 3.7)
 
-* **100% Type-Safe**: Every gameplay rule, modifier, and requirement is verified by TypeScript. Zero hidden ID typos.
-* **Modular Effect System**: Dynamic effect registration (`registerEffect`) allows for seamless expansion without core code changes.
-* **Generic Milestone Engine**: A powerful requirement engine manages all progression and finale logic.
+* **100% Type-Safe**: Every gameplay rule, modifier, and requirement is verified by TypeScript.
+* **100% I18N Integrity**: Automated "God-Tier" validation ensures zero missing keys across DE/EN.
+* **Refined Settings**: Premium Sidebar-Settings with "Save & Back" logic for a seamless experience.
+* **Modular Effect System**: Dynamic effect registration (`registerEffect`) allows for seamless expansion.
 * **Hardened IPC**: Shared Enum communication between Electron Main and Render processes.
-* **Event Bus**: Pure pub/sub architecture for all side-effects (Audio, Logs, UI Triggers).
-
----
-
-## 🏗️ Project Structure
-
-The project follows a **Domain-Driven Modular Architecture**, ensuring that features are self-contained and the core engine remains clean and maintainable.
-
-```text
-src/
-├── main.ts             # Entry: System orchestration & service-hub.
-├── state.ts            # Foundation: Schema definition & initial state.
-├── core/               # Services: Technical infrastructure (Audio, Engine, Pipeline, UI).
-├── features/           # Domains: Self-contained gameplay modules.
-│   ├── housing/        # Home management, furniture, and upgrades.
-│   ├── village/        # NPC interactions and decentralized trade.
-│   ├── crafting/       # Construction and tool creation logic.
-│   ├── story/          # Dialogue archive, milestones, and narrative.
-│   └── gameplay/       # Basic resource gathering and production loops.
-├── data/               # Database: Registries for Resources, NPCs, Actions, and Navigation.
-├── types/              # Definitions: Strictly typed interfaces and enums.
-├── lang/               # Localization: Synchronized DE/EN dictionaries.
-└── assets/             # Aesthetics: Global CSS tokens and grid-layouts.
-
-```
 
 ---
 
@@ -90,10 +66,10 @@ src/
 
 To ensure stability across languages and logic, automated validation scripts are provided:
 
-* Run `npm run check-ts` (or `npx tsc --noEmit`) to perform a full type audit.
-* Run `npm run check-i18n` to validate all translations (DE/EN).
-* Run `npm run check-assets` to verify that all images/icons defined in data exist on disk.
-* Run `npm run check-logic` to detect dead-ends and unreachable requirements in progression.
+* `npm run check-all`: Performs a global audit of translations, assets, and game logic.
+* `npm run check-ts`: Full TypeScript type audit.
+* `npm run check-i18n`: Validates all translation parity.
+* `npm run check-logic`: Detects dead-ends and unreachable requirements in progression.
 
 ---
 
@@ -108,7 +84,7 @@ The finished app will be located in `dist_electron`.
 
 ---
 
-Created by Lassandriel · April 2026 · TypeScript Hardened Core 3.6
+Created by Lassandriel · April 2026 · TypeScript Hardened Core 3.7
 
 ---
 
