@@ -1,90 +1,84 @@
-# Your Earned Wings ✦ (Golden Master - Core 3.7)
+# Your Earned Wings ✦ (Golden Master - Core 3.9)
 
 `Your Earned Wings` is an atmospheric desktop simulation and narrative adventure developed with **TypeScript**, **Electron**, **Vite**, and **Alpine.js**.
 
 > [!IMPORTANT]
-> **GOLDEN MASTER VERSION 1.2.1-STABLE**
-> This build features the fully decoupled, **TypeScript-Hardened Core 3.7** engine with 100% verified I18N integrity and refined UI/UX rendering.
+> **GOLDEN MASTER VERSION 1.1.0-STABLE (v3.9)**
+> This build features the fully decoupled, **Registry-First Core 3.9** engine with a dynamic categorization system and hardened survival mechanics.
 
 ![Official Logo](public/img/menu/logo_wings.webp)
 
-## 📖 The Journey (The TypeScript Ascension)
+## 📖 The Journey (Active Survival Update)
 
 Experience the transformation of a grounded wanderer into a pillar of the community:
 
-1. **Survival**: Learn to gather resources and manage your symmetric vitality (50 Energy, 50 Magic).
-2. **Crafting & Construction (Consolidated)**: A unified construction system. Build everything from your first campfire to a permanent house within a single registry.
-3. **Refined UI & Rendering**: All narrative texts use **HTML-Safe Rendering** to ensure premium typography and emphasis (bold names, colored lore).
-4. **Community & Story**: Forge bonds with village inhabitants. Your journey is tracked in an NPC-based log, grouping memories by the people you've met.
-5. **Upgrades**: Manage your tools and artifacts in your personal vault.
-6. **Arcane Focus**: Master the art of magically driven automation.
-7. **The Finale**: Reach the legendary **Tree of Life** once your community bonds and wisdom are maximized.
+1. **Active Survival**: Manage your Vitality (Energy/Magic) and Satiation. Warning: Hunger (<20% Satiation) increases all action costs by **150%**.
+2. **Dynamic Locations**: Actions are automatically grouped by location headings. New areas appear dynamically as you discover them.
+3. **Unified Construction**: Build Furniture and Addons through a centralized registry system.
+4. **Refined UI & Rendering**: Premium typography with glassmorphism aesthetics and smooth micro-animations.
+5. **Community Bonds**: Track your progress with NPCs in a dedicated log.
+6. **Arcane Focus**: Master magically driven automation at the cost of Magic.
+7. **The Finale**: Reach the **Tree of Life** by maximizing wisdom and community reputation.
 
 ---
 
 ## ✦ Core Features
 
-### 🛖 Unified Construction System
+### 🛖 Dynamic Category System
+* **Automatic Discovery**: No more manual tab switching. The UI detects available locations (Forest, Mine, etc.) from the Action Database and groups them instantly.
+* **Registry-First Architecture**: Every entity (Item, Furniture, Addon) follows a strict data standard: **Title, Description, Effect, Cost**.
 
-* **Modular Progression**: Develop your home in the unified "Crafting" tab.
-* **Premium Assets**: Full **WebP integration** for all high-res assets, including specific custom renders for storage facilities and tools.
-* **Balancing v3.7**: A refined economy with symmetric stats and optimized resource storage (adaptive limits up to 125+).
-
-### 👥 NPC Story & Narrative
-
-* **Grouped Progress**: The journal automatically groups narrative milestones by NPC characters.
-* **HTML Narrative**: Bold player names and narrative highlights are rendered natively for maximum immersion.
+### 🍖 Hardcore Survival Balance
+* **Satiation Malus**: Survival is not passive. Resource costs scale dynamically with your hunger level, rewarding proactive foraging and cooking.
+* **Consolidated Buffs**: Use meals and potions to gain temporary modifiers, tracked visually in the HUD.
 
 ### 🔄 Arcane Focus (Automation)
+* **Magical Automation**: Automate loopable actions at the cost of **3.0 Magic per second**.
+* **Smart Context**: Focused actions automatically swap Energy costs for Magic, allowing for high-efficiency gameplay.
 
-* **Magical Automation**: Toggle the "Magic Eye" ✨ on loopable actions to automate them at the cost of **3.0 Magic per second**.
-* **Effect Replacement**: Focused actions consume Magic instead of Energy, allowing for effortless progress during active play.
-
-### 🔮 Architecture (TypeScript Hardened Core 3.7)
-
-* **100% Type-Safe**: Every gameplay rule, modifier, and requirement is verified by TypeScript.
-* **100% I18N Integrity**: Automated "God-Tier" validation ensures zero missing keys across DE/EN.
-* **Refined Settings**: Premium Sidebar-Settings with "Save & Back" logic for a seamless experience.
-* **Modular Effect System**: Dynamic effect registration (`registerEffect`) allows for seamless expansion.
-* **Hardened IPC**: Shared Enum communication between Electron Main and Render processes.
+### 🔮 Architecture (Registry-Hardened Core 3.9)
+* **Zero Hardcoding**: All user-facing text is managed via I18N.
+* **Asset Integrity**: Automated validation ensures every registered icon and sound exists physically.
+* **Modular Logic**: Content-agnostic engine; gameplay rules are entirely defined in `src/data/`.
 
 ---
 
 ## 🚀 Installation & Setup
 
 ### Prerequisites
-
-* [Node.js](https://nodejs.org/) (Current LTS)
+* [Node.js](https://nodejs.org/) (Version 24+ recommended)
 
 ### Quick Start
-
 1. Clone the repository.
 2. Run `npm install` to set up dependencies.
 3. Run `npm run dev` to start the game in development mode.
 
-### 🛠️ Developer Tools
+---
 
-To ensure stability across languages and logic, automated validation scripts are provided:
+## 🛠️ Developer & Quality Tools
 
-* `npm run check-all`: Performs a global audit of translations, assets, and game logic.
-* `npm run check-ts`: Full TypeScript type audit.
-* `npm run check-i18n`: Validates all translation parity.
-* `npm run check-logic`: Detects dead-ends and unreachable requirements in progression.
+To maintain "Golden Master" quality, use these automated validation scripts:
+
+* `npm run check-all`: **(Recommended)** Global audit of translations, assets, and logic.
+* `npm run check-logic`: Simulates game progression to find dead-ends or unreachable milestones.
+* `npm run check-i18n`: Ensures 100% parity between languages and detects orphan keys.
+* `npm run check-assets`: Verifies that every path in the registries points to a valid file.
 
 ---
 
 ## 📦 Building the Executable
 
-To create a standalone Windows application (`.exe`):
+To generate a production-ready Windows application (`.exe`):
 
-1. `npm run build`
-2. `npm run build-exe`
+1. **Validation**: Always run `npm run check-all` before building.
+2. **Standard Build**: `npm run build` (Compiles the Vite project).
+3. **Electron Package**: `npm run build-exe` (Packages everything into the `BUILDS/` directory).
 
-The finished app will be located in `dist_electron`.
+The finished executable will be located in: `BUILDS/My-earned-Wings-win32-x64/`.
 
 ---
 
-Created by Lassandriel · April 2026 · TypeScript Hardened Core 3.7
+Created by Lassandriel · April 2026 · Registry-Hardened Core 3.9
 
 ---
 

@@ -10,10 +10,11 @@ export interface ItemDefinition {
   desc: string;
   image?: string;
   consumable: boolean;
-  category: 'tools' | 'items' | 'crafting' | 'furniture';
-  effect?: Partial<Record<ResourceId, number>>;
+  category: 'tools' | 'items' | 'furniture' | 'addon';
+  effect?: Partial<Record<ResourceId, number>> | string;
   modifiers?: GameModifier[];
   spaceCost?: number;
+  cost?: number | Record<ResourceId, number> | string;
 }
 
 export interface NPCStep {

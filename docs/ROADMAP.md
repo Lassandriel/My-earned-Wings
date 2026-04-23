@@ -44,6 +44,9 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 - [x] **UI/UX Hardening (Contextual Separation)**: Implemented strict filtering for the main action list to exclusively show location-based gathering; decoupled story NPCs and construction addons into dedicated specialized tabs.
 - [x] **Progression Logic Refactoring**: Migrated core logic rules (path resolution, requirement checking) to a shared centralized utility, ensuring perfect alignment between game runtime and automated testing.
 
+- [x] **Dynamic Location System (v3.9)**: Fully automated action grouping by location headers; eliminated manual tab navigation for a data-driven UI.
+- [x] **Registry-Category Synchronization**: Unified all gameplay entities (Furniture, Addons, Tools) with the GAMEDESIGN glossary; synchronized asset paths and registry categories.
+
 ---
 
 ## 🗺️ Future Horizons
