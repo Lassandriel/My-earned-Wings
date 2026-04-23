@@ -73,7 +73,9 @@ export interface GameState {
     registries: Registries;
     getNPCActions: (store: GameState, npcId: NPCId) => ActionDefinition[];
     getCategorizedResources: (category: string) => ResourceDefinition[];
+    getAll: <T = any>(type: keyof Registries) => Record<string, T>;
   };
+  currentLocation: string;
   RESOURCE_REGISTRY: Record<ResourceId, ResourceDefinition>;
   resource: {
     canAfford: (
@@ -178,6 +180,9 @@ export interface GameState {
     showToast: (message: string, type: 'info' | 'error' | 'success') => void;
     getTaskProgress: (store: GameState, taskId: string) => number;
     getNPCProgressPercent: (store: GameState, npcId: NPCId) => number;
+    getGatheringActions: (store: GameState) => ActionDefinition[];
+    getAvailableLocations: (store: GameState) => string[];
+    renderActionTitle: (store: GameState, actionId: string) => string;
   };
   viewManager: {
     startNewGame: (store: GameState, stateFactory: () => any) => void;

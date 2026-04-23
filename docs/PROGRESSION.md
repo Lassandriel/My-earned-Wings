@@ -1,6 +1,6 @@
 # Progression Tree: Your Earned Wings
 
-This document provides an overview of the dependencies and unlock chains in Draconia, aligned with the **Golden Master (Core 3.7)** architecture.
+This document provides an overview of the dependencies and unlock chains in Draconia, aligned with the **Golden Master (Core 3.9)** architecture.
 
 ```mermaid
 graph TD
@@ -81,7 +81,7 @@ graph TD
 - **Decentralized Trade**: NPCs offer trades based on trust.
   - **Baker**: Buys Wood (Reputation 2+).
   - **Hunter**: Buys/Sells Meat (Reputation 2+).
-- **Arcane Focus**: Automating tasks using Magic Drain (1.0/s) instead of Energy.
+- **Arcane Focus**: Automating tasks using Magic Drain (3.0/s) instead of Energy.
 - **Milestones**:
   - **Arcane Sanctum**: Unlocks Archmage Aris and Astral Shards.
   - **Kitchen Station**: Unlocks Gourmet Cooking for long-lasting buffs.

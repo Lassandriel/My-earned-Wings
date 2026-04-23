@@ -1,6 +1,6 @@
 # Game Design Document: Your Earned Wings
 
-**Status:** v3.7 — TypeScript Hardened (Core 3.7)
+**Status:** v3.9 — Active Survival Update (Core 3.9)
 **Aesthetics:** Survival · Somber Cozy · High Fantasy
 
 ---
@@ -29,7 +29,7 @@
 
 - **No Passive Regeneration**: Energy and Magic must be managed through active rest, meditation, and food.
 - **Active Satiation Drain**: Satiation does **NOT** drain passively over time. It only decreases when **Energy** or **Magic** is consumed (Ratio: 10% of cost).
-- **Malus**: Satiation < 20% significantly increases Energy/Magic costs (up to 50% more drain).
+- **Malus**: Satiation < 20% significantly increases Energy/Magic costs (up to 150% more drain at critical hunger).
 - **Resting**: Energy recovery is optimized; no satiation is drained during rest.
 - **Study**: Permanently increases the magic limit (e.g., to 60 for the finale). Requires a **Sturdy Table** to enable.
 
@@ -78,23 +78,40 @@ Automation is a high-level feature unlocked via Archmage Aris:
 
 ## 5. Core Terminology (Glossary)
 
-To maintain architectural integrity, we strictly distinguish between these categories:
-
-| Term          | Definition                                                                 | Technical Implementation                |
-| :------------ | :------------------------------------------------------------------------- | :-------------------------------------- |
-| **Items**     | Objects and consumables (e.g. materials, resources). Includes meals/dishes. | `img/items/`                            |
-| **Tools**     | Single-craft equipment acting as permanent passive upgrades with modifiers.  | `img/tools/`                            |
-| **Housing**   | Primary residences and base structures.                                    | `img/housing/`                          |
-| **Addon**     | Expansions and extensions (additional rooms or increased storage).         | `img/addons/`                           |
-| **Furniture** | Interior objects; can be toggled to provide passive bonuses or features.   | `img/crafting/`                         |
-| **Buff**      | Temporary status effects providing limited-time modifiers.                 | `BUFF_REGISTRY`                         |
-| **Milestone** | Achievement-based triggers that advance the story or world state.          | `MILESTONE_REGISTRY`                    |
-| **Blueprint** | Special items or flags required to unlock advanced construction.           | `Flag` (e.g. `blueprint-garden`)        |
-
-> [!IMPORTANT]
-> **Minimum Registry Standard**: Every entry in the registries (Items, Tools, Housing, Addons, Furniture) MUST define these fields for the tooltip: **Title, Desc, Effect, Cost**.
+To maintain clarity and long-term scalability, we strictly separate **Gameplay Entities** (what exists) from **System Logic** (how it behaves).
 
 ---
+
+### 5.1 Gameplay Entities (World & Objects)
+
+| Term          | Definition                                                   | Tech. Impl./Images | Obtainable via      | Usable in Tab | Notes                                  |
+| :------------ | :----------------------------------------------------------- | :----------------- | :------------------ | :------------ | :------------------------------------- |
+| **Items**     | Objects and consumables (e.g. materials, resources, meals).  | `img/items/`       | Gathering / Cooking | Inventory     | Stackable resources or consumables.    |
+| **Tools**     | Equipment that provides permanent passive modifiers.         | `img/tools/`       | Workshop            | Passive       | Non-stackable, permanent upgrades.     |
+| **Housing**   | Primary residences and base structures.                      | `img/housing/`     | Workshop / Story    | Housing       | Core progression gates.                |
+| **Addons**    | Expansions to housing (e.g. rooms, storage upgrades).        | `img/addons/`      | Workshop / Story    | Passive       | Extends housing functionality.         |
+| **Furniture** | Interior objects providing passive bonuses or new features.  | `img/furniture/`   | Workshop            | Housing       | Toggleable within the house interface. |
+| **Blueprint** | Unlock state required for advanced construction or crafting. | `requirements`     | Story / NPC Trades  | Workshop      | Gates access to higher-tier content.   |
+
+---
+
+### 5.2 Actions & System Logic (Behavior & Mechanics)
+
+| Term               | Definition                                                 | Tech. Impl.         | Usable in Tab | Notes                                                    |
+| :----------------- | :--------------------------------------------------------- | :------------------ | :------------ | :------------------------------------------------------- |
+| **Action**         | Any player-triggered interaction.                          | `executeAction`     | Main          | Core interaction layer.                                  |
+| **Instant Action** | Action executed immediately without duration.              | No duration         | Main          | Example: Resting, Study.                                 |
+| **Timed Action**   | Action with fixed duration that runs once.                 | `duration: X`       | Main          | Example: Cooking; often used for gated outcomes.         |
+| **Loop Action**    | Repeatable action with progress that can run continuously. | `isLoopable: true`  | Main          | Primary resource generation loop; automatable.           |
+| **Location**       | Organizational layer grouping actions by context or area.  | `locationId`        | Main          | Not a gameplay entity; used for structure and discovery. |
+| **Modifier**       | Any value change applied to player stats or systems.       | `MODIFIER_REGISTRY` | Passive       | Can be permanent or temporary; core balancing element.   |
+| **Buff**           | Temporary modifier with duration and visible feedback.     | `BUFF_REGISTRY`     | HUD / Items   | A presented form of modifiers with UI feedback.          |
+
+---
+
+> [!IMPORTANT]  
+> **Minimum Registry Standard**: Every Gameplay Entity (Items, Tools, Housing, Addons, Furniture) MUST define the following fields for tooltips:  
+> **Title, Description, Effect, Cost**
 
 ## 6. Development Best Practices
 
@@ -112,4 +129,4 @@ To ensure long-term maintainability and "Golden Master" quality:
 
 ---
 
-Last updated: April 2026 · v3.8 - Active Survival Update
+Last updated: April 2026 · v3.9 - Active Survival Update

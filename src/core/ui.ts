@@ -65,6 +65,36 @@ export const createUISystem = () => {
     cleanupHover,
     getTooltipCosts,
 
+    getGatheringActions(store: GameState) {
+      const allActions = store.content.getAll<ActionDefinition>('actions');
+
+      return Object.keys(allActions)
+        .filter((id) => allActions[id].category === 'gathering')
+        .map((id) => allActions[id]) as any;
+    },
+
+    getAvailableLocations(store: GameState) {
+      const allActions = store.content.getAll<ActionDefinition>('actions');
+      const locations = new Set<string>();
+
+      Object.keys(allActions).forEach((id) => {
+        const action = allActions[id];
+        if (action.locationId && action.category === 'gathering') {
+          // Check if action is visible/available
+          const isVisible = !action.requirements || Object.entries(action.requirements).every(([p, r]) => 
+            store.actions.checkRequirement(store, p, r)
+          );
+          if (isVisible) {
+            locations.add(action.locationId);
+          }
+        }
+      });
+
+      // Default to forest if nothing found yet (safety)
+      if (locations.size === 0) return ['forest'];
+      return Array.from(locations);
+    },
+
     getNPCProgressPercent(store: GameState, npcId: string): number {
       const npc = store.content.get(npcId);
       if (!npc) return 0;

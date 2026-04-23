@@ -1,15 +1,7 @@
 <!-- GAMEPLAY VIEW - CORE 3.0 -->
 <div x-show="$store.game.view === 'gameplay'" class="view-content-gameplay">
   <div class="primary-actions-bar">
-    <button
-      class="game-btn primary-btn primary-satiation"
-      @click="$store.game.attemptAction($el, 'act-essen')"
-      @mouseover="$store.game.setHovered('act-essen')"
-      @mouseout="$store.game.setHovered(null)"
-    >
-      <span x-text="$store.game.t('act-essen', 'actions').title"></span>
-      <span class="key-tag">1</span>
-    </button>
+    <!-- 1: ENERGY (Matches First Bar) -->
     <button
       class="game-btn primary-btn primary-energy"
       @click="$store.game.attemptAction($el, 'act-ausruhen')"
@@ -17,8 +9,10 @@
       @mouseout="$store.game.setHovered(null)"
     >
       <span x-text="$store.game.t('act-ausruhen', 'actions').title"></span>
-      <span class="key-tag">2</span>
+      <span class="key-tag">1</span>
     </button>
+
+    <!-- 2: MAGIC (Matches Second Bar) -->
     <button
       class="game-btn primary-btn primary-magic"
       @click="$store.game.attemptAction($el, 'act-meditieren')"
@@ -26,6 +20,17 @@
       @mouseout="$store.game.setHovered(null)"
     >
       <span x-text="$store.game.t('act-meditieren', 'actions').title"></span>
+      <span class="key-tag">2</span>
+    </button>
+
+    <!-- 3: SATIATION (Matches Third Bar) -->
+    <button
+      class="game-btn primary-btn primary-satiation"
+      @click="$store.game.attemptAction($el, 'act-essen')"
+      @mouseover="$store.game.setHovered('act-essen')"
+      @mouseout="$store.game.setHovered(null)"
+    >
+      <span x-text="$store.game.t('act-essen', 'actions').title"></span>
       <span class="key-tag">3</span>
     </button>
   </div>
@@ -43,56 +48,37 @@
             ?
           </div>
         </div>
-        <div class="btn-list">
-          <button
-            class="game-btn"
-            @click="$store.game.attemptAction($el, 'act-wood')"
-            @mouseover="$store.game.setHovered('act-wood')"
-            @mouseout="$store.game.setHovered(null)"
-          >
-            <span x-text="$store.game.ui.renderActionTitle($store.game, 'act-wood')"></span>
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-wood' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-wood')"
-            >
-              ✨
+          <!-- LOCATION GROUPS (Phase 8.36.52) -->
+          <template x-for="loc in $store.game.ui.getAvailableLocations($store.game)" :key="loc">
+            <div class="location-group">
+              <h4 class="location-heading" x-text="$store.game.t('loc_' + loc)"></h4>
+              <div class="btn-list-inner">
+                <template
+                  x-for="action in $store.game.ui.getGatheringActions($store.game).filter(a => a.locationId === loc)"
+                  :key="action.id"
+                >
+                  <button
+                    x-show="!action.requirements || Object.entries(action.requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
+                    class="game-btn"
+                    :class="action.costType === 'magic' && 'primary-magic'"
+                    @click="$store.game.attemptAction($el, action.id)"
+                    @mouseover="$store.game.setHovered(action.id)"
+                    @mouseout="$store.game.setHovered(null)"
+                  >
+                    <span x-text="$store.game.ui.renderActionTitle($store.game, action.id)"></span>
+                    <div
+                      class="focus-toggle-btn"
+                      x-show="$store.game.flags['ability-arcane-focus'] && action.isLoopable"
+                      :class="$store.game.activeFocus === action.id && 'is-focused'"
+                      @click.stop="$store.game.toggleFocus(action.id)"
+                    >
+                      ✨
+                    </div>
+                  </button>
+                </template>
+              </div>
             </div>
-          </button>
-          <button
-            class="game-btn"
-            @click="$store.game.attemptAction($el, 'act-stone')"
-            @mouseover="$store.game.setHovered('act-stone')"
-            @mouseout="$store.game.setHovered(null)"
-          >
-            <span x-text="$store.game.ui.renderActionTitle($store.game, 'act-stone')"></span>
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-stone' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-stone')"
-            >
-              ✨
-            </div>
-          </button>
-          <button
-            x-show="$store.game.flags['item-bow']"
-            class="game-btn primary-magic"
-            @click="$store.game.attemptAction($el, 'act-hunt')"
-            @mouseover="$store.game.setHovered('act-hunt')"
-            @mouseout="$store.game.setHovered(null)"
-          >
-            <span x-text="$store.game.t('act-hunt', 'actions').title"></span>
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-hunt' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-hunt')"
-            >
-              ✨
-            </div>
-          </button>
+          </template>
         </div>
       </section>
     </div>

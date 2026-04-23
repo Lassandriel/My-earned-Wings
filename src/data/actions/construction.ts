@@ -6,6 +6,8 @@ export const constructionActions: Record<string, any> = {
   // === CAMP & STORAGE (Chapter: The Beginning) ===
   'build-campfire': {
     id: 'build-campfire',
+    title: 'action_build_campfire_title',
+    desc: 'action_build_campfire_desc',
     category: 'housing',
     cost: 5,
     costType: 'wood',
@@ -22,6 +24,8 @@ export const constructionActions: Record<string, any> = {
   },
   'build-tent': {
     id: 'build-tent',
+    title: 'action_build_tent_title',
+    desc: 'action_build_tent_desc',
     category: 'housing',
     requirements: { 'flags.build-campfire': true, 'flags.build-tent': { op: '!=', val: true } },
     costs: { wood: 15, stone: 5 },
@@ -41,16 +45,17 @@ export const constructionActions: Record<string, any> = {
   },
   'build-wood-storage': {
     id: 'build-wood-storage',
-    
+    title: 'action_build_wood_storage_title',
+    desc: 'action_build_wood_storage_desc',
     chapter: 'Establishment',
-    category: 'housing',
+    category: 'addon',
     requirements: {
       'flags.build-tent': true,
       'flags.build-wood-storage': { op: '!=', val: true },
     },
     cost: 20,
     costType: 'wood',
-    image: 'img/housing/wood_1.webp',
+    image: 'img/addons/wood_1.webp',
     sfx: 'craft',
     onSuccess: [
       { type: 'setFlag', flag: 'build-wood-storage', value: true },
@@ -63,16 +68,17 @@ export const constructionActions: Record<string, any> = {
   },
   'build-stone-storage': {
     id: 'build-stone-storage',
-    
+    title: 'action_build_stone_storage_title',
+    desc: 'action_build_stone_storage_desc',
     chapter: 'Establishment',
-    category: 'housing',
+    category: 'addon',
     requirements: {
       'flags.build-tent': true,
       'flags.build-stone-storage': { op: '!=', val: true },
     },
     cost: 20,
     costType: 'stone',
-    image: 'img/housing/stone_1.webp',
+    image: 'img/addons/stone_1.webp',
     sfx: 'craft',
     onSuccess: [
       { type: 'setFlag', flag: 'build-stone-storage', value: true },
@@ -87,7 +93,8 @@ export const constructionActions: Record<string, any> = {
   // === HOUSING (Chapter: Establishment) ===
   'build-house': {
     id: 'build-house',
-    
+    title: 'action_build_house_title',
+    desc: 'action_build_house_desc',
     chapter: 'Establishment',
     category: 'housing',
     costs: { wood: 40, stone: 40 },
@@ -112,13 +119,14 @@ export const constructionActions: Record<string, any> = {
   },
   'build-table': {
     id: 'build-table',
-    
+    title: 'action_build_table_title',
+    desc: 'action_build_table_desc',
     chapter: 'Establishment',
     category: 'housing',
     requirements: { 'flags.build-house': true, 'flags.build-table': { op: '!=', val: true } },
     cost: 40,
     costType: 'wood',
-    image: 'img/housing/table.webp',
+    image: 'img/furniture/table.webp',
     sfx: 'craft',
     onSuccess: [
       { type: 'setFlag', flag: 'build-table', value: true },
@@ -130,11 +138,12 @@ export const constructionActions: Record<string, any> = {
   },
   'build-kitchen': {
     id: 'build-kitchen',
-    
+    title: 'action_build_kitchen_title',
+    desc: 'action_build_kitchen_desc',
     chapter: 'Refinement',
-    category: 'housing',
+    category: 'addon',
     costs: { wood: 80, stone: 40 },
-    image: 'img/housing/kitchen.webp',
+    image: 'img/addons/kitchen.webp',
     requirements: { 'flags.build-house': true, 'flags.build-kitchen': { op: '!=', val: true } },
     sfx: 'craft',
     onSuccess: [{ type: 'setFlag', flag: 'build-kitchen', value: true }],
@@ -143,11 +152,12 @@ export const constructionActions: Record<string, any> = {
   },
   'build-arcane-sanctum': {
     id: 'build-arcane-sanctum',
-    
+    title: 'action_build_sanctum_title',
+    desc: 'action_build_sanctum_desc',
     chapter: 'Refinement',
-    category: 'housing',
+    category: 'addon',
     costs: { stone: 150, magic: 50 },
-    image: 'img/housing/sanctum.webp',
+    image: 'img/addons/sanctum.webp',
     requirements: {
       'flags.build-house': true,
       'flags.build-table': true,
@@ -165,6 +175,8 @@ export const constructionActions: Record<string, any> = {
   },
   'build-home-lake': {
     id: 'build-home-lake',
+    title: 'action_build_home_lake_title',
+    desc: 'action_build_home_lake_desc',
     chapter: 'Refinement',
     category: 'housing',
     costs: { wood: 150, shards: 300 },
@@ -187,6 +199,8 @@ export const constructionActions: Record<string, any> = {
   },
   'build-home-tower': {
     id: 'build-home-tower',
+    title: 'action_build_home_tower_title',
+    desc: 'action_build_home_tower_desc',
     chapter: 'Refinement',
     category: 'housing',
     costs: { stone: 250, shards: 500 },
@@ -207,14 +221,16 @@ export const constructionActions: Record<string, any> = {
     logKey: 'milestone_aura_tower',
     logColor: 'var(--accent-purple)',
   },
-
+ 
   // === WORKSHOP & TOOLS ===
   'build-water-barrel': {
     id: 'build-water-barrel',
+    title: 'action_build_water_barrel_title',
+    desc: 'action_build_water_barrel_desc',
     chapter: 'Village Life',
-    category: 'storage',
+    category: 'addon',
     costs: { wood: 15, shards: 50 },
-    image: 'img/housing/wood_1.webp',
+    image: 'img/addons/wood_1.webp',
     requirements: { 'flags.build-campfire': true },
     maxCount: 5,
     sfx: 'water',
@@ -275,11 +291,11 @@ export const constructionActions: Record<string, any> = {
   },
   'act-bed': {
     id: 'act-bed',
-    category: 'crafting',
+    category: 'furniture',
     requirements: { 'flags.build-house': true },
     cost: 25,
     costType: 'wood',
-    image: 'img/crafting/bed.webp',
+    image: 'img/furniture/bed.webp',
     sfx: 'craft',
     onSuccess: [
       { type: 'unlockItem', id: 'item-bed' },
@@ -288,31 +304,31 @@ export const constructionActions: Record<string, any> = {
   },
   'act-chair': {
     id: 'act-chair',
-    category: 'crafting',
+    category: 'furniture',
     requirements: { 'flags.build-house': true },
     cost: 10,
     costType: 'wood',
-    image: 'img/crafting/chair.webp',
+    image: 'img/furniture/chair.webp',
     sfx: 'craft',
     onSuccess: [{ type: 'unlockItem', id: 'item-chair' }],
     logKey: 'craft_chair',
   },
   'act-stove': {
     id: 'act-stove',
-    category: 'crafting',
+    category: 'furniture',
     requirements: { 'flags.build-house': true },
     costs: { stone: 25, wood: 15 },
-    image: 'img/crafting/stove.webp',
+    image: 'img/furniture/stove.webp',
     sfx: 'craft',
     onSuccess: [{ type: 'unlockItem', id: 'item-stove' }],
     logKey: 'craft_stove',
   },
   'act-bookshelf': {
     id: 'act-bookshelf',
-    category: 'crafting',
+    category: 'furniture',
     cost: 25,
     costType: 'wood',
-    image: 'img/crafting/bookshelf.webp',
+    image: 'img/furniture/bookshelf.webp',
     requirements: { 'flags.build-table': true, 'flags.build-bookshelf': { op: '!=', val: true } },
     sfx: 'craft',
     onSuccess: [
@@ -326,7 +342,7 @@ export const constructionActions: Record<string, any> = {
   'act-book': {
     id: 'act-book',
     icon: '📖',
-    category: 'crafting',
+    category: 'furniture',
     requirements: { 'flags.build-bookshelf': true },
     costs: { shards: 10, wood: 5 },
     sfx: 'craft',
@@ -335,10 +351,10 @@ export const constructionActions: Record<string, any> = {
   },
   'act-cabinet': {
     id: 'act-cabinet',
-    category: 'crafting',
+    category: 'furniture',
     cost: 60,
     costType: 'wood',
-    image: 'img/crafting/cabinet.webp',
+    image: 'img/furniture/cabinet.webp',
     requirements: {
       'flags.build-house': true,
       'flags.build-kitchen': true,
@@ -362,10 +378,10 @@ export const constructionActions: Record<string, any> = {
   },
   'act-grand-table': {
     id: 'act-grand-table',
-    category: 'crafting',
+    category: 'furniture',
     cost: 100,
     costType: 'wood',
-    image: 'img/crafting/table_massive.webp',
+    image: 'img/furniture/table_massive.webp',
     requirements: {
       'flags.build-table': true,
       'flags.build-kitchen': true,
@@ -375,15 +391,16 @@ export const constructionActions: Record<string, any> = {
     onSuccess: [{ type: 'unlockItem', id: 'item-grand-table' }],
     logKey: 'act-grand-table',
   },
-
+ 
   // === GARDEN & NATURE ===
   'build-garden': {
     id: 'build-garden',
-    category: 'garden',
-    
+    title: 'action_build_garden_title',
+    desc: 'action_build_garden_desc',
+    category: 'addon',
     chapter: 'Establishment',
     costs: { wood: 20, stone: 20 },
-    image: 'img/housing/garden.webp',
+    image: 'img/addons/garden.webp',
     requirements: { 
       'flags.build-house': true, 
       'flags.blueprint-garden': true, 
@@ -399,7 +416,7 @@ export const constructionActions: Record<string, any> = {
   'build-garden-upgrade': {
     id: 'build-garden-upgrade',
     icon: '🏗️',
-    category: 'garden',
+    category: 'addon',
     
     chapter: 'Refinement',
     costs: { wood: 50, stone: 50, water: 20 },
@@ -415,7 +432,7 @@ export const constructionActions: Record<string, any> = {
   },
   'act-bed-2': {
     id: 'act-bed-2',
-    category: 'crafting',
+    category: 'furniture',
     costs: { shards: 150, magic: 40 },
     requirements: {
       'flags.item-bed': true,
@@ -423,13 +440,13 @@ export const constructionActions: Record<string, any> = {
       'flags.item-bed-2': { op: '!=', val: true },
     },
     sfx: 'magic',
-    image: 'img/crafting/bed_2.webp',
+    image: 'img/furniture/bed_2.webp',
     onSuccess: [{ type: 'unlockItem', id: 'item-bed-2' }],
     logKey: 'craft_bed_2',
   },
   'act-stove-2': {
     id: 'act-stove-2',
-    category: 'crafting',
+    category: 'furniture',
     costs: { shards: 200, stone: 50 },
     requirements: {
       'flags.item-stove': true,
@@ -437,7 +454,7 @@ export const constructionActions: Record<string, any> = {
       'flags.item-stove-2': { op: '!=', val: true },
     },
     sfx: 'magic',
-    image: 'img/crafting/stove_2.webp',
+    image: 'img/furniture/stove_2.webp',
     onSuccess: [{ type: 'unlockItem', id: 'item-stove-2' }],
     logKey: 'craft_stove_2',
   },

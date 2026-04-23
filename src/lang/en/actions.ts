@@ -118,6 +118,11 @@ export default {
     title_alt: 'Quarry Stones',
     effect: '+{val} Stone',
   },
+  'act-mine-quartz': {
+    title: 'Mine Quartz',
+    desc: 'Extract rare crystals in the dark mine.',
+    effect: '+{val} Shards & Stone',
+  },
   'act-essen': {
     title: 'Eat Berries',
     desc: 'Nourish yourself from the gifts of the earth.',

@@ -95,6 +95,7 @@ export default {
   craft_chisel: 'You have shaped a sharp chisel.',
   dream_bloom_log: 'An ethereal flower has bloomed.',
   spell_harvest_log: 'Drew magic energy from the aether.',
+  mine_quartz_log: 'Found precious crystals and ores in the deep. +{gain}',
   meditation_log: 'Deep concentration... an astral shard manifests.',
   nav_crafting_desc: 'Shape tools from the gifts of nature.',
   nav_chronicle_desc: 'Records of your life on the ground.',

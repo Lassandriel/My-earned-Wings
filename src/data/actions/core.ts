@@ -1,9 +1,11 @@
 /**
- * Gathering & Basic Actions - TypeScript Version
+ * Core & Basic Actions - TypeScript Version
+ * Contains primary survival actions, gathering, and household tasks.
  */
-export const gatheringActions: Record<string, any> = {
+export const coreActions: Record<string, any> = {
   'act-essen': {
     id: 'act-essen',
+    category: 'primary',
     icon: '🍱',
     cost: 0,
     costType: 'none',
@@ -16,6 +18,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-ausruhen': {
     id: 'act-ausruhen',
+    category: 'primary',
     icon: '💤',
     cost: 0,
     costType: 'none',
@@ -28,6 +31,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-meditieren': {
     id: 'act-meditieren',
+    category: 'primary',
     icon: '🧘',
     cost: 0,
     costType: 'none',
@@ -40,9 +44,11 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-study': {
     id: 'act-study',
+    category: 'special',
     icon: '📜',
     cost: 20,
     costType: 'magic',
+    requirements: { 'flags.item-book-knowledge': true },
     sfx: 'click',
     particleText: 'particle_max_magic_gain',
     particleType: 'magic',
@@ -54,6 +60,8 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-wood': {
     id: 'act-wood',
+    category: 'gathering',
+    locationId: 'forest',
     icon: '🪓',
     cost: 8,
     costType: 'energy',
@@ -68,6 +76,8 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-stone': {
     id: 'act-stone',
+    category: 'gathering',
+    locationId: 'forest',
     icon: '⛏️',
     cost: 12,
     costType: 'energy',
@@ -82,6 +92,8 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-hunt': {
     id: 'act-hunt',
+    category: 'gathering',
+    locationId: 'forest',
     icon: '🏹',
     cost: 25,
     costType: 'energy',
@@ -94,8 +106,24 @@ export const gatheringActions: Record<string, any> = {
     rewards: { meat: 'meat_yield' },
     logKey: 'hunt_log',
   },
+  'act-mine-quartz': {
+    id: 'act-mine-quartz',
+    category: 'gathering',
+    locationId: 'mine',
+    icon: '💎',
+    cost: 20,
+    costType: 'energy',
+    sfx: 'gather',
+    counter: 'stone',
+    isLoopable: true,
+    rewards: { stone: 10, shards: 5 },
+    particleText: 'ui_shards',
+    particleType: 'shards',
+    logKey: 'mine_quartz_log',
+  },
   'act-garden-plant': {
     id: 'act-garden-plant',
+    category: 'garden_task',
     icon: '🌿',
     cost: 10,
     costType: 'energy',
@@ -110,6 +138,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-garden-plant-2': {
     id: 'act-garden-plant-2',
+    category: 'garden_task',
     icon: '🌻',
     cost: 10,
     costType: 'energy',
@@ -124,9 +153,11 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-garden-water': {
     id: 'act-garden-water',
+    category: 'garden_task',
     icon: '💧',
     cost: 5,
     costType: 'energy',
+    requirements: { 'flags.build-garden': true },
     sfx: 'gather',
     rewards: { water: 2 },
     particleText: 'ui_water',
@@ -135,6 +166,7 @@ export const gatheringActions: Record<string, any> = {
   },
   'act-cook-gourmet': {
     id: 'act-cook-gourmet',
+    category: 'garden_task',
     icon: '🍳',
     costType: 'mixed',
     costs: { water: 2, meat: 2, herbs: 1 },

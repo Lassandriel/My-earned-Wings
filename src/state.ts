@@ -12,6 +12,7 @@ export const initialState: any = {
   playerName: '',
   language: 'de',
   view: 'menu',
+  currentLocation: 'forest',
   hasSave: false,
   prologueStep: 1,
   settingsOpen: false,

@@ -35,7 +35,13 @@ export type FlagId =
   | 'build-arcane-sanctum'
   | 'build-garden'
   | 'build-garden-upgrade'
-  | 'milestone-treeOfLife';
+  | 'milestone-treeOfLife'
+  | 'unlocked-mine'
+  | 'unlocked-glade'
+  | 'ability-arcane-focus'
+  | 'item-axe'
+  | 'item-pickaxe'
+  | 'item-bow';
 
 export type ActionId = string;
 export type ItemId = string; 

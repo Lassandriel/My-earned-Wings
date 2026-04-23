@@ -117,6 +117,11 @@ export default {
     title_alt: 'Felsen brechen',
     effect: '+{val} Stein',
   },
+  'act-mine-quartz': {
+    title: 'Quarz schürfen',
+    desc: 'Baue seltene Kristalle in der dunklen Mine ab.',
+    effect: '+{val} Splitter & Stein',
+  },
   'act-essen': {
     title: 'Beeren essen',
     desc: 'Nähr dich von den Gaben des Bodens.',

@@ -11,6 +11,10 @@ export const createContentService = (registries: Registries) => ({
     npcActions: {} as Record<string, any[]>,
   },
 
+  getAll<T = any>(type: keyof Registries): Record<string, T> {
+    return (this.registries[type] as any) || {};
+  },
+
   get<T = any>(id: string, type: keyof Registries | null = null): T {
     let data: any = null;
     const detectedType = type || this.detectType(id);

@@ -6,6 +6,7 @@ import {
   GameEffect,
   ActionId,
 } from '../../types/game';
+import { resolvePath, checkRequirement } from '../../core/logicUtils';
 
 /**
  * Action System - TypeScript Edition
@@ -96,44 +97,6 @@ export function createActionSystem() {
     });
   };
 
-  const resolvePath = (obj: any, path: string): any => {
-    return path.split('.').reduce((prev, curr) => {
-      return prev ? prev[curr] : undefined;
-    }, obj);
-  };
-
-  const checkRequirement = (game: GameState, path: string, rule: any): boolean => {
-    const actual = resolvePath(game, path);
-
-    if (actual === undefined) {
-      console.error(`[ACTIONS] Requirement path invalid: "${path}". Check your data definitions!`);
-      return false;
-    }
-
-    if (typeof rule !== 'object' || rule === null) {
-      return actual === rule;
-    }
-
-    const { op, val } = rule;
-    switch (op) {
-      case '>=':
-        return actual >= val;
-      case '<=':
-        return actual <= val;
-      case '>':
-        return actual > val;
-      case '<':
-        return actual < val;
-      case '!=':
-        return actual !== val;
-      case 'includes':
-        return Array.isArray(actual) && actual.includes(val);
-      case 'not_includes':
-        return Array.isArray(actual) && !actual.includes(val);
-      default:
-        return actual === val;
-    }
-  };
 
   const spawnParticles = (game: GameState, action: ActionDefinition, isAutomated: boolean = false) => {
     if (isAutomated) return; // Prevention of "ghost particles" at cursor during background loops
@@ -419,6 +382,8 @@ export function createActionSystem() {
         }
       }
     },
+
+    checkRequirement,
 
     boot() {
       initEffects();

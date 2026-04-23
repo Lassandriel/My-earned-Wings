@@ -98,6 +98,7 @@ export default {
   craft_chisel: 'Du hast einen scharfen Meißel geformt.',
   dream_bloom_log: 'Eine ätherische Blüte ist erblüht.',
   spell_harvest_log: 'Magische Energie aus dem Aether gezogen.',
+  mine_quartz_log: 'Kostbare Kristalle und Erze in der Tiefe gefunden. +{gain}',
   meditation_log: 'Tiefe Konzentration... ein Astralsplitter manifestiert sich.',
   nav_crafting_desc: 'Forme Werkzeuge aus den Gaben der Natur.',
   nav_chronicle_desc: 'Die Aufzeichnungen deines Lebens am Boden.',

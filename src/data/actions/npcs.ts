@@ -395,6 +395,7 @@ export const npcActions: Record<string, any> = {
         costs: { 'item-astral-shards': 10, 'item-arcane-dust': 5 },
         onSuccess: [
           { type: 'setFlag', flag: 'blueprint-home-tower', value: true },
+          { type: 'unlockNPC', id: 'npc-treeOfLife' },
           { type: 'log', logKey: 'reward_blueprint_tower', color: 'var(--gold)' },
         ],
         dialogueKey: 'npc_aris_6',

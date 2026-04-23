@@ -286,9 +286,9 @@ document.addEventListener('keydown', (e) => {
 
   if (store.view !== 'menu' && store.view !== 'prologue' && !(store as any).settingsOpen) {
     const SHORTCUTS: Record<string, string> = {
-      '1': 'act-essen',
-      '2': 'act-ausruhen',
-      '3': 'act-meditieren',
+      '1': 'act-ausruhen',
+      '2': 'act-meditieren',
+      '3': 'act-essen',
     };
     if (SHORTCUTS[e.key]) store.executeAction(SHORTCUTS[e.key]);
   }

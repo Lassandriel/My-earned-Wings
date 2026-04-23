@@ -50,6 +50,7 @@ export interface ActionDefinition {
   modifiers?: GameModifier[];
   steps?: NPCStep[];
   isLoopable?: boolean;
+  locationId?: string;
   duration?: number;
   maxCount?: number;
   maxProgress?: number;

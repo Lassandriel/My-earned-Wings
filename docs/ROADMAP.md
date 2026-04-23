@@ -39,6 +39,10 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 - [x] **Code Simplification & Refactoring**: Migrated complex Alpine.js view logic to centralized UI helper functions; optimized `ValuePipeline` by offloading balancing to registries.
 - [x] **Gameplay Redesign (Active Survival)**: Decoupled Satiation from passive time-drain; linked hunger directly to Energy and Magic consumption for a fairer player-driven experience.
 - [x] **Architectural Standardization**: Finalized Core Terminology (Glossary) and Tooltip Registry Standards; established "Zero Hardcoding" and "Registry-First" as mandatory development best practices.
+- [x] **Exploration System (Location-Based)**: Implemented dynamic location switching (Forest, Crystal Mine) with filtered action lists and NPC-gated progression; integrated minimalist text-based location navigation.
+- [x] **Logic Integrity (V2.6)**: Fully modernized `check-logic` script with real-time requirement simulation and non-boolean flag support; 100% reachability verified for all game content.
+- [x] **UI/UX Hardening (Contextual Separation)**: Implemented strict filtering for the main action list to exclusively show location-based gathering; decoupled story NPCs and construction addons into dedicated specialized tabs.
+- [x] **Progression Logic Refactoring**: Migrated core logic rules (path resolution, requirement checking) to a shared centralized utility, ensuring perfect alignment between game runtime and automated testing.
 
 ---
 
