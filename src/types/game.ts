@@ -1,5 +1,5 @@
 import { 
-  ResourceId, FlagId, ActionId, ItemId, HomeId, NPCId, 
+  ResourceId, FlagId, ActionId, ItemId, HomeId, NPCId, ModifierId,
   GameModifier, MilestoneDefinition, NavigationDefinition 
 } from './core/base';
 import { ResourceDefinition, BuffDefinition } from './features/resources';
@@ -91,6 +91,7 @@ export interface GameState {
     getLimit: (state: GameState, type: ResourceId) => number;
     getMaxStat: (state: GameState, type: ResourceId) => number;
     getStatPercent: (state: GameState, stat: string) => number;
+    getScaledCost: (state: GameState, type: ResourceId, baseAmount: number) => number;
   };
   actions: {
     execute: (game: GameState, id: ActionId) => boolean;
@@ -163,6 +164,10 @@ export interface GameState {
     startMusic: () => void;
     playSFX: (id: string, volume?: number) => void;
   };
+  background: {
+    boot: (store: GameState) => void;
+    updateBackground: (setName: string) => void;
+  };
   ui: {
     calculateScale: (store: GameState) => void;
     handleMouseMove: (e: MouseEvent, store: GameState) => void;
@@ -233,4 +238,5 @@ export interface Registries {
   milestones: Record<string, MilestoneDefinition>;
   navigation: Record<string, NavigationDefinition>;
   homes: Record<HomeId, HomeDefinition>;
+  modifiers: Record<ModifierId, import('./core/base').ModifierDefinition>;
 }

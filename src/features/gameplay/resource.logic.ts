@@ -57,6 +57,21 @@ export const createResourceSystem = () => {
 
     if (consumed && state.bus) {
       state.bus.emit(state.EVENTS.RESOURCE_SPENT, { type });
+
+      // --- ACTIVE SATIATION DRAIN (Phase 8.36.24) ---
+      // Hunger only drains when Energy or Magic is spent
+      if (type === 'energy' || type === 'magic') {
+        const hungerCost = finalAmount * 0.1; // 10% of cost
+        const oldSatiation = state.stats.satiation;
+        if (state.stats.satiation > 0) {
+          state.stats.satiation = Math.max(0, state.stats.satiation - hungerCost);
+          
+          // Warn if falling below 20%
+          if (state.stats.satiation < 20 && oldSatiation >= 20) {
+            state.addLog('malus_satiation', 'logs', 'var(--accent-red)');
+          }
+        }
+      }
     }
     return consumed;
   };

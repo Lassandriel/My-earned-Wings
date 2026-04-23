@@ -151,7 +151,7 @@ const checkAll = () => {
     // A key is "used" if it appears in the sourceKeys map (found via t() scan)
     const usedKeySet = new Set<string>();
     sourceKeys.forEach(({ key }) => usedKeySet.add(key));
-    ['ui', 'actions', 'items', 'npcs', 'logs'].forEach(sec => {
+    ['ui', 'actions', 'items', 'npcs', 'logs', 'modifiers'].forEach(sec => {
         Object.keys((de as any)[sec] || {}).forEach(k => { if (!usedKeySet.has(k)) results.unused.errors.push(`Key: ${sec}/${k}`); });
     });
     allImages.forEach(img => {

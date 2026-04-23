@@ -15,6 +15,7 @@ export interface ResourceDefinition {
   isEssential?: boolean;
   wingSlot?: string;
   scalesWithSatiation?: boolean;
+  hidden?: boolean;
 }
 
 export interface BuffDefinition {

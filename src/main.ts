@@ -22,6 +22,7 @@ import { createViewManagerSystem } from './core/viewManager';
 import { createEllieSystem } from './features/village/ellie.logic';
 import { createSettingsSystem } from './features/ui/settings.logic';
 import { createI18nSystem } from './core/i18n';
+import { createBackgroundSystem } from './core/background';
 import { createEventBus, GAME_EVENTS } from './core/bus';
 import { createContentService } from './core/content';
 
@@ -68,6 +69,7 @@ const gameStore: any = {
   viewManager: createViewManagerSystem(),
   settingsSystem: createSettingsSystem(),
   i18n: createI18nSystem(),
+  background: createBackgroundSystem(),
   bus: createEventBus(),
   EVENTS: GAME_EVENTS,
 
@@ -89,7 +91,7 @@ const gameStore: any = {
     store.juice.boot(store);
 
     // --- SYSTEM BOOT ---
-    const systemsToBoot = ['audio', 'logger', 'persistence', 'actions', 'ui'];
+    const systemsToBoot = ['audio', 'logger', 'persistence', 'actions', 'ui', 'background'];
     systemsToBoot.forEach((sys) => {
       if ((store as any)[sys]?.boot) (store as any)[sys].boot(store);
     });

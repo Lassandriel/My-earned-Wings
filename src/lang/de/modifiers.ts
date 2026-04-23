@@ -1,0 +1,18 @@
+export default {
+  wood_yield_title: 'Holz-Ertrag',
+  wood_yield_desc: 'Erhöht die Ausbeute beim Holzsammeln.',
+  stone_yield_title: 'Stein-Ertrag',
+  stone_yield_desc: 'Erhöht die Ausbeute beim Steinsammeln.',
+  meat_yield_title: 'Fleisch-Ertrag',
+  meat_yield_desc: 'Erhöht die Ausbeute bei der Jagd.',
+  shards_yield_title: 'Splitter-Ertrag',
+  shards_yield_desc: 'Erhöht die Ausbeute an Seelensplittern.',
+  magic_yield_title: 'Magie-Ertrag',
+  magic_yield_desc: 'Erhöht die Ausbeute an magischer Energie.',
+  rest_energy_gain_title: 'Regeneration',
+  rest_energy_gain_desc: 'Beschleunigt die Erholung beim Ausruhen.',
+  eat_satiation_gain_title: 'Verdauung',
+  eat_satiation_gain_desc: 'Erhöht die Sättigung durch Mahlzeiten.',
+  garden_magic_cost_title: 'Garten-Magie',
+  garden_magic_cost_desc: 'Verringert die Magiekosten im Garten.'
+};

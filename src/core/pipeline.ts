@@ -1,4 +1,4 @@
-import { GameState, GameModifier, ItemDefinition, ActionDefinition, FlagId } from '../types/game';
+import { GameState, GameModifier, ItemDefinition, ActionDefinition, FlagId, ModifierDefinition } from '../types/game';
 
 /**
  * Value Pipeline System - TypeScript EDITION
@@ -12,16 +12,9 @@ export const createPipelineSystem = () => {
      * Formula: (Base + TotalAdditive) * TotalMultiplicative
      */
     calculate(store: GameState, key: string, baseValue: number = 1): number {
-      // Default base overrides for specific keys
-      let base = baseValue;
-      if (key === 'meat_yield') base = 2;
-      if (key === 'garden_yield') base = 3;
-      if (key === 'shards_yield') base = 25;
-      if (key === 'eat_satiation_gain') base = 10;
-      if (key === 'rest_energy_gain') base = 10;
-      if (key === 'wood_yield') base = 3;
-      if (key === 'stone_yield') base = 2;
-      if (key === 'magic_yield') base = 15;
+      // 1. Get base value from registry or use provided default
+      const modDef = store.content.get<ModifierDefinition>(key, 'modifiers');
+      const base = modDef?.baseValue ?? baseValue;
 
       const modifiers = this.getModifiers(store, key);
 
@@ -90,10 +83,6 @@ export const createPipelineSystem = () => {
             .filter((m: GameModifier) => m.key === key)
             .forEach((m: GameModifier) => mods.push(m));
         }
-        // Legacy buff support
-        if (key === 'energy_reg_bonus' && buff.type === 'energy_reg_bonus') {
-          mods.push({ add: buff.value });
-        }
       });
 
       // 3. CORE STATUS RULES (Internal Logic)
@@ -110,12 +99,6 @@ export const createPipelineSystem = () => {
           efficiency = 0.4 + ((sat - 15) / 70) * 0.9;
         }
         mods.push({ mult: efficiency });
-      }
-
-      // Ellie NPC Scaling
-      if (key === 'garden_yield') {
-        const ellieProg = store.npcProgress['ellie'] || 0;
-        if (ellieProg > 0) mods.push({ add: ellieProg });
       }
 
       // Book Knowledge Scaling

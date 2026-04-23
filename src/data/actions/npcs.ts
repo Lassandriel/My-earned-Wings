@@ -34,7 +34,7 @@ export const npcActions: Record<string, any> = {
     isStory: true,
     chapter: 'Village Life',
     progKey: 'flowerGirl',
-    maxProgress: 5,
+    maxProgress: 6,
     journalIcon: '🌸',
     icon: '🌸',
     journalColor: '#ec4899',
@@ -60,8 +60,19 @@ export const npcActions: Record<string, any> = {
       {
         cost: 15,
         costType: 'energy',
-        onSuccess: [{ type: 'unlockNPC', id: 'npc-blacksmith' }],
+        onSuccess: [
+          { type: 'unlockNPC', id: 'npc-blacksmith' },
+          { type: 'setFlag', flag: 'blueprint-garden', value: true }
+        ],
         dialogueKey: 'npc_flowerGirl_5',
+      },
+      {
+        costs: { herbs: 50, water: 20 },
+        onSuccess: [
+          { type: 'setFlag', flag: 'blueprint-home-lake', value: true },
+          { type: 'log', logKey: 'reward_blueprint_lake', color: 'var(--gold)' },
+        ],
+        dialogueKey: 'npc_flowerGirl_6',
       },
     ],
     execute: (state: any) => {
@@ -350,7 +361,7 @@ export const npcActions: Record<string, any> = {
     isStory: true,
     chapter: 'The Dream',
     progKey: 'aris',
-    maxProgress: 5,
+    maxProgress: 6,
     journalIcon: '🧙‍♂️',
     icon: '🧙‍♂️',
     journalColor: '#8b5cf6',
@@ -377,6 +388,16 @@ export const npcActions: Record<string, any> = {
           { type: 'unlockRecipe', id: 'act-stove-2' },
         ],
         dialogueKey: 'npc_aris_5',
+      },
+      {
+        cost: 100,
+        costType: 'magic',
+        costs: { 'item-astral-shards': 10, 'item-arcane-dust': 5 },
+        onSuccess: [
+          { type: 'setFlag', flag: 'blueprint-home-tower', value: true },
+          { type: 'log', logKey: 'reward_blueprint_tower', color: 'var(--gold)' },
+        ],
+        dialogueKey: 'npc_aris_6',
       },
     ],
     execute: (state: any) => {

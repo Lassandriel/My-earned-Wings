@@ -9,7 +9,7 @@
         @click="$store.game.view = item.id; $store.game.playSound('click')"
         :aria-label="$store.game.t('nav_to_prefix') + ' ' + $store.game.t(item.label)"
       >
-        <img :src="'img/menu_' + item.icon + '.webp'" :alt="$store.game.t(item.label)" class="menu-icon-img" />
+        <img :src="'img/menu/menu_' + item.icon + '.webp'" :alt="$store.game.t(item.label)" class="menu-icon-img" />
         <span x-text="$store.game.t(item.label)"></span>
       </li>
     </template>

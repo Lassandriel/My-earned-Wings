@@ -1,6 +1,7 @@
 <!-- FLOATING TOOLTIP (Senior Redesign) -->
 <div
   class="floating-tooltip"
+  id="tooltip-container"
   x-show="$store.game.hoveredAction && !$store.game.settingsOpen && !$store.game.confirmModal.open"
   style="display: none"
   x-transition:enter="tt-enter"
@@ -10,64 +11,29 @@
   <!-- 1. Title -->
   <div
     class="tt-title"
-    x-html="(() => {
-    const h = $store.game.hoveredAction;
-    if(!h) return '';
-    if(h.isHelp) return h.title || '';
-    if(h.isBuff) return h.title || '';
-
-    let title = '';
-    const lang = $store.game.t(h.id, 'actions');
-
-    if (h.id.includes('npc-') && h.data) {
-        const npc = $store.game.content.get(h.data.npcId, 'npcs');
-        title = npc ? $store.game.t(npc.nameKey) : h.id;
-        const progKey = h.data.progKey;
-        const currentProg = $store.game.npcProgress[progKey] || 0;
-        const displayStep = Math.min(h.data.maxProgress, currentProg + 1);
-        title += ' (' + displayStep + '/' + h.data.maxProgress + ')';
-    } else {
-        title = lang ? (lang.title || h.id) : h.id;
-    }
-    
-    return title;
-  })()"
+    x-html="$store.game.ui.renderTooltipTitle($store.game, $store.game.hoveredAction)"
   ></div>
 
-  <!-- 2. Story / Flavor Text -->
   <div
     class="tt-story"
-    x-html="(() => {
-    const h = $store.game.hoveredAction;
-    if(!h) return '';
-    if(h.isHelp) return h.desc || '';
-    if(h.isBuff) return h.desc || '';
-    
-    if (h.id.includes('npc-') && h.data) {
-        const progKey = h.data.progKey;
-        const currentProg = $store.game.npcProgress[progKey] || 0;
-        if (currentProg < h.data.maxProgress) {
-            const dialogKey = `npc_${progKey}_${currentProg + 1}`;
-            const dialogText = $store.game.t(dialogKey, 'npcs');
-            if (dialogText && dialogText !== dialogKey) return dialogText;
-        }
-    }
-
-    const lang = $store.game.t(h.id, 'actions');
-    return lang ? (lang.desc || '') : '';
-  })()"
+    x-html="$store.game.ui.renderTooltipStory($store.game, $store.game.hoveredAction)"
   ></div>
+
+  <!-- Divider (NEW) -->
+  <hr class="tt-divider" x-show="$store.game.hoveredAction" />
+
+  <!-- Status / Unlocked (NEW) -->
+  <div class="tt-status" x-show="$store.game.hoveredAction?.id && $store.game.flags[$store.game.hoveredAction.id]">
+    <span class="status-built" x-text="'✓ ' + ($store.game.t('ui_unlocked') || 'Bereits gebaut')"></span>
+  </div>
+  <div class="tt-status" x-show="$store.game.hoveredAction?.data?.onSuccess?.some(e => e.type === 'setHome' && e.id === $store.game.currentHome)">
+    <span class="status-active" x-text="'✨ ' + ($store.game.t('ui_active') || 'Momentanes Zuhause')"></span>
+  </div>
 
   <!-- 3. Costs Section (Action Only) -->
   <div
     class="tt-section"
-    x-show="(() => {
-    const h = $store.game.hoveredAction;
-    if(!h || !h.data || h.isHelp) return false;
-    const prog = h.id.includes('npc-') ? ($store.game.npcProgress[h.data.progKey] || 0) : null;
-    const step = (prog !== null && h.data.steps) ? h.data.steps[prog] : null;
-    return !!( (step && (step.costs || step.cost)) || h.data.costs || h.data.cost);
-  })()"
+    x-show="$store.game.ui.hasTooltipCosts($store.game, $store.game.hoveredAction)"
   >
     <div class="tt-section-header" x-text="$store.game.t('ui_salary') + ':'"></div>
     <div class="tt-cost-list">
@@ -120,10 +86,10 @@
 
   <!-- 5. Buff Duration (NEW) -->
   <div class="tt-section" x-show="$store.game.hoveredAction?.isBuff">
-    <div class="tt-section-header" x-text="'[ Laufzeit ]'"></div>
+    <div class="tt-section-header" x-text="'[ ' + $store.game.t('ui_duration') + ' ]'"></div>
     <div class="tt-data-line tt-bonus">
       <span
-        x-text="'Noch ' + Math.ceil($store.game.hoveredAction?.remaining || 0) + ' Sekunden'"
+        x-text="$store.game.t('ui_remaining_prefix') + ' ' + Math.ceil($store.game.hoveredAction?.remaining || 0) + ' ' + $store.game.t('ui_seconds')"
       ></span>
     </div>
   </div>

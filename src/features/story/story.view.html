@@ -11,13 +11,14 @@
     </div>
   </div>
 
-  <div class="story-archive-layout">
+  <div class="story-archive-layout" x-show="$store.game.storyHistory.length > 0">
     <!-- Sidebar: NPC List -->
     <div class="story-archive-sidebar">
       <div
         class="npc-archive-tab"
         :class="$store.game.selectedStoryNpc === 'world' ? 'active' : ''"
         @click="$store.game.selectedStoryNpc = 'world'; $store.game.playSound('click')"
+        x-show="$store.game.storyHistory.some(e => !e.npcId || e.npcId === 'world')"
       >
         <span class="npc-archive-icon">📜</span>
         <span class="npc-archive-name" x-text="$store.game.t('cat_chronicle_world')"></span>
@@ -62,14 +63,16 @@
             </div>
           </div>
         </template>
-
-        <div
-          x-show="$store.game.storyHistory.filter(e => (e.npcId || 'world') === $store.game.selectedStoryNpc).length === 0"
-          class="empty-archive"
-        >
-          <p x-text="$store.game.t('ui_empty_story')"></p>
-        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Empty State View -->
+  <div class="empty-story-splash" x-show="$store.game.storyHistory.length === 0" x-transition>
+    <div class="splash-inner">
+      <div class="splash-icon">📜</div>
+      <h4 x-text="$store.game.t('ui_chronicle_empty_title')">Deine Reise beginnt...</h4>
+      <p x-text="$store.game.t('ui_empty_story')"></p>
     </div>
   </div>
 </div>

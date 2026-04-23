@@ -15,47 +15,36 @@
     <!-- 2. NPC CARDS (Dynamisches Grid) -->
     <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
       <div :id="npcId + '-card'" class="village-card npc-card">
-        <div class="card-header-visual">
+        <div class="card-header-visual" x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }">
           <div class="npc-portrait-wrapper">
             <div
               class="npc-img-blur-bg"
-              x-show="$store.game.content.get(npcId)?.image"
-              :style="'background-image: url(' + $store.game.content.get(npcId)?.image + ')'"
+              x-show="npc?.image"
+              :style="'background-image: url(' + npc?.image + ')'"
             ></div>
-            <img
-              x-show="$store.game.content.get(npcId)?.image"
-              :src="$store.game.content.get(npcId)?.image"
-              class="npc-img"
-            />
-            <div
-              x-show="!$store.game.content.get(npcId)?.image"
-              class="npc-placeholder"
-              x-text="$store.game.content.get(npcId)?.icon"
-            ></div>
+            <img x-show="npc?.image" :src="npc?.image" class="npc-img" />
+            <div x-show="!npc?.image" class="npc-placeholder" x-text="npc?.icon"></div>
           </div>
         </div>
 
         <div class="card-body">
-          <div class="npc-info-row">
-            <h4
-              class="npc-display-name"
-              x-text="$store.game.t($store.game.content.get(npcId)?.nameKey)"
-            ></h4>
+          <div class="npc-info-row" x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }">
+            <h4 class="npc-display-name" x-text="$store.game.t(npc?.nameKey)"></h4>
             <!-- Progress Tracker -->
             <div class="npc-progress-mini-track">
               <div
                 class="npc-progress-fill"
-                :class="$store.game.ui.getNPCProgressPercent($store.game, npcId) >= 100 && 'is-maxed'"
+                :class="$store.game.ui.isNPCMaxed($store.game, npcId) && 'is-maxed'"
                 :style="'width: ' + $store.game.ui.getNPCProgressPercent($store.game, npcId) + '%'"
               ></div>
             </div>
           </div>
 
-          <div class="npc-interaction-area">
+          <div class="npc-interaction-area" x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }">
             <!-- Quest Action -->
             <button
               class="game-btn npc-main-action-btn"
-              x-show="($store.game.npcProgress[$store.game.content.get(npcId).progKey] || 0) < ($store.game.content.get(npcId).maxProgress)"
+              x-show="!$store.game.ui.isNPCMaxed($store.game, npcId)"
               @click="$store.game.executeAction('act-' + npcId)"
               @mouseover="$store.game.hoveredAction = {id: 'act-' + npcId, data: $store.game.content.get('act-' + npcId)}"
               @mouseout="$store.game.hoveredAction = null"

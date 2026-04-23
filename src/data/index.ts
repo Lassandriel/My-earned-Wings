@@ -6,6 +6,7 @@ import { BUFF_REGISTRY } from './definitions/buffs';
 import { MILESTONE_REGISTRY } from '../features/story/story.data';
 import { NAVIGATION_REGISTRY } from './definitions/navigation';
 import { HOME_REGISTRY } from '../features/housing/housing.data';
+import { MODIFIER_REGISTRY } from './definitions/modifiers';
 import { Registries } from '../types/game';
 
 /**
@@ -20,6 +21,7 @@ export const registries: Registries = {
   milestones: MILESTONE_REGISTRY,
   navigation: NAVIGATION_REGISTRY,
   homes: HOME_REGISTRY,
+  modifiers: MODIFIER_REGISTRY,
 };
 
 export { actionDb, itemDb, NPC_REGISTRY, RESOURCE_REGISTRY, BUFF_REGISTRY };

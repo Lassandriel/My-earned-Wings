@@ -15,6 +15,9 @@
   </head>
   <body>
     <div id="app" x-data>
+      <!-- Dynamic Background System -->
+      <div id="background-container"></div>
+
       <!-- Feedback Particles -->
       <div id="juice-container"></div>
       <div id="toast-container"></div>
@@ -66,14 +69,14 @@
         <!-- Current Objective -->
         <div class="objective-bar-container" x-show="$store.game.currentObjective">
           <div class="objective-bar" x-transition>
-            <span class="obj-label" x-text="$store.game.t('objective_label')">Ziel</span>
+            <span class="obj-label" x-text="$store.game.t('objective_label', 'ui')">Ziel</span>
             <span class="obj-text" x-text="$store.game.t($store.game.currentObjective)">...</span>
           </div>
         </div>
 
         <header class="main-header">
           <div class="logo-container">
-            <img src="img/logo_wings.webp" alt="Wings Logo" class="header-logo" />
+            <img src="img/menu/logo_wings.webp" alt="Wings Logo" class="header-logo" />
             <h1 class="game-title">Your earned Wings</h1>
           </div>
         </header>

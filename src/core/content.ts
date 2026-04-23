@@ -62,7 +62,9 @@ export const createContentService = (registries: Registries) => ({
   getCategorizedResources(category: string) {
     if (this.cache.categories[category]) return this.cache.categories[category];
 
-    const list = Object.values(this.registries.resources).filter((r) => r.category === category);
+    const list = Object.values(this.registries.resources).filter(
+      (r: any) => r.category === category && !r.hidden
+    );
     this.cache.categories[category] = list;
     return list;
   },

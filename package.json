@@ -58,6 +58,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "png-to-ico": "^3.0.1",
     "prettier": "^3.8.3",
+    "sharp": "^0.34.5",
     "tsx": "^4.21.0",
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",

@@ -41,6 +41,14 @@ export type ActionId = string;
 export type ItemId = string; 
 export type HomeId = 'home-tent' | 'home-house' | 'home-lake' | 'home-tower';
 export type NPCId = string;
+export type ModifierId = string;
+
+export interface ModifierDefinition {
+  id: ModifierId;
+  title: string;
+  desc: string;
+  baseValue?: number;
+}
 
 export type RequirementOperator = '>=' | '<=' | '>' | '<' | '!=' | 'includes' | 'not_includes';
 

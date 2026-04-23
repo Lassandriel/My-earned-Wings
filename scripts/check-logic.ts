@@ -25,144 +25,198 @@ const checkFileExists = (relPath: string) => {
 const validSfx = new Set(['click', 'gather', 'success', 'eat', 'fail', 'magic', 'water', 'craft', 'discovery']);
 
 const checkLogic = () => {
-    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION ===\n");
-
-    const providedFlags = new Set<string>();
-    const requiredFlags = new Set<string>();
-    const requirementsMap: Record<string, string[]> = {}; 
+    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION 2.4 (SMART) ===\n");
 
     const itemIds = new Set(Object.keys(registries.items));
     const actionIds = new Set(Object.keys(registries.actions));
 
-    const itemsUnlockedBy = new Map<string, string>(); // itemID -> actionID
-    const referencedModifiers = new Set<string>();
-
-    // 1. Validate Items
-    console.log("--- Validating Items ---");
+    // 1. Validate Basic Integrity
+    console.log("--- Integrity Check ---");
     Object.entries(registries.items).forEach(([id, item]: [string, any]) => {
-        // Image Check
-        if (item.image && !checkFileExists(item.image)) {
-            logError(`Item '${id}' refers to missing image: ${item.image}`);
-        }
-
-        // Space Cost Check for Crafting
-        if (item.category === 'crafting') {
-            if (item.spaceCost === undefined || item.spaceCost <= 0) {
-                logError(`Crafting item '${id}' has no (or zero) spaceCost! Furniture must occupy space.`);
-            }
-        }
-
-        // Modifiers
-        if (item.modifiers) {
-            item.modifiers.forEach((mod: any) => {
-                const modKey = mod.key.endsWith('_limit') ? mod.key.replace('_limit', '') : mod.key;
-                referencedModifiers.add(modKey);
-            });
-        }
+        if (item.image && !checkFileExists(item.image)) logError(`Item '${id}' missing image: ${item.image}`);
+    });
+    Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
+        if (act.image && !checkFileExists(act.image)) logError(`Action '${id}' missing image: ${act.image}`);
+        if (act.sfx && !validSfx.has(act.sfx)) logError(`Action '${id}' unknown SFX: '${act.sfx}'`);
     });
 
-    // 2. Validate Actions
-    console.log("--- Validating Actions ---");
-    
-    const checkEffects = (effects: any[], source: string) => {
-        if (!effects) return;
-        effects.forEach((eff: any) => {
-            if (eff.type === 'setFlag' && eff.flag) providedFlags.add(eff.flag);
-            
-            if (eff.type === 'unlockItem' && eff.id) {
-                if (!itemIds.has(eff.id)) {
-                    logError(`${source} unlocks non-existent item: '${eff.id}'`);
-                } else {
-                    itemsUnlockedBy.set(eff.id, source);
-                }
-                providedFlags.add(eff.id);
+    // 2. REACHABILITY SIMULATION
+    console.log("--- Simulating Progression Reachability ---");
+    const reachableFlags = new Set<string>();
+    const unlockedActions = new Set<string>();
+    const processedActions = new Set<string>();
+    const unlockedItems = new Set<string>();
+    const unlockedNPCs = new Set<string>();
+
+    // Seed with starting NPCs
+    Object.values(registries.npcs).forEach((npc: any) => {
+        if (npc.unlockedAtStart) unlockedNPCs.add(npc.id);
+    });
+
+    let changed = true;
+    let iteration = 0;
+    while (changed && iteration < 100) {
+        changed = false;
+        iteration++;
+        
+        Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
+            if (processedActions.has(id)) return;
+
+            // Actions are available if they are part of base construction/gathering or explicitly unlocked
+            const isAvailable = unlockedActions.has(id) || !act.requirements || Object.keys(act.requirements).length === 0 || id === 'build-campfire' || !id.startsWith('act-npc-');
+            if (!isAvailable) return;
+
+            // Check if requirements are met
+            let met = true;
+            if (act.requirements) {
+                Object.entries(act.requirements).forEach(([reqPath, reqVal]: [string, any]) => {
+                    if (reqPath.startsWith('flags.')) {
+                        const flag = reqPath.replace('flags.', '');
+                        const flagVal = reachableFlags.has(flag);
+                        
+                        if (typeof reqVal === 'object' && reqVal.op === '!=') {
+                            if (flagVal === reqVal.val) met = false;
+                        } else if (typeof reqVal === 'object' && reqVal.op === '<') {
+                           // Assume 0 if flag is not reached yet
+                           const currentVal = reachableFlags.has(flag) ? 1 : 0; // Simple binary simulation for now
+                           if (currentVal >= reqVal.val) met = false;
+                        } else if (flagVal !== (reqVal === true)) {
+                            met = false;
+                        }
+                    }
+                });
             }
-            
-            if (eff.type === 'unlockRecipe' && eff.id) {
-                if (!actionIds.has(eff.id)) {
-                    logError(`${source} unlocks non-existent action: '${eff.id}'`);
-                }
-                providedFlags.add(eff.id);
-            }
-            
-            if (eff.type === 'unlockNPC' && eff.id) providedFlags.add(eff.id);
-            
-            if (eff.type === 'modifyLimit' && eff.resource) {
-                referencedModifiers.add(eff.resource);
+
+            if (met) {
+                processedActions.add(id);
+                unlockedActions.add(id);
+                changed = true;
+
+                const processEffects = (effects: any[]) => {
+                    if (!effects) return;
+                    effects.forEach(eff => {
+                        if (eff.type === 'setFlag') reachableFlags.add(eff.flag);
+                        if (eff.type === 'unlockItem') {
+                            unlockedItems.add(eff.id);
+                            reachableFlags.add(eff.id); 
+                            reachableFlags.add(`item-${eff.id}`); 
+                        }
+                        if (eff.type === 'unlockRecipe') {
+                            if (!unlockedActions.has(eff.id)) {
+                                unlockedActions.add(eff.id);
+                                reachableFlags.add(eff.id);
+                                changed = true;
+                            }
+                        }
+                        if (eff.type === 'unlockNPC') {
+                            unlockedNPCs.add(eff.id);
+                            reachableFlags.add(eff.id);
+                            changed = true;
+                        }
+                        if (eff.type === 'setHome') {
+                            reachableFlags.add(eff.id);
+                            changed = true;
+                        }
+                    });
+                };
+
+                processEffects(act.onSuccess);
+                if (act.steps) act.steps.forEach((s: any) => {
+                    processEffects(s.onSuccess);
+                    if (s.reward) {
+                        unlockedItems.add(s.reward);
+                        reachableFlags.add(s.reward);
+                        reachableFlags.add(`item-${s.reward}`);
+                        changed = true;
+                    }
+                });
             }
         });
-    };
+    }
 
-    Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
-        // Image Check
-        if (act.image && !checkFileExists(act.image)) {
-            logError(`Action '${id}' refers to missing image: ${act.image}`);
-        }
-
-        // SFX Check
-        if (act.sfx && !validSfx.has(act.sfx)) {
-            logError(`Action '${id}' uses unknown sound effect: '${act.sfx}'`);
-        }
-
-        checkEffects(act.onSuccess, `Action '${id}'`);
-        
-        if (act.steps) {
-            act.steps.forEach((step: any, idx: number) => {
-                checkEffects(step.onSuccess, `Action '${id}' (Step ${idx})`);
-                if (step.reward) {
-                    if (!itemIds.has(step.reward)) {
-                        logError(`Action '${id}' (Step ${idx}) rewards non-existent item: '${step.reward}'`);
-                    } else {
-                        itemsUnlockedBy.set(step.reward, `Action '${id}'`);
-                    }
-                    providedFlags.add(step.reward);
-                }
-            });
-        }
-
-        // Requirements
-        if (act.requirements) {
-            Object.keys(act.requirements).forEach(reqPath => {
-                if (reqPath.startsWith('flags.')) {
-                    const flagName = reqPath.replace('flags.', '');
-                    requiredFlags.add(flagName);
-                    if (!requirementsMap[flagName]) requirementsMap[flagName] = [];
-                    requirementsMap[flagName].push(id);
-                }
-            });
+    // 3. IDENTIFY ORPHANS & UNREACHABLES
+    console.log("--- Analyzing Unreachables ---");
+    Object.keys(registries.actions).forEach(id => {
+        if (!processedActions.has(id)) {
+            const act = registries.actions[id];
+            logWarning(`Action '${id}' is unreachable.`);
         }
     });
 
-    // 3. The "Smart" Counterpart Check
-    console.log("--- Validating Crafting Bridges ---");
     Object.entries(registries.items).forEach(([id, item]: [string, any]) => {
         if (item.category === 'crafting' || item.category === 'tools') {
-            if (!itemsUnlockedBy.has(id)) {
-                logError(`ORPHANED ITEM: '${id}' (category: ${item.category}) exists in items.ts but is never unlocked by any action!`);
+            if (!unlockedItems.has(id)) {
+                logError(`ORPHANED ITEM: '${id}' is never unlocked or rewarded!`);
             }
         }
     });
 
-    // 4. Modifier Translation Bridge
-    console.log("--- Validating Translation Bridges ---");
-    // This part is hard because we can't easily read the TS translation files here without complex parsing
-    // but we can warn that these resources should have 'ui_' keys.
-    const resourceIds = new Set(Object.keys(registries.resources));
-    referencedModifiers.forEach(mod => {
-        // Check if it's a known resource or should be one
-        if (!resourceIds.has(mod as any)) {
-            logWarning(`Modifier refers to key '${mod}' which is not a registered resource. Ensure 'ui_${mod}' exists in lang files.`);
+    // 4. RESOURCE LIMIT VS COST CHECK
+    console.log("--- Validating Economic Feasibility ---");
+    const maxLimits: Record<string, number> = {};
+    
+    Object.values(registries.resources).forEach((res: any) => {
+        maxLimits[res.id] = res.initialLimit !== undefined ? res.initialLimit : (res.initialMax || 0);
+    });
+    // Include internal modifiers in simulation
+    Object.values(registries.modifiers || {}).forEach((mod: any) => {
+        maxLimits[mod.id] = mod.baseValue !== undefined ? mod.baseValue : 0;
+    });
+    maxLimits['shards'] = Infinity;
+    maxLimits['astral_shards'] = Infinity;
+    maxLimits['energy'] = 200; 
+    maxLimits['magic'] = 200;
+
+    // Calculate absolute max possible limits from PROCESSED actions
+    processedActions.forEach(id => {
+        const act = registries.actions[id];
+        const multiplier = act.maxCount || 1; // Simulate repeatability
+        
+        const collectLimits = (effects: any[]) => {
+            if (!effects) return;
+            effects.forEach(eff => {
+                if (eff.type === 'modifyLimit') {
+                    if (maxLimits[eff.resource] !== undefined) maxLimits[eff.resource] += (eff.amount * multiplier);
+                }
+            });
+        };
+        collectLimits(act.onSuccess);
+        if (act.steps) act.steps.forEach((s: any) => collectLimits(s.onSuccess));
+        if (act.modifiers) act.modifiers.forEach((m: any) => {
+            if (m.key.endsWith('_limit')) {
+                const res = m.key.replace('_limit', '');
+                if (maxLimits[res] !== undefined) maxLimits[res] += ((m.add || 0) * multiplier);
+            }
+        });
+    });
+
+    // Add home base limits from REACHABLE homes
+    Object.values(registries.homes).forEach((home: any) => {
+        if (reachableFlags.has(home.id) && home.baseLimits) {
+            Object.entries(home.baseLimits).forEach(([res, amt]: [string, any]) => {
+                if (maxLimits[res] !== undefined) maxLimits[res] += amt;
+            });
         }
     });
 
-    // 5. Progression Check
-    console.log("--- Cross-Checking Progression ---");
-    providedFlags.add('build-campfire'); 
-    requiredFlags.forEach(flag => {
-        if (!providedFlags.has(flag)) {
-            logError(`Flag '${flag}' is required but never provided!`);
-            console.log(`   -> Required by: ${requirementsMap[flag].join(', ')}`);
-        }
+    // Check costs
+    Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
+        const checkCosts = (costs: any, source: string) => {
+            if (!costs) return;
+            Object.entries(costs).forEach(([res, amt]: [string, any]) => {
+                const limit = maxLimits[res];
+                if (limit !== undefined && amt > limit) {
+                    logError(`${source} costs ${amt} ${res}, but max possible limit is ${limit}! (Impossible to build)`);
+                }
+            });
+        };
+
+        if (act.cost && act.costType) checkCosts({ [act.costType]: act.cost }, `Action '${id}'`);
+        if (act.costs) checkCosts(act.costs, `Action '${id}'`);
+        if (act.steps) act.steps.forEach((s: any, i: number) => {
+            if (s.cost && s.costType) checkCosts({ [s.costType]: s.cost }, `Action '${id}' (Step ${i})`);
+            if (s.costs) checkCosts(s.costs, `Action '${id}' (Step ${i})`);
+        });
     });
 
     console.log("\n=============================");

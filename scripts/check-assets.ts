@@ -69,8 +69,8 @@ const checkAll = () => {
     // 6. Navigation (New: prefix based)
     Object.values(registries.navigation).forEach((nav: any) => {
         if (nav.icon) {
-            // Navigation icons are resolved as 'img/menu_[icon].webp' in sidebar.html
-            checkImage(`Nav-Tab '${nav.id}'`, `img/menu_${nav.icon}.webp`);
+            // Navigation icons are resolved as 'img/menu/menu_[icon].webp' in sidebar.html
+            checkImage(`Nav-Tab '${nav.id}'`, `img/menu/menu_${nav.icon}.webp`);
         }
     });
 

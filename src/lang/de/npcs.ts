@@ -1,0 +1,60 @@
+export default {
+  npc_baker_1:
+    '"Willkommen! Ich bin Geron. Ich bin der Bäcker hier im Ort. Und wie heißt du, Fremder?"',
+  npc_baker_2:
+    '"Der Ofen brennt heiß. Danke für das Holz, {player}. Wenn du mehr hast lass sie bei mir. Ich gebe dir dafür Geld!"',
+  npc_baker_3: '"Ein Keks gefällig, {player}? Sie halten dich auf Trab."',
+  npc_baker_4: '"Immer mehr Leute kommen wegen meines Gebäcks. Du bist ein Segen, {player}."',
+  npc_baker_5: '"{player}, nimm diesen letzten Vorrat. Du hast viel für uns getan."',
+  npc_flowerGirl_1:
+    '"Hallo... uhm, ich bin Mina. Ich, äh... {player}? Das ist ein schöner Name."',
+  npc_flowerGirl_2: '"Schönheit gedeiht auch im Schatten, {player}... spüre den Rhythmus."',
+  npc_flowerGirl_3: '"Die Farben der Welt verändern sich, {player}, wenn man genau hinsieht."',
+  npc_flowerGirl_4: '"Diese Schuppe... nimm sie, {player}. Sie gehört zum Äther."',
+  npc_flowerGirl_5: '"Thorin braucht jemanden wie dich, {player}. Sag ihm, ich schicke dich."',
+  npc_flowerGirl_6:
+    '"Das Ufer ruft, {player}. Ich habe einen Platz gefunden, an dem die Wasserkräuter am besten gedeihen. Hier, nimm diesen Bauplan für ein Haus am See."',
+  npc_artisan_1: '"Ich bin Kael. Holz ist der Anfang von alles. Ein Wanderstock gibt dir Halt."',
+  npc_artisan_2: '"Stein ist geduldig, {player}. Er formt die Welt, Schritt für Schritt."',
+  npc_artisan_3: '"Präzision ist alles. Nimm diesen Meißel, {player}, und forme dein Schicksal."',
+  npc_teacher_1: '"Die Erde bebt unter der Last deiner Bestimmung. Ich bin Aris."',
+  npc_teacher_2: '"Dein Fokus schärft sich, {player}. Die Welt ist mehr als nur Materie."',
+  npc_teacher_3: '"In dieser Schriftrolle, {player}, steht die Wahrheit über den Boden."',
+  npc_teacher_4: '"Die Magie fließt durch dich, {player}, auch ohne Schwingen."',
+  npc_teacher_5: '"Du wanderst am Boden, {player}, aber dein Geist berührt den Aether."',
+  npc_aris_6:
+    '"Der Äther ist hier besonders dicht. Ein Turm würde als Kanal für deine Seelenform dienen. Dieser Entwurf wird deinen Bau leiten."',
+  npc_townHall_1:
+    '"Willkommen im Rathaus. Ich bin der Verwalter. Alle Wandler müssen registriert sein."',
+  npc_townHall_2:
+    '"Deine Papiere sind nun in Ordnung, {player}. Du darfst nun im Dorf arbeiten."',
+  npc_townHall_3: '"Steuern und Abgaben... nur so kann unser Dorf wachsen, {player}."',
+  npc_townHall_4:
+    '"Du bist hier jetzt bekannt, {player}. Ein wertvolles Mitglied unserer Gemeinschaft. Wenn du noch ein wenig mehr gibst, kann ich dir, den Platz wo du wohnst, verkaufen."',
+  npc_townHall_5:
+    '"Diese Urkunde besiegelt deinen Platz in Draconia, {player}. Du darfst nun ein Haus bauen. Wenn du Hilfe brauchst, bin ich mir sicher das die anderen Dorfbewohner dir gerne helfen."',
+  npc_blacksmith_1: '"Wer stört in der Schmiede? Ah... ich bin Thorin. und du?"',
+  npc_blacksmith_2: '"Magie im Feuer, {player}. Du verstehst das Handwerk."',
+  npc_blacksmith_3: '"Ein Felsen ist nur ein Hindernis, {player}, bis man ihn bricht."',
+  npc_blacksmith_4: '"Ein guter Wetzstein ist Gold wert, {player}. Er hält deine Ziele scharf."',
+  npc_blacksmith_5: '"{player}, kein Flug, aber ein fester Stand. Das ist deine wahre Stärke."',
+  npc_hunter_1: '"Halt! Wer schleicht da? ... Ach, ein neues Gesicht. Ich bin Nyx."',
+  npc_hunter_2: '"Ein Bogen braucht Geduld, {player}. Und gutes Eschenholz."',
+  npc_hunter_3: '"Hier, {player}, nimm diesen Bogen. Er wird deine Stimme im Dickicht sein."',
+  npc_hunter_4: '"Der Wald gibt uns, was wir brauchen, {player}. Wenn wir ihn respektieren."',
+  npc_hunter_5: '"Die Schatten gehören uns beiden nun. Ich jage an deiner Seite, {player}."',
+  npc_sage_1: '"Wissen ist eine Bürde. Ich bin der Seher. Lies dieses book, Wandler."',
+  npc_sage_2: '"Die Sterne flüstern von vergangenen Zeitaltern, {player}."',
+  npc_sage_3: '"Dein Geist dehnt sich aus, {player}... siehst du die Muster?"',
+  npc_sage_4: '"Die Geschichte wiederholt sich nicht, {player}, aber es reimt sich."',
+  npc_sage_5: '"{player}, du bist kein Rätsel mehr, sondern ein Teil von Draconia."',
+  npc_ellie_1: '"Spürst du das Zittern der Erde?"',
+  npc_ellie_2: '"Die Träume weisen uns den Weg."',
+  npc_ellie_3: '"Das Licht des Aethers wird immer heller."',
+  npc_ellie_4: '"Geduld, kleiner Drache. Dein Weg ist fast bereit."',
+  npc_aris_1: '"Jeder Zauber beginnt mit einem einzelnen Gedanken."',
+  npc_aris_2: '"Spüre, wie die Energie in deine Fingerspitzen fließt."',
+  npc_aris_3: '"Magie ist nicht nur Macht, sie ist Verantwortung."',
+  npc_aris_4: '"Deine Verbindung zum Aether wird stärker."',
+  npc_aris_5: '"Du hast das Herz von Draconia berührt."',
+};

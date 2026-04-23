@@ -50,9 +50,7 @@
             @mouseover="$store.game.setHovered('act-wood')"
             @mouseout="$store.game.setHovered(null)"
           >
-            <span
-              x-text="$store.game.flags['item-axe'] ? $store.game.t('act-wood', 'actions').title_alt : $store.game.t('act-wood', 'actions').title"
-            ></span>
+            <span x-text="$store.game.ui.renderActionTitle($store.game, 'act-wood')"></span>
             <div
               class="focus-toggle-btn"
               x-show="$store.game.flags['ability-arcane-focus']"
@@ -68,9 +66,7 @@
             @mouseover="$store.game.setHovered('act-stone')"
             @mouseout="$store.game.setHovered(null)"
           >
-            <span
-              x-text="$store.game.flags['item-pickaxe'] ? $store.game.t('act-stone', 'actions').title_alt : $store.game.t('act-stone', 'actions').title"
-            ></span>
+            <span x-text="$store.game.ui.renderActionTitle($store.game, 'act-stone')"></span>
             <div
               class="focus-toggle-btn"
               x-show="$store.game.flags['ability-arcane-focus']"
@@ -210,16 +206,6 @@
                 class="btn-progress-fill"
                 :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-meditate') + '%'"
               ></div>
-            </div>
-            <!-- Magic Focus Toggle Badge -->
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-meditate' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-meditate')"
-              :title="$store.game.t('ui_focus_hint')"
-            >
-              ✨
             </div>
           </button>
 

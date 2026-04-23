@@ -6,7 +6,7 @@
 > **GOLDEN MASTER VERSION 1.2.1-STABLE**
 > This build features the fully decoupled, **TypeScript-Hardened Core 3.7** engine with 100% verified I18N integrity and refined UI/UX rendering.
 
-![Official Logo](public/img/logo_wings.webp)
+![Official Logo](public/img/menu/logo_wings.webp)
 
 ## 📖 The Journey (The TypeScript Ascension)
 

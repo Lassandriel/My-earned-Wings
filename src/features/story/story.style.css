@@ -118,16 +118,44 @@
   white-space: pre-line;
 }
 
-.empty-archive {
+.empty-story-splash {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  color: var(--text-dim);
-  font-style: italic;
-  opacity: 0.4;
-  padding: 40px;
+  height: 50vh;
+  min-height: 400px;
   text-align: center;
+}
+
+.splash-inner {
+  max-width: 450px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(10px);
+  animation: float 6s ease-in-out infinite;
+}
+
+.splash-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px var(--accent-teal));
+}
+
+.splash-inner h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--accent-teal);
+  letter-spacing: 2px;
+}
+
+.splash-inner p {
+  color: var(--text-dim);
+  line-height: 1.6;
+  font-size: 1rem;
+  opacity: 0.8;
 }
 
 /* Custom Scrollbar */

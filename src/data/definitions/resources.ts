@@ -126,13 +126,6 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     initial: 0,
     initialLimit: 1,
   },
-
-  // --- VIRTUAL MODIFIER KEYS (For Logic Validation) ---
-  wood_yield: { id: 'wood_yield', type: 'resource', category: 'materials', initial: 0, color: 'transparent' },
-  stone_yield: { id: 'stone_yield', type: 'resource', category: 'materials', initial: 0, color: 'transparent' },
-  rest_energy_gain: { id: 'rest_energy_gain', type: 'resource', category: 'vitality', initial: 0, color: 'transparent' },
-  eat_satiation_gain: { id: 'eat_satiation_gain', type: 'resource', category: 'vitality', initial: 0, color: 'transparent' },
-  garden_magic_cost: { id: 'garden_magic_cost', type: 'resource', category: 'vitality', initial: 0, color: 'transparent' },
 };
 
 export const getEssentialStats = (): ResourceDefinition[] =>

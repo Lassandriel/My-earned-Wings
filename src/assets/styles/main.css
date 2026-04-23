@@ -15,6 +15,7 @@
 @import './ui/typography.css';
 @import './ui/buttons.css';
 @import './ui/navigation.css';
+@import './ui/background.css';
 @import './ui/tooltips.css';
 @import './ui/modals.css';
 @import './ui/logs.css';

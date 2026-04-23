@@ -4,7 +4,7 @@
 */
 
 .floating-tooltip {
-  position: absolute;
+  position: fixed;
   background: rgba(10, 10, 10, 0.98);
   border: 1px solid #444;
   padding: 1.25rem; /* 20px */
@@ -16,10 +16,6 @@
     0 1.25rem 2.5rem rgba(0, 0, 0, 0.8),
     0 0 1px rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-
-  /* Cursor following logic with bounds check offsets */
-  left: calc(var(--mx) + var(--tt-off-x, 1.25rem));
-  top: calc(var(--my) + var(--tt-off-y, 1.25rem));
 
   display: flex;
   flex-direction: column;
@@ -41,8 +37,29 @@
   font-size: 0.95rem;
   font-style: italic;
   line-height: 1.5;
-  border-bottom: 1px solid #333;
-  padding-bottom: 8px;
+  padding-bottom: 4px;
+}
+
+.tt-divider {
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 0;
+}
+
+.tt-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.status-built {
+  color: #fbbf24; /* gold/amber */
+}
+
+.status-active {
+  color: #4ade80; /* green */
 }
 
 .tt-section-header {

@@ -56,12 +56,7 @@
       <div class="vault-grid-pane">
         <div class="items-display-grid">
           <template
-            x-for="id in $store.game.discoveredItems.filter(id => {
-                    const item = $store.game.content.get(id, 'items');
-                    if (!item) return false;
-                    if (activeCategory === 'all') return true;
-                    return item.category === activeCategory;
-                })"
+            x-for="id in $store.game.ui.getDiscoveredItemsByCategory($store.game, activeCategory)"
             :key="id"
           >
             <div
@@ -71,7 +66,7 @@
             >
               <div class="slot-inner-glow"></div>
               <img
-                :src="$store.game.content.get(id, 'items')?.image || 'img/Placeholder_Item.webp'"
+                :src="$store.game.ui.getSelectedItemData($store.game)?.image || 'img/Placeholder_Item.webp'"
                 :alt="id"
                 class="slot-icon"
               />
@@ -91,53 +86,34 @@
 
       <!-- Detail Panel -->
       <div class="vault-detail-pane">
-        <template
-          x-if="$store.game.selectedItem && $store.game.content.get($store.game.selectedItem, 'items')"
-        >
-          <div class="item-info-card" x-transition:enter="item-fade-in">
+        <template x-if="$store.game.ui.getSelectedItemData($store.game)">
+          <div class="item-info-card" x-transition:enter="item-fade-in" x-data="{ item: $store.game.ui.getSelectedItemData($store.game) }">
             <div class="item-visual-showcase">
               <div
                 class="aura-glow"
-                :class="$store.game.content.get($store.game.selectedItem, 'items').category === 'tools' ? 'aura-teal' : 'aura-gold'"
+                :class="item.category === 'tools' ? 'aura-teal' : 'aura-gold'"
               ></div>
-              <img
-                :src="$store.game.content.get($store.game.selectedItem, 'items').image"
-                alt="Visual"
-                class="showcase-img"
-              />
+              <img :src="item.image" alt="Visual" class="showcase-img" />
             </div>
 
             <div class="item-text-content">
-              <div
-                class="item-type-badge"
-                x-text="$store.game.t('cat_' + $store.game.content.get($store.game.selectedItem, 'items').category)"
-              ></div>
-              <h2
-                class="item-name"
-                x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').title, 'items')"
-              ></h2>
+              <div class="item-type-badge" x-text="$store.game.t('cat_' + item.category)"></div>
+              <h2 class="item-name" x-text="$store.game.t(item.title, 'items')"></h2>
               <div class="item-hr"></div>
-              <p
-                class="item-description"
-                x-text="$store.game.t($store.game.content.get($store.game.selectedItem, 'items').desc, 'items')"
-              ></p>
+              <p class="item-description" x-text="$store.game.t(item.desc, 'items')"></p>
 
               <!-- Space Cost for Furniture -->
-              <template
-                x-if="$store.game.content.get($store.game.selectedItem, 'items').category === 'furniture'"
-              >
+              <template x-if="item.category === 'furniture'">
                 <div class="item-space-badge">
                   <span x-text="$store.game.t('ui_furniture_space')"></span>:
-                  <span x-text="$store.game.content.get($store.game.selectedItem, 'items').spaceCost"></span>
+                  <span x-text="item.spaceCost"></span>
                 </div>
               </template>
 
               <!-- Effects -->
-              <template x-if="$store.game.content.get($store.game.selectedItem, 'items').effect">
+              <template x-if="item.effect">
                 <div class="item-effects-box">
-                  <template
-                    x-for="(val, key) in $store.game.content.get($store.game.selectedItem, 'items').effect"
-                  >
+                  <template x-for="(val, key) in item.effect">
                     <div class="stat-tag">
                       <span class="stat-label" x-text="$store.game.t('ui_' + key)"></span>
                       <span class="stat-plus">+</span>
@@ -148,10 +124,7 @@
               </template>
 
               <!-- Actions -->
-              <div
-                class="item-action-footer"
-                x-show="$store.game.content.get($store.game.selectedItem, 'items').consumable"
-              >
+              <div class="item-action-footer" x-show="item.consumable">
                 <button
                   class="game-btn primary-btn use-action-btn"
                   @click="$store.game.consumeItem($store.game.selectedItem)"
@@ -163,9 +136,7 @@
           </div>
         </template>
 
-        <template
-          x-if="!$store.game.selectedItem || !$store.game.content.get($store.game.selectedItem, 'items')"
-        >
+        <template x-if="!$store.game.ui.getSelectedItemData($store.game)">
           <div class="vault-placeholder-box">
             <div class="vault-icon-ghost">🐉</div>
             <p x-text="$store.game.t('ui_placeholder_desc')"></p>

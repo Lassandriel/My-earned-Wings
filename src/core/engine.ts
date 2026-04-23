@@ -48,18 +48,8 @@ export function createEngineSystem(): Engine {
         innerStore.counters.totalTime = (innerStore.counters.totalTime || 0) + 1;
         innerStore.counters.totalActions = (innerStore.counters.totalActions || 0) + 1;
 
-        // B. Passive Stat Drain (Hunger)
-        if (innerStore.stats.satiation > 0) {
-          const drain = 0.1 * deltaTime;
-          innerStore.stats.satiation = Math.round(Math.max(0, innerStore.stats.satiation - drain));
-
-          if (innerStore.stats.satiation < 20) {
-            if (!this.lastHungerLog || now - this.lastHungerLog > 60000) {
-              innerStore.addLog('malus_satiation', 'logs', 'var(--accent-red)');
-              this.lastHungerLog = now;
-            }
-          }
-        }
+        // B. Passive Stat Drain (Reserved for future systems)
+        // Satiation no longer drains passively (Phase 8.36.23)
 
         // C. Process Active Buffs
         if (innerStore.activeBuffs) {
@@ -74,7 +64,8 @@ export function createEngineSystem(): Engine {
 
         // D. Arcane Focus (Automation Cost)
         if (innerStore.activeFocus) {
-          const focusCost = 3 * deltaTime;
+          const baseFocusCost = innerStore.pipeline.calculate(innerStore, 'arcane_focus_cost', 3);
+          const focusCost = baseFocusCost * deltaTime;
           if (innerStore.stats.magic >= focusCost) {
             innerStore.resource.consume(innerStore, 'magic', focusCost);
           } else {

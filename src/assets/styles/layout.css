@@ -13,11 +13,7 @@
   height: 100vh;
   min-width: 1000px; /* Safe minimum for grid stability */
   min-height: 600px;
-  background-image: url('/img/background/background 1/orig_big.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed; /* Keep clouds steady on scroll */
+  min-height: 600px;
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr var(--log-w) var(--stats-w);
   grid-template-rows: var(--header-h) minmax(0, 1fr);
@@ -70,8 +66,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(40px);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--panel-border);
   border-radius: 20px;
   box-shadow:
