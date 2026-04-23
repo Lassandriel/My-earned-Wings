@@ -117,15 +117,15 @@ To maintain clarity and long-term scalability, we strictly separate **Gameplay E
 
 To ensure long-term maintainability and "Golden Master" quality:
 
-1.  **Zero Hardcoding**: Never write user-facing text directly in HTML or TS. Use `store.t(key, context)`.
-2.  **Registry-First**: All gameplay objects must be defined in `src/data/definitions/`. The engine must remain content-agnostic.
-3.  **Modifier Centralization**: Use `MODIFIER_REGISTRY` for all internal logic values (yields, costs, limits).
-4.  **Asset Integrity**: Every registry entry MUST have a valid icon or image path that passes the `check-assets` script.
-5.  **Logic Simulation**: All new features must pass `check-logic` to ensure game-breaking loops or unreachable states are avoided.
-6.  **Sensory Feedback**: Every active action must define `sfx` and `particleType` to ensure consistent player feedback.
-7.  **Strict Flag Access**: Always cast string keys to `FlagId` when accessing the `store.flags` object to maintain TypeScript integrity.
-8.  **Counter Utilization**: Use standardized counters (e.g., `wood`, `magic`) for tracking repeatability and milestones.
-9.  **Tooltip Consistency**: Every gameplay object (Item, Tool, Addon, etc.) MUST have a title, description, effect, and cost defined in the registry to ensure the dynamic tooltip system always has data to display.
+1. **Zero Hardcoding**: Never write user-facing text directly in HTML or TS. Use `store.t(key, context)`.
+2. **Registry-First**: All gameplay objects must be defined in `src/data/definitions/`. The engine must remain content-agnostic.
+3. **Modifier Centralization**: Use `MODIFIER_REGISTRY` for all internal logic values (yields, costs, limits).
+4. **Asset Integrity**: Every registry entry MUST have a valid icon or image path that passes the `check-assets` script.
+5. **Logic Simulation**: All new features must pass `check-logic` to ensure game-breaking loops or unreachable states are avoided.
+6. **Sensory Feedback**: Every active action must define `sfx` and `particleType` to ensure consistent player feedback.
+7. **Strict Flag Access**: Always cast string keys to `FlagId` when accessing the `store.flags` object to maintain TypeScript integrity.
+8. **Counter Utilization**: Use standardized counters (e.g., `wood`, `magic`) for tracking repeatability and milestones.
+9. **Tooltip Consistency**: Every gameplay object (Item, Tool, Addon, etc.) MUST have a title, description, effect, and cost defined in the registry to ensure the dynamic tooltip system always has data to display.
 
 ---
 
