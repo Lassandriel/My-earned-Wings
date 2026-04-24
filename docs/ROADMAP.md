@@ -46,6 +46,8 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 
 - [x] **Registry-Category Synchronization**: Unified all gameplay entities (Furniture, Addons, Tools) with the GAMEDESIGN glossary; synchronized asset paths and registry categories.
 - [x] **Security Hardening**: Resolved CodeQL vulnerabilities (Prototype Pollution, URL Sanitization) to ensure codebase integrity and safety.
+- [x] **Automated Deployment**: Integrated GitHub Actions for seamless deployment to GitHub Pages on every push.
+
 
 ---
 

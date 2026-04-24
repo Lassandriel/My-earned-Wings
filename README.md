@@ -8,6 +8,14 @@
 
 ![Official Logo](public/img/menu/logo_wings.webp)
 
+[![Deploy to GitHub Pages](https://github.com/Lassandriel/My-earned-Wings/actions/workflows/deploy.yml/badge.svg)](https://github.com/Lassandriel/My-earned-Wings/actions/workflows/deploy.yml)
+
+### 🎮 [Direkt im Browser spielen](https://lassandriel.github.io/My-earned-Wings/)
+*(Kein Download erforderlich – Spielstand wird lokal im Browser gespeichert)*
+
+---
+
+
 ## 📖 The Journey (Active Survival Update)
 
 Experience the transformation of a grounded wanderer into a pillar of the community:
