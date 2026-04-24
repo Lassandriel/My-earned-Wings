@@ -106,6 +106,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
 
           const deepMerge = (target: any, source: any) => {
             Object.keys(source).forEach((key) => {
+              if (key === '__proto__' || key === 'constructor' || key === 'prototype') return;
               if (Array.isArray(source[key])) {
                 if (PERSISTENCE_CONFIG.overwriteArrays.has(key)) {
                   target[key] = [...source[key]];

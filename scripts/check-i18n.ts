@@ -157,7 +157,7 @@ const scanForHardcodedHtmlText = () => {
             const match = />\s*([^<>{}$]*[a-zA-ZäöüÄÖÜß]+[^<>{}$]*)\s*</.exec(line);
             if (match) {
                 const text = match[1].trim();
-                if (text.length < 2 || text === '?' || text.includes('github.com') || text === '✨') return;
+                if (text.length < 2 || text === '?' || /^https?:\/\/(www\.)?github\.com(\/|$)/.test(text) || text === '✨') return;
                 hardcodedWarnings.push(`[${path.relative(SRC_DIR, file)}:L${idx+1}] Hardcoded text: "${text}"`);
             }
         });
