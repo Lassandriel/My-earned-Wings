@@ -34,7 +34,7 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 - [x] **Day/Night Cycle**: Synchronized background sets with a 10-minute global game time loop.
 - [x] **Narrative UX (Story Refresh)**: Clean empty-state splash screen for the Chronicle.
 - [x] **Housing Expansion**: "Haus am See" and "Aura-Turm" with dedicated storage/magic modifiers.
-- [x] **UI Polishing**: Subtile transitions, magnetic hover effects, and integer-based math precision.
+- [x] **UI Polishing**: Subtile transitions, functional toast notification system, finalized magnetic hover effects, and integer-based math precision.
 - [x] **Localization 2.0**: 100% removal of hardcoded strings; full migration to centralized translation keys across all components.
 - [x] **Code Simplification & Refactoring**: Migrated complex Alpine.js view logic to centralized UI helper functions; optimized `ValuePipeline` by offloading balancing to registries.
 - [x] **Gameplay Redesign (Active Survival)**: Decoupled Satiation from passive time-drain; linked hunger directly to Energy and Magic consumption for a fairer player-driven experience.
@@ -45,7 +45,7 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 - [x] **Progression Logic Refactoring**: Migrated core logic rules (path resolution, requirement checking) to a shared centralized utility, ensuring perfect alignment between game runtime and automated testing.
 - [x] **New Gathering Area (Meadow)**: Implementation of the "Wiese" location with a new dedicated resource (Flowers) and gathering loop; integrated with the bilingual localization system.
 - [x] **Registry-Category Synchronization**: Unified all gameplay entities (Furniture, Addons, Tools) with the GAMEDESIGN glossary; synchronized asset paths and registry categories.
-- [x] **Security Hardening**: Resolved CodeQL vulnerabilities (Prototype Pollution, URL Sanitization) to ensure codebase integrity and safety.
+- [x] **Security Hardening**: Resolved CodeQL vulnerabilities; configured mandatory **Branch Protection** for the `main` branch to prevent accidental data loss and enforce code quality.
 - [x] **Automated Deployment**: Integrated GitHub Actions for seamless deployment to GitHub Pages on every push.
 
 ---

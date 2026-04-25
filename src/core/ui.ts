@@ -147,8 +147,23 @@ export const createUISystem = () => {
     },
 
     showToast(message: string, type: 'info' | 'error' | 'success' = 'info') {
-      console.log(`[TOAST] [${type}] ${message}`);
-      // Usually would emit to a toast system, for now console is safe
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerText = message;
+
+      container.appendChild(toast);
+
+      // Trigger animation
+      setTimeout(() => toast.classList.add('show'), 10);
+
+      // Remove after duration
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+      }, 3500);
     },
 
     /**
@@ -398,7 +413,44 @@ export const createUISystem = () => {
       return !!((step && (step.costs || step.cost)) || h.data.costs || h.data.cost);
     },
 
+    initMagneticHover() {
+      document.addEventListener('mousemove', (e) => {
+        const target = (e.target as HTMLElement).closest('.game-btn, .nav-item') as HTMLElement;
+
+        // Cleanup other buttons
+        if (!target) {
+          document.querySelectorAll('.game-btn, .nav-item').forEach((el) => {
+             if ((el as HTMLElement).style.getPropertyValue('--m-x')) {
+                (el as HTMLElement).style.setProperty('--m-x', '0px');
+                (el as HTMLElement).style.setProperty('--m-y', '0px');
+             }
+          });
+          return;
+        }
+
+        const rect = target.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const deltaX = (e.clientX - centerX) * 0.2;
+        const deltaY = (e.clientY - centerY) * 0.2;
+
+        target.style.setProperty('--m-x', `${deltaX}px`);
+        target.style.setProperty('--m-y', `${deltaY}px`);
+      });
+
+      document.addEventListener('mouseout', (e) => {
+        const target = (e.target as HTMLElement).closest('.game-btn, .nav-item') as HTMLElement;
+        if (target) {
+          target.style.setProperty('--m-x', '0px');
+          target.style.setProperty('--m-y', '0px');
+        }
+      });
+    },
+
     boot(store: GameState) {
+      this.initMagneticHover();
+      
       store.bus.on(store.EVENTS.RESOURCE_GAINED, (data: { type: string }) => {
         const el = document.querySelector(`[data-res="${data.type}"]`);
         if (el) {
