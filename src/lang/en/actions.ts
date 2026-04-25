@@ -123,6 +123,11 @@ export default {
     desc: 'Extract rare crystals in the dark mine.',
     effect: '+{val} Shards & Stone',
   },
+  'act-pick-flowers': {
+    title: 'Pick Flowers',
+    desc: 'Gather colorful wild flowers for your home.',
+    effect: '+{val} Flowers',
+  },
   'act-essen': {
     title: 'Eat Berries',
     desc: 'Nourish yourself from the gifts of the earth.',

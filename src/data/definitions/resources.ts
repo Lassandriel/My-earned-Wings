@@ -81,6 +81,14 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     initial: 0,
     initialLimit: 100,
   },
+  flowers: {
+    id: 'flowers',
+    type: 'resource',
+    category: 'materials',
+    color: '#ec4899', // Pinkish color for flowers
+    initial: 0,
+    initialLimit: 25,
+  },
 
   // --- PROVISIONS ---
   meat: {

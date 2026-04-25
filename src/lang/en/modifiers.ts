@@ -5,6 +5,8 @@ export default {
   stone_yield_desc: 'Increases the amount of stone gathered.',
   meat_yield_title: 'Meat Yield',
   meat_yield_desc: 'Increases the amount of meat from hunting.',
+  flowers_yield_title: 'Flower Yield',
+  flowers_yield_desc: 'Increases the yield when picking flowers.',
   shards_yield_title: 'Shard Yield',
   shards_yield_desc: 'Increases the amount of soul shards collected.',
   magic_yield_title: 'Magic Yield',

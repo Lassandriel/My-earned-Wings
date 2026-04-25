@@ -23,6 +23,12 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
     desc: 'meat_yield_desc',
     baseValue: 2
   },
+  flowers_yield: {
+    id: 'flowers_yield',
+    title: 'flowers_yield_title',
+    desc: 'flowers_yield_desc',
+    baseValue: 4
+  },
   shards_yield: {
     id: 'shards_yield',
     title: 'shards_yield_title',

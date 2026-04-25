@@ -5,6 +5,8 @@ export default {
   stone_yield_desc: 'Erhöht die Ausbeute beim Steinsammeln.',
   meat_yield_title: 'Fleisch-Ertrag',
   meat_yield_desc: 'Erhöht die Ausbeute bei der Jagd.',
+  flowers_yield_title: 'Blumen-Ertrag',
+  flowers_yield_desc: 'Erhöht die Auswahl beim Blumenpflücken.',
   shards_yield_title: 'Splitter-Ertrag',
   shards_yield_desc: 'Erhöht die Ausbeute an Seelensplittern.',
   magic_yield_title: 'Magie-Ertrag',

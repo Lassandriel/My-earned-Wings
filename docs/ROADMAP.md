@@ -43,11 +43,10 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 - [x] **Logic Integrity (V2.6)**: Fully modernized `check-logic` script with real-time requirement simulation and non-boolean flag support; 100% reachability verified for all game content.
 - [x] **UI/UX Hardening (Contextual Separation)**: Implemented strict filtering for the main action list to exclusively show location-based gathering; decoupled story NPCs and construction addons into dedicated specialized tabs.
 - [x] **Progression Logic Refactoring**: Migrated core logic rules (path resolution, requirement checking) to a shared centralized utility, ensuring perfect alignment between game runtime and automated testing.
-
+- [x] **New Gathering Area (Meadow)**: Implementation of the "Wiese" location with a new dedicated resource (Flowers) and gathering loop; integrated with the bilingual localization system.
 - [x] **Registry-Category Synchronization**: Unified all gameplay entities (Furniture, Addons, Tools) with the GAMEDESIGN glossary; synchronized asset paths and registry categories.
 - [x] **Security Hardening**: Resolved CodeQL vulnerabilities (Prototype Pollution, URL Sanitization) to ensure codebase integrity and safety.
 - [x] **Automated Deployment**: Integrated GitHub Actions for seamless deployment to GitHub Pages on every push.
-
 
 ---
 

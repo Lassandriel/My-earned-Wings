@@ -122,6 +122,11 @@ export default {
     desc: 'Baue seltene Kristalle in der dunklen Mine ab.',
     effect: '+{val} Splitter & Stein',
   },
+  'act-pick-flowers': {
+    title: 'Blumen pflücken',
+    desc: 'Sammle bunte Wiesenblumen für dein Heim.',
+    effect: '+{val} Blumen',
+  },
   'act-essen': {
     title: 'Beeren essen',
     desc: 'Nähr dich von den Gaben des Bodens.',
