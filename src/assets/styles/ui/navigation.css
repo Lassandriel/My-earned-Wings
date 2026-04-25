@@ -23,6 +23,10 @@
   font-size: 1.1rem;
 }
 
+.nav-item:hover {
+  transform: translate(var(--m-x, 0), var(--m-y, 0));
+}
+
 .menu-icon-img {
   height: 95%;
   width: auto;
