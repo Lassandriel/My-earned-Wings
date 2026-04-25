@@ -79,6 +79,16 @@
             <img src="img/menu/logo_wings.webp" alt="Wings Logo" class="header-logo" />
             <h1 class="game-title">Your earned Wings</h1>
           </div>
+
+          <!-- Settings Button (Relocated) -->
+          <div
+            class="settings-corner-btn"
+            @click="$store.game.settingsOpen = true"
+            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('settings_title'), desc: '' })"
+            @mouseleave="$store.game.setHovered(null)"
+          >
+            ⚙️
+          </div>
         </header>
 
         <!-- Modular Sidebar -->

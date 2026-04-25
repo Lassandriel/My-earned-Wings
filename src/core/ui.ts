@@ -103,6 +103,14 @@ export const createUISystem = () => {
       return (current / max) * 100;
     },
 
+    getTaskProgress(store: GameState, taskId: string): number {
+      const task = store.activeTasks[taskId];
+      if (!task) return 0;
+      const total = task.duration || 1;
+      const current = task.remaining || 0;
+      return ((total - current) / total) * 100;
+    },
+
     calculateScale() {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -132,6 +140,15 @@ export const createUISystem = () => {
 
       _tt.style.left = `${left}px`;
       _tt.style.top = `${top}px`;
+    },
+
+    getStatPercent(store: GameState, stat: string): number {
+      return store.resource.getStatPercent(store, stat);
+    },
+
+    showToast(message: string, type: 'info' | 'error' | 'success' = 'info') {
+      console.log(`[TOAST] [${type}] ${message}`);
+      // Usually would emit to a toast system, for now console is safe
     },
 
     /**

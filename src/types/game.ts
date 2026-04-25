@@ -175,8 +175,8 @@ export interface GameState {
     handleMouseMove: (e: MouseEvent, store: GameState) => void;
     cleanupHover: (store: GameState) => void;
     getStatPercent: (store: GameState, stat: string) => number;
-    getActionEffect: (store: GameState, action: ActionDefinition) => string;
-    getTooltipCosts: (store: GameState, action: ActionDefinition) => any;
+    getActionEffect: (store: GameState, hAction: any) => string[];
+    getTooltipCosts: (store: GameState, hAction: any) => any[];
     showToast: (message: string, type: 'info' | 'error' | 'success') => void;
     getTaskProgress: (store: GameState, taskId: string) => number;
     getNPCProgressPercent: (store: GameState, npcId: NPCId) => number;

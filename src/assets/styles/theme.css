@@ -1,7 +1,7 @@
 :root {
   /* Colors */
   --bg-dark: #0f172a;
-  --panel-bg: rgba(15, 23, 42, 0.6);
+  --panel-bg: rgba(15, 23, 42, 0.75);
   --panel-border: rgba(255, 255, 255, 0.1);
   --accent-teal: #14b8a6;
   --accent-purple: #8b5cf6;
@@ -18,7 +18,7 @@
   --space-lg: 2rem;
 
   /* Glassmorphism */
-  --glass-blur: blur(12px);
+  --glass-blur: blur(20px);
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   --radius-sm: 8px;

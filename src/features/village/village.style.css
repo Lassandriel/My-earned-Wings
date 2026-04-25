@@ -322,34 +322,3 @@
     padding-bottom: 40px;
   }
 }
-
-/* Scroll Hint for Village */
-.village-scroll-hint {
-  position: sticky;
-  bottom: 20px;
-  left: 50%;
-  width: fit-content;
-  transform: translateX(-50%);
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 10px 20px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--gold);
-  font-size: 0.85rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-  z-index: 100;
-  pointer-events: none;
-  animation: bounceHint 2s infinite;
-  margin: 0 auto;
-}
-
-@keyframes bounceHint {
-  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-  40% {transform: translateY(-10px);}
-  60% {transform: translateY(-5px);}
-}

@@ -11,7 +11,7 @@
         class="log-entry"
         :class="'log-' + (log.type || 'normal')"
         :style="'color: ' + log.color"
-        x-html="$store.game.t(log.id, log.context, log.params) + (log.count > 1 ? ' (x' + log.count + ')' : '')"
+        x-html="$store.game.language && $store.game.t(log.id, log.context, log.params) + (log.count > 1 ? ' (x' + log.count + ')' : '')"
       ></div>
     </template>
   </div>

@@ -62,12 +62,14 @@ export const createNPCSystem = () => {
 
       // Format Log: "Name: 'Satz'"
       if (step.dialogueKey && npcDef) {
-        const npcName = game.t(npcDef.nameKey, 'ui');
-        const dialogue = game.t(step.dialogueKey, 'npcs');
         return {
           success: true,
           logKey: 'npc_dialogue_log',
-          logParams: { name: npcName, text: dialogue },
+          logParams: {
+            nameKey: npcDef.nameKey,
+            textKey: step.dialogueKey,
+            dialogContext: 'npcs'
+          },
         };
       }
 

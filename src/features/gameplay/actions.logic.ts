@@ -6,7 +6,7 @@ import {
   GameEffect,
   ActionId,
 } from '../../types/game';
-import { resolvePath, checkRequirement } from '../../core/logicUtils';
+import { checkRequirement } from '../../core/logicUtils';
 
 /**
  * Action System - TypeScript Edition
@@ -132,9 +132,9 @@ export function createActionSystem() {
     }
 
     if (action.isStory) {
-      const dialogueText = result?.logParams?.text || null;
-      if (dialogueText) {
-        game.story.recordStoryEntry(game, id, action, dialogueText);
+      const dialogueKey = result?.logParams?.textKey || null;
+      if (dialogueKey) {
+        game.story.recordStoryEntry(game, id, action, dialogueKey);
       }
     }
 
@@ -382,8 +382,6 @@ export function createActionSystem() {
         }
       }
     },
-
-    checkRequirement,
 
     boot() {
       initEffects();

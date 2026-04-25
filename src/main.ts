@@ -120,6 +120,7 @@ const gameStore: any = {
         console.warn(`[UI] Invalid view detected: ${view}. Falling back to menu.`);
         store.view = 'menu';
       }
+
       if (store.ui && store.ui.cleanupHover) store.ui.cleanupHover(store);
     });
 

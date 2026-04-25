@@ -29,10 +29,22 @@ export const createI18nSystem = () => {
         ...params
       };
 
+      // NEW: Automatically translate any parameter ending in 'Key'
+      const translatedParams: Record<string, any> = {};
+      Object.entries(finalParams).forEach(([k, v]) => {
+        if (k.endsWith('Key') && typeof v === 'string') {
+          const actualKey = k.replace('Key', '');
+          const subContext = (params as any).dialogContext || (params as any).context || 'ui';
+          translatedParams[actualKey] = this.t(store, v, subContext);
+        } else {
+          translatedParams[k] = v;
+        }
+      });
+
       const replaceRecursive = (val: any): any => {
         if (typeof val === 'string') {
           let replaced = val;
-          Object.entries(finalParams).forEach(([k, v]) => {
+          Object.entries(translatedParams).forEach(([k, v]) => {
             replaced = replaced.replace(new RegExp(`{${k}}`, 'g'), v);
           });
           return replaced;

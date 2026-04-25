@@ -21,13 +21,5 @@
       x-text="$store.game.saveInfoText || $store.game.t('save_never')"
     >
     </div>
-    <div
-      class="settings-corner-btn"
-      @click="$store.game.settingsOpen = true"
-      @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('settings_title'), desc: '' }"
-      @mouseleave="$store.game.hoveredAction = null"
-    >
-      ⚙️
-    </div>
   </div>
 </nav>

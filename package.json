@@ -7,7 +7,7 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development .\\node_modules\\.bin\\electron.cmd --import=tsx src/electron/main.ts\"",
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development NODE_OPTIONS=\"--import=tsx\" .\\node_modules\\.bin\\electron.cmd src/electron/main.ts\"",
     "build": "vite build",
     "build-electron": "tsc -p tsconfig.electron.json",
     "preview": "vite preview",
