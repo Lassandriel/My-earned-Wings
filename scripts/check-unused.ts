@@ -41,7 +41,7 @@ const runUnusedCheck = () => {
     if (npc.images) Object.values(npc.images).forEach((p: any) => usedAssets.add(p));
   });
   Object.values(registries.navigation).forEach((nav: any) => {
-    if (nav.icon) usedAssets.add(`img/menu_${nav.icon}.webp`);
+    if (nav.icon) usedAssets.add(`img/menu/menu_${nav.icon}.webp`);
   });
   Object.values((registries as any).milestones || {}).forEach((m: any) => {
     if (m.icon) usedAssets.add(m.icon);
@@ -103,8 +103,8 @@ const runUnusedCheck = () => {
     'background/',
     'Game_icon',
     'Stat_head',
-    'img/menu_housing.webp',
-    'img/menu_traits.webp',
+    'img/menu/menu_housing.webp',
+    'img/menu/menu_traits.webp',
     'img/prologue/Gemini_Lunara_Dragon.webp',
   ];
   const unusedAssets = allKnownImgs.filter(

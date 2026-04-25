@@ -49,6 +49,8 @@ const checkAll = () => {
         return Object.values(lang).some((ns) => typeof ns === 'object' && ns !== null && ns[key] !== undefined);
     };
 
+    const usedKeySet = new Set<string>();
+
     const checkI18nKey = (label: string, context: string | undefined, key: string) => {
         const inDe = keyExistsInLang(de as any, context, key);
         const inEn = keyExistsInLang(en as any, context, key);
@@ -56,6 +58,18 @@ const checkAll = () => {
             results.i18n.success = false;
             results.i18n.errors.push(`${label} – missing in: ${!inDe ? 'DE ' : ''}${!inEn ? 'EN' : ''}`);
         }
+        
+        // Track the key as used
+        if (inDe) {
+            if (context) {
+                usedKeySet.add(`${context}.${key}`);
+            } else {
+                Object.keys(de).forEach(ns => {
+                    if ((de as any)[ns][key] !== undefined) usedKeySet.add(`${ns}.${key}`);
+                });
+            }
+        }
+        
         results.i18n.count++;
     };
 
@@ -79,7 +93,7 @@ const checkAll = () => {
         if (npc.steps)  npc.steps.forEach((s: any) => s.dialogueKey && checkI18nKey(`Dialogue '${s.dialogueKey}'`, 'npcs', s.dialogueKey));
     });
     Object.values(registries.navigation).forEach((nav: any) => {
-        if (nav.icon) usedAssets.add(`img/menu_${nav.icon}.webp`);
+        if (nav.icon) usedAssets.add(`img/menu/menu_${nav.icon}.webp`);
     });
     Object.values(registries.resources).forEach((res: any) => {
         checkI18nKey(`Resource 'ui_${res.id}'`, 'ui', 'ui_' + res.id);
@@ -98,6 +112,11 @@ const checkAll = () => {
         .map(p => path.relative(path.join(rootDir, 'public'), p).replace(/\\/g, '/'));
 
     const REGEX = /\bt\(\s*['"]([$`{}()[\]]*[^'"$`{}()[\]]+)['"]\s*(?:,\s*['"]([^'"]+)['"])?\s*\)/g;
+    const STR_REGEX = /['"]([a-zA-Z0-9_\-\.]{3,})['"]/g;
+    const DYNAMIC_PREFIXES = [
+        'intro_', 'ellie_tutorial_', 'fail_full_', 'fail_', 'npc_', 
+        'ui_', 'act-', 'log_', 'cat_', 'nav_', 'btn_', 'home_', 'settings_'
+    ];
     // mapKey → { context, key, files[] }
     const sourceKeys = new Map<string, { ctx: string | undefined; key: string; files: string[] }>();
 
@@ -120,6 +139,26 @@ const checkAll = () => {
             if (!sourceKeys.has(mapKey)) sourceKeys.set(mapKey, { ctx, key, files: [] });
             const rel = path.relative(path.join(rootDir, 'src'), file);
             if (!sourceKeys.get(mapKey)!.files.includes(rel)) sourceKeys.get(mapKey)!.files.push(rel);
+        }
+
+        // Heuristic scan for any strings that might be keys
+        STR_REGEX.lastIndex = 0;
+        while ((match = STR_REGEX.exec(content)) !== null) {
+            const raw = match[1];
+            DYNAMIC_PREFIXES.forEach(pref => {
+                const cleanPref = pref.endsWith('_') ? pref.slice(0, -1) : pref;
+                if (raw === pref || raw === cleanPref) {
+                    Object.keys(de).forEach(ns => {
+                        Object.keys((de as any)[ns]).forEach(k => {
+                            if (k.startsWith(pref)) usedKeySet.add(`${ns}.${k}`);
+                        });
+                    });
+                }
+            });
+            // Also check if the raw string itself is a key
+            Object.keys(de).forEach(ns => {
+                if ((de as any)[ns][raw] !== undefined) usedKeySet.add(`${ns}.${raw}`);
+            });
         }
     });
 
@@ -149,18 +188,19 @@ const checkAll = () => {
 
     // 4. Summarize Unused
     // A key is "used" if it appears in the sourceKeys map (found via t() scan)
-    const usedKeySet = new Set<string>();
-    sourceKeys.forEach(({ key }) => usedKeySet.add(key));
     ['ui', 'actions', 'items', 'npcs', 'logs', 'modifiers'].forEach(sec => {
-        Object.keys((de as any)[sec] || {}).forEach(k => { if (!usedKeySet.has(k)) results.unused.errors.push(`Key: ${sec}/${k}`); });
+        Object.keys((de as any)[sec] || {}).forEach(k => { 
+            const fullKey = `${sec}.${k}`;
+            if (!usedKeySet.has(fullKey)) results.unused.errors.push(`Key: ${fullKey}`); 
+        });
     });
     allImages.forEach(img => {
         const ignored = [
             'background/',
             'Game_icon',
             'Stat_head',
-            'img/menu_housing.webp',
-            'img/menu_traits.webp',
+            'img/menu/menu_housing.webp',
+            'img/menu/menu_traits.webp',
             'img/prologue/Gemini_Lunara_Dragon.webp'
         ];
         if (!usedAssets.has(img) && !ignored.some(i => img.includes(i))) {

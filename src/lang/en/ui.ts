@@ -17,9 +17,7 @@ export default {
   cat_chronicle_world: 'Chronicle World',
   cat_provisions: 'Provisions',
   cat_artifacts: 'Artifacts',
-  loc_forest: 'Forest',
-  loc_mine: 'Crystal Mine',
-  loc_glade: 'Glade',
+
   ui_vitality: 'Vitality',
   ui_energy: 'Energy',
   ui_magic: 'Magic',
@@ -181,6 +179,7 @@ export default {
   ui_no_furniture_placed: 'No furniture placed.',
   ui_no_more_furniture: 'No more furniture available.',
   objective_label: 'Current Objective',
+
   particle_meditation: 'Inner Peace...',
   particle_blessing: 'Blessing!',
   particle_max_magic_gain: '+ Max Magic',

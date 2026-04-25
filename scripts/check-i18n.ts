@@ -111,7 +111,10 @@ const checkRegistries = () => {
 
 const performHeuristicScan = () => {
     console.log("Phase 2: Source Code Pattern Matching...");
-    const files = getAllFiles(SRC_DIR, ['.ts', '.html', '.css']);
+    const files = [
+        ...getAllFiles(SRC_DIR, ['.ts', '.html', '.css']),
+        path.resolve(SRC_DIR, '../index.html')
+    ];
     
     const KEY_PATTERN = /['"]([a-zA-Z0-9_\-\.]{3,})['"]/g;
 

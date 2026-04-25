@@ -17,9 +17,7 @@ export default {
   cat_chronicle_world: 'Die Welt der Chronik',
   cat_provisions: 'Proviant',
   cat_artifacts: 'Artefakte',
-  loc_forest: 'Wald',
-  loc_mine: 'Kristallmine',
-  loc_glade: 'Lichtung',
+
   ui_vitality: 'Lebenskraft',
   ui_energy: 'Energie',
   ui_magic: 'Magie',
@@ -183,6 +181,7 @@ export default {
   ui_no_furniture_placed: 'Keine Möbel platziert.',
   ui_no_more_furniture: 'Keine weiteren Möbel verfügbar.',
   objective_label: 'Aktuelles Ziel',
+
   particle_meditation: 'Innere Ruhe...',
   particle_blessing: 'Segen!',
   particle_max_magic_gain: '+ Magie Max',
