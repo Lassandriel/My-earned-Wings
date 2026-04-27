@@ -66,6 +66,7 @@ export interface GameState {
   unlockedRecipes: string[];
   counters: Record<string, number>;
   currentObjective: string | null;
+  activeProducers: ActionId[]; // NEW: For optimized O(k) tick processing
 
   // Systems & Content
   content: {
@@ -109,6 +110,7 @@ export interface GameState {
     handleSuccess: (game: GameState, id: ActionId, action: ActionDefinition, result: any) => void;
     handleFailure: (game: GameState, id: ActionId, action: ActionDefinition) => void;
     effectHandlers: Record<string, (game: GameState, effect: any) => void>;
+    rebuildProducers: (game: GameState) => void;
   };
   pipeline: {
     calculate: (state: GameState, key: string, baseValue: number) => number;
@@ -123,6 +125,10 @@ export interface GameState {
   engine: {
     init: () => void;
     stop: () => void;
+  };
+  bootstrapper: {
+    buildInitialState: (baseState: any) => GameState;
+    bootSystems: (store: GameState) => void;
   };
   story: {
     recordStoryEntry: (
@@ -170,6 +176,8 @@ export interface GameState {
     boot: (store: GameState) => void;
     updateBackground: (setName: string) => void;
   };
+  preloader: any;
+  settings: any;
   ui: {
     calculateScale: (store: GameState) => void;
     handleMouseMove: (e: MouseEvent, store: GameState) => void;

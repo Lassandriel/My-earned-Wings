@@ -1,4 +1,4 @@
-import { GameState } from '../types/game';
+import { GameState } from '../../types/game';
 
 /**
  * View Manager System - Draconia Core 3.5 - TypeScript Edition

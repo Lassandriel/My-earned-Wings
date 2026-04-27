@@ -66,4 +66,15 @@ export const villageActions: Record<string, any> = {
     logKey: 'work_log',
     logColor: 'var(--accent-teal)',
   },
+  'act-buy-iron-parts': {
+    id: 'act-buy-iron-parts',
+    icon: '⚙️',
+    cost: 50, // Higher cost because it's a crafted metal item
+    costType: 'shards',
+    yieldType: 'iron_parts',
+    sfx: 'click',
+    particleType: 'shards',
+    rewards: { iron_parts: 1 },
+    logKey: 'buy_iron_parts_log',
+  },
 };

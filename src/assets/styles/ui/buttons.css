@@ -28,6 +28,11 @@
   overflow: hidden;
 }
 
+/* Prevent tooltip flickering when hovering over children */
+.game-btn > * {
+  pointer-events: none;
+}
+
 .game-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.4);

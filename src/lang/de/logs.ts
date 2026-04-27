@@ -73,7 +73,10 @@ export default {
   eat_log: '+{val} Sättigung.',
   rest_log: '+{val} Energie.',
   meditate_log: '+{val} Magie.',
-  pick_flowers_log: '+{val} Blumen gepflückt.',
+  pick_flowers_log: 'Du pflückst bunte Wiesenblumen.',
+  whisper_wood_log: 'Du sammelst silbrig glänzendes Geisterholz.',
+  whisper_pollen_log: 'Du fängst leuchtenden Pollen in der Luft ein.',
+  unlock_whisper_grove: 'Mina führt dich zu einem geheimen Pfad: Der Flüsterhain ist nun zugänglich.',
   garden_harvest_log: 'Frische Kräuter geerntet. +{gain}',
   cook_gourmet_success: 'Das Festmahl ist bereit! Du fühlst dich gestärkt.',
   milestone_house: 'Das Haus steht fest – ein Monument deines Willens.',
@@ -119,4 +122,5 @@ export default {
   'act-grand-table': 'Ein massiver Tisch, Symbol für eine wachsende Gemeinschaft.',
   craft_bed_2: 'Du hast ein luxuriöses Seidenbett gewebt.',
   craft_stove_2: 'Der Ewige Herd gewährt dir grenzenlose arkane Hitze.',
+  buy_iron_parts_log: 'Stabile Eisenbeschläge beim Schmied Thorin erworben.',
 };

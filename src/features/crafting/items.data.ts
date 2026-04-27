@@ -120,7 +120,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     spaceCost: 3,
     effect: 'ui_decorative',
   },
- 
+
   // --- PROVISIONS ---
   'item-bread': {
     id: 'item-bread',
@@ -158,7 +158,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     effect: { satiation: 50, energy: 30 },
     category: 'items',
   },
- 
+
   // --- ARTIFACTS ---
   'item-deed': {
     id: 'item-deed',
@@ -274,5 +274,67 @@ export const itemDb: Record<string, ItemDefinition> = {
       { key: 'eat_satiation_gain', add: 50 },
       { key: 'energy_limit', add: 25 },
     ],
+  },
+  'item-loom': {
+    id: 'item-loom',
+    title: 'item_loom_title',
+    desc: 'item_loom_desc',
+    image: 'img/furniture/loom.webp',
+    consumable: false,
+    category: 'furniture',
+    spaceCost: 2,
+    effect: 'ui_decorative',
+  },
+  'item-bookshelf-large': {
+    id: 'item-bookshelf-large',
+    title: 'item_bookshelf_large_title',
+    desc: 'item_bookshelf_large_desc',
+    image: 'img/furniture/bookshelf_large.webp',
+    consumable: false,
+    category: 'furniture',
+    spaceCost: 2,
+    modifiers: [{ key: 'books_limit', add: 15 }],
+  },
+  'item-desk': {
+    id: 'item-desk',
+    title: 'item_desk_title',
+    desc: 'item_desk_desc',
+    image: 'img/furniture/desk.webp',
+    consumable: false,
+    category: 'furniture',
+    spaceCost: 2,
+    modifiers: [{ key: 'study_efficiency', add: 0.2 }],
+  },
+  'item-cart-reinforced': {
+    id: 'item-cart-reinforced',
+    title: 'item_cart_reinforced_title',
+    desc: 'item_cart_reinforced_desc',
+    image: 'img/tools/cart_reinforced.webp',
+    consumable: false,
+    category: 'tools',
+    modifiers: [
+      { key: 'wood_yield', mult: 1.1 },
+      { key: 'stone_yield', mult: 1.1 },
+    ],
+  },
+  'item-mana-basin': {
+    id: 'item-mana-basin',
+    title: 'item_mana_basin_title',
+    desc: 'item_mana_basin_desc',
+    image: 'img/addons/mana_basin.webp',
+    consumable: false,
+    category: 'furniture',
+    spaceCost: 1,
+    modifiers: [{ key: 'magic_regen_passive', add: 0.1 }],
+  },
+  'item-terrace': {
+    id: 'item-terrace',
+    title: 'item_terrace_title',
+    desc: 'item_terrace_desc',
+    image: 'img/housing/terrace.webp',
+    consumable: false,
+    category: 'furniture',
+    spaceCost: 3,
+    modifiers: [{ key: 'rest_energy_gain', mult: 1.2 }],
   },
 };

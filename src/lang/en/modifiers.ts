@@ -16,5 +16,13 @@ export default {
   eat_satiation_gain_title: 'Digestion',
   eat_satiation_gain_desc: 'Increases satiation gain from meals.',
   garden_magic_cost_title: 'Garden Magic',
-  garden_magic_cost_desc: 'Reduces magic costs in the garden.'
+  garden_magic_cost_desc: 'Reduces magic costs in the garden.',
+  modifier_ghostwood_yield_title: 'Ghostwood Yield',
+  modifier_ghostwood_yield_desc: 'Increases yield when gathering in the grove.',
+  modifier_glowpollen_yield_title: 'Pollen Yield',
+  modifier_glowpollen_yield_desc: 'Increases the amount of pollen caught.',
+  modifier_magic_regen_passive_title: 'Passive Magic Regeneration',
+  modifier_magic_regen_passive_desc: 'Slowly restores magic over time.',
+  modifier_study_efficiency_title: 'Study Efficiency',
+  modifier_study_efficiency_desc: 'Increases the gain when studying.'
 };

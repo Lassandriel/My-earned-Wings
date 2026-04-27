@@ -9,9 +9,9 @@ export const createResourceSystem = () => {
     if (resDef?.scalesWithSatiation) {
       // Costs scale inversely with worker efficiency
       const efficiency = state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1;
-      return Math.round(baseAmount * (1 / efficiency));
+      return baseAmount * (1 / efficiency);
     }
-    return Math.round(baseAmount);
+    return baseAmount;
   };
 
   const canAfford = (
@@ -48,10 +48,10 @@ export const createResourceSystem = () => {
 
     let consumed = false;
     if (state.stats[type] !== undefined) {
-      state.stats[type] = Math.round(Math.max(0, state.stats[type] - finalAmount));
+      state.stats[type] = Math.max(0, state.stats[type] - finalAmount);
       consumed = true;
     } else if (state.resources[type] !== undefined) {
-      state.resources[type] = Math.round(Math.max(0, state.resources[type] - finalAmount));
+      state.resources[type] = Math.max(0, state.resources[type] - finalAmount);
       consumed = true;
     }
 
@@ -81,8 +81,11 @@ export const createResourceSystem = () => {
     consume,
 
     add(state: GameState, type: string, amount: number): boolean {
-      const finalAmount = Math.round(amount);
-      if (finalAmount <= 0) return false;
+      if (amount < 0) {
+        console.warn(`[RESOURCE] Negative amount passed to add() for ${type}: ${amount}. Use consume() instead.`);
+        return false;
+      }
+      if (amount < 0.001) return false;
 
       let changed = false;
 
@@ -90,13 +93,13 @@ export const createResourceSystem = () => {
       if (type.startsWith('max')) {
         const statBase = type.toLowerCase().replace('max', '') as ResourceId;
         if (state.stats[statBase] !== undefined) {
-          state.stats[type] = (state.stats[type] || 0) + finalAmount;
+          state.stats[type] = (state.stats[type] || 0) + amount;
           changed = true;
         }
       } else if (state.stats[type] !== undefined) {
         const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
         const max = state.stats[maxKey] || 100;
-        state.stats[type] = Math.round(Math.min(max, state.stats[type] + finalAmount));
+        state.stats[type] = Math.min(max, state.stats[type] + amount);
         changed = true;
       } else if (state.resources[type as ResourceId] !== undefined) {
         const resId = type as ResourceId;
@@ -105,7 +108,7 @@ export const createResourceSystem = () => {
         }
         const limit = this.getLimit(state, resId);
         const current = state.resources[resId] || 0;
-        state.resources[resId] = Math.round(Math.min(limit, current + finalAmount));
+        state.resources[resId] = Math.min(limit, current + amount);
         changed = true;
       }
 

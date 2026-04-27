@@ -4,8 +4,8 @@
     <h3 x-text="$store.game.t('cat_village')"></h3>
     <div
       class="nav-help-icon"
-      @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_village'), desc: $store.game.t('nav_village_desc') }"
-      @mouseleave="$store.game.hoveredAction = null"
+      @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_village'), desc: $store.game.t('nav_village_desc') })"
+      @mouseleave="$store.game.setHovered(null)"
     >
       ?
     </div>
@@ -15,7 +15,10 @@
     <!-- 2. NPC CARDS (Dynamisches Grid) -->
     <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
       <div :id="npcId + '-card'" class="village-card npc-card">
-        <div class="card-header-visual" x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }">
+        <div
+          class="card-header-visual"
+          x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }"
+        >
           <div class="npc-portrait-wrapper">
             <div
               class="npc-img-blur-bg"
@@ -40,14 +43,17 @@
             </div>
           </div>
 
-          <div class="npc-interaction-area" x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }">
+          <div
+            class="npc-interaction-area"
+            x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }"
+          >
             <!-- Quest Action -->
             <button
               class="game-btn npc-main-action-btn"
               x-show="!$store.game.ui.isNPCMaxed($store.game, npcId)"
               @click="$store.game.executeAction('act-' + npcId)"
-              @mouseover="$store.game.hoveredAction = {id: 'act-' + npcId, data: $store.game.content.get('act-' + npcId)}"
-              @mouseout="$store.game.hoveredAction = null"
+              @mouseenter="$store.game.setHovered('act-' + npcId)"
+              @mouseleave="$store.game.setHovered(null)"
             >
               <span x-text="$store.game.t('ui_details')"></span>
             </button>
@@ -64,8 +70,8 @@
                 <button
                   class="game-btn npc-trade-btn"
                   @click="$store.game.attemptAction($el, action.id)"
-                  @mouseover="$store.game.hoveredAction = {id: action.id, data: action}"
-                  @mouseout="$store.game.hoveredAction = null"
+                  @mouseenter="$store.game.setHovered(action.id)"
+                  @mouseleave="$store.game.setHovered(null)"
                 >
                   <span x-text="$store.game.t(action.id, 'actions').title"></span>
                 </button>
@@ -76,6 +82,4 @@
       </div>
     </template>
   </div>
-
-
 </div>

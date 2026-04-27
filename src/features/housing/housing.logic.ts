@@ -11,7 +11,7 @@ export const createHousingSystem = () => {
      */
     toggleFurniture(store: GameState, id: string) {
       const item = store.content.get<ItemDefinition>(id, 'items');
-      if (!item || item.category !== 'crafting') return;
+      if (!item || item.category !== 'furniture') return;
 
       const placedIdx = store.placedItems.indexOf(id as ItemId);
       const isPlaced = placedIdx !== -1;
@@ -55,7 +55,7 @@ export const createHousingSystem = () => {
       let total = 0;
       store.placedItems.forEach((id: ItemId) => {
         const item = store.content.get<ItemDefinition>(id, 'items');
-        if (item && item.category === 'crafting') {
+        if (item && item.category === 'furniture') {
           total += item.spaceCost || 1;
         }
       });
@@ -80,7 +80,7 @@ export const createHousingSystem = () => {
 
       store.discoveredItems.forEach((id) => {
         const item = store.content.get<ItemDefinition>(id, 'items');
-        if (item?.category === 'crafting') {
+        if (item?.category === 'furniture') {
           const pIdx = placedCopy.indexOf(id as ItemId);
           if (pIdx !== -1) {
             placedCopy.splice(pIdx, 1);
@@ -98,7 +98,7 @@ export const createHousingSystem = () => {
     getPlacedFurnitureList(store: GameState) {
       return store.placedItems.filter((id: string) => {
         const item = store.content.get<ItemDefinition>(id, 'items');
-        return item?.category === 'crafting';
+        return item?.category === 'furniture';
       });
     },
   };

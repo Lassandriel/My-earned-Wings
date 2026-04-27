@@ -165,13 +165,19 @@
   background: rgba(15, 23, 42, 0.4);
   border-radius: 24px;
   padding: 30px;
-  min-height: 520px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  max-height: 85vh;
+  overflow-y: auto;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-teal) transparent;
+}
+
+.vault-detail-pane::-webkit-scrollbar {
+  width: 5px;
+}
+.vault-detail-pane::-webkit-scrollbar-thumb {
+  background: var(--accent-teal);
+  border-radius: 10px;
 }
 
 .item-visual-showcase {

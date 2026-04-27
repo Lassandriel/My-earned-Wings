@@ -115,5 +115,9 @@ export default {
   'act-spice-rack': 'A spice rack for herbs and alchemy.',
   'act-grand-table': 'A massive table, symbol of a growing community.',
   craft_bed_2: 'You wove a luxurious silk bed.',
-  craft_stove_2: 'The Eternal Stove grants you boundless arcane heat.',
+  'act-stove-2': 'The Eternal Stove grants you boundless arcane heat.',
+  whisper_wood_log: 'You gather silvery shimmering ghostwood.',
+  whisper_pollen_log: 'You catch glowing pollen in the air.',
+  unlock_whisper_grove: 'Mina leads you to a secret path: The Whispering Grove is now accessible.',
+  buy_iron_parts_log: 'Acquired stable iron parts from Thorin the Blacksmith.',
 };

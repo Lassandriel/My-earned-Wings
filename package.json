@@ -19,6 +19,7 @@
     "stats": "tsx scripts/stats.ts",
     "check-unused": "tsx scripts/check-unused.ts",
     "clean": "tsx scripts/clean.ts",
+    "test": "vitest run",
     "dist": "npm run build && npm run build-electron && electron-builder",
     "build-exe": "powershell -Command \"Remove-Item -Recurse -Force dist_electron -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Path dist_electron\" && npm run build && npm run build-electron && powershell -Command \"Copy-Item package.json dist_electron/; New-Item -ItemType Directory -Path dist_electron/public/img -Force; Copy-Item public/img/Game_icon.ico dist_electron/public/img/; Copy-Item -Recurse dist dist_electron/dist; electron-packager dist_electron My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --asar --icon=dist_electron/public/img/Game_icon.ico\""
   },

@@ -1,4 +1,3 @@
-<!-- SETTINGS MODAL (Senior Unified Rework) -->
 <div
   id="modal-settings"
   class="modal-overlay"
@@ -7,12 +6,15 @@
   x-transition.opacity
   x-data="{ settingsTab: 'general' }"
   @click.self="$store.game.settingsOpen = false"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="settings-title"
 >
   <div class="settings-modal-unified">
     <!-- Sidebar Navigation -->
     <div class="settings-sidebar">
       <div class="sidebar-header">
-        <h2 x-text="$store.game.t('settings_title')"></h2>
+        <h2 id="settings-title" x-text="$store.game.t('settings_title')"></h2>
       </div>
       <nav class="settings-tabs">
         <button

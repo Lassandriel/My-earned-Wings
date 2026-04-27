@@ -6,7 +6,7 @@ import {
   GameEffect,
   ActionId,
 } from '../../types/game';
-import { checkRequirement } from '../../core/logicUtils';
+import { checkRequirement } from '../../core/systems/logicUtils';
 
 /**
  * Action System - TypeScript Edition
@@ -26,6 +26,17 @@ export function createActionSystem() {
   const initEffects = () => {
     registerEffect('setFlag', (game, { flag, value }) => {
       game.flags[flag] = value;
+      
+      // Update active producers if the flag corresponds to a producer action
+      const action = game.content.get(flag as string, 'actions') as ActionDefinition | null;
+      if (action && action.passiveProduction) {
+        if (value && !game.activeProducers.includes(flag as ActionId)) {
+          game.activeProducers.push(flag as ActionId);
+          console.log(`[ACTIONS] Registered active producer: ${flag}`);
+        } else if (!value) {
+          game.activeProducers = game.activeProducers.filter(id => id !== flag);
+        }
+      }
     });
 
     registerEffect('unlockNPC', (game, { id }) => {
@@ -165,6 +176,10 @@ export function createActionSystem() {
 
     const yieldType = action.yieldType;
     if (yieldType && game.resource.isFull(game, yieldType)) {
+      if (game.activeFocus === _id) {
+        game.activeFocus = null;
+        game.addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
+      }
       game.bus.emit(game.EVENTS.LOG_ADDED, {
         id: 'fail_full_' + yieldType,
         color: 'var(--accent-red)',
@@ -386,5 +401,22 @@ export function createActionSystem() {
     boot() {
       initEffects();
     },
+
+    /**
+     * Rebuilds the activeProducers list from current flags.
+     * Useful after loading a game or major state changes.
+     */
+    rebuildProducers(game: GameState) {
+      game.activeProducers = [];
+      Object.keys(game.flags).forEach(f => {
+        if (game.flags[f as FlagId]) {
+          const action = game.content.get(f, 'actions') as ActionDefinition | null;
+          if (action && action.passiveProduction) {
+            game.activeProducers.push(f as ActionId);
+          }
+        }
+      });
+      console.log(`[ACTIONS] Rebuilt active producers: ${game.activeProducers.length}`);
+    }
   };
 }

@@ -74,7 +74,7 @@
           </div>
         </div>
 
-        <header class="main-header">
+        <header class="main-header" role="banner">
           <div class="logo-container">
             <img src="img/menu/logo_wings.webp" alt="Wings Logo" class="header-logo" />
             <h1 class="game-title">Your earned Wings</h1>
@@ -86,16 +86,22 @@
             @click="$store.game.settingsOpen = true"
             @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('settings_title'), desc: '' })"
             @mouseleave="$store.game.setHovered(null)"
+            role="button"
+            :aria-label="$store.game.t('settings_title')"
+            tabindex="0"
+            @keydown.enter="$store.game.settingsOpen = true"
           >
             ⚙️
           </div>
         </header>
 
         <!-- Modular Sidebar -->
-        <%- include('./src/features/ui/sidebar.view.html') %>
+        <div role="complementary" :aria-label="$store.game.t('nav_inventory')">
+          <%- include('./src/features/ui/sidebar.view.html') %>
+        </div>
 
         <!-- Content Views -->
-        <main>
+        <main role="main">
           <section
             class="view-section"
             x-show="$store.game.view === 'gameplay'"

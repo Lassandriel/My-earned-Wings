@@ -1,4 +1,4 @@
-import { GameState } from '../types/game';
+import { GameState } from '../../types/game';
 
 /**
  * Dynamic Background, Time of Day & Parallax System
@@ -33,11 +33,11 @@ export const createBackgroundSystem = () => {
         }
       });
 
-      // Continuous Drift Animation (Cloud-like)
       let startTime = Date.now();
+      let isAnimating = false;
       const animate = () => {
         if (store.view === 'menu' || store.view === 'prologue') {
-          requestAnimationFrame(animate);
+          isAnimating = false;
           return;
         }
 
@@ -56,17 +56,31 @@ export const createBackgroundSystem = () => {
         requestAnimationFrame(animate);
       };
       
-      requestAnimationFrame(animate);
+      store.bus.on(store.EVENTS.VIEW_CHANGED, () => {
+        if (!isAnimating && store.view !== 'menu' && store.view !== 'prologue') {
+          isAnimating = true;
+          requestAnimationFrame(animate);
+        }
+      });
+
+      if (store.view !== 'menu' && store.view !== 'prologue') {
+        isAnimating = true;
+        requestAnimationFrame(animate);
+      }
     },
 
-    updateBackground(setName: string) {
+    async updateBackground(setName: string) {
       const container = document.getElementById('background-container');
-      if (!container) return;
+      const store = (window as any).Alpine.store('game');
+      if (!container || !store) return;
 
       const config = SET_CONFIG[setName] || { layers: 4 };
       const layerCount = config.layers;
       
-      // Use transition for smooth fade
+      // 1. Start Preloading in background
+      await store.preloader.preloadBackgroundSet(setName, layerCount);
+
+      // 2. Use transition for smooth fade
       container.style.opacity = '0.5';
       
       setTimeout(() => {

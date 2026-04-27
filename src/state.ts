@@ -30,6 +30,7 @@ export const initialState: any = {
   flags: {},
   npcProgress: {},
   activeBuffs: {},
+  activeProducers: [], // NEW
 
   // Lists
   upgrades: [],

@@ -1,6 +1,6 @@
 # Progression Tree: Your Earned Wings
 
-This document provides a detailed overview of the dependencies and unlock chains in Draconia, structured by chapters and systems, aligned with **Golden Master (Core 3.9)**.
+This document provides a detailed overview of the dependencies and unlock chains in Draconia, structured by chapters and systems, aligned with **Project Core 6.0 (Audit Hardened)**.
 
 ---
 
@@ -16,8 +16,8 @@ graph TD
     Start --> Hunter[NPC Hunter]
 
     Gather --> Campfire[Build Campfire]
-    Campfire --> FlowerGirl[NPC Flower Girl]
-    Campfire --> TentReq[Requirement for Tent]
+    Campfire --> FlowerGirl[Talking to Mina]
+    FlowerGirl --> PickFlowers[Unlock: Pick Flowers]
 ```
 
 ---
@@ -30,68 +30,39 @@ Focuses on shelter, resource storage, and the introduction of tools.
 graph TD
     Campfire --> Tent[Build Tent]
     Tent --> HomeTent[Home Tent]
-    
+
     Tent --> TownHall[NPC Town Hall]
     TownHall -- Rewards --> Deed[Permit: Land Deed]
-    
+
     Tent --> WoodStorage[Wood Storage]
     Tent --> StoneStorage[Stone Storage]
-    
-    WoodStorage --> Artisan[NPC Artisan]
-    StoneStorage --> Artisan
-    
-    Artisan --> Tools[Tools: Axe and Pickaxe]
-    Tools --> Yields[Increased Resource Yields]
+
+    WoodStorage & StoneStorage --> Artisan[NPC Artisan]
+
+    Artisan --> Axe[Craft: Axe]
+    Artisan --> Pickaxe[Craft: Pickaxe]
+
+    Pickaxe --> MineQuartz[Unlock: Mine Quartz]
+    Pickaxe --> DigClay[Unlock: Dig Clay]
 ```
 
 ---
 
 ## Chapter 3: Refinement and Knowledge
 
-Focuses on permanent housing, furniture, and advanced magic.
+Focuses on permanent housing, furniture, and advanced locations.
 
 ```mermaid
 graph TD
-    Tent[Build Tent]
-    TownHall[NPC Town Hall] -- Official Land Deed --> Deed[Permit: Land Deed]
-    
-    Tent & Deed --> House[Build House]
-    
-    House --> HomeHouse[Home House]
-    House --> Furniture[Basic Furniture]
-    House --> Table[Build Table]
-    House --> Kitchen[Addon Kitchen]
-    
-    Table --> Sage[NPC Ancient Sage]
-    Sage --> Bookshelf[Build Bookshelf]
-    
-    Table & House --> Sanctum[Addon Arcane Sanctum]
-    Sanctum --> Mages[NPCs Ellie and Aris]
-    Sanctum --> Meditate[Action Meditate]
-```
+    House[Build House] --> Kitchen[Addon Kitchen]
 
----
+    House --> LocalSage[NPC Sage]
+    Sage --> Library[Bookshelf & Desk]
 
-## Specialized Paths and Endgame
+    House --> Garden[Build Garden]
+    Garden --> Meadow[Meadow Gathering]
 
-Optional expansions and advanced housing.
-
-```mermaid
-graph TD
-    subgraph Nature_Path
-        BlueprintGarden[Blueprint Garden] --> Garden[Build Garden]
-        Garden --> UpgradeGarden[Garden Upgrade]
-    end
-
-    subgraph Advanced_Housing
-        BlueprintLake[Blueprint Lake House] --> LakeHouse[Build Lake House]
-        BlueprintTower[Blueprint Tower] --> Tower[Build Aura Tower]
-    end
-    
-    subgraph The_Ascent
-        Community[Max Community Bonds] --> TreeOfLife[The Tree of Life]
-        Wisdom[Max Wisdom] --> TreeOfLife
-    end
+    UpgradeGarden[Garden Upgrade] --> WhisperingGrove[Whispering Grove]
 ```
 
 ---
@@ -99,11 +70,12 @@ graph TD
 ## Minimum Standard Checklist
 
 Every new progression node added to the registries must follow this flow:
-1.  Requirement: Flags or Resource costs.
+
+1.  Requirement: Flags or Resource costs (Verified by `check-logic`).
 2.  Execution: Action definition in core.ts or construction.ts.
 3.  Unlock: onSuccess effects (setFlag, unlockRecipe, unlockNPC).
-4.  Feedback: Unique SFX and log entries.
+4.  Feedback: Unique SFX, Particle, and Recursive Log entry.
 
 ---
 
-Last updated: April 2026 · v3.9
+Last updated: April 2026 · v6.0 (Audit Hardened)

@@ -5,9 +5,11 @@
 }
 
 .nav-item {
+  margin-left: 1rem;   /* Force space from left edge */
+  margin-right: 1.2rem; /* Force space from right edge/scrollbar */
   padding: 0 1.25rem;
   height: 4.8rem;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1rem;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: var(--glass-blur);
   border: var(--glass-border);

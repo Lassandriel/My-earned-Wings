@@ -1,8 +1,8 @@
 # PROJECT ROADMAP - YOUR EARNED WINGS
 
-## Current Status: Phase 8+ (The Living World) - **IN PROGRESS**
+## Current Status: Phase 15 (Polishing & Expansion) - **IN PROGRESS**
 
-The internal architecture has reached "Draconia Core 3.9". We have transitioned to a fully modular TypeScript registry system, implemented a dynamic day/night cycle, and refined the narrative experience with a polished Story-Splash system.
+The internal architecture has reached "Project Core 6.0 (Audit Hardened)". We have achieved 100% TypeScript type safety, implemented high-precision Delta-Time resource accumulation, and established a global automated audit system.
 
 ---
 
@@ -11,56 +11,41 @@ The internal architecture has reached "Draconia Core 3.9". We have transitioned 
 ### Phase 1 - 5: Foundations & Community (Alpha/Beta)
 
 - [x] **Core Engine**: Implementation of Energy/Magic, resource gathering, and the "ValuePipeline".
-- [x] **Housing Foundations**: Campfire, Tent, Wood/Stone Storage, and the first permanent House.
-- [x] **Village Interactions**: Introduction of Baker, Flower Girl, Artisan, Teacher, and Hunter.
-- [x] **UX & Aesthetics**: Glassmorphism UI, smooth transitions, "Juice" effects, and bilingual support (DE/EN).
 - [x] **Registry Architecture**: Centralized definitions for all items, NPCs, and construction actions.
 
-### Phase 6 - 7: Data Mastery & TypeScript Ascension
+### Phase 6 - 9: Technical Ascension & World Building
 
-- [x] **Architecture Hardening**: 100% migration to TypeScript and modular registry files.
-- [x] **Economic Balancing**: Trade exploits resolved, resource limits adjusted, and production tickers unified.
-- [x] **Data Integrity**: Automated I18N validation and logic simulators (v2.5) for reaching game finales.
-- [x] **Documentation Sync**: GAMEDESIGN.md and PROGRESSION.md fully aligned with the Core 3.5+ engine.
-- [x] **Asset Optimization**: 100% migration to .webp (automated deep conversion) for all NPCs, backgrounds, and items.
+- [x] **Architecture Hardening**: 100% migration to TypeScript and modular registry files. (Core 6.0)
+- [x] **Asset Optimization**: 100% migration to .webp; implemented Asset Preloader system to eliminate UI flickering.
+- [x] **Precision Engine**: Migrated from time-interval ticks to a high-precision Delta-Time accumulator for resource yields.
+- [x] **Gating & Logistics**: Implemented gated progression for Mining and Flower Picking; resolved critical logic deadlocks.
+- [x] **World Expansion**: Added "Meadow" and "Whispering Grove" locations; integrated new resources (Flowers, Ghostwood, Glowpollen).
 
----
+### Phase 10 - 14: Quality & Auditing (The Great Cleanup)
 
-## 🌿 Phase 8: Production Balance & Polish (Active)
-
-- [x] **Logic Validation**: Implementation of `check-logic` and `check-all` for 100% game integrity.
-- [x] **Modifier Registry**: Decoupled internal logic modifiers (yields, limits) from visible resources.
-- [x] **The Living Background**: Integration of dynamic background sets with automatic cloud-drift animation.
-- [x] **Day/Night Cycle**: Synchronized background sets with a 10-minute global game time loop.
-- [x] **Narrative UX (Story Refresh)**: Clean empty-state splash screen for the Chronicle.
-- [x] **Housing Expansion**: "Haus am See" and "Aura-Turm" with dedicated storage/magic modifiers.
-- [x] **UI Polishing**: Subtile transitions, functional toast notification system, finalized magnetic hover effects, and integer-based math precision.
-- [x] **Localization 2.0**: 100% removal of hardcoded strings; full migration to centralized translation keys across all components.
-- [x] **Code Simplification & Refactoring**: Migrated complex Alpine.js view logic to centralized UI helper functions; optimized `ValuePipeline` by offloading balancing to registries.
-- [x] **Gameplay Redesign (Active Survival)**: Decoupled Satiation from passive time-drain; linked hunger directly to Energy and Magic consumption for a fairer player-driven experience.
-- [x] **Architectural Standardization**: Finalized Core Terminology (Glossary) and Tooltip Registry Standards; established "Zero Hardcoding" and "Registry-First" as mandatory development best practices.
-- [x] **Exploration System (Location-Based)**: Implemented dynamic location switching (Forest, Crystal Mine) with filtered action lists and NPC-gated progression; integrated minimalist text-based location navigation.
-- [x] **Logic Integrity (V2.6)**: Fully modernized `check-logic` script with real-time requirement simulation and non-boolean flag support; 100% reachability verified for all game content.
-- [x] **UI/UX Hardening (Contextual Separation)**: Implemented strict filtering for the main action list to exclusively show location-based gathering; decoupled story NPCs and construction addons into dedicated specialized tabs.
-- [x] **Progression Logic Refactoring**: Migrated core logic rules (path resolution, requirement checking) to a shared centralized utility, ensuring perfect alignment between game runtime and automated testing.
-- [x] **New Gathering Area (Meadow)**: Implementation of the "Wiese" location with a new dedicated resource (Flowers) and gathering loop; integrated with the bilingual localization system.
-- [x] **Registry-Category Synchronization**: Unified all gameplay entities (Furniture, Addons, Tools) with the GAMEDESIGN glossary; synchronized asset paths and registry categories.
-- [x] **Security Hardening**: Resolved CodeQL vulnerabilities; configured mandatory **Branch Protection** for the `main` branch to prevent accidental data loss and enforce code quality.
-- [x] **Automated Deployment**: Integrated GitHub Actions for seamless deployment to GitHub Pages on every push.
+- [x] **Full Logic Audit**: Resolved B-01 (Pickaxe), B-02 (Flower Girl), and B-03 (Engine Drift).
+- [x] **Comprehensive Bug-Hunt 2026**: Eradicated 12 deep codebase bugs including double resource drains, pipeline inconsistencies, infinite loops, and i18n recursion depth overflow.
+- [x] **Validation Suite**: Integration of `npm run check-all` for real-time logic and parity verification.
+- [x] **I18N Excellence**: Robust parameter recursion with max-depth guards and context fallback for NPC names and player data.
+- [x] **UI Hardening**: Resolved clipping issues in Forge/Vault panels and fixed sidebar regression.
 
 ---
 
 ## 🗺️ Future Horizons
 
-### Phase 9: Diplomacy & Reputation
+### Phase 15: Diplomacy & Reputation (Active)
 
-- [ ] **NPC Reputation System**: Deeper friendship levels with specific rewards and unique questlines.
+- [x] **Core Modularization**: Restructured `src/core/` into functional subdirectories (systems, services, events, visuals) for 10x better maintainability.
+- [x] **New Location (Whispering Grove)**: Added a magical forest area with unique resources (Ghostwood/Glowpollen).
+- [x] **UI Stability & Tooltip Polish**: Eliminated flickering and micro-jitters through architectural separation and mouse-event optimization.
+- [x] **Core Hardening & Deep Bug Hunt**: Fixed "Bonus-Killer" precision loss in Pipeline, implemented high-precision regeneration accumulator, and secured I18N parameter injection. (Phase 15.5 Audit)
+- [x] **Expanded Crafting**: Added Loom, Large Bookshelf, Writing Desk, and more.
+- [ ] **NPC Friendship System**: Deeper friendship levels with specific rewards and unique questlines.
 - [ ] **Town Hall Expansion**: Official work permits, village-wide decisions, and tax/contribution logic.
 - [ ] **Advanced Trading**: Reputation-gated markets and specialty items.
-- [ ] **Relationship Milestones**: Story-impactful decisions based on NPC bonds.
 
-### Phase 10: The Great Ascent
+### Phase 16: The Final Gateway
 
-- [ ] **Island Navigation**: Reaching the second floating island.
-- [ ] **Endgame Content**: Expanded story and sandbox expansion.
-- [ ] **Asset Completion**: Make custom character art and tool icons. -> Hire Artist.
+- [ ] **Island Navigation**: Reaching the second floating island via Airship or Magical Construct.
+- [ ] **The Great Transformation**: Converging all community bonds for the "Tree of Life" finale.
+- [ ] **Infinite Game Loop**: Mastery-based prestige system for post-game progression.

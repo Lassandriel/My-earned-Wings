@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { registries } from '../src/data/index';
-import { checkRequirement } from '../src/core/logicUtils';
+import { checkRequirement } from '../src/core/systems/logicUtils';
 
 let errors = 0;
 let warnings = 0;
@@ -201,7 +201,7 @@ const checkLogic = () => {
                 }
             });
         };
-        collectLimits(act.onSuccess);
+        collectLimits(act.onSuccess || []);
         if (act.steps) act.steps.forEach((s: any) => collectLimits(s.onSuccess));
         if (act.modifiers) act.modifiers.forEach((m: any) => {
             if (m.key.endsWith('_limit')) {

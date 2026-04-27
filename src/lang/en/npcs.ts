@@ -12,6 +12,8 @@ export default {
   npc_flowerGirl_5: '"Thorin needs someone like you, {player}. Tell him I sent you."',
   npc_flowerGirl_6:
     '"The shore is calling, {player}. I\'ve found a spot where the water-herbs grow best. Here, take this blueprint for a home by the lake."',
+  npc_flowerGirl_7:
+    '"You have helped me so much... I know a place, deep in the forest, that only a few can see. It is the Whispering Grove. Here, take this path. But be careful with the spirits there."',
   npc_artisan_1:
     '"I am Kael. Wood is the beginning of everything. A walking stick gives you support."',
   npc_artisan_2: '"Stone is patient, {player}. It shapes the world, step by step."',

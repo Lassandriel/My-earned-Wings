@@ -8,8 +8,8 @@
     <h3 x-text="$store.game.t('cat_upgrades')"></h3>
     <div
       class="nav-help-icon"
-      @mouseenter="$store.game.hoveredAction = { id: 'help', isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('cat_upgrades_desc') }"
-      @mouseleave="$store.game.hoveredAction = null"
+      @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('cat_upgrades_desc') })"
+      @mouseleave="$store.game.setHovered(null)"
     >
       ?
     </div>

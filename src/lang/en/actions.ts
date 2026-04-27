@@ -248,4 +248,48 @@ export default {
     desc: 'A stove with infinite arcane heat.',
   },
   'act-chisel': { title: 'Craft Chisel', effect: 'Enables finer craftsmanship.' },
+  'build-loom': {
+    title: 'Build Loom',
+    desc: 'Allows the production of fine fabrics.',
+  },
+  'build-bookshelf-large': {
+    title: 'Build Large Bookshelf',
+    desc: 'A massive shelf for a vast library.',
+  },
+  'build-desk': {
+    title: 'Build Writing Desk',
+    desc: 'A dedicated space for studying.',
+  },
+  'build-cart-reinforced': {
+    title: 'Build Reinforced Cart',
+    desc: 'An improved cart for heavy loads.',
+  },
+  'build-mana-basin': {
+    title: 'Build Mana Basin',
+    desc: 'A basin that channels the magic of nature.',
+  },
+  'build-terrace': {
+    title: 'Add Sun Terrace',
+    desc: 'A wonderful outdoor area for your house.',
+  },
+  'act-whisper-wood': {
+    title: 'Gather Ghostwood',
+    desc: 'Search for the silvery glow in the grove.',
+    effect: '+{val} Ghostwood',
+  },
+  'act-whisper-pollen': {
+    title: 'Catch Glowpollen',
+    desc: 'Collect the dancing lights.',
+    effect: '+{val} Glowpollen',
+  },
+  'act-dig-clay': {
+    title: 'Dig for Clay',
+    desc: 'Search the moist forest floor for usable clay.',
+    effect: '+{val} Clay',
+  },
+  'act-buy-iron-parts': {
+    title: 'Buy Iron Parts',
+    desc: 'Acquire high-quality iron fittings directly from the blacksmith.',
+    effect: '+1 Iron Parts',
+  },
 };

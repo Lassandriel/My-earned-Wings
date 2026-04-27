@@ -7,7 +7,10 @@
         :id="'nav-' + item.id"
         :class="$store.game.view === item.id && 'active'"
         @click="$store.game.view = item.id; $store.game.playSound('click')"
+        @keydown.enter="$store.game.view = item.id; $store.game.playSound('click')"
         :aria-label="$store.game.t('nav_to_prefix') + ' ' + $store.game.t(item.label)"
+        role="menuitem"
+        tabindex="0"
       >
         <img :src="'img/menu/menu_' + item.icon + '.webp'" :alt="$store.game.t(item.label)" class="menu-icon-img" />
         <span x-text="$store.game.t(item.label)"></span>

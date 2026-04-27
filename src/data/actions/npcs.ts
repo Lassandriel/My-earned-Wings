@@ -34,7 +34,7 @@ export const npcActions: Record<string, any> = {
     isStory: true,
     chapter: 'Village Life',
     progKey: 'flowerGirl',
-    maxProgress: 6,
+    maxProgress: 7,
     journalIcon: '🌸',
     icon: '🌸',
     journalColor: '#ec4899',
@@ -42,7 +42,10 @@ export const npcActions: Record<string, any> = {
       {
         cost: 5,
         costType: 'energy',
-        onSuccess: [{ type: 'modifyResource', resource: 'herbs', amount: 5 }],
+        onSuccess: [
+          { type: 'modifyResource', resource: 'herbs', amount: 5 },
+          { type: 'setFlag', flag: 'npc-flowerGirl-introduced', value: true }
+        ],
         dialogueKey: 'npc_flowerGirl_1',
       },
       {
@@ -73,6 +76,15 @@ export const npcActions: Record<string, any> = {
           { type: 'log', logKey: 'reward_blueprint_lake', color: 'var(--gold)' },
         ],
         dialogueKey: 'npc_flowerGirl_6',
+      },
+      {
+        costs: { herbs: 50 },
+        requirements: { 'flags.build-garden-upgrade': true },
+        onSuccess: [
+          { type: 'setFlag', flag: 'unlocked-whispering-grove', value: true },
+          { type: 'log', logKey: 'unlock_whisper_grove', color: 'var(--accent-teal)' },
+        ],
+        dialogueKey: 'npc_flowerGirl_7',
       },
     ],
     execute: (state: any) => {
@@ -341,15 +353,15 @@ export const npcActions: Record<string, any> = {
         onSuccess: [{ type: 'modifyResource', resource: 'magic', amount: 5 }],
         dialogueKey: 'npc_ellie_1',
       },
-      { cost: 15, costType: 'magic', onSuccess: [{ type: 'unlockRecipe', id: 'act-dream-bloom' }], dialogueKey: 'npc_ellie_3' },
-      { costs: { herbs: 5 }, reward: 'item-dream-dust', dialogueKey: 'npc_ellie_4' },
+      { cost: 15, costType: 'magic', onSuccess: [{ type: 'unlockRecipe', id: 'act-dream-bloom' }], dialogueKey: 'npc_ellie_2' },
+      { costs: { herbs: 5 }, reward: 'item-dream-dust', dialogueKey: 'npc_ellie_3' },
       {
         cost: 20,
         costType: 'magic',
         onSuccess: [{ type: 'modifyResource', resource: 'magic', amount: 15 }],
-        dialogueKey: 'npc_ellie_3',
+        dialogueKey: 'npc_ellie_4',
       },
-      { cost: 25, costType: 'magic', reward: 'item-wyvern-scale', dialogueKey: 'npc_ellie_2' },
+      { cost: 25, costType: 'magic', reward: 'item-wyvern-scale', dialogueKey: 'npc_ellie_4' },
     ],
     execute: (state: any) => {
       return state.npcExecute('act-npc-ellie');

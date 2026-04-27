@@ -1,4 +1,4 @@
-import { GameState, Registries, NPCId } from '../types/game';
+import { GameState, Registries, NPCId } from '../../types/game';
 
 /**
  * Content Service - TypeScript Edition

@@ -55,9 +55,33 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
   },
   garden_magic_cost: { 
     id: 'garden_magic_cost', 
-    title: 'garden_magic_cost_title', 
-    desc: 'garden_magic_cost_desc',
-    baseValue: 5
+    title: 'modifier_garden_magic_cost_title',
+    desc: 'modifier_garden_magic_cost_desc',
+    baseValue: 1,
+  },
+  ghostwood_yield: {
+    id: 'ghostwood_yield',
+    title: 'modifier_ghostwood_yield_title',
+    desc: 'modifier_ghostwood_yield_desc',
+    baseValue: 1,
+  },
+  glowpollen_yield: {
+    id: 'glowpollen_yield',
+    title: 'modifier_glowpollen_yield_title',
+    desc: 'modifier_glowpollen_yield_desc',
+    baseValue: 1,
+  },
+  magic_regen_passive: {
+    id: 'magic_regen_passive',
+    title: 'modifier_magic_regen_passive_title',
+    desc: 'modifier_magic_regen_passive_desc',
+    baseValue: 0,
+  },
+  study_efficiency: {
+    id: 'study_efficiency',
+    title: 'modifier_study_efficiency_title',
+    desc: 'modifier_study_efficiency_desc',
+    baseValue: 1,
   },
   energy_reg_bonus: {
     id: 'energy_reg_bonus',
@@ -89,5 +113,17 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
     title: 'arcane_focus_cost_title',
     desc: 'arcane_focus_cost_desc',
     baseValue: 3
-  }
+  },
+  fibers_yield: {
+    id: 'fibers_yield',
+    title: 'modifier_fibers_yield_title',
+    desc: 'modifier_fibers_yield_desc',
+    baseValue: 3
+  },
+  clay_yield: {
+    id: 'clay_yield',
+    title: 'modifier_clay_yield_title',
+    desc: 'modifier_clay_yield_desc',
+    baseValue: 2
+  },
 };

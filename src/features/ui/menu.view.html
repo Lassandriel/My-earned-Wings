@@ -15,23 +15,25 @@
         class="menu-btn primary"
         x-show="$store.game.hasSave"
         @click="$store.game.continueGame()"
+        :aria-label="$store.game.t('menu_continue')"
       >
         <span class="btn-glow"></span>
         <span x-text="$store.game.t('menu_continue')"></span>
       </button>
 
-      <button class="menu-btn" @click="$store.game.startNewGame()">
+      <button class="menu-btn" @click="$store.game.startNewGame()" :aria-label="$store.game.t('menu_new_game')">
         <span x-text="$store.game.t('menu_new_game')"></span>
       </button>
 
       <button
         class="menu-btn"
         @click="$store.game.settingsOpen = true; $store.game.playSound('click')"
+        :aria-label="$store.game.t('settings_title')"
       >
         <span x-text="$store.game.t('settings_title')"></span>
       </button>
 
-      <button class="menu-btn quit" @click="window.electronAPI?.quitApp()">
+      <button class="menu-btn quit" @click="window.electronAPI?.quitApp()" :aria-label="$store.game.t('btn_quit')">
         <span x-text="$store.game.t('btn_quit')"></span>
       </button>
     </div>
@@ -44,6 +46,5 @@
       target="_blank"
       class="footer-repo-link"
       x-text="'github.com/Lassandriel/My-earned-Wings'"></a>
-    >
   </div>
 </section>

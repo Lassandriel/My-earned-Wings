@@ -12,6 +12,12 @@ export type ResourceId =
   | 'shards'
   | 'herbs'
   | 'astral_shards'
+  | 'ghostwood'
+  | 'glowpollen'
+  | 'fibers'
+  | 'resin'
+  | 'iron_parts'
+  | 'clay'
   | 'meat'
   | 'water'
   | 'flowers'
@@ -22,9 +28,15 @@ export type ResourceId =
   | 'wood_yield'
   | 'stone_yield'
   | 'flowers_yield'
+  | 'fibers_yield'
+  | 'clay_yield'
+  | 'ghostwood_yield'
+  | 'glowpollen_yield'
   | 'rest_energy_gain'
   | 'eat_satiation_gain'
-  | 'garden_magic_cost';
+  | 'garden_magic_cost'
+  | 'magic_regen_passive'
+  | 'study_efficiency';
 
 export type FlagId =
   | 'build-campfire'
@@ -40,10 +52,20 @@ export type FlagId =
   | 'milestone-treeOfLife'
   | 'unlocked-mine'
   | 'unlocked-glade'
+  | 'unlocked-whispering-grove'
   | 'ability-arcane-focus'
   | 'item-axe'
   | 'item-pickaxe'
-  | 'item-bow';
+  | 'item-bow'
+  | 'build-loom'
+  | 'build-bookshelf-large'
+  | 'build-desk'
+  | 'build-cart-reinforced'
+  | 'build-mana-basin'
+  | 'build-terrace'
+  | 'blueprint-garden'
+  | 'blueprint-home-lake'
+  | 'blueprint-home-tower';
 
 export type ActionId = string;
 export type ItemId = string; 

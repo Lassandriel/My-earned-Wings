@@ -247,4 +247,48 @@ export default {
     desc: 'Ein Herd mit unendlicher arkaner Hitze.',
   },
   'act-chisel': { title: 'Meißel herstellen', effect: 'Ermöglicht feinere Handwerkskunst.' },
+  'build-loom': {
+    title: 'Webstuhl bauen',
+    desc: 'Ermöglicht die Herstellung feiner Stoffe.',
+  },
+  'build-bookshelf-large': {
+    title: 'Großes Bücherregal bauen',
+    desc: 'Ein massives Regal für eine riesige Bibliothek.',
+  },
+  'build-desk': {
+    title: 'Schreibpult bauen',
+    desc: 'Ein dedizierter Platz zum Studieren.',
+  },
+  'build-cart-reinforced': {
+    title: 'Verstärkten Karren bauen',
+    desc: 'Ein verbesserter Karren für schwere Lasten.',
+  },
+  'build-mana-basin': {
+    title: 'Mana-Bassin bauen',
+    desc: 'Ein Becken, das die Magie der Natur bündelt.',
+  },
+  'build-terrace': {
+    title: 'Sonnenterrasse anlegen',
+    desc: 'Ein herrlicher Außenbereich für dein Haus.',
+  },
+  'act-whisper-wood': {
+    title: 'Geisterholz sammeln',
+    desc: 'Suche nach dem silbrigen Leuchten im Hain.',
+    effect: '+{val} Geisterholz',
+  },
+  'act-whisper-pollen': {
+    title: 'Leuchtpollen fangen',
+    desc: 'Sammle die tanzenden Lichter ein.',
+    effect: '+{val} Leuchtpollen',
+  },
+  'act-dig-clay': {
+    title: 'Ton graben',
+    desc: 'Suche im feuchten Waldboden nach brauchbarem Ton.',
+    effect: '+{val} Ton',
+  },
+  'act-buy-iron-parts': {
+    title: 'Beschläge kaufen',
+    desc: 'Erhalte hochwertige Eisenbeschläge direkt vom Schmied.',
+    effect: '+1 Eisenbeschläge',
+  },
 };

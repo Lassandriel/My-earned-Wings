@@ -1,4 +1,4 @@
-import { GameState } from '../types/game';
+import { GameState } from '../../types/game';
 
 // Declare Alpine globally for TS
 declare const Alpine: any;

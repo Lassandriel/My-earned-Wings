@@ -68,6 +68,7 @@ export const NPC_REGISTRY: Record<string, NPCDefinition> = {
     progKey: 'blacksmith',
     maxProgress: 5,
     chapter: 'Village Life',
+    tradeActions: [{ id: 'act-buy-iron-parts', minProgress: 1 }],
   },
   'npc-sage': {
     id: 'npc-sage',

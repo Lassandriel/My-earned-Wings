@@ -9,8 +9,8 @@
     <template x-for="(buff, id) in $store.game.activeBuffs" :key="id">
       <div
         class="buff-badge"
-        @mouseover="$store.game.hoveredAction = { id: id, isBuff: true, title: buff.title, desc: buff.desc, remaining: buff.remaining }"
-        @mouseout="$store.game.hoveredAction = null"
+        @mouseenter="$store.game.setHovered(id, { isBuff: true, title: buff.title, desc: buff.desc, remaining: buff.remaining })"
+        @mouseleave="$store.game.setHovered(null)"
       >
         <div class="buff-glow"></div>
         <span class="buff-icon">✨</span>
@@ -50,21 +50,29 @@
       x-for="stat in $store.game.content.getCategorizedResources('vitality')"
       :key="stat.id"
     >
-      <div class="stat-row">
-        <span class="stat-name" :class="stat.id + '-label'">
+      <div class="stat-row" role="group" :aria-labelledby="'label-' + stat.id">
+        <span class="stat-name" :class="stat.id + '-label'" :id="'label-' + stat.id">
           <span x-text="$store.game.t('ui_' + stat.id)"></span>
         </span>
-        <div class="stat-bar-bg" :title="$store.game.t('ui_' + stat.id)">
+        <div 
+          class="stat-bar-bg" 
+          role="progressbar"
+          :aria-valuenow="$store.game.stats[stat.id] || 0"
+          aria-valuemin="0"
+          :aria-valuemax="$store.game['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100"
+          :aria-label="$store.game.t('ui_' + stat.id)"
+        >
           <div
             class="stat-bar-fill"
             :class="stat.id + '-fill'"
             :data-res="stat.id"
-            :style="'width:' + $store.game[stat.id + 'Percent'] + '%;'"
+            :style="'width:' + $store.game.ui.getStatPercent($store.game, stat.id) + '%;'"
           ></div>
         </div>
         <span
           class="stat-val"
-          x-text="Math.floor($store.game.stats[stat.id] || 0) + '/' + ($store.game['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"
+          x-text="$store.game.ui.formatNumber($store.game.stats[stat.id] || 0) + '/' + $store.game.ui.formatNumber($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"
+          aria-hidden="true"
         ></span>
       </div>
     </template>
@@ -86,20 +94,27 @@
             x-for="res in $store.game.content.getCategorizedResources(category)"
             :key="res.id"
           >
-            <div class="stat-row" x-show="$store.game.discoveredResources.includes(res.id)">
-              <span class="stat-name">
+            <div class="stat-row" x-show="$store.game.discoveredResources.includes(res.id)" role="group" :aria-labelledby="'label-' + res.id">
+              <span class="stat-name" :id="'label-' + res.id">
                 <span x-text="$store.game.t('ui_' + res.id)"></span>
               </span>
-              <div class="stat-bar-bg">
+              <div 
+                class="stat-bar-bg"
+                role="progressbar"
+                :aria-valuenow="Math.floor($store.game.resources[res.id])"
+                aria-valuemin="0"
+                :aria-valuemax="$store.game.limits[res.id] || 1"
+                :aria-label="$store.game.t('ui_' + res.id)"
+              >
                 <div
                   class="stat-bar-fill"
                   :data-res="res.id"
-                  :style="'width:' + Math.min(100, ($store.game.resources[res.id] / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color"
+                  :style="'width:' + Math.min(100, (($store.game.resources[res.id] || 0) / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color"
                 ></div>
               </div>
-              <span class="stat-val">
+              <span class="stat-val" aria-hidden="true">
                 <span
-                  x-text="Math.floor($store.game.resources[res.id]) + '/' + ($store.game.limits[res.id] || '∞')"
+                  x-text="$store.game.ui.formatNumber($store.game.resources[res.id] || 0) + '/' + ($store.game.limits[res.id] ? $store.game.ui.formatNumber($store.game.limits[res.id]) : '∞')"
                 ></span>
               </span>
             </div>

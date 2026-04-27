@@ -89,6 +89,54 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     initial: 0,
     initialLimit: 25,
   },
+  ghostwood: {
+    id: 'ghostwood',
+    type: 'resource',
+    category: 'materials',
+    color: '#94a3b8', // Slate/Ghostly grey
+    initial: 0,
+    initialLimit: 25,
+  },
+  glowpollen: {
+    id: 'glowpollen',
+    type: 'resource',
+    category: 'materials',
+    color: '#fbbf24', // Amber/Glowing
+    initial: 0,
+    initialLimit: 25,
+  },
+  fibers: {
+    id: 'fibers',
+    type: 'resource',
+    category: 'materials',
+    color: '#fde68a', // Light yellow for fibers
+    initial: 0,
+    initialLimit: 50,
+  },
+  resin: {
+    id: 'resin',
+    type: 'resource',
+    category: 'materials',
+    color: '#b45309', // Amber/Brown for resin
+    initial: 0,
+    initialLimit: 25,
+  },
+  iron_parts: {
+    id: 'iron_parts',
+    type: 'resource',
+    category: 'materials',
+    color: '#64748b', // Iron grey
+    initial: 0,
+    initialLimit: 25,
+  },
+  clay: {
+    id: 'clay',
+    type: 'resource',
+    category: 'materials',
+    color: '#a8a29e', // Clay/Earth
+    initial: 0,
+    initialLimit: 50,
+  },
 
   // --- PROVISIONS ---
   meat: {
