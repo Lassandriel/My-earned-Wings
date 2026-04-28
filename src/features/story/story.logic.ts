@@ -8,13 +8,14 @@ export const createStorySystem = () => ({
   /**
    * Records a chronicle entry.
    */
-  recordStoryEntry(store: GameState, id: string, action: any, textKey: string | null = null) {
+  recordStoryEntry(store: GameState, id: string, action: any, textKey: string | null = null, context: string = 'npcs') {
     const historyEntry = {
       id: id,
       npcId: action.npcId || null,
       timestamp: Date.now(),
       chapter: action.chapter || 'Chronicles',
       textKey: textKey,
+      context: context,
     };
 
     if (!(store as any).storyHistory) (store as any).storyHistory = [];

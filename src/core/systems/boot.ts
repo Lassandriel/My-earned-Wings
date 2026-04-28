@@ -15,7 +15,10 @@ export const createBootSystem = () => {
      */
     buildInitialState(baseState: any): GameState {
       // 1. Validate data integrity before building state
-      validator.validateRegistries(registries as any);
+      const auditOk = validator.validateRegistries(registries as any);
+      if (!auditOk) {
+        console.warn('[Bootstrapper] Registry audit failed! Some features may behave unexpectedly.');
+      }
 
       const state = JSON.parse(JSON.stringify(baseState));
 
@@ -53,15 +56,15 @@ export const createBootSystem = () => {
       console.log('[Bootstrapper] Starting system sequence...');
 
       // 1. Infrastructure first
-      const infraSystems = ['bus', 'i18n', 'persistence', 'settingsSystem'];
+      const infraSystems = ['bus', 'i18n', 'persistence', 'settingsSystem', 'logger'];
       this.execBoot(store, infraSystems);
 
-      // 2. Core Gameplay
-      const contentSystems = ['preloader', 'background', 'audio', 'ui'];
+      // 2. Core Content & Feedback
+      const contentSystems = ['preloader', 'background', 'audio', 'ui', 'juice', 'pipeline'];
       this.execBoot(store, contentSystems);
 
-      // 3. Logic & AI
-      const logicSystems = ['actions', 'npc', 'story', 'engine'];
+      // 3. Logic & Flow
+      const logicSystems = ['actions', 'npc', 'story', 'engine', 'item', 'housing', 'dialogue', 'ellie', 'viewManager'];
       this.execBoot(store, logicSystems);
 
       console.log('[Bootstrapper] System sequence complete.');

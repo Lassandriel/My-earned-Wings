@@ -1,4 +1,7 @@
 export default {
+  help: {
+    title: 'Help',
+  },
   'build-campfire': {
     title: 'Light Campfire',
     desc: 'Warmth in the dark. Increases satiation gain when eating.',

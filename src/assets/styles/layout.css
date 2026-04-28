@@ -1,8 +1,8 @@
 :root {
-  --sidebar-w: 16rem;
-  --log-w: 19rem;
-  --stats-w: 20rem;
-  --gap: 1.5rem;
+  --sidebar-w: 14rem;
+  --log-w: 18rem;
+  --stats-w: 18rem;
+  --gap: 1.25rem;
   --header-h: 5rem;
 }
 
@@ -12,7 +12,6 @@
   width: 100vw;
   height: 100vh;
   min-width: 1000px; /* Safe minimum for grid stability */
-  min-height: 600px;
   min-height: 600px;
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr var(--log-w) var(--stats-w);

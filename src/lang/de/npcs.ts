@@ -13,7 +13,7 @@ export default {
   npc_flowerGirl_4: '"Diese Schuppe... nimm sie, {player}. Sie gehört zum Äther."',
   npc_flowerGirl_5: '"Thorin braucht jemanden wie dich, {player}. Sag ihm, ich schicke dich."',
   npc_flowerGirl_6:
-    '"Wunderbar! Diese Kräuter werden dem Dorf im Winter helfen. Hier ist der Bauplan für das Haus am See, den ich versprochen habe."',
+    '"Wunderbar, {player}! Diese Kräuter werden dem Dorf im Winter helfen. Hier ist der Bauplan für das Haus am See, den ich versprochen habe."',
   npc_flowerGirl_7:
     '"Du hast mir so viel geholfen... Ich kenne einen Ort, tief im Wald, den nur wenige sehen können. Es ist der Flüsterhain. Hier, nimm diesen Pfad. Aber sei vorsichtig mit den Geistern dort."',
   npc_artisan_1: '"Ich bin Kael. Holz ist der Anfang von alles. Ein Wanderstock gibt dir Halt."',

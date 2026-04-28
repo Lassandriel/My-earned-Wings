@@ -39,6 +39,8 @@ The internal architecture has reached "Project Core 6.0 (Audit Hardened)". We ha
 - [x] **New Location (Whispering Grove)**: Added a magical forest area with unique resources (Ghostwood/Glowpollen).
 - [x] **UI Stability & Tooltip Polish**: Eliminated flickering and micro-jitters through architectural separation and mouse-event optimization.
 - [x] **Core Hardening & Deep Bug Hunt**: Fixed "Bonus-Killer" precision loss in Pipeline, implemented high-precision regeneration accumulator, and secured I18N parameter injection. (Phase 15.5 Audit)
+- [x] **System Stability & UI Refinement**: Resolved critical boot sequence omissions (Logger/Juice), fixed event log reactivity, eliminated UI panel overlaps on smaller resolutions, and finalized story chronicle integration with world-entry support.
+- [x] **Registry & Logic Audit**: Fixed NPC translation key casing (Mina), resolved dynamic stat capping issues (Energy/Magic limits), and optimized global validation script.
 - [x] **Expanded Crafting**: Added Loom, Large Bookshelf, Writing Desk, and more.
 - [ ] **NPC Friendship System**: Deeper friendship levels with specific rewards and unique questlines.
 - [ ] **Town Hall Expansion**: Official work permits, village-wide decisions, and tax/contribution logic.

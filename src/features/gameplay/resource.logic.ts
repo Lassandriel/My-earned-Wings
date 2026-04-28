@@ -97,8 +97,7 @@ export const createResourceSystem = () => {
           changed = true;
         }
       } else if (state.stats[type] !== undefined) {
-        const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
-        const max = state.stats[maxKey] || 100;
+        const max = this.getMaxStat(state, type as ResourceId);
         state.stats[type] = Math.min(max, state.stats[type] + amount);
         changed = true;
       } else if (state.resources[type as ResourceId] !== undefined) {
@@ -149,8 +148,8 @@ export const createResourceSystem = () => {
         return state.resources[type] >= (this.getLimit(state, type) || Infinity);
       }
       if (state.stats[type as string] !== undefined) {
-        const maxKey = 'max' + (type as string).charAt(0).toUpperCase() + (type as string).slice(1);
-        return (state.stats[type as string] || 0) >= (state.stats[maxKey] || 100);
+        const max = this.getMaxStat(state, type as ResourceId);
+        return (state.stats[type as string] || 0) >= max;
       }
       return false;
     },

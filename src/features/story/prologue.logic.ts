@@ -10,6 +10,7 @@ export const createPrologueSystem = () => ({
 
     // Log the very first sentence immediately
     state.addLog('intro_1', 'logs', 'var(--accent-teal)');
+    state.story.recordStoryEntry(state, 'intro_1', { chapter: 'The Beginning' }, 'intro_1', 'logs');
   },
 
   advancePrologue(state: GameState) {
@@ -18,7 +19,9 @@ export const createPrologueSystem = () => ({
 
     if (state.prologueStep < PROLOGUE_STEPS) {
       state.prologueStep++;
-      state.addLog(`intro_${state.prologueStep}`, 'logs', 'var(--accent-teal)');
+      const key = `intro_${state.prologueStep}`;
+      state.addLog(key, 'logs', 'var(--accent-teal)');
+      state.story.recordStoryEntry(state, key, { chapter: 'The Beginning' }, key, 'logs');
     } else {
       // Directly call the store proxy — no empty delegation needed
       (state as any).finishPrologue();
@@ -38,6 +41,8 @@ export const createPrologueSystem = () => ({
       if (!alreadyInLogs) {
         state.addLog(logKey, 'logs', 'var(--accent-teal)');
       }
+      // Always record to story history if skipping (to have the full chronicle)
+      state.story.recordStoryEntry(state, logKey, { chapter: 'The Beginning' }, logKey, 'logs');
     }
 
     (state as any).finishPrologue();

@@ -4,6 +4,7 @@
 export const villageActions: Record<string, any> = {
   'act-sell-wood': {
     id: 'act-sell-wood',
+    category: 'village',
     icon: '🪵',
     cost: 1,
     costType: 'wood',
@@ -17,6 +18,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-sell-stone': {
     id: 'act-sell-stone',
+    category: 'village',
     icon: '🪨',
     cost: 1,
     costType: 'stone',
@@ -30,6 +32,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-sell-meat': {
     id: 'act-sell-meat',
+    category: 'village',
     icon: '🥩',
     cost: 1,
     costType: 'meat',
@@ -43,6 +46,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-buy-meat': {
     id: 'act-buy-meat',
+    category: 'village',
     icon: '🛒',
     cost: 20,
     costType: 'shards',
@@ -54,6 +58,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-work': {
     id: 'act-work',
+    category: 'village',
     icon: '👷',
     cost: 30,
     costType: 'energy',
@@ -68,6 +73,7 @@ export const villageActions: Record<string, any> = {
   },
   'act-buy-iron-parts': {
     id: 'act-buy-iron-parts',
+    category: 'village',
     icon: '⚙️',
     cost: 50, // Higher cost because it's a crafted metal item
     costType: 'shards',

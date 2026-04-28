@@ -1,4 +1,11 @@
-import { GameState, GameModifier, ItemDefinition, ActionDefinition, FlagId, ModifierDefinition } from '../../types/game';
+import {
+  GameState,
+  GameModifier,
+  ItemDefinition,
+  ActionDefinition,
+  FlagId,
+  ModifierDefinition,
+} from '../../types/game';
 
 /**
  * Value Pipeline System - TypeScript Edition
@@ -14,7 +21,7 @@ export const createPipelineSystem = () => {
       if (satiation <= 15) return 0.4;
       // Linear interpolation between 0.4 (at 15%) and 1.3 (at 85%)
       return 0.4 + ((satiation - 15) / 70) * 0.9;
-    }
+    },
   };
 
   return {
@@ -35,7 +42,7 @@ export const createPipelineSystem = () => {
         if (m.mult) mult *= m.mult;
       });
 
-      const final = (base + add) * mult;
+      const final = Math.round((base + add) * mult);
 
       if (!isFinite(final) || isNaN(final)) {
         console.warn(`[PIPELINE] Invalid result for ${key}. Falling back to base.`, final);
@@ -60,31 +67,45 @@ export const createPipelineSystem = () => {
         const item = store.content.get<ItemDefinition>(flagId, 'items');
         if (item?.modifiers) {
           if (item.category !== 'furniture' || store.placedItems.includes(item.id)) {
-            item.modifiers.forEach(m => { if (m.key === key) mods.push(m); });
+            item.modifiers.forEach((m) => {
+              if (m.key === key) mods.push(m);
+            });
           }
         }
 
         // Check Actions/Buildings
         const action = store.content.get<ActionDefinition>(flagId, 'actions');
         if (action?.modifiers) {
-          action.modifiers.forEach(m => { if (m.key === key) mods.push(m); });
+          action.modifiers.forEach((m) => {
+            if (m.key === key) mods.push(m);
+          });
         }
       });
 
       // 2. DATA-DRIVEN: Active Home
       if (store.activeHome) {
         const home = store.content.get(store.activeHome, 'homes');
-        home?.modifiers?.forEach((m: GameModifier) => { if (m.key === key) mods.push(m); });
+        home?.modifiers?.forEach((m: GameModifier) => {
+          if (m.key === key) mods.push(m);
+        });
       }
 
       // 3. DATA-DRIVEN: Buffs
       Object.values(store.activeBuffs || {}).forEach((buff: any) => {
         const buffDef = store.content.get(buff.id, 'buffs');
-        buffDef?.modifiers?.forEach((m: GameModifier) => { if (m.key === key) mods.push(m); });
+        buffDef?.modifiers?.forEach((m: GameModifier) => {
+          if (m.key === key) mods.push(m);
+        });
       });
 
       // 4. LOGIC-DRIVEN: Satiation Efficiency
-      const efficiencyKeys = ['resource_efficiency', 'wood_yield', 'stone_yield', 'meat_yield', 'shards_yield'];
+      const efficiencyKeys = [
+        'resource_efficiency',
+        'wood_yield',
+        'stone_yield',
+        'meat_yield',
+        'shards_yield',
+      ];
       if (efficiencyKeys.includes(key)) {
         mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
       }

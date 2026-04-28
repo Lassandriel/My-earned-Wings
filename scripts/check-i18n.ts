@@ -22,7 +22,7 @@ let orphanWarnings: string[] = [];
 // Dynamic prefixes used in code like t('ui_' + resId)
 const DYNAMIC_PREFIXES = [
     'intro_', 'ellie_tutorial_', 'fail_full_', 'fail_', 'npc_', 
-    'ui_', 'act-', 'log_', 'cat_', 'nav_', 'btn_', 'home_', 'settings_'
+    'ui_', 'act-', 'log_', 'cat_', 'nav_', 'btn_', 'home_', 'settings_', 'loc_'
 ];
 
 const addMissing = (label: string, lang: string) => {

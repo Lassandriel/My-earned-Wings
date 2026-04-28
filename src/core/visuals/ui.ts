@@ -354,6 +354,20 @@ export const createUISystem = () => {
       return !!((step && (step.costs || step.cost)) || h.data.cost || h.data.costs);
     },
 
+    getDiscoveredItemsByCategory(store: GameState, category: string): string[] {
+      const uniqueIds = Array.from(new Set(store.discoveredItems));
+      if (category === 'all') return uniqueIds;
+      return uniqueIds.filter(id => {
+        const item = store.content.get(id, 'items');
+        return item && item.category === category;
+      });
+    },
+
+    getSelectedItemData(store: GameState): any {
+      if (!store.selectedItem) return null;
+      return store.content.get(store.selectedItem, 'items') || null;
+    },
+
     initMagneticHover() {
       const updateRef = (el: HTMLElement, x: string, y: string) => {
         el.style.setProperty('--m-x', x);

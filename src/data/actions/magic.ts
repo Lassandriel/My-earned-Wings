@@ -4,6 +4,7 @@
 export const magicActions: Record<string, any> = {
   'act-dream-bloom': {
     id: 'act-dream-bloom',
+    category: 'magic',
     icon: '🌀',
     cost: 15,
     costType: 'magic',
@@ -24,6 +25,7 @@ export const magicActions: Record<string, any> = {
   },
   'act-meditate': {
     id: 'act-meditate',
+    category: 'magic',
     icon: '🧘',
     duration: 10000,
     costType: 'magic',
@@ -39,6 +41,7 @@ export const magicActions: Record<string, any> = {
   },
   'act-spell-harvest': {
     id: 'act-spell-harvest',
+    category: 'magic',
     icon: '🌿',
     costType: 'mixed',
     costs: { astral_shards: 1, magic: 20 },

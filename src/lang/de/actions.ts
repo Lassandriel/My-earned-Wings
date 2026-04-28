@@ -1,4 +1,7 @@
 export default {
+  help: {
+    title: 'Hilfe',
+  },
   'build-campfire': {
     title: 'Lagerfeuer entzünden',
     desc: 'Wärme in der Dunkelheit. Erhöht die Sättigung beim Essen.',

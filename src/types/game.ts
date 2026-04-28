@@ -134,8 +134,9 @@ export interface GameState {
     recordStoryEntry: (
       game: GameState,
       id: string,
-      action: ActionDefinition,
-      dialogueText: string | null
+      action: any,
+      dialogueText: string | null,
+      context?: string
     ) => void;
     getGroupedHistory: (game: GameState) => any;
   };

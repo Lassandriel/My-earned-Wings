@@ -115,7 +115,7 @@ const checkAll = () => {
     const STR_REGEX = /['"]([a-zA-Z0-9_\-\.]{3,})['"]/g;
     const DYNAMIC_PREFIXES = [
         'intro_', 'ellie_tutorial_', 'fail_full_', 'fail_', 'npc_', 
-        'ui_', 'act-', 'log_', 'cat_', 'nav_', 'btn_', 'home_', 'settings_'
+        'ui_', 'act-', 'log_', 'cat_', 'nav_', 'btn_', 'home_', 'settings_', 'loc_'
     ];
     // mapKey → { context, key, files[] }
     const sourceKeys = new Map<string, { ctx: string | undefined; key: string; files: string[] }>();
@@ -216,10 +216,10 @@ const checkAll = () => {
     console.log(`${results.unused.success ? '✅' : '⚠️'} UNUSED       : ${results.unused.success ? 'None' : results.unused.errors.length + ' found'}`);
     console.log("-----------------------------------------");
 
-    if (!results.i18n.success || !results.assets.success || !results.logic.success) {
-        console.log("\n⚠️  ERROR DETAILS:");
-        [...results.i18n.errors, ...results.assets.errors, ...results.logic.errors].forEach(e => console.log(`  - ${e}`));
-        process.exit(1);
+    if (!results.i18n.success || !results.assets.success || !results.logic.success || !results.unused.success) {
+        console.log("\n⚠️  ISSUE DETAILS:");
+        [...results.i18n.errors, ...results.assets.errors, ...results.logic.errors, ...results.unused.errors].forEach(e => console.log(`  - ${e}`));
+        if (!results.i18n.success || !results.assets.success || !results.logic.success) process.exit(1);
     } else {
         if (!results.unused.success) {
             console.log(`\n💡 Detected ${results.unused.errors.length} unused items. Some might be leftovers.`);

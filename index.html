@@ -53,9 +53,11 @@
             <p x-html="$store.game.t('ellie_tutorial_1', 'logs')"></p>
             <p x-html="$store.game.t('ellie_tutorial_2', 'logs')"></p>
             <p x-html="$store.game.t('ellie_tutorial_3', 'logs')"></p>
-            <button class="game-btn btn-small" @click="$store.game.ellie.close($store.game)">
-              Schließen
-            </button>
+            <button
+              class="game-btn btn-small"
+              @click="$store.game.ellie.close($store.game)"
+              x-text="$store.game.t('btn_close')"
+            ></button>
           </div>
         </div>
       </div>

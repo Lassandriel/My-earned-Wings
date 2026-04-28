@@ -122,7 +122,7 @@ const gameStore: any = {
   get settings() { return Alpine.store('settings'); },
 
   init() {
-    const store = Alpine.store('game') as unknown as GameState;
+    const store = this as any as GameState;
 
     // 1. Boot Sequence
     store.bootstrapper.bootSystems(store);
@@ -226,4 +226,7 @@ Alpine.store('settings', {
 });
 
 Alpine.store('game', gameStore);
-Alpine.start();
+
+document.addEventListener('DOMContentLoaded', () => {
+  Alpine.start();
+});

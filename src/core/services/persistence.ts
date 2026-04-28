@@ -183,7 +183,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         const data = JSON.parse(saved);
         if (data.language) store.language = data.language;
         if (data.settings) {
-          (store as any).settings = { ...(store as any).settings, ...data.settings };
+          Object.assign((store as any).settings, data.settings);
         }
         store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
         return true;

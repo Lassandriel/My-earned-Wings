@@ -59,7 +59,7 @@
               ></span>
             </div>
             <div class="archive-entry-body">
-              <div class="archive-entry-text" x-html="$store.game.language && (entry.textKey ? $store.game.t(entry.textKey, 'npcs') : '')"></div>
+              <div class="archive-entry-text" x-html="$store.game.language && (entry.textKey ? $store.game.t(entry.textKey, entry.context || 'npcs') : '')"></div>
             </div>
           </div>
         </template>

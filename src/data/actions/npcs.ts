@@ -5,6 +5,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-baker': {
     id: 'act-npc-baker',
     npcId: 'npc-baker',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'baker',
@@ -31,6 +32,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-flowerGirl': {
     id: 'act-npc-flowerGirl',
     npcId: 'npc-flowerGirl',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'flowerGirl',
@@ -94,6 +96,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-artisan': {
     id: 'act-npc-artisan',
     npcId: 'npc-artisan',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'artisan',
@@ -130,6 +133,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-teacher': {
     id: 'act-npc-teacher',
     npcId: 'npc-teacher',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'teacher',
@@ -171,6 +175,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-townHall': {
     id: 'act-npc-townHall',
     npcId: 'npc-townHall',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'townHall',
@@ -211,6 +216,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-blacksmith': {
     id: 'act-npc-blacksmith',
     npcId: 'npc-blacksmith',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'blacksmith',
@@ -251,6 +257,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-sage': {
     id: 'act-npc-sage',
     npcId: 'npc-sage',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'sage',
@@ -292,6 +299,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-hunter': {
     id: 'act-npc-hunter',
     npcId: 'npc-hunter',
+    category: 'npc',
     isStory: true,
     chapter: 'Village Life',
     progKey: 'hunter',
@@ -320,6 +328,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-treeOfLife': {
     id: 'act-npc-treeOfLife',
     npcId: 'npc-treeOfLife',
+    category: 'npc',
     isStory: true,
     chapter: 'The Transformation',
     progKey: 'treeOfLife',
@@ -339,6 +348,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-ellie': {
     id: 'act-npc-ellie',
     npcId: 'npc-ellie',
+    category: 'npc',
     isStory: true,
     chapter: 'The Dream',
     progKey: 'ellie',
@@ -370,6 +380,7 @@ export const npcActions: Record<string, any> = {
   'act-npc-aris': {
     id: 'act-npc-aris',
     npcId: 'npc-aris',
+    category: 'npc',
     isStory: true,
     chapter: 'The Dream',
     progKey: 'aris',
