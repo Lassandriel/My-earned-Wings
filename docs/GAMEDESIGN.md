@@ -1,91 +1,36 @@
-# Game Design Document: Your Earned Wings
+# GAME DESIGN DOCUMENT - MY-EARNED-WINGS
 
-**Status:** v6.0 — Precision & Audit Release (Project Core 6.0)
-**Aesthetics:** Survival · Somber Cozy · High Fantasy
+## 1. Vision & Core Concept
+`My-earned-Wings` is an atmospheric, narrative-driven incremental simulation. The player takes the role of a wingless wanderer in a world of flying beings (Draconia). The focus lies on "Grounded Survival", community building, and uncovering the mystery of one's own origin.
 
----
+## 2. Technical Pillars (v1.1.0-stable)
+- **Engine**: 1s Heartbeat Ticks with 100ms High-Frequency Task Tickers.
+- **Precision**: Delta-Time Accumulator to prevent resource loss.
+- **UI**: Alpine.js + Vanilla CSS (Glassmorphism design).
+- **Data**: Registry-first architecture (Actions, Resources, NPCs, Items).
 
-## 1. Vision Statement
+## 3. Core Mechanics
 
-> _While the villagers inhabit the sky, you find your strength on and in the solid ground._
+### 3.1 Vitality & Resources
+- **Energy**: Primary resource for physical labor.
+- **Magic**: Required for arcane research and automation.
+- **Satiation**: An active drain system. It only decreases when the player actively spends Energy or Magic. Higher hunger increases resource costs.
+- **Soul Shards**: The primary currency earned through work.
 
-**Your Earned Wings** is an atmospheric simulation about slowing down and identity. A wingless character builds a life on the edge of a village of "Winged" beings through crafting, knowledge, and community.
+### 3.2 The Progression Loop
+- **Gathering**: Manual collection of base materials (Wood, Stone, Herbs).
+- **Construction**: Building structures (Campfire, Tent, House) and addons (Wood Storage, Kitchen).
+- **NPC Bonds**: Advancing storylines with village inhabitants to unlock new locations and blueprints.
+- **Arcane Focus**: Background automation that consumes Magic to repeat actions.
 
----
+## 4. World Hierarchy
+- **The Ground**: Starting area (Forest, Mine, Meadow).
+- **The Village**: Social hub and trade center.
+- **The Home**: The player's base, expandable with addons like the **Kitchen** and the **Arcane Sanctum** (Magic hub).
+- **The Tree of Life**: The final milestone of the current demo.
 
-## 2. Gameplay Mechanics
-
-### 2.1 Resources
-
-| Resource          | Acquisition          | Use                            |
-| ----------------- | -------------------- | ------------------------------ |
-| **Wood**          | Gathering / Chopping | Construction & Crafting        |
-| **Stone**         | Gathering / Mining   | Construction & Crafting        |
-| **Meat**          | Hunting              | Food & Trading                 |
-| **Shards**        | Trading / Working    | Currency                       |
-| **Astral Shards** | Meditation (Sanctum) | Advanced Artifacts & Infusions |
-
-### 2.2 Survival Stats & Magic
-
-- **No Passive Regeneration**: Energy and Magic must be managed through active rest, meditation, and food.
-- **Active Satiation Drain**: Satiation does **NOT** drain passively over time. It only decreases when **Energy** or **Magic** is consumed (Ratio: 10% of cost).
-- **Malus**: Satiation < 20% increases Energy/Magic costs. No satiation is drained during rest.
-- **Study**: Permanently increases the magic limit. Requires a **Sturdy Table**.
-
-### 2.3 NPC & Community
-
-- **Story Progression**: Deepening bonds with inhabitants like **Mina** or **Aris** is required for the finale.
-- **Decentralized Market**: Trades occur on character cards (e.g., Blacksmith sells Iron Parts).
-- **Unlocks**: Key actions are gated behind reputation or specific story milestones.
-
-### 2.4 Construction & Capacity
-
-- **Registry-First**: Every furniture, addon, or tool is defined in a central registry.
-- **The House**: Unlocks advanced upgrades (Kitchen, Sanctum, Garden) and sets the stage for the Aura Tower.
-
-### 2.5 Automation: Arcane Focus
-
-- **High-Precision Engine**: Automation uses a **Delta-Time Accumulator** to ensure zero resource loss.
-- **Efficiency**: Consumes Magic per second to replace Energy costs of loopable actions.
+## 5. Narrative Direction
+The story is told through environmental cues and NPC dialogues. The theme of "Weight and Ascent" is central. Progression is marked by **Titles** and **Milestones** rather than traditional levels, emphasizing the unique nature of the protagonist.
 
 ---
-
-## 3. UI & UX
-
-- **Aesthetics**: Premium Glassmorphism with vibrant accent colors and magnetic hover effects.
-- **Responsive Design**: Fixed layouts ensure no clipping on wide screens or tablet viewports.
-- **Feedback**: Dynamic particle effects and serialized audit-compliant logs.
-
----
-
-## 4. Technical Design
-
-- **Engine**: Project Core 6.0 (The Audit Release).
-- **Language**: 100% Strict TypeScript for all core systems and registries.
-- **Persistence**: LZW-compressed save games for high-efficiency storage.
-- **Reliability**: Automated Global Audit System for 100% logic and parity integrity.
-
----
-
-## 5. Core Terminology (Glossary)
-
-| Entity        | Definition                                 | Obtainable via      | Usable in Tab |
-| :------------ | :----------------------------------------- | :------------------ | :------------ |
-| **Items**     | Objects and consumables.                   | Gathering / Cooking | Inventory     |
-| **Tools**     | Permanent passive modifiers.               | Workshop            | Passive       |
-| **Housing**   | Primary residences and base structures.    | Workshop / Story    | Housing       |
-| **Addons**    | Extensions like Kitchens or Sanctums.      | Workshop / Story    | Passive       |
-| **Furniture** | Objects providing bonuses or new features. | Workshop            | Housing       |
-
----
-
-## 6. Development Best Practices
-
-1. **Zero Hardcoding**: Use `t(key)` for all text; support recursive parameter resolution.
-2. **Registry-First**: Engine remains content-agnostic; all rules live in registries.
-3. **Logic Integrity**: All changes must pass `npm run check-all` (unreachable flag detection).
-4. **Precision-First**: Use `deltaTime` for all production and cost calculations.
-
----
-
-Last updated: April 2026 · v6.0 - Precision & Audit Update
+Status: v1.1.0-stable · April 2026
