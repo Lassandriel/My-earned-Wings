@@ -45,7 +45,7 @@ export const NPC_REGISTRY: Record<string, NPCDefinition> = {
     color: '#3b82f6',
     image: 'img/npcs/teacher.webp',
     progKey: 'teacher',
-    maxProgress: 6,
+    maxProgress: 10,
     chapter: 'Village Life',
     unlockedAtStart: true,
   },

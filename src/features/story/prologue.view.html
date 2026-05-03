@@ -6,20 +6,22 @@
   @click="$store.game.prologue.advancePrologue($store.game)"
   style="cursor: pointer"
 >
+  <div class="prologue-bg"></div>
+
   <!-- Image Backgrounds -->
-  <div class="prologue-images">
+  <div class="prologue-images" @click="$store.game.prologue.advancePrologue($store.game)">
     <img
-      src="img/prologue/LM_islands.webp"
+      src="/img/prologue/LM_islands.webp"
       class="pro-img"
       :class="{ 'active': [1,2].includes($store.game.prologueStep) }"
     />
     <img
-      src="img/prologue/LM_Luxana.webp"
+      src="/img/prologue/LM_Luxana.webp"
       class="pro-img"
       :class="{ 'active': [3,4,5].includes($store.game.prologueStep) }"
     />
     <img
-      src="img/prologue/LM_Dorf.webp"
+      src="/img/prologue/LM_Dorf.webp"
       class="pro-img"
       :class="{ 'active': [6,7].includes($store.game.prologueStep) }"
     />

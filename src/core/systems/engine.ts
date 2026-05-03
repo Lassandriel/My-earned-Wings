@@ -85,7 +85,7 @@ export function createEngineSystem(): Engine {
 
         this.checkMilestones(store);
         store.saveGame();
-      }, 30000);
+      }, 5000);
 
       console.log('[ENGINE] Core initialized.');
     },

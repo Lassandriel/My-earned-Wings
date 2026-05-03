@@ -70,4 +70,7 @@ export default {
   item_terrace_title: 'Sonnenterrasse',
   item_terrace_desc: 'Ein Ort der Ruhe und Regeneration.',
   item_clay_title: 'Feuchter Ton',
+  res_study_xp: 'Wissen',
+  item_rune_fragment_title: 'Runenfragment',
+  item_rune_fragment_desc: 'Ein Stückchen erstarrte Magie, voller verborgenem Wissen.',
 };

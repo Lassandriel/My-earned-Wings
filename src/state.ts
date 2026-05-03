@@ -27,7 +27,14 @@ export const initialState: any = {
   resources: {},
   limits: {},
   stats: {},
-  flags: {},
+  flags: {
+    school_unlocked: false,
+    school_graduate: false,
+    vandara_unlocked: false,
+    academy_phase_1: false,
+    academy_phase_2: false,
+    academy_graduate: false,
+  },
   npcProgress: {},
   activeBuffs: {},
   activeProducers: [], // NEW
@@ -67,6 +74,7 @@ export const initialState: any = {
     study: 0,
   },
 
+  academy_path: null, // 'solen' | 'bram' | 'lyra'
   activeTasks: {},
   demoCompleted: false,
   demoCompletedHintSeen: false,

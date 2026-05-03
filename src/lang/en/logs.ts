@@ -157,8 +157,12 @@ export default {
   milestone_sanctum: 'The Arcane Sanctum has been erected.',
   milestone_garden: 'The garden has been laid out and is ready for sowing.',
   milestone_garden_upgrade: 'The garden has been expanded with a second bed.',
-  milestone_tree_of_life: 'The Tree of Life flourishes.',
+  milestone_treeOfLife: 'The Tree of Life flourishes.',
   milestone_house: 'The house stands firm – a monument to your will.',
   milestone_lake_house: 'The Lake House sparkles in the morning sun.',
   milestone_aura_tower: 'The Aura Tower pierces the cloud cover of Draconia.',
+  school_graduate_log: 'You have received your school diploma. Elara smiles proudly.',
+  vandara_phase1_log: 'The first phase of your course in Vandara is complete.',
+  vandara_phase2_log: 'You are getting closer to the master title. Phase 2 finished.',
+  vandara_graduate_log: 'You have graduated from the Academy of Vandara. Your destiny is sealed.',
 };

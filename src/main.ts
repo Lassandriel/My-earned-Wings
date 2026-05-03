@@ -153,65 +153,60 @@ const gameStore: any = {
     store.view = 'menu';
   },
 
-  // --- DELEGATES ---
-  startNewGame() { this.viewManager.startNewGame(this, () => bootSystem.buildInitialState(initialState)); },
-  continueGame() { this.viewManager.continueGame(this); },
-  finishPrologue() { this.viewManager.finishPrologue(this); },
-  confirmName(n: string) { this.viewManager.confirmName(this, n); },
-  resolveConfirm(c: boolean) { this.viewManager.resolveConfirm(this, c); },
+  // --- DELEGATES (Using explicit gameStore reference for stability) ---
+  startNewGame() { gameStore.viewManager.startNewGame(gameStore, () => bootSystem.buildInitialState(initialState)); },
+  continueGame() { gameStore.viewManager.continueGame(gameStore); },
+  finishPrologue() { gameStore.viewManager.finishPrologue(gameStore); },
+  confirmName(n: string) { gameStore.viewManager.confirmName(gameStore, n); },
+  resolveConfirm(c: boolean) { gameStore.viewManager.resolveConfirm(gameStore, c); },
 
-  executeAction(id: string) { return this.actions.execute(this, id); },
-  isTaskActive(id: string) { return !!this.activeTasks[id]; },
-  attemptAction(el: HTMLElement, id: string) { return this.actions.attemptAction(this, el, id as any); },
-  toggleFocus(id: string) { this.actions.toggleFocus(this, id as any); },
-  npcExecute(id: string) { return this.npc.execute(this, id); },
-  toggleFurniture(id: string) { this.housing.toggleFurniture(this, id); },
-  consumeItem(id: string) { return this.item.consumeItem(this, id); },
+  executeAction(id: string) { return gameStore.actions.execute(gameStore, id); },
+  isTaskActive(id: string) { return !!gameStore.activeTasks[id]; },
+  attemptAction(el: HTMLElement, id: string) { return gameStore.actions.attemptAction(gameStore, el, id as any); },
+  toggleFocus(id: string) { gameStore.actions.toggleFocus(gameStore, id as any); },
+  npcExecute(id: string) { return gameStore.npc.execute(gameStore, id); },
+  toggleFurniture(id: string) { gameStore.housing.toggleFurniture(gameStore, id); },
+  consumeItem(id: string) { return gameStore.item.consumeItem(gameStore, id); },
 
-  saveGame(isManual = false) { this.bus.emit(this.EVENTS.SAVE_REQUESTED, { isManual }); },
-  loadGame() { return this.persistence.loadGame(this); },
-  setLanguage(l: string) { this.settingsSystem.setLanguage(this, l); },
-  hardReset() { this.viewManager.hardReset(this); },
-  returnToMenu() { this.viewManager.returnToMenu(this); },
-  applyCheats() { this.settingsSystem.applyCheats(this); },
+  saveGame(isManual = false) { gameStore.bus.emit(gameStore.EVENTS.SAVE_REQUESTED, { isManual }); },
+  loadGame() { return gameStore.persistence.loadGame(gameStore); },
+  setLanguage(l: string) { gameStore.settingsSystem.setLanguage(gameStore, l); },
+  hardReset() { gameStore.viewManager.hardReset(gameStore); },
+  returnToMenu() { gameStore.viewManager.returnToMenu(gameStore); },
+  applyCheats() { gameStore.settingsSystem.applyCheats(gameStore); },
 
-  t(k: string, c = 'ui', p = {}) { return this.i18n.t(this, k, c, p); },
-  playSound(k: string) { this.bus.emit(this.EVENTS.SOUND_TRIGGERED, { key: k }); },
+  t(k: string, c = 'ui', p = {}) { return gameStore.i18n.t(gameStore, k, c, p); },
+  playSound(k: string) { gameStore.bus.emit(gameStore.EVENTS.SOUND_TRIGGERED, { key: k }); },
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {
-    this.bus.emit(this.EVENTS.LOG_ADDED, { id, context: c, color: col, params: p });
+    gameStore.bus.emit(gameStore.EVENTS.LOG_ADDED, { id, context: c, color: col, params: p });
   },
 
-  completeDemo() { this.viewManager.completeDemo(this); },
+  completeDemo() { gameStore.viewManager.completeDemo(gameStore); },
 
   // --- UI GETTERS ---
-  getActionEffect(h: any) { return this.ui.getActionEffect(this, h); },
-  getTooltipCosts(h: any) { return this.ui.getTooltipCosts(this, h); },
+  getActionEffect(h: any) { return gameStore.ui.getActionEffect(gameStore, h); },
+  getTooltipCosts(h: any) { return gameStore.ui.getTooltipCosts(gameStore, h); },
   setHovered(id: string | null, extra: any = null) {
-    // 1. Double-hover guard: Don't re-trigger if it's the same ID
-    if (id && this.hoveredAction?.id === id) return;
-    
-    // 2. Set the data
-    this.hoveredAction = !id ? null : (extra ? { id, ...extra } : { id, data: this.content.get(id) });
-    
-    // 3. Immediate positioning
+    if (id && gameStore.hoveredAction?.id === id) return;
+    gameStore.hoveredAction = !id ? null : (extra ? { id, ...extra } : { id, data: gameStore.content.get(id) });
     if (id) {
-      this.ui.reposition(this.lastMouseX, this.lastMouseY);
+      gameStore.ui.reposition(gameStore.lastMouseX, gameStore.lastMouseY);
     }
   },
   
-  getUsedFurnitureSpace() { return this.housing.getUsedFurnitureSpace(this); },
-  getHomeCapacity() { return this.housing.getHomeCapacity(this); },
-  get energyPercent() { return this.resource.getStatPercent(this, 'energy'); },
-  get magicPercent() { return this.resource.getStatPercent(this, 'magic'); },
-  get satiationPercent() { return this.resource.getStatPercent(this, 'satiation'); },
-  get maxEnergy() { return this.resource.getMaxStat(this, 'energy'); },
-  get maxMagic() { return this.resource.getMaxStat(this, 'magic'); },
-  get maxSatiation() { return this.resource.getMaxStat(this, 'satiation'); },
+  getUsedFurnitureSpace() { return gameStore.housing.getUsedFurnitureSpace(gameStore); },
+  getHomeCapacity() { return gameStore.housing.getHomeCapacity(gameStore); },
+  get energyPercent() { return gameStore.resource.getStatPercent(gameStore, 'energy'); },
+  get magicPercent() { return gameStore.resource.getStatPercent(gameStore, 'magic'); },
+  get satiationPercent() { return gameStore.resource.getStatPercent(gameStore, 'satiation'); },
+  get maxEnergy() { return gameStore.resource.getMaxStat(gameStore, 'energy'); },
+  get maxMagic() { return gameStore.resource.getMaxStat(gameStore, 'magic'); },
+  get maxSatiation() { return gameStore.resource.getMaxStat(gameStore, 'satiation'); },
 
-  get canAccessTreeOfLife() { return this.npc.canAccessTreeOfLife(this); },
-  get groupedHistory() { return this.story.getGroupedHistory(this); },
-  get availableFurniture() { return this.housing.getAvailableFurniture(this); },
-  get placedFurnitureList() { return this.housing.getPlacedFurnitureList(this); },
+  get canAccessTreeOfLife() { return gameStore.npc.canAccessTreeOfLife(gameStore); },
+  get groupedHistory() { return gameStore.story.getGroupedHistory(gameStore); },
+  get availableFurniture() { return gameStore.housing.getAvailableFurniture(gameStore); },
+  get placedFurnitureList() { return gameStore.housing.getPlacedFurnitureList(gameStore); },
 };
 
 // --- ALPINE STORES ---
@@ -219,10 +214,10 @@ const settingsSystem = gameStore.settingsSystem;
 Alpine.store('settings', {
   ...dynamicInitialState.settings,
   system: settingsSystem,
-  toggleSettings(s: any) { (this as any).system.toggleSettings(s); },
-  calculateScale(s: any) { (this as any).system.calculateScale(s); },
-  setLanguage(s: any, l: string) { (this as any).system.setLanguage(s, l); },
-  applyCheats(s: any) { (this as any).system.applyCheats(s); }
+  toggleSettings(s: any) { settingsSystem.toggleSettings(s); },
+  calculateScale(s: any) { settingsSystem.calculateScale(s); },
+  setLanguage(s: any, l: string) { settingsSystem.setLanguage(s, l); },
+  applyCheats(s: any) { settingsSystem.applyCheats(s); }
 });
 
 Alpine.store('game', gameStore);

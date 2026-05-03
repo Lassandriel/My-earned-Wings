@@ -157,8 +157,12 @@ export default {
   milestone_sanctum: 'Das Arkane Heiligtum wurde errichtet.',
   milestone_garden: 'Der Garten ist angelegt und bereit zur Aussaat.',
   milestone_garden_upgrade: 'Der Garten wurde um ein zweites Beet erweitert.',
-  milestone_tree_of_life: 'Der Baum des Lebens erblüht.',
+  milestone_treeOfLife: 'Der Baum des Lebens erblüht.',
   milestone_house: 'Das Haus steht fest – ein Monument deines Willens.',
   milestone_lake_house: 'Das Haus am See glitzert im Licht der Morgensonne.',
   milestone_aura_tower: 'Der Aura-Turm durchstößt die Wolkendecke von Draconia.',
+  school_graduate_log: 'Du hast deinen Schulabschluss erhalten. Elara lächelt stolz.',
+  vandara_phase1_log: 'Die erste Phase deines Lehrgangs in Vandara ist abgeschlossen.',
+  vandara_phase2_log: 'Du kommst dem Meistertitel näher. Phase 2 beendet.',
+  vandara_graduate_log: 'Du hast den Abschluss der Akademie Vandara erreicht. Dein Schicksal ist besiegelt.',
 };

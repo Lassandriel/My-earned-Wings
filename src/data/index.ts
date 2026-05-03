@@ -1,6 +1,7 @@
 import { actionDb } from './actions/index';
 import { itemDb } from '../features/crafting/items.data';
 import { NPC_REGISTRY } from '../features/village/village.data';
+import { vandaraNPCs } from '../features/vandara/vandara.data';
 import { RESOURCE_REGISTRY } from './definitions/resources';
 import { BUFF_REGISTRY } from './definitions/buffs';
 import { MILESTONE_REGISTRY } from '../features/story/story.data';
@@ -15,7 +16,7 @@ import { Registries } from '../types/game';
 export const registries: Registries = {
   actions: actionDb,
   items: itemDb,
-  npcs: NPC_REGISTRY,
+  npcs: { ...NPC_REGISTRY, ...vandaraNPCs },
   resources: RESOURCE_REGISTRY,
   buffs: BUFF_REGISTRY,
   milestones: MILESTONE_REGISTRY,

@@ -69,5 +69,8 @@ export default {
   item_mana_basin_desc: 'Collects magic from the surrounding area.',
   item_terrace_title: 'Sun Terrace',
   item_terrace_desc: 'A place of rest and regeneration.',
-  item_clay_title: 'Moist Clay',
+  item_clay_title: 'Damp Clay',
+  res_study_xp: 'Knowledge',
+  item_rune_fragment_title: 'Rune Fragment',
+  item_rune_fragment_desc: 'A piece of solidified magic, full of hidden knowledge.',
 };

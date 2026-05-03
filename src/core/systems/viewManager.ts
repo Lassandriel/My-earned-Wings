@@ -97,8 +97,8 @@ export const createViewManagerSystem = () => ({
   },
 
   finishPrologue(store: GameState) {
-    store.view = 'naming';
-    store.saveGame();
+    if (store.view !== 'prologue') return;
+    this.confirmName(store, 'Wanderer');
   },
 
   confirmName(store: GameState, name: string) {
@@ -107,11 +107,7 @@ export const createViewManagerSystem = () => ({
     store.playerName = name.trim().substring(0, 16); // Safety limit
     store.view = 'gameplay';
 
-    // Show Ellie intro modal
-    if ((store as any).ellie && !store.ellieIntroSeen) {
-      (store as any).ellie.showIntro(store);
-      store.ellieIntroSeen = true;
-    }
+
 
     store.addLog('intro_welcome', 'logs', 'var(--accent-teal)');
     store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {

@@ -1,7 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { registries } from '../src/data/index';
 import { checkRequirement } from '../src/core/systems/logicUtils';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT_DIR = path.resolve(__dirname, '..');
 
 let errors = 0;
 let warnings = 0;
@@ -18,15 +23,20 @@ const logWarning = (msg: string) => {
 
 const checkFileExists = (relPath: string) => {
     if (!relPath) return true;
-    const fullPath = path.join(process.cwd(), 'public', relPath);
+    const fullPath = path.join(ROOT_DIR, 'public', relPath);
     return fs.existsSync(fullPath);
 };
 
-// SFX Registry from audio.ts
-const validSfx = new Set(['click', 'gather', 'success', 'eat', 'fail', 'magic', 'water', 'craft', 'discovery']);
+// SFX Registry - Dynamic detection
+const getValidSfx = () => {
+    const sfxDir = path.join(ROOT_DIR, 'public', 'audio', 'sfx');
+    if (!fs.existsSync(sfxDir)) return new Set(['click', 'gather', 'success', 'eat', 'fail', 'magic', 'water', 'craft', 'discovery']);
+    return new Set(fs.readdirSync(sfxDir).map(f => path.parse(f).name));
+};
+const validSfx = getValidSfx();
 
 const checkLogic = () => {
-    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION 2.6 (ULTIMATE) ===\n");
+    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION 2.7 (DYNAMIC) ===\n");
 
     const itemIds = new Set(Object.keys(registries.items));
     const actionIds = new Set(Object.keys(registries.actions));
@@ -38,7 +48,7 @@ const checkLogic = () => {
     });
     Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
         if (act.image && !checkFileExists(act.image)) logError(`Action '${id}' missing image: ${act.image}`);
-        if (act.sfx && !validSfx.has(act.sfx)) logError(`Action '${id}' unknown SFX: '${act.sfx}'`);
+        if (act.sfx && !validSfx.has(act.sfx)) logError(`Action '${id}' unknown SFX: '${act.sfx}' (Available: ${Array.from(validSfx).join(', ')})`);
     });
 
     // 2. REACHABILITY SIMULATION
@@ -53,7 +63,7 @@ const checkLogic = () => {
     Object.values(registries.npcs).forEach((npc: any) => {
         if (npc.unlockedAtStart) {
             unlockedNPCs.add(npc.id);
-            unlockedActions.add(`act-${npc.id}`); // NPCs usually have a corresponding action
+            unlockedActions.add(`act-${npc.id}`);
         }
     });
 
@@ -66,18 +76,15 @@ const checkLogic = () => {
         Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
             if (processedActions.has(id)) return;
 
-            // Actions are available if they are global OR explicitly unlocked
             const isAvailable = unlockedActions.has(id) || !id.startsWith('act-npc-');
             if (!isAvailable) return;
 
-            // Create a mock game state for the requirement checker
             const mockGame = {
                 flags: Object.fromEntries(reachableFlags),
                 discoveredItems: Array.from(unlockedItems),
                 unlockedRecipes: Array.from(unlockedActions)
             };
 
-            // Check if requirements are met using SHARED REAL LOGIC
             let met = true;
             if (act.requirements) {
                 met = Object.entries(act.requirements).every(([path, rule]) => {
@@ -118,7 +125,7 @@ const checkLogic = () => {
                         if (eff.type === 'unlockNPC') {
                             if (!unlockedNPCs.has(eff.id)) {
                                 unlockedNPCs.add(eff.id);
-                                unlockedActions.add(`act-${eff.id}`); // FIX: Unlock the story action too
+                                unlockedActions.add(`act-${eff.id}`);
                                 reachableFlags.set(eff.id, true);
                                 changed = true;
                             }
@@ -160,7 +167,7 @@ const checkLogic = () => {
     Object.entries(registries.items).forEach(([id, item]: [string, any]) => {
         if (item.category === 'crafting' || item.category === 'tools') {
             if (!unlockedItems.has(id)) {
-                logError(`ORPHANED ITEM: '${id}' is never unlocked or rewarded! (Simulation did not reach it)`);
+                logError(`ORPHANED ITEM: '${id}' is never unlocked or rewarded!`);
             }
         }
     });
@@ -169,12 +176,10 @@ const checkLogic = () => {
     console.log("--- Validating Economic Feasibility ---");
     const maxLimits: Record<string, number> = {};
     
-    // Fill with initial values from resources
     Object.values(registries.resources).forEach((res: any) => {
         maxLimits[res.id] = res.initialLimit !== undefined ? res.initialLimit : (res.initialMax || 0);
     });
 
-    // Fill modifiers (but DON'T overwrite existing resource limits if they are already higher)
     Object.values(registries.modifiers || {}).forEach((mod: any) => {
         const val = mod.baseValue !== undefined ? mod.baseValue : 0;
         if (maxLimits[mod.id] === undefined || val > maxLimits[mod.id]) {
@@ -184,14 +189,12 @@ const checkLogic = () => {
 
     maxLimits['shards'] = Infinity;
     maxLimits['astral_shards'] = Infinity;
-    // Energy/Magic limits are stats, usually 100-200
     if (maxLimits['energy'] < 200) maxLimits['energy'] = 200; 
     if (maxLimits['magic'] < 200) maxLimits['magic'] = 200;
 
-    // Calculate absolute max possible limits from PROCESSED actions
     processedActions.forEach(id => {
         const act = registries.actions[id];
-        const multiplier = act.maxCount || 1; // Simulate repeatability
+        const multiplier = act.maxCount || 1;
         
         const collectLimits = (effects: any[]) => {
             if (!effects) return;
@@ -211,7 +214,6 @@ const checkLogic = () => {
         });
     });
 
-    // Add home base limits from REACHABLE homes
     Object.values(registries.homes).forEach((home: any) => {
         if (reachableFlags.get(home.id) === true && home.baseLimits) {
             Object.entries(home.baseLimits).forEach(([res, amt]: [string, any]) => {
@@ -220,14 +222,13 @@ const checkLogic = () => {
         }
     });
 
-    // Check costs
     Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
         const checkCosts = (costs: any, source: string) => {
             if (!costs) return;
             Object.entries(costs).forEach(([res, amt]: [string, any]) => {
                 const limit = maxLimits[res];
                 if (limit !== undefined && amt > limit) {
-                    logError(`${source} costs ${amt} ${res}, but max possible limit is ${limit}! (Impossible to build)`);
+                    logError(`${source} costs ${amt} ${res}, but max possible limit is ${limit}!`);
                 }
             });
         };
@@ -242,10 +243,8 @@ const checkLogic = () => {
 
     console.log("\n=============================");
     console.log(`Validation completed with ${errors} Errors and ${warnings} Warnings.`);
-    
-    if (errors > 0) {
-        process.exit(1);
-    }
+    if (errors > 0) process.exit(1);
 };
 
 checkLogic();
+

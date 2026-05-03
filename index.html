@@ -33,34 +33,9 @@
       <!-- Overlays & Modals -->
       <%- include('./src/features/ui/menu.view.html') %> <%-
       include('./src/features/story/prologue.view.html') %> <%-
-      include('./src/features/ui/naming.view.html') %> <%-
       include('./src/features/ui/settings.view.html') %> <%-
       include('./src/features/story/finale.view.html') %> <%-
       include('./src/features/ui/confirm.view.html') %>
-
-      <!-- Ellie Intro Modal -->
-      <div
-        x-show="$store.game.showEllieIntro"
-        class="ellie-intro-modal"
-        @click="$store.game.ellie.close($store.game)"
-      >
-        <div class="ellie-intro-inner" @click.stop>
-          <div class="ellie-image-shell">
-            <img src="img/npcs/Ellie.webp" alt="Ellie" class="ellie-image" />
-          </div>
-          <div class="ellie-text-card">
-            <h4 x-text="$store.game.t('npc_ellie_name')"></h4>
-            <p x-html="$store.game.t('ellie_tutorial_1', 'logs')"></p>
-            <p x-html="$store.game.t('ellie_tutorial_2', 'logs')"></p>
-            <p x-html="$store.game.t('ellie_tutorial_3', 'logs')"></p>
-            <button
-              class="game-btn btn-small"
-              @click="$store.game.ellie.close($store.game)"
-              x-text="$store.game.t('btn_close')"
-            ></button>
-          </div>
-        </div>
-      </div>
 
       <!-- Main Game UI -->
       <div
