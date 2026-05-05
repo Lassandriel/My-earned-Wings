@@ -9,7 +9,7 @@ The journey begins at the edge of the forest.
 ## Chapter 2: Village Life (Expansion)
 Establishing roots in the community.
 - **Work**: Register at the **Town Hall** to earn Soul Shards.
-- **Tools**: Meet **Kael (Artisan)** to craft your first Axe and Pickaxe.
+- **Tools**: Meet **Geron (Artisan)** to craft your first Axe and Pickaxe.
 - **Supply**: Build **Wood & Stone Storages** to increase resource limits.
 - **Crafting**: Start building **Furniture** to improve your home's efficiency.
 

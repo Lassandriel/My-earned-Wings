@@ -3,7 +3,13 @@ import { GameState } from '../../types/game';
 /** Total number of prologue slides. Update here only if new slides are added. */
 const PROLOGUE_STEPS = 7;
 
+declare const Alpine: any;
+
 export const createPrologueSystem = () => ({
+  metadata: {
+    id: 'prologue',
+  },
+
   playIntro(state: GameState) {
     state.prologueStep = 1;
     state.view = 'prologue';
@@ -34,9 +40,10 @@ export const createPrologueSystem = () => ({
     state.playSound('click');
 
     // Log all intro sentences that haven't been shown yet
+    const logList = Alpine.store('logs').list;
     for (let i = 1; i <= PROLOGUE_STEPS; i++) {
       const logKey = `intro_${i}`;
-      const alreadyInLogs = (state as any).logs.some((log: any) => log.id === logKey);
+      const alreadyInLogs = logList.some((log: any) => log.id === logKey);
 
       if (!alreadyInLogs) {
         state.addLog(logKey, 'logs', 'var(--accent-teal)');

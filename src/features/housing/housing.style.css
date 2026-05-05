@@ -1,12 +1,8 @@
-/* HOUSING VIEW STYLES - Phase 9 */
-.view-content-housing {
-  padding: 30px 40px;
-  animation: fadeInVaultMotion 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* HOUSING VIEW SPECIFIC - NO GRID OVERRIDES */
 
 .active-home-panel-wrapper {
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 1px;
+  margin-bottom: 2px;
 }
 
 .active-home-card {
@@ -18,13 +14,13 @@
   overflow: hidden;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
 }
 
 .home-visual {
   position: relative;
   height: 100%;
-  min-height: 220px;
+  min-height: 120px;
   overflow: hidden;
 }
 
@@ -155,10 +151,17 @@
 
 /* Furniture Management Section */
 .housing-management-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 30px;
-  margin-top: 20px;
+  margin-top: 0px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .housing-management-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .furniture-group {
@@ -183,92 +186,85 @@
   letter-spacing: 1px;
 }
 
-.furniture-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 15px;
+/* Furniture List Layout */
+.furniture-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.furniture-card {
+.furniture-list-item {
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+  padding: 12px 20px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 12px;
-  transition: all 0.3s ease;
-  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.furniture-card:hover {
-  background: rgba(255, 255, 255, 0.06);
+.furniture-list-item:hover {
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  transform: translateX(5px);
 }
 
-.furn-icon {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
-}
-
-.furn-info-box {
-  flex: 1;
+.furn-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .furn-name {
-  font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
+  font-size: 0.95rem;
 }
 
-.furn-cost {
+.furn-space {
   font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .furn-btn {
-  padding: 8px 15px;
+  padding: 6px 15px;
   background: var(--accent-teal);
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   color: #0f172a;
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  opacity: 0.8;
 }
 
-.furn-btn:hover {
-  background: #2dd4bf;
+.furniture-list-item:hover .furn-btn {
+  opacity: 1;
   transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(45, 212, 191, 0.4);
 }
 
 .furn-btn.remove {
-  background: rgba(244, 63, 94, 0.2);
+  background: rgba(244, 63, 94, 0.1);
   color: #fb7185;
-  border: 1px solid rgba(244, 63, 94, 0.3);
+  border: 1px solid rgba(244, 63, 94, 0.2);
 }
 
 .furn-btn.remove:hover {
-  background: rgba(244, 63, 94, 0.4);
+  background: rgba(244, 63, 94, 0.3);
   color: #fff;
-  box-shadow: 0 0 10px rgba(244, 63, 94, 0.3);
 }
 
 .empty-state-info {
-  grid-column: 1 / -1;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.15);
   font-style: italic;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   border: 1px dashed rgba(255, 255, 255, 0.05);
   border-radius: 12px;
 }

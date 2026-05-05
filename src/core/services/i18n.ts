@@ -2,48 +2,51 @@ import { GameState } from '../../types/game';
 
 /**
  * Localization System - TypeScript Edition
- * Handles translation lookups and parameter replacement.
+ * Uses global TRANSLATIONS for speed and reliability.
  */
 export const createI18nSystem = () => {
   return {
+    metadata: {
+      id: 'i18n',
+      delegates: ['t']
+    },
+
     /**
      * Translates a key based on context and current language.
-     * Supports parameter replacement and recursive object translation.
      */
     t(store: GameState, key: string, context = 'ui', params = {}, depth = 0) {
-      if (depth > 5) return key; // Prevent infinite recursion
+      if (depth > 5 || !key) return key || '';
 
-      const translations = (store as any).translations || {};
-      const langData = translations[store.language] || {};
-      const contextData = langData[context] || {};
+      // Access global translations to avoid proxy overhead
+      const translations = (window as any).TRANSLATIONS || {};
+      const language = (store && store.language) ? store.language : 'de';
+
+      const langData = (translations[language] || translations['de'] || {});
+      const contextData = (langData[context] || {});
       let data = contextData[key];
       
-      if (data === undefined) {
-          if (key && key !== 'undefined' && key !== 'null') {
-              console.warn(`[I18N] Missing key: "${key}" in context: "${context}" (${store.language})`);
-          }
-          data = context === 'ui' ? `[${key}]` : key;
+      // Fallback if key is missing
+      if (data === undefined || data === null) {
+          return context === 'ui' ? `[${key}]` : key;
       }
       
-      const playerName = store.playerName || 'Wandler';
+      const playerName = (store && store.playerName) ? store.playerName : 'Wanderer';
       const playerBold = `<strong>${playerName}</strong>`;
       
       const finalParams: Record<string, any> = {
         ...params,
         player: playerBold,
-        playerName: playerBold, // Ensure both are bolded and take precedence
+        playerName: playerBold,
       };
 
-      // NEW: Automatically translate any parameter ending in 'Key'
+      // Process parameters (Recursive translation for keys)
       const translatedParams: Record<string, any> = {};
       Object.entries(finalParams).forEach(([k, v]) => {
         if (k.endsWith('Key') && typeof v === 'string') {
           const actualKey = k.replace('Key', '');
           const subContext = (params as any).dialogContext || (params as any).context || 'ui';
-          // RECURSIVE CALL: Pass the same params down to allow {player} in dialogue lines
           let translated = this.t(store, v, subContext, params, depth + 1);
           
-          // FALLBACK: If not found in subContext, try 'ui' (good for names)
           if ((translated === `[${v}]` || translated === v) && subContext !== 'ui') {
              translated = this.t(store, v, 'ui', params, depth + 1);
           }
@@ -53,16 +56,18 @@ export const createI18nSystem = () => {
         }
       });
 
+      // Replacement Logic
       const replaceRecursive = (val: any, rDepth = 0): any => {
-        if (rDepth > 10) return val; // Safety for nested objects
+        if (rDepth > 10) return val;
         if (typeof val === 'string') {
           let replaced = val;
-          // Run up to 3 passes to handle nested tags like {item} -> {player}
-          for (let pass = 0; pass < 3; pass++) {
-            if (!replaced.includes('{')) break;
+          if (!replaced.includes('{')) return replaced;
+
+          for (let pass = 0; pass < 2; pass++) {
             Object.entries(translatedParams).forEach(([k, v]) => {
-              const escapedK = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-              replaced = replaced.replace(new RegExp(`{${escapedK}}`, 'g'), () => v);
+              if (replaced.includes(`{${k}}`)) {
+                replaced = replaced.split(`{${k}}`).join(v);
+              }
             });
           }
           return replaced;

@@ -2,23 +2,23 @@
 <div
   id="confirm-modal"
   class="modal-overlay confirm-overlay"
-  x-show="$store.game.confirmModal.open"
+  x-show="$store.ui.confirmModal.open"
   style="display: none"
   x-transition.opacity
-  @keydown.escape.window="$store.game.resolveConfirm(false)"
+  @keydown.escape.window="$store.ui.resolveConfirm(false)"
 >
   <div class="confirm-dialog" @click.stop>
     <div class="confirm-icon">⚠️</div>
-    <p class="confirm-message" x-text="$store.game.confirmModal.message"></p>
+    <p class="confirm-message" x-text="$store.ui.confirmModal.message"></p>
     <div class="confirm-actions">
       <button
         class="confirm-btn confirm-btn-yes"
-        @click="$store.game.resolveConfirm(true)"
+        @click="$store.ui.resolveConfirm(true)"
         x-text="$store.game.t('btn_confirm_yes')"
       ></button>
       <button
         class="confirm-btn confirm-btn-no"
-        @click="$store.game.resolveConfirm(false)"
+        @click="$store.ui.resolveConfirm(false)"
         x-text="$store.game.t('btn_confirm_no')"
       ></button>
     </div>

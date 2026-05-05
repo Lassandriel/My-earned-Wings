@@ -5,6 +5,10 @@ import { GameState } from '../../types/game';
  * Handles long-term chronicle entries and milestones.
  */
 export const createStorySystem = () => ({
+  metadata: {
+    id: 'story',
+    delegates: ['getGroupedHistory']
+  },
   /**
    * Records a chronicle entry.
    */

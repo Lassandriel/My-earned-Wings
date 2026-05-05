@@ -36,7 +36,10 @@ export type ResourceId =
   | 'eat_satiation_gain'
   | 'garden_magic_cost'
   | 'magic_regen_passive'
-  | 'study_efficiency';
+  | 'study_efficiency'
+  | 'rune_fragment'
+  | 'arcane_dust'
+  | 'study_xp';
 
 export type FlagId =
   | 'build-campfire'
@@ -65,13 +68,28 @@ export type FlagId =
   | 'build-terrace'
   | 'blueprint-garden'
   | 'blueprint-home-lake'
-  | 'blueprint-home-tower';
+  | 'blueprint-home-tower'
+  | 'school_unlocked'
+  | 'school_graduate'
+  | 'vandara_unlocked'
+  | 'academy_phase_1'
+  | 'academy_phase_2'
+  | 'academy_graduate';
 
 export type ActionId = string;
 export type ItemId = string; 
 export type HomeId = 'home-tent' | 'home-house' | 'home-lake' | 'home-tower';
 export type NPCId = string;
+export type TitleId = string;
 export type ModifierId = string;
+
+export interface TitleDefinition {
+  id: TitleId;
+  nameKey: string;
+  descKey: string;
+  icon?: string;
+  modifiers?: GameModifier[];
+}
 
 export interface ModifierDefinition {
   id: ModifierId;
@@ -111,7 +129,8 @@ export type GameEffect =
   | { type: 'playSound'; id: string }
   | { type: 'log'; logKey: string; color?: string; params?: any }
   | { type: 'modifyResource'; resource: ResourceId; amount: number }
-  | { type: 'setHome'; id: HomeId };
+  | { type: 'setHome'; id: HomeId }
+  | { type: 'unlockTitle'; id: TitleId };
 
 export interface MilestoneDefinition {
   id: string;

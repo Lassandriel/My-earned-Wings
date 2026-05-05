@@ -4,12 +4,18 @@ import { GameState, ResourceId } from '../../types/game';
  * Resource and Stats System Manager - TypeScript Edition
  */
 export const createResourceSystem = () => {
+  const metadata = {
+    id: 'resource',
+  };
   const getScaledCost = (state: GameState, type: ResourceId, baseAmount: number): number => {
     const resDef = state.RESOURCE_REGISTRY[type];
     if (resDef?.scalesWithSatiation) {
       // Costs scale inversely with worker efficiency
-      const efficiency = state.pipeline?.calculate(state, 'resource_efficiency', 1) || 1;
-      return baseAmount * (1 / efficiency);
+      const efficiency = state.pipeline.calculate(state, 'resource_efficiency', 1);
+      
+      // Safety: Ensure efficiency never drops to 0 (minimum 0.4 based on CoreRules)
+      const safeEfficiency = Math.max(0.1, efficiency);
+      return baseAmount * (1 / safeEfficiency);
     }
     return baseAmount;
   };
@@ -34,12 +40,13 @@ export const createResourceSystem = () => {
   const consume = (
     state: GameState,
     typeOrCosts: string | Record<string, number>,
-    amount: number = 0
+    amount: number = 0,
+    silent: boolean = false
   ): boolean => {
     if (!canAfford(state, typeOrCosts, amount)) return false;
 
     if (typeof typeOrCosts === 'object') {
-      Object.entries(typeOrCosts).forEach(([type, amt]) => consume(state, type, amt));
+      Object.entries(typeOrCosts).forEach(([type, amt]) => consume(state, type, amt, silent));
       return true;
     }
 
@@ -55,21 +62,22 @@ export const createResourceSystem = () => {
       consumed = true;
     }
 
-    if (consumed && state.bus) {
+    if (consumed && state.bus && !silent) {
       state.bus.emit(state.EVENTS.RESOURCE_SPENT, { type });
 
-      // --- ACTIVE SATIATION DRAIN (Phase 8.36.24) ---
-      // Hunger only drains when Energy or Magic is spent
-      if (type === 'energy' || type === 'magic') {
-        const hungerCost = finalAmount * 0.1; // 10% of cost
+      // --- DATA-DRIVEN SATIATION DRAIN ---
+      const resDef = state.RESOURCE_REGISTRY[type];
+      if (resDef?.satiationDrain && state.stats.satiation > 0) {
+        const baseDrain = finalAmount * resDef.satiationDrain;
+        const multiplier = state.pipeline.calculate(state, 'satiation_drain_multiplier', 1);
+        const finalDrain = baseDrain * multiplier;
+
         const oldSatiation = state.stats.satiation;
-        if (state.stats.satiation > 0) {
-          state.stats.satiation = Math.max(0, state.stats.satiation - hungerCost);
-          
-          // Warn if falling below 20%
-          if (state.stats.satiation < 20 && oldSatiation >= 20) {
-            state.addLog('malus_satiation', 'logs', 'var(--accent-red)');
-          }
+        state.stats.satiation = Math.max(0, state.stats.satiation - finalDrain);
+        
+        // Warn if falling below 20%
+        if (state.stats.satiation < 20 && oldSatiation >= 20) {
+          state.addLog('malus_satiation', 'logs', 'var(--accent-red)');
         }
       }
     }
@@ -80,7 +88,7 @@ export const createResourceSystem = () => {
     canAfford,
     consume,
 
-    add(state: GameState, type: string, amount: number): boolean {
+    add(state: GameState, type: string, amount: number, silent: boolean = false): boolean {
       if (amount < 0) {
         console.warn(`[RESOURCE] Negative amount passed to add() for ${type}: ${amount}. Use consume() instead.`);
         return false;
@@ -89,7 +97,6 @@ export const createResourceSystem = () => {
 
       let changed = false;
 
-      // Handle maxStat rewards (e.g. maxMagic)
       if (type.startsWith('max')) {
         const statBase = type.toLowerCase().replace('max', '') as ResourceId;
         if (state.stats[statBase] !== undefined) {
@@ -111,15 +118,14 @@ export const createResourceSystem = () => {
         changed = true;
       }
 
-      if (changed && state.bus) {
+      if (changed && state.bus && !silent) {
         state.bus.emit(state.EVENTS.RESOURCE_GAINED, { type });
       }
       return changed;
     },
 
     getLimit(state: GameState, type: ResourceId): number {
-      const res = state.RESOURCE_REGISTRY[type];
-      const base = res?.initialLimit || 0;
+      const base = state.limits[type] || 0;
 
       // Calculate dynamic bonus from pipeline (Buildings + Furniture)
       const bonus = state.pipeline?.calculate(state, type + '_limit', 0) || 0;
@@ -134,8 +140,8 @@ export const createResourceSystem = () => {
     },
 
     getMaxStat(state: GameState, type: ResourceId): number {
-      const res = state.RESOURCE_REGISTRY[type];
-      const base = res?.initialMax || 100;
+      const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
+      const base = state.stats[maxKey] || state.stats[type + '_limit'] || 100;
 
       // Calculate dynamic bonus (e.g., energy_limit)
       const bonus = state.pipeline?.calculate(state, type + '_limit', 0) || 0;
@@ -164,5 +170,7 @@ export const createResourceSystem = () => {
       const max = this.getMaxStat(state, stat as import('../../types/game').ResourceId) || 100;
       return Math.max(0, Math.min(100, (current / max) * 100));
     },
+
+    metadata,
   };
 };

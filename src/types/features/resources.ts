@@ -15,6 +15,7 @@ export interface ResourceDefinition {
   isEssential?: boolean;
   wingSlot?: string;
   scalesWithSatiation?: boolean;
+  satiationDrain?: number; // Cost in satiation for consuming this resource (e.g. 0.1 for energy)
   hidden?: boolean;
 }
 

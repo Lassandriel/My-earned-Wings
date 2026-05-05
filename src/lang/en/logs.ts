@@ -3,7 +3,7 @@ export default {
   // SYSTEM & GENERAL
   // ==========================================
   save_success: 'Game saved successfully.',
-  intro_welcome: 'Welcome back to solid ground.',
+  intro_welcome: 'Welcome back to solid ground, {player}.',
 
   // ==========================================
   // REWARDS & UNLOCKS
@@ -12,8 +12,9 @@ export default {
   reward_unlock_recipe: 'New recipe unlocked: {title}',
   reward_unlock_item: 'Item discovered: {title}',
   reward_blueprint_lake: 'Blueprint for the Lake House received.',
-  reward_blueprint_tower: 'Blueprint for the Aura Tower received.',
-  unlock_whisper_grove: 'Mina leads you to a secret path: The Whispering Grove is now accessible.',
+  reward_blueprint_tower: 'Received blueprint for the Aura Tower.',
+  unlock_whisper_grove: 'Mina leads you to a secret path: The Whisper Grove is now accessible.',
+  unlock_vandara: "Aria's recommendation opens the gates to the Academy Vandara for you.",
 
   // ==========================================
   // INTRO, STORY & DIALOGUES
@@ -51,6 +52,7 @@ export default {
   fail_herbs: 'Not enough herbs.',
   fail_shards: 'Not enough shards.',
   fail_astral_shards: 'Not enough astral shards.',
+  fail_arcane_dust: 'Not enough arcane dust.',
   'fail_gourmet-meal': 'Not enough gourmet meals.',
   fail_books: 'Not enough books.',
   fail_ghostwood: 'Not enough ghostwood.',
@@ -59,6 +61,8 @@ export default {
   fail_resin: 'Not enough resin.',
   fail_iron_parts: 'Not enough iron parts.',
   fail_clay: 'Not enough clay.',
+  fail_rune_fragment: 'Not enough rune fragments.',
+  fail_study_xp: 'Not enough study experience.',
   fail_wood_yield: 'Not enough wood yield.',
   fail_stone_yield: 'Not enough stone yield.',
   fail_rest_energy_gain: 'Not enough energy recovery bonus.',
@@ -75,6 +79,7 @@ export default {
   fail_full_meat: 'Meat storage is full.',
   fail_full_shards: 'Shard container is full.',
   fail_full_astral_shards: 'Astral shard container is full.',
+  fail_full_arcane_dust: 'Arcane dust storage is full.',
   fail_full_books: 'Bookshelf is full.',
   'fail_full_gourmet-meal': 'Gourmet meal storage is full.',
   fail_full_herbs: 'Herb storage is full.',
@@ -91,6 +96,8 @@ export default {
   fail_full_resin: 'Resin storage is full.',
   fail_full_iron_parts: 'Iron parts storage is full.',
   fail_full_clay: 'Clay storage is full.',
+  fail_full_rune_fragment: 'Rune fragment storage is full.',
+  fail_full_study_xp: 'Study experience reached its limit.',
 
   // ==========================================
   // ACTIONS & EVENTS (LOGS)
@@ -121,6 +128,7 @@ export default {
   study_success: 'Gained new insights. Your magic grows.',
   dream_bloom_log: 'An ethereal flower has bloomed.',
   spell_harvest_log: 'Drew magic energy from the aether.',
+  grind_dust_log: 'You ground magical herbs into fine arcane dust.',
   mine_quartz_log: 'Found precious crystals and ores in the deep. +{gain}',
   meditation_log: 'Deep concentration... an astral shard manifests.',
   nav_crafting_desc: 'Shape tools from the gifts of nature.',
@@ -140,8 +148,8 @@ export default {
   craft_bookshelf: 'A shelf for all your gathered knowledge.',
   craft_book: 'You bound an empty book.',
   craft_cabinet: 'Your pantry now offers more space for provisions.',
-  'act-spice-rack': 'A spice rack for herbs and alchemy.',
-  'act-grand-table': 'A massive table, symbol of a growing community.',
+  craft_spice_rack: 'A spice rack for herbs and alchemy.',
+  craft_grand_table: 'A massive table, symbol of a growing community.',
   craft_bed_2: 'You wove a luxurious silk bed.',
   craft_stove_2: 'The Eternal Stove grants you boundless arcane heat.',
 
@@ -157,8 +165,11 @@ export default {
   milestone_sanctum: 'The Arcane Sanctum has been erected.',
   milestone_garden: 'The garden has been laid out and is ready for sowing.',
   milestone_garden_upgrade: 'The garden has been expanded with a second bed.',
-  milestone_tree_of_life: 'The Tree of Life flourishes.',
+  milestone_treeOfLife: 'The Tree of Life flourishes.',
   milestone_house: 'The house stands firm – a monument to your will.',
   milestone_lake_house: 'The Lake House sparkles in the morning sun.',
   milestone_aura_tower: 'The Aura Tower pierces the cloud cover of Draconia.',
+  milestone_school: 'The village school has been founded.',
+  'milestone_school-graduate': 'You have received your school diploma. Aria smiles proudly.',
+  school_graduate_log: 'You have received your school diploma. Aria smiles proudly.',
 };

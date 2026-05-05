@@ -1,79 +1,98 @@
 /* 
   UI LOGS & CHRONICLE
   The storytelling heart of Draconia.
+  MAXIMIZED: Using every bit of space. Centered Header.
 */
 
-.book-frame {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
+.global-log-container {
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  height: 100%;
+  padding-left: 0 !important; /* Move entries to the very edge */
+  padding-right: 0 !important;
 }
 
-.book-pages {
+/* Category header adjustments for log specific layout */
+.global-log-container .category-header {
+  flex-shrink: 0;
+  margin-bottom: 5px;
+  padding: 0 1rem 10px 1rem; /* Keep padding for header but not for stream */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.global-log-container .category-header h3 {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  margin-left: 24px; /* Offset to compensate for the help icon on the right */
+}
+
+.log-stream {
   flex: 1;
   overflow-y: auto;
-  padding: 10px 5px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
   min-height: 0;
+  padding: 0 4px 0 0; /* Only tiny space for scrollbar */
+  align-items: stretch;
+}
+
+/* Custom Scrollbar for Log - Even slimmer */
+.log-stream::-webkit-scrollbar {
+  width: 3px;
+}
+.log-stream::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+.log-stream::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
 
 .log-entry {
-  font-size: 0.95rem;
-  line-height: 1.5;
+  display: block;
+  width: 100%;
+  font-size: 0.85rem;
+  line-height: 1.4;
   color: #e2e8f0;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 3px solid #444;
-  margin-bottom: 2px;
+  padding: 8px 12px; /* Internal padding only */
+  background: rgba(255, 255, 255, 0.025);
+  border-left: 3px solid #334155;
   transition: all 0.2s ease;
-  position: relative;
-  text-shadow: none !important;
-  animation: log-fade-in 0.3s ease-out forwards;
+  flex-shrink: 0;
+  word-wrap: break-word;
+  animation: log-slide-in 0.3s ease-out forwards;
 }
 
 .log-entry:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.05);
+  border-left-color: #475569;
 }
 
-.log-entry.log-highlight {
-  border-left-color: var(--gold);
-}
-.log-entry.log-discovery {
-  border-left-color: var(--accent-teal);
-}
-.log-entry.log-danger {
-  border-left-color: #ef4444;
-}
-.log-entry.log-quest {
-  border-left-color: #8b5cf6;
-}
+/* Log Types */
+.log-highlight { border-left-color: var(--gold) !important; background: rgba(234, 179, 8, 0.03) !important; }
+.log-discovery { border-left-color: var(--accent-teal) !important; background: rgba(20, 184, 166, 0.03) !important; }
+.log-danger    { border-left-color: #ef4444 !important; background: rgba(239, 68, 68, 0.03) !important; }
+.log-quest     { border-left-color: #8b5cf6 !important; background: rgba(139, 92, 246, 0.03) !important; }
+.log-magic     { border-left-color: var(--accent-purple) !important; background: rgba(168, 85, 247, 0.03) !important; }
 
 .empty-history-watermark {
-  padding: 100px 40px;
+  padding: 40px 20px;
   text-align: center;
   opacity: 0.2;
 }
 
-.empty-history-watermark p {
-  font-family: 'Cinzel', serif;
-  font-size: 1.4rem;
-  font-style: italic;
-  letter-spacing: 2px;
-  color: #fff;
-}
-
-@keyframes log-fade-in {
-  0% {
+@keyframes log-slide-in {
+  from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateY(3px);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }

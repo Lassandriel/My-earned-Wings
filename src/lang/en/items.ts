@@ -69,5 +69,5 @@ export default {
   item_mana_basin_desc: 'Collects magic from the surrounding area.',
   item_terrace_title: 'Sun Terrace',
   item_terrace_desc: 'A place of rest and regeneration.',
-  item_clay_title: 'Moist Clay',
+  item_clay_title: 'Wet Clay',
 };

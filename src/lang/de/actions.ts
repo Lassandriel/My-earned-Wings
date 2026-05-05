@@ -146,16 +146,16 @@ export default {
     effect: '+{val} Magie',
   },
   'act-npc-baker': {
-    title: 'Bäcker Geron',
+    title: 'Bäcker Gara',
   },
   'act-npc-flowerGirl': {
     title: 'Blumenmädchen Mina',
   },
   'act-npc-artisan': {
-    title: 'Handwerker Kael',
+    title: 'Handwerker Geron',
   },
   'act-npc-teacher': {
-    title: 'Lehrmeisterin Aris',
+    title: 'Lehrerin Aria',
   },
   'act-npc-townHall': {
     title: 'Rathaus-Beamter',
@@ -262,6 +262,10 @@ export default {
     title: 'Schreibpult bauen',
     desc: 'Ein dedizierter Platz zum Studieren.',
   },
+  'act-grind-dust': {
+    title: 'Arkanstaub mahlen',
+    desc: 'Nutze magische Energie, um Kräuter zu feinem Arkanstaub zu verarbeiten.',
+  },
   'build-cart-reinforced': {
     title: 'Verstärkten Karren bauen',
     desc: 'Ein verbesserter Karren für schwere Lasten.',
@@ -293,5 +297,54 @@ export default {
     title: 'Beschläge kaufen',
     desc: 'Erhalte hochwertige Eisenbeschläge direkt vom Schmied.',
     effect: '+1 Eisenbeschläge',
+  },
+  'act-school-read': {
+    title: 'Lesen üben',
+    desc: 'Lerne die Schriftzeichen der Draconia-Sprache.',
+    effect: '+{val} Wissen',
+  },
+  'act-school-numbers': {
+    title: 'Zahlen lernen',
+    desc: 'Verstehe die Mathematik des Handels.',
+    effect: '+{val} Wissen',
+  },
+  'act-school-history': {
+    title: 'Geschichte hören',
+    desc: 'Lausche Arias Geschichten über die Welt.',
+    effect: '+{val} Wissen',
+  },
+  'act-school-herbs': {
+    title: 'Kräuterkunde',
+    desc: 'Lerne von Mina, welche Pflanzen nützlich sind.',
+    effect: '+{val} Wissen & Kräuter',
+  },
+  'act-school-runes': {
+    title: 'Runenlesen',
+    desc: 'Studiere bei Aris die Symbole der Magie.',
+    effect: '+{val} Wissen & Runen',
+  },
+  'act-vandara-magic-runes': {
+    title: 'Runen kartografieren',
+    desc: 'Untersuche die magischen Leylinien der Akademie.',
+  },
+  'act-vandara-magic-experiments': {
+    title: 'Arkane Experimente',
+    desc: 'Führe gefährliche Tests in Solens Labor durch.',
+  },
+  'act-vandara-craft-furniture': {
+    title: 'Aufwendige Möbel',
+    desc: 'Stelle Meisterstücke nach Brams Vorgaben her.',
+  },
+  'act-vandara-craft-masterpiece': {
+    title: 'Das Meisterwerk',
+    desc: 'Präsentiere dein Können der Akademie.',
+  },
+  'act-vandara-nature-gather': {
+    title: 'Exklusive Wald-Ressourcen',
+    desc: 'Finde seltene Materialien für Lyra.',
+  },
+  'act-vandara-nature-festival': {
+    title: 'Gemeinschaftsfest',
+    desc: 'Bereite das große Fest vor.',
   },
 };

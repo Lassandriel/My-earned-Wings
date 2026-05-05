@@ -1,5 +1,5 @@
 export default {
-  npc_baker_1: '"Welcome! I am Geron. And what is your name, stranger?"',
+  npc_baker_1: '"Welcome! I am Gara. And what is your name, stranger?"',
   npc_baker_2: '"The furnace is burning hot. Thanks for the wood, {player}."',
   npc_baker_3: '"A cookie, perhaps, {player}? They keep you on your toes."',
   npc_baker_4: '"More and more people come for my pastries. You are a blessing, {player}."',
@@ -15,14 +15,19 @@ export default {
   npc_flowerGirl_7:
     '"You have helped me so much... I know a place, deep in the forest, that only a few can see. It is the Whispering Grove. Here, take this path. But be careful with the spirits there."',
   npc_artisan_1:
-    '"I am Kael. Wood is the beginning of everything. A walking stick gives you support."',
+    '"I am Geron. Wood is the beginning of everything. A walking stick gives you support."',
   npc_artisan_2: '"Stone is patient, {player}. It shapes the world, step by step."',
   npc_artisan_3: '"Precision is everything. Take this chisel, {player}, and shape your destiny."',
-  npc_teacher_1: '"The earth trembles under the weight of your destiny. I am Aris."',
-  npc_teacher_2: '"Your focus sharpens, {player}. The world is more than just matter."',
-  npc_teacher_3: '"In this scroll, {player}, lies the truth about the ground."',
-  npc_teacher_4: '"Magic flows through you, {player}, even without wings."',
-  npc_teacher_5: '"You walk the ground, {player}, but your spirit touches the aether."',
+  npc_teacher_1: '"You are... the Wingless One, are you not? The only one. I am Aria, the teacher here."',
+  npc_teacher_2: '"No one will take you seriously, {player}, if you don\'t even know our writing. Let\'s change that."',
+  npc_teacher_3: '"Every rune is a piece of the sky you can grasp. Focus."',
+  npc_teacher_4: '"You learn quickly. Soon you\'ll be ready for your final exams."',
+  npc_teacher_5: '"A wanderer without wings learns to fly – with their mind first."',
+  npc_teacher_6: '"Congratulations, {player}. You have graduated."',
+  npc_teacher_7: '"I received a letter from Vandara. They\'ve heard of you... and want to see you!"',
+  npc_magistra_solen_1: '"Magic denies you the sky, yet flows through your mind. Welcome to the Path of the Sky."',
+  npc_meister_bram_1: '"A masterpiece needs a strong foundation. Show me what you can build."',
+  npc_lyra_1: '"The roots of the world carry us all. Let us grow together."',
   npc_aris_6:
     '"The aether is dense here. A tower would act as a conduit for your soul form. This design will guide your construction."',
   npc_townHall_1:
@@ -50,6 +55,7 @@ export default {
   npc_ellie_2: '"The dreams show us the way."',
   npc_ellie_3: '"The light of the aether grows brighter."',
   npc_ellie_4: '"Patience, little dragon. Your path is almost ready."',
+  npc_ellie_5: '"The heart of the ground beats for you, {player}."',
   npc_aris_1: '"Every spell begins with a single thought."',
   npc_aris_2: '"Feel the energy flowing into your fingertips."',
   npc_aris_3: '"Magic is not just power, it is responsibility."',

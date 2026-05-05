@@ -1,7 +1,7 @@
 <!-- DEMO FINALE OVERLAY -->
 <section
   id="finale-overlay"
-  x-show="$store.game.view === 'finale'"
+  x-show="$store.ui.view === 'finale'"
   class="modal-overlay finale-overlay"
   x-transition.opacity
 >
@@ -38,7 +38,7 @@
     <div class="modal-actions finale-actions">
       <button
         class="menu-btn primary glow-btn"
-        @click="$store.game.view = 'gameplay'; $store.game.saveGame()"
+        @click="$store.ui.view = 'gameplay'; $store.game.saveGame()"
       >
         <span x-text="$store.game.t('finale_sandbox_btn')"></span>
       </button>

@@ -111,50 +111,92 @@
   gap: 10px;
 }
 
-/* Actions in columns should fill the width */
-.action-column .game-btn {
+/* Modular Action Button Improvements */
+.action-btn-modular {
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn-modular .btn-progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  justify-content: flex-start;
-  padding: 10px 18px;
-  font-size: 0.9rem;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1;
 }
 
-.action-column .game-btn:hover {
-  transform: translateX(5px);
-  background: rgba(20, 184, 166, 0.1);
+.action-btn-modular .btn-progress-fill {
+  height: 100%;
+  background: var(--accent-teal);
+  box-shadow: 0 0 10px var(--accent-teal);
+  transition: width 0.3s linear;
+}
+
+.action-btn-modular.primary-magic .btn-progress-fill {
+  background: var(--accent-purple);
+  box-shadow: 0 0 10px var(--accent-purple);
+}
+
+.action-btn-modular.is-working {
+  background: rgba(20, 184, 166, 0.08);
+  border-color: rgba(20, 184, 166, 0.4);
+}
+
+/* Focus Toggle Enhancements */
+.focus-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  opacity: 0.4;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.focus-toggle-btn:hover {
+  opacity: 0.8;
+  background: rgba(20, 184, 166, 0.2);
   border-color: var(--accent-teal);
-  box-shadow: 0 5px 15px rgba(20, 184, 166, 0.1);
 }
 
-/* Primary Action Variants */
-.primary-energy {
-  border-color: var(--accent-teal);
-  color: var(--accent-teal);
-  background: rgba(20, 184, 166, 0.05);
-}
-.primary-energy:hover {
-  background: rgba(20, 184, 166, 0.15);
-  box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+.focus-toggle-btn.is-focused {
+  opacity: 1;
+  background: var(--accent-teal);
+  color: #0f172a;
+  box-shadow: 0 0 15px var(--accent-teal);
+  animation: focusPulse 2s infinite;
 }
 
-.primary-magic {
-  border-color: var(--accent-purple);
-  color: var(--accent-purple);
-  background: rgba(139, 92, 246, 0.05);
-}
-.primary-magic:hover {
-  background: rgba(139, 92, 246, 0.15);
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+@keyframes focusPulse {
+  0%, 100% { transform: translateY(-50%) scale(1); box-shadow: 0 0 10px var(--accent-teal); }
+  50% { transform: translateY(-50%) scale(1.1); box-shadow: 0 0 20px var(--accent-teal); }
 }
 
-.primary-satiation {
-  border-color: var(--gold);
+/* Location Grouping Aesthetics */
+.location-group {
+  padding: 18px;
+  margin-bottom: 15px;
+  background: rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+}
+
+.location-heading {
   color: var(--gold);
-  background: rgba(251, 191, 36, 0.05);
-}
-.primary-satiation:hover {
-  background: rgba(251, 191, 36, 0.15);
-  box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-bottom: 12px;
 }
 
 /* Animation for clicking empty resources */

@@ -1,16 +1,23 @@
 <!-- HOUSING VIEW - Dedicated Home Management -->
 <div
-  x-show="$store.game.view === 'housing'"
-  class="view-content-housing"
+  x-show="$store.ui.view === 'housing'"
+  class="game-view-content"
 >
   <div class="category-header">
     <h3 x-text="$store.game.t('nav_housing')"></h3>
+    <div
+      class="nav-help-icon"
+      @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('nav_housing'), desc: $store.game.t('nav_housing_desc') })"
+      @mouseleave="$store.game.setHovered(null)"
+    >
+      ?
+    </div>
   </div>
 
   <!-- ACTIVE HOME PANEL -->
   <template x-if="$store.game.activeHome">
     <div class="active-home-panel-wrapper">
-      <div class="active-home-card shadow-premium" x-transition>
+      <div class="active-home-card panel-premium" x-transition>
         <div class="home-visual">
           <img
             :src="$store.game.content.get($store.game.activeHome, 'homes')?.image"
@@ -53,8 +60,8 @@
 
   <!-- No Home Placeholder -->
   <template x-if="!$store.game.activeHome">
-    <div class="housing-empty-notice shadow-premium">
-        <p x-text="$store.game.t('ui_no_shelter')"></p>
+    <div class="housing-empty-notice panel-premium flex-center">
+        <p class="text-dim" x-text="$store.game.t('ui_no_shelter')"></p>
     </div>
   </template>
 
@@ -62,16 +69,17 @@
   <template x-if="$store.game.activeHome">
     <div class="housing-management-container">
       <!-- Placed Furniture -->
-      <div class="furniture-group shadow-premium">
-        <div class="group-header">
-           <h4 x-text="$store.game.t('ui_placed_furniture')"></h4>
+      <div class="furniture-group panel-premium">
+        <div class="group-header m-xxs">
+           <h4 class="text-gradient-teal" x-text="$store.game.t('ui_placed_furniture')"></h4>
         </div>
-        <div class="furniture-grid">
+        <div class="furniture-list">
            <template x-for="id in $store.game.placedFurnitureList" :key="id">
-             <div class="furniture-card" @mouseenter="$store.game.setHovered(id)" @mouseleave="$store.game.setHovered(null)">
-                <img :src="$store.game.content.get(id, 'items')?.image" class="furn-icon" />
-                <span class="furn-name" x-text="$store.game.t($store.game.content.get(id, 'items')?.title, 'items')"></span>
-                <button class="furn-btn remove" @click="$store.game.toggleFurniture(id)">
+             <div class="furniture-list-item card-premium p-sm" @mouseenter="$store.game.setHovered(id)" @mouseleave="$store.game.setHovered(null)" @click="$store.game.toggleFurniture(id)">
+                <div class="furn-info">
+                  <span class="furn-name" x-text="$store.game.t($store.game.content.get(id, 'items')?.title, 'items')"></span>
+                </div>
+                <button class="furn-btn remove">
                    <span x-text="$store.game.t('ui_remove')"></span>
                 </button>
              </div>
@@ -83,19 +91,18 @@
       </div>
 
       <!-- Storage / Available -->
-      <div class="furniture-group shadow-premium">
-        <div class="group-header">
-           <h4 x-text="$store.game.t('ui_stored_furniture')"></h4>
+      <div class="furniture-group panel-premium">
+        <div class="group-header m-xxs">
+           <h4 class="text-gradient-purple" x-text="$store.game.t('ui_stored_furniture')"></h4>
         </div>
-        <div class="furniture-grid">
+        <div class="furniture-list">
            <template x-for="id in $store.game.availableFurniture" :key="id">
-             <div class="furniture-card stored" @mouseenter="$store.game.setHovered(id)" @mouseleave="$store.game.setHovered(null)">
-                <img :src="$store.game.content.get(id, 'items')?.image" class="furn-icon" />
-                <div class="furn-info-box">
+             <div class="furniture-list-item card-premium p-sm" @mouseenter="$store.game.setHovered(id)" @mouseleave="$store.game.setHovered(null)" @click="$store.game.toggleFurniture(id)">
+                <div class="furn-info">
                   <span class="furn-name" x-text="$store.game.t($store.game.content.get(id, 'items')?.title, 'items')"></span>
-                  <span class="furn-cost" x-text="$store.game.content.get(id, 'items')?.spaceCost + ' ' + $store.game.t('ui_space_cost')"></span>
+                  <span class="furn-space" x-text="$store.game.content.get(id, 'items')?.spaceCost + ' ' + $store.game.t('ui_space_cost')"></span>
                 </div>
-                <button class="furn-btn" @click="$store.game.toggleFurniture(id)">
+                <button class="furn-btn">
                    <span x-text="$store.game.t('ui_place')"></span>
                 </button>
              </div>

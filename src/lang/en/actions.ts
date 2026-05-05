@@ -147,16 +147,16 @@ export default {
     effect: '+{val} Magic',
   },
   'act-npc-baker': {
-    title: 'Baker Geron',
+    title: 'Baker Gara',
   },
   'act-npc-flowerGirl': {
     title: 'Flower Girl Mina',
   },
   'act-npc-artisan': {
-    title: 'Artisan Kael',
+    title: 'Artisan Geron',
   },
   'act-npc-teacher': {
-    title: 'Teacher Aris',
+    title: 'Teacher Aria',
   },
   'act-npc-townHall': {
     title: 'Town Hall Official',
@@ -263,6 +263,10 @@ export default {
     title: 'Build Writing Desk',
     desc: 'A dedicated space for studying.',
   },
+  'act-grind-dust': {
+    title: 'Grind Arcane Dust',
+    desc: 'Use magical energy to grind herbs into fine arcane dust.',
+  },
   'build-cart-reinforced': {
     title: 'Build Reinforced Cart',
     desc: 'An improved cart for heavy loads.',
@@ -293,6 +297,55 @@ export default {
   'act-buy-iron-parts': {
     title: 'Buy Iron Parts',
     desc: 'Acquire high-quality iron fittings directly from the blacksmith.',
-    effect: '+1 Iron Parts',
+    effect: '+1 Iron Fittings',
+  },
+  'act-school-read': {
+    title: 'Practice Reading',
+    desc: 'Learn the characters of the Draconian language.',
+    effect: '+{val} Knowledge',
+  },
+  'act-school-numbers': {
+    title: 'Learn Numbers',
+    desc: 'Understand the mathematics of trade.',
+    effect: '+{val} Knowledge',
+  },
+  'act-school-history': {
+    title: 'Listen to History',
+    desc: 'Listen to Aria\'s stories about the world.',
+    effect: '+{val} Knowledge',
+  },
+  'act-school-herbs': {
+    title: 'Herbology',
+    desc: 'Learn from Mina which plants are useful.',
+    effect: '+{val} Knowledge & Herbs',
+  },
+  'act-school-runes': {
+    title: 'Read Runes',
+    desc: 'Study the symbols of magic with Aris.',
+    effect: '+{val} Knowledge & Runes',
+  },
+  'act-vandara-magic-runes': {
+    title: 'Map Runes',
+    desc: 'Investigate the magical ley lines of the Academy.',
+  },
+  'act-vandara-magic-experiments': {
+    title: 'Arcane Experiments',
+    desc: 'Conduct dangerous tests in Solen\'s lab.',
+  },
+  'act-vandara-craft-furniture': {
+    title: 'Elaborate Furniture',
+    desc: 'Craft masterpieces according to Bram\'s instructions.',
+  },
+  'act-vandara-craft-masterpiece': {
+    title: 'The Masterpiece',
+    desc: 'Present your skills to the Academy.',
+  },
+  'act-vandara-nature-gather': {
+    title: 'Exclusive Forest Resources',
+    desc: 'Find rare materials for Lyra.',
+  },
+  'act-vandara-nature-festival': {
+    title: 'Community Festival',
+    desc: 'Prepare the grand festival.',
   },
 };

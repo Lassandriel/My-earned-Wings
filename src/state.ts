@@ -1,5 +1,6 @@
 import de from './lang/de';
 import en from './lang/en';
+import { GameState } from './types/game';
 
 const translations: Record<string, any> = { de, en };
 
@@ -8,26 +9,33 @@ const translations: Record<string, any> = { de, en };
  * Minimal hardcoded state. Most properties are injected dynamically
  * from registries during boot.
  */
-export const initialState: any = {
+export const initialState: Partial<GameState> = {
   playerName: '',
   language: 'de',
   view: 'menu',
   currentLocation: 'forest',
   hasSave: false,
   prologueStep: 1,
-  settingsOpen: false,
   currentScale: 1,
   craftingSubView: 'all',
   showEllieIntro: false,
   ellieIntroSeen: false,
   selectedStoryNpc: 'world',
   activeHome: null,
+  activeTitle: null,
 
   // Dynamic Containers
   resources: {},
   limits: {},
   stats: {},
-  flags: {},
+  flags: {
+    school_unlocked: false,
+    school_graduate: false,
+    vandara_unlocked: false,
+    academy_phase_1: false,
+    academy_phase_2: false,
+    academy_graduate: false,
+  },
   npcProgress: {},
   activeBuffs: {},
   activeProducers: [], // NEW
@@ -38,15 +46,13 @@ export const initialState: any = {
   discoveredItems: [],
   placedItems: [], // NEW: Track which furniture is currently active
   unlockedRecipes: [],
+  discoveredTitles: [],
   unlockedNPCs: [],
 
   // HUD & UI
-  hoveredAction: null,
   selectedItem: null,
-  confirmModal: { open: false, message: '', onConfirm: null },
   activeFocus: null,
   currentObjective: '',
-  logs: [],
   storyHistory: [],
   saveCode: '',
   saveInfoText: '',
@@ -67,6 +73,7 @@ export const initialState: any = {
     study: 0,
   },
 
+  academy_path: null, // 'solen' | 'bram' | 'lyra'
   activeTasks: {},
   demoCompleted: false,
   demoCompletedHintSeen: false,
@@ -86,16 +93,17 @@ export const initialState: any = {
   },
 
   exportGameData() {
-    return this.persistence.exportGameData(this);
+    return (this as GameState).persistence.exportGameData(this as GameState);
   },
 
   quit() {
-    if (window.electronAPI) {
-      window.electronAPI.quitApp();
+    const store = this as unknown as GameState;
+    if ((window as any).electronAPI) {
+      (window as any).electronAPI.quitApp();
     } else {
       console.warn('Quit only works in Electron');
-      this.returnToMenu();
-      this.settingsOpen = false;
+      store.returnToMenu();
+      store.settingsOpen = false;
     }
   },
 };

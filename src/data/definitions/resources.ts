@@ -16,6 +16,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     isEssential: true,
     wingSlot: 'left',
     scalesWithSatiation: true,
+    satiationDrain: 0.1,
   },
   magic: {
     id: 'magic',
@@ -27,6 +28,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     isEssential: true,
     wingSlot: 'right',
     scalesWithSatiation: true,
+    satiationDrain: 0.1,
   },
   satiation: {
     id: 'satiation',
@@ -137,6 +139,22 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     initial: 0,
     initialLimit: 50,
   },
+  rune_fragment: {
+    id: 'rune_fragment',
+    type: 'resource',
+    category: 'materials',
+    color: '#8b5cf6', // Purple for magic
+    initial: 0,
+    initialLimit: 50,
+  },
+  arcane_dust: {
+    id: 'arcane_dust',
+    type: 'resource',
+    category: 'materials',
+    color: '#a78bfa',
+    initial: 0,
+    initialLimit: 50,
+  },
 
   // --- PROVISIONS ---
   meat: {
@@ -172,6 +190,14 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     color: '#a78bfa',
     initial: 0,
     initialLimit: 0,
+  },
+  study_xp: {
+    id: 'study_xp',
+    type: 'resource',
+    category: 'knowledge',
+    color: '#3b82f6',
+    initial: 0,
+    initialLimit: 100,
   },
   // --- SPECIAL ---
   focus: {

@@ -1,8 +1,16 @@
-<!-- UPGRADES VIEW (THE DRAGON'S VAULT) - CORE 3.0 -->
+<!-- UPGRADES VIEW (THE DRAGON'S VAULT) - REFACTORED 3.1 -->
 <div
-  x-show="$store.game.view === 'upgrades'"
-  class="view-content-upgrades"
-  x-data="{ activeCategory: 'all' }"
+  x-show="$store.ui.view === 'upgrades'"
+  class="game-view-content"
+  x-data="{ 
+    activeCategory: 'all',
+    get discoveredItems() {
+      return $store.game.ui.getDiscoveredItemsByCategory($store.game, this.activeCategory);
+    },
+    get emptySlots() {
+      return Math.max(0, 18 - this.discoveredItems.length);
+    }
+  }"
 >
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_upgrades')"></h3>
@@ -10,139 +18,70 @@
       class="nav-help-icon"
       @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_upgrades'), desc: $store.game.t('cat_upgrades_desc') })"
       @mouseleave="$store.game.setHovered(null)"
-    >
-      ?
-    </div>
+    >?</div>
   </div>
 
+  <!-- Sub-Tab Navigation -->
+  <nav class="nav-tabs-wrapper m-lg">
+    <div class="nav-tabs">
+      <template x-for="cat in ['all', 'tools', 'artifacts', 'furniture', 'provisions']" :key="cat">
+        <button
+          class="nav-tab-btn"
+          :class="activeCategory === cat && 'active'"
+          @click="activeCategory = cat; $store.game.playSound('click')"
+          x-text="$store.game.t('ui_' + cat)"
+        ></button>
+      </template>
+    </div>
+  </nav>
 
-  <div class="upgrades-container">
-    <!-- Category Filter Tabs -->
-    <div class="vault-tabs">
-      <button
-        class="vault-tab-btn"
-        :class="activeCategory === 'all'"
-        @click="activeCategory = 'all'"
-        x-text="$store.game.t('ui_all')"
-      ></button>
-      <button
-        class="vault-tab-btn"
-        :class="activeCategory === 'tools'"
-        @click="activeCategory = 'tools'"
-        x-text="$store.game.t('ui_tools')"
-      ></button>
-      <button
-        class="vault-tab-btn"
-        :class="activeCategory === 'artifacts'"
-        @click="activeCategory = 'artifacts'"
-        x-text="$store.game.t('cat_artifacts')"
-      ></button>
-      <button
-        class="vault-tab-btn"
-        :class="activeCategory === 'furniture'"
-        @click="activeCategory = 'furniture'"
-        x-text="$store.game.t('cat_furniture')"
-      ></button>
-      <button
-        class="vault-tab-btn"
-        :class="activeCategory === 'provisions'"
-        @click="activeCategory = 'provisions'"
-        x-text="$store.game.t('cat_provisions')"
-      ></button>
+  <div class="vault-action-container">
+    <div class="game-grid" x-transition>
+      <!-- Item Slots -->
+      <template x-for="id in discoveredItems" :key="id">
+        <div
+          class="game-card item-slot card-premium"
+          :class="{
+            'is-selected': $store.game.selectedItem === id,
+            'slot-tool': id.startsWith('item-walking') || id.startsWith('item-axe'),
+            'slot-rare': !id.startsWith('item-walking') && !id.startsWith('item-axe')
+          }"
+          @click="$store.game.selectedItem = id; $store.game.playSound('click')"
+          @mouseenter="$store.game.setHovered(id)"
+          @mouseleave="$store.game.setHovered(null)"
+          x-data="{ item: $store.game.ui.getItemData($store.game, id) }"
+        >
+          <div class="game-card-visual">
+            <img
+              :src="item?.image || 'img/Placeholder_Item.webp'"
+              :alt="id"
+              class="slot-icon"
+            />
+          </div>
+          <div class="game-card-footer">
+            <h4 class="game-card-title" x-text="$store.game.t(item?.title, 'items')"></h4>
+          </div>
+
+          <template x-if="item?.consumable">
+            <div class="item-action-overlay">
+               <button 
+                class="item-use-btn"
+                @click.stop="$store.game.consumeItem(id)"
+                :title="$store.game.t('ui_use')"
+              >🍴</button>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- Empty Slots for Grid Consistency -->
+      <template x-for="i in emptySlots" :key="'empty-' + i">
+        <div class="item-slot-empty"></div>
+      </template>
     </div>
 
-    <div class="vault-layout">
-      <!-- Items Grid -->
-      <div class="vault-grid-pane">
-        <div class="items-display-grid">
-          <template
-            x-for="id in $store.game.ui.getDiscoveredItemsByCategory($store.game, activeCategory)"
-            :key="id"
-          >
-            <div
-              class="item-slot"
-              :class="[$store.game.selectedItem === id && 'is-selected', id.startsWith('item-walking') || id.startsWith('item-axe') ? 'slot-tool' : 'slot-rare']"
-              @click="$store.game.selectedItem = id; $store.game.playSound('click')"
-            >
-              <div class="slot-inner-glow"></div>
-              <img
-                :src="$store.game.ui.getSelectedItemData($store.game)?.image || 'img/Placeholder_Item.webp'"
-                :alt="id"
-                class="slot-icon"
-              />
-            </div>
-          </template>
-
-          <!-- Visual Placeholders -->
-          <template x-for="i in Math.max(0, 12 - $store.game.discoveredItems.length)">
-            <div class="item-slot-empty"></div>
-          </template>
-        </div>
-
-        <div x-show="$store.game.discoveredItems.length === 0" class="vault-empty-notice">
-          <p x-text="$store.game.t('ui_upgrades_empty')"></p>
-        </div>
-      </div>
-
-      <!-- Detail Panel -->
-      <div class="vault-detail-pane">
-        <template x-if="$store.game.ui.getSelectedItemData($store.game)">
-          <div class="item-info-card" x-transition:enter="item-fade-in" x-data="{ item: $store.game.ui.getSelectedItemData($store.game) }">
-            <div class="item-visual-showcase">
-              <div
-                class="aura-glow"
-                :class="item.category === 'tools' ? 'aura-teal' : 'aura-gold'"
-              ></div>
-              <img :src="item.image" alt="Visual" class="showcase-img" />
-            </div>
-
-            <div class="item-text-content">
-              <div class="item-type-badge" x-text="$store.game.t('cat_' + item.category)"></div>
-              <h2 class="item-name" x-text="$store.game.t(item.title, 'items')"></h2>
-              <div class="item-hr"></div>
-              <p class="item-description" x-text="$store.game.t(item.desc, 'items')"></p>
-
-              <!-- Space Cost for Furniture -->
-              <template x-if="item.category === 'furniture'">
-                <div class="item-space-badge">
-                  <span x-text="$store.game.t('ui_furniture_space')"></span>:
-                  <span x-text="item.spaceCost"></span>
-                </div>
-              </template>
-
-              <!-- Effects -->
-              <template x-if="item.effect">
-                <div class="item-effects-box">
-                  <template x-for="(val, key) in item.effect">
-                    <div class="stat-tag">
-                      <span class="stat-label" x-text="$store.game.t('ui_' + key)"></span>
-                      <span class="stat-plus">+</span>
-                      <span class="stat-value" x-text="val"></span>
-                    </div>
-                  </template>
-                </div>
-              </template>
-
-              <!-- Actions -->
-              <div class="item-action-footer" x-show="item.consumable">
-                <button
-                  class="game-btn primary-btn use-action-btn"
-                  @click="$store.game.consumeItem($store.game.selectedItem)"
-                >
-                  <span x-text="$store.game.t('ui_use')"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </template>
-
-        <template x-if="!$store.game.ui.getSelectedItemData($store.game)">
-          <div class="vault-placeholder-box">
-            <div class="vault-icon-ghost">🐉</div>
-            <p x-text="$store.game.t('ui_placeholder_desc')"></p>
-          </div>
-        </template>
-      </div>
+    <div x-show="discoveredItems.length === 0" class="empty-state-container panel-premium flex-center m-lg" x-transition>
+      <p class="empty-state-text text-dim" x-text="$store.game.t('ui_upgrades_empty')"></p>
     </div>
   </div>
 </div>

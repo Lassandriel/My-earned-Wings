@@ -1,7 +1,39 @@
 <!-- Status Card (Right Panel) - CORE 3.0 -->
 <div class="status-card">
   <div class="status-header">
-    <div class="player-name" x-text="$store.game.playerName"></div>
+    <div class="player-name-wrapper">
+      <div class="player-name" x-text="$store.game.playerName"></div>
+      <template x-if="$store.game.activeTitle">
+        <div 
+          class="active-title-badge shadow-premium" 
+          x-text="$store.game.t($store.game.content.get($store.game.activeTitle, 'titles').nameKey)"
+          @mouseenter="$store.game.setHovered($store.game.activeTitle)"
+          @mouseleave="$store.game.setHovered(null)"
+        ></div>
+      </template>
+    </div>
+  </div>
+
+  <!-- Title Management -->
+  <div class="title-management-section" x-show="$store.game.discoveredTitles.length > 0">
+    <div class="stat-subcategory" @click="showTitles = !showTitles" x-data="{ showTitles: false }">
+       <span class="expand-icon" :class="showTitles && 'expanded'">▶</span>
+       <span class="subcategory-name" x-text="$store.game.t('ui_titles')"></span>
+    </div>
+    <div class="title-list-grid" x-show="showTitles" x-collapse x-data="{ showTitles: false }">
+       <template x-for="id in $store.game.discoveredTitles" :key="id">
+          <div 
+            class="title-item-slot" 
+            :class="$store.game.activeTitle === id && 'is-active'"
+            @click="$store.game.setActiveTitle(id)"
+            @mouseenter="$store.game.setHovered(id)"
+            @mouseleave="$store.game.setHovered(null)"
+          >
+            <span class="title-icon" x-text="$store.game.content.get(id, 'titles').icon"></span>
+            <span class="title-name-compact" x-text="$store.game.t($store.game.content.get(id, 'titles').nameKey)"></span>
+          </div>
+       </template>
+    </div>
   </div>
 
   <!-- Active Buffs -->
@@ -59,7 +91,7 @@
           role="progressbar"
           :aria-valuenow="$store.game.stats[stat.id] || 0"
           aria-valuemin="0"
-          :aria-valuemax="$store.game['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100"
+          :aria-valuemax="$store.game.getMaxStat(stat.id)"
           :aria-label="$store.game.t('ui_' + stat.id)"
         >
           <div
@@ -71,7 +103,7 @@
         </div>
         <span
           class="stat-val"
-          x-text="$store.game.ui.formatNumber($store.game.stats[stat.id] || 0) + '/' + $store.game.ui.formatNumber($store.game.stats['max' + stat.id.charAt(0).toUpperCase() + stat.id.slice(1)] || 100)"
+          x-text="$store.game.ui.formatNumber($store.game.stats[stat.id] || 0) + '/' + $store.game.ui.formatNumber($store.game.getMaxStat(stat.id))"
           aria-hidden="true"
         ></span>
       </div>
@@ -103,18 +135,18 @@
                 role="progressbar"
                 :aria-valuenow="Math.floor($store.game.resources[res.id])"
                 aria-valuemin="0"
-                :aria-valuemax="$store.game.limits[res.id] || 1"
+                :aria-valuemax="$store.game.getLimit(res.id)"
                 :aria-label="$store.game.t('ui_' + res.id)"
               >
                 <div
                   class="stat-bar-fill"
                   :data-res="res.id"
-                  :style="'width:' + Math.min(100, (($store.game.resources[res.id] || 0) / ($store.game.limits[res.id] || 1)) * 100) + '%; background-color: ' + res.color"
+                  :style="'width:' + Math.min(100, (($store.game.resources[res.id] || 0) / ($store.game.getLimit(res.id) || 1)) * 100) + '%; background-color: ' + res.color"
                 ></div>
               </div>
               <span class="stat-val" aria-hidden="true">
                 <span
-                  x-text="$store.game.ui.formatNumber($store.game.resources[res.id] || 0) + '/' + ($store.game.limits[res.id] ? $store.game.ui.formatNumber($store.game.limits[res.id]) : '∞')"
+                  x-text="$store.game.ui.formatNumber($store.game.resources[res.id] || 0) + '/' + ($store.game.getLimit(res.id) ? $store.game.ui.formatNumber($store.game.getLimit(res.id)) : '∞')"
                 ></span>
               </span>
             </div>
@@ -147,7 +179,7 @@
       <template x-if="$store.game.flags['build-house']">
         <div class="basis-val milestone">
           <span class="basis-icon">🏠</span>
-          <span class="basis-text" x-text="$store.game.t('build-house', 'actions').title"></span>
+          <span class="basis-text" x-text="$store.game.activeHome ? $store.game.t($store.game.content.get($store.game.activeHome, 'homes')?.nameKey) : $store.game.t('build-house', 'actions').title"></span>
         </div>
       </template>
     </div>

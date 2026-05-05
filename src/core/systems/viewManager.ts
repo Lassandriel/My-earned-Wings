@@ -1,3 +1,4 @@
+import Alpine from 'alpinejs';
 import { GameState } from '../../types/game';
 
 /**
@@ -5,12 +6,19 @@ import { GameState } from '../../types/game';
  * Handles scene transitions, state resets, and confirmation modals.
  */
 export const createViewManagerSystem = () => ({
+  metadata: {
+    id: 'viewManager',
+    delegates: [
+      'continueGame', 'finishPrologue', 
+      'confirmName', 'resolveConfirm', 'hardReset', 
+      'returnToMenu', 'completeDemo'
+    ]
+  },
   /** Keys excluded from state reset so player preferences are preserved. */
   RESET_EXCLUDES: new Set([
     'settings',
     'language',
     'prologueStep',
-    'logs',
     'hasSave',
     'view',
     'confirmModal',
@@ -23,12 +31,17 @@ export const createViewManagerSystem = () => ({
     localStorage.removeItem('wings_save');
 
     store.prologueStep = 1;
-    (store as any).logs = [];
+    (Alpine.store('logs') as any).clear();
     store.hasSave = false;
 
     Object.keys(cleanState).forEach((key) => {
       if (!this.RESET_EXCLUDES.has(key)) {
-        (store as any)[key] = JSON.parse(JSON.stringify(cleanState[key]));
+        const val = cleanState[key];
+        // If it's a function, we want to keep the one from the prototype/cleanState if possible,
+        // but Alpine stores usually keep their own methods. We only reset data.
+        if (typeof val !== 'function') {
+          (store as any)[key] = Array.isArray(val) ? [...val] : (typeof val === 'object' && val !== null ? JSON.parse(JSON.stringify(val)) : val);
+        }
       }
     });
 
@@ -97,8 +110,8 @@ export const createViewManagerSystem = () => ({
   },
 
   finishPrologue(store: GameState) {
+    if (store.view !== 'prologue') return;
     store.view = 'naming';
-    store.saveGame();
   },
 
   confirmName(store: GameState, name: string) {
@@ -107,9 +120,9 @@ export const createViewManagerSystem = () => ({
     store.playerName = name.trim().substring(0, 16); // Safety limit
     store.view = 'gameplay';
 
-    // Show Ellie intro modal
-    if ((store as any).ellie && !store.ellieIntroSeen) {
-      (store as any).ellie.showIntro(store);
+    // Visual Intro
+    if (store.ellie && !store.ellieIntroSeen) {
+      store.ellie.showIntro(store);
       store.ellieIntroSeen = true;
     }
 

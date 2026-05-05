@@ -1,6 +1,6 @@
 export default {
   npc_baker_1:
-    '"Willkommen! Ich bin Geron. Ich bin der Bäcker hier im Ort. Und wie heißt du, Fremder?"',
+    '"Willkommen! Ich bin Gara. Ich bin der Bäcker hier im Ort. Und wie heißt du, Fremder?"',
   npc_baker_2:
     '"Der Ofen brennt heiß. Danke für das Holz, {player}. Wenn du mehr hast lass sie bei mir. Ich gebe dir dafür Geld!"',
   npc_baker_3: '"Ein Keks gefällig, {player}? Sie halten dich auf Trab."',
@@ -16,14 +16,19 @@ export default {
     '"Wunderbar, {player}! Diese Kräuter werden dem Dorf im Winter helfen. Hier ist der Bauplan für das Haus am See, den ich versprochen habe."',
   npc_flowerGirl_7:
     '"Du hast mir so viel geholfen... Ich kenne einen Ort, tief im Wald, den nur wenige sehen können. Es ist der Flüsterhain. Hier, nimm diesen Pfad. Aber sei vorsichtig mit den Geistern dort."',
-  npc_artisan_1: '"Ich bin Kael. Holz ist der Anfang von alles. Ein Wanderstock gibt dir Halt."',
+  npc_artisan_1: '"Ich bin Geron. Holz ist der Anfang von alles. Ein Wanderstock gibt dir Halt."',
   npc_artisan_2: '"Stein ist geduldig, {player}. Er formt die Welt, Schritt für Schritt."',
   npc_artisan_3: '"Präzision ist alles. Nimm diesen Meißel, {player}, und forme dein Schicksal."',
-  npc_teacher_1: '"Die Erde bebt unter der Last deiner Bestimmung. Ich bin Aris."',
-  npc_teacher_2: '"Dein Fokus schärft sich, {player}. Die Welt ist mehr als nur Materie."',
-  npc_teacher_3: '"In dieser Schriftrolle, {player}, steht die Wahrheit über den Boden."',
-  npc_teacher_4: '"Die Magie fließt durch dich, {player}, auch ohne Schwingen."',
-  npc_teacher_5: '"Du wanderst am Boden, {player}, aber dein Geist berührt den Aether."',
+  npc_teacher_1: '"Du bist... der Bodengebundene, nicht wahr? Der Einzige. Ich bin Aria, die Lehrerin hier."',
+  npc_teacher_2: '"Niemand wird dich ernst nehmen, {player}, wenn du nicht einmal unsere Schrift kennst. Lass uns das ändern."',
+  npc_teacher_3: '"Jede Rune ist ein Stück Himmel, den du greifen kannst. Konzentriere dich."',
+  npc_teacher_4: '"Du lernst schnell. Bald bist du bereit für die Abschlussprüfung."',
+  npc_teacher_5: '"Ein Wanderer ohne Flügel lernt zu fliegen – zuerst mit dem Verstand."',
+  npc_teacher_6: '"Herzlichen Glückwunsch, {player}. Du hast den Abschluss."',
+  npc_teacher_7: '"Ich habe einen Brief aus Vandara erhalten. Sie haben von dir gehört... und wollen dich sehen!"',
+  npc_magistra_solen_1: '"Die Magie versagt dir den Himmel, doch sie durchströmt deinen Geist. Willkommen am Weg des Himmels."',
+  npc_meister_bram_1: '"Ein Meisterwerk braucht ein starkes Fundament. Zeig mir, was du bauen kannst."',
+  npc_lyra_1: '"Die Wurzeln der Welt tragen uns alle. Lass uns gemeinsam wachsen."',
   npc_aris_6:
     '"Der Äther ist hier besonders dicht. Ein Turm würde als Kanal für deine Seelenform dienen. Dieser Entwurf wird deinen Bau leiten."',
   npc_townHall_1:
@@ -54,6 +59,7 @@ export default {
   npc_ellie_2: '"Die Träume weisen uns den Weg."',
   npc_ellie_3: '"Das Licht des Aethers wird immer heller."',
   npc_ellie_4: '"Geduld, kleiner Drache. Dein Weg ist fast bereit."',
+  npc_ellie_5: '"Das Herz des Bodens schlägt für dich, {player}."',
   npc_aris_1: '"Jeder Zauber beginnt mit einem einzelnen Gedanken."',
   npc_aris_2: '"Spüre, wie die Energie in deine Fingerspitzen fließt."',
   npc_aris_3: '"Magie ist nicht nur Macht, sie ist Verantwortung."',

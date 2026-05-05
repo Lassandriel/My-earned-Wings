@@ -5,7 +5,7 @@
   width: 100vw;
   height: 100vh;
   z-index: 11000;
-  background: #000;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,10 +14,17 @@
   overflow: hidden;
 }
 
+.prologue-bg {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 10990;
+}
+
 .prologue-images {
   position: absolute;
   inset: 0;
-  z-index: 10999;
+  z-index: 10995;
 }
 
 .pro-img {

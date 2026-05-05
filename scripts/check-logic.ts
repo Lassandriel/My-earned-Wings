@@ -1,7 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { registries } from '../src/data/index';
 import { checkRequirement } from '../src/core/systems/logicUtils';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT_DIR = path.resolve(__dirname, '..');
 
 let errors = 0;
 let warnings = 0;
@@ -18,15 +23,20 @@ const logWarning = (msg: string) => {
 
 const checkFileExists = (relPath: string) => {
     if (!relPath) return true;
-    const fullPath = path.join(process.cwd(), 'public', relPath);
+    const fullPath = path.join(ROOT_DIR, 'public', relPath);
     return fs.existsSync(fullPath);
 };
 
-// SFX Registry from audio.ts
-const validSfx = new Set(['click', 'gather', 'success', 'eat', 'fail', 'magic', 'water', 'craft', 'discovery']);
+// SFX Registry - Dynamic detection
+const getValidSfx = () => {
+    const sfxDir = path.join(ROOT_DIR, 'public', 'audio', 'sfx');
+    if (!fs.existsSync(sfxDir)) return new Set(['click', 'gather', 'success', 'eat', 'fail', 'magic', 'water', 'craft', 'discovery']);
+    return new Set(fs.readdirSync(sfxDir).map(f => path.parse(f).name));
+};
+const validSfx = getValidSfx();
 
 const checkLogic = () => {
-    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION 2.6 (ULTIMATE) ===\n");
+    console.log("=== ULTIMATE LOGIC & ASSET VALIDATION 2.7 (DYNAMIC) ===\n");
 
     const itemIds = new Set(Object.keys(registries.items));
     const actionIds = new Set(Object.keys(registries.actions));
@@ -38,22 +48,44 @@ const checkLogic = () => {
     });
     Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
         if (act.image && !checkFileExists(act.image)) logError(`Action '${id}' missing image: ${act.image}`);
-        if (act.sfx && !validSfx.has(act.sfx)) logError(`Action '${id}' unknown SFX: '${act.sfx}'`);
+        if (act.sfx && !validSfx.has(act.sfx)) logError(`Action '${id}' unknown SFX: '${act.sfx}' (Available: ${Array.from(validSfx).join(', ')})`);
     });
 
     // 2. REACHABILITY SIMULATION
     console.log("--- Simulating Progression Reachability ---");
     const reachableFlags = new Map<string, any>();
+    reachableFlags.set('npcProgress', {});
     const unlockedActions = new Set<string>();
     const processedActions = new Set<string>();
     const unlockedItems = new Set<string>();
     const unlockedNPCs = new Set<string>();
 
+    const setSimFlag = (flag: string, value: any) => {
+        if (flag.includes('.')) {
+            const [parent, child] = flag.split('.');
+            let obj = reachableFlags.get(parent);
+            if (!obj || typeof obj !== 'object') {
+                obj = {};
+                reachableFlags.set(parent, obj);
+            }
+            if (obj[child] !== value) {
+                obj[child] = value;
+                return true;
+            }
+        } else {
+            if (reachableFlags.get(flag) !== value) {
+                reachableFlags.set(flag, value);
+                return true;
+            }
+        }
+        return false;
+    };
+
     // Seed with starting NPCs
     Object.values(registries.npcs).forEach((npc: any) => {
         if (npc.unlockedAtStart) {
             unlockedNPCs.add(npc.id);
-            unlockedActions.add(`act-${npc.id}`); // NPCs usually have a corresponding action
+            unlockedActions.add(`act-${npc.id}`);
         }
     });
 
@@ -66,18 +98,17 @@ const checkLogic = () => {
         Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
             if (processedActions.has(id)) return;
 
-            // Actions are available if they are global OR explicitly unlocked
             const isAvailable = unlockedActions.has(id) || !id.startsWith('act-npc-');
             if (!isAvailable) return;
 
-            // Create a mock game state for the requirement checker
             const mockGame = {
                 flags: Object.fromEntries(reachableFlags),
+                npcProgress: reachableFlags.get('npcProgress') || {},
                 discoveredItems: Array.from(unlockedItems),
-                unlockedRecipes: Array.from(unlockedActions)
+                unlockedRecipes: Array.from(unlockedActions),
+                academy_path: reachableFlags.get('academy_path')
             };
 
-            // Check if requirements are met using SHARED REAL LOGIC
             let met = true;
             if (act.requirements) {
                 met = Object.entries(act.requirements).every(([path, rule]) => {
@@ -94,17 +125,13 @@ const checkLogic = () => {
                     if (!effects) return;
                     effects.forEach(eff => {
                         if (eff.type === 'setFlag') {
-                            const current = reachableFlags.get(eff.flag);
-                            if (current !== eff.value) {
-                                reachableFlags.set(eff.flag, eff.value);
-                                changed = true;
-                            }
+                            if (setSimFlag(eff.flag, eff.value)) changed = true;
                         }
                         if (eff.type === 'unlockItem') {
                             if (!unlockedItems.has(eff.id)) {
                                 unlockedItems.add(eff.id);
-                                reachableFlags.set(eff.id, true); 
-                                reachableFlags.set(`item-${eff.id}`, true); 
+                                setSimFlag(eff.id, true); 
+                                setSimFlag(`item-${eff.id}`, true); 
                                 changed = true;
                             }
                         }
@@ -118,16 +145,13 @@ const checkLogic = () => {
                         if (eff.type === 'unlockNPC') {
                             if (!unlockedNPCs.has(eff.id)) {
                                 unlockedNPCs.add(eff.id);
-                                unlockedActions.add(`act-${eff.id}`); // FIX: Unlock the story action too
-                                reachableFlags.set(eff.id, true);
+                                unlockedActions.add(`act-${eff.id}`);
+                                setSimFlag(eff.id, true);
                                 changed = true;
                             }
                         }
                         if (eff.type === 'setHome') {
-                            if (reachableFlags.get(eff.id) !== true) {
-                                reachableFlags.set(eff.id, true);
-                                changed = true;
-                            }
+                            if (setSimFlag(eff.id, true)) changed = true;
                         }
                     });
                 };
@@ -138,12 +162,26 @@ const checkLogic = () => {
                     if (s.reward) {
                         if (!unlockedItems.has(s.reward)) {
                             unlockedItems.add(s.reward);
-                            reachableFlags.set(s.reward, true);
-                            reachableFlags.set(`item-${s.reward}`, true);
+                            setSimFlag(s.reward, true);
+                            setSimFlag(`item-${s.reward}`, true);
                             changed = true;
                         }
                     }
                 });
+
+                // Simulate NPC Progress
+                if (act.npcId && act.progKey && act.steps) {
+                    if (setSimFlag(`npcProgress.${act.progKey}`, act.steps.length)) {
+                        changed = true;
+                    }
+                }
+
+                // Simulate Academy Path Choice (Optimistic branching)
+                if (reachableFlags.get('vandara_unlocked')) {
+                    // If vandara is unlocked, we assume the player can choose ANY path
+                    // To handle this in a single pass without true branching, we "cheat" and allow requirements to match
+                    // any of the paths if we are in "validation mode"
+                }
             }
         });
     }
@@ -153,6 +191,28 @@ const checkLogic = () => {
     Object.keys(registries.actions).forEach(id => {
         if (!processedActions.has(id)) {
             const act = registries.actions[id];
+            
+            // Special case for academy paths: they are exclusive, so we check if they WOULD be reachable
+            if (act.requirements && act.requirements.academy_path) {
+                const pathValue = act.requirements.academy_path;
+                const mockGameWithPath = {
+                    flags: Object.fromEntries(reachableFlags),
+                    npcProgress: reachableFlags.get('npcProgress') || {},
+                    discoveredItems: Array.from(unlockedItems),
+                    unlockedRecipes: Array.from(unlockedActions),
+                    academy_path: pathValue // Test with this specific path
+                };
+
+                let met = Object.entries(act.requirements).every(([path, rule]) => {
+                    return checkRequirement(mockGameWithPath, path, rule);
+                });
+
+                if (met && reachableFlags.get('vandara_unlocked')) {
+                    // It is reachable if the player chooses this path
+                    return;
+                }
+            }
+
             logWarning(`Action '${id}' is unreachable. Requirements: ${JSON.stringify(act.requirements)}`);
         }
     });
@@ -160,7 +220,7 @@ const checkLogic = () => {
     Object.entries(registries.items).forEach(([id, item]: [string, any]) => {
         if (item.category === 'crafting' || item.category === 'tools') {
             if (!unlockedItems.has(id)) {
-                logError(`ORPHANED ITEM: '${id}' is never unlocked or rewarded! (Simulation did not reach it)`);
+                logError(`ORPHANED ITEM: '${id}' is never unlocked or rewarded!`);
             }
         }
     });
@@ -169,12 +229,10 @@ const checkLogic = () => {
     console.log("--- Validating Economic Feasibility ---");
     const maxLimits: Record<string, number> = {};
     
-    // Fill with initial values from resources
     Object.values(registries.resources).forEach((res: any) => {
         maxLimits[res.id] = res.initialLimit !== undefined ? res.initialLimit : (res.initialMax || 0);
     });
 
-    // Fill modifiers (but DON'T overwrite existing resource limits if they are already higher)
     Object.values(registries.modifiers || {}).forEach((mod: any) => {
         const val = mod.baseValue !== undefined ? mod.baseValue : 0;
         if (maxLimits[mod.id] === undefined || val > maxLimits[mod.id]) {
@@ -184,14 +242,12 @@ const checkLogic = () => {
 
     maxLimits['shards'] = Infinity;
     maxLimits['astral_shards'] = Infinity;
-    // Energy/Magic limits are stats, usually 100-200
     if (maxLimits['energy'] < 200) maxLimits['energy'] = 200; 
     if (maxLimits['magic'] < 200) maxLimits['magic'] = 200;
 
-    // Calculate absolute max possible limits from PROCESSED actions
     processedActions.forEach(id => {
         const act = registries.actions[id];
-        const multiplier = act.maxCount || 1; // Simulate repeatability
+        const multiplier = act.maxCount || 1;
         
         const collectLimits = (effects: any[]) => {
             if (!effects) return;
@@ -211,7 +267,6 @@ const checkLogic = () => {
         });
     });
 
-    // Add home base limits from REACHABLE homes
     Object.values(registries.homes).forEach((home: any) => {
         if (reachableFlags.get(home.id) === true && home.baseLimits) {
             Object.entries(home.baseLimits).forEach(([res, amt]: [string, any]) => {
@@ -220,14 +275,13 @@ const checkLogic = () => {
         }
     });
 
-    // Check costs
     Object.entries(registries.actions).forEach(([id, act]: [string, any]) => {
         const checkCosts = (costs: any, source: string) => {
             if (!costs) return;
             Object.entries(costs).forEach(([res, amt]: [string, any]) => {
                 const limit = maxLimits[res];
                 if (limit !== undefined && amt > limit) {
-                    logError(`${source} costs ${amt} ${res}, but max possible limit is ${limit}! (Impossible to build)`);
+                    logError(`${source} costs ${amt} ${res}, but max possible limit is ${limit}!`);
                 }
             });
         };
@@ -242,10 +296,8 @@ const checkLogic = () => {
 
     console.log("\n=============================");
     console.log(`Validation completed with ${errors} Errors and ${warnings} Warnings.`);
-    
-    if (errors > 0) {
-        process.exit(1);
-    }
+    if (errors > 0) process.exit(1);
 };
 
 checkLogic();
+

@@ -1,81 +1,6 @@
-.view-content-village {
-  padding: 0;
-  height: auto;
-  display: block;
-  overflow: visible;
-  animation: fadeInVillage 0.5s ease-out;
-}
+/* VILLAGE HUB SPECIFIC - NO GRID/CARD OVERRIDES */
 
-.village-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  align-items: start; /* Allow cards to have dynamic heights */
-  gap: 25px;
-  margin-top: 25px;
-  padding-bottom: 80px; /* Space at the bottom for scrolling comfort */
-}
-
-/* Base Card Styling */
-.village-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.village-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-
-/* Card Visual Header */
-.card-header-visual {
-  height: 180px; /* Reduced from 220px to give more space for buttons */
-  background: rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: height 0.3s ease;
-}
-
-/* Responsive height for small monitors */
-@media (max-height: 850px) {
-  .card-header-visual {
-    height: 140px;
-  }
-}
-
-@media (max-height: 750px) {
-  .card-header-visual {
-    height: 110px;
-  }
-}
-
-.npc-portrait-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-.npc-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Full portrait visible */
-  position: relative;
-  z-index: 2;
-  transition: transform 0.6s ease;
-}
-
+/* NPC Portraits and Overlays */
 .npc-img-blur-bg {
   position: absolute;
   top: -10%;
@@ -89,46 +14,14 @@
   z-index: 1;
 }
 
-.village-card:hover .npc-img {
-  transform: scale(1.1);
-}
-
-.npc-placeholder {
-  font-size: 5rem;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-  opacity: 0.8;
-}
-
-/* Card Body */
-.card-body {
-  padding: 16px 20px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex-grow: 1;
-}
-
-.npc-info-row {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.npc-display-name {
-  margin: 0;
-  font-size: 1.3rem;
-  font-family: 'Cinzel', serif;
-  color: #fff;
-  letter-spacing: 1px;
-}
-
 /* Progress Mini */
 .npc-progress-mini-track {
   width: 100%;
   height: 4px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
+  margin-top: 6px;
 }
 
 .npc-progress-fill {
@@ -137,7 +30,6 @@
   transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Completion Highlight */
 .npc-progress-fill.is-maxed {
   background: linear-gradient(90deg, var(--gold), #fbbf24);
   box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
@@ -145,38 +37,11 @@
 }
 
 @keyframes barPulse {
-  from {
-    opacity: 0.8;
-  }
-  to {
-    opacity: 1;
-    filter: brightness(1.2);
-  }
+  from { opacity: 0.8; }
+  to { opacity: 1; filter: brightness(1.2); }
 }
 
-/* Actions */
-.npc-interaction-area {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.npc-main-action-btn {
-  width: 100%;
-  background: rgba(20, 184, 166, 0.1);
-  border-color: rgba(20, 184, 166, 0.3);
-  color: var(--accent-teal);
-  font-weight: 800;
-  margin-bottom: 4px; /* Tiny space between quest and trade buttons */
-}
-
-.npc-main-action-btn:hover {
-  background: rgba(20, 184, 166, 0.2);
-  border-color: var(--accent-teal);
-  box-shadow: 0 0 15px rgba(20, 184, 166, 0.3);
-}
-
-/* Companion Status */
+/* NPC Interactive Overlays */
 .npc-status-tag {
   position: absolute;
   top: 15px;
@@ -195,130 +60,303 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.status-pulse {
-  width: 6px;
-  height: 6px;
-  background: #fff;
-  border-radius: 50%;
-  animation: pulse-white-dot 1.5s infinite;
-}
-
-/* NPC Trade Actions (Decentralized) */
 .npc-trade-actions {
+  position: absolute;
+  top: 12px;
+  left: 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 6px;
+  z-index: 10;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.game-card:hover .npc-trade-actions {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .npc-trade-btn {
-  width: 100%;
-  background: rgba(251, 191, 36, 0.05);
-  border-color: rgba(251, 191, 36, 0.2);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(251, 191, 36, 0.4);
   color: var(--gold);
-  justify-content: space-between !important;
-  padding: 10px 15px !important;
-  font-size: 0.9rem !important;
-  font-weight: 600;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .npc-trade-btn:hover {
-  background: rgba(251, 191, 36, 0.12);
-  border-color: var(--gold);
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+  background: var(--gold);
+  color: #000;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
 }
 
-/* Shop Row (Deprecated if unused elsewhere, keeping structure for now) */
-.shop-buttons-row {
+/* Tabs and Header */
+.nav-tabs-wrapper {
+  margin-bottom: 25px;
   display: flex;
-  gap: 10px;
-}
-
-.shop-btn {
-  flex: 1;
-  font-size: 1.2rem !important;
-  padding: 10px !important;
-}
-
-/* Companion Controls */
-.companion-toggle-btn {
-  width: 100%;
-  font-weight: 800;
-}
-
-.btn-idle {
-  border-color: rgba(139, 92, 246, 0.3);
-  color: var(--accent-purple);
-}
-
-.btn-active {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
-}
-
-/* Finale Card */
-.finale-tree-card {
-  background: linear-gradient(to top, rgba(20, 184, 166, 0.2), rgba(0, 0, 0, 0.4));
-  border-color: var(--accent-teal);
   justify-content: center;
-  align-items: center;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.4);
+  padding: 6px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.nav-tab-btn {
+  padding: 10px 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-tab-btn:hover:not(.active) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-tab-btn.active {
+  background: var(--accent-teal);
+  color: #0f172a;
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+}
+
+/* School Section Enhancements */
+.school-container {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.school-container::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.school-title {
+  margin: 0;
+  color: var(--gold);
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.school-card-footer {
+  padding-bottom: 25px;
+}
+
+/* Vandara Path Selection */
+.vandara-intro {
   text-align: center;
-  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto 40px auto;
 }
 
-.finale-tree-visual {
-  font-size: 6rem;
-  animation: tree-sway-motion 4s infinite ease-in-out;
+.vandara-title {
+  color: var(--gold);
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
-/* Animations */
-@keyframes tree-sway-motion {
-  0%,
-  100% {
-    transform: rotate(-5deg);
-  }
-  50% {
-    transform: rotate(5deg);
-  }
+.vandara-hint {
+  color: var(--text-dim);
+  line-height: 1.6;
 }
 
-@keyframes pulse-white-dot {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.path-card {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease;
 }
 
-@keyframes fadeInVillage {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.path-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--gold) !important;
 }
 
-/* Scroll Adjustment for small screens */
-@media (max-width: 1100px) {
-  .village-view-container {
-    height: auto !important;
-    overflow-y: visible !important;
-    padding-bottom: 20px;
-  }
-  .village-grid {
-    padding-bottom: 40px;
-  }
+/* Mentor Spotlight */
+.mentor-spotlight {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.mentor-spotlight:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: var(--accent-purple, #a78bfa);
+}
+
+.mentor-mini-portrait {
+  width: 42px;
+  height: 42px;
+  margin: 0;
+  border: 2px solid var(--accent-purple, #a78bfa);
+}
+
+.mentor-placeholder {
+  font-size: 1.3rem;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Subject Colors for School Actions */
+.card-read { --subject-color: #60a5fa; }
+.card-numbers { --subject-color: #fbbf24; }
+.card-history { --subject-color: #f87171; }
+.card-herbs { --subject-color: #4ade80; }
+.card-runes { --subject-color: #c084fc; }
+
+.game-card:hover {
+  border-color: var(--subject-color, var(--accent-teal)) !important;
+}
+
+/* Action Visual specifically for school emojis */
+.school-card-visual {
+  color: var(--subject-color, #fff);
+  text-shadow: 0 0 20px var(--subject-color);
+  font-size: 2rem;
+}
+
+/* Progress bar for active actions */
+.school-active-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent-teal), var(--subject-color, var(--gold)));
+  width: 100%; /* In HTML we show it only when active */
+  transition: width 0.3s linear;
+  box-shadow: 0 0 15px var(--accent-teal);
+  animation: schoolBarPulse 1.5s infinite;
+}
+
+@keyframes schoolBarPulse {
+  0%, 100% { opacity: 0.7; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.5); }
+}
+
+.action-active-ring {
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--accent-teal);
+  border-radius: 22px;
+  pointer-events: none;
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.02); opacity: 0.4; }
+}
+
+/* Status Check Overlay (Maxed NPCs) */
+.status-check {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--gold);
+  color: #0f172a;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  z-index: 10;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  animation: checkPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Layout Utilities */
+.school-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.school-title-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.school-icon-main {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px var(--gold));
+}
+
+.teacher-spotlight {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  cursor: help;
+}
+
+.teacher-spotlight:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-teal);
+  transform: translateX(-5px);
+}
+
+.teacher-mini-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-teal);
+}
+
+.teacher-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.teacher-info span {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.teacher-info strong {
+  color: #fff;
+  font-size: 0.95rem;
 }

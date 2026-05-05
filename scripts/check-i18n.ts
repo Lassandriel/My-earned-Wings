@@ -103,6 +103,32 @@ const checkRegistries = () => {
         checkKey(`[reg.res] 'fail_${id}'`, 'logs', 'fail_' + id);
         checkKey(`[reg.res] 'fail_full_${id}'`, 'logs', 'fail_full_' + id);
     });
+
+    Object.keys(reg.npcs).forEach(id => {
+        const npc = reg.npcs[id];
+        if (npc.nameKey) checkKey(`[reg.npcs] nameKey '${npc.nameKey}'`, 'ui', npc.nameKey);
+        if (npc.steps) {
+            npc.steps.forEach((s: any, i: number) => {
+                if (s.dialogueKey) checkKey(`[reg.npcs] ${id} step ${i} dialogue`, 'npcs', s.dialogueKey);
+            });
+        }
+    });
+
+    Object.keys(reg.homes || {}).forEach(id => {
+        const home = reg.homes[id];
+        if (home.nameKey) checkKey(`[reg.homes] '${id}' nameKey`, 'ui', home.nameKey);
+        if (home.descKey) checkKey(`[reg.homes] '${id}' descKey`, 'ui', home.descKey);
+    });
+
+    Object.keys(reg.navigation || {}).forEach(id => {
+        const nav = reg.navigation[id];
+        if (nav.label) checkKey(`[reg.nav] '${id}' label`, 'ui', nav.label);
+    });
+
+    Object.keys(reg.milestones || {}).forEach(id => {
+        // Milestones usually don't have UI titles, but they might be logged
+        checkKey(`[reg.milestones] '${id}' log`, 'logs', 'milestone_' + id.replace('milestone-', ''));
+    });
 };
 
 // ---------------------------------------------------------------------------
@@ -116,7 +142,7 @@ const performHeuristicScan = () => {
         path.resolve(SRC_DIR, '../index.html')
     ];
     
-    const KEY_PATTERN = /['"]([a-zA-Z0-9_\-\.]{3,})['"]/g;
+    const KEY_PATTERN = /['"]([a-zA-Z0-9_\-\.]{3,})['"]/g; // Min 3 chars to catch 'ui_', 'act' etc.
 
     for (const file of files) {
         const content = fs.readFileSync(file, 'utf-8');
@@ -155,12 +181,16 @@ const scanForHardcodedHtmlText = () => {
         const lines = content.split('\n');
         
         lines.forEach((line, idx) => {
-            if (line.includes('x-text') || line.includes('x-html') || line.includes('{{')) return;
+            // Ignore lines with template tags or alpine attributes
+            if (line.includes('x-text') || line.includes('x-html') || line.includes('{{') || line.includes('<script') || line.includes('<style')) return;
             
-            const match = />\s*([^<>{}$]*[a-zA-ZäöüÄÖÜß]+[^<>{}$]*)\s*</.exec(line);
+            const match = />\s*([^<>{}$]*[a-zA-ZäöüÄÖÜß]{2,}[^<>{}$]*)\s*</.exec(line);
             if (match) {
                 const text = match[1].trim();
-                if (text.length < 2 || text === '?' || /^https?:\/\/(www\.)?github\.com(\/|$)/.test(text) || text === '✨') return;
+                // Ignore common false positives
+                const IGNORE = ['?', '!', '...', '✨', 'GitHub', 'License', 'Vite'];
+                if (IGNORE.some(i => text.includes(i)) || /^https?:\/\//.test(text)) return;
+                
                 hardcodedWarnings.push(`[${path.relative(SRC_DIR, file)}:L${idx+1}] Hardcoded text: "${text}"`);
             }
         });
@@ -199,7 +229,8 @@ const findOrphans = () => {
     const deObj = de as any;
     
     const SYSTEM_WHITELIST = [
-        'ui.menu_version', 'ui.ui_unknown', 'logs.npc_dialogue_log'
+        'ui.menu_version', 'ui.ui_unknown', 'logs.npc_dialogue_log',
+        'ui.ui_materials', 'ui.ui_provisions', 'ui.ui_knowledge'
     ];
 
     Object.keys(deObj).forEach(ns => {

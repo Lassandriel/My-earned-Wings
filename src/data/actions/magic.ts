@@ -58,4 +58,17 @@ export const magicActions: Record<string, any> = {
     logKey: 'spell_harvest_log',
     logColor: 'var(--accent-purple)',
   },
+  'act-grind-dust': {
+    id: 'act-grind-dust',
+    category: 'magic',
+    icon: '🔮',
+    costType: 'mixed',
+    costs: { herbs: 5, magic: 10 },
+    requirements: { 'flags.item-book-knowledge': true },
+    sfx: 'magic',
+    isLoopable: true,
+    rewards: { arcane_dust: 1 },
+    logKey: 'grind_dust_log',
+    logColor: 'var(--accent-purple)',
+  },
 };
