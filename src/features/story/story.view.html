@@ -1,5 +1,5 @@
 <!-- CHRONICLE VIEW -->
-<div x-show="$store.game.view === 'story'" class="view-content-story">
+<div x-show="$store.ui.view === 'story'" class="view-content-story">
   <div class="category-header">
     <h3 x-text="$store.game.t('nav_story_tab_header')"></h3>
     <div
@@ -50,7 +50,7 @@
           x-for="entry in $store.game.storyHistory.filter(e => (e.npcId || 'world') === $store.game.selectedStoryNpc)"
           :key="entry.timestamp"
         >
-          <div class="archive-entry" x-transition:enter="view-enter">
+          <div class="archive-entry card-premium m-sm p-sm" x-transition:enter="view-enter">
             <div class="archive-entry-header">
               <span class="archive-entry-chapter" x-text="entry.chapter"></span>
               <span
@@ -68,11 +68,11 @@
   </div>
 
   <!-- Empty State View -->
-  <div class="empty-story-splash" x-show="$store.game.storyHistory.length === 0" x-transition>
+  <div class="empty-story-splash panel-premium flex-center m-lg" x-show="$store.game.storyHistory.length === 0" x-transition>
     <div class="splash-inner">
       <div class="splash-icon">📜</div>
-      <h4 x-text="$store.game.t('ui_chronicle_empty_title')">Deine Reise beginnt...</h4>
-      <p x-text="$store.game.t('ui_empty_story')"></p>
+      <h4 class="text-gold" x-text="$store.game.t('ui_chronicle_empty_title')">Deine Reise beginnt...</h4>
+      <p class="text-dim" x-text="$store.game.t('ui_empty_story')"></p>
     </div>
   </div>
 </div>

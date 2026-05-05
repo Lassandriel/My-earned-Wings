@@ -14,6 +14,16 @@ import { checkRequirement } from '../../core/systems/logicUtils';
  */
 export function createActionSystem() {
   const effectHandlers: Record<string, (game: GameState, effect: any) => void> = {};
+  let _lastActionTime = 0;
+  const DEBOUNCE_MS = 50;
+  const metadata = {
+    id: 'actions',
+    delegates: {
+      executeAction: 'execute',
+      attemptAction: 'attemptAction',
+      toggleFocus: 'toggleFocus'
+    }
+  };
 
   const registerEffect = <T extends GameEffect['type']>(
     type: T,
@@ -106,6 +116,10 @@ export function createActionSystem() {
     registerEffect('setHome', (game, { id }) => {
       game.activeHome = id;
     });
+
+    registerEffect('unlockTitle', (game, { id }) => {
+      game.titles.unlockTitle(game, id);
+    });
   };
 
 
@@ -133,7 +147,7 @@ export function createActionSystem() {
   const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: any) => {
     game.counters.totalActions++;
 
-    if (action.counter) {
+    if (action.counter && game.counters[action.counter] !== undefined) {
       game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
     }
 
@@ -174,14 +188,16 @@ export function createActionSystem() {
   const handleFailure = (game: GameState, _id: ActionId, action: ActionDefinition) => {
     game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
 
-    const yieldType = action.yieldType;
-    if (yieldType && game.resource.isFull(game, yieldType)) {
+    const rewards = action.rewards || (action.yieldType ? { [action.yieldType]: 0 } : null);
+    const fullRes = rewards ? Object.keys(rewards).find(resId => game.resource.isFull(game, resId as ResourceId)) : null;
+
+    if (fullRes) {
       if (game.activeFocus === _id) {
         game.activeFocus = null;
         game.addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
       }
       game.bus.emit(game.EVENTS.LOG_ADDED, {
-        id: 'fail_full_' + yieldType,
+        id: 'fail_full_' + fullRes,
         color: 'var(--accent-red)',
       });
       return;
@@ -246,20 +262,20 @@ export function createActionSystem() {
         delete costs.energy;
       }
 
-      const isPhysical =
-        action.costType === 'energy' ||
-        (action.costType === 'mixed' && action.costs && action.costs.energy);
-      if (isPhysical) {
-        costs.satiation = (costs.satiation || 0) + 1;
-      }
+      // Satiation drain is handled centrally in resource.logic.ts during consumption of energy.
+      // We don't inject it here as a hard requirement anymore.
 
       if (!game.resource.canAfford(game, costs)) return { success: false };
 
-      const yieldType = action.yieldType;
-      if (yieldType && game.resource.isFull(game, yieldType)) {
-        game.addLog('fail_full_' + yieldType, 'logs', 'var(--accent-red)');
-        game.playSound('fail');
-        return { success: false };
+      // Check for full storage on all rewards
+      const rewards = action.rewards || (action.yieldType ? { [action.yieldType]: 0 } : null);
+      if (rewards) {
+        const fullRes = Object.keys(rewards).find(resId => game.resource.isFull(game, resId as ResourceId));
+        if (fullRes) {
+          game.addLog('fail_full_' + fullRes, 'logs', 'var(--accent-red)');
+          game.playSound('fail');
+          return { success: false };
+        }
       }
 
       if (action.onSuccess) {
@@ -343,10 +359,13 @@ export function createActionSystem() {
       if (action.duration) {
         const result = processAction(game, id, action, 'prepare');
         if (result.success) {
-          game.activeTasks[id] = {
-            actionId: id,
-            remaining: action.duration,
-            total: action.duration,
+          game.activeTasks = {
+            ...game.activeTasks,
+            [id]: {
+              actionId: id,
+              remaining: action.duration,
+              total: action.duration,
+            }
           };
           game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
           return true;
@@ -370,6 +389,10 @@ export function createActionSystem() {
      * Attempts to execute an action with UI feedback (shake effect on failure).
      */
     attemptAction(game: GameState, el: HTMLElement, id: ActionId) {
+      const now = Date.now();
+      if (now - _lastActionTime < DEBOUNCE_MS) return;
+      _lastActionTime = now;
+
       if (game.activeTasks[id]) return;
       const res = this.execute(game, id);
       if (res === false || (res && (res as any).success === false)) {
@@ -417,6 +440,8 @@ export function createActionSystem() {
         }
       });
       console.log(`[ACTIONS] Rebuilt active producers: ${game.activeProducers.length}`);
-    }
+    },
+
+    metadata
   };
 }

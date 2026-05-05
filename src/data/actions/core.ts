@@ -184,7 +184,7 @@ export const coreActions: Record<string, any> = {
   },
   'act-cook-gourmet': {
     id: 'act-cook-gourmet',
-    category: 'garden_task',
+    category: 'kitchen',
     icon: '🍳',
     costType: 'mixed',
     costs: { water: 2, meat: 2, herbs: 1 },

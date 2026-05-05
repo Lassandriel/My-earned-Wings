@@ -1,3 +1,4 @@
+import Alpine from 'alpinejs';
 import { GameState, ResourceId, FlagId, ActionDefinition, ModifierDefinition, NPCDefinition } from '../../types/game';
 
 /**
@@ -111,13 +112,15 @@ export const createUISystem = () => {
 
       step.onSuccess?.forEach((eff) => {
         const bonusLabel = store.t('ui_bonus') || 'Bonus';
+        const bonusSep = bonusLabel.endsWith(':') ? ' ' : ': ';
         if (eff.type === 'unlockNPC') {
-          const name = store.t('npc_' + eff.id.replace('npc-', '') + '_name', 'ui');
-          effects.push(`${bonusLabel}: ${name} ${store.t('ui_unlocked')}`);
+          const npc = store.content.get(eff.id, 'npcs');
+          const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
+          effects.push(`${bonusLabel}${bonusSep}${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
           const recAction = store.content.get(eff.id, 'actions');
-          const recName = recAction ? store.t(eff.id, 'actions')?.title : eff.id;
-          effects.push(`${bonusLabel}: ${store.t('ui_recipe')}: ${recName}`);
+          const recName = recAction ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
+          effects.push(`${bonusLabel}${bonusSep}${store.t('ui_recipe')}: ${recName}`);
         } else if (eff.type === 'modifyResource') {
           effects.push(`${eff.amount > 0 ? '+' : ''}${eff.amount} ${getResLabel(store, eff.resource)}`);
         } else if (eff.type === 'modifyLimit') {
@@ -178,6 +181,13 @@ export const createUISystem = () => {
   };
 
   return {
+    metadata: {
+      id: 'ui',
+      delegates: {
+        getActionEffect: 'getActionEffect',
+        getTooltipCosts: 'getTooltipCosts'
+      }
+    },
     cleanupHover: TooltipManager.cleanup,
     getTooltipCosts: TooltipManager.getCosts,
     handleMouseMove: TooltipManager.handleMove,
@@ -190,10 +200,7 @@ export const createUISystem = () => {
     },
 
     getStatPercent(store: GameState, stat: string): number {
-      const current = store.stats[stat] || 0;
-      const maxKey = 'max' + stat.charAt(0).toUpperCase() + stat.slice(1);
-      const max = store.stats[maxKey] || 100;
-      return Math.max(0, Math.min(100, (current / max) * 100));
+      return store.resource.getStatPercent(store, stat);
     },
 
     getGatheringActions(store: GameState) {
@@ -235,7 +242,7 @@ export const createUISystem = () => {
 
     getTaskProgress(store: GameState, taskId: string) {
       const t = store.activeTasks[taskId];
-      return t ? ((t.duration - t.remaining) / t.duration) * 100 : 0;
+      return t?.duration ? ((t.duration - t.remaining) / t.duration) * 100 : 0;
     },
 
     calculateScale() {
@@ -260,12 +267,52 @@ export const createUISystem = () => {
     },
 
     getActionEffect(store: GameState, hAction: any): string[] {
-      if (!hAction?.data) return [];
+      if (!hAction?.id) return [];
       
       const effects: string[] = [];
       const hId = hAction.id as string;
-      const action = hAction.data as ActionDefinition;
 
+      // --- ITEM HANDLING ---
+      if (hId.startsWith('item-')) {
+        const item = store.content.get(hId, 'items');
+        if (!item) return [];
+
+        // 1. Modifiers (Passive)
+        item.modifiers?.forEach((mod: any) => {
+          const isLimit = mod.key.endsWith('_limit');
+          const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
+          const modDef = store.content.get<ModifierDefinition>(mod.key, 'modifiers') || store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
+          
+          let label = modDef ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers') : (store.t('ui_' + mod.key) || mod.key);
+          const limitTxt = (isLimit && !label.toLowerCase().includes('limit')) ? ` ${store.t('ui_limit') || 'Limit'}` : '';
+          
+          effects.push(`${store.t('ui_bonus')} ${label}${limitTxt}: ${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
+        });
+
+        // 2. Effects (Object-based, e.g. food)
+        if (item.effect && typeof item.effect === 'object') {
+          Object.entries(item.effect).forEach(([k, v]) => {
+            effects.push(`${store.t('ui_' + k)}: +${v}`);
+          });
+        }
+
+        // 3. Effects (String-based)
+        if (item.effect && typeof item.effect === 'string') {
+          effects.push(store.t(item.effect));
+        }
+
+        // 4. Space Cost
+        if (item.spaceCost) {
+          effects.push(`${store.t('ui_furniture_space')}: ${item.spaceCost}`);
+        }
+
+        return effects;
+      }
+
+      const action = hAction.data as ActionDefinition;
+      if (!action) return [];
+
+      // --- ACTION HANDLING ---
       // 1. NPC Rewards
       if (hId.startsWith('act-npc-')) {
         const npcEffs = Formatter.getNpcStepEffects(store, action);
@@ -279,14 +326,16 @@ export const createUISystem = () => {
       // 3. Success Bonuses
       action.onSuccess?.forEach((eff) => {
         const bonusLabel = store.t('ui_bonus') || 'Bonus';
+        const bonusSep = bonusLabel.endsWith(':') ? ' ' : ': ';
         if (eff.type === 'modifyLimit') {
-          effects.push(`${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
+          effects.push(`${bonusLabel}${bonusSep}${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
         } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
-          const name = store.t('npc_' + eff.id.replace('npc-', '') + '_name', 'ui');
-          effects.push(`${bonusLabel}: ${name} ${store.t('ui_unlocked')}`);
+          const npc = store.content.get(eff.id, 'npcs');
+          const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
+          effects.push(`${bonusLabel}${bonusSep}${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
           const recName = store.content.get(eff.id, 'actions') ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
-          effects.push(`${bonusLabel}: ${store.t('ui_recipe')}: ${recName}`);
+          effects.push(`${bonusLabel}${bonusSep}${store.t('ui_recipe')}: ${recName}`);
         } else if (eff.type === 'setHome') {
           effects.push(...Formatter.getHomeEffects(store, eff.id));
         }
@@ -319,11 +368,18 @@ export const createUISystem = () => {
       if (h.isHelp) return h.title || '';
       if (h.isBuff) return store.t(h.title, 'buffs') || h.title;
 
+      if (h.id.startsWith('item-')) {
+        const item = store.content.get(h.id, 'items');
+        return item ? store.t(item.title, 'items') : h.id;
+      }
+
       if (h.id.includes('npc-') && h.data) {
-        const npc = store.content.get(h.data.npcId, 'npcs');
+        const npc = h.data.npcId ? store.content.get(h.data.npcId, 'npcs') : h.data;
         const base = npc ? store.t(npc.nameKey) : h.id;
-        const cur = store.npcProgress[h.data.progKey] || 0;
-        return `${base} (${Math.min(h.data.maxProgress, cur + 1)}/${h.data.maxProgress})`;
+        const progKey = h.data.progKey;
+        const maxProg = h.data.maxProgress;
+        const cur = store.npcProgress[progKey] || 0;
+        return `${base} (${Math.min(maxProg, cur + 1)}/${maxProg})`;
       }
       
       const lang = store.t(h.id, 'actions') as any;
@@ -335,10 +391,17 @@ export const createUISystem = () => {
       if (h.isHelp) return h.desc || '';
       if (h.isBuff) return store.t(h.desc, 'buffs') || h.desc;
 
+      if (h.id.startsWith('item-')) {
+        const item = store.content.get(h.id, 'items');
+        return item ? store.t(item.desc, 'items') : '';
+      }
+
       if (h.id.includes('npc-') && h.data) {
-        const cur = store.npcProgress[h.data.progKey] || 0;
-        if (cur < h.data.maxProgress) {
-          const key = `npc_${h.data.progKey}_${cur + 1}`;
+        const progKey = h.data.progKey;
+        const maxProg = h.data.maxProgress;
+        const cur = store.npcProgress[progKey] || 0;
+        if (cur < maxProg) {
+          const key = `npc_${progKey}_${cur + 1}`;
           const txt = store.t(key, 'npcs');
           if (txt && txt !== key) return txt;
         }
@@ -363,38 +426,19 @@ export const createUISystem = () => {
       });
     },
 
+    getItemData(store: GameState, id: string): any {
+      return store.content.get(id, 'items') || null;
+    },
+
     getSelectedItemData(store: GameState): any {
       if (!store.selectedItem) return null;
-      return store.content.get(store.selectedItem, 'items') || null;
+      return this.getItemData(store, store.selectedItem);
     },
 
     initMagneticHover() {
-      const updateRef = (el: HTMLElement, x: string, y: string) => {
-        el.style.setProperty('--m-x', x);
-        el.style.setProperty('--m-y', y);
-      };
-
-      document.addEventListener('mousemove', (e) => {
-        const target = (e.target as HTMLElement).closest('.game-btn, .nav-item') as HTMLElement;
-        
-        // Cleanup all active buttons if we moved away
-        if (!target) {
-          document.querySelectorAll('[style*="--m-x"]').forEach((el) => {
-            updateRef(el as HTMLElement, '0px', '0px');
-          });
-          return;
-        }
-
-        const rect = target.getBoundingClientRect();
-        const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.2;
-        const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.2;
-        updateRef(target, `${dx}px`, `${dy}px`);
-      });
-
-      document.addEventListener('mouseout', (e) => {
-        const target = (e.target as HTMLElement).closest('.game-btn, .nav-item') as HTMLElement;
-        if (target) updateRef(target, '0px', '0px');
-      });
+      // Magnetic hover deactivated as per user request to prevent clipping.
+      // Replaced by clean CSS translateY + scale.
+      return;
     },
 
     boot(store: GameState) {
@@ -411,6 +455,17 @@ export const createUISystem = () => {
 
       store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: any) => triggerPulse(d.type, 'gain-pulse'));
       store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: any) => triggerPulse(d.type, 'drain-flash'));
+
+      // View Validation & Reactive Cleanups
+      (Alpine as any).effect(() => {
+        const ui = (Alpine as any).store('ui') as any;
+        const VALID_VIEWS = ['menu','prologue','naming','gameplay','crafting','upgrades','village','housing','story','finale','demo_end'];
+        if (!VALID_VIEWS.includes(ui.view)) {
+          console.warn(`[UI] Invalid view: ${ui.view}. Resetting to menu.`);
+          ui.view = 'menu';
+        }
+        this.cleanupHover(store);
+      });
     },
   };
 };

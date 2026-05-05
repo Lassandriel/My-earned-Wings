@@ -5,7 +5,10 @@ export const vandaraNPCs: Record<string, NPCDefinition> = {
     id: 'npc-magistra_solen',
     nameKey: 'npc_magistra_solen_name',
     icon: '🔮',
+    image: 'img/npcs/magistra_solen.webp',
+    progKey: 'magistra_solen',
     maxProgress: 5,
+    isVandara: true,
     dialogues: {
       0: 'npc_magistra_solen_1',
     },
@@ -14,7 +17,10 @@ export const vandaraNPCs: Record<string, NPCDefinition> = {
     id: 'npc-meister_bram',
     nameKey: 'npc_meister_bram_name',
     icon: '⚒️',
+    image: 'img/npcs/meister_bram.webp',
+    progKey: 'meister_bram',
     maxProgress: 5,
+    isVandara: true,
     dialogues: {
       0: 'npc_meister_bram_1',
     },
@@ -23,7 +29,10 @@ export const vandaraNPCs: Record<string, NPCDefinition> = {
     id: 'npc-lyra',
     nameKey: 'npc_lyra_name',
     icon: '🌿',
+    image: 'img/npcs/lyra.webp',
+    progKey: 'lyra',
     maxProgress: 5,
+    isVandara: true,
     dialogues: {
       0: 'npc_lyra_1',
     },
@@ -91,6 +100,6 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     costType: 'satiation',
     requirements: { 'academy_path': 'lyra' },
     rewards: { study_xp: 15 },
-    sfx: 'blessing',
+    sfx: 'magic',
   },
 };

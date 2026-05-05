@@ -137,7 +137,7 @@ export const npcActions: Record<string, any> = {
     isStory: true,
     chapter: 'Village Life',
     progKey: 'teacher',
-    maxProgress: 5,
+    maxProgress: 7,
     journalIcon: '📖',
     icon: '🎓',
     journalColor: '#3b82f6',
@@ -166,6 +166,21 @@ export const npcActions: Record<string, any> = {
         costType: 'magic',
         reward: 'item-scroll',
         dialogueKey: 'npc_teacher_5',
+      },
+      {
+        cost: 40,
+        costType: 'magic',
+        onSuccess: [{ type: 'setFlag', flag: 'school_graduate', value: true }],
+        dialogueKey: 'npc_teacher_6',
+      },
+      {
+        cost: 50,
+        costType: 'magic',
+        onSuccess: [
+          { type: 'setFlag', flag: 'vandara_unlocked', value: true },
+          { type: 'log', logKey: 'unlock_vandara', color: 'var(--gold)' },
+        ],
+        dialogueKey: 'npc_teacher_7',
       },
     ],
     execute: (state: any) => {
@@ -371,7 +386,7 @@ export const npcActions: Record<string, any> = {
         onSuccess: [{ type: 'modifyResource', resource: 'magic', amount: 15 }],
         dialogueKey: 'npc_ellie_4',
       },
-      { cost: 25, costType: 'magic', reward: 'item-wyvern-scale', dialogueKey: 'npc_ellie_4' },
+      { cost: 25, costType: 'magic', reward: 'item-wyvern-scale', dialogueKey: 'npc_ellie_5' },
     ],
     execute: (state: any) => {
       return state.npcExecute('act-npc-ellie');
@@ -415,7 +430,7 @@ export const npcActions: Record<string, any> = {
       {
         cost: 100,
         costType: 'magic',
-        costs: { 'item-astral-shards': 10, 'item-arcane-dust': 5 },
+        costs: { astral_shards: 10, arcane_dust: 5 },
         onSuccess: [
           { type: 'setFlag', flag: 'blueprint-home-tower', value: true },
           { type: 'unlockNPC', id: 'npc-treeOfLife' },

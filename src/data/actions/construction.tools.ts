@@ -60,7 +60,7 @@ export const toolConstruction = {
     requirements: { 'flags.build-kitchen': true, 'flags.item-spice-rack': { op: '!=', val: true } },
     sfx: 'craft',
     onSuccess: [{ type: 'unlockItem', id: 'item-spice-rack' }],
-    logKey: 'act-spice-rack',
+    logKey: 'craft_spice_rack',
   },
   'build-cart-reinforced': {
     id: 'build-cart-reinforced',

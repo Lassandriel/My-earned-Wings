@@ -11,6 +11,7 @@ export const schoolActions: Record<string, ActionDefinition> = {
     rewards: { study_xp: 1 },
     sfx: 'craft',
     particleType: 'knowledge',
+    image: 'img/school/school_reading.png',
   },
   'act-school-numbers': {
     id: 'act-school-numbers',
@@ -22,6 +23,7 @@ export const schoolActions: Record<string, ActionDefinition> = {
     rewards: { study_xp: 1 },
     sfx: 'craft',
     particleType: 'knowledge',
+    image: 'img/school/school_arithmetic.png',
   },
   'act-school-history': {
     id: 'act-school-history',
@@ -32,8 +34,9 @@ export const schoolActions: Record<string, ActionDefinition> = {
     requirements: { 'npcProgress.teacher': { op: '>=', val: 2 } },
     yieldType: 'study_xp',
     rewards: { study_xp: 3 },
-    sfx: 'dialogue',
+    sfx: 'magic',
     particleType: 'knowledge',
+    image: 'img/school/school_history.png',
   },
   'act-school-herbs': {
     id: 'act-school-herbs',
@@ -45,6 +48,7 @@ export const schoolActions: Record<string, ActionDefinition> = {
     rewards: { study_xp: 2, herbs: 1 },
     sfx: 'gather',
     particleType: 'knowledge',
+    image: 'img/school/school_herbalism.png',
   },
   'act-school-runes': {
     id: 'act-school-runes',
@@ -56,5 +60,6 @@ export const schoolActions: Record<string, ActionDefinition> = {
     rewards: { study_xp: 3, rune_fragment: 1 },
     sfx: 'magic',
     particleType: 'knowledge',
+    image: 'img/school/school_runes.png',
   },
 };

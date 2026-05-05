@@ -8,12 +8,14 @@ export interface NPCDefinition {
   id: NPCId;
   nameKey: string;
   icon: string;
-  color: string;
+  color?: string;
   image?: string;
   progKey: string;
   maxProgress: number;
-  chapter: string;
+  chapter?: string;
   unlockedAtStart?: boolean;
+  isVandara?: boolean;
+  dialogues?: any;
   tradeActions?: Array<{
     id: ActionId;
     minProgress: number;

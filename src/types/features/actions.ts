@@ -14,13 +14,13 @@ export interface ItemDefinition {
   effect?: Partial<Record<ResourceId, number>> | string;
   modifiers?: GameModifier[];
   spaceCost?: number;
-  cost?: number | Record<ResourceId, number> | string;
+  cost?: number | Partial<Record<ResourceId, number>> | string;
 }
 
 export interface NPCStep {
   cost?: number;
   costType?: ResourceId;
-  costs?: Record<ResourceId, number>;
+  costs?: Partial<Record<ResourceId, number>>;
   reward?: ItemId | string;
   dialogueKey?: string;
   onSuccess?: GameEffect[];
@@ -36,7 +36,7 @@ export interface ActionDefinition {
   requirements?: Record<string, any | GameRequirement>;
   cost?: number;
   costType?: ResourceId | 'mixed' | 'none';
-  costs?: Record<ResourceId, number>;
+  costs?: Partial<Record<ResourceId, number>>;
   satiationCost?: number;
   image?: string;
   sfx?: string;
@@ -46,7 +46,7 @@ export interface ActionDefinition {
   onFailure?: GameEffect[];
   logKey?: string;
   logColor?: string;
-  rewards?: Record<ResourceId, number | string>;
+  rewards?: Partial<Record<ResourceId, number | string>>;
   yieldType?: ResourceId;
   modifiers?: GameModifier[];
   steps?: NPCStep[];

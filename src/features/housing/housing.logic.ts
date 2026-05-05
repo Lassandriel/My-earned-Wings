@@ -6,6 +6,14 @@ import { GameState, ItemId, ItemDefinition, HomeDefinition } from '../../types/g
  */
 export const createHousingSystem = () => {
   return {
+    metadata: {
+      id: 'housing',
+      delegates: [
+        'toggleFurniture', 'getUsedFurnitureSpace', 
+        'getHomeCapacity', 'getAvailableFurniture', 
+        'getPlacedFurnitureList'
+      ]
+    },
     /**
      * Toggles a piece of furniture in the current home.
      */

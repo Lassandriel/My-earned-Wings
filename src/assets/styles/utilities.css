@@ -1,0 +1,92 @@
+/**
+ * Global Utility Classes - Draconia 1.2.1
+ * Built on top of theme design tokens.
+ */
+
+/* Spacing Helpers */
+.m-xxs { margin: var(--space-xxs); }
+.m-xs { margin: var(--space-xs); }
+.m-sm { margin: var(--space-sm); }
+.m-md { margin: var(--space-md); }
+.m-lg { margin: var(--space-lg); }
+
+.p-xxs { padding: var(--space-xxs); }
+.p-xs { padding: var(--space-xs); }
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+
+/* Layout Helpers */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* UI Patterns */
+.panel-premium {
+    background: var(--panel-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow);
+    padding: var(--space-md);
+}
+
+.card-premium {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    transition: var(--trans-fast);
+}
+
+.card-premium:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.text-gradient-teal {
+    background: linear-gradient(135deg, var(--accent-teal), #2dd4bf);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+    background: linear-gradient(135deg, var(--accent-purple), #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gold { color: var(--gold); }
+.text-dim { color: var(--text-dim); }
+
+/* Consistency Overrides */
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: var(--space-xs);
+}
+
+.category-header h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}

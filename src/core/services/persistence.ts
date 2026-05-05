@@ -49,21 +49,44 @@ const LZW = {
       }
     }
     if (phrase !== "") out.push(dict.get(phrase)!);
-    return out.map(c => String.fromCharCode(c)).join('');
+    
+    // Safety: Convert codes to a UTF-16 string that is safe for LocalStorage
+    // We use a simple 2-byte-per-code approach to avoid surrogate pair issues
+    const buf = new Uint16Array(out);
+    const bytes = new Uint8Array(buf.buffer);
+    let binary = "";
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
   },
 
   decompress(data: string): string {
+    const binary = atob(data);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const codes = new Uint16Array(bytes.buffer);
+
     const dict = new Map<number, string>();
     for (let i = 0; i < 256; i++) dict.set(i, String.fromCharCode(i));
     
-    let phrase = data[0];
+    if (codes.length === 0) return "";
+    
+    let phrase = dict.get(codes[0])!;
     let out = [phrase];
     let code = 256;
     let prevPhrase = phrase;
 
-    for (let i = 1; i < data.length; i++) {
-        const currCode = data.charCodeAt(i);
-        const currPhrase = dict.has(currCode) ? dict.get(currCode)! : prevPhrase + prevPhrase[0];
+    for (let i = 1; i < codes.length; i++) {
+        const currCode = codes[i];
+        let currPhrase: string;
+        if (dict.has(currCode)) {
+          currPhrase = dict.get(currCode)!;
+        } else {
+          currPhrase = prevPhrase + prevPhrase[0];
+        }
         out.push(currPhrase);
         dict.set(code++, prevPhrase + currPhrase[0]);
         prevPhrase = currPhrase;
@@ -102,6 +125,29 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
   };
 
   /**
+   * Validates loaded data against the current initial state to ensure schema integrity.
+   */
+  const validateAndMigrate = (data: any) => {
+    if (!data || typeof data !== 'object') return initialState;
+
+    // 1. Ensure all top-level keys from initialState exist
+    Object.keys(initialState).forEach((key) => {
+      if (!CONFIG.EXCLUDE.includes(key) && data[key] === undefined) {
+        console.warn(`[PERSISTENCE] Missing key "${key}" in save. Applying default.`);
+        data[key] = (initialState as any)[key];
+      }
+    });
+
+    // 2. Specialized migrations
+    if (!data.version) data.version = 1;
+    
+    // Future migrations would go here:
+    // if (data.version < 2) { ... data.version = 2; }
+
+    return data;
+  };
+
+  /**
    * Sanitizes and clamps state values to their limits
    */
   const clampState = (store: GameState) => {
@@ -132,6 +178,10 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
   };
 
   return {
+    metadata: {
+      id: 'persistence',
+      delegates: { loadGame: 'loadGame' }
+    },
     saveGame(store: GameState, isManual = false) {
       const now = Date.now();
       if (!isManual && now - _lastSaveTime < CONFIG.THROTTLE_MS) return;
@@ -201,11 +251,11 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         if (saved.startsWith('LZW:')) saved = LZW.decompress(saved.slice(4));
         const data = JSON.parse(saved);
         
-        // Migration logic
-        if (!data.version) data.version = 1;
+        // Validation & Migration logic
+        const validatedData = validateAndMigrate(data);
 
         // Apply data to store
-        deepMerge(store, data);
+        deepMerge(store, validatedData);
         clampState(store);
 
         // Rebuild dynamic systems
@@ -260,6 +310,10 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
 
     boot(store: GameState) {
       this.loadSettings(store);
+      
+      // Initialize hasSave state from localStorage
+      store.hasSave = !!localStorage.getItem(CONFIG.SAVE_KEY);
+
       store.bus.on(store.EVENTS.SAVE_REQUESTED, (data: any) => {
         this.saveGame(store, data?.isManual || false);
       });

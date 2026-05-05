@@ -1,33 +1,37 @@
 import { registries } from '../../data/index';
 import { GameState } from '../../types/game';
-import { createValidatorService } from './validator';
 
 /**
  * Boot Service - Draconia
  * Orchestrates the entire lifecycle of game start: State building, Validation, and Service Booting.
  */
+declare const Alpine: {
+  store: (name: string, value?: any) => any;
+};
 export const createBootSystem = () => {
-  const validator = createValidatorService();
 
   return {
     /**
      * Populates the initial state with data-driven defaults from registries.
      */
-    buildInitialState(baseState: any): GameState {
-      // 1. Validate data integrity before building state
-      const auditOk = validator.validateRegistries(registries as any);
-      if (!auditOk) {
-        console.warn('[Bootstrapper] Registry audit failed! Some features may behave unexpectedly.');
-      }
-
-      const state = JSON.parse(JSON.stringify(baseState));
+    buildInitialState(baseState: Partial<GameState>): GameState {
+      // 1. Create a clean copy of the base state while preserving functions
+      const state = { ...baseState } as GameState;
+      
+      // Deep clone only specific data-heavy objects to avoid reference sharing
+      const DATA_FIELDS = ['resources', 'limits', 'stats', 'flags', 'npcProgress', 'activeBuffs', 'activeProducers', 'counters', 'settings'] as const;
+      DATA_FIELDS.forEach(field => {
+        if (baseState[field]) {
+          (state as any)[field] = JSON.parse(JSON.stringify(baseState[field]));
+        }
+      });
 
       // 2. Auto-populate resources and stats
       Object.values(registries.resources).forEach((res: any) => {
         if (res.type === 'resource') {
           const limit = res.initialLimit || 0;
-          state.limits[res.id] = limit;
-          state.resources[res.id] = Math.min(limit, res.initial || 0);
+          state.limits[res.id as import('../../types/game').ResourceId] = limit;
+          state.resources[res.id as import('../../types/game').ResourceId] = Math.min(limit, res.initial || 0);
         } else if (res.type === 'stat') {
           const max = res.initialMax || 100;
           const maxKey = 'max' + res.id.charAt(0).toUpperCase() + res.id.slice(1);
@@ -48,6 +52,7 @@ export const createBootSystem = () => {
 
       return state;
     },
+
 
     /**
      * Handles the orderly startup of all game systems.

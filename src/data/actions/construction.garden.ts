@@ -3,7 +3,7 @@ export const gardenConstruction = {
     id: 'build-garden',
     title: 'action_build_garden_title',
     desc: 'action_build_garden_desc',
-    category: 'addon',
+    category: 'garden',
     chapter: 'Establishment',
     costs: { wood: 20, stone: 20 },
     image: 'img/addons/garden.webp',
@@ -22,7 +22,7 @@ export const gardenConstruction = {
   'build-garden-upgrade': {
     id: 'build-garden-upgrade',
     icon: '🏗️',
-    category: 'addon',
+    category: 'garden',
     chapter: 'Refinement',
     costs: { wood: 50, stone: 50, water: 20 },
     requirements: {
@@ -42,7 +42,7 @@ export const gardenConstruction = {
     id: 'build-mana-basin',
     title: 'action_build_mana_basin_title',
     desc: 'action_build_mana_basin_desc',
-    category: 'addon',
+    category: 'garden',
     costs: { stone: 100, glowpollen: 20, clay: 20, resin: 5 },
     image: 'img/addons/mana_basin.webp',
     requirements: { 'flags.build-garden-upgrade': true, 'flags.build-mana-basin': { op: '!=', val: true } },

@@ -3,7 +3,7 @@ export default {
   // SYSTEM & ALLGEMEIN
   // ==========================================
   save_success: 'Spiel erfolgreich gespeichert.',
-  intro_welcome: 'Willkommen zurück am festen Boden.',
+  intro_welcome: 'Willkommen zurück am festen Boden, {player}.',
 
   // ==========================================
   // REWARDS & FREISCHALTUNGEN
@@ -14,6 +14,7 @@ export default {
   reward_blueprint_lake: 'Bauplan für das Haus am See erhalten.',
   reward_blueprint_tower: 'Bauplan für den Aura-Turm erhalten.',
   unlock_whisper_grove: 'Mina führt dich zu einem geheimen Pfad: Der Flüsterhain ist nun zugänglich.',
+  unlock_vandara: 'Arias Empfehlung öffnet dir die Tore der Akademie Vandara.',
 
   // ==========================================
   // INTRO, STORY & DIALOGE
@@ -51,6 +52,7 @@ export default {
   fail_herbs: 'Nicht genügend Kräuter.',
   fail_shards: 'Nicht genügend Splitter.',
   fail_astral_shards: 'Nicht genügend Astralsplitter.',
+  fail_arcane_dust: 'Nicht genügend Arkanstaub.',
   'fail_gourmet-meal': 'Nicht genügend Gourmet-Mahlzeiten.',
   fail_books: 'Nicht genügend Bücher.',
   fail_ghostwood: 'Nicht genügend Geisterholz.',
@@ -59,6 +61,8 @@ export default {
   fail_resin: 'Nicht genügend Harz.',
   fail_iron_parts: 'Nicht genügend Eisenbeschläge.',
   fail_clay: 'Nicht genügend Ton.',
+  fail_rune_fragment: 'Nicht genügend Runenfragmente.',
+  fail_study_xp: 'Nicht genügend Studien-Erfahrung.',
   fail_wood_yield: 'Nicht genügend Holzertrag-Kapazität.',
   fail_stone_yield: 'Nicht genügend Steinertrag-Kapazität.',
   fail_rest_energy_gain: 'Nicht genügend Energie-Regeneration.',
@@ -75,6 +79,7 @@ export default {
   fail_full_meat: 'Das Fleischlager ist voll.',
   fail_full_shards: 'Der Splitterbehälter ist voll.',
   fail_full_astral_shards: 'Der Astralsplitterbehälter ist voll.',
+  fail_full_arcane_dust: 'Das Arkanstaublager ist voll.',
   fail_full_books: 'Das Bücherregal ist voll.',
   'fail_full_gourmet-meal': 'Das Gourmet-Lager ist voll.',
   fail_full_herbs: 'Das Kräuterlager ist voll.',
@@ -91,6 +96,8 @@ export default {
   fail_full_resin: 'Das Harzlager ist voll.',
   fail_full_iron_parts: 'Das Lager für Eisenbeschläge ist voll.',
   fail_full_clay: 'Das Tonlager ist voll.',
+  fail_full_rune_fragment: 'Das Runenfragmentlager ist voll.',
+  fail_full_study_xp: 'Das Limit für Studien-Erfahrung wurde erreicht.',
 
   // ==========================================
   // AKTIONEN & EREIGNISSE (LOGS)
@@ -121,6 +128,7 @@ export default {
   study_success: 'Neue Erkenntnisse gewonnen. Deine Magie wächst.',
   dream_bloom_log: 'Eine ätherische Blüte ist erblüht.',
   spell_harvest_log: 'Magische Energie aus dem Aether gezogen.',
+  grind_dust_log: 'Du hast magische Kräuter zu feinem Arkanstaub gemahlen.',
   mine_quartz_log: 'Kostbare Kristalle und Erze in der Tiefe gefunden. +{gain}',
   meditation_log: 'Tiefe Konzentration... ein Astralsplitter manifestiert sich.',
   nav_crafting_desc: 'Forme Werkzeuge aus den Gaben der Natur.',
@@ -140,8 +148,8 @@ export default {
   craft_bookshelf: 'Ein Regal für all dein gesammeltes Wissen.',
   craft_book: 'Du hast ein leeres Buch gebunden.',
   craft_cabinet: 'Deine Vorratskammer bietet nun mehr Platz für Essen.',
-  'act-spice-rack': 'Ein Gewürzregal für Kräuter und Alchemie.',
-  'act-grand-table': 'Ein massiver Tisch, Symbol für eine wachsende Gemeinschaft.',
+  craft_spice_rack: 'Ein Gewürzregal für Kräuter und Alchemie.',
+  craft_grand_table: 'Ein massiver Tisch, Symbol für eine wachsende Gemeinschaft.',
   craft_bed_2: 'Du hast ein luxuriöses Seidenbett gewebt.',
   craft_stove_2: 'Der Ewige Herd gewährt dir grenzenlose arkane Hitze.',
 
@@ -161,8 +169,7 @@ export default {
   milestone_house: 'Das Haus steht fest – ein Monument deines Willens.',
   milestone_lake_house: 'Das Haus am See glitzert im Licht der Morgensonne.',
   milestone_aura_tower: 'Der Aura-Turm durchstößt die Wolkendecke von Draconia.',
-  school_graduate_log: 'Du hast deinen Schulabschluss erhalten. Elara lächelt stolz.',
-  vandara_phase1_log: 'Die erste Phase deines Lehrgangs in Vandara ist abgeschlossen.',
-  vandara_phase2_log: 'Du kommst dem Meistertitel näher. Phase 2 beendet.',
-  vandara_graduate_log: 'Du hast den Abschluss der Akademie Vandara erreicht. Dein Schicksal ist besiegelt.',
+  milestone_school: 'Die Dorfschule wurde gegründet.',
+  'milestone_school-graduate': 'Du hast deinen Schulabschluss erhalten. Aria lächelt stolz.',
+  school_graduate_log: 'Du hast deinen Schulabschluss erhalten. Aria lächelt stolz.',
 };

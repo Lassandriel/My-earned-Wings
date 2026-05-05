@@ -146,16 +146,16 @@ export default {
     effect: '+{val} Magie',
   },
   'act-npc-baker': {
-    title: 'Bäcker Geron',
+    title: 'Bäcker Gara',
   },
   'act-npc-flowerGirl': {
     title: 'Blumenmädchen Mina',
   },
   'act-npc-artisan': {
-    title: 'Handwerker Kael',
+    title: 'Handwerker Geron',
   },
   'act-npc-teacher': {
-    title: 'Lehrerin Elara',
+    title: 'Lehrerin Aria',
   },
   'act-npc-townHall': {
     title: 'Rathaus-Beamter',
@@ -262,6 +262,10 @@ export default {
     title: 'Schreibpult bauen',
     desc: 'Ein dedizierter Platz zum Studieren.',
   },
+  'act-grind-dust': {
+    title: 'Arkanstaub mahlen',
+    desc: 'Nutze magische Energie, um Kräuter zu feinem Arkanstaub zu verarbeiten.',
+  },
   'build-cart-reinforced': {
     title: 'Verstärkten Karren bauen',
     desc: 'Ein verbesserter Karren für schwere Lasten.',
@@ -306,7 +310,7 @@ export default {
   },
   'act-school-history': {
     title: 'Geschichte hören',
-    desc: 'Lausche Elaras Geschichten über die Welt.',
+    desc: 'Lausche Arias Geschichten über die Welt.',
     effect: '+{val} Wissen',
   },
   'act-school-herbs': {

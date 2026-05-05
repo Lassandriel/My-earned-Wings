@@ -1,5 +1,38 @@
-<!-- VILLAGE VIEW - CORE 3.0 -->
-<div x-show="$store.game.view === 'village'" class="view-content-village" x-data="{ locTab: 'village' }">
+<!-- VILLAGE VIEW - REFACTORED 3.1 -->
+<div 
+  x-show="$store.ui.view === 'village'" 
+  class="game-view-content" 
+  x-data="{ 
+    locTab: 'village',
+    get schoolActions() {
+      return Object.keys($store.game.content.registries.actions)
+        .filter(id => $store.game.content.get(id, 'actions').category === 'school');
+    },
+    get vandaraActions() {
+      const path = $store.game.academy_path;
+      if (!path) return [];
+      return Object.keys($store.game.content.registries.actions)
+        .filter(id => {
+          const act = $store.game.content.get(id, 'actions');
+          return id.startsWith('act-vandara-') && act.requirements?.academy_path === path;
+        });
+    },
+    getPathMentorId() {
+      const path = $store.game.academy_path;
+      if (path === 'solen') return 'npc-magistra_solen';
+      if (path === 'bram') return 'npc-meister_bram';
+      return 'npc-lyra';
+    },
+    selectPath(npcId) {
+      const path = npcId.split('-').pop().split('_').pop();
+      $store.ui.viewManager.showConfirm($store.game, $store.game.t('ui_vandara_path_confirm'), () => { 
+        $store.game.academy_path = path; 
+        $store.game.actions.effectHandlers.unlockNPC($store.game, { type: 'unlockNPC', id: npcId });
+        $store.game.saveGame(); 
+      });
+    }
+  }"
+>
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_locations')"></h3>
     <div
@@ -12,37 +45,43 @@
   </div>
 
   <!-- Location Tabs -->
-  <div class="nav-tabs" style="margin-bottom: 20px;" x-show="$store.game.flags.vandara_unlocked">
-    <button class="nav-tab-btn" :class="locTab === 'village' && 'active'" @click="locTab = 'village'" x-text="$store.game.t('nav_village')"></button>
-    <button class="nav-tab-btn" :class="locTab === 'vandara' && 'active'" @click="locTab = 'vandara'" x-text="$store.game.t('nav_vandara')"></button>
-  </div>
+  <nav class="nav-tabs-wrapper m-lg" x-show="$store.game.flags.vandara_unlocked">
+    <div class="nav-tabs">
+      <button class="nav-tab-btn" :class="locTab === 'village' && 'active'" @click="locTab = 'village'" x-text="$store.game.t('nav_village')"></button>
+      <button class="nav-tab-btn" :class="locTab === 'vandara' && 'active'" @click="locTab = 'vandara'" x-text="$store.game.t('nav_vandara')"></button>
+    </div>
+  </nav>
 
   <!-- VILLAGE SUB-VIEW -->
-  <div x-show="locTab === 'village'">
-    <h4 style="margin-bottom: 15px; color: var(--text-muted);" x-text="$store.game.t('cat_village')"></h4>
-    <div class="village-grid">
-    <!-- 2. NPC CARDS (Dynamisches Grid) -->
-    <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
-      <div :id="npcId + '-card'" class="village-card npc-card">
+  <div x-show="locTab === 'village'" x-transition>
+    <div class="game-grid">
+      <!-- NPC CARDS -->
+      <template x-for="npcId in $store.game.unlockedNPCs.filter(id => !$store.game.content.get(id, 'npcs')?.isVandara)" :key="npcId">
         <div
-          class="card-header-visual"
+          :id="npcId + '-card'"
+          class="game-card npc-card"
+          @click="$store.game.executeAction('act-' + npcId)"
+          @mouseenter="$store.game.setHovered('act-' + npcId)"
+          @mouseleave="$store.game.setHovered(null)"
           x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }"
         >
-          <div class="npc-portrait-wrapper">
-            <div
-              class="npc-img-blur-bg"
-              x-show="npc?.image"
-              :style="'background-image: url(' + npc?.image + ')'"
-            ></div>
-            <img x-show="npc?.image" :src="npc?.image" class="npc-img" />
-            <div x-show="!npc?.image" class="npc-placeholder" x-text="npc?.icon"></div>
+          <div class="game-card-visual">
+            <div class="npc-portrait-wrapper">
+              <div
+                class="npc-img-blur-bg"
+                x-show="npc?.image"
+                :style="'background-image: url(' + npc?.image + ')'"
+              ></div>
+              <img x-show="npc?.image" :src="npc?.image" class="npc-img" :alt="$store.game.t(npc?.nameKey)" />
+              <div x-show="!npc?.image" class="npc-placeholder" x-text="npc?.icon"></div>
+            </div>
+            <template x-if="$store.game.ui.isNPCMaxed($store.game, npcId)">
+              <div class="status-check" title="Maxed">✓</div>
+            </template>
           </div>
-        </div>
 
-        <div class="card-body">
-          <div class="npc-info-row" x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }">
-            <h4 class="npc-display-name" x-text="$store.game.t(npc?.nameKey)"></h4>
-            <!-- Progress Tracker -->
+          <div class="game-card-footer">
+            <h4 class="game-card-title" x-text="$store.game.t(npc?.nameKey)"></h4>
             <div class="npc-progress-mini-track">
               <div
                 class="npc-progress-fill"
@@ -52,65 +91,65 @@
             </div>
           </div>
 
+          <!-- Trade Actions Overlay -->
           <div
-            class="npc-interaction-area"
-            x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }"
+            class="npc-trade-actions"
+            x-show="$store.game.content.getNPCActions($store.game, npcId).length > 0"
           >
-            <!-- Quest Action -->
-            <button
-              class="game-btn npc-main-action-btn"
-              x-show="!$store.game.ui.isNPCMaxed($store.game, npcId)"
-              @click="$store.game.executeAction('act-' + npcId)"
-              @mouseenter="$store.game.setHovered('act-' + npcId)"
-              @mouseleave="$store.game.setHovered(null)"
-            >
-              <span x-text="$store.game.t('ui_details')"></span>
-            </button>
-
-            <!-- Trade Actions (Decentralized Market) -->
-            <div
-              class="npc-trade-actions"
-              x-show="$store.game.content.getNPCActions($store.game, npcId).length > 0"
-            >
-              <template
-                x-for="action in $store.game.content.getNPCActions($store.game, npcId)"
-                :key="action.id"
+            <template x-for="action in $store.game.content.getNPCActions($store.game, npcId)" :key="action.id">
+              <button
+                class="npc-trade-btn"
+                @click.stop="$store.game.attemptAction($el, action.id)"
+                @mouseenter="$store.game.setHovered(action.id)"
+                @mouseleave="$store.game.setHovered(null)"
+                :title="$store.game.t(action.id, 'actions').title"
               >
-                <button
-                  class="game-btn npc-trade-btn"
-                  @click="$store.game.attemptAction($el, action.id)"
-                  @mouseenter="$store.game.setHovered(action.id)"
-                  @mouseleave="$store.game.setHovered(null)"
-                >
-                  <span x-text="$store.game.t(action.id, 'actions').title"></span>
-                </button>
-              </template>
-            </div>
+                <span x-text="action.icon || '💰'"></span>
+              </button>
+            </template>
           </div>
         </div>
-      </div>
-    </template>
+      </template>
     </div>
 
     <!-- SCHOOL SECTION -->
-    <div class="school-section" x-show="$store.game.flags.school_unlocked" style="margin-top: 40px;">
-      <h4 style="margin-bottom: 15px; color: var(--gold);" x-text="$store.game.t('cat_school')"></h4>
-      <div class="action-grid">
-        <template x-for="actionId in ['act-school-read', 'act-school-numbers', 'act-school-history', 'act-school-herbs', 'act-school-runes']" :key="actionId">
-          <button
-            class="action-card"
+    <section class="school-container" x-show="$store.game.flags.school_unlocked" x-transition>
+      <div class="school-header-flex">
+        <div class="school-title-group">
+          <span class="school-icon-main">🏛️</span>
+          <h3 class="school-title" x-text="$store.game.t('cat_school')"></h3>
+        </div>
+        
+        <div class="teacher-spotlight" @mouseenter="$store.game.setHovered('npc-teacher')" @mouseleave="$store.game.setHovered(null)">
+          <img src="img/npcs/teacher_aria.webp" class="teacher-mini-img" alt="Teacher Aria">
+          <div class="teacher-info">
+            <span x-text="$store.game.t('ui_teacher_label') || 'Lehrkraft'"></span>
+            <strong x-text="$store.game.t('npc_teacher_name')"></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-grid">
+        <template x-for="actionId in schoolActions" :key="actionId">
+          <div
+            class="game-card school-action-card"
+            :class="{ 
+              'active-focus': $store.game.activeFocus === actionId,
+              ['card-' + actionId.split('-').pop()]: true
+            }"
             @click="$store.game.attemptAction($el, actionId)"
             @mouseenter="$store.game.setHovered(actionId)"
             @mouseleave="$store.game.setHovered(null)"
-            x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
+            x-show="$store.game.actions.checkRequirement($store.game, 'actions.' + actionId, $store.game.content.get(actionId, 'actions').requirements)"
           >
-            <div class="action-card-visual">
-              <div class="action-icon-bg"></div>
-              <span class="action-icon" x-text="$store.game.content.get(actionId, 'actions').image || '📚'"></span>
+            <div class="game-card-visual">
+              <span class="school-card-visual" x-text="$store.game.content.get(actionId, 'actions').image || '📚'"></span>
             </div>
-            <div class="action-card-content">
-              <h4 class="action-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>
-              <div class="action-costs">
+            
+            <div class="game-card-footer school-card-footer">
+              <h4 class="game-card-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>
+              
+              <div class="school-card-costs">
                 <template x-for="cost in $store.game.getTooltipCosts($store.game.content.get(actionId, 'actions'))" :key="cost.res">
                   <span class="cost-badge" :class="cost.has ? 'has-cost' : 'missing-cost'">
                     <span x-text="cost.amount + ' ' + cost.name"></span>
@@ -118,64 +157,93 @@
                 </template>
               </div>
             </div>
-            <div class="action-active-ring" x-show="$store.game.activeFocus === actionId"></div>
-          </button>
+
+            <div class="school-active-bar" x-show="$store.game.activeFocus === actionId"></div>
+          </div>
         </template>
       </div>
-    </div>
+    </section>
   </div>
 
   <!-- VANDARA SUB-VIEW -->
-  <div x-show="locTab === 'vandara'">
-    <h4 style="margin-bottom: 15px; color: var(--gold);" x-text="$store.game.t('cat_vandara')"></h4>
+  <div x-show="locTab === 'vandara'" x-transition>
     
-    <!-- Unselected Path: Show NPCs -->
+    <!-- Path Selection -->
     <div x-show="!$store.game.academy_path">
-      <p style="color: var(--text-dim); margin-bottom: 20px;">Wähle weise, denn diese Entscheidung ist endgültig.</p>
-      <div class="village-grid">
+      <header class="vandara-intro">
+        <h4 class="vandara-title" x-text="$store.game.t('cat_vandara')"></h4>
+        <p class="vandara-hint" x-text="$store.game.t('ui_vandara_path_hint')"></p>
+      </header>
+      
+      <div class="game-grid">
         <template x-for="npcId in ['npc-magistra_solen', 'npc-meister_bram', 'npc-lyra']" :key="npcId">
-          <div class="village-card npc-card">
-            <div class="card-header-visual" x-data="{ npc: $store.game.content.get(npcId, 'npcs') }">
+          <div
+            class="game-card npc-card path-card"
+            @click="selectPath(npcId)"
+            @mouseenter="$store.game.setHovered(npcId, { isNPC: true })"
+            @mouseleave="$store.game.setHovered(null)"
+            x-data="{ npc: $store.game.content.get(npcId, 'npcs') }"
+          >
+            <div class="game-card-visual">
               <div class="npc-portrait-wrapper">
-                <div class="npc-placeholder" style="font-size: 3rem;" x-text="npc?.icon"></div>
+                <div
+                  class="npc-img-blur-bg"
+                  x-show="npc?.image"
+                  :style="'background-image: url(' + npc?.image + ')'"
+                ></div>
+                <img x-show="npc?.image" :src="npc?.image" class="npc-img" :alt="$store.game.t(npc?.nameKey)" />
+                <div x-show="!npc?.image" class="npc-placeholder" x-text="npc?.icon"></div>
               </div>
             </div>
-            <div class="card-body">
-              <div class="npc-info-row" x-data="{ npc: $store.game.content.get(npcId, 'npcs') }">
-                <h4 class="npc-display-name" x-text="$store.game.t(npc?.nameKey)"></h4>
-              </div>
-              <div class="npc-interaction-area">
-                <button
-                  class="game-btn"
-                  style="width: 100%;"
-                  @click="$store.game.viewManager.showConfirm($store.game, 'Diesen Pfad endgültig wählen?', () => { $store.game.academy_path = npcId.split('_')[1]; $store.game.saveGame(); })"
-                >
-                  <span x-text="'Pfad wählen'"></span>
-                </button>
-              </div>
+            <div class="game-card-footer">
+              <h4 class="game-card-title" x-text="$store.game.t(npc?.nameKey)"></h4>
             </div>
           </div>
         </template>
       </div>
     </div>
 
-    <!-- Selected Path: Show Actions -->
+    <!-- Academy Content -->
     <div x-show="$store.game.academy_path">
-      <div class="action-grid">
-        <template x-for="actionId in Object.keys($store.game.content.registries.actions).filter(id => id.startsWith('act-vandara-') && $store.game.content.get(id, 'actions').requirements?.academy_path === $store.game.academy_path)" :key="actionId">
-          <button
-            class="action-card"
+      <div class="school-header-flex" style="margin-top: 0; margin-bottom: 30px;">
+        <div class="school-title-group">
+          <span class="school-icon-main">✨</span>
+          <h4 class="school-title" x-text="$store.game.t('cat_vandara')"></h4>
+        </div>
+        
+        <!-- Mentor Spotlight -->
+        <div 
+          class="teacher-spotlight mentor-spotlight" 
+          x-data="{ get mentor() { return $store.game.content.get(getPathMentorId(), 'npcs'); } }"
+          @mouseenter="$store.game.setHovered(getPathMentorId(), { isNPC: true })" 
+          @mouseleave="$store.game.setHovered(null)"
+        >
+          <div class="npc-portrait-wrapper mentor-mini-portrait">
+            <img x-show="mentor.image" :src="mentor.image" class="teacher-mini-img" :alt="mentor.nameKey">
+            <div x-show="!mentor.image" class="npc-placeholder mentor-placeholder" x-text="mentor.icon"></div>
+          </div>
+          <div class="teacher-info">
+            <span x-text="$store.game.t('ui_mentor_label')"></span>
+            <strong x-text="$store.game.t(mentor.nameKey)"></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-grid">
+        <template x-for="actionId in vandaraActions" :key="actionId">
+          <div
+            class="game-card action-card"
             @click="$store.game.attemptAction($el, actionId)"
             @mouseenter="$store.game.setHovered(actionId)"
             @mouseleave="$store.game.setHovered(null)"
-            x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
+            x-show="$store.game.actions.checkRequirement($store.game, 'actions.' + actionId, $store.game.content.get(actionId, 'actions').requirements)"
           >
-            <div class="action-card-visual">
+            <div class="game-card-visual">
               <div class="action-icon-bg"></div>
               <span class="action-icon" x-text="$store.game.content.get(actionId, 'actions').image || '✨'"></span>
             </div>
-            <div class="action-card-content">
-              <h4 class="action-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>
+            <div class="game-card-footer action-card-footer">
+              <h4 class="game-card-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>
               <div class="action-costs">
                 <template x-for="cost in $store.game.getTooltipCosts($store.game.content.get(actionId, 'actions'))" :key="cost.res">
                   <span class="cost-badge" :class="cost.has ? 'has-cost' : 'missing-cost'">
@@ -185,7 +253,7 @@
               </div>
             </div>
             <div class="action-active-ring" x-show="$store.game.activeFocus === actionId"></div>
-          </button>
+          </div>
         </template>
       </div>
     </div>

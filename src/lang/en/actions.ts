@@ -147,16 +147,16 @@ export default {
     effect: '+{val} Magic',
   },
   'act-npc-baker': {
-    title: 'Baker Geron',
+    title: 'Baker Gara',
   },
   'act-npc-flowerGirl': {
     title: 'Flower Girl Mina',
   },
   'act-npc-artisan': {
-    title: 'Artisan Kael',
+    title: 'Artisan Geron',
   },
   'act-npc-teacher': {
-    title: 'Teacher Elara',
+    title: 'Teacher Aria',
   },
   'act-npc-townHall': {
     title: 'Town Hall Official',
@@ -263,6 +263,10 @@ export default {
     title: 'Build Writing Desk',
     desc: 'A dedicated space for studying.',
   },
+  'act-grind-dust': {
+    title: 'Grind Arcane Dust',
+    desc: 'Use magical energy to grind herbs into fine arcane dust.',
+  },
   'build-cart-reinforced': {
     title: 'Build Reinforced Cart',
     desc: 'An improved cart for heavy loads.',
@@ -307,7 +311,7 @@ export default {
   },
   'act-school-history': {
     title: 'Listen to History',
-    desc: 'Listen to Elara\'s stories about the world.',
+    desc: 'Listen to Aria\'s stories about the world.',
     effect: '+{val} Knowledge',
   },
   'act-school-herbs': {

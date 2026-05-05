@@ -39,6 +39,19 @@ const checkAll = () => {
     const usedKeySet = new Set<string>();
 
     // ---------------------------------------------------------------------------
+    // Globals & Constants
+    // ---------------------------------------------------------------------------
+    const DYNAMIC_PREFIXES = [
+        'intro_', 'ellie_tutorial_', 'fail_full_', 'fail_', 'npc_', 
+        'ui_', 'act-', 'log_', 'cat_', 'nav_', 'btn_', 'home_', 'settings_', 'loc_'
+    ];
+
+    const SYSTEM_WHITELIST = [
+        'ui.menu_version', 'ui.ui_unknown', 'logs.npc_dialogue_log', 'ui.menu_traits',
+        'ui.ui_materials', 'ui.ui_provisions', 'ui.ui_knowledge'
+    ];
+
+    // ---------------------------------------------------------------------------
     // Helpers
     // ---------------------------------------------------------------------------
     const keyExistsInLang = (
@@ -140,7 +153,7 @@ const checkAll = () => {
         .map(p => path.relative(path.join(rootDir, 'public'), p).replace(/\\/g, '/'));
 
     const REGEX_T = /\bt\(\s*['"]([$`{}()[\]]*[^'"$`{}()[\]]+)['"]\s*(?:,\s*['"]([^'"]+)['"])?\s*\)/g;
-    const STR_REGEX = /['"]([a-zA-Z0-9_\-\.\/]{4,})['"]/g; // Min 4 chars to reduce noise
+    const STR_REGEX = /['"]([a-zA-Z0-9_\-\.\/]{3,})['"]/g; // Min 3 chars to catch 'ui_', 'act' etc.
 
     codeFiles.forEach(file => {
         if (!fs.existsSync(file)) return;
@@ -163,6 +176,15 @@ const checkAll = () => {
             // Mark as used if it's a known i18n key
             Object.keys(de).forEach(ns => {
                 if ((de as any)[ns][raw] !== undefined) usedKeySet.add(`${ns}.${raw}`);
+                
+                // Handle dynamic pattern markers
+                DYNAMIC_PREFIXES.forEach(pref => {
+                    if (raw === pref || raw === (pref.endsWith('_') ? pref.slice(0,-1) : pref)) {
+                        Object.keys((de as any)[ns]).forEach(k => {
+                            if (k.startsWith(pref)) usedKeySet.add(`${ns}.${k}`);
+                        });
+                    }
+                });
             });
         }
     });
@@ -197,7 +219,14 @@ const checkAll = () => {
     // 4. Orphan Check
     // ---------------------------------------------------------------------------
     console.log("Phase 4: Cleanup Analysis...");
-    const ASSET_IGNORE = ['background/', 'Game_icon', 'Stat_head', 'img/prologue/'];
+    const ASSET_IGNORE = [
+        'background/',
+        'Game_icon',
+        'Stat_head',
+        'img/prologue/',
+        'img/menu/menu_housing.webp',
+        'img/menu/menu_traits.webp'
+    ];
     
     allImages.forEach(img => {
         if (!usedAssets.has(img) && !ASSET_IGNORE.some(i => img.includes(i))) {
@@ -208,6 +237,7 @@ const checkAll = () => {
     ['ui', 'actions', 'items', 'npcs', 'logs', 'modifiers'].forEach(sec => {
         Object.keys((de as any)[sec] || {}).forEach(k => { 
             const fullKey = `${sec}.${k}`;
+            if (SYSTEM_WHITELIST.includes(fullKey)) return;
             if (!usedKeySet.has(fullKey)) results.unused.errors.push(`Unused Key: ${fullKey}`); 
         });
     });

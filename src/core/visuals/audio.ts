@@ -57,6 +57,7 @@ export const createAudioSystem = () => {
   };
 
   return {
+    metadata: { id: 'audio' },
     init(settings: any) {
       bgm.loop = true;
       updateVolumes(settings);

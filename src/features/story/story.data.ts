@@ -23,21 +23,22 @@ export const MILESTONE_REGISTRY: Record<string, MilestoneDefinition> = {
     ],
   },
   'milestone-school': {
-    id: 'school_unlocked',
+    id: 'milestone-school',
     requirements: {
       'flags.build-house': true,
     },
   },
   'milestone-school-graduate': {
-    id: 'school_graduate',
+    id: 'milestone-school-graduate',
     requirements: {
       'flags.school_unlocked': true,
       'resources.study_xp': { op: '>=', val: 50 },
+      'npcProgress.teacher': { op: '>=', val: 7 },
     },
     onUnlock: [
       { type: 'log', logKey: 'school_graduate_log', color: 'var(--gold)' },
       { type: 'playSound', id: 'success' },
-      { type: 'setFlag', id: 'vandara_unlocked' }
+      { type: 'setFlag', flag: 'vandara_unlocked', value: true }
     ]
   },
 };

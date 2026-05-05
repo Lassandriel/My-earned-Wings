@@ -1,375 +1,88 @@
-.view-content-upgrades {
-  padding: 30px 40px;
-  height: auto;
-  overflow: visible;
-  animation: fadeInVaultMotion 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Dragon's Vault - Item Upgrade Styles */
 
-.upgrades-container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+.vault-action-container {
   margin-top: 25px;
 }
 
-/* Category Tabs */
-.vault-tabs {
-  display: flex;
-  flex-wrap: nowrap; /* Single line navigation */
-  overflow-x: auto;
-  scrollbar-width: none;
-  gap: 10px;
-  padding: 10px 5px 20px 5px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.vault-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-/* Responsive adjustment for vault */
-@media (max-width: 1100px) {
-  .upgrades-view-root {
-    padding: 20px 15px; /* Narrower padding for small screens */
-  }
-}
-
-.vault-tab-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.5);
-  padding: 8px 18px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Outfit', sans-serif;
-}
-
-.vault-tab-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-.vault-tab-btn.active {
-  background: var(--accent-teal);
-  border-color: var(--accent-teal);
-  color: #fff;
-  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
-}
-
-/* Layout Panes */
-.vault-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 40px;
-  align-items: flex-start;
-}
-
-/* Grid Area */
-.vault-grid-pane {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.items-display-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 15px;
-}
-
+/* Item Slot Enhancements */
 .item-slot {
-  aspect-ratio: 1;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
 .item-slot:hover {
-  transform: scale(1.08);
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px) scale(1.02);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .item-slot.is-selected {
-  background: rgba(20, 184, 166, 0.08);
-  border-color: var(--accent-teal);
-  box-shadow:
-    inset 0 0 15px rgba(20, 184, 166, 0.2),
-    0 0 20px rgba(20, 184, 166, 0.1);
-}
-
-.slot-inner-glow {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.item-slot.is-selected .slot-inner-glow {
-  opacity: 1;
-  background: radial-gradient(circle at center, rgba(20, 184, 166, 0.2) 0%, transparent 70%);
+  border-color: var(--accent-teal) !important;
+  background: rgba(20, 184, 166, 0.08) !important;
+  box-shadow: 0 0 25px rgba(20, 184, 166, 0.2);
 }
 
 .slot-icon {
   width: 60%;
   height: 60%;
   object-fit: contain;
-  transform: scale(1.8); /* Zoomed to eliminate whitespace in source files */
-  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
-  z-index: 2;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
   transition: transform 0.3s ease;
 }
 
 .item-slot:hover .slot-icon {
-  transform: scale(2);
+  transform: scale(1.1) rotate(5deg);
 }
 
-/* Border Tiers */
+/* Rarity/Category Colors */
 .slot-tool {
-  border-color: rgba(20, 184, 166, 0.2);
-}
-.slot-rare {
-  border-color: rgba(251, 191, 36, 0.2);
+  border-left: 4px solid var(--accent-teal) !important;
 }
 
-/* Empty Placeholder Slots */
+.slot-rare {
+  border-left: 4px solid var(--accent-purple) !important;
+}
+
+/* Item Use Overlay */
+.item-action-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.item-slot:hover .item-action-overlay {
+  opacity: 1;
+}
+
+.item-use-btn {
+  background: var(--accent-teal);
+  color: #000;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.item-use-btn:hover {
+  transform: scale(1.2);
+  background: #fff;
+}
+
+/* Empty Grid Consistency */
 .item-slot-empty {
   aspect-ratio: 1;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.04);
-  border-radius: 16px;
-}
-
-.vault-empty-notice {
-  text-align: center;
-  padding: 40px;
-  color: rgba(255, 255, 255, 0.2);
-  font-family: 'Cinzel', serif;
-}
-
-/* Detail Panel (Showcase) */
-.vault-detail-pane {
-  background: rgba(15, 23, 42, 0.4);
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px dashed rgba(255, 255, 255, 0.05);
   border-radius: 24px;
-  padding: 30px;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-teal) transparent;
 }
 
-.vault-detail-pane::-webkit-scrollbar {
-  width: 5px;
-}
-.vault-detail-pane::-webkit-scrollbar-thumb {
-  background: var(--accent-teal);
-  border-radius: 10px;
-}
-
-.item-visual-showcase {
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-bottom: 30px;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
-  border-radius: 20px;
-}
-
-.aura-glow {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.3;
-  animation: aura-hover-motion 4s infinite alternate ease-in-out;
-}
-
-.aura-teal {
-  background: var(--accent-teal);
-}
-.aura-gold {
-  background: var(--gold);
-}
-
-.showcase-img {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  transform: scale(1.4); /* Zoomed to fill the showcase area better */
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
-  z-index: 3;
-}
-
-.item-text-content {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.item-type-badge {
-  align-self: flex-start;
-  padding: 4px 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.item-name {
-  margin: 0;
-  font-size: 2rem;
-  font-family: 'Cinzel', serif;
-  color: #fff;
-  line-height: 1.2;
-}
-
-.item-hr {
-  height: 2px;
-  width: 40px;
-  background: var(--accent-teal);
-  border-radius: 1px;
-}
-
-.item-description {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Stats Display */
-.item-effects-box {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.stat-tag {
-  background: rgba(20, 184, 166, 0.08);
-  border: 1px solid rgba(20, 184, 166, 0.2);
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #fff;
-}
-
-.stat-label {
-  opacity: 0.7;
-}
-.stat-plus {
-  color: var(--accent-teal);
-}
-.stat-value {
-  color: var(--accent-teal);
-  font-weight: 800;
-}
-
-/* Actions */
-.item-action-footer {
-  margin-top: 20px;
-}
-
-.use-action-btn {
-  width: 100%;
-  padding: 14px !important;
-  font-size: 1.1rem !important;
-}
-
-/* Placeholder State */
-.vault-placeholder-box {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.1);
-  gap: 25px;
-}
-
-.vault-icon-ghost {
-  font-size: 6rem;
-  opacity: 0.2;
-  animation: floating-icon 3s infinite ease-in-out;
-}
-
-/* Animations */
-@keyframes aura-hover-motion {
-  0% {
-    transform: scale(0.9);
-    filter: blur(35px);
-  }
-  100% {
-    transform: scale(1.1);
-    filter: blur(45px);
-  }
-}
-
-@keyframes floating-icon {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-@keyframes fadeInVaultMotion {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes item-fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Mobile Responsive Adjustments */
-@media (max-width: 1350px) {
-  /* Increased breakpoint to prevent squeezing */
-  .vault-layout {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .vault-detail-pane {
-    min-height: auto;
-  }
-}
-
+/* Reuses common empty state styling if available */

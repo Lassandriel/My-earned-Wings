@@ -1,11 +1,11 @@
 <div
   id="modal-settings"
   class="modal-overlay"
-  x-show="$store.game.settingsOpen"
+  x-show="$store.ui.settingsOpen"
   style="display: none"
   x-transition.opacity
   x-data="{ settingsTab: 'general' }"
-  @click.self="$store.game.settingsOpen = false"
+  @click.self="$store.ui.settingsOpen = false"
   role="dialog"
   aria-modal="true"
   aria-labelledby="settings-title"
@@ -53,7 +53,7 @@
       <div class="sidebar-footer">
         <button
           class="save-back-btn-sidebar"
-          @click="$store.game.saveGame(); $store.game.settingsOpen = false; $store.game.playSound('click')"
+          @click="$store.game.saveGame(); $store.ui.settingsOpen = false; $store.game.playSound('click')"
         >
           <span x-text="$store.game.t('btn_save_back')"></span>
         </button>
@@ -79,7 +79,7 @@
           x-show="settingsTab === 'system'"
           x-text="$store.game.t('settings_system')"
         ></h3>
-        <button class="close-top-btn" @click="$store.game.settingsOpen = false">×</button>
+        <button class="close-top-btn" @click="$store.ui.settingsOpen = false">×</button>
       </header>
 
       <div class="settings-body-scrollable">
@@ -292,7 +292,7 @@
               </button>
               <button
                 class="game-btn-wide secondary"
-                @click="$store.game.returnToMenu(); $store.game.settingsOpen = false;"
+                @click="$store.game.returnToMenu(); $store.ui.settingsOpen = false;"
               >
                 <span x-text="$store.game.t('btn_main_menu')"></span>
               </button>

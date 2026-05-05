@@ -25,6 +25,7 @@ export const createPipelineSystem = () => {
   };
 
   return {
+    metadata: { id: 'pipeline' },
     /**
      * Calculates a modified value for a given key.
      * Formula: (Base + TotalAdditive) * TotalMultiplicative
@@ -59,63 +60,73 @@ export const createPipelineSystem = () => {
       const mods: GameModifier[] = [];
 
       // 1. DATA-DRIVEN: Items & Buildings (via Flags)
-      Object.keys(store.flags).forEach((f) => {
-        const flagId = f as FlagId;
-        if (!store.flags[flagId]) return;
+      // Optimization: Only iterate flags that are true
+      for (const flagId in store.flags) {
+        if (!store.flags[flagId as FlagId]) continue;
 
         // Check Items/Furniture
         const item = store.content.get<ItemDefinition>(flagId, 'items');
         if (item?.modifiers) {
           if (item.category !== 'furniture' || store.placedItems.includes(item.id)) {
-            item.modifiers.forEach((m) => {
+            for (const m of item.modifiers) {
               if (m.key === key) mods.push(m);
-            });
+            }
           }
         }
 
         // Check Actions/Buildings
         const action = store.content.get<ActionDefinition>(flagId, 'actions');
         if (action?.modifiers) {
-          action.modifiers.forEach((m) => {
+          for (const m of action.modifiers) {
             if (m.key === key) mods.push(m);
-          });
+          }
         }
-      });
+      }
 
       // 2. DATA-DRIVEN: Active Home
       if (store.activeHome) {
         const home = store.content.get(store.activeHome, 'homes');
-        home?.modifiers?.forEach((m: GameModifier) => {
-          if (m.key === key) mods.push(m);
-        });
+        if (home?.modifiers) {
+          for (const m of home.modifiers) {
+            if (m.key === key) mods.push(m);
+          }
+        }
       }
 
       // 3. DATA-DRIVEN: Buffs
-      Object.values(store.activeBuffs || {}).forEach((buff: any) => {
-        const buffDef = store.content.get(buff.id, 'buffs');
-        buffDef?.modifiers?.forEach((m: GameModifier) => {
-          if (m.key === key) mods.push(m);
-        });
-      });
+      if (store.activeBuffs) {
+        for (const buffId in store.activeBuffs) {
+          const buffDef = store.content.get(buffId, 'buffs');
+          if (buffDef?.modifiers) {
+            for (const m of buffDef.modifiers) {
+              if (m.key === key) mods.push(m);
+            }
+          }
+        }
+      }
 
-      // 4. LOGIC-DRIVEN: Satiation Efficiency
-      const efficiencyKeys = [
-        'resource_efficiency',
-        'wood_yield',
-        'stone_yield',
-        'meat_yield',
-        'shards_yield',
-      ];
+      // 4. DATA-DRIVEN: Active Title
+      if (store.activeTitle) {
+        const title = store.content.get(store.activeTitle, 'titles');
+        if (title?.modifiers) {
+          for (const m of title.modifiers) {
+            if (m.key === key) mods.push(m);
+          }
+        }
+      }
+
+      // 5. LOGIC-DRIVEN: Satiation Efficiency
+      const efficiencyKeys = ['resource_efficiency', 'wood_yield', 'stone_yield', 'meat_yield', 'shards_yield'];
       if (efficiencyKeys.includes(key)) {
         mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
       }
 
-      // 5. LOGIC-DRIVEN: Knowledge & Study
+      // 6. LOGIC-DRIVEN: Knowledge & Study
       if (key === 'magic_limit_gain') {
         const bookCount = store.resources.books || 0;
         if (bookCount > 0) mods.push({ add: bookCount * 2 });
 
-        // Apply study_efficiency (Recursive lookup)
+        // Apply study_efficiency (Prevent infinite recursion if study_efficiency depends on magic_limit_gain)
         const studyEff = this.calculate(store, 'study_efficiency', 1);
         if (studyEff !== 1) mods.push({ mult: studyEff });
       }

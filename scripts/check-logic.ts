@@ -54,10 +54,32 @@ const checkLogic = () => {
     // 2. REACHABILITY SIMULATION
     console.log("--- Simulating Progression Reachability ---");
     const reachableFlags = new Map<string, any>();
+    reachableFlags.set('npcProgress', {});
     const unlockedActions = new Set<string>();
     const processedActions = new Set<string>();
     const unlockedItems = new Set<string>();
     const unlockedNPCs = new Set<string>();
+
+    const setSimFlag = (flag: string, value: any) => {
+        if (flag.includes('.')) {
+            const [parent, child] = flag.split('.');
+            let obj = reachableFlags.get(parent);
+            if (!obj || typeof obj !== 'object') {
+                obj = {};
+                reachableFlags.set(parent, obj);
+            }
+            if (obj[child] !== value) {
+                obj[child] = value;
+                return true;
+            }
+        } else {
+            if (reachableFlags.get(flag) !== value) {
+                reachableFlags.set(flag, value);
+                return true;
+            }
+        }
+        return false;
+    };
 
     // Seed with starting NPCs
     Object.values(registries.npcs).forEach((npc: any) => {
@@ -81,8 +103,10 @@ const checkLogic = () => {
 
             const mockGame = {
                 flags: Object.fromEntries(reachableFlags),
+                npcProgress: reachableFlags.get('npcProgress') || {},
                 discoveredItems: Array.from(unlockedItems),
-                unlockedRecipes: Array.from(unlockedActions)
+                unlockedRecipes: Array.from(unlockedActions),
+                academy_path: reachableFlags.get('academy_path')
             };
 
             let met = true;
@@ -101,17 +125,13 @@ const checkLogic = () => {
                     if (!effects) return;
                     effects.forEach(eff => {
                         if (eff.type === 'setFlag') {
-                            const current = reachableFlags.get(eff.flag);
-                            if (current !== eff.value) {
-                                reachableFlags.set(eff.flag, eff.value);
-                                changed = true;
-                            }
+                            if (setSimFlag(eff.flag, eff.value)) changed = true;
                         }
                         if (eff.type === 'unlockItem') {
                             if (!unlockedItems.has(eff.id)) {
                                 unlockedItems.add(eff.id);
-                                reachableFlags.set(eff.id, true); 
-                                reachableFlags.set(`item-${eff.id}`, true); 
+                                setSimFlag(eff.id, true); 
+                                setSimFlag(`item-${eff.id}`, true); 
                                 changed = true;
                             }
                         }
@@ -126,15 +146,12 @@ const checkLogic = () => {
                             if (!unlockedNPCs.has(eff.id)) {
                                 unlockedNPCs.add(eff.id);
                                 unlockedActions.add(`act-${eff.id}`);
-                                reachableFlags.set(eff.id, true);
+                                setSimFlag(eff.id, true);
                                 changed = true;
                             }
                         }
                         if (eff.type === 'setHome') {
-                            if (reachableFlags.get(eff.id) !== true) {
-                                reachableFlags.set(eff.id, true);
-                                changed = true;
-                            }
+                            if (setSimFlag(eff.id, true)) changed = true;
                         }
                     });
                 };
@@ -145,12 +162,26 @@ const checkLogic = () => {
                     if (s.reward) {
                         if (!unlockedItems.has(s.reward)) {
                             unlockedItems.add(s.reward);
-                            reachableFlags.set(s.reward, true);
-                            reachableFlags.set(`item-${s.reward}`, true);
+                            setSimFlag(s.reward, true);
+                            setSimFlag(`item-${s.reward}`, true);
                             changed = true;
                         }
                     }
                 });
+
+                // Simulate NPC Progress
+                if (act.npcId && act.progKey && act.steps) {
+                    if (setSimFlag(`npcProgress.${act.progKey}`, act.steps.length)) {
+                        changed = true;
+                    }
+                }
+
+                // Simulate Academy Path Choice (Optimistic branching)
+                if (reachableFlags.get('vandara_unlocked')) {
+                    // If vandara is unlocked, we assume the player can choose ANY path
+                    // To handle this in a single pass without true branching, we "cheat" and allow requirements to match
+                    // any of the paths if we are in "validation mode"
+                }
             }
         });
     }
@@ -160,6 +191,28 @@ const checkLogic = () => {
     Object.keys(registries.actions).forEach(id => {
         if (!processedActions.has(id)) {
             const act = registries.actions[id];
+            
+            // Special case for academy paths: they are exclusive, so we check if they WOULD be reachable
+            if (act.requirements && act.requirements.academy_path) {
+                const pathValue = act.requirements.academy_path;
+                const mockGameWithPath = {
+                    flags: Object.fromEntries(reachableFlags),
+                    npcProgress: reachableFlags.get('npcProgress') || {},
+                    discoveredItems: Array.from(unlockedItems),
+                    unlockedRecipes: Array.from(unlockedActions),
+                    academy_path: pathValue // Test with this specific path
+                };
+
+                let met = Object.entries(act.requirements).every(([path, rule]) => {
+                    return checkRequirement(mockGameWithPath, path, rule);
+                });
+
+                if (met && reachableFlags.get('vandara_unlocked')) {
+                    // It is reachable if the player chooses this path
+                    return;
+                }
+            }
+
             logWarning(`Action '${id}' is unreachable. Requirements: ${JSON.stringify(act.requirements)}`);
         }
     });

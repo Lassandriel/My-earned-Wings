@@ -1,310 +1,198 @@
-<!-- GAMEPLAY VIEW - CORE 3.0 -->
-<div x-show="$store.game.view === 'gameplay'" class="view-content-gameplay">
-  <div class="primary-actions-bar">
-    <!-- 1: ENERGY (Matches First Bar) -->
-    <button
-      class="game-btn primary-btn primary-energy"
-      @click="$store.game.attemptAction($el, 'act-ausruhen')"
-      @mouseover="$store.game.setHovered('act-ausruhen')"
-      @mouseout="$store.game.setHovered(null)"
-      :aria-label="$store.game.t('act-ausruhen', 'actions').title"
-    >
-      <span x-text="$store.game.t('act-ausruhen', 'actions').title"></span>
-      <span class="key-tag">1</span>
-    </button>
-
-    <!-- 2: MAGIC (Matches Second Bar) -->
-    <button
-      class="game-btn primary-btn primary-magic"
-      @click="$store.game.attemptAction($el, 'act-meditieren')"
-      @mouseover="$store.game.setHovered('act-meditieren')"
-      @mouseout="$store.game.setHovered(null)"
-      :aria-label="$store.game.t('act-meditieren', 'actions').title"
-    >
-      <span x-text="$store.game.t('act-meditieren', 'actions').title"></span>
-      <span class="key-tag">2</span>
-    </button>
-
-    <!-- 3: SATIATION (Matches Third Bar) -->
-    <button
-      class="game-btn primary-btn primary-satiation"
-      @click="$store.game.attemptAction($el, 'act-essen')"
-      @mouseover="$store.game.setHovered('act-essen')"
-      @mouseout="$store.game.setHovered(null)"
-      :aria-label="$store.game.t('act-essen', 'actions').title"
-    >
-      <span x-text="$store.game.t('act-essen', 'actions').title"></span>
-      <span class="key-tag">3</span>
-    </button>
-  </div>
+<!-- GAMEPLAY VIEW - REFACTORED 3.1 -->
+<div 
+  x-show="$store.ui.view === 'gameplay'" 
+  class="view-content-gameplay"
+  x-data="{
+    // Helper to check if an action should be shown
+    canShow(id) {
+      const act = $store.game.content.get(id, 'actions');
+      if (!act) return false;
+      return !act.requirements || Object.entries(act.requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r));
+    },
+    // Filter actions by category and custom rules
+    getActions(category, customFilter = null) {
+      return Object.keys($store.game.content.registries.actions)
+        .filter(id => {
+          const act = $store.game.content.get(id, 'actions');
+          if (act.category !== category) return false;
+          return customFilter ? customFilter(act, id) : true;
+        });
+    }
+  }"
+>
+  <!-- Primary Stats Actions -->
+  <nav class="primary-actions-bar">
+    <template x-for="id in ['act-ausruhen', 'act-meditieren', 'act-essen']" :key="id">
+      <button
+        class="game-btn primary-btn"
+        :class="{
+          'primary-energy': id === 'act-ausruhen',
+          'primary-magic': id === 'act-meditieren',
+          'primary-satiation': id === 'act-essen'
+        }"
+        @click="$store.game.attemptAction($el, id)"
+        @mouseover="$store.game.setHovered(id)"
+        @mouseout="$store.game.setHovered(null)"
+      >
+        <span x-text="$store.game.t(id, 'actions').title"></span>
+        <span class="key-tag" x-text="id === 'act-ausruhen' ? '1' : (id === 'act-meditieren' ? '2' : '3')"></span>
+      </button>
+    </template>
+  </nav>
 
   <div class="action-container">
+    <!-- LEFT COLUMN: GATHERING & WORK -->
     <div class="action-column">
+      <!-- Gathering Section -->
       <section class="action-group">
-        <div class="category-header">
+        <header class="category-header">
           <h3 x-text="$store.game.t('cat_gather')"></h3>
-          <div
-            class="nav-help-icon"
-            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_gather'), desc: $store.game.t('nav_gather_desc') })"
-            @mouseleave="$store.game.setHovered(null)"
-          >
-            ?
-          </div>
-        </div>
-          <!-- LOCATION GROUPS (Phase 8.36.52) -->
-          <template x-for="loc in $store.game.ui.getAvailableLocations($store.game)" :key="loc">
-            <div class="location-group">
-              <h4 class="location-heading" x-text="$store.game.t('loc_' + loc)"></h4>
-              <div class="btn-list-inner">
-                <template
-                  x-for="action in $store.game.ui.getGatheringActions($store.game).filter(a => a.locationId === loc)"
-                  :key="action.id"
+          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_gather'), desc: $store.game.t('nav_gather_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+        </header>
+
+        <template x-for="loc in $store.game.ui.getAvailableLocations($store.game)" :key="loc">
+          <div class="location-group">
+            <h4 class="location-heading" x-text="$store.game.t('loc_' + loc)"></h4>
+            <div class="btn-list-inner">
+              <template x-for="action in $store.game.ui.getGatheringActions($store.game).filter(a => a.locationId === loc)" :key="action.id">
+                <button
+                  x-show="canShow(action.id)"
+                  class="game-btn action-btn-modular"
+                  :class="action.costType === 'magic' && 'primary-magic'"
+                  @click="$store.game.attemptAction($el, action.id)"
+                  @mouseover="$store.game.setHovered(action.id)"
+                  @mouseout="$store.game.setHovered(null)"
                 >
-                  <button
-                    x-show="!action.requirements || Object.entries(action.requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
-                    class="game-btn"
-                    :class="action.costType === 'magic' && 'primary-magic'"
-                    @click="$store.game.attemptAction($el, action.id)"
-                    @mouseover="$store.game.setHovered(action.id)"
-                    @mouseout="$store.game.setHovered(null)"
-                    :aria-label="$store.game.ui.renderActionTitle($store.game, action.id)"
-                  >
-                    <span x-text="$store.game.ui.renderActionTitle($store.game, action.id)"></span>
-                    <div
-                      class="focus-toggle-btn"
-                      x-show="$store.game.flags['ability-arcane-focus'] && action.isLoopable"
-                      :class="$store.game.activeFocus === action.id && 'is-focused'"
-                      @click.stop="$store.game.toggleFocus(action.id)"
-                      role="button"
-                      :aria-label="$store.game.t('ui_focus_toggle')"
-                      tabindex="0"
-                      @keydown.enter.stop="$store.game.toggleFocus(action.id)"
-                    >
-                      ✨
-                    </div>
-                  </button>
-                </template>
-              </div>
+                  <span x-text="$store.game.ui.renderActionTitle($store.game, action.id)"></span>
+                  
+                  <!-- Focus Toggle -->
+                  <div
+                    class="focus-toggle-btn"
+                    x-show="$store.game.flags['ability-arcane-focus'] && action.isLoopable"
+                    :class="$store.game.activeFocus === action.id && 'is-focused'"
+                    @click.stop="$store.game.toggleFocus(action.id)"
+                  >✨</div>
+                </button>
+              </template>
             </div>
-          </template>
-      </section>
-    </div>
-
-    <div class="vertical-divider"></div>
-
-    <div class="action-column">
-      <section class="action-group" x-show="$store.game.flags['unlocked-work']">
-        <div class="category-header">
-          <h3 x-text="$store.game.t('cat_work')"></h3>
-          <div
-            class="nav-help-icon"
-            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_work'), desc: $store.game.t('nav_work_desc') })"
-            @mouseleave="$store.game.setHovered(null)"
-          >
-            ?
           </div>
-        </div>
+        </template>
+      </section>
+
+      <!-- Work Section -->
+      <section class="action-group" x-show="$store.game.flags['unlocked-work']" x-transition>
+        <header class="category-header">
+          <h3 x-text="$store.game.t('cat_work')"></h3>
+          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_work'), desc: $store.game.t('nav_work_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+        </header>
         <div class="btn-list">
           <button
-            class="game-btn"
+            class="game-btn action-btn-modular"
             @click="$store.game.attemptAction($el, 'act-work')"
             @mouseover="$store.game.setHovered('act-work')"
             @mouseout="$store.game.setHovered(null)"
           >
             <span x-text="$store.game.t('act-work', 'actions').title"></span>
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-work' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-work')"
-            >
-              ✨
-            </div>
+            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-work')">✨</div>
           </button>
         </div>
       </section>
+    </div>
 
-      <!-- KITCHEN SECTION -->
+    <div class="vertical-divider"></div>
+
+    <!-- RIGHT COLUMN: ADVANCED FACILITIES -->
+    <div class="action-column">
+      
+      <!-- KITCHEN -->
       <section class="action-group" x-show="$store.game.flags['build-kitchen']" x-collapse>
-        <div class="category-header">
+        <header class="category-header">
           <h3 x-text="$store.game.t('ui_tab_kitchen')"></h3>
-          <div
-            class="nav-help-icon"
-            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_tab_kitchen'), desc: $store.game.t('help_kitchen_desc') })"
-            @mouseleave="$store.game.setHovered(null)"
-          >
-            ?
-          </div>
-        </div>
+          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_tab_kitchen'), desc: $store.game.t('help_kitchen_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+        </header>
         <div class="btn-list">
-          <button
-            class="game-btn"
-            :class="$store.game.isTaskActive('act-cook-gourmet') && 'is-working'"
-            @click="$store.game.attemptAction($el, 'act-cook-gourmet')"
-            @mouseover="$store.game.setHovered('act-cook-gourmet')"
-            @mouseout="$store.game.setHovered(null)"
-            style="position: relative"
-          >
-            <span x-text="$store.game.t('act-cook-gourmet', 'actions').title"></span>
-            <div
-              x-show="$store.game.activeTasks['act-cook-gourmet']"
-              class="btn-progress-container"
+          <template x-for="actionId in getActions('kitchen')" :key="actionId">
+            <button
+              class="game-btn action-btn-modular"
+              :class="$store.game.isTaskActive(actionId) && 'is-working'"
+              @click="$store.game.attemptAction($el, actionId)"
+              @mouseover="$store.game.setHovered(actionId)"
+              @mouseout="$store.game.setHovered(null)"
             >
-              <div
-                class="btn-progress-fill"
-                :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-cook-gourmet') + '%'"
-              ></div>
-            </div>
-          </button>
+              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
+                <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
+              </div>
+            </button>
+          </template>
         </div>
       </section>
 
-      <!-- MAGIC SECTION -->
-      <section
-        class="action-group"
-        x-show="$store.game.unlockedRecipes.includes('act-dream-bloom')"
-        x-collapse
-      >
-        <div class="category-header">
+      <!-- MAGIC -->
+      <section class="action-group" x-show="$store.game.unlockedRecipes.includes('act-dream-bloom')" x-collapse>
+        <header class="category-header">
           <h3 x-text="$store.game.t('cat_magic')"></h3>
-          <div
-            class="nav-help-icon"
-            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_magic'), desc: $store.game.t('help_magic_desc') })"
-            @mouseleave="$store.game.setHovered(null)"
-          >
-            ?
-          </div>
-        </div>
+          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_magic'), desc: $store.game.t('help_magic_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+        </header>
         <div class="btn-list">
-          <button
-            class="game-btn primary-magic"
-            @click="$store.game.attemptAction($el, 'act-dream-bloom')"
-            @mouseover="$store.game.setHovered('act-dream-bloom')"
-            @mouseout="$store.game.setHovered(null)"
-            x-text="$store.game.t('act-dream-bloom', 'actions').title"
-          ></button>
-
-          <button
-            x-show="$store.game.flags['build-arcane-sanctum']"
-            class="game-btn primary-magic"
-            :class="$store.game.isTaskActive('act-meditate') && 'is-working'"
-            @click="$store.game.attemptAction($el, 'act-meditate')"
-            @mouseover="$store.game.setHovered('act-meditate')"
-            @mouseout="$store.game.setHovered(null)"
-            style="position: relative"
-          >
-            <span x-text="$store.game.t('act-meditate', 'actions').title"></span>
-            <div x-show="$store.game.activeTasks['act-meditate']" class="btn-progress-container">
-              <div
-                class="btn-progress-fill"
-                :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-meditate') + '%'"
-              ></div>
-            </div>
-          </button>
-
-          <button
-            x-show="$store.game.flags['build-arcane-sanctum']"
-            class="game-btn primary-magic"
-            @click="$store.game.attemptAction($el, 'act-spell-harvest')"
-            @mouseover="$store.game.setHovered('act-spell-harvest')"
-            @mouseout="$store.game.setHovered(null)"
-          >
-            <span x-text="$store.game.t('act-spell-harvest', 'actions').title"></span>
-          </button>
+          <template x-for="actionId in getActions('magic', (a) => a.id !== 'act-meditate' && a.id !== 'act-spell-harvest')" :key="actionId">
+            <button class="game-btn primary-magic" @click="$store.game.attemptAction($el, actionId)" @mouseover="$store.game.setHovered(actionId)" @mouseout="$store.game.setHovered(null)" x-text="$store.game.t(actionId, 'actions').title"></button>
+          </template>
+          
+          <!-- Long-running Magic Actions -->
+          <template x-for="actionId in ['act-meditate', 'act-spell-harvest']" :key="actionId">
+            <button
+              x-show="actionId === 'act-meditate' ? $store.game.flags['build-arcane-sanctum'] : true"
+              class="game-btn primary-magic action-btn-modular"
+              :class="$store.game.isTaskActive(actionId) && 'is-working'"
+              @click="$store.game.attemptAction($el, actionId)"
+              @mouseover="$store.game.setHovered(actionId)"
+              @mouseout="$store.game.setHovered(null)"
+            >
+              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
+                <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
+              </div>
+            </button>
+          </template>
         </div>
       </section>
 
-      <!-- GARDEN SECTION -->
+      <!-- GARDEN -->
       <section class="action-group" x-show="$store.game.flags['build-garden']" x-collapse>
-        <div class="category-header">
+        <header class="category-header">
           <h3 x-text="$store.game.t('ui_tab_garden')"></h3>
-          <div
-            class="nav-help-icon"
-            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_tab_garden'), desc: $store.game.t('help_garden_desc') })"
-            @mouseleave="$store.game.setHovered(null)"
-          >
-            ?
-          </div>
-        </div>
+          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_tab_garden'), desc: $store.game.t('help_garden_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+        </header>
         <div class="btn-list">
-          <button
-            class="game-btn"
-            :class="$store.game.isTaskActive('act-garden-plant') && 'is-working'"
-            @click="$store.game.attemptAction($el, 'act-garden-plant')"
-            @mouseover="$store.game.setHovered('act-garden-plant')"
-            @mouseout="$store.game.setHovered(null)"
-            style="position: relative"
-          >
-            <span x-text="$store.game.t('act-garden-plant', 'actions').title + ' (1)'"></span>
-            <div
-              x-show="$store.game.activeTasks['act-garden-plant']"
-              class="btn-progress-container"
+          <template x-for="actionId in getActions('garden_task')" :key="actionId">
+            <button
+              x-show="canShow(actionId)"
+              class="game-btn action-btn-modular"
+              :class="$store.game.isTaskActive(actionId) && 'is-working'"
+              @click="$store.game.attemptAction($el, actionId)"
+              @mouseover="$store.game.setHovered(actionId)"
+              @mouseout="$store.game.setHovered(null)"
             >
+              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
+                <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
+              </div>
               <div
-                class="btn-progress-fill"
-                :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-garden-plant') + '%'"
-              ></div>
-            </div>
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-garden-plant' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-garden-plant')"
-            >
-              ✨
-            </div>
-          </button>
-
-          <button
-            x-show="$store.game.flags['gardenLevel'] >= 2"
-            class="game-btn"
-            :class="$store.game.isTaskActive('act-garden-plant-2') && 'is-working'"
-            @click="$store.game.attemptAction($el, 'act-garden-plant-2')"
-            @mouseover="$store.game.setHovered('act-garden-plant-2')"
-            @mouseout="$store.game.setHovered(null)"
-            style="position: relative"
-          >
-            <span x-text="$store.game.t('act-garden-plant', 'actions').title + ' (2)'"></span>
-            <div
-              x-show="$store.game.activeTasks['act-garden-plant-2']"
-              class="btn-progress-container"
-            >
-              <div
-                class="btn-progress-fill"
-                :style="'width: ' + $store.game.ui.getTaskProgress($store.game, 'act-garden-plant-2') + '%'"
-              ></div>
-            </div>
-            <div
-              class="focus-toggle-btn"
-              x-show="$store.game.flags['ability-arcane-focus']"
-              :class="$store.game.activeFocus === 'act-garden-plant-2' && 'is-focused'"
-              @click.stop="$store.game.toggleFocus('act-garden-plant-2')"
-            >
-              ✨
-            </div>
-          </button>
-
-          <button
-            class="game-btn"
-            :class="$store.game.isTaskActive('act-garden-water') && 'is-working'"
-            @click="$store.game.attemptAction($el, 'act-garden-water')"
-            @mouseover="$store.game.setHovered('act-garden-water')"
-            @mouseout="$store.game.setHovered(null)"
-          >
-            <span x-text="$store.game.t('act-garden-water', 'actions').title"></span>
-          </button>
+                class="focus-toggle-btn"
+                x-show="$store.game.flags['ability-arcane-focus'] && $store.game.content.get(actionId, 'actions').isLoopable"
+                :class="$store.game.activeFocus === actionId && 'is-focused'"
+                @click.stop="$store.game.toggleFocus(actionId)"
+              >✨</div>
+            </button>
+          </template>
         </div>
       </section>
 
-      <!-- STUDY SECTION -->
+      <!-- STUDY -->
       <section class="action-group" x-show="$store.game.flags['item-book-knowledge']" x-collapse>
         <div class="btn-list">
-          <button
-            class="game-btn"
-            @click="$store.game.executeAction('act-study')"
-            @mouseover="$store.game.setHovered('act-study')"
-            @mouseout="$store.game.setHovered(null)"
-          >
+          <button class="game-btn" @click="$store.game.executeAction('act-study')" @mouseover="$store.game.setHovered('act-study')" @mouseout="$store.game.setHovered(null)">
             <span x-text="$store.game.t('act-study', 'actions').title"></span>
           </button>
         </div>

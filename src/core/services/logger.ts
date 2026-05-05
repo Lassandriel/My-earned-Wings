@@ -1,18 +1,22 @@
-import { GameState } from '../../types/game';
+import Alpine from 'alpinejs';
+import { GameState, LogStore } from '../../types/game';
 
 /**
  * Logger System - TypeScript Edition
  * Manages game logs, grouping, and history pruning.
  */
 export const createLoggerSystem = () => ({
+  metadata: { id: 'logger' },
   addLog(store: GameState, id: string, context?: string, color?: string, params?: any) {
+    const logStore = Alpine.store('logs') as LogStore;
+    
     let type = 'normal';
     if (color && (color.includes('teal') || color.includes('184, 166'))) type = 'success';
     else if (color && (color.includes('gold') || color.includes('251, 191'))) type = 'milestone';
     else if (color && (color.includes('purple') || color.includes('210, 180'))) type = 'story';
     else if (color && (color.includes('red') || color.includes('239, 68'))) type = 'failure';
 
-    const lastLog = (store as any).logs[0];
+    const lastLog = logStore.list[0];
     const finalColor = color || 'rgba(226, 232, 240, 0.7)';
     const finalContext = context || 'logs';
 
@@ -37,7 +41,7 @@ export const createLoggerSystem = () => ({
       return;
     }
 
-    (store as any).logs.unshift({
+    logStore.addLog({
       id: id,
       context: finalContext,
       params: finalParams,
@@ -46,8 +50,6 @@ export const createLoggerSystem = () => ({
       count: 1,
       timestamp: Date.now() + Math.random(),
     });
-
-    if ((store as any).logs.length > 40) (store as any).logs.pop();
   },
 
   boot(store: GameState) {

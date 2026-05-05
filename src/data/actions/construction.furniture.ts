@@ -89,7 +89,7 @@ export const furnitureConstruction = {
     },
     sfx: 'craft',
     onSuccess: [{ type: 'unlockItem', id: 'item-grand-table' }],
-    logKey: 'act-grand-table',
+    logKey: 'craft_grand_table',
   },
   'act-bed-2': {
     id: 'act-bed-2',

@@ -142,7 +142,7 @@ const performHeuristicScan = () => {
         path.resolve(SRC_DIR, '../index.html')
     ];
     
-    const KEY_PATTERN = /['"]([a-zA-Z0-9_\-\.]{4,})['"]/g; // Min 4 chars to reduce noise
+    const KEY_PATTERN = /['"]([a-zA-Z0-9_\-\.]{3,})['"]/g; // Min 3 chars to catch 'ui_', 'act' etc.
 
     for (const file of files) {
         const content = fs.readFileSync(file, 'utf-8');
@@ -229,7 +229,8 @@ const findOrphans = () => {
     const deObj = de as any;
     
     const SYSTEM_WHITELIST = [
-        'ui.menu_version', 'ui.ui_unknown', 'logs.npc_dialogue_log'
+        'ui.menu_version', 'ui.ui_unknown', 'logs.npc_dialogue_log',
+        'ui.ui_materials', 'ui.ui_provisions', 'ui.ui_knowledge'
     ];
 
     Object.keys(deObj).forEach(ns => {

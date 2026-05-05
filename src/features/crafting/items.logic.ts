@@ -5,6 +5,10 @@ import { GameState, ItemId } from '../../types/game';
  * Manages item effects and consumption from the inventory.
  */
 export const createItemSystem = () => ({
+  metadata: {
+    id: 'item',
+    delegates: { consumeItem: 'consumeItem' }
+  },
   consumeItem(store: GameState, id: ItemId) {
     const item = store.content.get(id, 'items');
     if (!item || !item.consumable) return;

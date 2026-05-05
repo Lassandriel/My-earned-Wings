@@ -1,5 +1,5 @@
 <!-- MAIN MENU VIEW -->
-<section id="main-menu" x-show="$store.game.view === 'menu'" class="main-menu-overlay">
+<section id="main-menu" x-show="$store.ui.view === 'menu'" class="main-menu-overlay">
   <div class="menu-content">
     <div class="menu-logo-container">
       <img src="img/menu/logo_wings.webp" alt="Wings Logo" class="menu-logo" />
@@ -27,13 +27,13 @@
 
       <button
         class="menu-btn"
-        @click="$store.game.settingsOpen = true; $store.game.playSound('click')"
+        @click="$store.ui.settingsOpen = true; $store.game.playSound('click')"
         :aria-label="$store.game.t('settings_title')"
       >
         <span x-text="$store.game.t('settings_title')"></span>
       </button>
 
-      <button class="menu-btn quit" @click="window.electronAPI?.quitApp()" :aria-label="$store.game.t('btn_quit')">
+      <button class="menu-btn quit" @click="$store.game.quit()" :aria-label="$store.game.t('btn_quit')">
         <span x-text="$store.game.t('btn_quit')"></span>
       </button>
     </div>

@@ -5,37 +5,40 @@
 }
 
 .nav-item {
-  margin-left: 1rem;   /* Force space from left edge */
-  margin-right: 1.2rem; /* Force space from right edge/scrollbar */
-  padding: 0 1.25rem;
-  height: 4.8rem;
-  margin-bottom: 1rem;
+  width: calc(100% - 8px);
+  margin-left: 0;
+  margin-right: 8px;
+  padding: 0 0.5rem;
+  height: 3.8rem;
+  margin-bottom: 0.8rem;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Softer, contained shadow */
   border-radius: var(--radius-md);
   cursor: pointer;
-  display: flex;
+  display: grid; /* Use grid for perfect alignment */
+  grid-template-columns: 3.5rem 1fr; /* Fixed icon column, flexible text column */
   align-items: center;
   transition: all var(--trans-mid);
   color: #ffffff;
   font-weight: 600;
   letter-spacing: 0.3px;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .nav-item:hover {
-  transform: translate(var(--m-x, 0), var(--m-y, 0));
+  transform: translateY(-2px) scale(1.02);
 }
 
 .menu-icon-img {
-  height: 95%;
-  width: auto;
-  margin-right: 1.2rem;
-  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+  height: 2.2rem;
+  width: 2.2rem;
+  justify-self: center; /* Center icon in the 3.5rem column */
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
   object-fit: contain;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .nav-item:hover .menu-icon-img {
@@ -43,12 +46,12 @@
 }
 
 .nav-item.active {
-  background: rgba(45, 212, 191, 0.15); /* Subtiler Teal-Hintergrund */
+  background: rgba(45, 212, 191, 0.15); 
   border: 1px solid rgba(45, 212, 191, 0.4);
   box-shadow:
     0 0 25px rgba(11, 98, 86, 0.1),
     inset 4px 0 0 0 var(--accent-teal);
-  color: #ffffff; /* Contrast fix: White text on active tab */
+  color: #ffffff; 
   text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
   font-weight: 700;
 }
@@ -56,5 +59,4 @@
 .nav-item.active .menu-icon-img {
   filter: drop-shadow(0 0 10px var(--accent-teal)) brightness(1.2);
   transform: scale(1.05);
-  margin-right: 0.5rem;
 }

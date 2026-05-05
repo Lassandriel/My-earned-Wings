@@ -2,7 +2,7 @@ import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId } fr
 
 // Declare Alpine globally for TS
 declare const Alpine: {
-  store: (name: string) => any;
+  store: (name: string, value?: any) => any;
 };
 
 interface Engine {
@@ -14,6 +14,7 @@ interface Engine {
   productionAccumulator: Record<string, number>;
   init: () => void;
   stop: () => void;
+  metadata?: import('../../types/system').SystemMetadata;
   // Sub-modules
   processTick: (store: GameState, deltaTime: number) => void;
   processTasks: (store: GameState, deltaMs: number) => void;
@@ -27,6 +28,7 @@ interface Engine {
  */
 export function createEngineSystem(): Engine {
   return {
+    metadata: { id: 'engine' },
     tickInterval: null,
     taskInterval: null,
     saveInterval: null,
@@ -42,6 +44,13 @@ export function createEngineSystem(): Engine {
 
       this.lastTickTime = Date.now();
       this.lastTaskTime = Date.now();
+
+      // Initialize Perf Store
+      Alpine.store('perf', {
+        lastTickMs: 0,
+        lastTaskMs: 0,
+        fps: 60,
+      });
 
       // 1. Simulation Heartbeat (1s)
       this.tickInterval = setInterval(() => {
@@ -63,7 +72,9 @@ export function createEngineSystem(): Engine {
           (this as any).timeAccumulator -= fullSecs;
         }
         
+        const start = performance.now();
         this.processTick(store, safeDelta);
+        (Alpine.store('perf') as any).lastTickMs = Math.round(performance.now() - start);
       }, 1000);
 
       // 2. High-Frequency Task Ticker (100ms)
@@ -75,7 +86,9 @@ export function createEngineSystem(): Engine {
         const deltaMs = now - this.lastTaskTime;
         this.lastTaskTime = now;
 
+        const start = performance.now();
         this.processTasks(store, Math.min(deltaMs, 2000));
+        (Alpine.store('perf') as any).lastTaskMs = Math.round(performance.now() - start);
       }, 100);
 
       // 3. Maintenance Loop (30s): Milestones & Autosave
@@ -102,7 +115,11 @@ export function createEngineSystem(): Engine {
           const buff = store.activeBuffs[id];
           if (buff) {
             buff.remaining = Math.max(0, buff.remaining - deltaTime);
-            if (buff.remaining <= 0) delete store.activeBuffs[id];
+            if (buff.remaining <= 0) {
+              const newBuffs = { ...store.activeBuffs };
+              delete newBuffs[id];
+              store.activeBuffs = newBuffs;
+            }
           }
         });
       }
@@ -111,7 +128,7 @@ export function createEngineSystem(): Engine {
       if (store.activeFocus) {
         const cost = store.pipeline.calculate(store, 'arcane_focus_cost', 3) * deltaTime;
         if (store.stats.magic >= cost) {
-          store.resource.consume(store, 'magic', cost);
+          store.resource.consume(store, 'magic', cost, true);
         } else {
           store.activeFocus = null;
           store.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
@@ -126,7 +143,7 @@ export function createEngineSystem(): Engine {
         (this as any).magicAccumulator = ((this as any).magicAccumulator || 0) + gain;
         
         if ((this as any).magicAccumulator >= 0.1) {
-          store.resource.add(store, 'magic', (this as any).magicAccumulator);
+          store.resource.add(store, 'magic', (this as any).magicAccumulator, true);
           (this as any).magicAccumulator = 0;
         }
       }
@@ -149,7 +166,10 @@ export function createEngineSystem(): Engine {
         if (task.remaining <= 0) {
           const actionId = task.actionId as ActionId;
           const action = store.content.get<ActionDefinition>(actionId, 'actions');
-          delete store.activeTasks[id];
+          
+          const newTasks = { ...store.activeTasks };
+          delete newTasks[id];
+          store.activeTasks = newTasks;
 
           if (action) {
             const result = store.actions.processAction(store, actionId, action, 'finalize');
@@ -159,7 +179,10 @@ export function createEngineSystem(): Engine {
             if (store.activeFocus === actionId && action.isLoopable) {
               setTimeout(() => {
                 const refreshedStore = Alpine.store('game') as unknown as GameState;
-                if (refreshedStore.activeFocus === actionId && refreshedStore.view !== 'menu' && !refreshedStore.activeTasks[actionId]) {
+                if (refreshedStore.activeFocus === actionId && 
+                    refreshedStore.view !== 'menu' && 
+                    !refreshedStore.activeTasks[actionId] &&
+                    action.isLoopable) {
                   refreshedStore.executeAction(actionId);
                 }
               }, 300);
@@ -193,7 +216,7 @@ export function createEngineSystem(): Engine {
             if (store.counters.totalTime % 20 === 0) store.addLog(id + '_fail_log', 'logs', 'var(--accent-red)');
             return;
           }
-          store.resource.consume(store, 'magic', tickCost);
+          store.resource.consume(store, 'magic', tickCost, true);
         }
 
         // Production Accumulation
@@ -206,7 +229,7 @@ export function createEngineSystem(): Engine {
         // Commit full units
         if (this.productionAccumulator[id] >= 1) {
           const amount = Math.floor(this.productionAccumulator[id]);
-          store.resource.add(store, prod.resource, amount);
+          store.resource.add(store, prod.resource, amount, true);
           this.productionAccumulator[id] -= amount;
 
           if (store.counters.totalTime % 20 === 0) {
@@ -217,7 +240,7 @@ export function createEngineSystem(): Engine {
     },
 
     checkMilestones(store: GameState) {
-      Object.values(store.content.registries.milestones).forEach((milestone: MilestoneDefinition) => {
+      (Object.values(store.content.registries.milestones) as MilestoneDefinition[]).forEach((milestone: MilestoneDefinition) => {
         const flagId = milestone.id as unknown as FlagId;
         if (store.flags[flagId]) return;
 

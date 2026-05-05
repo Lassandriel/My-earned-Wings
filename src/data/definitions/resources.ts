@@ -16,6 +16,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     isEssential: true,
     wingSlot: 'left',
     scalesWithSatiation: true,
+    satiationDrain: 0.1,
   },
   magic: {
     id: 'magic',
@@ -27,6 +28,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     isEssential: true,
     wingSlot: 'right',
     scalesWithSatiation: true,
+    satiationDrain: 0.1,
   },
   satiation: {
     id: 'satiation',
@@ -142,6 +144,14 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     type: 'resource',
     category: 'materials',
     color: '#8b5cf6', // Purple for magic
+    initial: 0,
+    initialLimit: 50,
+  },
+  arcane_dust: {
+    id: 'arcane_dust',
+    type: 'resource',
+    category: 'materials',
+    color: '#a78bfa',
     initial: 0,
     initialLimit: 50,
   },

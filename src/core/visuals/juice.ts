@@ -10,6 +10,7 @@ export const createJuiceSystem = () => {
   let container: HTMLElement | null = null;
 
   return {
+    metadata: { id: 'juice' },
     init() {
       container = document.getElementById('juice-container');
       if (!container) {
