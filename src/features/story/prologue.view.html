@@ -1,7 +1,7 @@
 <!-- PROLOGUE VIEW -->
 <section
   id="prologue-view"
-  x-show="$store.ui.view === 'prologue'"
+  x-show="$store.game.view === 'prologue'"
   class="prologue-overlay"
   @click="$store.game.prologue.advancePrologue($store.game)"
   style="cursor: pointer"
@@ -73,7 +73,7 @@
 
     <div
       class="prologue-advance-hint"
-      x-show="$store.ui.view === 'prologue'"
+      x-show="$store.game.view === 'prologue'"
       x-text="$store.game.t('ui_continue_hint')"
     ></div>
   </div>

@@ -5,9 +5,9 @@
       <li
         class="nav-item"
         :id="'nav-' + item.id"
-        :class="$store.ui.view === item.id && 'active'"
-        @click="$store.ui.view = item.id; $store.game.playSound('click')"
-        @keydown.enter="$store.ui.view = item.id; $store.game.playSound('click')"
+        :class="$store.game.view === item.id && 'active'"
+        @click="$store.game.view = item.id; $store.game.playSound('click')"
+        @keydown.enter="$store.game.view = item.id; $store.game.playSound('click')"
         :aria-label="$store.game.t('nav_to_prefix') + ' ' + $store.game.t(item.label)"
         role="menuitem"
         tabindex="0"

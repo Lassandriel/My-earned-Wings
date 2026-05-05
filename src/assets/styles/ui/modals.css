@@ -6,7 +6,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-blur);
   z-index: 30000;
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-blur);
   z-index: 20000;
   display: flex;
   justify-content: center;

@@ -458,11 +458,12 @@ export const createUISystem = () => {
 
       // View Validation & Reactive Cleanups
       (Alpine as any).effect(() => {
-        const ui = (Alpine as any).store('ui') as any;
+        const uiStore = (Alpine as any).store('ui') as any;
+        if (!uiStore) return;
         const VALID_VIEWS = ['menu','prologue','naming','gameplay','crafting','upgrades','village','housing','story','finale','demo_end'];
-        if (!VALID_VIEWS.includes(ui.view)) {
-          console.warn(`[UI] Invalid view: ${ui.view}. Resetting to menu.`);
-          ui.view = 'menu';
+        if (uiStore.view && !VALID_VIEWS.includes(uiStore.view)) {
+          console.warn(`[UI] Invalid view: ${uiStore.view}. Resetting to menu.`);
+          uiStore.view = 'menu';
         }
         this.cleanupHover(store);
       });

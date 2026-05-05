@@ -61,7 +61,7 @@ export const createBootSystem = () => {
       console.log('[Bootstrapper] Starting system sequence...');
 
       // 1. Infrastructure first
-      const infraSystems = ['bus', 'i18n', 'persistence', 'settingsSystem', 'logger'];
+      const infraSystems = ['bus', 'input', 'i18n', 'persistence', 'settingsSystem', 'logger'];
       this.execBoot(store, infraSystems);
 
       // 2. Core Content & Feedback

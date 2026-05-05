@@ -67,7 +67,9 @@ The internal architecture has been fully refactored into a modular, automated sy
 - [x] **Modular Input Handling**: Extracted global keyboard and window events into a dedicated `InputSystem`.
 - [x] **God-Object Deconstruction**: Reduced `main.ts` complexity by 60%, moving boilerplate initialization into specialized loaders and factories.
 - [x] **Strict Type Consolidation**: Unified all scattered `GameState` extensions into a single, authoritative interface.
-- [x] **Startup & Reactivity Hardening**: Resolved a critical "God Object" refactoring debt that caused infinite boot loops and reactivity holes. Unified the Store-Proxy architecture and hardened the i18n system for flawless text rendering during the boot sequence.
+- [x] **Architectural Decentralization (v1.3.0)**: Broke the "State-Monolith" by moving frequent/large data structures into specialized Alpine stores.
+- [x] **Store Synchronization Hardening (v1.3.1)**: Resolved critical race conditions and reactivity holes in Alpine.js store initialization. Unified 'game' and 'ui' stores and migrated view templates to a centralized store pattern for 100% stability.
+- [x] **Visual Polish & Glassmorphism**: Optimized global blur effects for better readability and a premium aesthetic.
 
 ---
 

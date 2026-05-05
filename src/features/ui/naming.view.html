@@ -1,6 +1,6 @@
 <section
   class="naming-modal-overlay"
-  x-show="$store.ui.view === 'naming'"
+  x-show="$store.game.view === 'naming'"
   x-transition:enter="modal-overlay-enter"
   x-transition:leave="modal-overlay-leave"
   x-data="{ tempName: '' }"
@@ -9,7 +9,7 @@
     class="naming-modal-card"
     x-transition:enter="modal-card-enter"
     x-transition:leave="modal-card-leave"
-    x-init="$watch('$store.ui.view', v => v === 'naming' && $nextTick(() => $el.querySelector('input').focus()))"
+    x-init="$watch('$store.game.view', v => v === 'naming' && $nextTick(() => $el.querySelector('input').focus()))"
   >
     <div class="modal-decor-top"></div>
 

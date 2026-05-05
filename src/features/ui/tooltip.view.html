@@ -2,7 +2,7 @@
 <div
   class="floating-tooltip"
   id="tooltip-container"
-  x-show="$store.ui.hoveredAction && !$store.ui.settingsOpen && !$store.ui.confirmModal.open"
+  x-show="$store.game.hoveredAction && !$store.game.settingsOpen && !$store.game.confirmModal.open"
   style="display: none"
   x-transition:enter="tt-enter"
   x-transition:enter-start="tt-enter-start"
@@ -11,34 +11,34 @@
   <!-- 1. Title -->
   <div
     class="tt-title"
-    x-html="$store.game.ui.renderTooltipTitle($store.game, $store.ui.hoveredAction)"
+    x-html="$store.game.ui.renderTooltipTitle($store.game, $store.game.hoveredAction)"
   ></div>
 
   <div
     class="tt-story"
-    x-html="$store.game.ui.renderTooltipStory($store.game, $store.ui.hoveredAction)"
+    x-html="$store.game.ui.renderTooltipStory($store.game, $store.game.hoveredAction)"
   ></div>
 
   <!-- Divider (NEW) -->
-  <hr class="tt-divider" x-show="$store.ui.hoveredAction" />
+  <hr class="tt-divider" x-show="$store.game.hoveredAction" />
 
   <!-- Status / Unlocked (NEW) -->
-  <div class="tt-status" x-show="$store.ui.hoveredAction?.id && $store.game.flags[$store.ui.hoveredAction.id]">
+  <div class="tt-status" x-show="$store.game.hoveredAction?.id && $store.game.flags[$store.game.hoveredAction.id]">
     <span class="status-built" x-text="'✓ ' + ($store.game.t('ui_unlocked') || 'Bereits gebaut')"></span>
   </div>
-  <div class="tt-status" x-show="$store.ui.hoveredAction?.data?.onSuccess?.some(e => e.type === 'setHome' && e.id === $store.game.currentHome)">
+  <div class="tt-status" x-show="$store.game.hoveredAction?.data?.onSuccess?.some(e => e.type === 'setHome' && e.id === $store.game.currentHome)">
     <span class="status-active" x-text="'✨ ' + ($store.game.t('ui_active') || 'Momentanes Zuhause')"></span>
   </div>
 
   <!-- 3. Costs Section (Action Only) -->
   <div
     class="tt-section"
-    x-show="$store.game.ui.hasTooltipCosts($store.game, $store.ui.hoveredAction)"
+    x-show="$store.game.ui.hasTooltipCosts($store.game, $store.game.hoveredAction)"
   >
     <div class="tt-section-header" x-text="$store.game.t('ui_salary') + ':'"></div>
     <div class="tt-cost-list">
       <template
-        x-for="line in $store.game.getTooltipCosts($store.ui.hoveredAction)"
+        x-for="line in $store.game.getTooltipCosts($store.game.hoveredAction)"
         :key="line.label"
       >
         <div class="tt-data-line" :class="line.affordable ? 'tt-ready' : 'tt-blocked'">
@@ -52,12 +52,12 @@
   <!-- 4. Effects Section (Action Only) -->
   <div
     class="tt-section"
-    x-show="!$store.ui.hoveredAction?.isHelp && $store.game.getActionEffect($store.ui.hoveredAction).length > 0"
+    x-show="!$store.game.hoveredAction?.isHelp && $store.game.getActionEffect($store.game.hoveredAction).length > 0"
   >
     <div class="tt-section-header" x-text="$store.game.t('ui_yield') + ':'"></div>
     <div class="tt-effect-list">
       <template
-        x-for="eff in $store.game.getActionEffect($store.ui.hoveredAction)"
+        x-for="eff in $store.game.getActionEffect($store.game.hoveredAction)"
         :key="eff"
       >
         <div class="tt-data-line tt-bonus">
@@ -67,12 +67,12 @@
       <!-- UNLOCKS (Enhanced List View) -->
       <div
         class="tt-section"
-        x-show="$store.ui.hoveredAction && $store.game.t($store.ui.hoveredAction.id, 'actions')?.unlocks"
+        x-show="$store.game.hoveredAction && $store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks"
       >
         <div class="tt-section-header" x-text="$store.game.t('ui_unlocks')"></div>
         <div class="tt-effect-list">
           <template
-            x-for="item in ($store.game.t($store.ui.hoveredAction?.id, 'actions')?.unlocks || '').split(',')"
+            x-for="item in ($store.game.t($store.game.hoveredAction?.id, 'actions')?.unlocks || '').split(',')"
             :key="item"
           >
             <div class="tt-data-line tt-bonus">
@@ -85,11 +85,11 @@
   </div>
 
   <!-- 5. Buff Duration (NEW) -->
-  <div class="tt-section" x-show="$store.ui.hoveredAction?.isBuff">
+  <div class="tt-section" x-show="$store.game.hoveredAction?.isBuff">
     <div class="tt-section-header" x-text="'[ ' + $store.game.t('ui_duration') + ' ]'"></div>
     <div class="tt-data-line tt-bonus">
       <span
-        x-text="$store.game.t('ui_remaining_prefix') + ' ' + Math.ceil($store.ui.hoveredAction?.remaining || 0) + ' ' + $store.game.t('ui_seconds')"
+        x-text="$store.game.t('ui_remaining_prefix') + ' ' + Math.ceil($store.game.hoveredAction?.remaining || 0) + ' ' + $store.game.t('ui_seconds')"
       ></span>
     </div>
   </div>
