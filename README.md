@@ -1,4 +1,4 @@
-# Your Earned Wings ✦ (Stable v1.1.0)
+# Your Earned Wings ✦ (Stable v1.2.5)
 
 `Your Earned Wings` is an atmospheric simulation and narrative adventure, available as a **standalone Windows Executable (.exe)** and a **Web Version**.
 
@@ -30,14 +30,17 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 ## ✦ Core Features
 
 ### 🛖 Registry-First Architecture
+
 - **TypeScript Core**: Full type safety across all registries and the logic pipeline.
 - **Modular Logic**: Separated systems for Housing, Tools, Garden, and Village.
 
 ### 🍖 Survival Balancing
+
 - **Active Satiation**: Resource costs scale inversely with worker efficiency.
 - **Visual Feedback**: Real-time tracking of active buffs and modifiers.
 
 ### 🔄 Delta-Time Engine
+
 - **Precision Accumulator**: Ensures 0% resource loss during lag or background activity.
 - **Smart Focus**: Automation swaps Energy for Magic costs dynamically.
 
@@ -46,9 +49,11 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 ## 🚀 Installation & Setup
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (Version 20+ recommended)
 
 ### Quick Start
+
 1. Clone the repository.
 2. Run `npm install` to set up dependencies.
 3. Run `npm run dev` to start the game.
@@ -58,6 +63,7 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 ## 🛠️ Validation Tools
 
 Maintain project integrity with these automated scripts:
+
 - `npm run check-all`: Performs a full audit of translations, assets, and game logic.
 - `npm test`: Runs the Vitest suite for core logic.
 - `npm run check-i18n`: Ensures parity between language dictionaries.
