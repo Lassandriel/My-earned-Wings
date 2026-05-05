@@ -1,5 +1,5 @@
 <!-- MAIN MENU VIEW -->
-<section id="main-menu" x-show="$store.ui.view === 'menu'" class="main-menu-overlay">
+<section id="main-menu" x-show="$store.game.view === 'menu'" class="main-menu-overlay">
   <div class="menu-content">
     <div class="menu-logo-container">
       <img src="img/menu/logo_wings.webp" alt="Wings Logo" class="menu-logo" />
@@ -11,29 +11,49 @@
     </div>
 
     <div class="menu-actions">
+      <!-- Continue Button -->
       <button
         class="menu-btn primary"
         x-show="$store.game.hasSave"
         @click="$store.game.continueGame()"
+        @mouseenter="$store.game.setHovered('continue', { isHelp: true, title: $store.game.t('menu_continue'), desc: $store.game.t('ui_continue_desc') })"
+        @mouseleave="$store.game.setHovered(null)"
         :aria-label="$store.game.t('menu_continue')"
       >
         <span class="btn-glow"></span>
         <span x-text="$store.game.t('menu_continue')"></span>
       </button>
 
-      <button class="menu-btn" @click="$store.game.startNewGame()" :aria-label="$store.game.t('menu_new_game')">
+      <!-- New Game Button -->
+      <button 
+        class="menu-btn" 
+        @click="$store.game.startNewGame()" 
+        @mouseenter="$store.game.setHovered('new_game', { isHelp: true, title: $store.game.t('menu_new_game'), desc: $store.game.t('ui_new_game_desc') })"
+        @mouseleave="$store.game.setHovered(null)"
+        :aria-label="$store.game.t('menu_new_game')"
+      >
         <span x-text="$store.game.t('menu_new_game')"></span>
       </button>
 
+      <!-- Settings Button -->
       <button
         class="menu-btn"
-        @click="$store.ui.settingsOpen = true; $store.game.playSound('click')"
+        @click="$store.game.settingsOpen = true; $store.game.playSound('click')"
+        @mouseenter="$store.game.setHovered('settings', { isHelp: true, title: $store.game.t('settings_title'), desc: $store.game.t('ui_settings_desc') })"
+        @mouseleave="$store.game.setHovered(null)"
         :aria-label="$store.game.t('settings_title')"
       >
         <span x-text="$store.game.t('settings_title')"></span>
       </button>
 
-      <button class="menu-btn quit" @click="$store.game.quit()" :aria-label="$store.game.t('btn_quit')">
+      <!-- Quit Button -->
+      <button 
+        class="menu-btn quit" 
+        @click="$store.game.quit()" 
+        @mouseenter="$store.game.setHovered('quit', { isHelp: true, title: $store.game.t('btn_quit'), desc: $store.game.t('ui_quit_desc') })"
+        @mouseleave="$store.game.setHovered(null)"
+        :aria-label="$store.game.t('btn_quit')"
+      >
         <span x-text="$store.game.t('btn_quit')"></span>
       </button>
     </div>

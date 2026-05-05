@@ -24,6 +24,41 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-width: 2px;
+}
+
+.primary-energy {
+  background: rgba(20, 184, 166, 0.1);
+  border-color: rgba(20, 184, 166, 0.4);
+  color: var(--accent-teal);
+}
+.primary-energy:hover {
+  background: rgba(20, 184, 166, 0.2);
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+}
+
+.primary-magic {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.4);
+  color: var(--accent-purple);
+}
+.primary-magic:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+.primary-satiation {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.4);
+  color: var(--gold);
+}
+.primary-satiation:hover {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
 }
 
 .action-container {

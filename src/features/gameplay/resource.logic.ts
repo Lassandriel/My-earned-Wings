@@ -8,7 +8,7 @@ export const createResourceSystem = () => {
     id: 'resource',
   };
   const getScaledCost = (state: GameState, type: ResourceId, baseAmount: number): number => {
-    const resDef = state.RESOURCE_REGISTRY[type];
+    const resDef = state.content?.get(type as string, 'resources') as any;
     if (resDef?.scalesWithSatiation) {
       // Costs scale inversely with worker efficiency
       const efficiency = state.pipeline.calculate(state, 'resource_efficiency', 1);
@@ -66,7 +66,7 @@ export const createResourceSystem = () => {
       state.bus.emit(state.EVENTS.RESOURCE_SPENT, { type });
 
       // --- DATA-DRIVEN SATIATION DRAIN ---
-      const resDef = state.RESOURCE_REGISTRY[type];
+      const resDef = state.content?.get(type as string, 'resources') as any;
       if (resDef?.satiationDrain && state.stats.satiation > 0) {
         const baseDrain = finalAmount * resDef.satiationDrain;
         const multiplier = state.pipeline.calculate(state, 'satiation_drain_multiplier', 1);

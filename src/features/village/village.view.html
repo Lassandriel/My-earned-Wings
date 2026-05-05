@@ -1,6 +1,6 @@
 <!-- VILLAGE VIEW - REFACTORED 3.1 -->
 <div 
-  x-show="$store.ui.view === 'village'" 
+  x-show="$store.game.view === 'village'" 
   class="game-view-content" 
   x-data="{ 
     locTab: 'village',
@@ -25,8 +25,8 @@
     },
     selectPath(npcId) {
       const path = npcId.split('-').pop().split('_').pop();
-      $store.ui.viewManager.showConfirm($store.game, $store.game.t('ui_vandara_path_confirm'), () => { 
-        $store.game.academy_path = path; 
+      $store.game.viewManager.showConfirm($store.game, $store.game.t('ui_vandara_path_confirm'), () => { 
+        $store.game.viewManager.startVandaraPath($store.game, path);
         $store.game.actions.effectHandlers.unlockNPC($store.game, { type: 'unlockNPC', id: npcId });
         $store.game.saveGame(); 
       });

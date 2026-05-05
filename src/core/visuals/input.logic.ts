@@ -22,11 +22,15 @@ export const createInputSystem = () => {
       });
 
       document.addEventListener('keydown', (e) => {
-        const ui = Alpine.store('ui') as any;
+        // Skip if typing in an input field
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+        const view = store.view;
+        const settingsOpen = store.settingsOpen;
         
         // Handle Escape
         if (e.key === 'Escape') {
-          if (ui.view === 'prologue' && store.prologue?.skipPrologue) {
+          if (view === 'prologue' && store.prologue?.skipPrologue) {
             store.prologue.skipPrologue(store);
           } else if (store.settingsSystem?.toggleSettings) {
             store.settingsSystem.toggleSettings(store);
@@ -34,12 +38,12 @@ export const createInputSystem = () => {
         }
 
         // Handle Enter for Prologue
-        if (e.key === 'Enter' && ui.view === 'prologue' && store.prologue?.advancePrologue) {
+        if (e.key === 'Enter' && view === 'prologue' && store.prologue?.advancePrologue) {
           store.prologue.advancePrologue(store);
         }
 
         // Gameplay Shortcuts
-        if (ui.view !== 'menu' && ui.view !== 'prologue' && !ui.settingsOpen) {
+        if (view !== 'menu' && view !== 'prologue' && !settingsOpen) {
           const SHORTCUTS: Record<string, string> = { 
             '1': 'act-ausruhen', 
             '2': 'act-meditieren', 
