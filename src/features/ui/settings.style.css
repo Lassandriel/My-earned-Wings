@@ -3,10 +3,8 @@
 */
 
 .settings-modal-unified {
-  width: 820px;
-  height: 580px;
-  max-width: 95vw;
-  max-height: 90vh;
+  width: min(820px, 95vw);
+  height: min(580px, 90vh);
   background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(30px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -433,6 +431,46 @@ input:checked + .slider:before {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 5px;
+}
+
+/* Responsive: make settings usable on narrow screens */
+@media (max-width: 720px) {
+  .settings-modal-unified {
+    flex-direction: column;
+    height: auto;
+    max-height: 90vh;
+  }
+
+  .settings-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 18px 0;
+  }
+
+  .settings-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 12px 15px 0;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .content-header {
+    padding: 18px 18px;
+  }
+
+  .settings-body-scrollable {
+    padding: 18px 18px;
+  }
+
+  .lang-grid,
+  .resolution-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .res-btn {

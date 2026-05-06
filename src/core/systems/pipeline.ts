@@ -5,6 +5,9 @@ import {
   ActionDefinition,
   FlagId,
   ModifierDefinition,
+  HomeDefinition,
+  BuffDefinition,
+  TitleDefinition,
 } from '../../types/game';
 
 /**
@@ -23,6 +26,9 @@ export const createPipelineSystem = () => {
       return 0.4 + ((satiation - 15) / 70) * 0.9;
     },
   };
+
+  const _modifierCache = new Map<string, GameModifier[]>();
+  let _lastCacheInvalidation = 0;
 
   return {
     metadata: { id: 'pipeline' },
@@ -59,63 +65,70 @@ export const createPipelineSystem = () => {
     getModifiers(store: GameState, key: string): GameModifier[] {
       const mods: GameModifier[] = [];
 
-      // 1. DATA-DRIVEN: Items & Buildings (via Flags)
-      // Optimization: Only iterate flags that are true
-      for (const flagId in store.flags) {
-        if (!store.flags[flagId as FlagId]) continue;
-
-        // Check Items/Furniture
-        const item = store.content.get<ItemDefinition>(flagId, 'items');
-        if (item?.modifiers) {
-          if (item.category !== 'furniture' || store.placedItems.includes(item.id)) {
-            for (const m of item.modifiers) {
-              if (m.key === key) mods.push(m);
+      // 1. STATIC MODIFIERS (Cached)
+      if (_modifierCache.has(key)) {
+        mods.push(..._modifierCache.get(key)!);
+      } else {
+        const staticMods: GameModifier[] = [];
+        
+        // 1.1 Items & Buildings (via Flags)
+        const activeFlags = Object.keys(store.flags).filter(f => store.flags[f as FlagId]);
+        for (const flagId of activeFlags) {
+          const item = store.content.get<ItemDefinition>(flagId, 'items');
+          if (item?.modifiers) {
+            if (item.category !== 'furniture' || store.placedItems.includes(item.id)) {
+              for (const m of item.modifiers) {
+                if (m.key === key) staticMods.push(m);
+              }
+            }
+          }
+          const action = store.content.get<ActionDefinition>(flagId, 'actions');
+          if (action?.modifiers) {
+            for (const m of action.modifiers) {
+              if (m.key === key) staticMods.push(m);
             }
           }
         }
 
-        // Check Actions/Buildings
-        const action = store.content.get<ActionDefinition>(flagId, 'actions');
-        if (action?.modifiers) {
-          for (const m of action.modifiers) {
-            if (m.key === key) mods.push(m);
-          }
-        }
-      }
-
-      // 2. DATA-DRIVEN: Active Home
-      if (store.activeHome) {
-        const home = store.content.get(store.activeHome, 'homes');
-        if (home?.modifiers) {
-          for (const m of home.modifiers) {
-            if (m.key === key) mods.push(m);
-          }
-        }
-      }
-
-      // 3. DATA-DRIVEN: Buffs
-      if (store.activeBuffs) {
-        for (const buffId in store.activeBuffs) {
-          const buffDef = store.content.get(buffId, 'buffs');
-          if (buffDef?.modifiers) {
-            for (const m of buffDef.modifiers) {
-              if (m.key === key) mods.push(m);
+        // 1.2 Active Home
+        if (store.activeHome) {
+          const home = store.content.get<HomeDefinition>(store.activeHome, 'homes');
+          if (home?.modifiers) {
+            for (const m of home.modifiers) {
+              if (m.key === key) staticMods.push(m);
             }
           }
         }
-      }
 
-      // 4. DATA-DRIVEN: Active Title
-      if (store.activeTitle) {
-        const title = store.content.get(store.activeTitle, 'titles');
-        if (title?.modifiers) {
-          for (const m of title.modifiers) {
-            if (m.key === key) mods.push(m);
+        // 1.3 Active Buffs
+        if (store.activeBuffs) {
+          for (const buffId in store.activeBuffs) {
+            const buffDef = store.content.get<BuffDefinition>(buffId, 'buffs');
+            if (buffDef?.modifiers) {
+              for (const m of buffDef.modifiers) {
+                if (m.key === key) staticMods.push(m);
+              }
+            }
           }
         }
+
+        // 1.4 Active Title
+        if (store.activeTitle) {
+          const title = store.content.get<TitleDefinition>(store.activeTitle, 'titles');
+          if (title?.modifiers) {
+            for (const m of title.modifiers) {
+              if (m.key === key) staticMods.push(m);
+            }
+          }
+        }
+
+        _modifierCache.set(key, staticMods);
+        mods.push(...staticMods);
       }
 
-      // 5. LOGIC-DRIVEN: Satiation Efficiency (Gathering)
+      // 2. DYNAMIC MODIFIERS (Never Cached)
+      
+      // 2.1 Satiation Efficiency
       const efficiencyKeys = [
         'resource_efficiency', 
         'wood_yield', 'stone_yield', 'meat_yield', 'shards_yield',
@@ -127,14 +140,25 @@ export const createPipelineSystem = () => {
         mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
       }
 
-      // 6. LOGIC-DRIVEN: Study Efficiency (Vandara & School)
-      const studyKeys = ['study_xp_yield', 'knowledge_yield'];
+      // 2.2 Study Efficiency (Recursive call to calculate - must be careful)
+      const studyKeys = ['study_xp_yield', 'knowledge_yield', 'magic_limit_gain'];
       if (studyKeys.includes(key)) {
         const studyEff = this.calculate(store, 'study_efficiency', 1);
         if (studyEff !== 1) mods.push({ mult: studyEff });
       }
 
+      // 2.3 Books scaling
+      if (key === 'magic_limit_gain') {
+        const books = (store as any)?.resources?.books ?? 0;
+        if (typeof books === 'number' && books > 0) mods.push({ add: books * 2 });
+      }
+
       return mods;
+    },
+
+    invalidateCache() {
+      _modifierCache.clear();
+      _lastCacheInvalidation = Date.now();
     },
   };
 };

@@ -84,6 +84,7 @@ export default {
   'act-garden-water': {
     title: 'Wasser holen',
     desc: 'Schöpfe frisches Wasser aus dem Brunnen für deinen Garten.',
+    effect: '+2 Wasser',
   },
   'act-sell-wood': {
     title: 'Holz verkaufen',

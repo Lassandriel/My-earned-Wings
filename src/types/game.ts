@@ -1,11 +1,13 @@
 import { 
   ResourceId, FlagId, ActionId, ItemId, HomeId, NPCId, ModifierId, TitleId,
-  GameModifier, MilestoneDefinition, NavigationDefinition 
+  GameModifier, MilestoneDefinition, NavigationDefinition
 } from './core/base';
 import { ResourceDefinition, BuffDefinition } from './features/resources';
-import { ItemDefinition, ActionDefinition } from './features/actions';
+import { ItemDefinition, ActionDefinition, ActionResult } from './features/actions';
 import { NPCDefinition } from './features/npcs';
 import { HomeDefinition } from './features/homes';
+import { EventBus } from '../core/events/bus';
+import { Translations, TranslationParams } from './i18n';
 
 export * from './core/base';
 export * from './features/resources';
@@ -13,6 +15,7 @@ export * from './features/actions';
 export * from './features/npcs';
 export * from './features/homes';
 export * from './stores';
+export * from './i18n';
 
 /**
  * CORE GAME STATE INTERFACE
@@ -68,6 +71,7 @@ export interface GameState {
   activeTitle: TitleId | null;
 
   // Discovery & Progress
+  upgrades: string[];
   discoveredResources: ResourceId[];
   discoveredItems: ItemId[];
   unlockedRecipes: string[];
@@ -75,6 +79,8 @@ export interface GameState {
   counters: Record<string, number>;
   currentObjective: string | null;
   activeProducers: ActionId[];
+  storyHistory: StoryHistoryEntry[];
+  saveCode: string;
   settingsOpen: boolean;
   currentScale: number;
   lastMouseX: number;
@@ -84,7 +90,7 @@ export interface GameState {
   hasSave: boolean;
   prologueStep: number;
   saveInfoText: string;
-  hoveredAction: any;
+  hoveredAction: HoverActionData | null;
   craftingSubView: string;
   selectedStoryNpc: string;
   confirmModal: {
@@ -96,16 +102,10 @@ export interface GameState {
   showEllieIntro: boolean;
   demoCompletedHintSeen: boolean;
   academy_path: string | null;
-  translations: any;
+  translations: Translations;
 
   // Systems & Content
-  content: {
-    get: <T = any>(id: string, type?: any) => T;
-    registries: Registries;
-    getNPCActions: (store: GameState, npcId: NPCId) => ActionDefinition[];
-    getCategorizedResources: (category: string) => ResourceDefinition[];
-    getAll: <T = any>(type: any) => Record<string, T>;
-  };
+  content: ContentService;
   currentLocation: string;
   RESOURCE_REGISTRY: Record<ResourceId, ResourceDefinition>;
   resource: {
@@ -126,6 +126,7 @@ export interface GameState {
     getMaxStat: (state: GameState, type: ResourceId) => number;
     getStatPercent: (state: GameState, stat: string) => number;
     getScaledCost: (state: GameState, type: ResourceId, baseAmount: number) => number;
+    invalidateCache: () => void;
   };
   actions: {
     execute: (game: GameState, id: ActionId) => boolean;
@@ -136,15 +137,16 @@ export interface GameState {
       id: ActionId,
       actionValue: ActionDefinition,
       mode?: 'finalize' | 'start' | 'prepare' | 'full'
-    ) => any;
-    checkRequirement: (game: GameState, path: string, rule: any) => boolean;
-    handleSuccess: (game: GameState, id: ActionId, action: ActionDefinition, result: any) => void;
+    ) => ActionResult;
+    checkRequirement: (game: GameState, path: string, rule: boolean | number | string | string[] | { op?: string; val: unknown }) => boolean;
+    handleSuccess: (game: GameState, id: ActionId, action: ActionDefinition, result: ActionResult) => void;
     handleFailure: (game: GameState, id: ActionId, action: ActionDefinition) => void;
-    effectHandlers: Record<string, (game: GameState, effect: any) => void>;
+    effectHandlers: Record<string, (game: GameState, effect: { type: string; [key: string]: unknown }) => void>;
     rebuildProducers: (game: GameState) => void;
   };
   pipeline: {
     calculate: (state: GameState, key: string, baseValue: number) => number;
+    invalidateCache: () => void;
   };
   npc: {
     execute: (game: GameState, id: NPCId) => void;
@@ -165,11 +167,11 @@ export interface GameState {
     recordStoryEntry: (
       game: GameState,
       id: string,
-      action: any,
+      action: ActionDefinition | null,
       dialogueText: string | null,
       context?: string
     ) => void;
-    getGroupedHistory: (game: GameState) => Record<string, any[]>;
+    getGroupedHistory: (game: GameState) => Record<string, StoryHistoryEntry[]>;
   };
   persistence: {
     saveGame: (store: GameState, isManual?: boolean) => void;
@@ -230,8 +232,9 @@ export interface GameState {
     handleMouseMove: (e: MouseEvent, store: GameState) => void;
     cleanupHover: (store: GameState) => void;
     getStatPercent: (store: GameState, stat: string) => number;
-    getActionEffect: (store: GameState, hAction: any) => string[];
-    getTooltipCosts: (store: GameState, hAction: any) => any[];
+    getActionEffect: (store: GameState, hAction: HoverActionData) => string[];
+    getTooltipCosts: (store: GameState, hAction: HoverActionData) => TooltipCost[];
+    getRequirements: (store: GameState, hAction: HoverActionData) => string[];
     showToast: (message: string, type: 'info' | 'error' | 'success') => void;
     getTaskProgress: (store: GameState, taskId: string) => number;
     getNPCProgressPercent: (store: GameState, npcId: NPCId) => number;
@@ -269,24 +272,24 @@ export interface GameState {
     setActiveTitle: (store: GameState, id: TitleId | null) => void;
   };
   i18n: {
-    t: (store: GameState, key: string, context?: string, params?: Record<string, any>) => string;
+    t: (store: GameState, key: string, context?: string, params?: Record<string, any>) => any;
   };
 
   // Infrastructure
-  bus: {
-    emit: (event: string, payload?: any) => void;
-    on: (event: string, callback: (data: any) => void) => void;
-  };
+  bus: EventBus;
   EVENTS: Record<string, string>;
 
   // Helper Methods
-  t: (key: string, context?: string, params?: Record<string, any>) => string;
-  addLog: (id: string, context?: string, color?: string | null, params?: Record<string, any>) => void;
+  t: (key: string, context?: string, params?: Record<string, any>) => any;
+  addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;
+  exportGameData: () => string;
+  quit: () => void;
   executeAction: (id: string | ActionId) => boolean;
+  bootstrap: () => void;
   isTaskActive: (id: string) => boolean;
-  setHovered: (id: string | null, customData?: any) => void;
+  setHovered: (id: string | null, customData?: HoverActionData) => void;
   startNewGame: () => void;
   continueGame: () => void;
   finishPrologue: () => void;
@@ -304,8 +307,8 @@ export interface GameState {
   returnToMenu: () => void;
   applyCheats: () => void;
   completeDemo: () => void;
-  getActionEffect: (h: any) => string[];
-  getTooltipCosts: (h: any) => any[];
+  getActionEffect: (h: HoverActionData) => string[];
+  getTooltipCosts: (h: HoverActionData) => TooltipCost[];
   getUsedFurnitureSpace: () => number;
   getHomeCapacity: () => number;
   energyPercent: number;
@@ -317,10 +320,43 @@ export interface GameState {
   getMaxStat: (id: string) => number;
   getLimit: (id: string) => number;
   canAccessTreeOfLife: boolean;
-  groupedHistory: Record<string, any[]>;
+  groupedHistory: Record<string, StoryHistoryEntry[]>;
   availableFurniture: string[];
   placedFurnitureList: string[];
-  settingsSystemInstance: any; // Internal reference
+  settingsSystemInstance: SettingsSystem | null; // Internal reference
+}
+
+/** Data structure for hovered action tooltip */
+export interface HoverActionData {
+  id: string;
+  data?: ActionDefinition;
+  [key: string]: unknown;
+}
+
+/** Cost entry for tooltips */
+export interface TooltipCost {
+  resource: string;
+  amount: number;
+  affordable: boolean;
+}
+
+/** Story history entry */
+export interface StoryHistoryEntry {
+  id: string;
+  timestamp: number;
+  text: string;
+  context?: string;
+  npcId?: string | null;
+  chapter?: string;
+}
+
+/** Settings system reference interface */
+export interface SettingsSystem {
+  calculateScale: (store: GameState) => void;
+  setResolution: (store: GameState, res: string) => void;
+  setLanguage: (store: GameState, lang: string) => void;
+  toggleSettings: (store: GameState) => void;
+  applyCheats: (store: GameState) => void;
 }
 
 
@@ -329,6 +365,21 @@ export interface PerfStore {
   lastTickMs: number;
   lastTaskMs: number;
   fps: number;
+}
+
+/** Content Service Interface */
+export interface ContentService {
+  registries: Registries;
+  cache: {
+    categories: Record<string, unknown[]>;
+    npcActions: Record<string, unknown[]>;
+  };
+  getAll<T>(type: keyof Registries): Record<string, T>;
+  get<T>(id: string, type?: keyof Registries | null): T;
+  getCategorizedResources(category: string): ResourceDefinition[];
+  getNPCActions(store: GameState, npcId: NPCId): ActionDefinition[];
+  detectType(id: string): keyof Registries | null;
+  validate(store: GameState): boolean;
 }
 
 export interface Registries {

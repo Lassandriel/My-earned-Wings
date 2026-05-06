@@ -1,4 +1,4 @@
-import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId } from '../../types/game';
+import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, ActionResult } from '../../types/game';
 
 // Declare Alpine globally for TS
 declare const Alpine: {
@@ -20,6 +20,7 @@ interface Engine {
   processTasks: (store: GameState, deltaMs: number) => void;
   processPassiveProduction: (store: GameState, deltaTime: number) => void;
   checkMilestones: (store: GameState) => void;
+  [key: string]: any;
 }
 
 /**
@@ -172,7 +173,7 @@ export function createEngineSystem(): Engine {
           store.activeTasks = newTasks;
 
           if (action) {
-            const result = store.actions.processAction(store, actionId, action, 'finalize');
+            const result = store.actions.processAction(store, actionId, action, 'finalize') as ActionResult;
             store.actions.handleSuccess(store, actionId, action, result);
 
             // AUTO-RESTART (Focus Loop)

@@ -88,7 +88,7 @@ export const createContentService = (registries: Registries) => ({
         }
         if ((trade as any).requirements) {
           return Object.entries((trade as any).requirements).every(([path, rule]) => {
-            return store.actions.checkRequirement(store, path, rule);
+            return store.actions.checkRequirement(store, path, rule as any);
           });
         }
         return true;

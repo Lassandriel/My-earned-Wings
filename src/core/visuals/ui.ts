@@ -1,5 +1,9 @@
 import Alpine from 'alpinejs';
-import { GameState, ResourceId, FlagId, ActionDefinition, ModifierDefinition, NPCDefinition } from '../../types/game';
+import { 
+  GameState, ResourceId, FlagId, ActionDefinition, ModifierDefinition, 
+  NPCDefinition, ItemDefinition, HomeDefinition, HoverActionData, GameModifier,
+  TooltipCost
+} from '../../types/game';
 
 /**
  * UI System - Refactored Edition
@@ -12,7 +16,7 @@ export const createUISystem = () => {
   // --- Internal Helpers ---
   const getResLabel = (store: GameState, res: string) => store.t('ui_' + res) || res;
   
-  const formatValue = (val: any) => (typeof val === 'number' ? Math.round(val) : val);
+  const formatValue = (val: string | number) => (typeof val === 'number' ? Math.round(val) : val);
 
   /**
    * Tooltip Positioning & Logic
@@ -60,7 +64,7 @@ export const createUISystem = () => {
         .forEach((r) => r.classList.remove('highlight-needed'));
     },
 
-    getCosts(store: GameState, hAction: any) {
+    getCosts(store: GameState, hAction: HoverActionData) {
       if (!hAction?.data) return [];
       
       const action = hAction.data as ActionDefinition;
@@ -70,16 +74,15 @@ export const createUISystem = () => {
       const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
       const source = (prog !== null && action.steps) ? action.steps[prog] : action;
 
-      const results: Array<{ type: string; label: string; value: string; affordable: boolean }> = [];
+      const results: TooltipCost[] = [];
 
       const processCost = (type: ResourceId, amt: number) => {
         const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
         const current = store.resources[type] ?? (store as any).stats[type] ?? 0;
         results.push({
-          type,
-          label: getResLabel(store, type),
-          value: `${Math.floor(current)} / ${finalAmt}`,
+          resource: type,
           affordable: current >= finalAmt,
+          amount: finalAmt,
         });
       };
 
@@ -91,12 +94,11 @@ export const createUISystem = () => {
 
       // Add Space Cost for items
       if (hId.startsWith('item-')) {
-        const item = store.content.get(hId, 'items');
+        const item = store.content.get<ItemDefinition>(hId, 'items');
         if (item?.spaceCost) {
           results.push({
-            type: 'space',
-            label: store.t('ui_furniture_space'),
-            value: item.spaceCost.toString(),
+            resource: 'space',
+            amount: item.spaceCost,
             affordable: true // Handled by logic elsewhere
           });
         }
@@ -105,7 +107,7 @@ export const createUISystem = () => {
       return results;
     },
 
-    getRequirements(store: GameState, hAction: any) {
+    getRequirements(store: GameState, hAction: HoverActionData) {
       if (!hAction?.data) return [];
       const action = hAction.data as ActionDefinition;
       const hId = hAction.id as string;
@@ -145,7 +147,7 @@ export const createUISystem = () => {
       const effects: string[] = [];
 
       if (step.reward) {
-        const item = store.content.get(step.reward, 'items');
+        const item = store.content.get<ItemDefinition>(step.reward, 'items');
         if (item) {
           effects.push(`1 ${store.t(item.title, 'items')}`);
         } else {
@@ -157,15 +159,15 @@ export const createUISystem = () => {
 
       step.onSuccess?.forEach((eff) => {
         if (eff.type === 'unlockNPC') {
-          const npc = store.content.get(eff.id, 'npcs');
+          const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
           const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
           effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
-          const recAction = store.content.get(eff.id, 'actions');
+          const recAction = store.content.get<ActionDefinition>(eff.id, 'actions');
           const recName = recAction ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
           effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
         } else if (eff.type === 'unlockItem') {
-          const item = store.content.get(eff.id, 'items');
+          const item = store.content.get<ItemDefinition>(eff.id, 'items');
           const itemName = item ? store.t(item.title, 'items') : eff.id;
           effects.push(`${store.t('ui_item')}: ${itemName}`);
           if (item?.category === 'furniture') {
@@ -182,10 +184,10 @@ export const createUISystem = () => {
     },
 
     getPrimaryYield(store: GameState, actionId: string, action: ActionDefinition): string {
-      const lang = store.t(actionId, 'actions') as any;
+      const lang = store.t(actionId, 'actions') as Record<string, string>;
       if (!lang?.effect) return '';
 
-      let yieldVal: any = null;
+      let yieldVal: number | Record<string, number> | string | null = null;
       if (action.rewards) {
         const first = Object.entries(action.rewards)[0];
         if (first) {
@@ -200,19 +202,19 @@ export const createUISystem = () => {
       if (yieldVal === null) return lang.effect;
 
       let result = lang.effect;
-      if (typeof yieldVal === 'object') {
+      if (typeof yieldVal === 'object' && yieldVal !== null) {
         Object.entries(yieldVal).forEach(([k, v]) => {
-          result = result.replace(`{${k}}`, formatValue(v).toString());
+          result = result.replace(`{${k}}`, formatValue(v as number).toString());
         });
       } else {
-        result = result.replace('{val}', formatValue(yieldVal).toString());
+        result = result.replace('{val}', formatValue(yieldVal as number).toString());
       }
 
       // Append Current Stock for Resources
       const resKey = action.yieldType || (action.rewards ? Object.keys(action.rewards)[0] : null);
-      if (resKey && store.resources[resKey as any] !== undefined) {
-        const cur = Math.floor(store.resources[resKey as any]);
-        const lim = store.limits[resKey as any];
+      if (resKey && store.resources[resKey as ResourceId] !== undefined) {
+        const cur = Math.floor(store.resources[resKey as ResourceId]!);
+        const lim = store.limits[resKey as ResourceId];
         result += ` (${cur}${lim ? '/' + lim : ''})`;
       }
 
@@ -220,12 +222,12 @@ export const createUISystem = () => {
     },
 
     getHomeEffects(store: GameState, homeId: string): string[] {
-      const home = store.content.get(homeId, 'homes');
+      const home = store.content.get<HomeDefinition>(homeId, 'homes');
       if (!home) return [];
 
       const effects = [`${store.t('ui_furniture_space') || 'Möbel-Platz'}: ${home.capacity}`];
       
-      home.modifiers?.forEach((m: any) => {
+      home.modifiers?.forEach((m: GameModifier) => {
         const lab = store.t('ui_' + m.key) || m.key;
         effects.push(`${lab} ${m.mult ? 'x' + m.mult : '+' + m.add}`);
       });
@@ -326,7 +328,7 @@ export const createUISystem = () => {
       }, 3500);
     },
 
-    getActionEffect(store: GameState, hAction: any): string[] {
+    getActionEffect(store: GameState, hAction: HoverActionData): string[] {
       if (!hAction?.id) return [];
       
       const effects: string[] = [];
@@ -334,7 +336,7 @@ export const createUISystem = () => {
 
       // --- ITEM HANDLING ---
       if (hId.startsWith('item-')) {
-        const item = store.content.get(hId, 'items');
+        const item = store.content.get<ItemDefinition>(hId, 'items');
         if (!item) return [];
 
         // 0. Placement Hint
@@ -343,7 +345,8 @@ export const createUISystem = () => {
         }
 
         // 1. Modifiers (Passive)
-        item.modifiers?.forEach((mod: any) => {
+        item.modifiers?.forEach((mod: GameModifier) => {
+          if (!mod.key) return;
           const isLimit = mod.key.endsWith('_limit');
           const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
           const modDef = store.content.get<ModifierDefinition>(mod.key, 'modifiers') || store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
@@ -388,14 +391,14 @@ export const createUISystem = () => {
         if (eff.type === 'modifyLimit') {
           effects.push(`${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
         } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
-          const npc = store.content.get(eff.id, 'npcs');
+          const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
           const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
           effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
-          const recName = store.content.get(eff.id, 'actions') ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
+          const recName = store.content.get<ActionDefinition>(eff.id, 'actions') ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
           effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
         } else if (eff.type === 'unlockItem') {
-          const item = store.content.get(eff.id, 'items');
+          const item = store.content.get<ItemDefinition>(eff.id, 'items');
           const itemName = item ? store.t(item.title, 'items') : eff.id;
           effects.push(`${store.t('ui_item')}: ${itemName}`);
           if (item?.category === 'furniture') {
@@ -421,28 +424,29 @@ export const createUISystem = () => {
     },
 
     renderActionTitle(store: GameState, id: string): string {
-      const lang = store.t(id, 'actions') as any;
+      const lang = store.t(id, 'actions') as Record<string, string>;
       if (!lang) return id;
       const useAlt = (id === 'act-wood' && store.flags['item-axe' as FlagId]) || 
                      (id === 'act-stone' && store.flags['item-pickaxe' as FlagId]);
       return (useAlt ? lang.title_alt : lang.title) || lang.title || id;
     },
 
-    renderTooltipTitle(store: GameState, h: any): string {
+    renderTooltipTitle(store: GameState, h: HoverActionData): string {
       if (!h) return '';
-      if (h.isHelp) return h.title || '';
-      if (h.isBuff) return store.t(h.title, 'buffs') || h.title;
+      if (h.isHelp) return (h.title as string) || '';
+      if (h.isBuff) return store.t(h.title as string, 'buffs') || (h.title as string);
 
       if (h.id.startsWith('item-')) {
-        const item = store.content.get(h.id, 'items');
+        const item = store.content.get<ItemDefinition>(h.id, 'items');
         return item ? store.t(item.title, 'items') : h.id;
       }
 
       if (h.id.includes('npc-') && h.data) {
-        const npc = h.data.npcId ? store.content.get(h.data.npcId, 'npcs') : h.data;
+        const actionData = h.data as ActionDefinition;
+        const npc = actionData.npcId ? store.content.get<NPCDefinition>(actionData.npcId, 'npcs') : null;
         const base = npc ? store.t(npc.nameKey) : h.id;
-        const progKey = h.data.progKey;
-        const maxProg = h.data.maxProgress;
+        const progKey = actionData.progKey || '';
+        const maxProg = actionData.maxProgress || 0;
         const cur = store.npcProgress[progKey] || 0;
         return `${base} (${Math.min(maxProg, cur + 1)}/${maxProg})`;
       }
@@ -451,23 +455,23 @@ export const createUISystem = () => {
       return lang?.title || h.id;
     },
 
-    renderTooltipStory(store: GameState, h: any): string {
+    renderTooltipStory(store: GameState, h: HoverActionData): string {
       if (!h) return '';
-      if (h.isHelp) return h.desc || '';
-      if (h.isBuff) return store.t(h.desc, 'buffs') || h.desc;
+      if (h.isHelp) return h.desc as string || '';
+      if (h.isBuff) return store.t(h.desc as string, 'buffs') || h.desc as string;
 
       if (h.id.startsWith('item-')) {
-        const item = store.content.get(h.id, 'items');
+        const item = store.content.get<ItemDefinition>(h.id, 'items');
         return item ? store.t(item.desc, 'items') : '';
       }
 
       if (h.id.includes('npc-') && h.data) {
-        const progKey = h.data.progKey;
-        const maxProg = h.data.maxProgress;
+        const progKey = (h.data as ActionDefinition).progKey || '';
+        const maxProg = (h.data as ActionDefinition).maxProgress || 0;
         const cur = store.npcProgress[progKey] || 0;
         
         // Priority: Use dialogueKey from the actual step definition
-        const step = h.data.steps?.[cur];
+        const step = (h.data as ActionDefinition).steps?.[cur];
         if (step?.dialogueKey) {
           const txt = store.t(step.dialogueKey, 'npcs');
           if (txt && txt !== step.dialogueKey) return txt;
@@ -481,12 +485,12 @@ export const createUISystem = () => {
         }
       }
 
-      return (store.t(h.id, 'actions') as any)?.desc || '';
+      return (store.t(h.id, 'actions') as Record<string, string>)?.desc || '';
     },
 
-    hasTooltipCosts(store: GameState, h: any): boolean {
+    hasTooltipCosts(store: GameState, h: HoverActionData): boolean {
       if (!h?.data || h.isHelp) return false;
-      const prog = h.id.includes('npc-') ? store.npcProgress[h.data.progKey] || 0 : null;
+      const prog = h.id.includes('npc-') ? store.npcProgress[h.data.progKey || ''] || 0 : null;
       const step = (prog !== null && h.data.steps) ? h.data.steps[prog] : null;
       const hasCosts = !!((step && (step.costs || step.cost)) || h.data.cost || h.data.costs);
       const hasReqs = !!(step?.requirements || h.data.requirements);
@@ -497,16 +501,16 @@ export const createUISystem = () => {
       const uniqueIds = Array.from(new Set(store.discoveredItems));
       if (category === 'all') return uniqueIds;
       return uniqueIds.filter(id => {
-        const item = store.content.get(id, 'items');
+        const item = store.content.get<ItemDefinition>(id, 'items');
         return item && item.category === category;
       });
     },
 
-    getItemData(store: GameState, id: string): any {
-      return store.content.get(id, 'items') || null;
+    getItemData(store: GameState, id: string): ItemDefinition | null {
+      return store.content.get<ItemDefinition>(id, 'items') || null;
     },
 
-    getSelectedItemData(store: GameState): any {
+    getSelectedItemData(store: GameState): ItemDefinition | null {
       if (!store.selectedItem) return null;
       return this.getItemData(store, store.selectedItem);
     },
@@ -529,8 +533,8 @@ export const createUISystem = () => {
         setTimeout(() => el.classList.remove(cssClass), 600);
       };
 
-      store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: any) => triggerPulse(d.type, 'gain-pulse'));
-      store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: any) => triggerPulse(d.type, 'drain-flash'));
+      store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: { type: ResourceId }) => triggerPulse(d.type, 'gain-pulse'));
+      store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: { type: ResourceId }) => triggerPulse(d.type, 'drain-flash'));
 
       // View Validation & Reactive Cleanups
       (Alpine as any).effect(() => {

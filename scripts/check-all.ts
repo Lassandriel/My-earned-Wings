@@ -32,7 +32,9 @@ const checkAll = () => {
         i18n: { success: true, count: 0, errors: [] as string[] },
         assets: { success: true, count: 0, errors: [] as string[] },
         logic: { success: true, count: 0, errors: [] as string[] },
-        unused: { success: true, count: 0, errors: [] as string[] }
+        unused: { success: true, count: 0, errors: [] as string[] },
+        ids: { success: true, count: 0, errors: [] as string[] },
+        save: { success: true, count: 0, errors: [] as string[] }
     };
 
     const usedAssets = new Set<string>();
@@ -97,6 +99,36 @@ const checkAll = () => {
         results.assets.count++;
     };
 
+    const getPlaceholders = (val: any): Set<string> => {
+        const out = new Set<string>();
+        const walk = (v: any) => {
+            if (typeof v === 'string') {
+                const re = /\{([a-zA-Z0-9_]+)\}/g;
+                let m: RegExpExecArray | null;
+                while ((m = re.exec(v)) !== null) out.add(m[1]);
+                return;
+            }
+            if (Array.isArray(v)) return v.forEach(walk);
+            if (v && typeof v === 'object') return Object.values(v).forEach(walk);
+        };
+        walk(val);
+        return out;
+    };
+
+    const isSameKeyShape = (a: any, b: any): boolean => {
+        const ta = typeof a;
+        const tb = typeof b;
+        if (ta !== tb) return false;
+        if (a === null || b === null) return a === b;
+        if (ta !== 'object') return true;
+        if (Array.isArray(a) || Array.isArray(b)) return Array.isArray(a) === Array.isArray(b);
+        const aKeys = Object.keys(a).sort();
+        const bKeys = Object.keys(b).sort();
+        if (aKeys.length !== bKeys.length) return false;
+        for (let i = 0; i < aKeys.length; i++) if (aKeys[i] !== bKeys[i]) return false;
+        return true;
+    };
+
     // ---------------------------------------------------------------------------
     // 1. Registry Audit (i18n & Assets)
     // ---------------------------------------------------------------------------
@@ -154,6 +186,8 @@ const checkAll = () => {
 
     const REGEX_T = /\bt\(\s*['"]([$`{}()[\]]*[^'"$`{}()[\]]+)['"]\s*(?:,\s*['"]([^'"]+)['"])?\s*\)/g;
     const STR_REGEX = /['"]([a-zA-Z0-9_\-\.\/]{3,})['"]/g; // Min 3 chars to catch 'ui_', 'act' etc.
+    const REGEX_CONTENT_GET = /\bcontent\.get\(\s*['"]([^'"]+)['"]\s*,\s*['"]([^'"]+)['"]/g;
+    const VALID_REGISTRY_TYPES = new Set(Object.keys(registries) as Array<keyof typeof registries>);
 
     codeFiles.forEach(file => {
         if (!fs.existsSync(file)) return;
@@ -164,6 +198,20 @@ const checkAll = () => {
         let match;
         while ((match = REGEX_T.exec(content)) !== null) {
             checkI18nKey(`t('${match[1]}') in ${path.basename(file)}`, match[2], match[1]);
+        }
+
+        // Extract literal content.get('id', 'type') calls (prevents runtime fallback spam)
+        REGEX_CONTENT_GET.lastIndex = 0;
+        while ((match = REGEX_CONTENT_GET.exec(content)) !== null) {
+            const id = match[1];
+            const type = match[2] as any;
+            if (!VALID_REGISTRY_TYPES.has(type)) continue;
+            const reg = (registries as any)[type];
+            results.ids.count++;
+            if (!reg || reg[id] === undefined) {
+                results.ids.success = false;
+                results.ids.errors.push(`[StaticID] Missing '${id}' in registry '${type}' (in ${path.relative(rootDir, file).replace(/\\/g, '/')})`);
+            }
         }
 
         // Heuristic scan for strings
@@ -244,18 +292,166 @@ const checkAll = () => {
     if (results.unused.errors.length > 0) results.unused.success = false;
 
     // ---------------------------------------------------------------------------
+    // 5. Parity Check
+    // ---------------------------------------------------------------------------
+    console.log("Phase 5: Parity Check...");
+    const deObj = de as any;
+    const enObj = en as any;
+    const allNamespaces = new Set([...Object.keys(deObj), ...Object.keys(enObj)]);
+
+    allNamespaces.forEach((ns) => {
+        const deKeys = deObj[ns] ? Object.keys(deObj[ns]) : [];
+        const enKeys = enObj[ns] ? Object.keys(enObj[ns]) : [];
+
+        deKeys.filter(k => !enKeys.includes(k)).forEach(k => {
+            results.i18n.success = false;
+            results.i18n.errors.push(`[Parity] ns '${ns}' key '${k}' in DE but MISSING in EN`);
+        });
+        enKeys.filter(k => !deKeys.includes(k)).forEach(k => {
+            results.i18n.success = false;
+            results.i18n.errors.push(`[Parity] ns '${ns}' key '${k}' in EN but MISSING in DE`);
+        });
+    });
+
+    // ---------------------------------------------------------------------------
+    // 6. Effect Reference Audit (Registry IDs)
+    // ---------------------------------------------------------------------------
+    console.log("Phase 6: Effect Reference Audit...");
+    const hasReg = (type: keyof typeof registries, id: string) => {
+        const reg = (registries as any)[type];
+        return !!(reg && reg[id] !== undefined);
+    };
+    const checkRef = (label: string, type: keyof typeof registries, id: string) => {
+        results.ids.count++;
+        if (!hasReg(type, id)) {
+            results.ids.success = false;
+            results.ids.errors.push(`[Ref] ${label} references missing ${String(type)}:'${id}'`);
+        }
+    };
+    const scanAction = (actionId: string, act: any) => {
+        const scanStep = (owner: string, step: any) => {
+            if (!step) return;
+            if (typeof step.reward === 'string') {
+                if (step.reward.startsWith('item-')) checkRef(`${owner}.reward`, 'items', step.reward);
+                else if (step.reward.startsWith('act-') || step.reward.startsWith('build-')) checkRef(`${owner}.reward`, 'actions', step.reward);
+                else if (step.reward.startsWith('npc-')) checkRef(`${owner}.reward`, 'npcs', step.reward);
+                else if (step.reward.startsWith('home-')) checkRef(`${owner}.reward`, 'homes', step.reward);
+                else if (step.reward.startsWith('buff-')) checkRef(`${owner}.reward`, 'buffs', step.reward);
+            }
+            const effs = step.onSuccess || [];
+            if (Array.isArray(effs)) {
+                effs.forEach((e: any, idx: number) => {
+                    if (!e || typeof e !== 'object') return;
+                    const eLabel = `${owner}.onSuccess[${idx}]`;
+                    if (e.type === 'unlockItem') checkRef(eLabel, 'items', e.id);
+                    else if (e.type === 'unlockRecipe') checkRef(eLabel, 'actions', e.id);
+                    else if (e.type === 'unlockNPC') checkRef(eLabel, 'npcs', e.id);
+                    else if (e.type === 'setHome') checkRef(eLabel, 'homes', e.id);
+                    else if (e.type === 'addBuff') checkRef(eLabel, 'buffs', e.buffId);
+                    else if (e.type === 'log' && e.logKey) checkI18nKey(`${eLabel}.logKey`, 'logs', e.logKey);
+                });
+            }
+        };
+
+        // Top-level onSuccess
+        scanStep(`Action '${actionId}'`, act);
+
+        // Steps
+        if (Array.isArray(act.steps)) {
+            act.steps.forEach((s: any, i: number) => scanStep(`Action '${actionId}'.steps[${i}]`, s));
+        }
+    };
+    Object.entries(registries.actions).forEach(([id, act]) => scanAction(id, act));
+
+    // ---------------------------------------------------------------------------
+    // 7. i18n Placeholder + Shape Parity (DE vs EN)
+    // ---------------------------------------------------------------------------
+    console.log("Phase 7: i18n Placeholder/Shape Parity...");
+    Object.keys(deObj).forEach((ns) => {
+        const deNs = deObj[ns] || {};
+        const enNs = enObj[ns] || {};
+        const keys = new Set([...Object.keys(deNs), ...Object.keys(enNs)]);
+        keys.forEach((k) => {
+            const a = deNs[k];
+            const b = enNs[k];
+            results.i18n.count++;
+            if (a === undefined || b === undefined) return; // already handled by Phase 5
+            if (!isSameKeyShape(a, b)) {
+                results.i18n.success = false;
+                results.i18n.errors.push(`[Shape] ns '${ns}' key '${k}' has different value shape DE vs EN`);
+                return;
+            }
+            const pa = getPlaceholders(a);
+            const pb = getPlaceholders(b);
+            const onlyA = [...pa].filter(x => !pb.has(x));
+            const onlyB = [...pb].filter(x => !pa.has(x));
+            if (onlyA.length || onlyB.length) {
+                results.i18n.success = false;
+                results.i18n.errors.push(`[Placeholders] ns '${ns}' key '${k}' mismatch: missing in EN=[${onlyA.join(',')}], missing in DE=[${onlyB.join(',')}]`);
+            }
+        });
+    });
+
+    // ---------------------------------------------------------------------------
+    // 8. Save Fixture Validation (optional)
+    // ---------------------------------------------------------------------------
+    console.log("Phase 8: Save Fixture Validation...");
+    const fixturesDir = path.join(rootDir, 'scripts', 'fixtures', 'saves');
+    const fixtureFiles = fs.existsSync(fixturesDir)
+        ? fs.readdirSync(fixturesDir).filter(f => f.endsWith('.json'))
+        : [];
+    if (fixtureFiles.length === 0) {
+        results.save.count++;
+        // Nothing to validate; keep it green.
+    } else {
+        fixtureFiles.forEach((f) => {
+            const full = path.join(fixturesDir, f);
+            try {
+                const obj = JSON.parse(fs.readFileSync(full, 'utf8'));
+                results.save.count++;
+
+                const bad: string[] = [];
+                const arr = (v: any) => (Array.isArray(v) ? v : []);
+
+                arr(obj.discoveredItems).forEach((id: any) => {
+                    if (typeof id !== 'string' || !id.startsWith('item-') || !hasReg('items', id)) bad.push(`discoveredItems:${id}`);
+                });
+                arr(obj.unlockedRecipes).forEach((id: any) => {
+                    if (typeof id !== 'string' || !hasReg('actions', id)) bad.push(`unlockedRecipes:${id}`);
+                });
+                arr(obj.unlockedNPCs).forEach((id: any) => {
+                    if (typeof id !== 'string' || !hasReg('npcs', id)) bad.push(`unlockedNPCs:${id}`);
+                });
+                arr(obj.discoveredTitles).forEach((id: any) => {
+                    if (typeof id !== 'string' || !hasReg('titles', id)) bad.push(`discoveredTitles:${id}`);
+                });
+
+                if (bad.length) {
+                    results.save.success = false;
+                    results.save.errors.push(`[SaveFixture] ${f} contains invalid IDs: ${bad.slice(0, 25).join(', ')}${bad.length > 25 ? ' ...' : ''}`);
+                }
+            } catch (e: any) {
+                results.save.success = false;
+                results.save.errors.push(`[SaveFixture] Failed to parse ${f}: ${e?.message || String(e)}`);
+            }
+        });
+    }
+
+    // ---------------------------------------------------------------------------
     // Summary
     // ---------------------------------------------------------------------------
     console.log("\n-----------------------------------------");
     console.log(`${results.i18n.success ? '✅' : '❌'} TRANSLATIONS : ${results.i18n.success ? 'Perfect' : results.i18n.errors.length + ' Errors'}`);
     console.log(`${results.assets.success ? '✅' : '❌'} ASSETS       : ${results.assets.success ? 'Perfect' : results.assets.errors.length + ' Errors'}`);
     console.log(`${results.logic.success ? '✅' : '❌'} LOGIC        : ${results.logic.success ? 'Perfect' : results.logic.errors.length + ' Errors'}`);
+    console.log(`${results.ids.success ? '✅' : '❌'} CONTENT IDs  : ${results.ids.success ? 'Perfect' : results.ids.errors.length + ' Errors'}`);
+    console.log(`${results.save.success ? '✅' : '❌'} SAVE FIXTURES: ${results.save.success ? (fixtureFiles.length ? 'Perfect' : 'Skipped') : results.save.errors.length + ' Errors'}`);
     console.log(`${results.unused.success ? '✅' : '⚠️'} UNUSED       : ${results.unused.success ? 'None' : results.unused.errors.length + ' found'}`);
     console.log("-----------------------------------------");
 
-    if (!results.i18n.success || !results.assets.success || !results.logic.success) {
+    if (!results.i18n.success || !results.assets.success || !results.logic.success || !results.ids.success || !results.save.success) {
         console.log("\n⚠️  CRITICAL ISSUE DETAILS:");
-        [...results.i18n.errors, ...results.assets.errors, ...results.logic.errors].forEach(e => console.log(`  - ${e}`));
+        [...results.i18n.errors, ...results.assets.errors, ...results.logic.errors, ...results.ids.errors, ...results.save.errors].forEach(e => console.log(`  - ${e}`));
         process.exit(1);
     } else {
         if (!results.unused.success) {

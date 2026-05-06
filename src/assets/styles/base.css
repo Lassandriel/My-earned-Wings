@@ -46,6 +46,18 @@ body {
   }
 }
 
+/* Low-height screens (small laptops / split-screen): also allow scrolling */
+@media (max-height: 720px) {
+  html,
+  body,
+  #app {
+    height: auto !important;
+    min-height: 100vh;
+    overflow: visible !important;
+    overflow-x: hidden !important;
+  }
+}
+
 body::after {
   content: '';
   position: absolute;

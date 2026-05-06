@@ -177,6 +177,34 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
     }
   };
 
+  /**
+   * Removes legacy/invalid IDs from save arrays.
+   * This prevents content registry fallback spam and keeps state consistent after updates.
+   */
+  const sanitizeSaveArrays = (store: GameState) => {
+    const regs: any = (store as any).content?.registries;
+    if (!regs) return;
+
+    const safeFilter = (arr: any, predicate: (v: any) => boolean) =>
+      Array.isArray(arr) ? arr.filter(predicate) : [];
+
+    (store as any).discoveredItems = safeFilter((store as any).discoveredItems, (id) => {
+      return typeof id === 'string' && id.startsWith('item-') && !!regs.items?.[id];
+    });
+
+    (store as any).unlockedRecipes = safeFilter((store as any).unlockedRecipes, (id) => {
+      return typeof id === 'string' && !!regs.actions?.[id];
+    });
+
+    (store as any).unlockedNPCs = safeFilter((store as any).unlockedNPCs, (id) => {
+      return typeof id === 'string' && !!regs.npcs?.[id];
+    });
+
+    (store as any).discoveredTitles = safeFilter((store as any).discoveredTitles, (id) => {
+      return typeof id === 'string' && !!regs.titles?.[id];
+    });
+  };
+
   return {
     metadata: {
       id: 'persistence',
@@ -257,6 +285,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         // Apply data to store
         deepMerge(store, validatedData);
         clampState(store);
+        sanitizeSaveArrays(store);
 
         // Rebuild dynamic systems
         if (store.actions?.rebuildProducers) store.actions.rebuildProducers(store);

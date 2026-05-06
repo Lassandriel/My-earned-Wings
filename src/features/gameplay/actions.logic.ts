@@ -5,15 +5,20 @@ import {
   FlagId,
   GameEffect,
   ActionId,
+  NPCDefinition,
+  ItemDefinition,
+  ActionResult,
 } from '../../types/game';
 import { checkRequirement } from '../../core/systems/logicUtils';
+
+
 
 /**
  * Action System - TypeScript Edition
  * Modular execution of player-triggered actions using EffectHandlers.
  */
 export function createActionSystem() {
-  const effectHandlers: Record<string, (game: GameState, effect: any) => void> = {};
+  const effectHandlers: Record<string, (game: GameState, effect: GameEffect) => void> = {};
   let _lastActionTime = 0;
   const DEBOUNCE_MS = 50;
   const metadata = {
@@ -29,13 +34,15 @@ export function createActionSystem() {
     type: T,
     handler: (game: GameState, effect: Extract<GameEffect, { type: T }>) => void
   ) => {
-    effectHandlers[type] = handler as (game: GameState, effect: any) => void;
+    effectHandlers[type] = handler as (game: GameState, effect: GameEffect) => void;
     console.log(`[ACTIONS] Registered effect handler: ${type}`);
   };
 
   const initEffects = () => {
     registerEffect('setFlag', (game, { flag, value }) => {
       game.flags[flag] = value;
+      game.pipeline.invalidateCache();
+      game.resource.invalidateCache();
       
       // Update active producers if the flag corresponds to a producer action
       const action = game.content.get(flag as string, 'actions') as ActionDefinition | null;
@@ -52,7 +59,7 @@ export function createActionSystem() {
     registerEffect('unlockNPC', (game, { id }) => {
       if (!game.unlockedNPCs.includes(id)) {
         game.unlockedNPCs = [...game.unlockedNPCs, id];
-        const npc = game.content.get(id, 'npcs');
+        const npc = game.content.get<NPCDefinition>(id, 'npcs');
         const name = npc ? game.t(npc.nameKey) : id;
         game.addLog('reward_unlock_npc', 'logs', 'var(--gold)', { name });
       }
@@ -61,8 +68,8 @@ export function createActionSystem() {
     registerEffect('unlockRecipe', (game, { id }) => {
       if (!game.unlockedRecipes.includes(id)) {
         game.unlockedRecipes = [...game.unlockedRecipes, id];
-        const action = game.content.get(id, 'actions');
-        const title = action ? game.t(action.title, 'actions') : id;
+        const actionDef = game.content.get<ActionDefinition>(id, 'actions');
+        const title = actionDef?.title ? game.t(actionDef.title, 'actions') : id;
         game.addLog('reward_unlock_recipe', 'logs', 'var(--gold)', { title });
       }
     });
@@ -70,31 +77,40 @@ export function createActionSystem() {
     registerEffect('unlockItem', (game, { id }) => {
       if (!game.discoveredItems.includes(id)) {
         game.discoveredItems = [...game.discoveredItems, id];
-        const item = game.content.get(id, 'items');
+        const item = game.content.get<ItemDefinition>(id, 'items');
         const title = item ? game.t(item.title, 'items') : id;
         game.addLog('reward_unlock_item', 'logs', 'var(--gold)', { title });
       }
       game.flags[id as unknown as FlagId] = true;
+      game.pipeline.invalidateCache();
+      game.resource.invalidateCache();
     });
 
     registerEffect('modifyLimit', (game, { resource, amount }) => {
-      if (game.stats[resource] !== undefined || resource === 'energy' || resource === 'magic') {
-        const maxKey = 'max' + resource.charAt(0).toUpperCase() + resource.slice(1);
+      const resId = resource as ResourceId;
+      if (game.stats[resId] !== undefined || resId === 'energy' || resId === 'magic') {
+        const maxKey = 'max' + resId.charAt(0).toUpperCase() + resId.slice(1);
         game.stats[maxKey] = (game.stats[maxKey] || 0) + amount;
       } else {
-        game.limits[resource] = (game.limits[resource] || 0) + amount;
+        game.limits[resId] = (game.limits[resId] || 0) + amount;
       }
+      game.resource.invalidateCache();
     });
 
     registerEffect('addBuff', (game, { buffId, override }) => {
-      const baseBuff = game.content.get(buffId, 'buffs');
+      const baseBuff = game.content.get<{ duration: number; title: string; desc: string; [key: string]: unknown }>(buffId, 'buffs');
       if (!baseBuff) return;
       const finalBuff = { ...baseBuff, ...override };
       game.activeBuffs[buffId] = {
         ...finalBuff,
-        remaining: finalBuff.duration,
-        total: finalBuff.duration,
+        id: buffId,
+        title: (finalBuff.title as string) || buffId,
+        desc: (finalBuff.desc as string) || '',
+        remaining: (finalBuff.duration as number) || 0,
+        total: (finalBuff.duration as number) || 0,
       };
+      game.pipeline.invalidateCache();
+      game.resource.invalidateCache();
     });
 
     registerEffect('setObjective', (game, { id }) => {
@@ -115,10 +131,13 @@ export function createActionSystem() {
 
     registerEffect('setHome', (game, { id }) => {
       game.activeHome = id;
+      game.pipeline.invalidateCache();
+      game.resource.invalidateCache();
     });
 
     registerEffect('unlockTitle', (game, { id }) => {
       game.titles.unlockTitle(game, id);
+      game.pipeline.invalidateCache();
     });
   };
 
@@ -144,7 +163,7 @@ export function createActionSystem() {
     });
   };
 
-  const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: any) => {
+  const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: ActionResult) => {
     game.counters.totalActions++;
 
     if (action.counter && game.counters[action.counter] !== undefined) {
@@ -157,7 +176,7 @@ export function createActionSystem() {
     }
 
     if (action.isStory) {
-      const dialogueKey = result?.logParams?.textKey || null;
+      const dialogueKey = (result?.logParams?.textKey as string) || null;
       if (dialogueKey) {
         game.story.recordStoryEntry(game, id, action, dialogueKey);
       }
@@ -206,12 +225,11 @@ export function createActionSystem() {
     const hasCosts = !!(action.costs || (action.costType && action.costType !== 'none'));
     if (!hasCosts) return;
 
-    const effectiveCosts = action.costs ? { ...action.costs } : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
+    const effectiveCosts: Record<string, number> = action.costs ? { ...action.costs } : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
 
     const firstMissing = Object.keys(effectiveCosts).find((r) => {
-      const resId = r as ResourceId;
-      const amount = (effectiveCosts as any)[resId];
-      return !game.resource.canAfford(game, resId, amount);
+      const amount = effectiveCosts[r] ?? 0;
+      return !game.resource.canAfford(game, r as ResourceId, amount);
     });
 
     if (firstMissing) {
@@ -220,7 +238,6 @@ export function createActionSystem() {
       game.addLog(logKey, 'logs', 'var(--accent-red)');
 
       // If it's a resource that scales with satiation, and efficiency is low, explain why
-      const resDef = game.content.get(firstMissing, 'resources') as any;
       const efficiency = game.pipeline.calculate(game, 'resource_efficiency', 1);
       if (efficiency < 0.9) {
         game.addLog('fail_low_efficiency', 'logs', 'var(--accent-red)');
@@ -239,11 +256,11 @@ export function createActionSystem() {
     id: ActionId,
     action: ActionDefinition,
     mode: string = 'full'
-  ): any => {
+  ): ActionResult => {
     const isPrepare = mode === 'prepare' || mode === 'full';
     const isFinalize = mode === 'finalize' || mode === 'full';
     let totalYield = 0;
-    let logGain: any = null;
+    let logGain: number | null = null;
 
     if (isPrepare) {
       if (action.requirements) {
@@ -336,8 +353,8 @@ export function createActionSystem() {
       yield: totalYield,
     };
 
-    if (isFinalize && (action as any).execute) {
-      const execResult = (action as any).execute(game);
+    if (isFinalize && 'execute' in action && typeof action.execute === 'function') {
+      const execResult = action.execute(game);
       if (execResult) {
         result = { ...result, ...execResult };
       }
@@ -400,7 +417,7 @@ export function createActionSystem() {
 
       if (game.activeTasks[id]) return;
       const res = this.execute(game, id);
-      if (res === false || (res && (res as any).success === false)) {
+      if (res === false) {
         if (el) {
           el.classList.add('btn-shake');
           setTimeout(() => el.classList.remove('btn-shake'), 400);
@@ -416,10 +433,10 @@ export function createActionSystem() {
       const action = game.content.get<ActionDefinition>(id, 'actions');
       if (game.activeFocus === id) {
         game.activeFocus = null;
-        (game as any).playSound('click');
+        game.playSound('click');
       } else {
         game.activeFocus = id;
-        (game as any).playSound('magic');
+        game.playSound('magic');
         if (action && action.isLoopable) {
           this.execute(game, id);
         }

@@ -52,8 +52,8 @@ export const createSettingsSystem = () => {
       const w = parseInt(parts[0]);
       const h = parseInt(parts[1]);
 
-      if (w && h && (window as any).electronAPI) {
-        (window as any).electronAPI.resizeWindow(w, h);
+      if (w && h && window.electronAPI) {
+        window.electronAPI.resizeWindow(w, h);
       }
     },
 

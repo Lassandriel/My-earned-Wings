@@ -15,7 +15,7 @@ export interface NPCDefinition {
   chapter?: string;
   unlockedAtStart?: boolean;
   isVandara?: boolean;
-  dialogues?: any;
+  dialogues?: Record<string, string>;
   tradeActions?: Array<{
     id: ActionId;
     minProgress: number;

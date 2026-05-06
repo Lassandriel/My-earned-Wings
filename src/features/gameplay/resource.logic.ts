@@ -1,4 +1,4 @@
-import { GameState, ResourceId } from '../../types/game';
+import { GameState, ResourceId, ResourceDefinition, HomeDefinition } from '../../types/game';
 
 /**
  * Resource and Stats System Manager - TypeScript Edition
@@ -7,8 +7,11 @@ export const createResourceSystem = () => {
   const metadata = {
     id: 'resource',
   };
+
+  const _limitCache = new Map<string, number>();
+  const _maxStatCache = new Map<string, number>();
   const getScaledCost = (state: GameState, type: ResourceId, baseAmount: number): number => {
-    const resDef = state.content?.get(type as string, 'resources') as any;
+    const resDef = state.content?.get<ResourceDefinition>(type as string, 'resources');
     if (resDef?.scalesWithSatiation) {
       // Costs scale inversely with worker efficiency
       const efficiency = state.pipeline.calculate(state, 'resource_efficiency', 1);
@@ -66,7 +69,7 @@ export const createResourceSystem = () => {
       state.bus.emit(state.EVENTS.RESOURCE_SPENT, { type });
 
       // --- DATA-DRIVEN SATIATION DRAIN ---
-      const resDef = state.content?.get(type as string, 'resources') as any;
+      const resDef = state.content?.get<ResourceDefinition>(type as string, 'resources');
       if (resDef?.satiationDrain && state.stats.satiation > 0) {
         const baseDrain = finalAmount * resDef.satiationDrain;
         const multiplier = state.pipeline.calculate(state, 'satiation_drain_multiplier', 1);
@@ -125,28 +128,39 @@ export const createResourceSystem = () => {
     },
 
     getLimit(state: GameState, type: ResourceId): number {
-      const base = state.limits[type] || 0;
+      if (_limitCache.has(type)) return _limitCache.get(type)!;
 
-      // Calculate dynamic bonus from pipeline (Buildings + Furniture)
+      const base = state.limits[type] || 0;
       const bonus = state.pipeline?.calculate(state, type + '_limit', 0) || 0;
 
       let homeBonus = 0;
       if (state.activeHome) {
-        const home = state.content.get(state.activeHome, 'homes');
+        const home = state.content.get<HomeDefinition>(state.activeHome, 'homes');
         homeBonus = home?.baseLimits?.[type] || 0;
       }
 
-      return Math.round(base + bonus + homeBonus);
+      const final = Math.round(base + bonus + homeBonus);
+      _limitCache.set(type, final);
+      return final;
     },
 
     getMaxStat(state: GameState, type: ResourceId): number {
+      if (_maxStatCache.has(type)) return _maxStatCache.get(type)!;
+
       const maxKey = 'max' + type.charAt(0).toUpperCase() + type.slice(1);
       const base = state.stats[maxKey] || state.stats[type + '_limit'] || 100;
 
       // Calculate dynamic bonus (e.g., energy_limit)
       const bonus = state.pipeline?.calculate(state, type + '_limit', 0) || 0;
 
-      return base + bonus;
+      const final = base + bonus;
+      _maxStatCache.set(type, final);
+      return final;
+    },
+
+    invalidateCache() {
+      _limitCache.clear();
+      _maxStatCache.clear();
     },
 
     isFull(state: GameState, type: ResourceId): boolean {

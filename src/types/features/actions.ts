@@ -10,11 +10,13 @@ export interface ItemDefinition {
   desc: string;
   image?: string;
   consumable: boolean;
-  category: 'tools' | 'items' | 'furniture' | 'addon';
+  category: 'tools' | 'items' | 'furniture' | 'addon' | 'food' | 'lore';
   effect?: Partial<Record<ResourceId, number>> | string;
+  onSuccess?: GameEffect[];
   modifiers?: GameModifier[];
   spaceCost?: number;
   cost?: number | Partial<Record<ResourceId, number>> | string;
+  sfx?: string;
 }
 
 export interface NPCStep {
@@ -24,6 +26,18 @@ export interface NPCStep {
   reward?: ItemId | string;
   dialogueKey?: string;
   onSuccess?: GameEffect[];
+  requirements?: Record<string, any | GameRequirement>;
+}
+
+export interface ActionResult {
+  success: boolean;
+  yield?: number;
+  logKey?: string;
+  logColor?: string;
+  logGain?: number | null;
+  logParams?: Record<string, unknown>;
+  processed?: boolean;
+  effects?: GameEffect[];
 }
 
 export interface ActionDefinition {
@@ -57,7 +71,11 @@ export interface ActionDefinition {
   maxProgress?: number;
   progKey?: string;
   npcId?: NPCId;
+  icon?: string;
+  journalIcon?: string;
+  journalColor?: string;
   counter?: string;
+  execute?: (state: any) => any;
   passiveProduction?: {
     id: string;
     resource: ResourceId;

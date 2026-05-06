@@ -4,6 +4,13 @@
 
 The game uses a custom i18n system (`src/core/services/i18n.ts`) to handle displaying textual strings, UI elements, and dialogues to the player based on their selected language.
 
+## Debugging Missing Keys (Development)
+
+Because many keys are generated dynamically, static scans can miss real runtime issues. In **development mode**, `i18n.t()` warns (once per key) when a translation is missing.
+
+- **Default behavior**: `console.warn` with `context.key` and language.
+- **Optional strict mode**: set `window.__I18N_STRICT__ = true` to throw an error when a key is missing (useful during content authoring).
+
 ## Architectural Decision: Flat Structure vs. Nested Objects
 
 Translation files (such as `src/lang/de/logs.ts` and `src/lang/en/logs.ts`) leverage a **flat dictionary structure** instead of nested objects.

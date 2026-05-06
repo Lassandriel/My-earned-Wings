@@ -24,20 +24,27 @@ export const GAME_EVENTS = {
   VIEW_CHANGED: 'view_changed',
 };
 
-export const createEventBus = () => {
-  const listeners: Record<string, Function[]> = {};
+export type EventCallback<T = unknown> = (data: T) => void;
+
+export interface EventBus {
+  on: <T = unknown>(event: string, callback: EventCallback<T>) => () => void;
+  emit: <T = unknown>(event: string, data?: T) => void;
+}
+
+export const createEventBus = (): EventBus => {
+  const listeners: Record<string, EventCallback<unknown>[]> = {};
 
   return {
     /**
      * Subscribe to an event.
      */
-    on(event: string, callback: Function) {
+    on<T = unknown>(event: string, callback: EventCallback<T>) {
       if (!listeners[event]) listeners[event] = [];
 
       // IDEMPOTENCY: Don't register the same callback twice for the same event
-      if (listeners[event].includes(callback)) return () => {};
+      if (listeners[event].includes(callback as EventCallback<unknown>)) return () => {};
 
-      listeners[event].push(callback);
+      listeners[event].push(callback as EventCallback<unknown>);
 
       // Return an unsubscribe function
       return () => {
@@ -48,7 +55,7 @@ export const createEventBus = () => {
     /**
      * Emit an event.
      */
-    emit(event: string, data?: any) {
+    emit<T = unknown>(event: string, data?: T) {
       if (!listeners[event]) return;
       listeners[event].forEach((callback) => callback(data));
     },

@@ -64,9 +64,21 @@ Experience the transformation of a grounded wanderer into a pillar of the commun
 
 Maintain project integrity with these automated scripts:
 
+- `npm run qa`: Runs **all quality checks** (i18n, assets, logic, unused assets, tests) and prints a bundled summary.
 - `npm run check-all`: Performs a full audit of translations, assets, and game logic.
 - `npm test`: Runs the Vitest suite for core logic.
 - `npm run check-i18n`: Ensures parity between language dictionaries.
+- `npm run check-assets`: Ensures all registered assets exist physically.
+- `npm run check-logic`: Simulates progression reachability and validates logic & economy constraints.
+- `npm run check-unused`: Detects unused assets (best-effort; dynamic paths may not be detectable statically).
+
+---
+
+## 🌍 i18n Debugging (Missing Keys)
+
+In **development mode**, the i18n system warns once per missing key in `console` when `t()` cannot resolve a translation.
+
+- **Optional strict mode (dev only)**: set `window.__I18N_STRICT__ = true` in the browser console to turn missing keys into thrown errors.
 
 ---
 

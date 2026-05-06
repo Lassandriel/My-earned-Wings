@@ -1,4 +1,4 @@
-import { ActionDefinition } from '../../types/game';
+import { ActionDefinition, GameState } from '../../types/game';
 
 /**
  * Lore Reading Actions - Studying the world of Draconia
@@ -26,7 +26,7 @@ export const loreActions: Record<string, ActionDefinition> = {
       { cost: 40, costType: 'energy', dialogueKey: 'lore_1_step_9' },
       { cost: 50, costType: 'energy', dialogueKey: 'lore_1_step_10', onSuccess: [{ type: 'setFlag', flag: 'read_book_1_complete', value: true }] },
     ],
-    execute: (state: any) => {
+    execute: (state: GameState) => {
       return state.npcExecute('act-read-lore-1');
     }
   },
@@ -51,7 +51,7 @@ export const loreActions: Record<string, ActionDefinition> = {
       { cost: 40, costType: 'energy', dialogueKey: 'lore_2_step_9' },
       { cost: 50, costType: 'energy', dialogueKey: 'lore_2_step_10', onSuccess: [{ type: 'setFlag', flag: 'read_book_2_complete', value: true }] },
     ],
-    execute: (state: any) => {
+    execute: (state: GameState) => {
       return state.npcExecute('act-read-lore-2');
     }
   }

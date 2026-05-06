@@ -1,9 +1,10 @@
-import { ActionDefinition } from './features/actions';
+import { GameState, HoverActionData } from './game';
+import { TranslationParams } from './i18n';
 
 export interface LogEntry {
   id: string;
   context: string;
-  params: Record<string, any>;
+  params: TranslationParams;
   color: string;
   type: string;
   count: number;
@@ -18,7 +19,7 @@ export interface LogStore {
 
 export interface UIStore {
   view: string;
-  hoveredAction: { id: string; data?: ActionDefinition; [key: string]: any } | null;
+  hoveredAction: HoverActionData | null;
   activeFocus: string | null;
   lastMouseX: number;
   lastMouseY: number;
@@ -28,11 +29,20 @@ export interface UIStore {
     message: string;
     onConfirm: (() => void) | null;
   };
-  setHovered: (id: string | null, data?: any) => void;
+  setHovered: (id: string | null, data?: HoverActionData) => void;
   setView: (v: string) => void;
   toggleSettings: () => void;
   showConfirm: (message: string, onConfirm: () => void) => void;
   resolveConfirm: (confirmed: boolean) => void;
+}
+
+/** Reference to the settings logic system */
+export interface SettingsSystemRef {
+  calculateScale: (store: GameState) => void;
+  setResolution: (store: GameState, res: string) => void;
+  setLanguage: (store: GameState, lang: string) => void;
+  toggleSettings: (store: GameState) => void;
+  applyCheats: (store: GameState) => void;
 }
 
 export interface SettingsStore {
@@ -44,10 +54,10 @@ export interface SettingsStore {
   showJuice: boolean;
   uiScale: 'auto' | string;
   resolution: 'auto' | string;
-  system: any;
-  init: (system: any) => void;
-  toggleSettings: (store: any) => void;
-  calculateScale: (store: any) => void;
-  setLanguage: (store: any, lang: string) => void;
-  applyCheats: (store: any) => void;
+  system: SettingsSystemRef | null;
+  init: (system: SettingsSystemRef) => void;
+  toggleSettings: (store: GameState) => void;
+  calculateScale: (store: GameState) => void;
+  setLanguage: (store: GameState, lang: string) => void;
+  applyCheats: (store: GameState) => void;
 }

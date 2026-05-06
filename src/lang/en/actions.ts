@@ -206,14 +206,17 @@ export default {
   'act-axe': {
     title: 'Craft Stone Axe',
     desc: 'Enables felling trees.',
+    effect: 'Enables felling trees.',
   },
   'act-pickaxe': {
     title: 'Craft Pickaxe',
     desc: 'Enables mining rocks.',
+    effect: 'Enables mining rocks.',
   },
   'act-bow': {
     title: 'Build Hunting Bow',
     desc: 'Essential for hunting in the forest.',
+    effect: 'Essential for hunting in the forest.',
   },
   'act-bed': {
     title: 'Simple Bed',

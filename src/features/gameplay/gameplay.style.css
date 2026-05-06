@@ -269,6 +269,33 @@
   }
 }
 
+/* Responsive: stack the two gameplay columns on narrow screens */
+@media (max-width: 1100px) {
+  .primary-actions-bar {
+    gap: 12px;
+    padding: 16px 12px 24px;
+    margin-bottom: 18px;
+  }
+
+  .primary-btn {
+    min-width: 120px;
+    max-width: none;
+    flex: 1 1 140px;
+  }
+
+  /* Higher specificity + !important to beat any later overrides */
+  .view-content-gameplay .action-container {
+    flex-direction: column !important;
+    gap: 18px;
+  }
+
+  .view-content-gameplay .vertical-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--panel-border), transparent);
+  }
+}
+
 /* AUTOMATION & LOOP BAR */
 .automation-bar {
   margin: 0 0 2rem 0;

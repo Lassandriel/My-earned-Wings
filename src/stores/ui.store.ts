@@ -1,11 +1,12 @@
-import { ActionDefinition } from '../types/game';
+import { HoverActionData } from '../types/game';
 
 /**
  * Alpine.js Store for UI State
  */
+
 export const createUIStore = () => ({
   view: 'menu',
-  hoveredAction: null as { id: string; data?: ActionDefinition; [key: string]: any } | null,
+  hoveredAction: null as HoverActionData | null,
   activeFocus: null as string | null,
   lastMouseX: 0,
   lastMouseY: 0,
@@ -18,8 +19,8 @@ export const createUIStore = () => ({
     onConfirm: null as (() => void) | null
   },
 
-  setHovered(id: string | null, data: any = null) {
-    this.hoveredAction = id ? { id, data } : null;
+  setHovered(id: string | null, data: HoverActionData | null = null) {
+    this.hoveredAction = id ? (data ? { ...data, id } : { id }) : null;
   },
 
   setView(v: string) {

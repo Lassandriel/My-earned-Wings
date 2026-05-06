@@ -1,4 +1,4 @@
-import { GameState, ItemId, FlagId, ActionDefinition, NPCDefinition, NPCId } from '../../types/game';
+import { GameState, ItemId, FlagId, ActionDefinition, NPCDefinition, NPCId, TranslationParams } from '../../types/game';
 
 /**
  * NPC System - TypeScript Edition
@@ -16,7 +16,7 @@ export const createNPCSystem = () => {
     execute(
       game: GameState,
       id: string
-    ): { success: boolean; logKey?: string; logParams?: any } | false {
+    ): { success: boolean; logKey?: string; logParams?: TranslationParams } | false {
       const action = game.content.get<ActionDefinition>(id, 'actions');
 
       if (!action || !action.steps) return false;
@@ -34,7 +34,7 @@ export const createNPCSystem = () => {
       // 0. Requirements (Step-level)
       if (step.requirements) {
         const met = Object.entries(step.requirements).every(([path, rule]) => {
-          return game.actions.checkRequirement(game, path, rule);
+          return game.actions.checkRequirement(game, path, rule as any);
         });
         if (!met) {
           // If it fails due to requirements, we might want to show a specific dialogue

@@ -74,7 +74,10 @@ export type FlagId =
   | 'vandara_unlocked'
   | 'academy_phase_1'
   | 'academy_phase_2'
-  | 'academy_graduate';
+  | 'academy_graduate'
+  | 'unlocked-library'
+  | 'read_book_1_complete'
+  | 'read_book_2_complete';
 
 export type ActionId = string;
 export type ItemId = string; 
@@ -102,7 +105,7 @@ export type RequirementOperator = '>=' | '<=' | '>' | '<' | '!=' | 'includes' | 
 
 export interface GameRequirement {
   op?: RequirementOperator;
-  val: any;
+  val: boolean | number | string | string[];
 }
 
 export interface GameModifier {
@@ -118,24 +121,40 @@ export interface NavigationDefinition {
   requiredFlag?: FlagId;
 }
 
+export interface BuffOverride {
+  duration?: number;
+  modifiers?: GameModifier[];
+  title?: string;
+  desc?: string;
+}
+
+export interface LogParams extends Record<string, string | number | boolean | undefined> {
+  resource?: string;
+  amount?: number;
+  item?: string;
+  npc?: string;
+}
+
 export type GameEffect =
-  | { type: 'setFlag'; flag: FlagId; value: any }
+  | { type: 'setFlag'; flag: FlagId; value: boolean }
   | { type: 'unlockNPC'; id: NPCId }
   | { type: 'unlockRecipe'; id: string }
   | { type: 'unlockItem'; id: ItemId }
   | { type: 'modifyLimit'; resource: ResourceId; amount: number }
-  | { type: 'addBuff'; buffId: string; override?: any }
+  | { type: 'addBuff'; buffId: string; override?: BuffOverride }
   | { type: 'setObjective'; id: string }
   | { type: 'playSound'; id: string }
-  | { type: 'log'; logKey: string; color?: string; params?: any }
+  | { type: 'log'; logKey: string; color?: string; params?: LogParams }
   | { type: 'modifyResource'; resource: ResourceId; amount: number }
   | { type: 'setHome'; id: HomeId }
   | { type: 'unlockTitle'; id: TitleId };
 
+export type MilestoneRequirements = Record<string, GameRequirement | boolean | number | string | string[]>;
+
 export interface MilestoneDefinition {
   id: string;
   icon?: string;
-  requirements: Record<string, any | GameRequirement>;
+  requirements: MilestoneRequirements;
   onUnlock?: GameEffect[];
 }
 

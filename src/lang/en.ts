@@ -5,11 +5,12 @@ import actions from './en/actions';
 import npcs from './en/npcs';
 import buffs from './en/buffs';
 import modifiers from './en/modifiers';
+import { TranslationLanguage } from '../types/i18n';
 
 /**
  * English Translations - MODULARIZED
  */
-const lang: Record<string, any> = {
+const lang: TranslationLanguage = {
   ui,
   logs,
   items,

@@ -41,6 +41,19 @@
   align-items: start !important;
 }
 
+/* Responsive compaction: reduce vertical length on tablets/phones */
+@media (max-width: 1100px) {
+  .game-view-content {
+    padding: 16px !important;
+    gap: 16px !important;
+  }
+
+  .game-grid {
+    gap: 16px !important;
+    padding-bottom: 24px !important;
+  }
+}
+
 .game-card {
   position: relative !important;
   width: 100% !important;

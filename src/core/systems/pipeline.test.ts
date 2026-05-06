@@ -33,7 +33,7 @@ describe('Pipeline System', () => {
     });
     
     // Mock item with modifier
-    vi.mocked(store.content.get).mockImplementation((id: string, type?: string) => {
+    vi.mocked(store.content.get).mockImplementation((id: string, type: any) => {
       if (id === 'item-axe' && type === 'items') {
         return { id: 'item-axe', modifiers: [{ key: 'wood_yield', add: 5 }] };
       }

@@ -11,7 +11,8 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  min-width: 1000px; /* Safe minimum for grid stability */
+  /* Avoid forcing horizontal overflow on smaller screens */
+  min-width: 0;
   min-height: 600px;
   display: grid;
   grid-template-columns: auto 1fr var(--log-w) var(--stats-w);
@@ -26,6 +27,13 @@
 #game-wrapper * {
   min-width: 0;
   min-height: 0;
+}
+
+/* Keep a "safe minimum" only on actually large viewports */
+@media (min-width: 1101px) {
+  #game-wrapper {
+    min-width: 1000px;
+  }
 }
 
 #ambient-magic {
@@ -382,5 +390,15 @@ main {
     flex: 1;
     min-width: 9.37rem; /* ~150px */
     height: 3.75rem; /* ~60px */
+  }
+}
+
+/* Low-height screens: also release fixed wrapper & allow scrolling */
+@media (max-height: 720px) {
+  #game-wrapper {
+    position: relative;
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: visible !important;
   }
 }

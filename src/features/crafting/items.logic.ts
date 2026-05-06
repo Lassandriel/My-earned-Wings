@@ -1,4 +1,4 @@
-import { GameState, ItemId } from '../../types/game';
+import { GameState, ItemId, ItemDefinition } from '../../types/game';
 
 /**
  * Item System - TypeScript Edition
@@ -10,7 +10,7 @@ export const createItemSystem = () => ({
     delegates: { consumeItem: 'consumeItem' }
   },
   consumeItem(store: GameState, id: ItemId) {
-    const item = store.content.get(id, 'items');
+    const item = store.content.get<ItemDefinition>(id, 'items');
     if (!item || !item.consumable) return;
 
     // Find instance in inventory

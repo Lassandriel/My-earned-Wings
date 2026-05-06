@@ -1,7 +1,9 @@
+import { GameState, ActionDefinition } from '../../types/game';
+
 /**
  * Magic Actions - TypeScript Version
  */
-export const magicActions: Record<string, any> = {
+export const magicActions: Record<string, ActionDefinition> = {
   'act-dream-bloom': {
     id: 'act-dream-bloom',
     category: 'magic',
@@ -11,7 +13,7 @@ export const magicActions: Record<string, any> = {
     satiationCost: 1,
     onSuccess: [{ type: 'modifyResource', resource: 'magic', amount: 5 }],
     logKey: 'dream_bloom_log',
-    execute: (game: any) => {
+    execute: (game: GameState) => {
       const taskIds = Object.keys(game.activeTasks);
       if (taskIds.length === 0) return { success: false, logKey: 'fail_no_tasks' };
 

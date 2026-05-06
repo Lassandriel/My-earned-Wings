@@ -1,8 +1,8 @@
 import de from './lang/de';
 import en from './lang/en';
-import { GameState } from './types/game';
+import { GameState, Translations, LanguageCode } from './types/game';
 
-const translations: Record<string, any> = { de, en };
+const translations: Record<LanguageCode, Translations[LanguageCode]> = { de, en };
 
 /**
  * CORE 3.5 STATE DEFINITION - TypeScript Edition
@@ -101,8 +101,8 @@ export const initialState: Partial<GameState> = {
 
   quit() {
     const store = this as unknown as GameState;
-    if ((window as any).electronAPI) {
-      (window as any).electronAPI.quitApp();
+    if (window.electronAPI) {
+      window.electronAPI.quitApp();
     } else {
       console.warn('Quit only works in Electron');
       store.returnToMenu();

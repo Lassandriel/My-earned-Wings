@@ -15,6 +15,7 @@
     "check-assets": "tsx scripts/check-assets.ts",
     "check-logic": "tsx scripts/check-logic.ts",
     "check-all": "tsx scripts/check-all.ts",
+    "qa": "tsx scripts/qa.ts",
     "format": "prettier --write \"src/**/*.{ts,js,css,html}\" \"index.html\"",
     "stats": "tsx scripts/stats.ts",
     "check-unused": "tsx scripts/check-unused.ts",

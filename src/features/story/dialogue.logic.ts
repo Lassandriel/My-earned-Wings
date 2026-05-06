@@ -20,7 +20,7 @@ export const createDialogueSystem = () => ({
       waiting?: boolean;
     }
   ) {
-    store.dialogueNpcId = (config.npcId as any) || null;
+    store.dialogueNpcId = config.npcId || null;
     store.dialogueText = config.text || '';
     store.dialogueTitle = config.title || config.npcId || 'Wanderer';
     store.dialogueChoices = config.choices || [];

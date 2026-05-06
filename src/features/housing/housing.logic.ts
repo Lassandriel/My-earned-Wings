@@ -27,8 +27,8 @@ export const createHousingSystem = () => {
       if (isPlaced) {
         // Remove one instance
         store.placedItems.splice(placedIdx, 1);
-        (store as any).playSound('click');
-        (store as any).addLog(store.t(item.title, 'items') + ' entfernt.', 'custom', 'var(--text-muted)');
+        store.playSound('click');
+        store.addLog(store.t(item.title, 'items') + ' entfernt.', 'custom', 'var(--text-muted)');
       } else {
         // Check if we actually have it in inventory
         const invIdx = store.discoveredItems.indexOf(id as ItemId);
@@ -44,16 +44,16 @@ export const createHousingSystem = () => {
         const capacity = this.getHomeCapacity(store);
 
         if (currentSpace + spaceRequired > capacity) {
-          (store as any).playSound('fail');
+          store.playSound('fail');
           store.ui.showToast(store.t('fail_furniture_space') || 'Nicht genug Platz!', 'error');
           return;
         }
 
         store.placedItems.push(id as ItemId);
-        (store as any).playSound('magic');
-        (store as any).addLog(store.t(item.title, 'items') + ' platziert.', 'custom', 'var(--accent-teal)');
+        store.playSound('magic');
+        store.addLog(store.t(item.title, 'items') + ' platziert.', 'custom', 'var(--accent-teal)');
       }
-      (store as any).saveGame();
+      store.saveGame();
     },
 
     /**

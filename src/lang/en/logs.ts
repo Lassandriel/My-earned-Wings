@@ -15,6 +15,11 @@ export default {
   reward_blueprint_tower: 'Received blueprint for the Aura Tower.',
   unlock_whisper_grove: 'Mina leads you to a secret path: The Whisper Grove is now accessible.',
   unlock_vandara: "Aria's recommendation opens the gates to the Academy Vandara for you.",
+  receive_books: 'Books received! You can now read them in your Chronicle.',
+  receive_apple: 'You received a Crystal Apple! A sweet refreshment for your journey.',
+  townhall_registered: 'Official Registration',
+  townhall_tax_paid: 'Taxes & Fees',
+  townhall_land_prepped: 'Land Title (Preliminary)',
 
   // ==========================================
   // INTRO, STORY & DIALOGUES
@@ -129,7 +134,6 @@ export default {
   buy_iron_parts_log: 'Acquired stable iron parts from Thorin the Blacksmith.',
   work_log: 'Day labor completed. Shards received.',
   hunt_log: 'Successful hunt! Meat obtained.',
-  study_success: 'Gained new insights. Your magic grows.',
   dream_bloom_log: 'An ethereal flower has bloomed.',
   spell_harvest_log: 'Drew magic energy from the aether.',
   grind_dust_log: 'You ground magical herbs into fine arcane dust.',

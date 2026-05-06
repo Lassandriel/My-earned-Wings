@@ -15,6 +15,11 @@ export default {
   reward_blueprint_tower: 'Bauplan für den Aura-Turm erhalten.',
   unlock_whisper_grove: 'Mina führt dich zu einem geheimen Pfad: Der Flüsterhain ist nun zugänglich.',
   unlock_vandara: 'Arias Empfehlung öffnet dir die Tore der Akademie Vandara.',
+  receive_books: 'Bücher erhalten! Du kannst sie jetzt in deiner Chronik lesen.',
+  receive_apple: 'Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.',
+  townhall_registered: 'Offizielle Registrierung',
+  townhall_tax_paid: 'Steuern & Gebühren',
+  townhall_land_prepped: 'Landurkunde (Vorstufe)',
 
   // ==========================================
   // INTRO, STORY & DIALOGE
@@ -129,7 +134,6 @@ export default {
   buy_iron_parts_log: 'Stabile Eisenbeschläge beim Schmied Thorin erworben.',
   work_log: 'Tagesarbeit abgeschlossen. Splitter erhalten.',
   hunt_log: 'Erfolgreiche Jagd! Fleisch erbeutet.',
-  study_success: 'Neue Erkenntnisse gewonnen. Deine Magie wächst.',
   dream_bloom_log: 'Eine ätherische Blüte ist erblüht.',
   spell_harvest_log: 'Magische Energie aus dem Aether gezogen.',
   grind_dust_log: 'Du hast magische Kräuter zu feinem Arkanstaub gemahlen.',

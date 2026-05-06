@@ -1,4 +1,4 @@
-import { GameState, TitleId } from '../../types/game';
+import { GameState, TitleId, TitleDefinition } from '../../types/game';
 
 /**
  * Title System Logic - Phase 12
@@ -11,8 +11,8 @@ export const createTitleSystem = () => ({
   },
   unlockTitle(store: GameState, id: TitleId) {
     if (store.discoveredTitles.includes(id)) return;
-
-    const title = store.content.get(id, 'titles');
+    
+    const title = store.content.get<TitleDefinition>(id, 'titles');
     if (!title) return;
 
     store.discoveredTitles.push(id);
@@ -31,7 +31,7 @@ export const createTitleSystem = () => ({
     store.activeTitle = id;
     store.playSound('click');
     store.addLog('title_set', 'logs', 'var(--accent-teal)', { 
-      title: id ? store.t(store.content.get(id, 'titles').nameKey) : store.t('ui_none') 
+      title: id ? store.t(store.content.get<TitleDefinition>(id, 'titles').nameKey) : store.t('ui_none') 
     });
     
     // Rebuild producers/pipeline if titles provide modifiers

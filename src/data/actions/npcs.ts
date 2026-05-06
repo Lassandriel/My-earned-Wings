@@ -1,7 +1,33 @@
+import { GameState } from '../../types/game';
+
 /**
  * NPC Actions - TypeScript Version
  */
-export const npcActions: Record<string, any> = {
+export const npcActions: Record<string, {
+  id: string;
+  npcId: string;
+  category: string;
+  isStory?: boolean;
+  chapter?: string;
+  progKey: string;
+  maxProgress: number;
+  journalIcon?: string;
+  icon?: string;
+  journalColor?: string;
+  steps?: Array<{
+    cost?: number;
+    costType?: string;
+    costs?: Record<string, number>;
+    reward?: string;
+    dialogueKey?: string;
+    onSuccess?: Array<{
+      type: string;
+      [key: string]: unknown;
+    }>;
+    requirements?: Record<string, unknown>;
+  }>;
+  execute?: (state: GameState) => boolean | void;
+}> = {
   'act-npc-baker': {
     id: 'act-npc-baker',
     npcId: 'npc-baker',
@@ -25,7 +51,7 @@ export const npcActions: Record<string, any> = {
       { costs: { wood: 15, stone: 15 }, reward: 'item-cookie', dialogueKey: 'npc_baker_4' },
       { cost: 25, costType: 'energy', reward: 'item-cookie', dialogueKey: 'npc_baker_5' },
     ],
-    execute: (state: any) => {
+    execute: (state: GameState) => {
       return state.npcExecute('act-npc-baker');
     },
   },
@@ -168,6 +194,9 @@ export const npcActions: Record<string, any> = {
         costType: 'energy',
         requirements: { 'flags.read_book_1_complete': true, 'flags.read_book_2_complete': true },
         reward: 'school_graduate',
+        onSuccess: [
+          { type: 'unlockItem', id: 'item-book-knowledge' }
+        ],
         dialogueKey: 'npc_teacher_6',
       },
       {
@@ -445,7 +474,7 @@ export const npcActions: Record<string, any> = {
         dialogueKey: 'npc_aris_6',
       },
     ],
-    execute: (state: any) => {
+    execute: (state: GameState) => {
       return state.npcExecute('act-npc-aris');
     },
   },

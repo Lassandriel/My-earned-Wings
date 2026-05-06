@@ -174,8 +174,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     desc: 'item_crystal_apple_desc',
     image: 'img/items/crystal_apple.webp',
     consumable: true,
-    satiation: 30,
-    energy: 20,
+    effect: { satiation: 30, energy: 20 },
     category: 'food',
   },
   'item-book-knowledge': {
