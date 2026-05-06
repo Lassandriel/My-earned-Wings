@@ -120,7 +120,10 @@ export const createUISystem = () => {
 
         if (path === 'flags.build-house') label = store.t('ui_house');
         else if (path === 'flags.unlocked-library') label = store.t('ui_library');
-        else if (path.startsWith('flags.')) label = store.t('ui_' + path.replace('flags.', '')) || path;
+        else if (path === 'flags.read_book_1_complete') label = store.t('item_book_lore_1_title', 'items');
+        else if (path === 'flags.read_book_2_complete') label = store.t('item_book_lore_2_title', 'items');
+        else if (path === 'flags.school_graduate') label = store.t('school_graduate') || 'Abschluss';
+        else if (path.startsWith('flags.')) label = store.t('ui_' + path.replace('flags.', '')) || store.t(path.replace('flags.', '')) || path;
 
         const met = store.actions.checkRequirement(store, path, rule);
 
@@ -143,7 +146,13 @@ export const createUISystem = () => {
 
       if (step.reward) {
         const item = store.content.get(step.reward, 'items');
-        effects.push(`1 ${item ? store.t(item.title, 'items') : step.reward}`);
+        if (item) {
+          effects.push(`1 ${store.t(item.title, 'items')}`);
+        } else {
+          // It's a flag or special reward, translate it
+          const label = store.t(step.reward) || store.t('ui_' + step.reward) || step.reward;
+          effects.push(`${label} ${store.t('ui_unlocked')}`);
+        }
       }
 
       step.onSuccess?.forEach((eff) => {

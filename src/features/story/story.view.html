@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <div class="story-archive-layout" x-show="$store.game.storyHistory.length > 0">
+  <div class="story-archive-layout" x-show="$store.game.storyHistory.length > 0 || $store.game.flags['unlocked-library']">
     <!-- Sidebar: NPC List -->
     <div class="story-archive-sidebar">
       <div
@@ -76,26 +76,49 @@
       </div>
 
       <!-- LIBRARY CONTENT -->
-      <div class="library-books-container p-lg" x-show="$store.game.selectedStoryNpc === 'library'" x-transition>
-        <template x-for="bookId in ['act-read-lore-1', 'act-read-lore-2']" :key="bookId">
-          <div class="library-book-card card-premium p-md m-b-lg">
+      <div 
+        class="library-books-container p-lg" 
+        x-show="$store.game.selectedStoryNpc === 'library'" 
+        x-transition
+        x-data="{
+          getLoreActions() {
+            return Object.keys($store.game.content.registries.actions)
+              .filter(id => $store.game.content.get(id, 'actions').category === 'lore')
+              .sort((a, b) => a.includes('read') ? -1 : 1);
+          },
+          getDisplayName(id) {
+             const act = $store.game.content.get(id, 'actions');
+             const itemId = id.replace('act-read-lore-', 'item-book_lore_');
+             const item = $store.game.content.get(itemId, 'items');
+             return item ? $store.game.t(item.title, 'items') : $store.game.t(id, 'actions').title;
+          },
+          getDisplayDesc(id) {
+             const act = $store.game.content.get(id, 'actions');
+             const itemId = id.replace('act-read-lore-', 'item-book_lore_');
+             const item = $store.game.content.get(itemId, 'items');
+             return item ? $store.game.t(item.desc, 'items') : $store.game.t(id, 'actions').desc;
+          }
+        }"
+      >
+        <template x-for="bookId in getLoreActions()" :key="bookId">
+          <div class="library-book-card card-premium p-md m-b-lg" x-show="$store.game.unlockedRecipes.includes(bookId)">
             <div class="book-info-row">
               <div class="book-visual">
                  <span class="book-icon" x-text="$store.game.content.get(bookId, 'actions').icon"></span>
               </div>
               <div class="book-details">
-                <h4 class="text-gold" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-lore-', 'item-book_lore_'), 'items').title, 'items')"></h4>
-                <p class="text-dim m-b-sm" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-lore-', 'item-book_lore_'), 'items').desc, 'items')"></p>
+                <h4 class="text-gold" x-text="getDisplayName(bookId)"></h4>
+                <p class="text-dim m-b-sm" x-text="getDisplayDesc(bookId)"></p>
                 
-                <!-- Progress Bar -->
-                <div class="book-progress-wrapper">
+                <!-- Progress Bar (Only for Stepped Actions) -->
+                <div class="book-progress-wrapper" x-show="$store.game.content.get(bookId, 'actions').steps">
                   <div class="book-progress-bar">
                     <div 
                       class="book-progress-fill" 
-                      :style="'width: ' + (($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) / 10 * 100) + '%'"
+                      :style="'width: ' + (($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) / ($store.game.content.get(bookId, 'actions').maxProgress || 10) * 100) + '%'"
                     ></div>
                   </div>
-                  <span class="book-progress-text" x-text="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) + ' / 10'"></span>
+                  <span class="book-progress-text" x-text="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) + ' / ' + ($store.game.content.get(bookId, 'actions').maxProgress || 10)"></span>
                 </div>
               </div>
             </div>
@@ -103,13 +126,20 @@
             <div class="book-actions m-t-md">
               <button 
                 class="btn-premium"
-                :disabled="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) >= 10 || $store.game.activeFocus === bookId"
+                :disabled="($store.game.content.get(bookId, 'actions').steps && ($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) >= ($store.game.content.get(bookId, 'actions').maxProgress || 10)) || $store.game.activeTasks[bookId]"
                 @click="$store.game.attemptAction($el, bookId)"
                 @mouseenter="$store.game.setHovered(bookId)"
                 @mouseleave="$store.game.setHovered(null)"
               >
-                <span x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) < 10" x-text="$store.game.t('ui_read')"></span>
-                <span x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) >= 10">✓</span>
+                <template x-if="$store.game.content.get(bookId, 'actions').steps">
+                  <span>
+                    <span x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) < ($store.game.content.get(bookId, 'actions').maxProgress || 10)" x-text="$store.game.t('ui_read')"></span>
+                    <span x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) >= ($store.game.content.get(bookId, 'actions').maxProgress || 10)">✓</span>
+                  </span>
+                </template>
+                <template x-if="!$store.game.content.get(bookId, 'actions').steps">
+                  <span x-text="$store.game.t(bookId, 'actions').title"></span>
+                </template>
               </button>
             </div>
           </div>
