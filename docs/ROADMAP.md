@@ -176,6 +176,7 @@ The internal architecture has been fully refactored into a modular, automated sy
 - [x] **Chronicle & Library Refactor (v1.3.2)**: Overhauled the Chronicle view to be accessible as soon as the Library is unlocked. Moved "Binding Books" from Crafting to the Library to better align with the theme of recording knowledge.
 - [x] **Story Integrity (v1.3.2)**: Ensured all NPC interactions are recorded in the story history by adding the `isStory` flag to all NPC actions.
 - [x] **Aura-Tower Accessibility (v1.3.2)**: Resolved the "Demo End" confusion by ensuring the Home Tower blueprint is correctly awarded and buildable before the final teaser encounter.
+- [x] **Global Responsive Navigation (v1.3.2)**: Centralized all sub-category navigation styles into a unified global `tabs.css`. Implemented `flex-wrap` and `flex-shrink` hardening to ensure tab buttons wrap correctly on narrow screens without overlapping or squashing, providing a premium experience on all resolutions.
 
 
 ---
