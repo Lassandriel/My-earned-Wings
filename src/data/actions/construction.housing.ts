@@ -72,6 +72,7 @@ export const housingConstruction = {
       { type: 'unlockNPC', id: 'npc-aris' },
       { type: 'unlockRecipe', id: 'act-meditate' },
     ],
+    modifiers: [{ key: 'magic_limit', add: 50 }],
     logKey: 'milestone_sanctum',
     logColor: 'var(--accent-purple)',
   },

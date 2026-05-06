@@ -64,6 +64,7 @@ export default {
   npc_aris_3: '"Magie ist nicht nur Macht, sie ist Verantwortung."',
   npc_aris_4: '"Deine Verbindung zum Aether wird stärker."',
   npc_aris_5: '"Du hast das Herz von Draconia berührt."',
+  npc_treeOfLife_1: '"Ich bin der Puls dieser Welt. Deine Reise hat gerade erst begonnen, Kleiner."',
   // --- LORE BOOKS ---
   lore_1_step_1: 'Ignis Aurum, der Drachenkaiser, herrscht mit eiserner Disziplin und einem Herz aus Feuer über Draconia.',
   lore_1_step_2: 'Kaiserin Amaterasu stammt aus dem westlichen Kristallreich. Ihre Sonnengnade wärmt das gesamte Kaiserreich.',

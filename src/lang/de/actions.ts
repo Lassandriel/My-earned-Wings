@@ -125,6 +125,11 @@ export default {
     desc: 'Baue seltene Kristalle in der dunklen Mine ab.',
     effect: '+{val} Splitter & Stein',
   },
+  'act-collect-water': {
+    title: 'Wasser schöpfen',
+    desc: 'Hole frisches Wasser aus dem Waldsee.',
+    effect: '+1 Wasser',
+  },
   'act-pick-flowers': {
     title: 'Blumen pflücken',
     desc: 'Sammle bunte Wiesenblumen für dein Heim.',

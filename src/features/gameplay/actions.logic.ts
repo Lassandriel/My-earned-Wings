@@ -203,14 +203,15 @@ export function createActionSystem() {
       return;
     }
 
-    const costType = action.costType;
-    if (!costType || costType === 'none') return;
+    const hasCosts = !!(action.costs || (action.costType && action.costType !== 'none'));
+    if (!hasCosts) return;
 
-    const effectiveCosts = costType === 'mixed' ? action.costs! : { [costType]: action.cost! };
+    const effectiveCosts = action.costs ? { ...action.costs } : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
 
     const firstMissing = Object.keys(effectiveCosts).find((r) => {
       const resId = r as ResourceId;
-      return !game.resource.canAfford(game, resId, (effectiveCosts as any)[resId]);
+      const amount = (effectiveCosts as any)[resId];
+      return !game.resource.canAfford(game, resId, amount);
     });
 
     if (firstMissing) {
@@ -252,12 +253,9 @@ export function createActionSystem() {
         if (!met) return { success: false };
       }
 
-      let costs: Record<string, number> =
-        action.costType === 'mixed'
-          ? { ...action.costs }
-          : action.costType && action.costType !== 'none'
-            ? { [action.costType]: action.cost! }
-            : {};
+      let costs: Record<string, number> = action.costs 
+        ? { ...action.costs } 
+        : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
 
       // Safety Guard: Automated loops stop if satiation is too low
       if (game.activeFocus === id && game.stats.satiation < 5) {

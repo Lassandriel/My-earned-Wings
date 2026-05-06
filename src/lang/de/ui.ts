@@ -240,5 +240,7 @@ export default {
   nav_inventory: 'Inventar und Ressourcen',
   receive_books: 'Bücher erhalten! Du kannst sie jetzt in deiner Chronik lesen.',
   receive_apple: 'Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.',
+  item_crystal_apple_title: 'Kristallapfel',
+  item_crystal_apple_desc: 'Ein glasartig schimmernder Apfel, der auf magische Weise nährt (+30 Sättigung, +20 Energie).',
   act_read_lore_1_title: 'Studium: Kaiserliche Blutlinie',
 };

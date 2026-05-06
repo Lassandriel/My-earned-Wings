@@ -273,7 +273,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     image: 'img/items/mana_crystal.webp',
     consumable: false,
     category: 'items',
-    modifiers: [{ key: 'garden_magic_cost', mult: 0.8 }],
+    modifiers: [{ key: 'garden_magic_cost', add: -1 }],
   },
   'item-bed-2': {
     id: 'item-bed-2',
@@ -329,7 +329,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     consumable: false,
     category: 'furniture',
     spaceCost: 2,
-    modifiers: [{ key: 'study_efficiency', add: 0.2 }],
+    modifiers: [{ key: 'study_efficiency', add: 1 }],
   },
   'item-cart-reinforced': {
     id: 'item-cart-reinforced',
@@ -339,8 +339,8 @@ export const itemDb: Record<string, ItemDefinition> = {
     consumable: false,
     category: 'tools',
     modifiers: [
-      { key: 'wood_yield', mult: 1.1 },
-      { key: 'stone_yield', mult: 1.1 },
+      { key: 'wood_yield', add: 1 },
+      { key: 'stone_yield', add: 1 },
     ],
   },
   'item-mana-basin': {
@@ -351,7 +351,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     consumable: false,
     category: 'furniture',
     spaceCost: 1,
-    modifiers: [{ key: 'magic_regen_passive', add: 0.1 }],
+    modifiers: [{ key: 'magic_regen_passive', add: 1 }],
   },
   'item-terrace': {
     id: 'item-terrace',

@@ -84,6 +84,14 @@ The internal architecture has been fully refactored into a modular, automated sy
 - [x] **Town Hall Realism**: Changed Step 1 reward from shards to official "Wanderer Registration" to match the NPC's role.
 - [x] **I18n Synchronization**: Completed all missing log keys (`malus_satiation`, `fail_low_efficiency`) across DE and EN.
 - [x] **NPC Dialogue Polish**: Conducted a comprehensive audit of all NPC dialogues. Synchronized dialogue texts with actual rewards and requirements. Fixed a critical mismatch in the Hunter questline and added unique dialogues for the Tree of Life.
+- [x] **Mechanics Audit & Logic Hardening**: Detailed audit of game mechanics. Fixed critical rounding issues in the ValuePipeline by adjusting fractional modifiers (Regeneration, Efficiency) to meaningful whole numbers.
+- [x] **I18n Synchronization**: Audited and synchronized all modularized language files (`npcs.ts`, `ui.ts`). Resolved missing German keys for the Tree of Life and Crystal Apple.
+- [x] **Crafting Logic Hardening**: Fixed a critical bug in the Workshop where items could be crafted without meeting all resource requirements. Corrected the cost validation logic to properly handle 'Mixed' costs without requiring redundant data flags.
+- [x] **Progression Deadlock Fix**: Resolved a critical "Catch-22" in the Flower Girl questline. Added a basic "Collect Water" action to the Forest to allow gathering water before the Garden is built, enabling early-game quest progression.
+- [x] **Global I18n Hardening (v1.3.2)**: Resolved critical audit failures for the 'Collect Water' action. Standardized log variable delegation (`{name}`, `{text}`) across all languages to ensure 100% project integrity.
+- [x] **Logic & Progression Hardening (v1.3.2)**: Fixed a critical blocker in Aris's questline by correcting the `maxProgress` registry. Synchronized Teacher Aria's progress bar.
+- [x] **Magic Limit Refactor (v1.3.2)**: Removed the manual "Study" action and integrated magic limit progression (+50) into the building of the **Arcane Sanctum**. This ensures the 100 magic required for late-game content is reachable through natural progression.
+- [x] **Aura-Tower Accessibility (v1.3.2)**: Resolved the "Demo End" confusion by ensuring the Home Tower blueprint is correctly awarded and buildable before the final teaser encounter.
 
 
 ---
@@ -102,4 +110,4 @@ The internal architecture has been fully refactored into a modular, automated sy
 
 ---
 
-Last updated: May 2026 · v1.3.1-stable-ui-polish
+Last updated: May 2026 · v1.3.2-progression-fix

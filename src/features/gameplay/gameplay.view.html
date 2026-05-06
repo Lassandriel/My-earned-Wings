@@ -192,14 +192,6 @@
         </div>
       </section>
 
-      <!-- STUDY -->
-      <section class="action-group" x-show="$store.game.flags['item-book-knowledge']" x-collapse>
-        <div class="btn-list">
-          <button class="game-btn" @click="$store.game.executeAction('act-study')" @mouseover="$store.game.setHovered('act-study')" @mouseout="$store.game.setHovered(null)">
-            <span x-text="$store.game.t('act-study', 'actions').title"></span>
-          </button>
-        </div>
-      </section>
     </div>
   </div>
 </div>

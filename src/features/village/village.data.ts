@@ -45,7 +45,7 @@ export const NPC_REGISTRY: Record<string, NPCDefinition> = {
     color: '#3b82f6',
     image: 'img/npcs/teacher_aria.webp',
     progKey: 'teacher',
-    maxProgress: 7,
+    maxProgress: 4,
     chapter: 'Village Life',
     unlockedAtStart: true,
   },
@@ -122,7 +122,7 @@ export const NPC_REGISTRY: Record<string, NPCDefinition> = {
     color: '#8b5cf6',
     image: 'img/npcs/Aris.webp',
     progKey: 'aris',
-    maxProgress: 5,
+    maxProgress: 6,
     chapter: 'The Dream',
   },
 };

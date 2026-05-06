@@ -10,7 +10,7 @@ export const BUFF_REGISTRY: Record<string, BuffDefinition> = {
     title: 'item_gourmet_meal_title',
     desc: 'buff_gourmet_desc',
     duration: 300, // 5 minutes
-    modifiers: [{ key: 'energy_reg_bonus', add: 0.1 }],
+    modifiers: [{ key: 'energy_reg_bonus', add: 1 }],
   },
   'buff-harvest': {
     id: 'buff-harvest',

@@ -126,6 +126,11 @@ export default {
     desc: 'Extract rare crystals in the dark mine.',
     effect: '+{val} Shards & Stone',
   },
+  'act-collect-water': {
+    title: 'Collect Water',
+    desc: 'Fetch fresh water from the forest lake.',
+    effect: '+1 Water',
+  },
   'act-pick-flowers': {
     title: 'Pick Flowers',
     desc: 'Gather colorful wild flowers for your home.',

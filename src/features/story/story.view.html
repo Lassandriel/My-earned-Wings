@@ -84,8 +84,8 @@
                  <span class="book-icon" x-text="$store.game.content.get(bookId, 'actions').icon"></span>
               </div>
               <div class="book-details">
-                <h4 class="text-gold" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-', 'item-'), 'items').title, 'items')"></h4>
-                <p class="text-dim m-b-sm" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-', 'item-'), 'items').desc, 'items')"></p>
+                <h4 class="text-gold" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-lore-', 'item-book_lore_'), 'items').title, 'items')"></h4>
+                <p class="text-dim m-b-sm" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-lore-', 'item-book_lore_'), 'items').desc, 'items')"></p>
                 
                 <!-- Progress Bar -->
                 <div class="book-progress-wrapper">

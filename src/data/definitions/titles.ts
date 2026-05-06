@@ -17,7 +17,7 @@ export const TITLE_REGISTRY: Record<TitleId, TitleDefinition> = {
     nameKey: 'title_wise_name',
     descKey: 'title_wise_desc',
     icon: '📚',
-    modifiers: [{ key: 'study_efficiency', mult: 1.15 }]
+    modifiers: [{ key: 'study_efficiency', add: 1 }]
   },
   'title-master': {
     id: 'title-master',
@@ -38,6 +38,6 @@ export const TITLE_REGISTRY: Record<TitleId, TitleDefinition> = {
     nameKey: 'title_arcane_name',
     descKey: 'title_arcane_desc',
     icon: '🔮',
-    modifiers: [{ key: 'magic_regen_passive', add: 0.1 }]
+    modifiers: [{ key: 'magic_regen_passive', add: 1 }]
   }
 };

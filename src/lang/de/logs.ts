@@ -19,8 +19,8 @@ export default {
   // ==========================================
   // INTRO, STORY & DIALOGE
   // ==========================================
-  npc_dialogue_log: '{nameKey}: {textKey}',
-  lore_entry_log: '📖 Lore: {textKey}',
+  npc_dialogue_log: '<strong>{name}:</strong> {text}',
+  lore_entry_log: '📖 Lore: {text}',
   ellie_tutorial_1: 'Willkommen in Draconia! Ich bin Ellie, deine Begleiterin am Boden.',
   ellie_tutorial_2: 'Hier unten sammelst du Ressourcen und baust eine neue Heimat auf, um eines Tages wieder aufsteigen zu können.',
   ellie_tutorial_3: 'Beginne damit, Zweige zu sammeln. Nutze den "Fokus", wenn du dich auf eine Sache spezialisieren willst!',
@@ -117,6 +117,7 @@ export default {
   whisper_wood_log: 'Du sammelst silbrig glänzendes Geisterholz.',
   whisper_pollen_log: 'Du fängst leuchtenden Pollen in der Luft ein.',
   garden_water_log: 'Frisches Quellwasser für den Garten geschöpft.',
+  collect_water_log: 'Du schöpfst klares Wasser aus einem Bach im Wald.',
   garden_harvest_log: 'Frische Kräuter geerntet. +{gain}',
   cook_gourmet_success: 'Das Festmahl ist bereit! Du fühlst dich gestärkt.',
   tree_unlocked_log: 'Ein uraltes Zittern geht durch die Erde. Der Baum des Lebens ist erwacht!',
