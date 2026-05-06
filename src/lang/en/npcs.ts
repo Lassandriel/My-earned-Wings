@@ -45,7 +45,7 @@ export default {
   npc_hunter_2: '"A bow takes patience, {player}. And good ash wood."',
   npc_hunter_3: '"Take this bow, {player}. It will be your voice in the thicket."',
   npc_hunter_4: '"The forest gives what we need, {player}. If we respect it."',
-  npc_hunter_5: '"shadows belong to us both now. I hunt at your side, {player}."',
+  npc_hunter_5: '"Shadows belong to us both now. I hunt at your side, {player}."',
   npc_sage_1: '"Knowledge is a burden. I am the Sage. Read this book, Shifter."',
   npc_sage_2: '"The stars whisper of past ages, {player}."',
   npc_sage_3: '"Your mind expands, {player}... do you see the patterns?"',

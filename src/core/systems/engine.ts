@@ -129,6 +129,17 @@ export function createEngineSystem(): Engine {
         const cost = store.pipeline.calculate(store, 'arcane_focus_cost', 3) * deltaTime;
         if (store.stats.magic >= cost) {
           store.resource.consume(store, 'magic', cost, true);
+
+          // AUTO-EXECUTE for Instant actions (every 2s)
+          const actionId = store.activeFocus;
+          const action = store.content.get<ActionDefinition>(actionId, 'actions');
+          if (action && !action.duration && action.isLoopable) {
+            (this as any).focusAccumulator = ((this as any).focusAccumulator || 0) + deltaTime;
+            if ((this as any).focusAccumulator >= 2) {
+              store.executeAction(actionId);
+              (this as any).focusAccumulator = 0;
+            }
+          }
         } else {
           store.activeFocus = null;
           store.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');

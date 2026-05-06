@@ -16,7 +16,7 @@ export default {
     '"Wunderbar, {player}! Diese Kräuter werden dem Dorf im Winter helfen. Hier ist der Bauplan für das Haus am See, den ich versprochen habe."',
   npc_flowerGirl_7:
     '"Du hast mir so viel geholfen... Ich kenne einen Ort, tief im Wald, den nur wenige sehen können. Es ist der Flüsterhain. Hier, nimm diesen Pfad. Aber sei vorsichtig mit den Geistern dort."',
-  npc_artisan_1: '"Ich bin Geron. Holz ist der Anfang von alles. Ein Wanderstock gibt dir Halt."',
+  npc_artisan_1: '"Ich bin Geron. Holz ist der Anfang von allem. Ein Wanderstock gibt dir Halt."',
   npc_artisan_2: '"Stein ist geduldig, {player}. Er formt die Welt, Schritt für Schritt."',
   npc_artisan_3: '"Präzision ist alles. Nimm diesen Meißel, {player}, und forme dein Schicksal."',
   npc_teacher_1: '"Du bist... der Bodengebundene, nicht wahr? Der Einzige. Ich bin Aria, die Lehrerin hier."',
@@ -39,7 +39,7 @@ export default {
   npc_townHall_4:
     '"Du bist hier jetzt bekannt, {player}. Ein wertvolles Mitglied unserer Gemeinschaft. Wenn du noch ein wenig mehr gibst, kann ich dir, den Platz wo du wohnst, verkaufen."',
   npc_townHall_5:
-    '"Diese Urkunde besiegelt deinen Platz in Draconia, {player}. Du darfst nun ein Haus bauen. Wenn du Hilfe brauchst, bin ich mir sicher das die anderen Dorfbewohner dir gerne helfen."',
+    '"Diese Urkunde besiegelt deinen Platz in Draconia, {player}. Du darfst nun ein Haus bauen. Wenn du Hilfe brauchst, bin ich mir sicher, dass die anderen Dorfbewohner dir gerne helfen."',
   npc_blacksmith_1: '"Wer stört in der Schmiede? Ah... ich bin Thorin. und du?"',
   npc_blacksmith_2: '"Magie im Feuer, {player}. Du verstehst das Handwerk."',
   npc_blacksmith_3: '"Ein Felsen ist nur ein Hindernis, {player}, bis man ihn bricht."',

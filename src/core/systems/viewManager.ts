@@ -154,12 +154,14 @@ export const createViewManagerSystem = () => ({
       shards: Math.round(counters.shards || 0),
       actions: counters.totalActions || 0,
       energySpent: Math.round(counters.totalEnergySpent || 0),
-      npcs: store.t('ui_stat_fraction', 'ui')
-        .replace('{val}', store.unlockedNPCs.length.toString())
-        .replace('{max}', totalNpcsAvailable.toString()),
-      items: store.t('ui_stat_fraction', 'ui')
-        .replace('{val}', store.discoveredItems.length.toString())
-        .replace('{max}', totalItemsAvailable.toString()),
+      npcs: store.t('ui_stat_fraction', 'ui', {
+        val: store.unlockedNPCs.length,
+        max: totalNpcsAvailable
+      }),
+      items: store.t('ui_stat_fraction', 'ui', {
+        val: store.discoveredItems.length,
+        max: totalItemsAvailable
+      }),
     };
 
     // 2. Clear auto-loops and ongoing tasks

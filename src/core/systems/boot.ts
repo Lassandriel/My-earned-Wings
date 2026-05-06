@@ -69,7 +69,7 @@ export const createBootSystem = () => {
       this.execBoot(store, contentSystems);
 
       // 3. Logic & Flow
-      const logicSystems = ['actions', 'npc', 'story', 'engine', 'item', 'housing', 'dialogue', 'ellie', 'viewManager'];
+      const logicSystems = ['resource', 'actions', 'npc', 'story', 'engine', 'item', 'housing', 'dialogue', 'ellie', 'viewManager', 'titles'];
       this.execBoot(store, logicSystems);
 
       console.log('[Bootstrapper] System sequence complete.');

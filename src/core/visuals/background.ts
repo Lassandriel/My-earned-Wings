@@ -6,10 +6,10 @@ import { GameState } from '../../types/game';
  */
 export const createBackgroundSystem = () => {
   const SET_CONFIG: Record<string, { layers: number; duration: number }> = {
-    'background 1': { layers: 6, duration: 150 }, // Morning
-    'background 2': { layers: 4, duration: 150 }, // Midday
-    'background 3': { layers: 4, duration: 150 }, // Evening
-    'background 4': { layers: 3, duration: 150 }, // Night
+    'background_1': { layers: 6, duration: 150 }, // Morning
+    'background_2': { layers: 4, duration: 150 }, // Midday
+    'background_3': { layers: 4, duration: 150 }, // Evening
+    'background_4': { layers: 3, duration: 150 }, // Night
   };
 
   return {
@@ -21,11 +21,11 @@ export const createBackgroundSystem = () => {
         const totalTime = store.counters.totalTime || 0;
         const cycleTime = totalTime % 600; // 10 minute full cycle
         
-        let targetSet = 'background 1';
-        if (cycleTime < 150) targetSet = 'background 1';
-        else if (cycleTime < 300) targetSet = 'background 2';
-        else if (cycleTime < 450) targetSet = 'background 3';
-        else targetSet = 'background 4';
+        let targetSet = 'background_1';
+        if (cycleTime < 150) targetSet = 'background_1';
+        else if (cycleTime < 300) targetSet = 'background_2';
+        else if (cycleTime < 450) targetSet = 'background_3';
+        else targetSet = 'background_4';
 
         if (this.currentSet !== targetSet) {
           this.updateBackground(targetSet);

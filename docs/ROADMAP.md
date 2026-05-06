@@ -69,7 +69,13 @@ The internal architecture has been fully refactored into a modular, automated sy
 - [x] **Strict Type Consolidation**: Unified all scattered `GameState` extensions into a single, authoritative interface.
 - [x] **Architectural Decentralization (v1.3.0)**: Broke the "State-Monolith" by moving frequent/large data structures into specialized Alpine stores.
 - [x] **Store Synchronization Hardening (v1.3.1)**: Resolved critical race conditions and reactivity holes in Alpine.js store initialization. Unified 'game' and 'ui' stores and migrated view templates to a centralized store pattern for 100% stability.
-- [x] **Visual Polish & Glassmorphism**: Optimized global blur effects for better readability and a premium aesthetic.
+### Phase 13.2: Playtester Hardening & Lore Correction (v1.3.2)
+- [x] **Garden Progression Fix**: Removed the restrictive blueprint requirement for the Garden. It now unlocks reliably after building a House or Tent.
+- [x] **Soft-Lock Prevention**: Added a secondary source for Herbs (rare drop from flowers) to prevent progression blockers in Mina's questline.
+- [x] **Focus Automation Hardening**: Implemented periodic execution for focused "Instant Actions". Gathering wood or stone now works automatically while focused.
+- [x] **Crafting Logic Hardening**: Fixed a bug in the cost detection system that allowed crafting if only one resource was affordable.
+- [x] **Lore & Tutorial Alignment**: Corrected tutorial texts to remove inaccuracies regarding flight. Updated resource categories (Herbs moved to Provisions).
+- [x] **Visual Micro-Animations**: Refined the status-head hover animation for a more natural vertical float effect.
 
 ---
 
