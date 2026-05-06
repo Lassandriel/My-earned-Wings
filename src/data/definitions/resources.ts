@@ -70,7 +70,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
   herbs: {
     id: 'herbs',
     type: 'resource',
-    category: 'materials',
+    category: 'provisions',
     color: 'var(--accent-teal)',
     initial: 0,
     initialLimit: 50,
@@ -154,6 +154,14 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     color: '#a78bfa',
     initial: 0,
     initialLimit: 50,
+  },
+  quartz: {
+    id: 'quartz',
+    type: 'resource',
+    category: 'materials',
+    color: '#e2e8f0', // Crystal white/grey
+    initial: 0,
+    initialLimit: 25,
   },
 
   // --- PROVISIONS ---

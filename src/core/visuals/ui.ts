@@ -61,25 +61,46 @@ export const createUISystem = () => {
     },
 
     getCosts(store: GameState, hAction: any) {
-      if (!hAction?.data) return [];
+      if (!hAction) return [];
       
-      const action = hAction.data as ActionDefinition;
-      const hId = hAction.id as string;
+      // Handle both { data: action } and action directly (for village view badges)
+      const action = hAction.data || hAction;
+      const hId = hAction.id || action.id;
+
+      if (!action || !hId) return [];
 
       // Determine correct data source (NPC step vs standard action)
       const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
       const source = (prog !== null && action.steps) ? action.steps[prog] : action;
 
-      const results: Array<{ type: string; label: string; value: string; affordable: boolean }> = [];
+      const results: Array<{ 
+        type: string; 
+        label: string; 
+        value: string; 
+        affordable: boolean;
+        // Compatibility fields for village view
+        res: string;
+        name: string;
+        amount: number;
+        has: boolean;
+      }> = [];
 
       const processCost = (type: ResourceId, amt: number) => {
         const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
         const current = store.resources[type] ?? (store as any).stats[type] ?? 0;
+        const isAffordable = current >= finalAmt;
+        const label = getResLabel(store, type);
+
         results.push({
           type,
-          label: getResLabel(store, type),
+          label,
           value: `${Math.floor(current)} / ${finalAmt}`,
-          affordable: current >= finalAmt,
+          affordable: isAffordable,
+          // Legacy/Alternate naming
+          res: type,
+          name: label,
+          amount: finalAmt,
+          has: isAffordable
         });
       };
 

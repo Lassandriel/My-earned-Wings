@@ -3,7 +3,7 @@ export default {
   // SYSTEM & GENERAL
   // ==========================================
   save_success: 'Game saved successfully.',
-  intro_welcome: 'Welcome back to solid ground, {player}.',
+  intro_welcome: 'Welcome to the ground of Draconia, {player}.',
 
   // ==========================================
   // REWARDS & UNLOCKS
@@ -20,9 +20,9 @@ export default {
   // INTRO, STORY & DIALOGUES
   // ==========================================
   npc_dialogue_log: '<strong>{name}:</strong> {text}',
-  ellie_tutorial_1: 'Welcome to Draconia! I am Ellie, your companion on the ground.',
-  ellie_tutorial_2: 'Down here, you will gather resources and build a new home to one day ascend again.',
-  ellie_tutorial_3: 'Start by gathering twigs. Use "Focus" if you want to specialize in one task!',
+  ellie_tutorial_1: 'Welcome to Draconia! I am Ellie, your companion.',
+  ellie_tutorial_2: 'Down here, you will gather resources and build a new home. Who knows what the future holds?',
+  ellie_tutorial_3: 'Start by gathering twigs. Every journey begins with the first piece of wood!',
   intro_1: 'Above you slides a magnificent Wind Dragon effortlessly from roof to roof. In its humanoid form, its folded wings look like a noble cloak.',
   intro_2: 'You take the long way on foot. You are also a dragon - but you cannot transform or manifest wings.',
   intro_3: "A merchant wyvern lands in front of the village gate. It doesn't notice you. You've grown used to others being more powerful.",

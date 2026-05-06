@@ -9,7 +9,6 @@ export const gardenConstruction = {
     image: 'img/addons/garden.webp',
     requirements: { 
       'flags.build-house': true, 
-      'flags.blueprint-garden': true, 
       'flags.build-garden': { op: '!=', val: true } 
     },
     sfx: 'success',
@@ -27,6 +26,7 @@ export const gardenConstruction = {
     costs: { wood: 50, stone: 50, water: 20 },
     requirements: {
       'flags.build-garden': true,
+      'flags.blueprint-garden-upgrade': true,
       'flags.gardenLevel': { op: '<', val: 2 },
     },
     sfx: 'success',

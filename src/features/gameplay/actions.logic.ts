@@ -203,10 +203,10 @@ export function createActionSystem() {
       return;
     }
 
-    const costType = action.costType;
-    if (!costType || costType === 'none') return;
-
-    const effectiveCosts = costType === 'mixed' ? action.costs! : { [costType]: action.cost! };
+    const effectiveCosts: Record<string, number> = action.costs ? { ...action.costs } : {};
+    if (action.cost && action.costType && action.costType !== 'none') {
+      effectiveCosts[action.costType] = (effectiveCosts[action.costType] || 0) + action.cost;
+    }
 
     const firstMissing = Object.keys(effectiveCosts).find((r) => {
       const resId = r as ResourceId;
@@ -245,12 +245,10 @@ export function createActionSystem() {
         if (!met) return { success: false };
       }
 
-      let costs: Record<string, number> =
-        action.costType === 'mixed'
-          ? { ...action.costs }
-          : action.costType && action.costType !== 'none'
-            ? { [action.costType]: action.cost! }
-            : {};
+      const costs: Record<string, number> = action.costs ? { ...action.costs } : {};
+      if (action.cost && action.costType && action.costType !== 'none') {
+        costs[action.costType] = (costs[action.costType] || 0) + action.cost;
+      }
 
       // Safety Guard: Automated loops stop if satiation is too low
       if (game.activeFocus === id && game.stats.satiation < 5) {

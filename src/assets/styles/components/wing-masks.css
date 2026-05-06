@@ -99,6 +99,10 @@
   transform: scale(1.1) rotate(-5deg);
 }
 
+.wing-status-wrapper.head:hover {
+  transform: translateX(-50%) translateY(-10px) scale(1.1);
+}
+
 .wing-status-wrapper.pulse-critical {
   animation: pulse-danger 2s infinite ease-in-out;
 }

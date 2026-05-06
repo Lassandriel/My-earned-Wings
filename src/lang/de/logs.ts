@@ -3,7 +3,7 @@ export default {
   // SYSTEM & ALLGEMEIN
   // ==========================================
   save_success: 'Spiel erfolgreich gespeichert.',
-  intro_welcome: 'Willkommen zurück am festen Boden, {player}.',
+  intro_welcome: 'Willkommen am Boden von Draconia, {player}.',
 
   // ==========================================
   // REWARDS & FREISCHALTUNGEN
@@ -20,9 +20,9 @@ export default {
   // INTRO, STORY & DIALOGE
   // ==========================================
   npc_dialogue_log: '<strong>{name}:</strong> {text}',
-  ellie_tutorial_1: 'Willkommen in Draconia! Ich bin Ellie, deine Begleiterin am Boden.',
-  ellie_tutorial_2: 'Hier unten sammelst du Ressourcen und baust eine neue Heimat auf, um eines Tages wieder aufsteigen zu können.',
-  ellie_tutorial_3: 'Beginne damit, Zweige zu sammeln. Nutze den "Fokus", wenn du dich auf eine Sache spezialisieren willst!',
+  ellie_tutorial_1: 'Willkommen in Draconia! Ich bin Ellie, deine Begleiterin.',
+  ellie_tutorial_2: 'Hier unten sammelst du Ressourcen und baust eine neue Heimat auf. Wer weiß, was die Zukunft bringt?',
+  ellie_tutorial_3: 'Beginne damit, Zweige zu sammeln. Jede Reise beginnt mit dem ersten Griff zum Holz!',
   intro_1: 'Über dir gleitet ein prächtiger Winddrache mühelos von Dach zu Dach. In seiner humanoiden Form wirken seine zusammengeklappten Schwingen wie ein edler Mantel.',
   intro_2: 'Du gehst den langen Weg zu Fuß. Du bist ebenfalls ein Drache - doch du kannst dich nicht verwandeln oder Flügel manifestieren.',
   intro_3: 'Ein Händler-Wyvern landet vor dem Dorftor. Er bemerkt dich nicht. Du hast dich daran gewöhnt, das andere mächtiger sind als du.',

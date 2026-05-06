@@ -67,7 +67,7 @@ export const npcActions: Record<string, any> = {
         costType: 'energy',
         onSuccess: [
           { type: 'unlockNPC', id: 'npc-blacksmith' },
-          { type: 'setFlag', flag: 'blueprint-garden', value: true }
+          { type: 'setFlag', flag: 'blueprint-garden-upgrade', value: true }
         ],
         dialogueKey: 'npc_flowerGirl_5',
       },

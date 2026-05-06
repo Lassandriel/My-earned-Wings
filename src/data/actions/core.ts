@@ -117,8 +117,8 @@ export const coreActions: Record<string, any> = {
     requirements: { 'flags.item-pickaxe': true },
     counter: 'stone',
     isLoopable: true,
-    rewards: { stone: 10, shards: 5 },
-    particleText: 'ui_shards',
+    rewards: { stone: 10, shards: 5, quartz: 2 },
+    particleText: 'ui_quartz',
     particleType: 'shards',
     logKey: 'mine_quartz_log',
   },
@@ -138,6 +138,12 @@ export const coreActions: Record<string, any> = {
     particleText: 'ui_flowers',
     particleType: 'energy',
     logKey: 'pick_flowers_log',
+    execute: (game: any) => {
+      if (Math.random() < 0.2) {
+        game.resource.add(game, 'herbs', 1);
+        return { logParams: { extra: ' (+1 ' + game.t('ui_herbs') + ')' } };
+      }
+    }
   },
   'act-garden-plant': {
     id: 'act-garden-plant',
