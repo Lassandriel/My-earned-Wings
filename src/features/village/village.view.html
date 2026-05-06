@@ -54,7 +54,7 @@
 
   <!-- VILLAGE SUB-VIEW -->
   <div x-show="locTab === 'village'" x-transition>
-    <div class="game-grid">
+    <div class="game-grid centered-grid">
       <!-- NPC CARDS -->
       <template x-for="npcId in $store.game.unlockedNPCs.filter(id => !$store.game.content.get(id, 'npcs')?.isVandara)" :key="npcId">
         <div
@@ -175,7 +175,7 @@
         <p class="vandara-hint" x-text="$store.game.t('ui_vandara_path_hint')"></p>
       </header>
       
-      <div class="game-grid">
+      <div class="game-grid npc-grid">
         <template x-for="npcId in ['npc-magistra_solen', 'npc-meister_bram', 'npc-lyra']" :key="npcId">
           <div
             class="game-card npc-card path-card"

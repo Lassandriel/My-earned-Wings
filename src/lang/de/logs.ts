@@ -19,10 +19,12 @@ export default {
   // ==========================================
   // INTRO, STORY & DIALOGE
   // ==========================================
-  npc_dialogue_log: '<strong>{name}:</strong> {text}',
+  npc_dialogue_log: '{nameKey}: {textKey}',
+  lore_entry_log: '📖 Lore: {textKey}',
   ellie_tutorial_1: 'Willkommen in Draconia! Ich bin Ellie, deine Begleiterin am Boden.',
   ellie_tutorial_2: 'Hier unten sammelst du Ressourcen und baust eine neue Heimat auf, um eines Tages wieder aufsteigen zu können.',
   ellie_tutorial_3: 'Beginne damit, Zweige zu sammeln. Nutze den "Fokus", wenn du dich auf eine Sache spezialisieren willst!',
+  ellie_tutorial_4: 'Achte auf deine Sättigung! Sie sinkt, wenn du Energie oder Magie verbrauchst. Wenn du hungrig bist, wird jede Arbeit viel anstrengender und teurer. Iss regelmäßig Beeren oder Mahlzeiten, um effizient zu bleiben.',
   intro_1: 'Über dir gleitet ein prächtiger Winddrache mühelos von Dach zu Dach. In seiner humanoiden Form wirken seine zusammengeklappten Schwingen wie ein edler Mantel.',
   intro_2: 'Du gehst den langen Weg zu Fuß. Du bist ebenfalls ein Drache - doch du kannst dich nicht verwandeln oder Flügel manifestieren.',
   intro_3: 'Ein Händler-Wyvern landet vor dem Dorftor. Er bemerkt dich nicht. Du hast dich daran gewöhnt, das andere mächtiger sind als du.',
@@ -38,6 +40,7 @@ export default {
   fail_buff_active: 'Wirkung ist noch aktiv.',
   fail_furniture_space: 'Nicht genügend Platz für weitere Möbel!',
   fail_satiation_loop: 'Zu hungrig für konzentrierte Arbeit!',
+  fail_low_efficiency: 'Du bist zu erschöpft! Die Anstrengung ist gerade zu groß (niedrige Sättigung).',
   
   // Fails - Ressourcen fehlen
   fail_energy: 'Nicht genügend Energie.',

@@ -20,9 +20,11 @@ export default {
   // INTRO, STORY & DIALOGUES
   // ==========================================
   npc_dialogue_log: '<strong>{name}:</strong> {text}',
+  lore_entry_log: '📖 Lore: {textKey}',
   ellie_tutorial_1: 'Welcome to Draconia! I am Ellie, your companion on the ground.',
   ellie_tutorial_2: 'Down here, you will gather resources and build a new home to one day ascend again.',
   ellie_tutorial_3: 'Start by gathering twigs. Use "Focus" if you want to specialize in one task!',
+  ellie_tutorial_4: 'Pay attention to your Satiation! It decreases whenever you spend Energy or Magic. If you are hungry, every task becomes much more exhausting and expensive. Eat berries or meals regularly to stay efficient.',
   intro_1: 'Above you slides a magnificent Wind Dragon effortlessly from roof to roof. In its humanoid form, its folded wings look like a noble cloak.',
   intro_2: 'You take the long way on foot. You are also a dragon - but you cannot transform or manifest wings.',
   intro_3: "A merchant wyvern lands in front of the village gate. It doesn't notice you. You've grown used to others being more powerful.",
@@ -38,6 +40,7 @@ export default {
   fail_buff_active: 'Effect is still active.',
   fail_furniture_space: 'Not enough furniture space in your home!',
   fail_satiation_loop: 'Too hungry for focused work!',
+  fail_low_efficiency: 'You are too exhausted! The effort is currently too great (low satiation).',
   
   // Fails - Missing Resources
   fail_energy: 'Not enough energy.',

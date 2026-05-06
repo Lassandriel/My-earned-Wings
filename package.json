@@ -1,6 +1,6 @@
 {
   "name": "my-earned-wings",
-  "version": "1.1.4-stable",
+  "version": "1.3.1-stable",
   "private": true,
   "description": "Ein atmosphärisches Spiel über das Finden der eigenen Flügel - Golden Master Core 3.5.",
   "author": "Lassandriel",
@@ -63,10 +63,10 @@
     "tsx": "^4.21.0",
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
-    "vite": "^8.0.4",
+    "vite": "^8.0.10",
     "vite-plugin-ejs": "^1.7.0",
     "vitest": "^4.1.4",
-    "wait-on": "^9.0.4"
+    "wait-on": "^9.0.5"
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.15.11",

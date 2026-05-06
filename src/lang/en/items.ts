@@ -70,4 +70,10 @@ export default {
   item_terrace_title: 'Sun Terrace',
   item_terrace_desc: 'A place of rest and regeneration.',
   item_clay_title: 'Wet Clay',
+  item_book_lore_1_title: 'Book: The Imperial Bloodline',
+  item_book_lore_1_desc: 'A dusty but noble volume about the rulers of Draconia.',
+  item_book_lore_2_title: 'Book: The Floating Lands',
+  item_book_lore_2_desc: 'A detailed treatise on the geography and wonders of the world.',
+  item_crystal_apple_title: 'Crystal Apple',
+  item_crystal_apple_desc: 'A glass-like shimmering apple that nourishes magically (+30 Satiation, +20 Energy).',
 };

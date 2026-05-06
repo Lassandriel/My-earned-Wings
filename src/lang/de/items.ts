@@ -70,4 +70,10 @@ export default {
   item_terrace_title: 'Sonnenterrasse',
   item_terrace_desc: 'Ein Ort der Ruhe und Regeneration.',
   item_clay_title: 'Feuchter Ton',
+  item_book_lore_1_title: 'Buch: Die kaiserliche Blutlinie',
+  item_book_lore_1_desc: 'Ein verstaubter, aber edler Band über die Herrscher Draconias.',
+  item_book_lore_2_title: 'Buch: Die schwebenden Lande',
+  item_book_lore_2_desc: 'Eine detaillierte Abhandlung über die Geographie und Wunder der Welt.',
+  item_crystal_apple_title: 'Kristallapfel',
+  item_crystal_apple_desc: 'Ein gläsern glänzender Apfel, der magisch nährt (+30 Sättigung, +20 Energie).',
 };

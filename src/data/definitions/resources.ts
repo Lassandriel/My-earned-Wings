@@ -15,7 +15,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     initialMax: 50,
     isEssential: true,
     wingSlot: 'left',
-    scalesWithSatiation: true,
+    scalesWithSatiation: false,
     satiationDrain: 0.1,
   },
   magic: {
@@ -27,7 +27,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     initialMax: 50,
     isEssential: true,
     wingSlot: 'right',
-    scalesWithSatiation: true,
+    scalesWithSatiation: false,
     satiationDrain: 0.1,
   },
   satiation: {
@@ -35,8 +35,8 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     type: 'stat',
     category: 'vitality',
     color: 'var(--gold)',
-    initial: 100,
-    initialMax: 100,
+    initial: 50,
+    initialMax: 50,
     isEssential: true,
     wingSlot: 'head',
     scalesWithSatiation: false,

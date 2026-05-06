@@ -52,3 +52,6 @@ Desktop.ini
 *-darwin-x64/
 *-linux-x64/
 /.agents
+
+# Other
+RP_Draconia.md

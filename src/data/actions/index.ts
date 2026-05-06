@@ -5,6 +5,7 @@ import { villageActions } from './village';
 import { magicActions } from './magic';
 import { schoolActions } from '../../features/school/school.data';
 import { vandaraActions } from '../../features/vandara/vandara.data';
+import { loreActions } from './lore';
 
 /**
  * Action Registry Index - TypeScript Version
@@ -17,4 +18,5 @@ export const actionDb: Record<string, any> = {
   ...magicActions,
   ...schoolActions,
   ...vandaraActions,
+  ...loreActions,
 };

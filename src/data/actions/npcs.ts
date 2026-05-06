@@ -137,45 +137,43 @@ export const npcActions: Record<string, any> = {
     isStory: true,
     chapter: 'Village Life',
     progKey: 'teacher',
-    maxProgress: 7,
+    maxProgress: 4,
     journalIcon: '📖',
     icon: '🎓',
     journalColor: '#3b82f6',
     steps: [
       {
-        cost: 12,
-        costType: 'magic',
-        onSuccess: [{ type: 'modifyResource', resource: 'shards', amount: 20 }],
+        cost: 5,
+        costType: 'energy',
+        onSuccess: [
+          { type: 'unlockItem', id: 'item-crystal_apple' },
+          { type: 'log', logKey: 'receive_apple', color: 'var(--gold)' }
+        ],
         dialogueKey: 'npc_teacher_1',
       },
       {
+        cost: 10,
+        costType: 'energy',
+        requirements: { 'flags.build-house': true },
+        onSuccess: [
+          { type: 'unlockItem', id: 'item-book_lore_1' },
+          { type: 'unlockItem', id: 'item-book_lore_2' },
+          { type: 'setFlag', flag: 'unlocked-library', value: true },
+          { type: 'log', logKey: 'receive_books', color: 'var(--gold)' }
+        ],
+        dialogueKey: 'npc_teacher_3',
+      },
+      {
         cost: 15,
-        costType: 'magic',
-        onSuccess: [{ type: 'modifyResource', resource: 'magic', amount: 10 }],
-        dialogueKey: 'npc_teacher_2',
-      },
-      { cost: 20, costType: 'magic', reward: 'item-scroll', dialogueKey: 'npc_teacher_3' },
-      {
-        cost: 25,
-        costType: 'magic',
-        onSuccess: [{ type: 'modifyResource', resource: 'shards', amount: 50 }],
-        dialogueKey: 'npc_teacher_4',
-      },
-      {
-        cost: 30,
-        costType: 'magic',
-        reward: 'item-scroll',
-        dialogueKey: 'npc_teacher_5',
-      },
-      {
-        cost: 40,
-        costType: 'magic',
-        onSuccess: [{ type: 'setFlag', flag: 'school_graduate', value: true }],
+        costType: 'energy',
+        requirements: { 'flags.read_book_1_complete': true, 'flags.read_book_2_complete': true },
+        reward: 'school_graduate',
         dialogueKey: 'npc_teacher_6',
       },
       {
-        cost: 50,
+        cost: 0,
         costType: 'magic',
+        requirements: { 'flags.school_graduate': true },
         onSuccess: [
           { type: 'setFlag', flag: 'vandara_unlocked', value: true },
           { type: 'log', logKey: 'unlock_vandara', color: 'var(--gold)' },
@@ -202,7 +200,10 @@ export const npcActions: Record<string, any> = {
       {
         cost: 20,
         costType: 'energy',
-        onSuccess: [{ type: 'modifyResource', resource: 'shards', amount: 30 }],
+        onSuccess: [
+          { type: 'setFlag', flag: 'registered-resident', value: true },
+          { type: 'log', logKey: 'townhall_registered', color: 'var(--accent-teal)' }
+        ],
         dialogueKey: 'npc_townHall_1',
       },
       {
@@ -213,16 +214,21 @@ export const npcActions: Record<string, any> = {
       },
       {
         costs: { shards: 100 },
-        onSuccess: [{ type: 'modifyResource', resource: 'energy', amount: 30 }],
+        onSuccess: [{ type: 'log', logKey: 'townhall_tax_paid', color: 'var(--accent-teal)' }],
         dialogueKey: 'npc_townHall_3',
       },
       {
-        cost: 30,
-        costType: 'energy',
-        onSuccess: [{ type: 'modifyResource', resource: 'shards', amount: 150 }],
+        costs: { shards: 250 },
+        onSuccess: [{ type: 'log', logKey: 'townhall_land_prepped', color: 'var(--accent-teal)' }],
         dialogueKey: 'npc_townHall_4',
       },
-      { cost: 40, costType: 'energy', reward: 'item-deed', dialogueKey: 'npc_townHall_5' },
+      { 
+        cost: 40, 
+        costType: 'energy',
+        costs: { shards: 500 }, 
+        reward: 'item-deed', 
+        dialogueKey: 'npc_townHall_5' 
+      },
     ],
     execute: (state: any) => {
       return state.npcExecute('act-npc-townHall');
@@ -351,7 +357,7 @@ export const npcActions: Record<string, any> = {
     journalIcon: '🌳',
     icon: '🌳',
     journalColor: '#10b981',
-    steps: [{ cost: 0, costType: 'none', reward: 'item-astral-shards', dialogueKey: 'npc_aris_5' }],
+    steps: [{ cost: 0, costType: 'none', reward: 'item-astral-shards', dialogueKey: 'npc_treeOfLife_1' }],
     execute: (state: any) => {
       const result = state.npcExecute('act-npc-treeOfLife');
       if (result && result.success) {

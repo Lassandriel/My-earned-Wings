@@ -22,10 +22,7 @@
   <!-- Divider (NEW) -->
   <hr class="tt-divider" x-show="$store.game.hoveredAction" />
 
-  <!-- Status / Unlocked (NEW) -->
-  <div class="tt-status" x-show="$store.game.hoveredAction?.id && $store.game.flags[$store.game.hoveredAction.id]">
-    <span class="status-built" x-text="'✓ ' + ($store.game.t('ui_unlocked') || 'Bereits gebaut')"></span>
-  </div>
+  <!-- Status / Active (NEW) -->
   <div class="tt-status" x-show="$store.game.hoveredAction?.data?.onSuccess?.some(e => e.type === 'setHome' && e.id === $store.game.currentHome)">
     <span class="status-active" x-text="'✨ ' + ($store.game.t('ui_active') || 'Momentanes Zuhause')"></span>
   </div>
@@ -44,6 +41,25 @@
         <div class="tt-data-line" :class="line.affordable ? 'tt-ready' : 'tt-blocked'">
           <span x-text="line.label"></span>
           <span x-text="line.value"></span>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <!-- 3b. Requirements Section -->
+  <div
+    class="tt-section"
+    x-show="$store.game.getTooltipRequirements($store.game.hoveredAction).length > 0"
+  >
+    <div class="tt-section-header" x-text="($store.game.t('ui_salary') || 'erfordert') + ':'"></div>
+    <div class="tt-cost-list">
+      <template
+        x-for="req in $store.game.getTooltipRequirements($store.game.hoveredAction)"
+        :key="req.label"
+      >
+        <div class="tt-data-line" :class="req.met ? 'tt-ready' : 'tt-blocked'">
+          <span x-text="req.label"></span>
+          <span x-text="req.value"></span>
         </div>
       </template>
     </div>

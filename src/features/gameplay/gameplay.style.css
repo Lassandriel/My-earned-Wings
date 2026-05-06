@@ -131,6 +131,23 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  user-select: none;
+  transition: opacity 0.2s;
+}
+
+.location-heading:hover {
+  opacity: 1;
+}
+
+.location-heading .expand-icon {
+  font-size: 0.6rem;
+  color: var(--gold);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+}
+
+.location-heading .expand-icon.expanded {
+  transform: rotate(90deg);
 }
 
 .location-heading::after {

@@ -25,14 +25,26 @@ export const createNPCSystem = () => {
       const progKey = action.progKey || id;
       const currentProg = game.npcProgress[progKey] || 0;
       const npcId = action.npcId;
-      
-      if (!npcId) return false;
-      
-      const npcDef = game.content.get<NPCDefinition>(npcId, 'npcs');
+      const npcDef = npcId ? game.content.get<NPCDefinition>(npcId, 'npcs') : null;
       const maxProg = npcDef ? npcDef.maxProgress : (action.maxProgress || 0);
 
       if (currentProg >= maxProg || !action.steps[currentProg]) return false;
       const step = action.steps[currentProg];
+
+      // 0. Requirements (Step-level)
+      if (step.requirements) {
+        const met = Object.entries(step.requirements).every(([path, rule]) => {
+          return game.actions.checkRequirement(game, path, rule);
+        });
+        if (!met) {
+          // If it fails due to requirements, we might want to show a specific dialogue
+          // like Teacher Aria's "come back when you have a house"
+          if (npcId === 'npc-teacher' && !game.flags['build-house'] && currentProg === 1) {
+             game.addLog('npc_teacher_2_no_house', 'logs', 'var(--accent-red)');
+          }
+          return false;
+        }
+      }
 
       // 1. Costs
       const costs: Record<string, number> = { ...(step.costs || {}) };
@@ -72,16 +84,28 @@ export const createNPCSystem = () => {
       game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'success' });
 
       // Format Log: "Name: 'Satz'"
-      if (step.dialogueKey && npcDef) {
-        return {
-          success: true,
-          logKey: 'npc_dialogue_log',
-          logParams: {
-            nameKey: npcDef.nameKey,
-            textKey: step.dialogueKey,
-            dialogContext: 'npcs'
-          },
-        };
+      if (step.dialogueKey) {
+        if (npcDef) {
+          return {
+            success: true,
+            logKey: 'npc_dialogue_log',
+            logParams: {
+              nameKey: npcDef.nameKey,
+              textKey: step.dialogueKey,
+              dialogContext: 'npcs'
+            },
+          };
+        } else {
+          // Lore/Book entry
+          return {
+            success: true,
+            logKey: 'lore_entry_log',
+            logParams: {
+              textKey: step.dialogueKey,
+              dialogContext: 'npcs'
+            },
+          };
+        }
       }
 
       return { success: true };

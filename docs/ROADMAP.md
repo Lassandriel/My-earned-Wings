@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - MY-EARNED-WINGS
 
-## Current Status: Version 1.3.0 (Architecture Refactor)
+## Current Status: Version 1.3.1 (Security & Hardening)
 
 The internal architecture has been fully refactored into a modular, automated system-loading and delegation mechanism. The "God Object" `main.ts` has been replaced with a data-driven system registry.
 
@@ -70,6 +70,21 @@ The internal architecture has been fully refactored into a modular, automated sy
 - [x] **Architectural Decentralization (v1.3.0)**: Broke the "State-Monolith" by moving frequent/large data structures into specialized Alpine stores.
 - [x] **Store Synchronization Hardening (v1.3.1)**: Resolved critical race conditions and reactivity holes in Alpine.js store initialization. Unified 'game' and 'ui' stores and migrated view templates to a centralized store pattern for 100% stability.
 - [x] **Visual Polish & Glassmorphism**: Optimized global blur effects for better readability and a premium aesthetic.
+- [x] **Security Hardening (v1.3.1)**: Closed high-severity vulnerabilities in `axios`, `postcss`, and `ip-address` via `npm audit fix`.
+- [x] **Dependency Modernization (v1.3.1)**: Updated `vite` and `wait-on` to the latest versions for maximum stability.
+- [x] **I18n Perfect Status**: Resolved missing translation keys for the main menu descriptions.
+- [x] **UI Tooltip Cleanup**: Removed redundant "Bonus:" labels and standardized "Neues Rezept" entries.
+- [x] **Tooltip UX Hardening**: Moved furniture space cost to requirements, specified energy regeneration, and eliminated redundant "unlocked" status indicators. Fixed double-colon typos in limits.
+- [x] **Tooltip Info Enhancements**: Added real-time resource stock display to action yields and placement hints for furniture items.
+- [x] **Satiation Balancing**: Standardized Satiation limit to 50 (matching Energy and Magic) for improved consistency.
+- [x] **Housing Logic Balancing**: Removed accidental resource limit bonuses from house building actions (reserved for storage add-ons).
+- [x] **Satiation Logic Refactor**: Shifted from cost-scaling to yield-scaling. Satiation now affects efficiency (0.4x to 1.3x) rather than making actions unaffordable.
+- [x] **Education Questline**: Implemented Teacher Aria's revised questline involving Lore Books, Chronicle study, and the Crystal Apple reward.
+- [x] **UI Tooltip Delegation**: Resolved a critical bug where quest requirements (like "Own House") were not displayed in tooltips.
+- [x] **Town Hall Realism**: Changed Step 1 reward from shards to official "Wanderer Registration" to match the NPC's role.
+- [x] **I18n Synchronization**: Completed all missing log keys (`malus_satiation`, `fail_low_efficiency`) across DE and EN.
+- [x] **NPC Dialogue Polish**: Conducted a comprehensive audit of all NPC dialogues. Synchronized dialogue texts with actual rewards and requirements. Fixed a critical mismatch in the Hunter questline and added unique dialogues for the Tree of Life.
+
 
 ---
 
@@ -87,4 +102,4 @@ The internal architecture has been fully refactored into a modular, automated sy
 
 ---
 
-Last updated: May 2026 · v1.3.0-architecture-refactor
+Last updated: May 2026 · v1.3.1-stable-ui-polish

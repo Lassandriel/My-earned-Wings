@@ -217,6 +217,13 @@ export function createActionSystem() {
       const specificKey = 'fail_' + firstMissing;
       const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
       game.addLog(logKey, 'logs', 'var(--accent-red)');
+
+      // If it's a resource that scales with satiation, and efficiency is low, explain why
+      const resDef = game.content.get(firstMissing, 'resources') as any;
+      const efficiency = game.pipeline.calculate(game, 'resource_efficiency', 1);
+      if (efficiency < 0.9) {
+        game.addLog('fail_low_efficiency', 'logs', 'var(--accent-red)');
+      }
     }
 
     // NEW: Auto-stop focus if the focused action fails

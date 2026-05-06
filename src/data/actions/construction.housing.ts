@@ -15,15 +15,9 @@ export const housingConstruction = {
       { type: 'unlockRecipe', id: 'act-chair' },
       { type: 'unlockRecipe', id: 'act-stove' },
       { type: 'setHome', id: 'home-house' },
-      { type: 'modifyLimit', resource: 'wood', amount: 100 },
-      { type: 'modifyLimit', resource: 'stone', amount: 100 },
     ],
     logKey: 'milestone_house',
     logColor: 'var(--gold)',
-    modifiers: [
-      { key: 'wood_limit', add: 75 },
-      { key: 'stone_limit', add: 125 },
-    ],
   },
   'build-table': {
     id: 'build-table',
@@ -98,9 +92,6 @@ export const housingConstruction = {
     onSuccess: [
       { type: 'setFlag', flag: 'build-home-lake', value: true },
       { type: 'setHome', id: 'home-lake' },
-      { type: 'modifyLimit', resource: 'wood', amount: 150 },
-      { type: 'modifyLimit', resource: 'stone', amount: 150 },
-      { type: 'modifyLimit', resource: 'herbs', amount: 50 },
     ],
     logKey: 'milestone_lake_house',
     logColor: 'var(--gold)',
@@ -122,9 +113,6 @@ export const housingConstruction = {
     onSuccess: [
       { type: 'setFlag', flag: 'build-home-tower', value: true },
       { type: 'setHome', id: 'home-tower' },
-      { type: 'modifyLimit', resource: 'wood', amount: 200 },
-      { type: 'modifyLimit', resource: 'stone', amount: 200 },
-      { type: 'modifyLimit', resource: 'magic', amount: 50 },
     ],
     logKey: 'milestone_aura_tower',
     logColor: 'var(--accent-purple)',

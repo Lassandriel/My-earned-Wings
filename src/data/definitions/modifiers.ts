@@ -132,7 +132,7 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
     desc: 'modifier_clay_yield_desc',
     baseValue: 2
   },
-  satiation_limit: { id: 'satiation_limit', title: 'ui_satiation', desc: 'limit_desc_generic', baseValue: 100 },
+  satiation_limit: { id: 'satiation_limit', title: 'ui_satiation', desc: 'limit_desc_generic', baseValue: 0 },
   astral_shards_limit: { id: 'astral_shards_limit', title: 'ui_astral_shards', desc: 'limit_desc_generic', baseValue: 0 },
   flowers_limit: { id: 'flowers_limit', title: 'ui_flowers', desc: 'limit_desc_generic', baseValue: 0 },
   ghostwood_limit: { id: 'ghostwood_limit', title: 'ui_ghostwood', desc: 'limit_desc_generic', baseValue: 0 },

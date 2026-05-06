@@ -24,6 +24,16 @@
         <span class="npc-archive-name" x-text="$store.game.t('cat_chronicle_world')"></span>
       </div>
 
+      <div
+        class="npc-archive-tab library-tab"
+        :class="$store.game.selectedStoryNpc === 'library' ? 'active' : ''"
+        @click="$store.game.selectedStoryNpc = 'library'; $store.game.playSound('click')"
+        x-show="$store.game.flags['unlocked-library']"
+      >
+        <span class="npc-archive-icon">📚</span>
+        <span class="npc-archive-name" x-text="$store.game.t('ui_library')"></span>
+      </div>
+
       <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
         <div
           class="npc-archive-tab"
@@ -60,6 +70,47 @@
             </div>
             <div class="archive-entry-body">
               <div class="archive-entry-text" x-html="$store.game.language && (entry.textKey ? $store.game.t(entry.textKey, entry.context || 'npcs') : '')"></div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- LIBRARY CONTENT -->
+      <div class="library-books-container p-lg" x-show="$store.game.selectedStoryNpc === 'library'" x-transition>
+        <template x-for="bookId in ['act-read-lore-1', 'act-read-lore-2']" :key="bookId">
+          <div class="library-book-card card-premium p-md m-b-lg">
+            <div class="book-info-row">
+              <div class="book-visual">
+                 <span class="book-icon" x-text="$store.game.content.get(bookId, 'actions').icon"></span>
+              </div>
+              <div class="book-details">
+                <h4 class="text-gold" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-', 'item-'), 'items').title, 'items')"></h4>
+                <p class="text-dim m-b-sm" x-text="$store.game.t($store.game.content.get(bookId.replace('act-read-', 'item-'), 'items').desc, 'items')"></p>
+                
+                <!-- Progress Bar -->
+                <div class="book-progress-wrapper">
+                  <div class="book-progress-bar">
+                    <div 
+                      class="book-progress-fill" 
+                      :style="'width: ' + (($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) / 10 * 100) + '%'"
+                    ></div>
+                  </div>
+                  <span class="book-progress-text" x-text="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) + ' / 10'"></span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="book-actions m-t-md">
+              <button 
+                class="btn-premium"
+                :disabled="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) >= 10 || $store.game.activeFocus === bookId"
+                @click="$store.game.attemptAction($el, bookId)"
+                @mouseenter="$store.game.setHovered(bookId)"
+                @mouseleave="$store.game.setHovered(null)"
+              >
+                <span x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) < 10" x-text="$store.game.t('ui_read')"></span>
+                <span x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey] || 0) >= 10">✓</span>
+              </button>
             </div>
           </div>
         </template>

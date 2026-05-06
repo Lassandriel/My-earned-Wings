@@ -200,14 +200,17 @@ export default {
   'act-axe': {
     title: 'Steinaxt herstellen',
     desc: 'Ermöglicht das Fällen von Bäumen.',
+    effect: 'Ermöglicht das Fällen von Bäumen.',
   },
   'act-pickaxe': {
     title: 'Spitzhacke herstellen',
     desc: 'Ermöglicht den Abbau von Felsen.',
+    effect: 'Ermöglicht den Abbau von Felsen.',
   },
   'act-bow': {
     title: 'Jagdbogen bauen',
     desc: 'Unverzichtbar für die Jagd im Wald.',
+    effect: 'Unverzichtbar für die Jagd im Wald.',
   },
   'act-bed': {
     title: 'Einfaches Bett',
@@ -346,5 +349,13 @@ export default {
   'act-vandara-nature-festival': {
     title: 'Gemeinschaftsfest',
     desc: 'Bereite das große Fest vor.',
+  },
+  'act-read-lore-1': {
+    title: 'Studium: Kaiserliche Blutlinie',
+    desc: 'Vertiefe dein Wissen über die Herrscherfamilie.',
+  },
+  'act-read-lore-2': {
+    title: 'Studium: Die schwebenden Lande',
+    desc: 'Studiere die Geographie von Draconia.',
   },
 };

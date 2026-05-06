@@ -348,4 +348,12 @@ export default {
     title: 'Community Festival',
     desc: 'Prepare the grand festival.',
   },
+  'act-read-lore-1': {
+    title: 'Study: Imperial Bloodline',
+    desc: 'Deepen your knowledge about the ruling family.',
+  },
+  'act-read-lore-2': {
+    title: 'Study: The Floating Lands',
+    desc: 'Study the geography of Draconia.',
+  },
 };

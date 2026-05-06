@@ -89,7 +89,43 @@ export const createUISystem = () => {
         processCost(source.costType as ResourceId, source.cost);
       }
 
+      // Add Space Cost for items
+      if (hId.startsWith('item-')) {
+        const item = store.content.get(hId, 'items');
+        if (item?.spaceCost) {
+          results.push({
+            type: 'space',
+            label: store.t('ui_furniture_space'),
+            value: item.spaceCost.toString(),
+            affordable: true // Handled by logic elsewhere
+          });
+        }
+      }
+
       return results;
+    },
+
+    getRequirements(store: GameState, hAction: any) {
+      if (!hAction?.data) return [];
+      const action = hAction.data as ActionDefinition;
+      const hId = hAction.id as string;
+      const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
+      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
+
+      if (!source.requirements) return [];
+
+      return Object.entries(source.requirements).map(([path, rule]) => {
+        let label = path;
+        let value = rule === true ? '✓' : rule.toString();
+
+        if (path === 'flags.build-house') label = store.t('ui_house');
+        else if (path === 'flags.unlocked-library') label = store.t('ui_library');
+        else if (path.startsWith('flags.')) label = store.t('ui_' + path.replace('flags.', '')) || path;
+
+        const met = store.actions.checkRequirement(store, path, rule);
+
+        return { label, value, met };
+      });
     }
   };
 
@@ -111,16 +147,21 @@ export const createUISystem = () => {
       }
 
       step.onSuccess?.forEach((eff) => {
-        const bonusLabel = store.t('ui_bonus') || 'Bonus';
-        const bonusSep = bonusLabel.endsWith(':') ? ' ' : ': ';
         if (eff.type === 'unlockNPC') {
           const npc = store.content.get(eff.id, 'npcs');
           const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
-          effects.push(`${bonusLabel}${bonusSep}${name} ${store.t('ui_unlocked')}`);
+          effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
           const recAction = store.content.get(eff.id, 'actions');
           const recName = recAction ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
-          effects.push(`${bonusLabel}${bonusSep}${store.t('ui_recipe')}: ${recName}`);
+          effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
+        } else if (eff.type === 'unlockItem') {
+          const item = store.content.get(eff.id, 'items');
+          const itemName = item ? store.t(item.title, 'items') : eff.id;
+          effects.push(`${store.t('ui_item')}: ${itemName}`);
+          if (item?.category === 'furniture') {
+            effects.push(`✨ ${store.t('ui_can_be_placed')}`);
+          }
         } else if (eff.type === 'modifyResource') {
           effects.push(`${eff.amount > 0 ? '+' : ''}${eff.amount} ${getResLabel(store, eff.resource)}`);
         } else if (eff.type === 'modifyLimit') {
@@ -149,26 +190,35 @@ export const createUISystem = () => {
 
       if (yieldVal === null) return lang.effect;
 
-      let text = lang.effect;
+      let result = lang.effect;
       if (typeof yieldVal === 'object') {
         Object.entries(yieldVal).forEach(([k, v]) => {
-          text = text.replace(`{${k}}`, formatValue(v).toString());
+          result = result.replace(`{${k}}`, formatValue(v).toString());
         });
-        return text;
+      } else {
+        result = result.replace('{val}', formatValue(yieldVal).toString());
       }
-      
-      return text.replace('{val}', formatValue(yieldVal).toString());
+
+      // Append Current Stock for Resources
+      const resKey = action.yieldType || (action.rewards ? Object.keys(action.rewards)[0] : null);
+      if (resKey && store.resources[resKey as any] !== undefined) {
+        const cur = Math.floor(store.resources[resKey as any]);
+        const lim = store.limits[resKey as any];
+        result += ` (${cur}${lim ? '/' + lim : ''})`;
+      }
+
+      return result;
     },
 
     getHomeEffects(store: GameState, homeId: string): string[] {
       const home = store.content.get(homeId, 'homes');
       if (!home) return [];
 
-      const effects = [`${store.t('ui_capacity') || 'Kapazität'}: ${home.capacity}`];
+      const effects = [`${store.t('ui_furniture_space') || 'Möbel-Platz'}: ${home.capacity}`];
       
       home.modifiers?.forEach((m: any) => {
         const lab = store.t('ui_' + m.key) || m.key;
-        effects.push(`${store.t('ui_bonus')}: ${lab} ${m.mult ? 'x' + m.mult : '+' + m.add}`);
+        effects.push(`${lab} ${m.mult ? 'x' + m.mult : '+' + m.add}`);
       });
 
       if (home.baseLimits) {
@@ -190,6 +240,7 @@ export const createUISystem = () => {
     },
     cleanupHover: TooltipManager.cleanup,
     getTooltipCosts: TooltipManager.getCosts,
+    getTooltipRequirements: TooltipManager.getRequirements,
     handleMouseMove: TooltipManager.handleMove,
     reposition: TooltipManager.reposition.bind(TooltipManager),
 
@@ -277,6 +328,11 @@ export const createUISystem = () => {
         const item = store.content.get(hId, 'items');
         if (!item) return [];
 
+        // 0. Placement Hint
+        if (item.category === 'furniture') {
+          effects.push(`✨ ${store.t('ui_can_be_placed')}`);
+        }
+
         // 1. Modifiers (Passive)
         item.modifiers?.forEach((mod: any) => {
           const isLimit = mod.key.endsWith('_limit');
@@ -286,7 +342,7 @@ export const createUISystem = () => {
           let label = modDef ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers') : (store.t('ui_' + mod.key) || mod.key);
           const limitTxt = (isLimit && !label.toLowerCase().includes('limit')) ? ` ${store.t('ui_limit') || 'Limit'}` : '';
           
-          effects.push(`${store.t('ui_bonus')} ${label}${limitTxt}: ${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
+          effects.push(`${label}${limitTxt}: ${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
         });
 
         // 2. Effects (Object-based, e.g. food)
@@ -299,11 +355,6 @@ export const createUISystem = () => {
         // 3. Effects (String-based)
         if (item.effect && typeof item.effect === 'string') {
           effects.push(store.t(item.effect));
-        }
-
-        // 4. Space Cost
-        if (item.spaceCost) {
-          effects.push(`${store.t('ui_furniture_space')}: ${item.spaceCost}`);
         }
 
         return effects;
@@ -325,17 +376,22 @@ export const createUISystem = () => {
 
       // 3. Success Bonuses
       action.onSuccess?.forEach((eff) => {
-        const bonusLabel = store.t('ui_bonus') || 'Bonus';
-        const bonusSep = bonusLabel.endsWith(':') ? ' ' : ': ';
         if (eff.type === 'modifyLimit') {
-          effects.push(`${bonusLabel}${bonusSep}${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
+          effects.push(`${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
         } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
           const npc = store.content.get(eff.id, 'npcs');
           const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
-          effects.push(`${bonusLabel}${bonusSep}${name} ${store.t('ui_unlocked')}`);
+          effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
           const recName = store.content.get(eff.id, 'actions') ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
-          effects.push(`${bonusLabel}${bonusSep}${store.t('ui_recipe')}: ${recName}`);
+          effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
+        } else if (eff.type === 'unlockItem') {
+          const item = store.content.get(eff.id, 'items');
+          const itemName = item ? store.t(item.title, 'items') : eff.id;
+          effects.push(`${store.t('ui_item')}: ${itemName}`);
+          if (item?.category === 'furniture') {
+            effects.push(`✨ ${store.t('ui_can_be_placed')}`);
+          }
         } else if (eff.type === 'setHome') {
           effects.push(...Formatter.getHomeEffects(store, eff.id));
         }
@@ -349,7 +405,7 @@ export const createUISystem = () => {
         const modDef = store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
         const label = modDef ? store.t(modDef.title, 'modifiers') : cleanKey;
         const limitTxt = isLimit ? ` ${store.t('ui_limit') || 'Limit'}` : '';
-        effects.push(`${store.t('ui_bonus')} ${label}${limitTxt} +${mod.add || mod.mult || ''}`);
+        effects.push(`${label}${limitTxt} +${mod.add || mod.mult || ''}`);
       });
 
       return effects;
@@ -400,6 +456,15 @@ export const createUISystem = () => {
         const progKey = h.data.progKey;
         const maxProg = h.data.maxProgress;
         const cur = store.npcProgress[progKey] || 0;
+        
+        // Priority: Use dialogueKey from the actual step definition
+        const step = h.data.steps?.[cur];
+        if (step?.dialogueKey) {
+          const txt = store.t(step.dialogueKey, 'npcs');
+          if (txt && txt !== step.dialogueKey) return txt;
+        }
+
+        // Fallback: Legacy key pattern
         if (cur < maxProg) {
           const key = `npc_${progKey}_${cur + 1}`;
           const txt = store.t(key, 'npcs');
@@ -414,7 +479,9 @@ export const createUISystem = () => {
       if (!h?.data || h.isHelp) return false;
       const prog = h.id.includes('npc-') ? store.npcProgress[h.data.progKey] || 0 : null;
       const step = (prog !== null && h.data.steps) ? h.data.steps[prog] : null;
-      return !!((step && (step.costs || step.cost)) || h.data.cost || h.data.costs);
+      const hasCosts = !!((step && (step.costs || step.cost)) || h.data.cost || h.data.costs);
+      const hasReqs = !!(step?.requirements || h.data.requirements);
+      return hasCosts || hasReqs;
     },
 
     getDiscoveredItemsByCategory(store: GameState, category: string): string[] {

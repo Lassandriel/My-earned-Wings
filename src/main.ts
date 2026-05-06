@@ -109,6 +109,11 @@ const gameStoreObject: any = {
     }
   },
 
+  getTooltipRequirements(hAction: any) {
+    const store = Alpine.store('game') as any;
+    return store.ui.getRequirements(store, hAction);
+  },
+
   // Resource & NPC Helpers
   getUsedFurnitureSpace() { return this.housing.getUsedFurnitureSpace(Alpine.store('game') as any); },
   getHomeCapacity() { return this.housing.getHomeCapacity(Alpine.store('game') as any); },

@@ -187,6 +187,98 @@
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* Library Styling */
+.library-books-container {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.library-book-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.library-book-card:hover {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: var(--accent-teal);
+  transform: translateY(-2px);
+}
+
+.book-info-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.book-visual {
+  width: 60px;
+  height: 60px;
+  background: rgba(20, 184, 166, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.book-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px rgba(20, 184, 166, 0.4));
+}
+
+.book-details {
+  flex: 1;
+}
+
+.book-details h4 {
+  margin: 0 0 5px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+}
+
+.book-progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.book-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.book-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-teal), #2dd4bf);
+  box-shadow: 0 0 10px rgba(20, 184, 166, 0.3);
+  transition: width 0.4s ease;
+}
+
+.book-progress-text {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  min-width: 40px;
+}
+
+.book-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.m-b-lg { margin-bottom: 24px; }
+.m-b-sm { margin-bottom: 8px; }
+.m-t-md { margin-top: 16px; }
+
 /* Responsive adjustments */
 @media (max-width: 1080px) {
   .story-archive-layout {
