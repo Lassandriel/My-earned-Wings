@@ -115,18 +115,21 @@ export const createPipelineSystem = () => {
         }
       }
 
-      // 5. LOGIC-DRIVEN: Satiation Efficiency
-      const efficiencyKeys = ['resource_efficiency', 'wood_yield', 'stone_yield', 'meat_yield', 'shards_yield'];
+      // 5. LOGIC-DRIVEN: Satiation Efficiency (Gathering)
+      const efficiencyKeys = [
+        'resource_efficiency', 
+        'wood_yield', 'stone_yield', 'meat_yield', 'shards_yield',
+        'flowers_yield', 'herbs_yield', 'clay_yield', 
+        'ghostwood_yield', 'glowpollen_yield',
+        'garden_yield'
+      ];
       if (efficiencyKeys.includes(key)) {
         mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
       }
 
-      // 6. LOGIC-DRIVEN: Knowledge & Study
-      if (key === 'magic_limit_gain') {
-        const bookCount = store.resources.books || 0;
-        if (bookCount > 0) mods.push({ add: bookCount * 2 });
-
-        // Apply study_efficiency (Prevent infinite recursion if study_efficiency depends on magic_limit_gain)
+      // 6. LOGIC-DRIVEN: Study Efficiency (Vandara & School)
+      const studyKeys = ['study_xp_yield', 'knowledge_yield'];
+      if (studyKeys.includes(key)) {
         const studyEff = this.calculate(store, 'study_efficiency', 1);
         if (studyEff !== 1) mods.push({ mult: studyEff });
       }

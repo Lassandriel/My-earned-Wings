@@ -329,7 +329,7 @@ export const itemDb: Record<string, ItemDefinition> = {
     consumable: false,
     category: 'furniture',
     spaceCost: 2,
-    modifiers: [{ key: 'study_efficiency', add: 1 }],
+    modifiers: [{ key: 'study_efficiency', mult: 1.25 }],
   },
   'item-cart-reinforced': {
     id: 'item-cart-reinforced',

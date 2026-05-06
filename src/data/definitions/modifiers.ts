@@ -143,4 +143,7 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
   'gourmet-meal_limit': { id: 'gourmet-meal_limit', title: 'ui_gourmet-meal', desc: 'limit_desc_generic', baseValue: 0 },
   study_xp_limit: { id: 'study_xp_limit', title: 'ui_study_xp', desc: 'limit_desc_generic', baseValue: 0 },
   focus_limit: { id: 'focus_limit', title: 'ui_focus', desc: 'limit_desc_generic', baseValue: 0 },
+  study_xp_yield: { id: 'study_xp_yield', title: 'ui_study_xp', desc: 'study_xp_yield_desc', baseValue: 5 },
+  rune_fragment_yield: { id: 'rune_fragment_yield', title: 'ui_rune_fragment', desc: 'rune_fragment_yield_desc', baseValue: 2 },
+  knowledge_yield: { id: 'knowledge_yield', title: 'ui_knowledge', desc: 'knowledge_yield_desc', baseValue: 5 },
 };

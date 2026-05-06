@@ -47,7 +47,7 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     cost: 15,
     costType: 'magic',
     requirements: { 'academy_path': 'solen' },
-    rewards: { study_xp: 5, rune_fragment: 2 },
+    rewards: { study_xp: 'study_xp_yield', rune_fragment: 'rune_fragment_yield' },
     sfx: 'magic',
     particleType: 'magic',
   },
@@ -58,7 +58,7 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     cost: 30,
     costType: 'magic',
     requirements: { 'academy_path': 'solen' },
-    rewards: { astral_shards: 2, study_xp: 10 },
+    rewards: { astral_shards: 2, study_xp: 'study_xp_yield' },
     sfx: 'magic',
     particleType: 'magic',
   },
@@ -69,7 +69,7 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     cost: 20,
     costType: 'energy',
     requirements: { 'academy_path': 'bram' },
-    rewards: { study_xp: 5 },
+    rewards: { study_xp: 'study_xp_yield' },
     sfx: 'craft',
   },
   'act-vandara-craft-masterpiece': {
@@ -79,7 +79,7 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     cost: 50,
     costType: 'energy',
     requirements: { 'academy_path': 'bram' },
-    rewards: { study_xp: 15 },
+    rewards: { study_xp: 'study_xp_yield' },
     sfx: 'success',
   },
   'act-vandara-nature-gather': {
@@ -89,7 +89,7 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     cost: 15,
     costType: 'energy',
     requirements: { 'academy_path': 'lyra' },
-    rewards: { study_xp: 5, herbs: 3, flowers: 3 },
+    rewards: { study_xp: 'study_xp_yield', herbs: 3, flowers: 3 },
     sfx: 'gather',
   },
   'act-vandara-nature-festival': {
@@ -99,7 +99,7 @@ export const vandaraActions: Record<string, ActionDefinition> = {
     cost: 30,
     costType: 'satiation',
     requirements: { 'academy_path': 'lyra' },
-    rewards: { study_xp: 15 },
+    rewards: { study_xp: 'study_xp_yield' },
     sfx: 'magic',
   },
 };

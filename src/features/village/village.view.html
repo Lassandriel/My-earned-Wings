@@ -140,7 +140,7 @@
             @click="$store.game.attemptAction($el, actionId)"
             @mouseenter="$store.game.setHovered(actionId)"
             @mouseleave="$store.game.setHovered(null)"
-            x-show="$store.game.actions.checkRequirement($store.game, 'actions.' + actionId, $store.game.content.get(actionId, 'actions').requirements)"
+            x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
           >
             <div class="game-card-visual">
               <span class="school-card-visual" x-text="$store.game.content.get(actionId, 'actions').image || '📚'"></span>
@@ -150,9 +150,9 @@
               <h4 class="game-card-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>
               
               <div class="school-card-costs">
-                <template x-for="cost in $store.game.getTooltipCosts($store.game.content.get(actionId, 'actions'))" :key="cost.res">
-                  <span class="cost-badge" :class="cost.has ? 'has-cost' : 'missing-cost'">
-                    <span x-text="cost.amount + ' ' + cost.name"></span>
+                <template x-for="cost in $store.game.ui.getTooltipCosts($store.game, { id: actionId, data: $store.game.content.get(actionId, 'actions') })" :key="cost.type">
+                  <span class="cost-badge" :class="cost.affordable ? 'has-cost' : 'missing-cost'">
+                    <span x-text="cost.value + ' ' + cost.label"></span>
                   </span>
                 </template>
               </div>
@@ -236,7 +236,7 @@
             @click="$store.game.attemptAction($el, actionId)"
             @mouseenter="$store.game.setHovered(actionId)"
             @mouseleave="$store.game.setHovered(null)"
-            x-show="$store.game.actions.checkRequirement($store.game, 'actions.' + actionId, $store.game.content.get(actionId, 'actions').requirements)"
+            x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
           >
             <div class="game-card-visual">
               <div class="action-icon-bg"></div>
@@ -245,9 +245,9 @@
             <div class="game-card-footer action-card-footer">
               <h4 class="game-card-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>
               <div class="action-costs">
-                <template x-for="cost in $store.game.getTooltipCosts($store.game.content.get(actionId, 'actions'))" :key="cost.res">
-                  <span class="cost-badge" :class="cost.has ? 'has-cost' : 'missing-cost'">
-                    <span x-text="cost.amount + ' ' + cost.name"></span>
+                <template x-for="cost in $store.game.ui.getTooltipCosts($store.game, { id: actionId, data: $store.game.content.get(actionId, 'actions') })" :key="cost.type">
+                  <span class="cost-badge" :class="cost.affordable ? 'has-cost' : 'missing-cost'">
+                    <span x-text="cost.value + ' ' + cost.label"></span>
                   </span>
                 </template>
               </div>

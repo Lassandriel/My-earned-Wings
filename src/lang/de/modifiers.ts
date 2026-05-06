@@ -35,5 +35,8 @@ export default {
   garden_yield_desc: 'Erhöht die Ernte im Garten.',
   magic_limit_gain_title: 'Magische Kapazität',
   magic_limit_gain_desc: 'Erweitert dein Magie-Potenzial.',
+  study_xp_yield_desc: 'Erhöht den Gewinn an Studienerfahrung.',
+  rune_fragment_yield_desc: 'Erhöht die Chance auf Runenfragmente.',
+  knowledge_yield_desc: 'Erhöht den Zuwachs an allgemeinem Wissen.',
   resource_efficiency_desc: 'Beeinflusst die Geschwindigkeit und Ausbeute deiner Arbeit.',
 };

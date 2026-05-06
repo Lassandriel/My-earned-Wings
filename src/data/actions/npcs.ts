@@ -58,7 +58,7 @@ export const npcActions: Record<string, any> = {
       {
         cost: 10,
         costType: 'energy',
-        reward: 'item-astral-shards',
+        onSuccess: [{ type: 'modifyResource', resource: 'astral_shards', amount: 5 }],
         dialogueKey: 'npc_flowerGirl_3',
       },
       { costs: { herbs: 10 }, reward: 'item-wyvern-scale', dialogueKey: 'npc_flowerGirl_4' },
@@ -287,17 +287,17 @@ export const npcActions: Record<string, any> = {
     icon: '🔮',
     journalColor: '#8b5cf6',
     steps: [
-      { cost: 20, costType: 'magic', reward: 'item-book-knowledge', dialogueKey: 'npc_sage_1' },
+      { cost: 20, costType: 'magic', onSuccess: [{ type: 'modifyResource', resource: 'study_xp', amount: 25 }], dialogueKey: 'npc_sage_1' },
       {
         cost: 30,
         costType: 'magic',
-        reward: 'item-arcane-dust',
+        onSuccess: [{ type: 'modifyResource', resource: 'arcane_dust', amount: 2 }],
         dialogueKey: 'npc_sage_2',
       },
       {
         cost: 40,
         costType: 'magic',
-        reward: 'item-arcane-dust',
+        onSuccess: [{ type: 'modifyResource', resource: 'arcane_dust', amount: 3 }],
         dialogueKey: 'npc_sage_3',
       },
       {
@@ -357,7 +357,7 @@ export const npcActions: Record<string, any> = {
     journalIcon: '🌳',
     icon: '🌳',
     journalColor: '#10b981',
-    steps: [{ cost: 0, costType: 'none', reward: 'item-astral-shards', dialogueKey: 'npc_treeOfLife_1' }],
+    steps: [{ cost: 0, costType: 'none', onSuccess: [{ type: 'modifyResource', resource: 'astral_shards', amount: 10 }], dialogueKey: 'npc_treeOfLife_1' }],
     execute: (state: any) => {
       const result = state.npcExecute('act-npc-treeOfLife');
       if (result && result.success) {
@@ -416,7 +416,7 @@ export const npcActions: Record<string, any> = {
         onSuccess: [{ type: 'setFlag', flag: 'ability-arcane-focus', value: true }],
         dialogueKey: 'npc_aris_1',
       },
-      { cost: 30, costType: 'magic', reward: 'item-arcane-dust', dialogueKey: 'npc_aris_2' },
+      { cost: 30, costType: 'magic', onSuccess: [{ type: 'modifyResource', resource: 'arcane_dust', amount: 2 }], dialogueKey: 'npc_aris_2' },
       {
         cost: 40,
         costType: 'magic',
