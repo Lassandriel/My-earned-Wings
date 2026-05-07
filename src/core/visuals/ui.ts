@@ -133,14 +133,10 @@ export const createUISystem = () => {
         else if (path === 'flags.read_book_2_complete') label = store.t('item_book_lore_2_title', 'items');
         else if (path === 'flags.school_graduate') label = store.t('school_graduate') || 'Abschluss';
         else if (path.startsWith('flags.')) {
-          const flagKey = path.replace('flags.', '');
-          // Check if it's an item flag
-          if (flagKey.startsWith('item-')) {
-            const item = store.content.get<ItemDefinition>(flagKey, 'items');
-            label = item ? store.t(item.title, 'items') : store.t('ui_' + flagKey) || flagKey;
-          } else {
-            label = store.t('ui_' + flagKey) || store.t(flagKey) || flagKey;
-          }
+          const flagKey = path.split('.')[1];
+          // Use detectType or search all registries for flags
+          const entry = store.content.get(flagKey, null, true);
+          label = store.t('ui_' + flagKey) || (entry?.title ? store.t(entry.title, store.content.detectType(flagKey) || 'ui') : flagKey);
         }
 
         const met = store.actions.checkRequirement(store, path, rule);

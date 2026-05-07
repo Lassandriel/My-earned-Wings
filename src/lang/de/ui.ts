@@ -174,6 +174,7 @@ export default {
   'ui_shards_limit': 'Splitter-Kapazität',
   'ui_wood_limit': 'Holz-Kapazität',
   'ui_stone_limit': 'Stein-Kapazität',
+  limit_desc_generic: 'Erhöht das maximale Limit für {res}.',
   ui_placed_furniture: 'Platzierte Möbel',
   ui_stored_furniture: 'Lagerhaus (Möbel)',
   ui_place: 'Platzieren',
