@@ -56,7 +56,7 @@ export const initialState: Partial<GameState> = {
   selectedItem: null,
   activeFocus: null,
   currentObjective: '',
-  storyHistory: [],
+  collectionHistory: [],
   saveCode: '',
   saveInfoText: '',
 

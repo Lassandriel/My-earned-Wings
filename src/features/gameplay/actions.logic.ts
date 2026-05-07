@@ -178,7 +178,7 @@ export function createActionSystem() {
     if (action.isStory) {
       const dialogueKey = (result?.logParams?.textKey as string) || null;
       if (dialogueKey) {
-        game.story.recordStoryEntry(game, id, action, dialogueKey);
+        game.collection.recordCollectionEntry(game, id, action, dialogueKey);
       }
     }
 

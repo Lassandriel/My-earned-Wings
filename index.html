@@ -48,15 +48,15 @@
         <!-- Current Objective -->
         <div class="objective-bar-container" x-show="$store.game.currentObjective">
           <div class="objective-bar" x-transition>
-            <span class="obj-label" x-text="$store.game.t('objective_label', 'ui')">Ziel</span>
+            <span class="obj-label" x-text="$store.game.t('objective_label', 'ui')"></span>
             <span class="obj-text" x-text="$store.game.t($store.game.currentObjective)">...</span>
           </div>
         </div>
 
         <header class="main-header" role="banner">
           <div class="logo-container">
-            <img src="img/menu/logo_wings.webp" alt="Wings Logo" class="header-logo" />
-            <h1 class="game-title">Your earned Wings</h1>
+            <img src="img/menu/logo_wings.webp" :alt="$store.game.t('ui_wings_logo_alt')" class="header-logo" />
+            <h1 class="game-title" x-text="$store.game.t('menu_title')"></h1>
           </div>
 
           <!-- Settings Button (Relocated) -->
@@ -83,10 +83,10 @@
         <main role="main">
           <section
             class="view-section"
-            x-show="$store.game.view === 'gameplay'"
+            x-show="$store.game.view === 'main'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/features/gameplay/gameplay.view.html') %>
+            <%- include('./src/features/gameplay/main.view.html') %>
           </section>
           <section
             class="view-section"
@@ -118,10 +118,10 @@
           </section>
           <section
             class="view-section"
-            x-show="$store.game.view === 'story'"
+            x-show="$store.game.view === 'collection'"
             x-transition:enter="view-enter"
           >
-            <%- include('./src/features/story/story.view.html') %>
+            <%- include('./src/features/story/collection.view.html') %>
           </section>
         </main>
 

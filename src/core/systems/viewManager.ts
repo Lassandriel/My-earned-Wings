@@ -95,7 +95,7 @@ export const createViewManagerSystem = () => ({
   continueGame(store: GameState) {
     store.playSound('click');
     if (store.persistence.loadGame(store)) {
-      store.view = 'gameplay';
+      store.view = 'main';
       if (store.audio) store.audio.startMusic();
 
       // --- AUTO-RESUME FOCUS: Start the automation loop if a focus was loaded ---
@@ -118,7 +118,7 @@ export const createViewManagerSystem = () => ({
     store.playSound('click');
     if (!name || name.trim().length === 0) return;
     store.playerName = name.trim().substring(0, 16); // Safety limit
-    store.view = 'gameplay';
+    store.view = 'main';
 
     // Visual Intro
     if (store.ellie && !store.ellieIntroSeen) {

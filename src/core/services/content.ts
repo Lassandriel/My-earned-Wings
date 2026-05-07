@@ -32,12 +32,13 @@ export const createContentService = (registries: Registries) => ({
 
     // --- CRASH PREVENTION (Null-Object Pattern) ---
     if (!data) {
-      if (!silent) console.warn(`[CONTENT] Missing ID: "${id}" in registry. Returning fallback.`);
+      if (silent) return null as unknown as T;
+      console.warn(`[CONTENT] Missing ID: "${id}" in registry. Returning fallback.`);
       return {
         id,
         title: id,
         nameKey: 'ui_unknown',
-        desc: 'Missing entry in registry',
+        desc: 'ui_missing_entry',
         icon: '⚠️',
         color: 'var(--accent-red)',
         maxProgress: 1,
@@ -48,8 +49,8 @@ export const createContentService = (registries: Registries) => ({
     // --- TYPE-SPECIFIC DEFAULTS (The Guard) ---
     const defaults: Partial<Record<keyof Registries, any>> = {
       npcs: { nameKey: 'ui_unknown', icon: '👤', color: 'var(--text-main)', maxProgress: 5 },
-      items: { title: 'Unknown Item', desc: 'No description.', icon: '📦', consumable: false },
-      actions: { title: 'Action', desc: '...', icon: '⚡' },
+      items: { title: 'ui_unknown_item', desc: 'ui_no_description', icon: '📦', consumable: false },
+      actions: { title: 'ui_action', desc: '...', icon: '⚡' },
       homes: { nameKey: 'ui_unknown', descKey: 'ui_unknown', capacity: 0, image: '' },
     };
 
@@ -104,6 +105,7 @@ export const createContentService = (registries: Registries) => ({
     if (id.startsWith('build-')) return 'actions';
     if (id.startsWith('buff-')) return 'buffs';
     if (id.startsWith('home-')) return 'homes';
+    if (this.registries.resources[id]) return 'resources';
     return null;
   },
 
@@ -154,8 +156,9 @@ export const createContentService = (registries: Registries) => ({
                 errors++;
               }
               const hasReward = step.reward || (step.onSuccess && step.onSuccess.length > 0);
-              if (!hasReward) {
-                console.error(`[MISSING REWARD] ${id} Step ${stepIdx} has no reward!`);
+              // Every step needs either a reward OR a dialogue (lore steps might only have dialogue)
+              if (!hasReward && !step.dialogueKey) {
+                console.error(`[MISSING REWARD] ${id} Step ${stepIdx} has no reward or dialogue!`);
                 errors++;
               }
               // Every step needs cost (even if cost 0)
@@ -175,6 +178,32 @@ export const createContentService = (registries: Registries) => ({
             console.warn(`[USELESS ACTION] ${id} has no yield/reward/effect!`);
             warnings++;
           }
+        }
+
+        // 5. RESOURCE/ITEM EXISTENCE CHECK
+        if (data.costs) {
+          Object.keys(data.costs).forEach(cid => {
+            if (!this.get(cid, null, true)) {
+              console.error(`[INVALID COST] ${id} requires unknown ID: ${cid}`);
+              errors++;
+            }
+          });
+        }
+        if (data.costType && !this.get(data.costType, null, true)) {
+          console.error(`[INVALID COST] ${id} requires unknown costType: ${data.costType}`);
+          errors++;
+        }
+        if (data.rewards) {
+          Object.keys(data.rewards).forEach(rid => {
+            if (!this.get(rid, null, true)) {
+              console.error(`[INVALID REWARD] ${id} yields unknown ID: ${rid}`);
+              errors++;
+            }
+          });
+        }
+        if (data.reward && !this.get(data.reward, null, true)) {
+          console.error(`[INVALID REWARD] ${id} yields unknown reward ID: ${data.reward}`);
+          errors++;
         }
 
         // 5. LOCALIZATION CHECK

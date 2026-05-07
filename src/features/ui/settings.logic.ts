@@ -95,7 +95,7 @@ export const createSettingsSystem = () => {
       Object.keys(store.resources).forEach((k) => (store.resources[k as import('../../types/game').ResourceId] = 9999));
 
       store.saveGame();
-      store.ui.showToast('Resources & Stats maximized!', 'success');
+      store.ui.showToast(store.t('ui_cheat_toast'), 'success');
       store.settingsOpen = false;
     },
 

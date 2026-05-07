@@ -103,7 +103,7 @@
         </div>
         <span
           class="stat-val"
-          x-text="$store.game.ui.formatNumber($store.game.stats[stat.id] || 0) + '/' + $store.game.ui.formatNumber($store.game.getMaxStat(stat.id))"
+          x-text="$store.game.t('ui_stat_fraction', 'ui').replace('{val}', $store.game.ui.formatNumber($store.game.stats[stat.id] || 0, $store.game)).replace('{max}', $store.game.ui.formatNumber($store.game.getMaxStat(stat.id), $store.game))"
           aria-hidden="true"
         ></span>
       </div>
@@ -146,7 +146,7 @@
               </div>
               <span class="stat-val" aria-hidden="true">
                 <span
-                  x-text="$store.game.ui.formatNumber($store.game.resources[res.id] || 0) + '/' + ($store.game.getLimit(res.id) ? $store.game.ui.formatNumber($store.game.getLimit(res.id)) : '∞')"
+                  x-text="$store.game.t('ui_stat_fraction', 'ui').replace('{val}', $store.game.ui.formatNumber($store.game.resources[res.id] || 0, $store.game)).replace('{max}', ($store.game.getLimit(res.id) ? $store.game.ui.formatNumber($store.game.getLimit(res.id), $store.game) : '∞'))"
                 ></span>
               </span>
             </div>

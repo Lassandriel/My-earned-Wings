@@ -140,7 +140,7 @@ export default {
   mine_quartz_log: 'Found precious crystals and ores in the deep. +{gain}',
   meditation_log: 'Deep concentration... an astral shard manifests.',
   nav_crafting_desc: 'Shape tools from the gifts of nature.',
-  nav_chronicle_desc: 'Records of your life on the ground.',
+  nav_collection_desc: 'Records of your life on the ground.',
 
   // ==========================================
   // CRAFTING

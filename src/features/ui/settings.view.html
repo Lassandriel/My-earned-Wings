@@ -105,14 +105,14 @@
                 :class="$store.game.language === 'de' && 'active'"
                 @click="$store.game.setLanguage('de')"
               >
-                <span x-text="'Deutsch'"></span>
+                <span x-text="$store.game.t('ui_lang_de')"></span>
               </button>
               <button
                 class="lang-btn-modern"
                 :class="$store.game.language === 'en' && 'active'"
                 @click="$store.game.setLanguage('en')"
               >
-                <span x-text="'English'"></span>
+                <span x-text="$store.game.t('ui_lang_en')"></span>
               </button>
             </div>
           </section>
@@ -126,7 +126,7 @@
                 <span x-text="$store.game.t('settings_vol_global')"></span>
                 <span
                   class="val-pill"
-                  x-text="Math.round($store.game.settings.volumeGlobal * 100) + '%'"
+                  x-text="$store.game.t('ui_percent').replace('{val}', Math.round($store.game.settings.volumeGlobal * 100))"
                 ></span>
               </label>
               <input
@@ -145,7 +145,7 @@
                 <span x-text="$store.game.t('settings_vol_music')"></span>
                 <span
                   class="val-pill"
-                  x-text="Math.round($store.game.settings.volumeMusic * 100) + '%'"
+                  x-text="$store.game.t('ui_percent').replace('{val}', Math.round($store.game.settings.volumeMusic * 100))"
                 ></span>
               </label>
               <input
@@ -164,7 +164,7 @@
                 <span x-text="$store.game.t('settings_vol_sfx')"></span>
                 <span
                   class="val-pill"
-                  x-text="Math.round($store.game.settings.volumeSfx * 100) + '%'"
+                  x-text="$store.game.t('ui_percent').replace('{val}', Math.round($store.game.settings.volumeSfx * 100))"
                 ></span>
               </label>
               <input
@@ -217,7 +217,7 @@
                     class="res-btn"
                     :class="$store.game.settings.uiScale === scale && 'active'"
                     @click="$store.game.settings.uiScale = scale; $store.game.settingsSystem.calculateScale($store.game); $store.game.saveGame()"
-                    x-text="scale === 'auto' ? $store.game.t('settings_ui_scale_auto') : (parseFloat(scale) * 100) + '%'"
+                    x-text="scale === 'auto' ? $store.game.t('settings_ui_scale_auto') : $store.game.t('ui_percent').replace('{val}', (parseFloat(scale) * 100))"
                   ></button>
                 </template>
               </div>

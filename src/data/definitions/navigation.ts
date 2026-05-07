@@ -8,10 +8,10 @@ export interface NavigationItem {
 }
 
 export const NAVIGATION_REGISTRY: Record<string, NavigationItem> = {
-  gameplay: { id: 'gameplay', icon: 'story', label: 'nav_story' },
+  main: { id: 'main', icon: 'story', label: 'nav_main' },
   crafting: { id: 'crafting', icon: 'crafting', label: 'nav_crafting' },
   village: { id: 'village', icon: 'village', label: 'nav_locations' },
   upgrades: { id: 'upgrades', icon: 'upgrades', label: 'nav_upgrades' },
   housing: { id: 'housing', icon: 'housing', label: 'nav_housing', requiredFlag: 'build-house' },
-  story: { id: 'story', icon: 'chronic', label: 'nav_story_tab' },
+  collection: { id: 'collection', icon: 'chronic', label: 'nav_collection' },
 };

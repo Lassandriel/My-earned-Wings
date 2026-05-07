@@ -79,7 +79,7 @@ export interface GameState {
   counters: Record<string, number>;
   currentObjective: string | null;
   activeProducers: ActionId[];
-  storyHistory: StoryHistoryEntry[];
+  collectionHistory: StoryHistoryEntry[];
   saveCode: string;
   settingsOpen: boolean;
   currentScale: number;
@@ -163,8 +163,8 @@ export interface GameState {
     buildInitialState: (baseState: Partial<GameState>) => GameState;
     bootSystems: (store: GameState) => void;
   };
-  story: {
-    recordStoryEntry: (
+  collection: {
+    recordCollectionEntry: (
       game: GameState,
       id: string,
       action: ActionDefinition | null,
@@ -336,6 +336,8 @@ export interface HoverActionData {
 /** Cost entry for tooltips */
 export interface TooltipCost {
   resource: string;
+  label: string;
+  value: string;
   amount: number;
   affordable: boolean;
 }
@@ -375,7 +377,7 @@ export interface ContentService {
     npcActions: Record<string, unknown[]>;
   };
   getAll<T>(type: keyof Registries): Record<string, T>;
-  get<T>(id: string, type?: keyof Registries | null): T;
+  get<T = any>(id: string, type?: keyof Registries | null, silent?: boolean): T | null;
   getCategorizedResources(category: string): ResourceDefinition[];
   getNPCActions(store: GameState, npcId: NPCId): ActionDefinition[];
   detectType(id: string): keyof Registries | null;

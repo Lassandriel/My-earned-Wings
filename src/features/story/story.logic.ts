@@ -1,33 +1,33 @@
 import { GameState, ActionDefinition, StoryHistoryEntry, NPCDefinition } from '../../types/game';
 
 /**
- * Story System - TypeScript Edition
+ * Collection System - TypeScript Edition
  * Handles long-term chronicle entries and milestones.
  */
-export const createStorySystem = () => ({
+export const createCollectionSystem = () => ({
   metadata: {
-    id: 'story',
+    id: 'collection',
     delegates: ['getGroupedHistory']
   },
   /**
    * Records a chronicle entry.
    */
-  recordStoryEntry(store: GameState, id: string, action: ActionDefinition | null, textKey: string | null = null, context: string = 'npcs') {
+  recordCollectionEntry(store: GameState, id: string, action: ActionDefinition | null, textKey: string | null = null, context: string = 'npcs') {
     const historyEntry: StoryHistoryEntry = {
       id: id,
       npcId: action?.npcId || null,
       timestamp: Date.now(),
-      chapter: action?.chapter || 'Chronicles',
+      chapter: action?.chapter || 'chapter_chronicles',
       text: textKey || '',
       context: context,
     };
 
-    if (!store.storyHistory) store.storyHistory = [];
-    store.storyHistory.unshift(historyEntry);
+    if (!store.collectionHistory) store.collectionHistory = [];
+    store.collectionHistory.unshift(historyEntry);
 
     // Pruning: Keep only top 50 entries to prevent localStorage bloat
-    if (store.storyHistory.length > 50) {
-      store.storyHistory.pop();
+    if (store.collectionHistory.length > 50) {
+      store.collectionHistory.pop();
     }
 
     // Milestones trigger success sound
@@ -41,12 +41,12 @@ export const createStorySystem = () => ({
    * Entries without an NPC go into a general "Chronicle" group.
    */
   getGroupedHistory(store: GameState): Array<{ id: string; name: string; symbol: string; color: string; entries: StoryHistoryEntry[] }> {
-    const storyHistory = store.storyHistory;
-    if (!storyHistory) return [];
+    const collectionHistory = store.collectionHistory;
+    if (!collectionHistory) return [];
 
     const groups: Record<string, { id: string; name: string; symbol: string; color: string; entries: StoryHistoryEntry[] }> = {};
 
-    storyHistory.forEach((entry: StoryHistoryEntry) => {
+    collectionHistory.forEach((entry: StoryHistoryEntry) => {
       const npcId = entry.npcId || 'world';
       if (!groups[npcId]) {
         groups[npcId] = {
@@ -65,7 +65,7 @@ export const createStorySystem = () => ({
             groups[npcId].color = npc.color || 'var(--gold)';
           }
         } else {
-          groups[npcId].name = store.t('cat_chronicle_world');
+          groups[npcId].name = store.t('cat_collection_world');
         }
       }
       groups[npcId].entries.push(entry);

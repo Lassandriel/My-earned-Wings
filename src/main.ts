@@ -67,6 +67,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
 
     Alpine.effect(() => {
       document.documentElement.lang = store.language || 'de';
+      document.title = store.t('menu_title');
     });
 
     if (store.settings?.calculateScale) {

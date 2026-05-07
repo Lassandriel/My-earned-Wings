@@ -140,7 +140,7 @@ export default {
   mine_quartz_log: 'Kostbare Kristalle und Erze in der Tiefe gefunden. +{gain}',
   meditation_log: 'Tiefe Konzentration... ein Astralsplitter manifestiert sich.',
   nav_crafting_desc: 'Forme Werkzeuge aus den Gaben der Natur.',
-  nav_chronicle_desc: 'Die Aufzeichnungen deines Lebens am Boden.',
+  nav_collection_desc: 'Die Aufzeichnungen deines Lebens am Boden.',
 
   // ==========================================
   // CRAFTING

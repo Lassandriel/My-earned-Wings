@@ -1,8 +1,17 @@
 import Alpine from 'alpinejs';
-import { 
-  GameState, ResourceId, FlagId, ActionDefinition, ModifierDefinition, 
-  NPCDefinition, ItemDefinition, HomeDefinition, HoverActionData, GameModifier,
-  TooltipCost
+import {
+  GameState,
+  ResourceId,
+  FlagId,
+  ActionDefinition,
+  ModifierDefinition,
+  NPCDefinition,
+  ItemDefinition,
+  HomeDefinition,
+  HoverActionData,
+  GameModifier,
+  TooltipCost,
+  BuffDefinition,
 } from '../../types/game';
 
 /**
@@ -16,13 +25,13 @@ export const createUISystem = () => {
 
   const addTimer = (id: ReturnType<typeof setTimeout>) => _timers.push(id);
   const clearAllTimers = () => {
-    _timers.forEach(id => clearTimeout(id));
+    _timers.forEach((id) => clearTimeout(id));
     _timers.length = 0;
   };
 
   // --- Internal Helpers ---
   const getResLabel = (store: GameState, res: string) => store.t('ui_' + res) || res;
-  
+
   const formatValue = (val: string | number) => (typeof val === 'number' ? Math.round(val) : val);
 
   /**
@@ -35,7 +44,7 @@ export const createUISystem = () => {
 
     _lastX: -1,
     _lastY: -1,
-    
+
     reposition(x: number, y: number, force = false) {
       if (!_tt) _tt = document.getElementById('tooltip-container');
       if (!_tt) return;
@@ -61,7 +70,7 @@ export const createUISystem = () => {
 
       _tt.style.left = `${left}px`;
       _tt.style.top = `${top}px`;
-      _tt.style.transform = 'none'; 
+      _tt.style.transform = 'none';
     },
 
     cleanup(store: GameState) {
@@ -73,13 +82,13 @@ export const createUISystem = () => {
 
     getCosts(store: GameState, hAction: HoverActionData) {
       if (!hAction?.data) return [];
-      
+
       const action = hAction.data as ActionDefinition;
       const hId = hAction.id as string;
 
       // Determine correct data source (NPC step vs standard action)
       const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
-      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
+      const source = prog !== null && action.steps ? action.steps[prog] : action;
 
       const results: TooltipCost[] = [];
 
@@ -88,6 +97,8 @@ export const createUISystem = () => {
         const current = store.resources[type] ?? store.stats[type] ?? 0;
         results.push({
           resource: type,
+          label: getResLabel(store, type),
+          value: finalAmt.toString(),
           affordable: current >= finalAmt,
           amount: finalAmt,
         });
@@ -106,7 +117,9 @@ export const createUISystem = () => {
           results.push({
             resource: 'space',
             amount: item.spaceCost,
-            affordable: true // Handled by logic elsewhere
+            affordable: true,
+            label: '',
+            value: '',
           });
         }
       }
@@ -119,31 +132,65 @@ export const createUISystem = () => {
       const action = hAction.data as ActionDefinition;
       const hId = hAction.id as string;
       const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
-      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
+      const source = prog !== null && action.steps ? action.steps[prog] : action;
 
       if (!source.requirements) return [];
 
-      return Object.entries(source.requirements).map(([path, rule]) => {
-        let label = path;
-        let value = rule === true ? '✓' : rule.toString();
+      return Object.entries(source.requirements)
+        .filter(([_, rule]) => {
+          // Filter out internal "not yet built" requirements (e.g. { op: '!=', val: true })
+          if (
+            typeof rule === 'object' &&
+            rule !== null &&
+            (rule as any).op === '!=' &&
+            (rule as any).val === true
+          ) {
+            return false;
+          }
+          return true;
+        })
+        .map(([path, rule]) => {
+          let label = path;
+          let value = rule === true ? '✓' : rule.toString();
 
-        if (path === 'flags.build-house') label = store.t('ui_house');
-        else if (path === 'flags.unlocked-library') label = store.t('ui_library');
-        else if (path === 'flags.read_book_1_complete') label = store.t('item_book_lore_1_title', 'items');
-        else if (path === 'flags.read_book_2_complete') label = store.t('item_book_lore_2_title', 'items');
-        else if (path === 'flags.school_graduate') label = store.t('school_graduate') || 'Abschluss';
-        else if (path.startsWith('flags.')) {
-          const flagKey = path.split('.')[1];
-          // Use detectType or search all registries for flags
-          const entry = store.content.get(flagKey, null, true);
-          label = store.t('ui_' + flagKey) || (entry?.title ? store.t(entry.title, store.content.detectType(flagKey) || 'ui') : flagKey);
-        }
+          if (path === 'flags.build-house') label = store.t('ui_house');
+          else if (path === 'flags.unlocked-library') label = store.t('ui_library');
+          else if (path === 'flags.read_book_1_complete')
+            label = store.t('item_book_lore_1_title', 'items');
+          else if (path === 'flags.read_book_2_complete')
+            label = store.t('item_book_lore_2_title', 'items');
+          else if (path === 'flags.school_graduate')
+            label = store.t('school_graduate') || store.t('ui_graduated');
+          else if (path.startsWith('flags.')) {
+            const flagKey = path.split('.')[1];
+            // Only check registry if it's likely a content ID (has prefix or known as action/item)
+            const isContentId = flagKey.includes('-') || flagKey.includes('_');
 
-        const met = store.actions.checkRequirement(store, path, rule);
+            // Try better translation fallback
+            const uiTrans = store.t('ui_' + flagKey);
+            if (uiTrans && uiTrans !== `[ui_${flagKey}]`) {
+              label = uiTrans;
+            } else {
+              if (isContentId ? store.content.get(flagKey, null, true) : null) {
+                const type = store.content.detectType(flagKey) || 'actions';
+                const trans = store.t(flagKey, type);
+                label =
+                  typeof trans === 'object' && trans?.title
+                    ? trans.title
+                    : typeof trans === 'string'
+                      ? trans
+                      : flagKey;
+              } else {
+                label = flagKey;
+              }
+            }
+          }
 
-        return { label, value, met };
-      });
-    }
+          const met = store.actions.checkRequirement(store, path, rule);
+
+          return { label, value, met };
+        });
+    },
   };
 
   /**
@@ -173,23 +220,31 @@ export const createUISystem = () => {
       step.onSuccess?.forEach((eff) => {
         if (eff.type === 'unlockNPC') {
           const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
-          const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
+          const name = npc
+            ? store.t(npc.nameKey)
+            : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
           effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
           const recAction = store.content.get<ActionDefinition>(eff.id, 'actions');
-          const recName = recAction ? (store.t(eff.id, 'actions') as { title?: string })?.title : eff.id;
-          effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
+          const recName = recAction
+            ? (store.t(eff.id, 'actions') as { title?: string })?.title
+            : eff.id;
+          effects.push(`${store.t('ui_new_recipe')}${store.t('ui_divider_colon')}${recName}`);
         } else if (eff.type === 'unlockItem') {
           const item = store.content.get<ItemDefinition>(eff.id, 'items');
           const itemName = item ? store.t(item.title, 'items') : eff.id;
-          effects.push(`${store.t('ui_item')}: ${itemName}`);
+          effects.push(`${store.t('ui_item')}${store.t('ui_divider_colon')}${itemName}`);
           if (item?.category === 'furniture') {
-            effects.push(`✨ ${store.t('ui_can_be_placed')}`);
+            effects.push(`${store.t('ui_symbol_sparkle')}${store.t('ui_can_be_placed')}`);
           }
         } else if (eff.type === 'modifyResource') {
-          effects.push(`${eff.amount > 0 ? '+' : ''}${eff.amount} ${getResLabel(store, eff.resource)}`);
+          effects.push(
+            `${eff.amount > 0 ? '+' : ''}${eff.amount} ${getResLabel(store, eff.resource)}`
+          );
         } else if (eff.type === 'modifyLimit') {
-          effects.push(`${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
+          effects.push(
+            `${getResLabel(store, eff.resource)} ${store.t('ui_limit')} +${eff.amount}`
+          );
         }
       });
 
@@ -204,9 +259,8 @@ export const createUISystem = () => {
       if (action.rewards) {
         const first = Object.entries(action.rewards)[0];
         if (first) {
-          yieldVal = typeof first[1] === 'string' 
-            ? store.pipeline.calculate(store, first[1], 1) 
-            : first[1];
+          yieldVal =
+            typeof first[1] === 'string' ? store.pipeline.calculate(store, first[1], 1) : first[1];
         }
       } else if (action.yieldType) {
         yieldVal = store.pipeline.calculate(store, action.yieldType + '_yield', 1);
@@ -238,8 +292,10 @@ export const createUISystem = () => {
       const home = store.content.get<HomeDefinition>(homeId, 'homes');
       if (!home) return [];
 
-      const effects = [`${store.t('ui_furniture_space') || 'Möbel-Platz'}: ${home.capacity}`];
-      
+      const effects = [
+        `${store.t('ui_furniture_space')}${store.t('ui_divider_colon')}${home.capacity}`,
+      ];
+
       home.modifiers?.forEach((m: GameModifier) => {
         const lab = store.t('ui_' + m.key) || m.key;
         effects.push(`${lab} ${m.mult ? 'x' + m.mult : '+' + m.add}`);
@@ -247,11 +303,11 @@ export const createUISystem = () => {
 
       if (home.baseLimits) {
         Object.entries(home.baseLimits).forEach(([k, v]) => {
-          effects.push(`${store.t('ui_limit') || 'Limit'}: ${getResLabel(store, k)} +${v}`);
+          effects.push(`${store.t('ui_limit')}${store.t('ui_divider_colon')}${getResLabel(store, k)} +${v}`);
         });
       }
       return effects;
-    }
+    },
   };
 
   return {
@@ -259,8 +315,8 @@ export const createUISystem = () => {
       id: 'ui',
       delegates: {
         getActionEffect: 'getActionEffect',
-        getTooltipCosts: 'getTooltipCosts'
-      }
+        getTooltipCosts: 'getTooltipCosts',
+      },
     },
     cleanupHover: TooltipManager.cleanup,
     getTooltipCosts: TooltipManager.getCosts,
@@ -268,9 +324,10 @@ export const createUISystem = () => {
     handleMouseMove: TooltipManager.handleMove,
     reposition: TooltipManager.reposition.bind(TooltipManager),
 
-    formatNumber(num: number): string {
-      if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-      if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+    formatNumber(num: number, store?: GameState): string {
+      if (num >= 1000000)
+        return (num / 1000000).toFixed(2) + (store?.t('ui_num_m') || 'M');
+      if (num >= 1000) return (num / 1000).toFixed(1) + (store?.t('ui_num_k') || 'k');
       return Math.floor(num).toString();
     },
 
@@ -289,9 +346,11 @@ export const createUISystem = () => {
 
       Object.values(all).forEach((a) => {
         if (a.locationId && a.category === 'gathering') {
-          const vis = !a.requirements || Object.entries(a.requirements).every(([p, r]) => 
-            store.actions.checkRequirement(store, p, r)
-          );
+          const vis =
+            !a.requirements ||
+            Object.entries(a.requirements).every(([p, r]) =>
+              store.actions.checkRequirement(store, p, r)
+            );
           if (vis) locations.add(a.locationId);
         }
       });
@@ -345,7 +404,7 @@ export const createUISystem = () => {
 
     getActionEffect(store: GameState, hAction: HoverActionData): string[] {
       if (!hAction?.id) return [];
-      
+
       const effects: string[] = [];
       const hId = hAction.id as string;
 
@@ -356,7 +415,7 @@ export const createUISystem = () => {
 
         // 0. Placement Hint
         if (item.category === 'furniture') {
-          effects.push(`✨ ${store.t('ui_can_be_placed')}`);
+          effects.push(`${store.t('ui_symbol_sparkle')}${store.t('ui_can_be_placed')}`);
         }
 
         // 1. Modifiers (Passive)
@@ -364,18 +423,25 @@ export const createUISystem = () => {
           if (!mod.key) return;
           const isLimit = mod.key.endsWith('_limit');
           const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
-          const modDef = store.content.get<ModifierDefinition>(mod.key, 'modifiers') || store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
-          
-          let label = modDef ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers') : (store.t('ui_' + mod.key) || mod.key);
-          const limitTxt = (isLimit && !label.toLowerCase().includes('limit')) ? ` ${store.t('ui_limit') || 'Limit'}` : '';
-          
-          effects.push(`${label}${limitTxt}: ${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
+          const modDef =
+            store.content.get<ModifierDefinition>(mod.key, 'modifiers') ||
+            store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
+
+          let label = modDef
+            ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers')
+            : store.t('ui_' + mod.key) || mod.key;
+          const limitTxt =
+            isLimit && !label.toLowerCase().includes('limit')
+              ? ` ${store.t('ui_limit')}`
+              : '';
+
+          effects.push(`${label}${limitTxt}${store.t('ui_divider_colon')}${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
         });
 
         // 2. Effects (Object-based, e.g. food)
         if (item.effect && typeof item.effect === 'object') {
           Object.entries(item.effect).forEach(([k, v]) => {
-            effects.push(`${store.t('ui_' + k)}: +${v}`);
+            effects.push(`${store.t('ui_' + k)}${store.t('ui_divider_colon')}+${v}`);
           });
         }
 
@@ -404,27 +470,33 @@ export const createUISystem = () => {
       // 3. Success Bonuses
       action.onSuccess?.forEach((eff) => {
         if (eff.type === 'modifyLimit') {
-          effects.push(`${getResLabel(store, eff.resource)} ${store.t('ui_limit') || 'Limit'} +${eff.amount}`);
+          effects.push(
+            `${getResLabel(store, eff.resource)} ${store.t('ui_limit')} +${eff.amount}`
+          );
         } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
           const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
-          const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
+          const name = npc
+            ? store.t(npc.nameKey)
+            : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
           effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
-          const recName = store.content.get<ActionDefinition>(eff.id, 'actions') ? (store.t(eff.id, 'actions') as { title?: string })?.title : eff.id;
-          effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
+          const recName = store.content.get<ActionDefinition>(eff.id, 'actions')
+            ? (store.t(eff.id, 'actions') as { title?: string })?.title
+            : eff.id;
+          effects.push(`${store.t('ui_new_recipe')}${store.t('ui_divider_colon')}${recName}`);
         } else if (eff.type === 'unlockItem') {
           const item = store.content.get<ItemDefinition>(eff.id, 'items');
           const itemName = item ? store.t(item.title, 'items') : eff.id;
-          effects.push(`${store.t('ui_item')}: ${itemName}`);
+          effects.push(`${store.t('ui_item')}${store.t('ui_divider_colon')}${itemName}`);
           if (item?.category === 'furniture') {
-            effects.push(`✨ ${store.t('ui_can_be_placed')}`);
+            effects.push(`${store.t('ui_symbol_sparkle')}${store.t('ui_can_be_placed')}`);
           }
         } else if (eff.type === 'setHome') {
           effects.push(...Formatter.getHomeEffects(store, eff.id));
         } else if (eff.type === 'addBuff') {
           const buff = store.content.get<BuffDefinition>(eff.buffId, 'buffs');
           const title = buff ? store.t(buff.title, 'buffs') : eff.buffId;
-          effects.push(`✨ ${title}`);
+          effects.push(`${store.t('ui_symbol_sparkle')}${title}`);
         }
       });
 
@@ -435,7 +507,7 @@ export const createUISystem = () => {
         const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
         const modDef = store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
         const label = modDef ? store.t(modDef.title, 'modifiers') : cleanKey;
-        const limitTxt = isLimit ? ` ${store.t('ui_limit') || 'Limit'}` : '';
+        const limitTxt = isLimit ? ` ${store.t('ui_limit')}` : '';
         effects.push(`${label}${limitTxt} +${mod.add || mod.mult || ''}`);
       });
 
@@ -445,8 +517,9 @@ export const createUISystem = () => {
     renderActionTitle(store: GameState, id: string): string {
       const lang = store.t(id, 'actions') as Record<string, string>;
       if (!lang) return id;
-      const useAlt = (id === 'act-wood' && store.flags['item-axe' as FlagId]) || 
-                     (id === 'act-stone' && store.flags['item-pickaxe' as FlagId]);
+      const useAlt =
+        (id === 'act-wood' && store.flags['item-axe' as FlagId]) ||
+        (id === 'act-stone' && store.flags['item-pickaxe' as FlagId]);
       return (useAlt ? lang.title_alt : lang.title) || lang.title || id;
     },
 
@@ -462,22 +535,24 @@ export const createUISystem = () => {
 
       if (h.id.includes('npc-') && h.data) {
         const actionData = h.data as ActionDefinition;
-        const npc = actionData.npcId ? store.content.get<NPCDefinition>(actionData.npcId, 'npcs') : null;
+        const npc = actionData.npcId
+          ? store.content.get<NPCDefinition>(actionData.npcId, 'npcs')
+          : null;
         const base = npc ? store.t(npc.nameKey) : h.id;
         const progKey = actionData.progKey || '';
         const maxProg = actionData.maxProgress || 0;
         const cur = store.npcProgress[progKey] || 0;
         return `${base} (${Math.min(maxProg, cur + 1)}/${maxProg})`;
       }
-      
+
       const lang = store.t(h.id, 'actions') as { title?: string };
       return lang?.title || h.id;
     },
 
     renderTooltipStory(store: GameState, h: HoverActionData): string {
       if (!h) return '';
-      if (h.isHelp) return h.desc as string || '';
-      if (h.isBuff) return store.t(h.desc as string, 'buffs') || h.desc as string;
+      if (h.isHelp) return (h.desc as string) || '';
+      if (h.isBuff) return store.t(h.desc as string, 'buffs') || (h.desc as string);
 
       if (h.id.startsWith('item-')) {
         const item = store.content.get<ItemDefinition>(h.id, 'items');
@@ -488,7 +563,7 @@ export const createUISystem = () => {
         const progKey = (h.data as ActionDefinition).progKey || '';
         const maxProg = (h.data as ActionDefinition).maxProgress || 0;
         const cur = store.npcProgress[progKey] || 0;
-        
+
         // Priority: Use dialogueKey from the actual step definition
         const step = (h.data as ActionDefinition).steps?.[cur];
         if (step?.dialogueKey) {
@@ -510,16 +585,15 @@ export const createUISystem = () => {
     hasTooltipCosts(store: GameState, h: HoverActionData): boolean {
       if (!h?.data || h.isHelp) return false;
       const prog = h.id.includes('npc-') ? store.npcProgress[h.data.progKey || ''] || 0 : null;
-      const step = (prog !== null && h.data.steps) ? h.data.steps[prog] : null;
+      const step = prog !== null && h.data.steps ? h.data.steps[prog] : null;
       const hasCosts = !!((step && (step.costs || step.cost)) || h.data.cost || h.data.costs);
-      const hasReqs = !!(step?.requirements || h.data.requirements);
-      return hasCosts || hasReqs;
+      return hasCosts;
     },
 
     getDiscoveredItemsByCategory(store: GameState, category: string): string[] {
       const uniqueIds = Array.from(new Set(store.discoveredItems));
       if (category === 'all') return uniqueIds;
-      return uniqueIds.filter(id => {
+      return uniqueIds.filter((id) => {
         const item = store.content.get<ItemDefinition>(id, 'items');
         return item && item.category === category;
       });
@@ -542,7 +616,7 @@ export const createUISystem = () => {
 
     boot(store: GameState) {
       this.initMagneticHover();
-      
+
       const triggerPulse = (type: string, cssClass: string) => {
         const el = document.querySelector(`[data-res="${type}"]`);
         if (!el) return;
@@ -553,14 +627,30 @@ export const createUISystem = () => {
         addTimer(t);
       };
 
-      store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: { type: ResourceId }) => triggerPulse(d.type, 'gain-pulse'));
-      store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: { type: ResourceId }) => triggerPulse(d.type, 'drain-flash'));
+      store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: { type: ResourceId }) =>
+        triggerPulse(d.type, 'gain-pulse')
+      );
+      store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: { type: ResourceId }) =>
+        triggerPulse(d.type, 'drain-flash')
+      );
 
       // View Validation & Reactive Cleanups
       Alpine.effect(() => {
         const uiStore = Alpine.store('ui') as { view?: string };
         if (!uiStore) return;
-        const VALID_VIEWS = ['menu','prologue','naming','gameplay','crafting','upgrades','village','housing','story','finale','demo_end'];
+        const VALID_VIEWS = [
+          'menu',
+          'prologue',
+          'naming',
+          'main',
+          'crafting',
+          'upgrades',
+          'village',
+          'housing',
+          'collection',
+          'finale',
+          'demo_end',
+        ];
         if (uiStore.view && !VALID_VIEWS.includes(uiStore.view)) {
           console.warn(`[UI] Invalid view: ${uiStore.view}. Resetting to menu.`);
           uiStore.view = 'menu';

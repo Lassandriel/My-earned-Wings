@@ -7,7 +7,7 @@ import { createPersistenceSystem } from '../../core/services/persistence';
 import { createLoggerSystem } from '../../core/services/logger';
 import { createJuiceSystem } from '../../core/visuals/juice';
 import { createUISystem } from '../../core/visuals/ui';
-import { createStorySystem } from '../../features/story/story.logic';
+import { createCollectionSystem } from '../../features/story/story.logic';
 import { createPrologueSystem } from '../../features/story/prologue.logic';
 import { createDialogueSystem } from '../../features/story/dialogue.logic';
 import { createNPCSystem } from '../../features/village/village.logic';
@@ -38,7 +38,7 @@ export const getSystems = (initialState?: any): Record<string, GameSystem> => {
     logger: createLoggerSystem() as GameSystem,
     juice: createJuiceSystem() as GameSystem,
     ui: createUISystem() as GameSystem,
-    story: createStorySystem() as GameSystem,
+    collection: createCollectionSystem() as GameSystem,
     prologue: createPrologueSystem() as GameSystem,
     npc: createNPCSystem() as GameSystem,
     actions: createActionSystem() as GameSystem,

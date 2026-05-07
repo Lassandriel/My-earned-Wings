@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - MY-EARNED-WINGS
 
-## Status: v1.3.4-stable (Data & UI Hardening)
+## Status: v1.3.6-stable (Data & UI Hardening)
 Die Architektur wurde vollständig auf ein modulares, datengesteuertes System umgestellt. Der Fokus liegt aktuell auf maximaler Typsicherheit, Datenkonsistenz und UI-Stabilität.
 
 ---
@@ -19,6 +19,8 @@ Die Architektur wurde vollständig auf ein modulares, datengesteuertes System um
 - [x] **UI/UX Hardening (v1.3.1)**: Premium-Aesthetics (Glassmorphism), reaktive Tooltips und optimierte Layouts.
 - [x] **Total Type Hardening (v1.3.3)**: Eliminierung von `any`-Typen im Core-Store, den Registries und Logik-Systemen. 100% Compiler-Konformität.
 - [x] **I18N & Tooltip Polish (v1.3.4)**: Behebung fehlender Sprachschlüssel für NPC-Dialoge, Korrektur der Tooltip-Positionierung und Einführung einer automatisierten Inhalts-Validierung beim Start.
+- [x] **Full Localization & Cleanup (v1.3.5)**: Vollständige Eliminierung von hartcodierten Texten in HTML-Views und Logik. Dynamische Seitentitel-Aktualisierung und Bereinigung von Fallback-Strings.
+- [x] **Tooltip Logic Refinement (v1.3.6)**: Behebung fehlender Datenlabels in Kostenanzeigen, Filtern interner Requirements und Optimierung der Übersetzungs-Fallbacks für dynamische Keys.
 
 ---
 
@@ -33,4 +35,4 @@ Die Architektur wurde vollständig auf ein modulares, datengesteuertes System um
 - [ ] **Tree of Life Finale**: Die finale spirituelle Erweckung und das Erreichen des Palastes über den Wolken.
 
 ---
-Zuletzt aktualisiert: 7. Mai 2026 · v1.3.4-stable
+Zuletzt aktualisiert: 7. Mai 2026 · v1.3.6-stable (Total Localization Audit complete)

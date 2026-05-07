@@ -47,7 +47,10 @@ export const furnitureConstruction = {
       { type: 'unlockRecipe', id: 'act-book' },
     ],
     logKey: 'craft_bookshelf',
-    modifiers: [{ key: 'magic_limit', add: 5 }],
+    modifiers: [
+      { key: 'magic_limit', add: 5 },
+      { key: 'books_limit', add: 10 }
+    ],
   },
   'act-book': {
     id: 'act-book',
@@ -146,6 +149,7 @@ export const furnitureConstruction = {
       { type: 'setFlag', flag: 'build-bookshelf-large', value: true },
       { type: 'unlockItem', id: 'item-bookshelf-large' },
     ],
+    modifiers: [{ key: 'books_limit', add: 25 }],
   },
   'build-desk': {
     id: 'build-desk',

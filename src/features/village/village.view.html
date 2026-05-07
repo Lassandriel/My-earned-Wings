@@ -76,7 +76,7 @@
               <div x-show="!npc?.image" class="npc-placeholder" x-text="npc?.icon"></div>
             </div>
             <template x-if="$store.game.ui.isNPCMaxed($store.game, npcId)">
-              <div class="status-check" title="Maxed">✓</div>
+              <div class="status-check" :title="$store.game.t('ui_maxed')">✓</div>
             </template>
           </div>
 
@@ -123,7 +123,7 @@
         <div class="teacher-spotlight" @mouseenter="$store.game.setHovered('npc-teacher')" @mouseleave="$store.game.setHovered(null)">
           <img src="img/npcs/teacher_aria.webp" class="teacher-mini-img" alt="Teacher Aria">
           <div class="teacher-info">
-            <span x-text="$store.game.t('ui_teacher_label') || 'Lehrkraft'"></span>
+            <span x-text="$store.game.t('ui_teacher_label')"></span>
             <strong x-text="$store.game.t('npc_teacher_name')"></strong>
           </div>
         </div>

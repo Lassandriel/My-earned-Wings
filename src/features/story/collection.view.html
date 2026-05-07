@@ -1,27 +1,27 @@
 <!-- CHRONICLE VIEW -->
-<div x-show="$store.game.view === 'story'" class="view-content-story">
+<div x-show="$store.game.view === 'collection'" class="view-content-story">
   <div class="category-header">
     <h3 x-text="$store.game.t('nav_story_tab_header')"></h3>
     <div
       class="nav-help-icon"
-      @mouseenter="$store.game.setHovered('help', { id: 'help', isHelp: true, title: $store.game.t('nav_story_tab_header'), desc: $store.game.t('nav_chronicle_desc') })"
+      @mouseenter="$store.game.setHovered('help', { id: 'help', isHelp: true, title: $store.game.t('nav_story_tab_header'), desc: $store.game.t('nav_collection_desc') })"
       @mouseleave="$store.game.setHovered(null)"
     >
       ?
     </div>
   </div>
 
-  <div class="story-archive-layout" x-show="$store.game.storyHistory.length > 0 || $store.game.flags['unlocked-library']">
+  <div class="story-archive-layout" x-show="$store.game.collectionHistory.length > 0 || $store.game.flags['unlocked-library']">
     <!-- Sidebar: NPC List -->
     <div class="story-archive-sidebar">
       <div
         class="npc-archive-tab"
         :class="$store.game.selectedStoryNpc === 'world' ? 'active' : ''"
         @click="$store.game.selectedStoryNpc = 'world'; $store.game.playSound('click')"
-        x-show="$store.game.storyHistory.some(e => !e.npcId || e.npcId === 'world')"
+        x-show="$store.game.collectionHistory.some(e => !e.npcId || e.npcId === 'world')"
       >
         <span class="npc-archive-icon">📜</span>
-        <span class="npc-archive-name" x-text="$store.game.t('cat_chronicle_world')"></span>
+        <span class="npc-archive-name" x-text="$store.game.t('cat_collection_world')"></span>
       </div>
 
       <div
@@ -39,7 +39,7 @@
           class="npc-archive-tab"
           :class="$store.game.selectedStoryNpc === npcId ? 'active' : ''"
           @click="$store.game.selectedStoryNpc = npcId; $store.game.playSound('click')"
-          x-show="$store.game.storyHistory.some(e => e.npcId === npcId)"
+          x-show="$store.game.collectionHistory.some(e => e.npcId === npcId)"
         >
           <span
             class="npc-archive-icon"
@@ -57,12 +57,12 @@
     <div class="story-archive-content">
       <div class="archive-scroll-container">
         <template
-          x-for="entry in $store.game.storyHistory.filter(e => (e.npcId || 'world') === $store.game.selectedStoryNpc)"
+          x-for="entry in $store.game.collectionHistory.filter(e => (e.npcId || 'world') === $store.game.selectedStoryNpc)"
           :key="entry.timestamp"
         >
           <div class="archive-entry card-premium m-sm p-sm" x-transition:enter="view-enter">
             <div class="archive-entry-header">
-              <span class="archive-entry-chapter" x-text="entry.chapter"></span>
+              <span class="archive-entry-chapter" x-text="$store.game.t(entry.chapter)"></span>
               <span
                 class="archive-entry-time"
                 x-text="new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })"
@@ -89,14 +89,16 @@
           getDisplayName(id) {
              const act = $store.game.content.get(id, 'actions');
              const itemId = id.replace('act-read-lore-', 'item-book_lore_');
-             const item = $store.game.content.get(itemId, 'items');
-             return item ? $store.game.t(item.title, 'items') : $store.game.t(id, 'actions').title;
+             const item = $store.game.content.get(itemId, 'items', true);
+             const isBook = id.startsWith('act-read-lore-');
+             return (isBook && item && !item.id.includes('act-')) ? $store.game.t(item.title, 'items') : ($store.game.t(id, 'actions').title || id);
           },
           getDisplayDesc(id) {
              const act = $store.game.content.get(id, 'actions');
              const itemId = id.replace('act-read-lore-', 'item-book_lore_');
-             const item = $store.game.content.get(itemId, 'items');
-             return item ? $store.game.t(item.desc, 'items') : $store.game.t(id, 'actions').desc;
+             const item = $store.game.content.get(itemId, 'items', true);
+             const isBook = id.startsWith('act-read-lore-');
+             return (isBook && item && !item.id.includes('act-')) ? $store.game.t(item.desc, 'items') : ($store.game.t(id, 'actions').desc || '');
           }
         }"
       >
@@ -149,11 +151,11 @@
   </div>
 
   <!-- Empty State View -->
-  <div class="empty-story-splash panel-premium flex-center m-lg" x-show="$store.game.storyHistory.length === 0" x-transition>
+  <div class="empty-story-splash panel-premium flex-center m-lg" x-show="$store.game.collectionHistory.length === 0" x-transition>
     <div class="splash-inner">
       <div class="splash-icon">📜</div>
-      <h4 class="text-gold" x-text="$store.game.t('ui_chronicle_empty_title')">Deine Reise beginnt...</h4>
-      <p class="text-dim" x-text="$store.game.t('ui_empty_story')"></p>
+      <h4 class="text-gold" x-text="$store.game.t('ui_collection_empty_title')"></h4>
+      <p class="text-dim" x-text="$store.game.t('ui_empty_collection')"></p>
     </div>
   </div>
 </div>

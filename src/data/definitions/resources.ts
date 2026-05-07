@@ -189,7 +189,7 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
     category: 'knowledge',
     color: '#a78bfa',
     initial: 0,
-    initialLimit: 0,
+    initialLimit: 5,
   },
   study_xp: {
     id: 'study_xp',
