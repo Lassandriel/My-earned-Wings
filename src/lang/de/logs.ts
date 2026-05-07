@@ -180,4 +180,7 @@ export default {
   milestone_school: 'Die Dorfschule wurde gegründet.',
   'milestone_school-graduate': 'Du hast deinen Schulabschluss erhalten. Aria lächelt stolz.',
   school_graduate_log: 'Du hast deinen Schulabschluss erhalten. Aria lächelt stolz.',
+  npc_teacher_2_no_house: '"Es ist schön dich zu sehen, {player}. Aber ohne ein festes Dach über dem Kopf wird das mit dem Lernen schwierig. Komm doch wieder, wenn du ein eigenes Haus hast."',
+  npc_teacher_2_with_house: '"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!"',
+  focus_broken_magic: 'Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.',
 };

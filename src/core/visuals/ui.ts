@@ -33,15 +33,15 @@ export const createUISystem = () => {
       this.reposition(e.clientX, e.clientY);
     },
 
-    _lastX: 0,
-    _lastY: 0,
+    _lastX: -1,
+    _lastY: -1,
     
-    reposition(x: number, y: number) {
+    reposition(x: number, y: number, force = false) {
       if (!_tt) _tt = document.getElementById('tooltip-container');
       if (!_tt) return;
 
-      // Distance threshold to prevent micro-jitters
-      if (Math.abs(this._lastX - x) < 2 && Math.abs(this._lastY - y) < 2) return;
+      // Distance threshold to prevent micro-jitters (unless forced)
+      if (!force && Math.abs(this._lastX - x) < 2 && Math.abs(this._lastY - y) < 2) return;
       this._lastX = x;
       this._lastY = y;
 
@@ -132,7 +132,16 @@ export const createUISystem = () => {
         else if (path === 'flags.read_book_1_complete') label = store.t('item_book_lore_1_title', 'items');
         else if (path === 'flags.read_book_2_complete') label = store.t('item_book_lore_2_title', 'items');
         else if (path === 'flags.school_graduate') label = store.t('school_graduate') || 'Abschluss';
-        else if (path.startsWith('flags.')) label = store.t('ui_' + path.replace('flags.', '')) || store.t(path.replace('flags.', '')) || path;
+        else if (path.startsWith('flags.')) {
+          const flagKey = path.replace('flags.', '');
+          // Check if it's an item flag
+          if (flagKey.startsWith('item-')) {
+            const item = store.content.get<ItemDefinition>(flagKey, 'items');
+            label = item ? store.t(item.title, 'items') : store.t('ui_' + flagKey) || flagKey;
+          } else {
+            label = store.t('ui_' + flagKey) || store.t(flagKey) || flagKey;
+          }
+        }
 
         const met = store.actions.checkRequirement(store, path, rule);
 
@@ -154,7 +163,8 @@ export const createUISystem = () => {
       const effects: string[] = [];
 
       if (step.reward) {
-        const item = store.content.get<ItemDefinition>(step.reward, 'items');
+        const isItem = step.reward.startsWith('item-');
+        const item = isItem ? store.content.get<ItemDefinition>(step.reward, 'items', true) : null;
         if (item) {
           effects.push(`1 ${store.t(item.title, 'items')}`);
         } else {
@@ -258,7 +268,7 @@ export const createUISystem = () => {
     },
     cleanupHover: TooltipManager.cleanup,
     getTooltipCosts: TooltipManager.getCosts,
-    getTooltipRequirements: TooltipManager.getRequirements,
+    getRequirements: TooltipManager.getRequirements,
     handleMouseMove: TooltipManager.handleMove,
     reposition: TooltipManager.reposition.bind(TooltipManager),
 
@@ -415,6 +425,10 @@ export const createUISystem = () => {
           }
         } else if (eff.type === 'setHome') {
           effects.push(...Formatter.getHomeEffects(store, eff.id));
+        } else if (eff.type === 'addBuff') {
+          const buff = store.content.get<BuffDefinition>(eff.buffId, 'buffs');
+          const title = buff ? store.t(buff.title, 'buffs') : eff.buffId;
+          effects.push(`✨ ${title}`);
         }
       });
 

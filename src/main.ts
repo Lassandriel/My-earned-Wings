@@ -51,6 +51,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   bus: createEventBus(),
   EVENTS: GAME_EVENTS,
   bootstrapper: bootSystem,
+  translations: TRANSLATIONS,
 
   get settings() { return getSettings(); },
 
@@ -59,6 +60,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     const store = getStore();
 
     store.bootstrapper.bootSystems(store);
+    store.content.validate(store);
     store.persistence.loadSettings(store);
     if (store.audio) store.audio.init(store.settings);
     if (store.juice) store.juice.boot(store);
@@ -115,7 +117,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
       store.hoveredAction = { id, data: store.content.get(id) };
     }
     if (id && store.ui?.reposition) {
-      store.ui.reposition(store.lastMouseX, store.lastMouseY);
+      store.ui.reposition(store.lastMouseX, store.lastMouseY, true);
     }
   },
 

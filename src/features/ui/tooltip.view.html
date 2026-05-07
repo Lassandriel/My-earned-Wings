@@ -23,7 +23,7 @@
   <hr class="tt-divider" x-show="$store.game.hoveredAction" />
 
   <!-- Status / Active (NEW) -->
-  <div class="tt-status" x-show="$store.game.hoveredAction?.data?.onSuccess?.some(e => e.type === 'setHome' && e.id === $store.game.currentHome)">
+  <div class="tt-status" x-show="$store.game.hoveredAction?.data?.onSuccess?.some(e => e.type === 'setHome' && e.id === $store.game.activeHome)">
     <span class="status-active" x-text="'✨ ' + ($store.game.t('ui_active') || 'Momentanes Zuhause')"></span>
   </div>
 

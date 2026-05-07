@@ -15,7 +15,7 @@ export const createContentService = (registries: Registries) => ({
     return (this.registries[type] as any) || {};
   },
 
-  get<T = any>(id: string, type: keyof Registries | null = null): T {
+  get<T = any>(id: string, type: keyof Registries | null = null, silent = false): T {
     let data: any = null;
     const detectedType = type || this.detectType(id);
 
@@ -32,7 +32,7 @@ export const createContentService = (registries: Registries) => ({
 
     // --- CRASH PREVENTION (Null-Object Pattern) ---
     if (!data) {
-      console.warn(`[CONTENT] Missing ID: "${id}" in registry. Returning fallback.`);
+      if (!silent) console.warn(`[CONTENT] Missing ID: "${id}" in registry. Returning fallback.`);
       return {
         id,
         title: id,
@@ -131,8 +131,12 @@ export const createContentService = (registries: Registries) => ({
         // 2. Metadata Consistency (Title/Icon)
         if (regName !== 'resources' && regName !== 'buffs') {
           if (!data.icon && !data.image) {
-            console.warn(`[MISSING VISUAL] ${id} has no icon or image!`);
-            warnings++;
+            // Ignore virtual resources/modifiers for visual checks
+            const isVirtual = id.endsWith('_yield') || id.endsWith('_limit') || id.endsWith('_cost') || id.includes('focus_');
+            if (!isVirtual) {
+              console.warn(`[MISSING VISUAL] ${id} has no icon or image!`);
+              warnings++;
+            }
           }
         }
 
@@ -149,7 +153,6 @@ export const createContentService = (registries: Registries) => ({
                 console.error(`[MISSING DIALOGUE] ${id} Step ${stepIdx} is missing dialogueKey!`);
                 errors++;
               }
-              // Every step needs reward
               const hasReward = step.reward || (step.onSuccess && step.onSuccess.length > 0);
               if (!hasReward) {
                 console.error(`[MISSING REWARD] ${id} Step ${stepIdx} has no reward!`);
@@ -180,6 +183,11 @@ export const createContentService = (registries: Registries) => ({
           if (data.nameKey) checkKeys.push({ key: data.nameKey, context: 'ui' });
           if (data.title) checkKeys.push({ key: data.title, context: regName });
           if (data.desc) checkKeys.push({ key: data.desc, context: regName });
+
+          // Fallback: Check ID if no title/nameKey is provided
+          if (!data.title && !data.nameKey) {
+            checkKeys.push({ key: id, context: regName });
+          }
 
           // Also check dialogue keys for NPC steps
           if (data.steps) {

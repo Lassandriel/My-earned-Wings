@@ -1,8 +1,8 @@
 export const housingConstruction = {
   'build-house': {
     id: 'build-house',
-    title: 'action_build_house_title',
-    desc: 'action_build_house_desc',
+    title: 'build-house',
+    desc: 'build-house',
     chapter: 'Establishment',
     category: 'housing',
     costs: { wood: 40, stone: 40 },
@@ -21,8 +21,8 @@ export const housingConstruction = {
   },
   'build-table': {
     id: 'build-table',
-    title: 'action_build_table_title',
-    desc: 'action_build_table_desc',
+    title: 'build-table',
+    desc: 'build-table',
     chapter: 'Establishment',
     category: 'housing',
     requirements: { 'flags.build-house': true, 'flags.build-table': { op: '!=', val: true } },
@@ -40,8 +40,8 @@ export const housingConstruction = {
   },
   'build-kitchen': {
     id: 'build-kitchen',
-    title: 'action_build_kitchen_title',
-    desc: 'action_build_kitchen_desc',
+    title: 'build-kitchen',
+    desc: 'build-kitchen',
     chapter: 'Refinement',
     category: 'housing',
     costs: { wood: 80, stone: 40 },
@@ -54,8 +54,8 @@ export const housingConstruction = {
   },
   'build-arcane-sanctum': {
     id: 'build-arcane-sanctum',
-    title: 'action_build_sanctum_title',
-    desc: 'action_build_sanctum_desc',
+    title: 'build-arcane-sanctum',
+    desc: 'build-arcane-sanctum',
     chapter: 'Refinement',
     category: 'housing',
     costs: { stone: 150, magic: 50 },
@@ -78,8 +78,8 @@ export const housingConstruction = {
   },
   'build-home-lake': {
     id: 'build-home-lake',
-    title: 'action_build_home_lake_title',
-    desc: 'action_build_home_lake_desc',
+    title: 'build-home-lake',
+    desc: 'build-home-lake',
     chapter: 'Refinement',
     category: 'housing',
     costs: { wood: 150, shards: 300 },
@@ -99,8 +99,8 @@ export const housingConstruction = {
   },
   'build-home-tower': {
     id: 'build-home-tower',
-    title: 'action_build_home_tower_title',
-    desc: 'action_build_home_tower_desc',
+    title: 'build-home-tower',
+    desc: 'build-home-tower',
     chapter: 'Refinement',
     category: 'housing',
     costs: { stone: 250, shards: 500 },
@@ -120,8 +120,8 @@ export const housingConstruction = {
   },
   'build-terrace': {
     id: 'build-terrace',
-    title: 'action_build_terrace_title',
-    desc: 'action_build_terrace_desc',
+    title: 'build-terrace',
+    desc: 'build-terrace',
     category: 'housing',
     costs: { wood: 200, shards: 500 },
     image: 'img/housing/terrace.webp',

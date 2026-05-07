@@ -180,4 +180,7 @@ export default {
   milestone_school: 'The village school has been founded.',
   'milestone_school-graduate': 'You have received your school diploma. Aria smiles proudly.',
   school_graduate_log: 'You have received your school diploma. Aria smiles proudly.',
+  npc_teacher_2_no_house: '"It is nice to see you, {player}. But without a solid roof over your head, learning will be difficult. Come back once you have a house of your own."',
+  npc_teacher_2_with_house: '"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!"',
+  focus_broken_magic: 'Your magic energy is depleted. The arcane focus has been interrupted.',
 };

@@ -53,7 +53,6 @@ export const furnitureConstruction = {
     id: 'act-book',
     icon: '📖',
     category: 'lore',
-    isStory: true,
     requirements: { 'flags.build-bookshelf': true },
     costs: { shards: 10, wood: 5 },
     sfx: 'craft',

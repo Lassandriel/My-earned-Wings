@@ -70,9 +70,8 @@ export const createInputSystem = () => {
       });
 
       addTracked(document, 'mousemove', (e: MouseEvent) => {
-        const uiStore = Alpine.store('ui') as { lastMouseX: number; lastMouseY: number };
-        uiStore.lastMouseX = e.clientX;
-        uiStore.lastMouseY = e.clientY;
+        store.lastMouseX = e.clientX;
+        store.lastMouseY = e.clientY;
         if (store.ui?.handleMouseMove) {
           store.ui.handleMouseMove(e, store);
         }
