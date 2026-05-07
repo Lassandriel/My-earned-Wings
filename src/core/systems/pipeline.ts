@@ -28,7 +28,6 @@ export const createPipelineSystem = () => {
   };
 
   const _modifierCache = new Map<string, GameModifier[]>();
-  let _lastCacheInvalidation = 0;
 
   return {
     metadata: { id: 'pipeline' },
@@ -149,7 +148,7 @@ export const createPipelineSystem = () => {
 
       // 2.3 Books scaling
       if (key === 'magic_limit_gain') {
-        const books = (store as any)?.resources?.books ?? 0;
+        const books = store.resources?.books ?? 0;
         if (typeof books === 'number' && books > 0) mods.push({ add: books * 2 });
       }
 
@@ -158,7 +157,6 @@ export const createPipelineSystem = () => {
 
     invalidateCache() {
       _modifierCache.clear();
-      _lastCacheInvalidation = Date.now();
     },
   };
 };

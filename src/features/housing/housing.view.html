@@ -22,6 +22,7 @@
           <img
             :src="$store.game.content.get($store.game.activeHome, 'homes')?.image"
             class="home-img"
+            loading="lazy"
           />
           <div class="home-overlay-glow"></div>
         </div>

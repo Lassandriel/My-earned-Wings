@@ -34,7 +34,7 @@ export const createNPCSystem = () => {
       // 0. Requirements (Step-level)
       if (step.requirements) {
         const met = Object.entries(step.requirements).every(([path, rule]) => {
-          return game.actions.checkRequirement(game, path, rule as any);
+          return game.actions.checkRequirement(game, path, rule as boolean | number | string | string[] | { op?: string; val: unknown });
         });
         if (!met) {
           // If it fails due to requirements, we might want to show a specific dialogue

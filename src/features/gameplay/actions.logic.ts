@@ -81,7 +81,7 @@ export function createActionSystem() {
         const title = item ? game.t(item.title, 'items') : id;
         game.addLog('reward_unlock_item', 'logs', 'var(--gold)', { title });
       }
-      game.flags[id as unknown as FlagId] = true;
+      game.flags[id as FlagId] = true;
       game.pipeline.invalidateCache();
       game.resource.invalidateCache();
     });

@@ -22,7 +22,7 @@ export const createBootSystem = () => {
       const DATA_FIELDS = ['resources', 'limits', 'stats', 'flags', 'npcProgress', 'activeBuffs', 'activeProducers', 'counters', 'settings'] as const;
       DATA_FIELDS.forEach(field => {
         if (baseState[field]) {
-          (state as any)[field] = JSON.parse(JSON.stringify(baseState[field]));
+          (state as unknown as Record<string, unknown>)[field] = JSON.parse(JSON.stringify(baseState[field]));
         }
       });
 
@@ -80,7 +80,7 @@ export const createBootSystem = () => {
      */
     execBoot(store: GameState, systems: string[]) {
       systems.forEach(sys => {
-        const instance = (store as any)[sys];
+        const instance = (store as unknown as Record<string, { boot?: (s: GameState) => void; init?: (s: GameState) => void }>)[sys];
         if (instance && typeof instance.boot === 'function') {
           console.log(`[Bootstrapper] Booting system: ${sys}`);
           instance.boot(store);

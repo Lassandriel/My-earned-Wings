@@ -31,7 +31,7 @@ export const createViewManagerSystem = () => ({
     localStorage.removeItem('wings_save');
 
     store.prologueStep = 1;
-    (Alpine.store('logs') as any).clear();
+    (Alpine.store('logs') as { clear: () => void }).clear();
     store.hasSave = false;
 
     Object.keys(cleanState).forEach((key) => {
@@ -40,15 +40,15 @@ export const createViewManagerSystem = () => ({
         // If it's a function, we want to keep the one from the prototype/cleanState if possible,
         // but Alpine stores usually keep their own methods. We only reset data.
         if (typeof val !== 'function') {
-          (store as any)[key] = Array.isArray(val) ? [...val] : (typeof val === 'object' && val !== null ? JSON.parse(JSON.stringify(val)) : val);
+          (store as unknown as Record<string, unknown>)[key] = Array.isArray(val) ? [...val] : (typeof val === 'object' && val !== null ? JSON.parse(JSON.stringify(val)) : val);
         }
       }
     });
 
     store.view = 'prologue';
 
-    if ((store as any).prologue && typeof (store as any).prologue.playIntro === 'function') {
-      (store as any).prologue.playIntro(store);
+    if (store.prologue && typeof store.prologue.playIntro === 'function') {
+      store.prologue.playIntro(store);
     } else {
       store.addLog('intro_1', 'logs', 'var(--accent-teal)');
     }
@@ -146,7 +146,7 @@ export const createViewManagerSystem = () => ({
     console.log('[FINALE] Demo completed! Preparing summary...');
 
     // 1. Calculate Stats
-    const counters = (store as any).counters || {};
+    const counters = store.counters || {};
     const totalItemsAvailable = Object.keys(store.content.registries.items || {}).length;
     const totalNpcsAvailable = Object.keys(store.content.registries.npcs || {}).length;
 
@@ -163,7 +163,7 @@ export const createViewManagerSystem = () => ({
     };
 
     // 2. Clear auto-loops and ongoing tasks
-    (store as any).isLooping = false;
+    (store as { isLooping?: boolean }).isLooping = false;
     store.activeFocus = null;
     store.activeTasks = {};
 

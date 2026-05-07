@@ -53,7 +53,10 @@ export const createI18nSystem = () => {
           return context === 'ui' ? `[${key}]` : key;
       }
       
-      const playerName = (store && store.playerName) ? store.playerName : 'Wanderer';
+      const escapeHtml = (str: string): string =>
+        str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+      const playerName = (store && store.playerName) ? escapeHtml(store.playerName) : 'Wanderer';
       const playerBold = `<strong>${playerName}</strong>`;
       
       const finalParams: Record<string, any> = {

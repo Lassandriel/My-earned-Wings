@@ -2,8 +2,16 @@ import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, Act
 
 // Declare Alpine globally for TS
 declare const Alpine: {
-  store: (name: string, value?: any) => any;
+  store: <T = any>(name: string, value?: T) => T;
 };
+
+const getStore = (): GameState => Alpine.store<GameState>('game');
+
+interface PerfStore {
+  lastTickMs: number;
+  lastTaskMs: number;
+  fps: number;
+}
 
 interface Engine {
   tickInterval: ReturnType<typeof setInterval> | null;
@@ -12,6 +20,8 @@ interface Engine {
   lastTickTime: number;
   lastTaskTime: number;
   productionAccumulator: Record<string, number>;
+  timeAccumulator?: number;
+  magicAccumulator?: number;
   init: () => void;
   stop: () => void;
   metadata?: import('../../types/system').SystemMetadata;
@@ -20,7 +30,6 @@ interface Engine {
   processTasks: (store: GameState, deltaMs: number) => void;
   processPassiveProduction: (store: GameState, deltaTime: number) => void;
   checkMilestones: (store: GameState) => void;
-  [key: string]: any;
 }
 
 /**
@@ -39,9 +48,9 @@ export function createEngineSystem(): Engine {
 
     init() {
       // Clear any existing intervals to prevent leaks
-      if (this.tickInterval) clearInterval(this.tickInterval as any);
-      if (this.taskInterval) clearInterval(this.taskInterval as any);
-      if (this.saveInterval) clearInterval(this.saveInterval as any);
+      if (this.tickInterval) clearInterval(this.tickInterval);
+      if (this.taskInterval) clearInterval(this.taskInterval);
+      if (this.saveInterval) clearInterval(this.saveInterval);
 
       this.lastTickTime = Date.now();
       this.lastTaskTime = Date.now();
@@ -55,8 +64,8 @@ export function createEngineSystem(): Engine {
 
       // 1. Simulation Heartbeat (1s)
       this.tickInterval = setInterval(() => {
-        const store = Alpine.store('game') as unknown as GameState;
-        if (!store || store.view === 'menu' || (store as any).isGameOver) return;
+        const store = getStore();
+        if (!store || store.view === 'menu') return;
 
         const now = Date.now();
         const deltaTime = Math.max(0, (now - this.lastTickTime) / 1000);
@@ -66,21 +75,21 @@ export function createEngineSystem(): Engine {
         const safeDelta = Math.min(deltaTime, 60); 
         
         // Update counters based on actual time passed (Accumulator prevents precision loss)
-        (this as any).timeAccumulator = ((this as any).timeAccumulator || 0) + safeDelta;
-        if ((this as any).timeAccumulator >= 1) {
-          const fullSecs = Math.floor((this as any).timeAccumulator);
+        this.timeAccumulator = (this.timeAccumulator || 0) + safeDelta;
+        if (this.timeAccumulator >= 1) {
+          const fullSecs = Math.floor(this.timeAccumulator);
           store.counters.totalTime = (store.counters.totalTime || 0) + fullSecs;
-          (this as any).timeAccumulator -= fullSecs;
+          this.timeAccumulator -= fullSecs;
         }
         
         const start = performance.now();
         this.processTick(store, safeDelta);
-        (Alpine.store('perf') as any).lastTickMs = Math.round(performance.now() - start);
+        Alpine.store<PerfStore>('perf').lastTickMs = Math.round(performance.now() - start);
       }, 1000);
 
       // 2. High-Frequency Task Ticker (100ms)
       this.taskInterval = setInterval(() => {
-        const store = Alpine.store('game') as unknown as GameState;
+        const store = getStore();
         if (!store || store.view === 'menu') return;
 
         const now = Date.now();
@@ -89,12 +98,12 @@ export function createEngineSystem(): Engine {
 
         const start = performance.now();
         this.processTasks(store, Math.min(deltaMs, 2000));
-        (Alpine.store('perf') as any).lastTaskMs = Math.round(performance.now() - start);
+        Alpine.store<PerfStore>('perf').lastTaskMs = Math.round(performance.now() - start);
       }, 100);
 
       // 3. Maintenance Loop (30s): Milestones & Autosave
       this.saveInterval = setInterval(() => {
-        const store = Alpine.store('game') as unknown as GameState;
+        const store = getStore();
         if (!store || store.view === 'menu') return;
 
         this.checkMilestones(store);
@@ -141,11 +150,11 @@ export function createEngineSystem(): Engine {
       const magicRegen = store.pipeline.calculate(store, 'magic_regen_passive', 0);
       if (magicRegen > 0) {
         const gain = magicRegen * deltaTime;
-        (this as any).magicAccumulator = ((this as any).magicAccumulator || 0) + gain;
+        this.magicAccumulator = (this.magicAccumulator || 0) + gain;
         
-        if ((this as any).magicAccumulator >= 0.1) {
-          store.resource.add(store, 'magic', (this as any).magicAccumulator, true);
-          (this as any).magicAccumulator = 0;
+        if (this.magicAccumulator >= 0.1) {
+          store.resource.add(store, 'magic', this.magicAccumulator, true);
+          this.magicAccumulator = 0;
         }
       }
 
@@ -179,7 +188,7 @@ export function createEngineSystem(): Engine {
             // AUTO-RESTART (Focus Loop)
             if (store.activeFocus === actionId && action.isLoopable) {
               setTimeout(() => {
-                const refreshedStore = Alpine.store('game') as unknown as GameState;
+                const refreshedStore = getStore();
                 if (refreshedStore.activeFocus === actionId && 
                     refreshedStore.view !== 'menu' && 
                     !refreshedStore.activeTasks[actionId] &&
@@ -242,7 +251,7 @@ export function createEngineSystem(): Engine {
 
     checkMilestones(store: GameState) {
       (Object.values(store.content.registries.milestones) as MilestoneDefinition[]).forEach((milestone: MilestoneDefinition) => {
-        const flagId = milestone.id as unknown as FlagId;
+        const flagId = milestone.id as FlagId;
         if (store.flags[flagId]) return;
 
         const met = Object.entries(milestone.requirements).every(([p, r]) => store.actions.checkRequirement(store, p, r));

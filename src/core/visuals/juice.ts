@@ -1,26 +1,35 @@
 import { GameState } from '../../types/game';
 
-declare const Alpine: any;
+// DOM element cache
+let container: HTMLElement | null = null;
+
+declare const Alpine: {
+  store: <T = any>(name: string, value?: T) => T;
+};
 
 /**
  * Juice System - TypeScript Edition
  * Handles visual feedback, particles, and haptics.
  */
 export const createJuiceSystem = () => {
-  let container: HTMLElement | null = null;
-
   return {
-    metadata: { id: 'juice' },
-    init() {
+    metadata: {
+      id: 'juice',
+    },
+
+    boot(store: GameState) {
       container = document.getElementById('juice-container');
       if (!container) {
         console.warn('Juice container not found. Particles disabled.');
       }
+      store.bus.on(store.EVENTS.PARTICLE_TRIGGERED, (data: any) => {
+        this.spawnParticle(data.x, data.y, data.text, data.type);
+      });
     },
 
     spawnParticle(x: number, y: number, text: string, type: string = 'normal') {
-      const store = Alpine.store('game') as unknown as GameState;
-      const settings = (store as any).settings || {};
+      const store = Alpine.store<GameState>('game');
+      const settings = store.settings || {};
       if (!container || !settings.showJuice) return;
 
       const el = document.createElement('div');
@@ -38,13 +47,6 @@ export const createJuiceSystem = () => {
       setTimeout(() => {
         el.remove();
       }, 1300);
-    },
-
-    boot(store: GameState) {
-      this.init();
-      store.bus.on(store.EVENTS.PARTICLE_TRIGGERED, (data: any) => {
-        this.spawnParticle(data.x, data.y, data.text, data.type);
-      });
     },
   };
 };

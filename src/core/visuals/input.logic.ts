@@ -5,6 +5,13 @@ import { GameState } from '../../types/game';
  * Input System - Handles global event listeners.
  */
 export const createInputSystem = () => {
+  const _handlers: { event: string; handler: (e: Event) => void; target: EventTarget }[] = [];
+
+  const addTracked = <T extends Event>(target: EventTarget, event: string, handler: (e: T) => void) => {
+    target.addEventListener(event, handler as EventListener);
+    _handlers.push({ event, handler: handler as (e: Event) => void, target });
+  };
+
   return {
     metadata: {
       id: 'input',
@@ -14,14 +21,21 @@ export const createInputSystem = () => {
       this.setupGlobalEvents(store);
     },
 
+    destroy() {
+      _handlers.forEach(({ target, event, handler }) => {
+        target.removeEventListener(event, handler);
+      });
+      _handlers.length = 0;
+    },
+
     setupGlobalEvents(store: GameState) {
-      window.addEventListener('resize', () => {
+      addTracked(window, 'resize', () => {
         if (store.settingsSystem?.calculateScale) {
           store.settingsSystem.calculateScale(store);
         }
       });
 
-      document.addEventListener('keydown', (e) => {
+      addTracked(document, 'keydown', (e: KeyboardEvent) => {
         // Skip if typing in an input field
         if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
@@ -55,16 +69,19 @@ export const createInputSystem = () => {
         }
       });
 
-      document.addEventListener('mousemove', (e) => {
-        const uiStore = Alpine.store('ui') as any;
+      addTracked(document, 'mousemove', (e: MouseEvent) => {
+        const uiStore = Alpine.store('ui') as { lastMouseX: number; lastMouseY: number };
         uiStore.lastMouseX = e.clientX;
         uiStore.lastMouseY = e.clientY;
         if (store.ui?.handleMouseMove) {
           store.ui.handleMouseMove(e, store);
         }
+        if (store.hoveredAction && store.ui?.reposition) {
+          store.ui.reposition(e.clientX, e.clientY);
+        }
       });
 
-      window.addEventListener('mouseleave', () => {
+      addTracked(window, 'mouseleave', () => {
         if (store.ui?.cleanupHover) {
           store.ui.cleanupHover(store);
         }
@@ -76,7 +93,7 @@ export const createInputSystem = () => {
         }
         document.removeEventListener('click', startMusicOnce);
       };
-      document.addEventListener('click', startMusicOnce);
+      addTracked(document, 'click', startMusicOnce);
     }
   };
 };

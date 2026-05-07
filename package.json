@@ -5,7 +5,7 @@
   "description": "Ein atmosphärisches Spiel über das Finden der eigenen Flügel - Golden Master Core 3.5.",
   "author": "Lassandriel",
   "type": "module",
-  "main": "main.js",
+  "main": "dist_electron/main.js",
   "scripts": {
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development NODE_OPTIONS=\"--import=tsx\" .\\node_modules\\.bin\\electron.cmd src/electron/main.ts\"",
     "build": "vite build",

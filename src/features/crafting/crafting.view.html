@@ -69,7 +69,7 @@
           <div class="game-card-visual">
             <div class="blueprint-visual-wrapper">
               <template x-if="bp.image">
-                <img :src="bp.image" class="blueprint-img" :alt="bp.id" />
+                <img :src="bp.image" class="blueprint-img" :alt="bp.id" loading="lazy" />
               </template>
               <template x-if="!bp.image">
                 <span class="blueprint-icon-fallback" x-text="bp.id.includes('garden') ? '🌿' : '🏗️'"></span>

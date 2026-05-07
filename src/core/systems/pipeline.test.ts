@@ -1,9 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createPipelineSystem } from './pipeline';
 import { GameState } from '../../types/game';
 
 describe('Pipeline System', () => {
   const pipeline = createPipelineSystem();
+
+  beforeEach(() => {
+    pipeline.invalidateCache();
+  });
 
   const createMockStore = (overrides: Partial<GameState> = {}): GameState => {
     return {

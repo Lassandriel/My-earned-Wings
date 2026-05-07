@@ -36,10 +36,18 @@ export const createPreloaderSystem = () => {
       const assets = [
         'img/menu/logo_wings.webp',
         'img/npcs/Ellie.webp',
+        'img/Game_icon.webp',
+        'img/Stat_head.webp',
         // Background sets (Initial)
         'img/background/background 1/1.webp',
         'img/background/background 1/2.webp',
         'img/background/background 1/3.webp',
+        'img/background/background 1/4.webp',
+        'img/background/background 1/5.webp',
+        // Common Menu Icons
+        'img/menu/menu_gameplay.webp',
+        'img/menu/menu_village.webp',
+        'img/menu/menu_crafting.webp'
       ];
 
       // Add common UI elements if needed

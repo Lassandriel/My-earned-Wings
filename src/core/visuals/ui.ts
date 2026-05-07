@@ -12,6 +12,13 @@ import {
  */
 export const createUISystem = () => {
   let _tt: HTMLElement | null = null;
+  const _timers: ReturnType<typeof setTimeout>[] = [];
+
+  const addTimer = (id: ReturnType<typeof setTimeout>) => _timers.push(id);
+  const clearAllTimers = () => {
+    _timers.forEach(id => clearTimeout(id));
+    _timers.length = 0;
+  };
 
   // --- Internal Helpers ---
   const getResLabel = (store: GameState, res: string) => store.t('ui_' + res) || res;
@@ -78,7 +85,7 @@ export const createUISystem = () => {
 
       const processCost = (type: ResourceId, amt: number) => {
         const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
-        const current = store.resources[type] ?? (store as any).stats[type] ?? 0;
+        const current = store.resources[type] ?? store.stats[type] ?? 0;
         results.push({
           resource: type,
           affordable: current >= finalAmt,
@@ -164,7 +171,7 @@ export const createUISystem = () => {
           effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
           const recAction = store.content.get<ActionDefinition>(eff.id, 'actions');
-          const recName = recAction ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
+          const recName = recAction ? (store.t(eff.id, 'actions') as { title?: string })?.title : eff.id;
           effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
         } else if (eff.type === 'unlockItem') {
           const item = store.content.get<ItemDefinition>(eff.id, 'items');
@@ -322,10 +329,12 @@ export const createUISystem = () => {
       container.appendChild(toast);
 
       requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => {
+      const t1 = setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 500);
+        const t2 = setTimeout(() => toast.remove(), 500);
+        addTimer(t2);
       }, 3500);
+      addTimer(t1);
     },
 
     getActionEffect(store: GameState, hAction: HoverActionData): string[] {
@@ -395,7 +404,7 @@ export const createUISystem = () => {
           const name = npc ? store.t(npc.nameKey) : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
           effects.push(`${name} ${store.t('ui_unlocked')}`);
         } else if (eff.type === 'unlockRecipe') {
-          const recName = store.content.get<ActionDefinition>(eff.id, 'actions') ? (store.t(eff.id, 'actions') as any)?.title : eff.id;
+          const recName = store.content.get<ActionDefinition>(eff.id, 'actions') ? (store.t(eff.id, 'actions') as { title?: string })?.title : eff.id;
           effects.push(`${store.t('ui_new_recipe')}: ${recName}`);
         } else if (eff.type === 'unlockItem') {
           const item = store.content.get<ItemDefinition>(eff.id, 'items');
@@ -451,7 +460,7 @@ export const createUISystem = () => {
         return `${base} (${Math.min(maxProg, cur + 1)}/${maxProg})`;
       }
       
-      const lang = store.t(h.id, 'actions') as any;
+      const lang = store.t(h.id, 'actions') as { title?: string };
       return lang?.title || h.id;
     },
 
@@ -530,15 +539,16 @@ export const createUISystem = () => {
         el.classList.remove(cssClass);
         void (el as HTMLElement).offsetWidth;
         el.classList.add(cssClass);
-        setTimeout(() => el.classList.remove(cssClass), 600);
+        const t = setTimeout(() => el.classList.remove(cssClass), 600);
+        addTimer(t);
       };
 
       store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: { type: ResourceId }) => triggerPulse(d.type, 'gain-pulse'));
       store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: { type: ResourceId }) => triggerPulse(d.type, 'drain-flash'));
 
       // View Validation & Reactive Cleanups
-      (Alpine as any).effect(() => {
-        const uiStore = (Alpine as any).store('ui') as any;
+      Alpine.effect(() => {
+        const uiStore = Alpine.store('ui') as { view?: string };
         if (!uiStore) return;
         const VALID_VIEWS = ['menu','prologue','naming','gameplay','crafting','upgrades','village','housing','story','finale','demo_end'];
         if (uiStore.view && !VALID_VIEWS.includes(uiStore.view)) {
@@ -547,6 +557,10 @@ export const createUISystem = () => {
         }
         this.cleanupHover(store);
       });
+    },
+
+    destroy() {
+      clearAllTimers();
     },
   };
 };

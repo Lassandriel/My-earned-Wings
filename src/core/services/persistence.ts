@@ -134,7 +134,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
     Object.keys(initialState).forEach((key) => {
       if (!CONFIG.EXCLUDE.includes(key) && data[key] === undefined) {
         console.warn(`[PERSISTENCE] Missing key "${key}" in save. Applying default.`);
-        data[key] = (initialState as any)[key];
+        (data as Record<string, unknown>)[key] = initialState[key as keyof GameState];
       }
     });
 
@@ -182,25 +182,26 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
    * This prevents content registry fallback spam and keeps state consistent after updates.
    */
   const sanitizeSaveArrays = (store: GameState) => {
-    const regs: any = (store as any).content?.registries;
+    const contentService = store.content as unknown as { registries?: Record<string, Record<string, unknown>> };
+    const regs = contentService?.registries;
     if (!regs) return;
 
-    const safeFilter = (arr: any, predicate: (v: any) => boolean) =>
+    const safeFilter = <T>(arr: T[], predicate: (v: T) => boolean): T[] =>
       Array.isArray(arr) ? arr.filter(predicate) : [];
 
-    (store as any).discoveredItems = safeFilter((store as any).discoveredItems, (id) => {
+    store.discoveredItems = safeFilter(store.discoveredItems, (id) => {
       return typeof id === 'string' && id.startsWith('item-') && !!regs.items?.[id];
     });
 
-    (store as any).unlockedRecipes = safeFilter((store as any).unlockedRecipes, (id) => {
+    store.unlockedRecipes = safeFilter(store.unlockedRecipes, (id) => {
       return typeof id === 'string' && !!regs.actions?.[id];
     });
 
-    (store as any).unlockedNPCs = safeFilter((store as any).unlockedNPCs, (id) => {
+    store.unlockedNPCs = safeFilter(store.unlockedNPCs, (id) => {
       return typeof id === 'string' && !!regs.npcs?.[id];
     });
 
-    (store as any).discoveredTitles = safeFilter((store as any).discoveredTitles, (id) => {
+    store.discoveredTitles = safeFilter(store.discoveredTitles, (id) => {
       return typeof id === 'string' && !!regs.titles?.[id];
     });
   };
@@ -219,7 +220,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         const saveObj: any = {};
         Object.keys(initialState).forEach((key) => {
           if (!CONFIG.EXCLUDE.includes(key)) {
-            saveObj[key] = (store as any)[key];
+            (saveObj as Record<string, unknown>)[key] = (store as unknown as Record<string, unknown>)[key];
           }
         });
 
@@ -249,7 +250,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
     saveSettings(store: GameState) {
       const settings = {
         language: store.language,
-        settings: (store as any).settings,
+        settings: store.settings,
       };
       localStorage.setItem(CONFIG.SETTINGS_KEY, JSON.stringify(settings));
     },
@@ -261,7 +262,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         const data = JSON.parse(saved);
         if (data.language) store.language = data.language;
         if (data.settings) {
-          Object.assign((store as any).settings, data.settings);
+          Object.assign(store.settings, data.settings);
         }
         store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
         return true;

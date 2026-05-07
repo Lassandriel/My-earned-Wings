@@ -1,7 +1,9 @@
 import { GameState } from '../../types/game';
 
 // Declare Alpine globally for TS
-declare const Alpine: any;
+declare const Alpine: {
+  store: <T = any>(name: string, value?: T) => T;
+};
 
 export const createAudioSystem = () => {
   // SFX Source Registry
@@ -78,8 +80,8 @@ export const createAudioSystem = () => {
       // Lazy initialize
       if (!sfx[actualKey]) {
         sfx[actualKey] = new Audio(source);
-        const game = Alpine.store('game') as unknown as GameState;
-        if ((game as any)?.settings) updateVolumes((game as any).settings);
+        const game = Alpine.store<GameState>('game');
+        if (game?.settings) updateVolumes(game.settings);
       }
 
       safePlay(sfx[actualKey]);
@@ -110,7 +112,7 @@ export const createAudioSystem = () => {
       });
 
       // Listen for settings updates to refresh volumes live
-      const getSettings = () => (store as any).settings;
+      const getSettings = () => store.settings;
       store.bus.on(store.EVENTS.SAVE_REQUESTED, () => this.updateVolumes(getSettings()));
       store.bus.on(store.EVENTS.SETTINGS_UPDATED, () => this.updateVolumes(getSettings()));
     },

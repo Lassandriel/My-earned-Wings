@@ -4,20 +4,26 @@ import { GameState } from '../../types/game';
  * Dynamic Background, Time of Day & Parallax System
  * Synchronizes background sets with the game's totalTime counter.
  */
-export const createBackgroundSystem = () => {
-  const SET_CONFIG: Record<string, { layers: number; duration: number }> = {
-    'background 1': { layers: 6, duration: 150 }, // Morning
-    'background 2': { layers: 4, duration: 150 }, // Midday
-    'background 3': { layers: 4, duration: 150 }, // Evening
-    'background 4': { layers: 3, duration: 150 }, // Night
-  };
+declare const Alpine: {
+  effect: (fn: () => void) => void;
+  store: <T = any>(name: string, value?: T) => T;
+};
 
+// Background image sets for day/night cycle
+const SET_CONFIG: Record<string, { layers: number; duration: number }> = {
+  'background 1': { layers: 6, duration: 150 }, // Morning
+  'background 2': { layers: 4, duration: 150 }, // Midday
+  'background 3': { layers: 4, duration: 150 }, // Evening
+  'background 4': { layers: 3, duration: 150 }, // Night
+};
+
+export const createBackgroundSystem = () => {
   return {
     currentSet: '',
 
     boot(store: GameState) {
       // Listen for time changes to update background cycle
-      (window as any).Alpine.effect(() => {
+      Alpine.effect(() => {
         const totalTime = store.counters.totalTime || 0;
         const cycleTime = totalTime % 600; // 10 minute full cycle
         
@@ -71,7 +77,7 @@ export const createBackgroundSystem = () => {
 
     async updateBackground(setName: string) {
       const container = document.getElementById('background-container');
-      const store = (window as any).Alpine.store('game');
+      const store = Alpine.store<GameState>('game');
       if (!container || !store) return;
 
       const config = SET_CONFIG[setName] || { layers: 4 };

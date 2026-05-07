@@ -4,11 +4,11 @@
 
 ![Official Logo](public/img/menu/logo_wings.webp)
 
-### 🕹️ [Play directly in your browser (Web Version)](https://lassandriel.github.io/My-earned-Wings/)
+## 🕹️ [Play directly in your browser (Web Version)](https://lassandriel.github.io/My-earned-Wings/)
 
 _No download required – progress is saved locally in your browser._
 
-### 💾 [Desktop Version (.exe)](https://github.com/Lassandriel/My-earned-Wings/releases)
+## 💾 [Desktop Version (.exe)](https://github.com/Lassandriel/My-earned-Wings/releases)
 
 _Optimal performance and offline availability._
 
@@ -71,14 +71,6 @@ Maintain project integrity with these automated scripts:
 - `npm run check-assets`: Ensures all registered assets exist physically.
 - `npm run check-logic`: Simulates progression reachability and validates logic & economy constraints.
 - `npm run check-unused`: Detects unused assets (best-effort; dynamic paths may not be detectable statically).
-
----
-
-## 🌍 i18n Debugging (Missing Keys)
-
-In **development mode**, the i18n system warns once per missing key in `console` when `t()` cannot resolve a translation.
-
-- **Optional strict mode (dev only)**: set `window.__I18N_STRICT__ = true` in the browser console to turn missing keys into thrown errors.
 
 ---
 

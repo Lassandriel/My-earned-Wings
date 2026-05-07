@@ -17,7 +17,11 @@ import { createSettingsStore } from './stores/settings.store';
 
 import './assets/styles/main.css';
 
-// --- 1. GLOBALS & PLUGINS ---
+// --- 1. TYPED STORE HELPERS ---
+const getStore = (): GameState => Alpine.store('game') as GameState;
+const getSettings = (): GameState['settings'] => Alpine.store('settings') as GameState['settings'];
+
+// --- 2. GLOBALS & PLUGINS ---
 const TRANSLATIONS = getTranslations();
 window.TRANSLATIONS = TRANSLATIONS as Translations;
 
@@ -48,11 +52,11 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   EVENTS: GAME_EVENTS,
   bootstrapper: bootSystem,
 
-  get settings() { return Alpine.store('settings') as GameState['settings']; },
+  get settings() { return getSettings(); },
 
   bootstrap() {
     console.log('[BOOT] Unified Bootstrap Executing...');
-    const store = Alpine.store('game') as GameState;
+    const store = getStore();
 
     store.bootstrapper.bootSystems(store);
     store.persistence.loadSettings(store);
@@ -78,30 +82,30 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
 
   // --- EXPLICIT DELEGATIONS ---
   startNewGame() { 
-    const store = Alpine.store('game') as GameState;
-    (this as unknown as GameState).viewManager.startNewGame(store, () => bootSystem.buildInitialState(initialState)); 
+    const store = getStore();
+    store.viewManager.startNewGame(store, () => bootSystem.buildInitialState(initialState)); 
   },
-  continueGame() { (this as unknown as GameState).viewManager.continueGame(Alpine.store('game') as GameState); },
-  returnToMenu() { (this as unknown as GameState).viewManager.returnToMenu(Alpine.store('game') as GameState); },
-  quit() { if (window.electronAPI) window.electronAPI.quitApp(); else (this as GameState).returnToMenu(); },
+  continueGame() { getStore().viewManager.continueGame(getStore()); },
+  returnToMenu() { getStore().viewManager.returnToMenu(getStore()); },
+  quit() { if (window.electronAPI) window.electronAPI.quitApp(); else getStore().returnToMenu(); },
   saveGame(isManual = false) { 
-    const store = Alpine.store('game') as GameState;
+    const store = getStore();
     store.bus.emit(store.EVENTS.SAVE_REQUESTED, { isManual }); 
   },
-  setLanguage(lang: string) { (this as unknown as GameState).settingsSystem.setLanguage(Alpine.store('game') as GameState, lang); },
+  setLanguage(lang: string) { getStore().settingsSystem.setLanguage(getStore(), lang); },
   playSound(k: string) { 
-    const store = Alpine.store('game') as GameState;
+    const store = getStore();
     store.bus.emit(store.EVENTS.SOUND_TRIGGERED, { key: k }); 
   },
   
-  isTaskActive(id: string) { return !!(Alpine.store('game') as GameState).activeTasks[id]; },
+  isTaskActive(id: string) { return !!getStore().activeTasks[id]; },
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {
-    const store = Alpine.store('game') as GameState;
+    const store = getStore();
     store.bus.emit(store.EVENTS.LOG_ADDED, { id, context: c, color: col, params: p });
   },
 
   setHovered(id: string | null, extra: HoverActionData | null = null) {
-    const store = Alpine.store('game') as GameState;
+    const store = getStore();
     if (id && store.hoveredAction?.id === id) return;
     if (!id) {
       store.hoveredAction = null;
@@ -116,25 +120,25 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   },
 
   getTooltipRequirements(hAction: HoverActionData) {
-    const store = Alpine.store('game') as GameState;
+    const store = getStore();
     return store.ui.getRequirements(store, hAction);
   },
 
   // Resource & NPC Helpers
-  getUsedFurnitureSpace() { return (this as unknown as GameState).housing.getUsedFurnitureSpace(Alpine.store('game') as GameState); },
-  getHomeCapacity() { return (this as unknown as GameState).housing.getHomeCapacity(Alpine.store('game') as GameState); },
-  get energyPercent() { return (this as unknown as GameState).resource.getStatPercent(Alpine.store('game') as GameState, 'energy'); },
-  get magicPercent() { return (this as unknown as GameState).resource.getStatPercent(Alpine.store('game') as GameState, 'magic'); },
-  get satiationPercent() { return (this as unknown as GameState).resource.getStatPercent(Alpine.store('game') as GameState, 'satiation'); },
-  get maxEnergy() { return (this as GameState).getMaxStat('energy'); },
-  get maxMagic() { return (this as GameState).getMaxStat('magic'); },
-  get maxSatiation() { return (this as GameState).getMaxStat('satiation'); },
-  getMaxStat(id: string) { return (this as unknown as GameState).resource.getMaxStat(Alpine.store('game') as GameState, id as 'energy' | 'magic' | 'satiation'); },
-  getLimit(id: string) { return (this as unknown as GameState).resource.getLimit(Alpine.store('game') as GameState, id as 'energy' | 'magic' | 'satiation' | 'shards' | 'wood' | 'stone' | 'herbs' | 'astral_shards' | 'ghostwood' | 'glowpollen' | 'fibers' | 'resin' | 'iron_parts' | 'clay' | 'meat' | 'water' | 'flowers'); },
-  get canAccessTreeOfLife() { return (this as unknown as GameState).npc.canAccessTreeOfLife(Alpine.store('game') as GameState); },
-  get groupedHistory() { return (this as unknown as GameState).story.getGroupedHistory(Alpine.store('game') as GameState); },
-  get availableFurniture() { return (this as unknown as GameState).housing.getAvailableFurniture(Alpine.store('game') as GameState); },
-  get placedFurnitureList() { return (this as unknown as GameState).housing.getPlacedFurnitureList(Alpine.store('game') as GameState); },
+  getUsedFurnitureSpace() { return getStore().housing.getUsedFurnitureSpace(getStore()); },
+  getHomeCapacity() { return getStore().housing.getHomeCapacity(getStore()); },
+  get energyPercent() { return getStore().resource.getStatPercent(getStore(), 'energy'); },
+  get magicPercent() { return getStore().resource.getStatPercent(getStore(), 'magic'); },
+  get satiationPercent() { return getStore().resource.getStatPercent(getStore(), 'satiation'); },
+  get maxEnergy() { return getStore().resource.getMaxStat(getStore(), 'energy'); },
+  get maxMagic() { return getStore().resource.getMaxStat(getStore(), 'magic'); },
+  get maxSatiation() { return getStore().resource.getMaxStat(getStore(), 'satiation'); },
+  getMaxStat(id: string) { return getStore().resource.getMaxStat(getStore(), id as 'energy' | 'magic' | 'satiation'); },
+  getLimit(id: string) { return getStore().resource.getLimit(getStore(), id as 'energy' | 'magic' | 'satiation' | 'shards' | 'wood' | 'stone' | 'herbs' | 'astral_shards' | 'ghostwood' | 'glowpollen' | 'fibers' | 'resin' | 'iron_parts' | 'clay' | 'meat' | 'water' | 'flowers'); },
+  get canAccessTreeOfLife() { return getStore().npc.canAccessTreeOfLife(getStore()); },
+  get groupedHistory() { return getStore().story.getGroupedHistory(getStore()); },
+  get availableFurniture() { return getStore().housing.getAvailableFurniture(getStore()); },
+  get placedFurnitureList() { return getStore().housing.getPlacedFurnitureList(getStore()); },
 };
 
 // --- 4. REGISTRATION & BOOT ---
@@ -146,19 +150,7 @@ autoRegisterSystems(gameStoreObject, systemInstances);
 const game = Alpine.store('game', gameStoreObject as GameState);
 Alpine.store('ui', game);
 
-// --- 5. GLOBAL MOUSE TRACKING ---
-document.addEventListener('mousemove', (e) => {
-  const store = Alpine.store('game') as GameState;
-  if (store) {
-    store.lastMouseX = e.clientX;
-    store.lastMouseY = e.clientY;
-    if (store.hoveredAction && store.ui?.reposition) {
-      store.ui.reposition(e.clientX, e.clientY);
-    }
-  }
-});
-
-// --- 6. DOM READY START ---
+// --- 5. DOM READY START ---
 document.addEventListener('DOMContentLoaded', () => {
   if (!window.ALPINE_STARTED) {
     window.ALPINE_STARTED = true;
@@ -166,13 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Register secondary stores
     Alpine.store('logs', createLogStore());
     const sStore = createSettingsStore(dynamicInitialState.settings);
-    sStore.boot((gameStoreObject as unknown as GameState).settingsSystem);
+    const gameStore = Alpine.store('game') as GameState;
+    sStore.boot(gameStore.settingsSystem);
     Alpine.store('settings', sStore);
 
     Alpine.start();
 
     setTimeout(() => {
-      const store = Alpine.store('game') as GameState;
+      const store = getStore();
       if (store && typeof store.bootstrap === 'function') {
         store.bootstrap();
       }
