@@ -33,6 +33,8 @@
  - [x] **Lore Progression UI Refinement (v1.4.3)**: Umstellung der Lore-Bücher auf ein narratives Fortschrittssystem. Umbenennung von "Studium" zu "Lesen" und Optimierung der Tooltip-Anzeige. Die Buttons verschwinden nun nach Abschluss (10/10) aus dem Hauptmenü und der Lese-Button im Archiv wird ausgeblendet. Hinzufügen von Teacher-Aria-Dialogen bei fehlendem Fortschritt.
  
  - [x] **Tooltip Limit & Location UI Polish (v1.4.4)**: Behebung eines Fehlers, bei dem Tooltips falsche Ressourcen-Limits anzeigten (Bonus-Ignoranz). Einführung von Gebiets-Headern (Dorf, Bibliothek) in den entsprechenden Aktions-Kategorien für eine konsistente visuelle Hierarchie.
+
+- [x] **Core Dependency Modernization (v1.4.6)**: Update auf Electron 42 (Chromium 148), Vite 8.0.11 und Alpine.js 3.15.12. Sicherstellung der Abwärtskompatibilität und Performance-Optimierung durch modernisierte Build-Pipelines.
  
  ---
  
@@ -48,4 +50,4 @@
  - [ ] **Tree of Life Finale**: Die finale spirituelle Erweckung und das Erreichen des Palastes über den Wolken.
  
  ---
- Zuletzt aktualisiert: 8. Mai 2026 · v1.4.5 (Economic Balance & Storage Tiers)
+ Zuletzt aktualisiert: 8. Mai 2026 · v1.4.6 (Core Modernization & Dependency Updates)
