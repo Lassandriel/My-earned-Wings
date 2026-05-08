@@ -154,7 +154,6 @@ export default {
   craft_chair: 'A comfortable wooden chair was assembled.',
   craft_stove: 'A stone stove is ready for warm meals.',
   craft_bookshelf: 'A shelf for all your gathered knowledge.',
-  craft_book: 'You bound an empty book.',
   craft_cabinet: 'Your pantry now offers more space for provisions.',
   craft_spice_rack: 'A spice rack for herbs and alchemy.',
   craft_grand_table: 'A massive table, symbol of a growing community.',

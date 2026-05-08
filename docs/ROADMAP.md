@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - MY-EARNED-WINGS
  
- ## Status: v1.3.11-stable (Storage Tier II & Core Consistency)
+ ## Status: v1.4.6-stable (Core Modernization & Dependency Updates)
  Die Architektur wurde vollständig auf ein modulares, datengesteuertes System umgestellt. Der Fokus liegt aktuell auf maximaler Typsicherheit, Datenkonsistenz und UI-Stabilität.
  
  ---

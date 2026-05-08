@@ -83,12 +83,13 @@ export const createBackgroundSystem = () => {
       const config = SET_CONFIG[setName] || { layers: 4 };
       const layerCount = config.layers;
       
-      // 1. Start Preloading in background
+      // 1. Use transition for smooth fade out
+      container.style.opacity = '0';
+      
+      // 2. Preload in background (now includes decode() via the improved preloader)
       await store.preloader.preloadBackgroundSet(setName, layerCount);
 
-      // 2. Use transition for smooth fade
-      container.style.opacity = '0.5';
-      
+      // 3. Swap content after fade-out transition (~500ms)
       setTimeout(() => {
         container.innerHTML = '';
         
@@ -105,6 +106,7 @@ export const createBackgroundSystem = () => {
           container.appendChild(layer);
         }
         
+        // 4. Fade back in
         container.style.opacity = '1';
       }, 500);
     }

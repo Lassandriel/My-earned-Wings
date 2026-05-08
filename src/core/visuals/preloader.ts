@@ -13,18 +13,32 @@ export const createPreloaderSystem = () => {
     preloadImage(url: string): Promise<void> {
       if (_cache.has(url)) return Promise.resolve();
       
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => {
           _cache.add(url);
-          resolve();
+          // Optional: decode() ensures the image is ready for the GPU
+          if ('decode' in img) {
+            img.decode()
+              .then(() => resolve())
+              .catch(() => resolve()); // Still resolve even if decode fails
+          } else {
+            resolve();
+          }
         };
         img.onerror = () => {
           console.warn(`[PRELOADER] Failed to load: ${url}`);
-          reject();
+          resolve(); // Resolve anyway to not block the chain
         };
         img.src = url;
       });
+    },
+
+    /**
+     * Bootstrapper entry point.
+     */
+    boot() {
+      this.preloadEssential();
     },
 
     /**
@@ -36,6 +50,9 @@ export const createPreloaderSystem = () => {
       const assets = [
         'img/menu/logo_wings.webp',
         'img/npcs/Ellie.webp',
+        'img/npcs/teacher_aria.webp',
+        'img/npcs/baker_gara.webp',
+        'img/npcs/hunter_nyx.webp',
         'img/Game_icon.webp',
         'img/Stat_head.webp',
         // Background sets (Initial)
@@ -44,10 +61,13 @@ export const createPreloaderSystem = () => {
         'img/background/background 1/3.webp',
         'img/background/background 1/4.webp',
         'img/background/background 1/5.webp',
+        'img/background/background 1/6.webp',
         // Common Menu Icons
         'img/menu/menu_gameplay.webp',
         'img/menu/menu_village.webp',
-        'img/menu/menu_crafting.webp'
+        'img/menu/menu_crafting.webp',
+        'img/menu/menu_housing.webp',
+        'img/menu/menu_story.webp'
       ];
 
       // Add common UI elements if needed

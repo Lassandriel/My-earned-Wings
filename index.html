@@ -55,7 +55,15 @@
 
         <header class="main-header" role="banner">
           <div class="logo-container">
-            <img src="img/menu/logo_wings.webp" :alt="$store.game.t('ui_wings_logo_alt')" class="header-logo" />
+            <img 
+              src="img/menu/logo_wings.webp" 
+              :alt="$store.game.t('ui_wings_logo_alt')" 
+              class="header-logo" 
+              loading="eager"
+              fetchpriority="high"
+              width="180"
+              height="80"
+            />
             <h1 class="game-title" x-text="$store.game.t('menu_title')"></h1>
           </div>
 
