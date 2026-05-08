@@ -79,32 +79,32 @@ export default {
   'act-garden-plant-2': {
     title: 'Anpflanzen (Slot 2)',
     desc: 'Nutze das parallele Beet.',
-    effect: '+{val} Kräuter',
+    effect: '+ {val} Kräuter',
   },
   'act-garden-water': {
     title: 'Wasser holen',
     desc: 'Schöpfe frisches Wasser aus dem Brunnen für deinen Garten.',
-    effect: '+2 Wasser',
+    effect: '+ 2 Wasser',
   },
   'act-sell-wood': {
     title: 'Holz verkaufen',
     desc: 'Tausche Holz gegen Splitter.',
-    effect: '+5 Splitter',
+    effect: '+ 5 Splitter',
   },
   'act-sell-meat': {
     title: 'Fleisch verkaufen',
     desc: 'Verkaufe Fleisch für Seelensplitter.',
-    effect: '+10 Splitter',
+    effect: '+ 10 Splitter',
   },
   'act-sell-stone': {
     title: 'Steine verkaufen',
     desc: 'Tausche Stein gegen Splitter.',
-    effect: '+8 Splitter',
+    effect: '+ 8 Splitter',
   },
   'act-buy-meat': {
     title: 'Fleisch kaufen',
     desc: 'Kaufe Fleisch für deine Vorräte.',
-    effect: '+1 Fleisch',
+    effect: '+ 1 Fleisch',
   },
   'act-hunt': {
     title: 'Jagen',

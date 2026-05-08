@@ -76,7 +76,7 @@
               <div x-show="!npc?.image" class="npc-placeholder" x-text="npc?.icon"></div>
             </div>
             <template x-if="$store.game.ui.isNPCMaxed($store.game, npcId)">
-              <div class="status-check" :title="$store.game.t('ui_maxed')">✓</div>
+              <div class="status-check" :title="$store.game.t('ui_maxed')"></div>
             </template>
           </div>
 
@@ -104,7 +104,7 @@
                 @mouseleave="$store.game.setHovered(null)"
                 :title="$store.game.t(action.id, 'actions').title"
               >
-                <span x-text="action.icon || '💰'"></span>
+                <span x-text="action.icon || ''"></span>
               </button>
             </template>
           </div>
@@ -116,7 +116,7 @@
     <section class="school-container" x-show="$store.game.flags.school_unlocked" x-transition>
       <div class="school-header-flex">
         <div class="school-title-group">
-          <span class="school-icon-main">🏛️</span>
+          <span class="school-icon-main"></span>
           <h3 class="school-title" x-text="$store.game.t('cat_school')"></h3>
         </div>
         
@@ -143,7 +143,7 @@
             x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
           >
             <div class="game-card-visual">
-              <span class="school-card-visual" x-text="$store.game.content.get(actionId, 'actions').image || '📚'"></span>
+              <span class="school-card-visual" x-text="$store.game.content.get(actionId, 'actions').image || ''"></span>
             </div>
             
             <div class="game-card-footer school-card-footer">
@@ -207,7 +207,7 @@
     <div x-show="$store.game.academy_path">
       <div class="school-header-flex" style="margin-top: 0; margin-bottom: 30px;">
         <div class="school-title-group">
-          <span class="school-icon-main">✨</span>
+          <span class="school-icon-main"></span>
           <h4 class="school-title" x-text="$store.game.t('cat_vandara')"></h4>
         </div>
         
@@ -240,7 +240,7 @@
           >
             <div class="game-card-visual">
               <div class="action-icon-bg"></div>
-              <span class="action-icon" x-text="$store.game.content.get(actionId, 'actions').image || '✨'"></span>
+              <span class="action-icon" x-text="$store.game.content.get(actionId, 'actions').image || ''"></span>
             </div>
             <div class="game-card-footer action-card-footer">
               <h4 class="game-card-title" x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></h4>

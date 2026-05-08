@@ -44,24 +44,13 @@ export const furnitureConstruction = {
     onSuccess: [
       { type: 'unlockItem', id: 'item-bookshelf' },
       { type: 'setFlag', flag: 'build-bookshelf', value: true },
-      { type: 'unlockRecipe', id: 'act-book' },
     ],
     logKey: 'craft_bookshelf',
     modifiers: [
       { key: 'magic_limit', add: 5 },
-      { key: 'books_limit', add: 10 }
     ],
   },
-  'act-book': {
-    id: 'act-book',
-    icon: '📖',
-    category: 'lore',
-    requirements: { 'flags.build-bookshelf': true },
-    costs: { shards: 10, wood: 5 },
-    sfx: 'craft',
-    rewards: { books: 1 },
-    logKey: 'craft_book',
-  },
+
   'act-cabinet': {
     id: 'act-cabinet',
     category: 'furniture',
@@ -124,8 +113,6 @@ export const furnitureConstruction = {
   },
   'build-loom': {
     id: 'build-loom',
-    title: 'action_build_loom_title',
-    desc: 'action_build_loom_desc',
     category: 'furniture',
     costs: { wood: 50, ghostwood: 10, fibers: 15 },
     image: 'img/furniture/loom.webp',
@@ -138,8 +125,6 @@ export const furnitureConstruction = {
   },
   'build-bookshelf-large': {
     id: 'build-bookshelf-large',
-    title: 'action_build_bookshelf_large_title',
-    desc: 'action_build_bookshelf_large_desc',
     category: 'furniture',
     costs: { wood: 80, shards: 100 },
     image: 'img/furniture/bookshelf_large.webp',
@@ -149,12 +134,10 @@ export const furnitureConstruction = {
       { type: 'setFlag', flag: 'build-bookshelf-large', value: true },
       { type: 'unlockItem', id: 'item-bookshelf-large' },
     ],
-    modifiers: [{ key: 'books_limit', add: 25 }],
+    modifiers: [],
   },
   'build-desk': {
     id: 'build-desk',
-    title: 'action_build_desk_title',
-    desc: 'action_build_desk_desc',
     category: 'furniture',
     costs: { wood: 60, shards: 50 },
     image: 'img/furniture/desk.webp',

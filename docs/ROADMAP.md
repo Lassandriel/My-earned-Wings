@@ -1,6 +1,6 @@
 # PROJECT ROADMAP - MY-EARNED-WINGS
 
-## Status: v1.3.6-stable (Data & UI Hardening)
+## Status: v1.3.7-stable (UI Polish & Consistency)
 Die Architektur wurde vollständig auf ein modulares, datengesteuertes System umgestellt. Der Fokus liegt aktuell auf maximaler Typsicherheit, Datenkonsistenz und UI-Stabilität.
 
 ---
@@ -21,6 +21,7 @@ Die Architektur wurde vollständig auf ein modulares, datengesteuertes System um
 - [x] **I18N & Tooltip Polish (v1.3.4)**: Behebung fehlender Sprachschlüssel für NPC-Dialoge, Korrektur der Tooltip-Positionierung und Einführung einer automatisierten Inhalts-Validierung beim Start.
 - [x] **Full Localization & Cleanup (v1.3.5)**: Vollständige Eliminierung von hartcodierten Texten in HTML-Views und Logik. Dynamische Seitentitel-Aktualisierung und Bereinigung von Fallback-Strings.
 - [x] **Tooltip Logic Refinement (v1.3.6)**: Behebung fehlender Datenlabels in Kostenanzeigen, Filtern interner Requirements und Optimierung der Übersetzungs-Fallbacks für dynamische Keys.
+- [x] **Tooltip Unification (v1.3.7)**: Vereinheitlichung der Tooltip-Formate für Kosten und Anforderungen. Umstellung auf Linksbündigkeit und das "Wert Label"-Format für eine konsistente Anzeige. Einführung von Echtzeit-Statusanzeigen (Bestand/Limit) direkt in der Kostenübersicht.
 
 ---
 
@@ -35,4 +36,4 @@ Die Architektur wurde vollständig auf ein modulares, datengesteuertes System um
 - [ ] **Tree of Life Finale**: Die finale spirituelle Erweckung und das Erreichen des Palastes über den Wolken.
 
 ---
-Zuletzt aktualisiert: 7. Mai 2026 · v1.3.6-stable (Total Localization Audit complete)
+Zuletzt aktualisiert: 8. Mai 2026 · v1.3.7-stable (Tooltip Unification complete)

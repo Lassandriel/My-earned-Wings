@@ -133,7 +133,10 @@ export const npcActions: Record<string, {
     steps: [
       {
         costs: { wood: 20 },
-        onSuccess: [{ type: 'setFlag', flag: 'unlock-wanderstock', value: true }],
+        onSuccess: [
+          { type: 'setFlag', flag: 'unlock-wanderstock', value: true },
+          { type: 'unlockRecipe', id: 'act-wanderstock' }
+        ],
         dialogueKey: 'npc_artisan_1',
       },
       {
@@ -184,6 +187,8 @@ export const npcActions: Record<string, {
         onSuccess: [
           { type: 'unlockItem', id: 'item-book_lore_1' },
           { type: 'unlockItem', id: 'item-book_lore_2' },
+          { type: 'unlockRecipe', id: 'act-read-lore-1' },
+          { type: 'unlockRecipe', id: 'act-read-lore-2' },
           { type: 'setFlag', flag: 'unlocked-library', value: true },
           { type: 'log', logKey: 'receive_books', color: 'var(--gold)' }
         ],
@@ -243,12 +248,20 @@ export const npcActions: Record<string, {
       },
       {
         costs: { shards: 100 },
-        onSuccess: [{ type: 'log', logKey: 'townhall_tax_paid', color: 'var(--accent-teal)' }],
+        reward: 'ui_tax_receipt',
+        onSuccess: [
+          { type: 'setFlag', flag: 'townhall_tax_paid', value: true },
+          { type: 'log', logKey: 'townhall_tax_paid', color: 'var(--accent-teal)' }
+        ],
         dialogueKey: 'npc_townHall_3',
       },
       {
         costs: { shards: 250 },
-        onSuccess: [{ type: 'log', logKey: 'townhall_land_prepped', color: 'var(--accent-teal)' }],
+        reward: 'ui_land_prep',
+        onSuccess: [
+          { type: 'setFlag', flag: 'townhall_land_prepped', value: true },
+          { type: 'log', logKey: 'townhall_land_prepped', color: 'var(--accent-teal)' }
+        ],
         dialogueKey: 'npc_townHall_4',
       },
       { 

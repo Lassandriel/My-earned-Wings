@@ -183,14 +183,6 @@ export const RESOURCE_REGISTRY: Record<string, ResourceDefinition> = {
   },
 
   // --- KNOWLEDGE ---
-  books: {
-    id: 'books',
-    type: 'resource',
-    category: 'knowledge',
-    color: '#a78bfa',
-    initial: 0,
-    initialLimit: 5,
-  },
   study_xp: {
     id: 'study_xp',
     type: 'resource',

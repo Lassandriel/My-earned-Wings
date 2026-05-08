@@ -15,7 +15,7 @@ export const loreActions: Record<string, ActionDefinition> = {
     desc: 'act_read_lore_1_desc',
     icon: '📖',
     steps: [
-      { costs: { energy: 10, books: 1 }, dialogueKey: 'lore_1_step_1' },
+      { cost: 10, costType: 'energy', dialogueKey: 'lore_1_step_1' },
       { cost: 12, costType: 'energy', dialogueKey: 'lore_1_step_2' },
       { cost: 15, costType: 'energy', dialogueKey: 'lore_1_step_3' },
       { cost: 18, costType: 'energy', dialogueKey: 'lore_1_step_4' },
@@ -40,7 +40,7 @@ export const loreActions: Record<string, ActionDefinition> = {
     desc: 'act_read_lore_2_desc',
     icon: '🗺️',
     steps: [
-      { costs: { energy: 10, books: 1 }, dialogueKey: 'lore_2_step_1' },
+      { cost: 10, costType: 'energy', dialogueKey: 'lore_2_step_1' },
       { cost: 12, costType: 'energy', dialogueKey: 'lore_2_step_2' },
       { cost: 15, costType: 'energy', dialogueKey: 'lore_2_step_3' },
       { cost: 18, costType: 'energy', dialogueKey: 'lore_2_step_4' },

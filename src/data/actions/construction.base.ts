@@ -1,9 +1,7 @@
 export const baseConstruction = {
   'build-campfire': {
     id: 'build-campfire',
-    title: 'action_build_campfire_title',
-    desc: 'action_build_campfire_desc',
-    category: 'camp',
+    category: 'housing',
     cost: 5,
     costType: 'wood',
     image: 'img/housing/campfire.webp',
@@ -19,9 +17,7 @@ export const baseConstruction = {
   },
   'build-tent': {
     id: 'build-tent',
-    title: 'action_build_tent_title',
-    desc: 'action_build_tent_desc',
-    category: 'camp',
+    category: 'housing',
     requirements: { 'flags.build-campfire': true, 'flags.build-tent': { op: '!=', val: true } },
     costs: { wood: 15, stone: 5 },
     image: 'img/housing/tent.webp',
@@ -40,8 +36,6 @@ export const baseConstruction = {
   },
   'build-wood-storage': {
     id: 'build-wood-storage',
-    title: 'action_build_wood_storage_title',
-    desc: 'action_build_wood_storage_desc',
     chapter: 'Establishment',
     category: 'camp',
     requirements: {
@@ -63,8 +57,6 @@ export const baseConstruction = {
   },
   'build-stone-storage': {
     id: 'build-stone-storage',
-    title: 'action_build_stone_storage_title',
-    desc: 'action_build_stone_storage_desc',
     chapter: 'Establishment',
     category: 'camp',
     requirements: {
@@ -86,8 +78,6 @@ export const baseConstruction = {
   },
   'build-water-barrel': {
     id: 'build-water-barrel',
-    title: 'action_build_water_barrel_title',
-    desc: 'action_build_water_barrel_desc',
     chapter: 'Village Life',
     category: 'camp',
     costs: { wood: 15, shards: 50 },
@@ -96,5 +86,35 @@ export const baseConstruction = {
     maxCount: 5,
     sfx: 'water',
     onSuccess: [{ type: 'modifyLimit', resource: 'water', amount: 25 }],
+  },
+  'build-wood-storage-2': {
+    id: 'build-wood-storage-2',
+    category: 'camp',
+    requirements: {
+      'flags.build-wood-storage': true,
+      'flags.build-wood-storage-2': { op: '!=', val: true },
+    },
+    costs: { wood: 40, stone: 10 },
+    image: 'img/addons/wood_1.webp',
+    sfx: 'craft',
+    onSuccess: [
+      { type: 'setFlag', flag: 'build-wood-storage-2', value: true },
+    ],
+    modifiers: [{ key: 'wood_limit', add: 20 }],
+  },
+  'build-stone-storage-2': {
+    id: 'build-stone-storage-2',
+    category: 'camp',
+    requirements: {
+      'flags.build-stone-storage': true,
+      'flags.build-stone-storage-2': { op: '!=', val: true },
+    },
+    costs: { wood: 10, stone: 40 },
+    image: 'img/addons/stone_1.webp',
+    sfx: 'craft',
+    onSuccess: [
+      { type: 'setFlag', flag: 'build-stone-storage-2', value: true },
+    ],
+    modifiers: [{ key: 'stone_limit', add: 20 }],
   },
 };

@@ -27,51 +27,42 @@
     <span class="status-active" x-text="$store.game.t('ui_symbol_sparkle') + $store.game.t('ui_current_home')"></span>
   </div>
 
-  <!-- 3. Costs Section (Action Only) -->
+  <!-- 3. Costs & Requirements Section -->
   <div
     class="tt-section"
-    x-show="$store.game.ui.hasTooltipCosts($store.game, $store.game.hoveredAction)"
+    x-show="$store.game.ui.hasTooltipCosts($store.game, $store.game.hoveredAction) || $store.game.getTooltipRequirements($store.game.hoveredAction).length > 0"
   >
-    <div class="tt-section-header" x-text="$store.game.t('ui_salary') + $store.game.t('ui_divider_colon')"></div>
+    <div class="tt-section-header" x-text="$store.game.t('ui_require') + $store.game.t('ui_divider_colon')"></div>
     <div class="tt-cost-list">
+      <!-- Costs -->
       <template
         x-for="line in $store.game.getTooltipCosts($store.game.hoveredAction)"
         :key="line.label"
       >
         <div class="tt-data-line" :class="line.affordable ? 'tt-ready' : 'tt-blocked'">
-          <span x-text="line.label"></span>
-          <span x-text="line.value"></span>
+          <span x-text="line.display"></span>
         </div>
       </template>
-    </div>
-  </div>
-
-  <!-- 3b. Requirements Section -->
-  <div
-    class="tt-section"
-    x-show="$store.game.getTooltipRequirements($store.game.hoveredAction).length > 0"
-  >
-    <div class="tt-section-header" x-text="$store.game.t('ui_required') + $store.game.t('ui_divider_colon')"></div>
-    <div class="tt-cost-list">
+      <!-- Requirements -->
       <template
         x-for="req in $store.game.getTooltipRequirements($store.game.hoveredAction)"
         :key="req.label"
       >
         <div class="tt-data-line" :class="req.met ? 'tt-ready' : 'tt-blocked'">
-          <span x-text="req.label"></span>
-          <span x-text="req.value"></span>
+          <span x-text="req.display"></span>
         </div>
       </template>
     </div>
   </div>
 
-  <!-- 4. Effects Section (Action Only) -->
+  <!-- 4. Effects & Unlocks Section -->
   <div
     class="tt-section"
-    x-show="!$store.game.hoveredAction?.isHelp && $store.game.getActionEffect($store.game.hoveredAction).length > 0"
+    x-show="!$store.game.hoveredAction?.isHelp && ($store.game.getActionEffect($store.game.hoveredAction).length > 0 || ($store.game.hoveredAction && $store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks))"
   >
-    <div class="tt-section-header" x-text="$store.game.t('ui_yield') + $store.game.t('ui_divider_colon')"></div>
+    <div class="tt-section-header" x-text="$store.game.t('ui_effect') + $store.game.t('ui_divider_colon')"></div>
     <div class="tt-effect-list">
+      <!-- Yield/Effects -->
       <template
         x-for="eff in $store.game.getActionEffect($store.game.hoveredAction)"
         :key="eff"
@@ -80,23 +71,15 @@
           <span x-text="eff"></span>
         </div>
       </template>
-      <!-- UNLOCKS (Enhanced List View) -->
-      <div
-        class="tt-section"
-        x-show="$store.game.hoveredAction && $store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks"
+      <!-- UNLOCKS -->
+      <template
+        x-for="item in ($store.game.t($store.game.hoveredAction?.id, 'actions')?.unlocks || '').split(',')"
+        :key="item"
       >
-        <div class="tt-section-header" x-text="$store.game.t('ui_unlocks')"></div>
-        <div class="tt-effect-list">
-          <template
-            x-for="item in ($store.game.t($store.game.hoveredAction?.id, 'actions')?.unlocks || '').split(',')"
-            :key="item"
-          >
-            <div class="tt-data-line tt-bonus">
-              <span x-text="$store.game.t('ui_list_bullet') + item.trim().replace(/^::\s*/, '')"></span>
-            </div>
-          </template>
+        <div class="tt-data-line tt-bonus" x-show="item.trim()">
+          <span x-text="$store.game.t('ui_list_bullet') + item.trim().replace(/^::\s*/, '')"></span>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 

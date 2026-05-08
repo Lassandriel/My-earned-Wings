@@ -94,13 +94,19 @@ export const createUISystem = () => {
 
       const processCost = (type: ResourceId, amt: number) => {
         const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
-        const current = store.resources[type] ?? store.stats[type] ?? 0;
+        const current = Math.floor(store.resources[type] ?? store.stats[type] ?? 0);
+        const limit = store.limits[type] ?? store.resource.getMaxStat(store, type as any);
+        const status = limit ? ` (${current}/${limit})` : ` (${current})`;
+
+        const label = getResLabel(store, type);
         results.push({
           resource: type,
-          label: getResLabel(store, type),
+          label,
           value: finalAmt.toString(),
           affordable: current >= finalAmt,
           amount: finalAmt,
+          status,
+          display: `${finalAmt} ${label}${status}`,
         });
       };
 
@@ -171,15 +177,23 @@ export const createUISystem = () => {
             if (uiTrans && uiTrans !== `[ui_${flagKey}]`) {
               label = uiTrans;
             } else {
-              if (isContentId ? store.content.get(flagKey, null, true) : null) {
-                const type = store.content.detectType(flagKey) || 'actions';
-                const trans = store.t(flagKey, type);
-                label =
-                  typeof trans === 'object' && trans?.title
-                    ? trans.title
-                    : typeof trans === 'string'
-                      ? trans
-                      : flagKey;
+              const type = store.content.detectType(flagKey) || 'actions';
+              const def = isContentId ? store.content.get(flagKey, type as any, true) : null;
+
+              if (def) {
+                // If the definition has a title key, check if it's a valid translation key or the text itself
+                const transKey = (def as any).title || (def as any).nameKey || flagKey;
+                const trans = store.t(transKey, type);
+
+                if (typeof trans === 'object' && trans?.title) {
+                  label = trans.title;
+                } else if (trans && trans !== `[${transKey}]`) {
+                  label = trans;
+                } else {
+                  // If transKey failed, try the flagKey itself
+                  const altTrans = store.t(flagKey, type);
+                  label = (typeof altTrans === 'object' && altTrans?.title) ? altTrans.title : (altTrans || flagKey);
+                }
               } else {
                 label = flagKey;
               }
@@ -187,8 +201,9 @@ export const createUISystem = () => {
           }
 
           const met = store.actions.checkRequirement(store, path, rule);
+          const display = (value === '✓' ? '✓ ' : value + ' ') + label;
 
-          return { label, value, met };
+          return { label, value, met, display };
         });
     },
   };
@@ -209,7 +224,7 @@ export const createUISystem = () => {
         const isItem = step.reward.startsWith('item-');
         const item = isItem ? store.content.get<ItemDefinition>(step.reward, 'items', true) : null;
         if (item) {
-          effects.push(`1 ${store.t(item.title, 'items')}`);
+          effects.push(`+1 ${store.t(item.title, 'items')}`);
         } else {
           // It's a flag or special reward, translate it
           const label = store.t(step.reward) || store.t('ui_' + step.reward) || step.reward;
@@ -243,7 +258,9 @@ export const createUISystem = () => {
           );
         } else if (eff.type === 'modifyLimit') {
           effects.push(
-            `${getResLabel(store, eff.resource)} ${store.t('ui_limit')} +${eff.amount}`
+            store.t('ui_limit_increase')
+              .replace('{res}', getResLabel(store, eff.resource))
+              .replace('{val}', eff.amount.toString())
           );
         }
       });
@@ -276,6 +293,10 @@ export const createUISystem = () => {
       } else {
         result = result.replace('{val}', formatValue(yieldVal as number).toString());
       }
+      
+      // Ensure space after + or - if at start
+      if (result.startsWith('+') && result[1] !== ' ') result = '+ ' + result.substring(1);
+      if (result.startsWith('-') && result[1] !== ' ') result = '- ' + result.substring(1);
 
       // Append Current Stock for Resources
       const resKey = action.yieldType || (action.rewards ? Object.keys(action.rewards)[0] : null);
@@ -427,15 +448,20 @@ export const createUISystem = () => {
             store.content.get<ModifierDefinition>(mod.key, 'modifiers') ||
             store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
 
-          let label = modDef
-            ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers')
-            : store.t('ui_' + mod.key) || mod.key;
-          const limitTxt =
-            isLimit && !label.toLowerCase().includes('limit')
-              ? ` ${store.t('ui_limit')}`
-              : '';
-
-          effects.push(`${label}${limitTxt}${store.t('ui_divider_colon')}${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
+          let label = '';
+          if (isLimit) {
+            label = getResLabel(store, cleanKey);
+            effects.push(
+              store.t('ui_limit_increase')
+                .replace('{res}', label)
+                .replace('{val}', (mod.add || mod.mult || '').toString())
+            );
+          } else {
+            label = modDef
+              ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers')
+              : store.t('ui_' + mod.key) || mod.key;
+            effects.push(`${label}${store.t('ui_divider_colon')}${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
+          }
         });
 
         // 2. Effects (Object-based, e.g. food)
@@ -471,7 +497,9 @@ export const createUISystem = () => {
       action.onSuccess?.forEach((eff) => {
         if (eff.type === 'modifyLimit') {
           effects.push(
-            `${getResLabel(store, eff.resource)} ${store.t('ui_limit')} +${eff.amount}`
+            store.t('ui_limit_increase')
+              .replace('{res}', getResLabel(store, eff.resource))
+              .replace('{val}', eff.amount.toString())
           );
         } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
           const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
@@ -505,10 +533,19 @@ export const createUISystem = () => {
         if (!mod.key) return;
         const isLimit = mod.key.endsWith('_limit');
         const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
-        const modDef = store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
-        const label = modDef ? store.t(modDef.title, 'modifiers') : cleanKey;
-        const limitTxt = isLimit ? ` ${store.t('ui_limit')}` : '';
-        effects.push(`${label}${limitTxt} +${mod.add || mod.mult || ''}`);
+        
+        if (isLimit) {
+          const label = getResLabel(store, cleanKey);
+          effects.push(
+            store.t('ui_limit_increase')
+              .replace('{res}', label)
+              .replace('{val}', (mod.add || mod.mult || '').toString())
+          );
+        } else {
+          const modDef = store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
+          const label = modDef ? store.t(modDef.title, 'modifiers') : getResLabel(store, cleanKey);
+          effects.push(`${label} +${mod.add || mod.mult || ''}`);
+        }
       });
 
       return effects;

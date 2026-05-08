@@ -107,7 +107,7 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
   herbs_limit: { id: 'herbs_limit', title: 'ui_herbs', desc: 'herbs_limit_desc', baseValue: 0 },
   meat_limit: { id: 'meat_limit', title: 'ui_meat', desc: 'meat_limit_desc', baseValue: 0 },
   water_limit: { id: 'water_limit', title: 'ui_water', desc: 'water_limit_desc', baseValue: 0 },
-  books_limit: { id: 'books_limit', title: 'ui_books', desc: 'books_limit_desc', baseValue: 0 },
+
   energy_limit: { id: 'energy_limit', title: 'ui_energy', desc: 'energy_limit_desc', baseValue: 0 },
   magic_limit: { id: 'magic_limit', title: 'ui_magic', desc: 'magic_limit_desc', baseValue: 0 },
   resin_limit: { id: 'resin_limit', title: 'resin_limit_title', desc: 'resin_limit_desc', baseValue: 0 },

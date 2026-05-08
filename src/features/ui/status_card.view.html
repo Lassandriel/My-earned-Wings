@@ -45,7 +45,7 @@
         @mouseleave="$store.game.setHovered(null)"
       >
         <div class="buff-glow"></div>
-        <span class="buff-icon">✨</span>
+        <span class="buff-icon"></span>
         <span class="buff-label" x-text="$store.game.t(buff.title, 'buffs')"></span>
         <span class="buff-timer" x-text="Math.ceil(buff.remaining) + 's'"></span>
       </div>
@@ -160,13 +160,11 @@
     <div class="basis-container">
       <template x-if="!$store.game.flags['build-campfire']">
         <div class="basis-val empty-state">
-          <span class="basis-icon">⛺</span>
-          <span class="basis-text" x-text="$store.game.t('ui_no_shelter')"></span>
+          <span class="status-active" x-text="$store.game.t('ui_no_shelter')"></span>
         </div>
       </template>
       <template x-if="$store.game.flags['build-campfire'] && !$store.game.flags['build-tent']">
         <div class="basis-val active">
-          <span class="basis-icon">🔥</span>
           <span class="basis-text" x-text="$store.game.t('build-campfire', 'actions').title"></span>
         </div>
       </template>
