@@ -22,6 +22,13 @@ const CONFIG = {
   OVERWRITE_ARRAYS: new Set([
     'logs',
     'storyHistory',
+    'discoveredItems',
+    'discoveredResources',
+    'placedItems',
+    'unlockedRecipes',
+    'unlockedNPCs',
+    'discoveredTitles',
+    'activeProducers',
   ]),
 };
 
@@ -151,27 +158,27 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
    * Sanitizes and clamps state values to their limits
    */
   const clampState = (store: GameState) => {
+    if (!store.resource) return;
+
     // 1. Clamp Stats (Energy, Magic, etc.)
     if (store.stats) {
-      const STAT_MAP: Record<string, string> = {
-        energy: 'maxEnergy',
-        magic: 'maxMagic',
-        satiation: 'maxSatiation'
-      };
+      const statsToClamp = ['energy', 'magic', 'satiation'] as const;
       
-      Object.entries(STAT_MAP).forEach(([curr, max]) => {
-        if (store.stats[curr] !== undefined && store.stats[max] !== undefined) {
-          store.stats[curr] = Math.min(store.stats[max], store.stats[curr]);
+      statsToClamp.forEach((statId) => {
+        if (store.stats[statId] !== undefined) {
+          const max = store.resource.getMaxStat(store, statId);
+          store.stats[statId] = Math.min(max, store.stats[statId]);
         }
       });
     }
 
     // 2. Clamp Resources
-    if (store.resources && store.limits) {
+    if (store.resources) {
       Object.keys(store.resources).forEach((r) => {
         const resId = r as ResourceId;
-        if (store.limits[resId] !== undefined) {
-          store.resources[resId] = Math.min(store.limits[resId], store.resources[resId] ?? 0);
+        const limit = store.resource.getLimit(store, resId);
+        if (store.resources[resId] !== undefined) {
+          store.resources[resId] = Math.min(limit, store.resources[resId] ?? 0);
         }
       });
     }
@@ -285,12 +292,21 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
 
         // Apply data to store
         deepMerge(store, validatedData);
+        
+        // CRITICAL: Invalidate caches BEFORE clamping, so getMaxStat uses fresh data from loaded flags/items
+        if (store.pipeline) store.pipeline.invalidateCache();
+        if (store.resource) store.resource.invalidateCache();
+
         clampState(store);
         sanitizeSaveArrays(store);
 
         // Rebuild dynamic systems
         if (store.actions?.rebuildProducers) store.actions.rebuildProducers(store);
         store.activeTasks = {};
+        
+        if (store.pipeline) store.pipeline.invalidateCache();
+        if (store.resource) store.resource.invalidateCache();
+        
         store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
 
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

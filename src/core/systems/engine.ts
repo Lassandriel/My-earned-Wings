@@ -261,6 +261,10 @@ export function createEngineSystem(): Engine {
             const handler = store.actions.effectHandlers[effect.type];
             if (handler) handler(store, effect);
           });
+
+          // Ensure system-wide updates after milestone unlocks
+          if (store.pipeline) store.pipeline.invalidateCache();
+          if (store.resource) store.resource.invalidateCache();
         }
       });
     },

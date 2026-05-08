@@ -122,7 +122,7 @@
               @mouseover="$store.game.setHovered(actionId)"
               @mouseout="$store.game.setHovered(null)"
             >
-              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
               <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
                 <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
               </div>
@@ -152,7 +152,7 @@
               @mouseover="$store.game.setHovered(actionId)"
               @mouseout="$store.game.setHovered(null)"
             >
-              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
               <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
                 <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
               </div>
@@ -170,15 +170,14 @@
         <div class="btn-list">
           <template x-for="actionId in getActions('lore')" :key="actionId">
             <button
-              x-show="$store.game.unlockedRecipes.includes(actionId)"
+              x-show="$store.game.unlockedRecipes.includes(actionId) && (($store.game.npcProgress[$store.game.content.get(actionId, 'actions').progKey || actionId] || 0) < ($store.game.content.get(actionId, 'actions').maxProgress || 10))"
               class="game-btn action-btn-modular"
               :class="$store.game.isTaskActive(actionId) && 'is-working'"
-              :disabled="($store.game.content.get(actionId, 'actions').steps && ($store.game.npcProgress[$store.game.content.get(actionId, 'actions').progKey || actionId] || 0) >= ($store.game.content.get(actionId, 'actions').maxProgress || 10))"
               @click="$store.game.attemptAction($el, actionId)"
               @mouseover="$store.game.setHovered(actionId)"
               @mouseout="$store.game.setHovered(null)"
             >
-              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
               <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
                 <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
               </div>
@@ -203,7 +202,7 @@
               @mouseover="$store.game.setHovered(actionId)"
               @mouseout="$store.game.setHovered(null)"
             >
-              <span x-text="$store.game.t(actionId, 'actions').title"></span>
+              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
               <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
                 <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
               </div>

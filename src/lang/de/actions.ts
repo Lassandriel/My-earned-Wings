@@ -23,12 +23,20 @@ export default {
     desc: 'Ein Leuchtfeuer für magische Energien.',
   },
   'build-wood-storage': {
-    title: 'Holzlager',
+    title: 'Holzlager I',
     desc: 'Schafft Platz für mehr Vorräte (+25).',
   },
   'build-stone-storage': {
-    title: 'Steinlager',
+    title: 'Steinlager I',
     desc: 'Mehr Gestein lagerbar (+25).',
+  },
+  'build-wood-storage-2': {
+    title: 'Holzlager II',
+    desc: 'Zusätzliche Lagerkapazität (+25).',
+  },
+  'build-stone-storage-2': {
+    title: 'Steinlager II',
+    desc: 'Zusätzliche Lagerkapazität (+25).',
   },
   'build-water-barrel': {
     title: 'Wasserfass',
@@ -357,11 +365,11 @@ export default {
     desc: 'Bereite das große Fest vor.',
   },
   'act-read-lore-1': {
-    title: 'Studium: Kaiserliche Blutlinie',
+    title: 'Lesen: Kaiserliche Blutlinie',
     desc: 'Vertiefe dein Wissen über die Herrscherfamilie.',
   },
   'act-read-lore-2': {
-    title: 'Studium: Die schwebenden Lande',
+    title: 'Lesen: Die schwebenden Lande',
     desc: 'Studiere die Geographie von Draconia.',
   },
 };

@@ -53,6 +53,11 @@ export const createHousingSystem = () => {
         store.playSound('magic');
         store.addLog(store.t(item.title, 'items') + store.t('ui_placed_log'), 'custom', 'var(--accent-teal)');
       }
+
+      // Ensure modifiers and limits are updated immediately
+      if (store.pipeline) store.pipeline.invalidateCache();
+      if (store.resource) store.resource.invalidateCache();
+
       store.saveGame();
     },
 

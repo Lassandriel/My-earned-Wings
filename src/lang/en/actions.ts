@@ -23,12 +23,20 @@ export default {
     desc: 'A beacon for magical energies.',
   },
   'build-wood-storage': {
-    title: 'Wood Storage',
+    title: 'Wood Storage I',
     desc: 'Space for more supplies (+25).',
   },
   'build-stone-storage': {
-    title: 'Stone Storage',
+    title: 'Stone Storage I',
     desc: 'More stone capacity (+25).',
+  },
+  'build-wood-storage-2': {
+    title: 'Wood Storage II',
+    desc: 'Additional storage capacity (+25).',
+  },
+  'build-stone-storage-2': {
+    title: 'Stone Storage II',
+    desc: 'Additional storage capacity (+25).',
   },
   'build-water-barrel': {
     title: 'Water Barrel',
@@ -357,11 +365,11 @@ export default {
     desc: 'Prepare the grand festival.',
   },
   'act-read-lore-1': {
-    title: 'Study: Imperial Bloodline',
+    title: 'Read: Imperial Bloodline',
     desc: 'Deepen your knowledge about the ruling family.',
   },
   'act-read-lore-2': {
-    title: 'Study: The Floating Lands',
+    title: 'Read: The Floating Lands',
     desc: 'Study the geography of Draconia.',
   },
 };

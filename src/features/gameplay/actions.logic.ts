@@ -94,7 +94,8 @@ export function createActionSystem() {
       } else {
         game.limits[resId] = (game.limits[resId] || 0) + amount;
       }
-      game.resource.invalidateCache();
+      if (game.pipeline) game.pipeline.invalidateCache();
+      if (game.resource) game.resource.invalidateCache();
     });
 
     registerEffect('addBuff', (game, { buffId, override }) => {
@@ -137,7 +138,8 @@ export function createActionSystem() {
 
     registerEffect('unlockTitle', (game, { id }) => {
       game.titles.unlockTitle(game, id);
-      game.pipeline.invalidateCache();
+      if (game.pipeline) game.pipeline.invalidateCache();
+      if (game.resource) game.resource.invalidateCache();
     });
   };
 
@@ -165,6 +167,10 @@ export function createActionSystem() {
 
   const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: ActionResult) => {
     game.counters.totalActions++;
+
+    if (action.maxCount) {
+      game.counters[id] = (game.counters[id] || 0) + 1;
+    }
 
     if (action.counter && game.counters[action.counter] !== undefined) {
       game.counters[action.counter] = (game.counters[action.counter] || 0) + (result.yield || 1);
@@ -268,6 +274,11 @@ export function createActionSystem() {
           return checkRequirement(game, path, rule);
         });
         if (!met) return { success: false };
+      }
+
+      // Max Count Check
+      if (action.maxCount && (game.counters[id] || 0) >= action.maxCount) {
+        return { success: false };
       }
 
       let costs: Record<string, number> = action.costs 

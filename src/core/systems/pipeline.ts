@@ -83,8 +83,12 @@ export const createPipelineSystem = () => {
           }
           const action = store.content.get<ActionDefinition>(flagId, 'actions');
           if (action?.modifiers) {
-            for (const m of action.modifiers) {
-              if (m.key === key) staticMods.push(m);
+            // Stack modifiers based on how many times this building was built
+            const count = action.maxCount ? (store.counters[flagId] || 0) : 1;
+            for (let i = 0; i < count; i++) {
+              for (const m of action.modifiers) {
+                if (m.key === key) staticMods.push(m);
+              }
             }
           }
         }

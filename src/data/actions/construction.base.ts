@@ -52,7 +52,7 @@ export const baseConstruction = {
     ],
     logKey: 'milestone_wood_storage',
     logColor: 'var(--gold)',
-    maxCount: 10,
+    maxCount: 1,
     modifiers: [{ key: 'wood_limit', add: 25 }],
   },
   'build-stone-storage': {
@@ -73,7 +73,7 @@ export const baseConstruction = {
     ],
     logKey: 'milestone_stone_storage',
     logColor: 'var(--gold)',
-    maxCount: 10,
+    maxCount: 1,
     modifiers: [{ key: 'stone_limit', add: 25 }],
   },
   'build-water-barrel': {
@@ -92,6 +92,7 @@ export const baseConstruction = {
     category: 'camp',
     requirements: {
       'flags.build-wood-storage': true,
+      'flags.build-house': true,
       'flags.build-wood-storage-2': { op: '!=', val: true },
     },
     costs: { wood: 40, stone: 10 },
@@ -100,13 +101,15 @@ export const baseConstruction = {
     onSuccess: [
       { type: 'setFlag', flag: 'build-wood-storage-2', value: true },
     ],
-    modifiers: [{ key: 'wood_limit', add: 20 }],
+    maxCount: 1,
+    modifiers: [{ key: 'wood_limit', add: 25 }],
   },
   'build-stone-storage-2': {
     id: 'build-stone-storage-2',
     category: 'camp',
     requirements: {
       'flags.build-stone-storage': true,
+      'flags.build-house': true,
       'flags.build-stone-storage-2': { op: '!=', val: true },
     },
     costs: { wood: 10, stone: 40 },
@@ -115,6 +118,7 @@ export const baseConstruction = {
     onSuccess: [
       { type: 'setFlag', flag: 'build-stone-storage-2', value: true },
     ],
-    modifiers: [{ key: 'stone_limit', add: 20 }],
+    maxCount: 1,
+    modifiers: [{ key: 'stone_limit', add: 25 }],
   },
 };

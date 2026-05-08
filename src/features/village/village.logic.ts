@@ -42,6 +42,9 @@ export const createNPCSystem = () => {
           if (npcId === 'npc-teacher' && !game.flags['build-house'] && currentProg === 1) {
              game.addLog('npc_teacher_2_no_house', 'logs', 'var(--accent-red)');
           }
+          if (npcId === 'npc-teacher' && currentProg === 2 && (!game.flags['read_book_1_complete'] || !game.flags['read_book_2_complete'])) {
+             game.addLog('npc_teacher_4_not_read', 'logs', 'var(--accent-red)');
+          }
           return false;
         }
       }

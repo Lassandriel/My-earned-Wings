@@ -128,7 +128,8 @@
             <div class="book-actions m-t-md">
               <button 
                 class="btn-premium"
-                :disabled="($store.game.content.get(bookId, 'actions').steps && ($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) >= ($store.game.content.get(bookId, 'actions').maxProgress || 10)) || $store.game.activeTasks[bookId]"
+                x-show="($store.game.npcProgress[$store.game.content.get(bookId, 'actions').progKey || bookId] || 0) < ($store.game.content.get(bookId, 'actions').maxProgress || 10)"
+                :disabled="$store.game.activeTasks[bookId]"
                 @click="$store.game.attemptAction($el, bookId)"
                 @mouseenter="$store.game.setHovered(bookId)"
                 @mouseleave="$store.game.setHovered(null)"

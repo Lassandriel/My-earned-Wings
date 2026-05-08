@@ -50,7 +50,7 @@ export const createContentService = (registries: Registries) => ({
     const defaults: Partial<Record<keyof Registries, any>> = {
       npcs: { nameKey: 'ui_unknown', icon: '👤', color: 'var(--text-main)', maxProgress: 5 },
       items: { title: 'ui_unknown_item', desc: 'ui_no_description', icon: '📦', consumable: false },
-      actions: { title: 'ui_action', desc: '...', icon: '⚡' },
+      actions: { desc: '...', icon: '⚡' },
       homes: { nameKey: 'ui_unknown', descKey: 'ui_unknown', capacity: 0, image: '' },
     };
 

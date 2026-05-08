@@ -87,15 +87,18 @@ export const createUISystem = () => {
       const hId = hAction.id as string;
 
       // Determine correct data source (NPC step vs standard action)
-      const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
-      const source = prog !== null && action.steps ? action.steps[prog] : action;
+      const isProgressive = hId.includes('npc-') || (action.steps && (action.progKey || hId));
+      const prog = isProgressive ? store.npcProgress[action.progKey || hId] || 0 : null;
+      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
 
       const results: TooltipCost[] = [];
 
       const processCost = (type: ResourceId, amt: number) => {
         const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
         const current = Math.floor(store.resources[type] ?? store.stats[type] ?? 0);
-        const limit = store.limits[type] ?? store.resource.getMaxStat(store, type as any);
+        const limit = (store.resources[type] !== undefined) 
+          ? store.getLimit(type) 
+          : store.getMaxStat(type);
         const status = limit ? ` (${current}/${limit})` : ` (${current})`;
 
         const label = getResLabel(store, type);
@@ -137,8 +140,9 @@ export const createUISystem = () => {
       if (!hAction?.data) return [];
       const action = hAction.data as ActionDefinition;
       const hId = hAction.id as string;
-      const prog = hId.includes('npc-') ? store.npcProgress[action.progKey || ''] || 0 : null;
-      const source = prog !== null && action.steps ? action.steps[prog] : action;
+      const isProgressive = hId.includes('npc-') || (action.steps && (action.progKey || hId));
+      const prog = isProgressive ? store.npcProgress[action.progKey || hId] || 0 : null;
+      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
 
       if (!source.requirements) return [];
 
@@ -220,6 +224,23 @@ export const createUISystem = () => {
 
       const effects: string[] = [];
 
+      if (action.category === 'lore') {
+        const max = action.maxProgress || action.steps?.length || 10;
+        let bookTitle = (store.t(action.id, 'actions') as { title?: string })?.title || action.id;
+        
+        // Strip prefixes for the effect line
+        bookTitle = bookTitle.replace('Study: ', '')
+                             .replace('Read: ', '')
+                             .replace('Studium: ', '')
+                             .replace('Lesen: ', '');
+        
+        if (currentProg + 1 >= max) {
+          effects.push(`${store.t('ui_finishes')} ${bookTitle}`);
+        } else {
+          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${bookTitle} ${currentProg + 1} / ${max}`);
+        }
+      }
+
       if (step.reward) {
         const isItem = step.reward.startsWith('item-');
         const item = isItem ? store.content.get<ItemDefinition>(step.reward, 'items', true) : null;
@@ -228,7 +249,7 @@ export const createUISystem = () => {
         } else {
           // It's a flag or special reward, translate it
           const label = store.t(step.reward) || store.t('ui_' + step.reward) || step.reward;
-          effects.push(`${label} ${store.t('ui_unlocked')}`);
+          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${label}`);
         }
       }
 
@@ -238,7 +259,7 @@ export const createUISystem = () => {
           const name = npc
             ? store.t(npc.nameKey)
             : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
-          effects.push(`${name} ${store.t('ui_unlocked')}`);
+          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${name}`);
         } else if (eff.type === 'unlockRecipe') {
           const recAction = store.content.get<ActionDefinition>(eff.id, 'actions');
           const recName = recAction
@@ -302,7 +323,7 @@ export const createUISystem = () => {
       const resKey = action.yieldType || (action.rewards ? Object.keys(action.rewards)[0] : null);
       if (resKey && store.resources[resKey as ResourceId] !== undefined) {
         const cur = Math.floor(store.resources[resKey as ResourceId]!);
-        const lim = store.limits[resKey as ResourceId];
+        const lim = store.getLimit(resKey as ResourceId);
         result += ` (${cur}${lim ? '/' + lim : ''})`;
       }
 
@@ -483,8 +504,8 @@ export const createUISystem = () => {
       if (!action) return [];
 
       // --- ACTION HANDLING ---
-      // 1. NPC Rewards
-      if (hId.startsWith('act-npc-')) {
+      // 1. NPC/Lore Rewards
+      if (hId.startsWith('act-npc-') || (action.steps && (action.progKey || hId))) {
         const npcEffs = Formatter.getNpcStepEffects(store, action);
         if (npcEffs.length > 0) return npcEffs;
       }
@@ -506,7 +527,7 @@ export const createUISystem = () => {
           const name = npc
             ? store.t(npc.nameKey)
             : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
-          effects.push(`${name} ${store.t('ui_unlocked')}`);
+          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${name}`);
         } else if (eff.type === 'unlockRecipe') {
           const recName = store.content.get<ActionDefinition>(eff.id, 'actions')
             ? (store.t(eff.id, 'actions') as { title?: string })?.title
@@ -552,12 +573,26 @@ export const createUISystem = () => {
     },
 
     renderActionTitle(store: GameState, id: string): string {
+      const action = store.content.get<ActionDefinition>(id, 'actions');
       const lang = store.t(id, 'actions') as Record<string, string>;
       if (!lang) return id;
       const useAlt =
         (id === 'act-wood' && store.flags['item-axe' as FlagId]) ||
         (id === 'act-stone' && store.flags['item-pickaxe' as FlagId]);
-      return (useAlt ? lang.title_alt : lang.title) || lang.title || id;
+      
+      let title = (useAlt ? lang.title_alt : lang.title) || lang.title || id;
+
+      // Add Progress (e.g. 1/10) for NPC-style actions/books
+      if (action && action.steps) {
+        const progKey = action.progKey || id;
+        const cur = store.npcProgress[progKey] || 0;
+        const max = action.maxProgress || action.steps.length;
+        if (cur < max) {
+          title += ` (${cur + 1}/${max})`;
+        }
+      }
+
+      return title;
     },
 
     renderTooltipTitle(store: GameState, h: HoverActionData): string {
@@ -570,14 +605,14 @@ export const createUISystem = () => {
         return item ? store.t(item.title, 'items') : h.id;
       }
 
-      if (h.id.includes('npc-') && h.data) {
-        const actionData = h.data as ActionDefinition;
+      const actionData = h.data as ActionDefinition;
+      if (actionData && actionData.steps && h.data) {
         const npc = actionData.npcId
           ? store.content.get<NPCDefinition>(actionData.npcId, 'npcs')
           : null;
-        const base = npc ? store.t(npc.nameKey) : h.id;
-        const progKey = actionData.progKey || '';
-        const maxProg = actionData.maxProgress || 0;
+        const base = npc ? store.t(npc.nameKey) : (store.t(h.id, 'actions') as { title?: string })?.title || h.id;
+        const progKey = actionData.progKey || h.id;
+        const maxProg = actionData.maxProgress || (actionData.steps?.length || 0);
         const cur = store.npcProgress[progKey] || 0;
         return `${base} (${Math.min(maxProg, cur + 1)}/${maxProg})`;
       }
@@ -596,32 +631,33 @@ export const createUISystem = () => {
         return item ? store.t(item.desc, 'items') : '';
       }
 
-      if (h.id.includes('npc-') && h.data) {
-        const progKey = (h.data as ActionDefinition).progKey || '';
-        const maxProg = (h.data as ActionDefinition).maxProgress || 0;
+      const action = h.data as ActionDefinition;
+      const baseDesc = (store.t(h.id, 'actions') as Record<string, string>)?.desc || '';
+
+      if (action && action.steps && action.progKey) {
+        const progKey = action.progKey || '';
         const cur = store.npcProgress[progKey] || 0;
 
-        // Priority: Use dialogueKey from the actual step definition
-        const step = (h.data as ActionDefinition).steps?.[cur];
+        let loreSnippet = '';
+        const step = action.steps?.[cur];
         if (step?.dialogueKey) {
           const txt = store.t(step.dialogueKey, 'npcs');
-          if (txt && txt !== step.dialogueKey) return txt;
+          if (txt && txt !== step.dialogueKey) loreSnippet = txt;
         }
 
-        // Fallback: Legacy key pattern
-        if (cur < maxProg) {
-          const key = `npc_${progKey}_${cur + 1}`;
-          const txt = store.t(key, 'npcs');
-          if (txt && txt !== key) return txt;
+        if (loreSnippet) {
+          return `${baseDesc}<br><br>${loreSnippet}`;
         }
       }
 
-      return (store.t(h.id, 'actions') as Record<string, string>)?.desc || '';
+      return baseDesc;
     },
 
     hasTooltipCosts(store: GameState, h: HoverActionData): boolean {
       if (!h?.data || h.isHelp) return false;
-      const prog = h.id.includes('npc-') ? store.npcProgress[h.data.progKey || ''] || 0 : null;
+      const hId = h.id as string;
+      const isProgressive = hId.includes('npc-') || (h.data.steps && (h.data.progKey || hId));
+      const prog = isProgressive ? store.npcProgress[h.data.progKey || hId] || 0 : null;
       const step = prog !== null && h.data.steps ? h.data.steps[prog] : null;
       const hasCosts = !!((step && (step.costs || step.cost)) || h.data.cost || h.data.costs);
       return hasCosts;
