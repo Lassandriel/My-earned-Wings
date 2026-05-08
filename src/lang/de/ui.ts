@@ -88,7 +88,7 @@ export default {
   ui_settings_desc: 'Passe das Spielerlebnis an deine Wünsche an.',
   ui_quit_desc: 'Verlasse die Welt von Draconia.',
   menu_subtitle: 'Der Boden ist nur der Anfang',
-  menu_version: 'v1.3.4-stable',
+  menu_version: 'v1.4.4',
   ui_demo_badge: 'DEMO',
   ui_use: 'Nutzen',
   ui_unknown: 'Unbekannt',

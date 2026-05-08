@@ -1,4 +1,4 @@
-# Your Earned Wings ✦ (Stable v1.2.5)
+# Your Earned Wings ✦ (Stable v1.4.4)
 
 `Your Earned Wings` is an atmospheric simulation and narrative adventure, available as a **standalone Windows Executable (.exe)** and a **Web Version**.
 
@@ -74,6 +74,6 @@ Maintain project integrity with these automated scripts:
 
 ---
 
-Created by Lassandriel · April 2026 · v1.1.0-stable
+Created by Lassandriel · Mai 2026 · v1.4.4
 
 [Repository](https://github.com/Lassandriel/My-earned-Wings) | [Issue Tracker](https://github.com/Lassandriel/My-earned-Wings/issues)
