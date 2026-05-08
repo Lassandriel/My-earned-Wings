@@ -8,6 +8,7 @@ export const loreActions: Record<string, ActionDefinition> = {
   'act-read-lore-1': {
     id: 'act-read-lore-1',
     category: 'lore',
+    locationId: 'library',
     isStory: true,
     progKey: 'read_book_1',
     maxProgress: 10,
@@ -33,6 +34,7 @@ export const loreActions: Record<string, ActionDefinition> = {
   'act-read-lore-2': {
     id: 'act-read-lore-2',
     category: 'lore',
+    locationId: 'library',
     isStory: true,
     progKey: 'read_book_2',
     maxProgress: 10,

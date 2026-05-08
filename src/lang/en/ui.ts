@@ -95,6 +95,8 @@ export default {
   loc_forest: 'Forest',
   loc_mine: 'Mine',
   loc_meadow: 'Meadow',
+  loc_village: 'Village',
+  loc_library: 'Library',
   loc_whisper_grove: 'Whispering Grove',
   ui_stat_fraction: '{val} / {max}',
   finale_stats_title: 'Your Journey in Draconia',

@@ -59,6 +59,7 @@ export const villageActions: Record<string, any> = {
   'act-work': {
     id: 'act-work',
     category: 'village',
+    locationId: 'village',
     icon: '👷',
     cost: 30,
     costType: 'energy',

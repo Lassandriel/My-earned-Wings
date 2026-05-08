@@ -31,7 +31,9 @@
  
  - [x] **UI & I18N Polish (v1.4.2)**: Behebung eines globalen Fehlers bei fehlenden Tooltip-Titeln. Umstellung der Freischaltungs-Anzeige auf ein einheitliches "Freigeschaltet: Name"-Format für bessere Lesbarkeit.
  - [x] **Lore Progression UI Refinement (v1.4.3)**: Umstellung der Lore-Bücher auf ein narratives Fortschrittssystem. Umbenennung von "Studium" zu "Lesen" und Optimierung der Tooltip-Anzeige. Die Buttons verschwinden nun nach Abschluss (10/10) aus dem Hauptmenü und der Lese-Button im Archiv wird ausgeblendet. Hinzufügen von Teacher-Aria-Dialogen bei fehlendem Fortschritt.
-
+ 
+ - [x] **Tooltip Limit & Location UI Polish (v1.4.4)**: Behebung eines Fehlers, bei dem Tooltips falsche Ressourcen-Limits anzeigten (Bonus-Ignoranz). Einführung von Gebiets-Headern (Dorf, Bibliothek) in den entsprechenden Aktions-Kategorien für eine konsistente visuelle Hierarchie.
+ 
  ---
  
  ## 🗺️ Zukünftige Horizonte

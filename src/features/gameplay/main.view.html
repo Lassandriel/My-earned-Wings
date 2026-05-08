@@ -88,16 +88,22 @@
           <h3 x-text="$store.game.t('cat_work')"></h3>
           <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_work'), desc: $store.game.t('nav_work_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
-        <div class="btn-list">
-          <button
-            class="game-btn action-btn-modular"
-            @click="$store.game.attemptAction($el, 'act-work')"
-            @mouseover="$store.game.setHovered('act-work')"
-            @mouseout="$store.game.setHovered(null)"
-          >
-            <span x-text="$store.game.t('act-work', 'actions').title"></span>
-            <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-work')">✨</div>
-          </button>
+        <div class="location-group" x-data="{ expanded: true }">
+          <h4 class="location-heading" @click="expanded = !expanded" style="cursor: pointer;">
+            <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
+            <span x-text="$store.game.t('loc_village')"></span>
+          </h4>
+          <div class="btn-list-inner" x-show="expanded" x-collapse>
+            <button
+              class="game-btn action-btn-modular"
+              @click="$store.game.attemptAction($el, 'act-work')"
+              @mouseover="$store.game.setHovered('act-work')"
+              @mouseout="$store.game.setHovered(null)"
+            >
+              <span x-text="$store.game.t('act-work', 'actions').title"></span>
+              <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.toggleFocus('act-work')">✨</div>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -167,22 +173,28 @@
           <h3 x-text="$store.game.t('ui_library')"></h3>
           <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_library'), desc: $store.game.t('help_library_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
-        <div class="btn-list">
-          <template x-for="actionId in getActions('lore')" :key="actionId">
-            <button
-              x-show="$store.game.unlockedRecipes.includes(actionId) && (($store.game.npcProgress[$store.game.content.get(actionId, 'actions').progKey || actionId] || 0) < ($store.game.content.get(actionId, 'actions').maxProgress || 10))"
-              class="game-btn action-btn-modular"
-              :class="$store.game.isTaskActive(actionId) && 'is-working'"
-              @click="$store.game.attemptAction($el, actionId)"
-              @mouseover="$store.game.setHovered(actionId)"
-              @mouseout="$store.game.setHovered(null)"
-            >
-              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
-              <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
-                <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
-              </div>
-            </button>
-          </template>
+        <div class="location-group" x-data="{ expanded: true }">
+          <h4 class="location-heading" @click="expanded = !expanded" style="cursor: pointer;">
+            <span class="expand-icon" :class="expanded && 'expanded'">▶</span>
+            <span x-text="$store.game.t('loc_library')"></span>
+          </h4>
+          <div class="btn-list-inner" x-show="expanded" x-collapse>
+            <template x-for="actionId in getActions('lore')" :key="actionId">
+              <button
+                x-show="$store.game.unlockedRecipes.includes(actionId) && (($store.game.npcProgress[$store.game.content.get(actionId, 'actions').progKey || actionId] || 0) < ($store.game.content.get(actionId, 'actions').maxProgress || 10))"
+                class="game-btn action-btn-modular"
+                :class="$store.game.isTaskActive(actionId) && 'is-working'"
+                @click="$store.game.attemptAction($el, actionId)"
+                @mouseover="$store.game.setHovered(actionId)"
+                @mouseout="$store.game.setHovered(null)"
+              >
+                <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
+                <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
+                  <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
+                </div>
+              </button>
+            </template>
+          </div>
         </div>
       </section>
 
