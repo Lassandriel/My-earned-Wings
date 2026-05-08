@@ -71,7 +71,7 @@ export const furnitureConstruction = {
   'act-grand-table': {
     id: 'act-grand-table',
     category: 'furniture',
-    cost: 100,
+    cost: 85,
     costType: 'wood',
     image: 'img/furniture/table_massive.webp',
     requirements: {
@@ -126,7 +126,7 @@ export const furnitureConstruction = {
   'build-bookshelf-large': {
     id: 'build-bookshelf-large',
     category: 'furniture',
-    costs: { wood: 80, shards: 100 },
+    costs: { wood: 75, shards: 100 },
     image: 'img/furniture/bookshelf_large.webp',
     requirements: { 'flags.build-bookshelf': true, 'flags.build-bookshelf-large': { op: '!=', val: true } },
     sfx: 'craft',

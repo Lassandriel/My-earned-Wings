@@ -38,6 +38,22 @@ export default {
     title: 'Stone Storage II',
     desc: 'Additional storage capacity (+25).',
   },
+  'build-wood-storage-3': {
+    title: 'Wood Shed',
+    desc: 'A sturdy shed for more wood (+30).',
+  },
+  'build-stone-storage-3': {
+    title: 'Stone Shed',
+    desc: 'A place for heavy boulders (+30).',
+  },
+  'build-wood-storage-4': {
+    title: 'Wood Warehouse',
+    desc: 'Ample storage space for wood supplies (+35).',
+  },
+  'build-stone-storage-4': {
+    title: 'Stone Warehouse',
+    desc: 'Massive storage for stone resources (+35).',
+  },
   'build-water-barrel': {
     title: 'Water Barrel',
     desc: 'Collects rainwater. Increases water capacity (+25).',

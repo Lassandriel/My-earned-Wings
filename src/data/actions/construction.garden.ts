@@ -39,7 +39,7 @@ export const gardenConstruction = {
   'build-mana-basin': {
     id: 'build-mana-basin',
     category: 'garden',
-    costs: { stone: 100, glowpollen: 20, clay: 20, resin: 5 },
+    costs: { stone: 95, glowpollen: 20, clay: 20, resin: 5 },
     image: 'img/addons/mana_basin.webp',
     requirements: { 'flags.build-garden-upgrade': true, 'flags.build-mana-basin': { op: '!=', val: true } },
     sfx: 'magic',

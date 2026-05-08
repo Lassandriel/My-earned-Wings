@@ -67,7 +67,7 @@ export const toolConstruction = {
     title: 'action_build_cart_reinforced_title',
     desc: 'action_build_cart_reinforced_desc',
     category: 'tools',
-    costs: { wood: 100, stone: 50, iron_parts: 5 },
+    costs: { wood: 90, stone: 50, iron_parts: 5 },
     image: 'img/tools/cart_reinforced.webp',
     requirements: { 'flags.build-house': true, 'flags.build-cart-reinforced': { op: '!=', val: true } },
     sfx: 'craft',

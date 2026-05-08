@@ -38,6 +38,22 @@ export default {
     title: 'Steinlager II',
     desc: 'Zusätzliche Lagerkapazität (+25).',
   },
+  'build-wood-storage-3': {
+    title: 'Holz-Schuppen',
+    desc: 'Ein stabiler Schuppen für mehr Holz (+30).',
+  },
+  'build-stone-storage-3': {
+    title: 'Stein-Schuppen',
+    desc: 'Ein Platz für schwere Brocken (+30).',
+  },
+  'build-wood-storage-4': {
+    title: 'Holz-Lagerhaus',
+    desc: 'Großzügiger Speicherplatz für Holz-Vorräte (+35).',
+  },
+  'build-stone-storage-4': {
+    title: 'Stein-Lagerhaus',
+    desc: 'Massives Lager für Stein-Ressourcen (+35).',
+  },
   'build-water-barrel': {
     title: 'Wasserfass',
     desc: 'Sammelt Regenwasser. Erhöht das Wasser-Limit (+25).',

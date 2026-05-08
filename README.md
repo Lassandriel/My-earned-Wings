@@ -74,6 +74,6 @@ Maintain project integrity with these automated scripts:
 
 ---
 
-Created by Lassandriel · Mai 2026 · v1.4.4
+Created by Lassandriel · May 2026 · v1.4.4
 
 [Repository](https://github.com/Lassandriel/My-earned-Wings) | [Issue Tracker](https://github.com/Lassandriel/My-earned-Wings/issues)

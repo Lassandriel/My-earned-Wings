@@ -43,8 +43,9 @@
  - [ ] **Erweiterte Story**: Neue NPCs in Vandara, Schwarzmarkt-Interaktionen und individuelle Endsequenzen.
  
  ### Phase 14: Der Zyklus der Inkarnation
+ - [ ] **Zauberwerkstatt**: Lerne magische Zauber, um die physischen Grenzen deines Lagers zu erweitern.
  - [ ] **Automation (Ancient Echoes)**: Nutzung von Schatten früherer Leben zur Automatisierung von Produktionsketten.
  - [ ] **Tree of Life Finale**: Die finale spirituelle Erweckung und das Erreichen des Palastes über den Wolken.
  
  ---
- Zuletzt aktualisiert: 8. Mai 2026 · v1.4.2-stable (UI & I18N Polish)
+ Zuletzt aktualisiert: 8. Mai 2026 · v1.4.5 (Economic Balance & Storage Tiers)
