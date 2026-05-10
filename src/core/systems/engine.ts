@@ -1,5 +1,9 @@
 import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, ActionResult } from '../../types/game';
+import { EngineServices } from '../../engine/types';
 import { tickBuffs } from '../../engine/systems/buffs';
+import { tickFocus } from '../../engine/systems/focus';
+
+export type { EngineServices };
 
 declare const Alpine: {
   store: <T = any>(name: string, value?: T) => T;
@@ -12,25 +16,6 @@ interface PerfStore {
   lastTaskMs: number;
   fps: number;
 }
-
-/**
- * The engine touches game data on `state` and calls services for all
- * derived/mutating operations. Splitting these out of the state object
- * is the first step of the Phase 2 ECS migration: once `state` is a
- * pure data object, services can live in a separate container and the
- * engine no longer depends on Alpine.js reactivity.
- */
-export type EngineServices = Pick<
-  GameState,
-  | 'pipeline'
-  | 'resource'
-  | 'actions'
-  | 'content'
-  | 'addLog'
-  | 'playSound'
-  | 'executeAction'
-  | 'saveGame'
->;
 
 interface Engine {
   tickInterval: ReturnType<typeof setInterval> | null;
@@ -131,18 +116,7 @@ export function createEngineSystem(): Engine {
 
     processTick(state: GameState, services: EngineServices, deltaTime: number) {
       tickBuffs(state, deltaTime);
-
-      // Arcane Focus
-      if (state.activeFocus) {
-        const cost = services.pipeline.calculate(state, 'arcane_focus_cost', 3) * deltaTime;
-        if (state.stats.magic >= cost) {
-          services.resource.consume(state, 'magic', cost, true);
-        } else {
-          state.activeFocus = null;
-          services.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
-          services.playSound('fail');
-        }
-      }
+      tickFocus(state, services, deltaTime);
 
       // Passive Magic Regeneration
       const magicRegen = services.pipeline.calculate(state, 'magic_regen_passive', 0);
