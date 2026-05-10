@@ -1,9 +1,11 @@
-import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, ActionResult } from '../../types/game';
+import { GameState } from '../../types/game';
 import { EngineServices } from '../../engine/types';
 import { tickBuffs } from '../../engine/systems/buffs';
 import { tickFocus } from '../../engine/systems/focus';
 import { tickRegen } from '../../engine/systems/regen';
 import { tickProducers } from '../../engine/systems/producers';
+import { tickTasks } from '../../engine/systems/tasks';
+import { tickMilestones } from '../../engine/systems/milestones';
 
 export type { EngineServices };
 
@@ -124,40 +126,7 @@ export function createEngineSystem(): Engine {
     },
 
     processTasks(state: GameState, services: EngineServices, deltaMs: number) {
-      const taskIds = Object.keys(state.activeTasks || {});
-      if (taskIds.length === 0) return;
-
-      taskIds.forEach((id) => {
-        const task = state.activeTasks[id];
-        task.remaining -= deltaMs;
-
-        if (task.remaining <= 0) {
-          const actionId = task.actionId as ActionId;
-          const action = services.content.get<ActionDefinition>(actionId, 'actions');
-
-          const newTasks = { ...state.activeTasks };
-          delete newTasks[id];
-          state.activeTasks = newTasks;
-
-          if (action) {
-            const result = services.actions.processAction(state, actionId, action, 'finalize') as ActionResult;
-            services.actions.handleSuccess(state, actionId, action, result);
-
-            // AUTO-RESTART (Focus Loop)
-            if (state.activeFocus === actionId && action.isLoopable) {
-              setTimeout(() => {
-                const refreshed = getStore();
-                if (refreshed.activeFocus === actionId &&
-                    refreshed.view !== 'menu' &&
-                    !refreshed.activeTasks[actionId] &&
-                    action.isLoopable) {
-                  refreshed.executeAction(actionId);
-                }
-              }, 300);
-            }
-          }
-        }
-      });
+      tickTasks(state, services, deltaMs);
     },
 
     processPassiveProduction(state: GameState, services: EngineServices, deltaTime: number) {
@@ -165,24 +134,7 @@ export function createEngineSystem(): Engine {
     },
 
     checkMilestones(state: GameState, services: EngineServices) {
-      (Object.values(services.content.registries.milestones) as MilestoneDefinition[]).forEach((milestone: MilestoneDefinition) => {
-        const flagId = milestone.id as FlagId;
-        if (state.flags[flagId]) return;
-
-        const met = Object.entries(milestone.requirements).every(
-          ([p, r]) => services.actions.checkRequirement(state, p, r),
-        );
-        if (met) {
-          state.flags[flagId] = true;
-          milestone.onUnlock?.forEach((effect) => {
-            const handler = services.actions.effectHandlers[effect.type];
-            if (handler) handler(state, effect);
-          });
-
-          if (services.pipeline) services.pipeline.invalidateCache();
-          if (services.resource) services.resource.invalidateCache();
-        }
-      });
+      tickMilestones(state, services);
     },
 
     stop() {
