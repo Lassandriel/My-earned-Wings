@@ -78,7 +78,7 @@ describe('Engine System', () => {
         },
       });
 
-      engine.processTick(store, 10);
+      engine.processTick(store, store, 10);
 
       expect(store.activeBuffs.haste).toBeUndefined();
     });
@@ -90,7 +90,7 @@ describe('Engine System', () => {
         },
       });
 
-      engine.processTick(store, 10);
+      engine.processTick(store, store, 10);
 
       expect(store.activeBuffs.haste).toBeDefined();
       expect(store.activeBuffs.haste!.remaining).toBe(20);
@@ -107,7 +107,7 @@ describe('Engine System', () => {
       // pipeline returns base cost (3) unchanged
       (store.pipeline.calculate as any).mockReturnValue(3);
 
-      engine.processTick(store, 1); // 1 second tick
+      engine.processTick(store, store, 1); // 1 second tick
 
       expect(store.resource.consume).toHaveBeenCalledWith(store, 'magic', 3, true);
       expect(store.stats.magic).toBe(97);
@@ -121,7 +121,7 @@ describe('Engine System', () => {
       });
       (store.pipeline.calculate as any).mockReturnValue(3);
 
-      engine.processTick(store, 1);
+      engine.processTick(store, store, 1);
 
       expect(store.activeFocus).toBeNull();
       expect(store.addLog).toHaveBeenCalledWith(
@@ -143,7 +143,7 @@ describe('Engine System', () => {
       );
 
       for (let i = 0; i < 10; i++) {
-        engine.processTick(store, 1);
+        engine.processTick(store, store, 1);
       }
 
       // accumulator commits in 0.1-unit batches → all 10 should have been added
@@ -157,7 +157,7 @@ describe('Engine System', () => {
       const store = createMockStore();
       (store.pipeline.calculate as any).mockReturnValue(0);
 
-      engine.processTick(store, 5);
+      engine.processTick(store, store, 5);
 
       const magicAdds = (store.resource.add as any).mock.calls.filter(
         (c: any[]) => c[1] === 'magic',
@@ -191,7 +191,7 @@ describe('Engine System', () => {
 
       // 5 ticks of 1 second each → 5 wood
       for (let i = 0; i < 5; i++) {
-        engine.processPassiveProduction(store, 1);
+        engine.processPassiveProduction(store, store, 1);
       }
 
       expect(store.resources.wood).toBe(5);
@@ -220,7 +220,7 @@ describe('Engine System', () => {
         (_s: any, _key: string, base: number) => base,
       );
 
-      engine.processPassiveProduction(store, 1);
+      engine.processPassiveProduction(store, store, 1);
 
       expect(store.resource.add).not.toHaveBeenCalled();
       expect(store.resources.wood ?? 0).toBe(0);
@@ -245,7 +245,7 @@ describe('Engine System', () => {
         id === 'chop_wood' && type === 'actions' ? mockAction : null,
       );
 
-      engine.processTasks(store, 3000);
+      engine.processTasks(store, store, 3000);
 
       expect(store.activeTasks.chop_wood).toBeUndefined();
       expect(store.actions.processAction).toHaveBeenCalledWith(
@@ -269,7 +269,7 @@ describe('Engine System', () => {
         },
       });
 
-      engine.processTasks(store, 1000);
+      engine.processTasks(store, store, 1000);
 
       expect(store.activeTasks.chop_wood).toBeDefined();
       expect(store.activeTasks.chop_wood.remaining).toBe(2000);
@@ -292,7 +292,7 @@ describe('Engine System', () => {
       };
       (store.actions.checkRequirement as any).mockReturnValue(true);
 
-      engine.checkMilestones(store);
+      engine.checkMilestones(store, store);
 
       expect((store.flags as any).first_wood).toBe(true);
       expect(effectHandler).toHaveBeenCalledWith(store, {
@@ -315,7 +315,7 @@ describe('Engine System', () => {
         },
       };
 
-      engine.checkMilestones(store);
+      engine.checkMilestones(store, store);
 
       expect(effectHandler).not.toHaveBeenCalled();
     });
@@ -331,7 +331,7 @@ describe('Engine System', () => {
       };
       (store.actions.checkRequirement as any).mockReturnValue(false);
 
-      engine.checkMilestones(store);
+      engine.checkMilestones(store, store);
 
       expect((store.flags as any).first_wood).toBeFalsy();
     });

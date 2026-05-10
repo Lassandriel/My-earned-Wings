@@ -1,6 +1,5 @@
 import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, ActionResult } from '../../types/game';
 
-// Declare Alpine globally for TS
 declare const Alpine: {
   store: <T = any>(name: string, value?: T) => T;
 };
@@ -12,6 +11,25 @@ interface PerfStore {
   lastTaskMs: number;
   fps: number;
 }
+
+/**
+ * The engine touches game data on `state` and calls services for all
+ * derived/mutating operations. Splitting these out of the state object
+ * is the first step of the Phase 2 ECS migration: once `state` is a
+ * pure data object, services can live in a separate container and the
+ * engine no longer depends on Alpine.js reactivity.
+ */
+export type EngineServices = Pick<
+  GameState,
+  | 'pipeline'
+  | 'resource'
+  | 'actions'
+  | 'content'
+  | 'addLog'
+  | 'playSound'
+  | 'executeAction'
+  | 'saveGame'
+>;
 
 interface Engine {
   tickInterval: ReturnType<typeof setInterval> | null;
@@ -25,16 +43,14 @@ interface Engine {
   init: () => void;
   stop: () => void;
   metadata?: import('../../types/system').SystemMetadata;
-  // Sub-modules
-  processTick: (store: GameState, deltaTime: number) => void;
-  processTasks: (store: GameState, deltaMs: number) => void;
-  processPassiveProduction: (store: GameState, deltaTime: number) => void;
-  checkMilestones: (store: GameState) => void;
+  processTick: (state: GameState, services: EngineServices, deltaTime: number) => void;
+  processTasks: (state: GameState, services: EngineServices, deltaMs: number) => void;
+  processPassiveProduction: (state: GameState, services: EngineServices, deltaTime: number) => void;
+  checkMilestones: (state: GameState, services: EngineServices) => void;
 }
 
 /**
- * Engine System - TypeScript Edition
- * Orchestrates the heart of the game: Time, Tasks, and Ticks.
+ * Engine System - Orchestrates Time, Tasks, and Ticks.
  */
 export function createEngineSystem(): Engine {
   return {
@@ -47,7 +63,6 @@ export function createEngineSystem(): Engine {
     productionAccumulator: {},
 
     init() {
-      // Clear any existing intervals to prevent leaks
       if (this.tickInterval) clearInterval(this.tickInterval);
       if (this.taskInterval) clearInterval(this.taskInterval);
       if (this.saveInterval) clearInterval(this.saveInterval);
@@ -55,7 +70,6 @@ export function createEngineSystem(): Engine {
       this.lastTickTime = Date.now();
       this.lastTaskTime = Date.now();
 
-      // Initialize Perf Store
       Alpine.store('perf', {
         lastTickMs: 0,
         lastTaskMs: 0,
@@ -64,136 +78,128 @@ export function createEngineSystem(): Engine {
 
       // 1. Simulation Heartbeat (1s)
       this.tickInterval = setInterval(() => {
-        const store = getStore();
-        if (!store || store.view === 'menu') return;
+        const state = getStore();
+        if (!state || state.view === 'menu') return;
 
         const now = Date.now();
         const deltaTime = Math.max(0, (now - this.lastTickTime) / 1000);
         this.lastTickTime = now;
 
-        // Safety: Prevent extreme deltas (e.g. from hibernation/tabs)
-        const safeDelta = Math.min(deltaTime, 60); 
-        
-        // Update counters based on actual time passed (Accumulator prevents precision loss)
+        const safeDelta = Math.min(deltaTime, 60);
+
         this.timeAccumulator = (this.timeAccumulator || 0) + safeDelta;
         if (this.timeAccumulator >= 1) {
           const fullSecs = Math.floor(this.timeAccumulator);
-          store.counters.totalTime = (store.counters.totalTime || 0) + fullSecs;
+          state.counters.totalTime = (state.counters.totalTime || 0) + fullSecs;
           this.timeAccumulator -= fullSecs;
         }
-        
+
         const start = performance.now();
-        this.processTick(store, safeDelta);
+        // The Alpine store currently contains both data and services, so it
+        // satisfies GameState (data) and EngineServices (services) at once.
+        this.processTick(state, state, safeDelta);
         Alpine.store<PerfStore>('perf').lastTickMs = Math.round(performance.now() - start);
       }, 1000);
 
       // 2. High-Frequency Task Ticker (100ms)
       this.taskInterval = setInterval(() => {
-        const store = getStore();
-        if (!store || store.view === 'menu') return;
+        const state = getStore();
+        if (!state || state.view === 'menu') return;
 
         const now = Date.now();
         const deltaMs = now - this.lastTaskTime;
         this.lastTaskTime = now;
 
         const start = performance.now();
-        this.processTasks(store, Math.min(deltaMs, 2000));
+        this.processTasks(state, state, Math.min(deltaMs, 2000));
         Alpine.store<PerfStore>('perf').lastTaskMs = Math.round(performance.now() - start);
       }, 100);
 
-      // 3. Maintenance Loop (30s): Milestones & Autosave
+      // 3. Maintenance Loop: Milestones & Autosave
       this.saveInterval = setInterval(() => {
-        const store = getStore();
-        if (!store || store.view === 'menu') return;
+        const state = getStore();
+        if (!state || state.view === 'menu') return;
 
-        this.checkMilestones(store);
-        store.saveGame();
+        this.checkMilestones(state, state);
+        state.saveGame();
       }, 5000);
 
       console.log('[ENGINE] Core initialized.');
     },
 
-    /**
-     * Processes standard simulation logic (Stats, Buffs, Focus, Production)
-     */
-    processTick(store: GameState, deltaTime: number) {
-      // A. Timer Update - Now handled in heartbeat loop
-
-      // B. Buff Lifecycles
-      if (store.activeBuffs) {
-        Object.keys(store.activeBuffs).forEach((id) => {
-          const buff = store.activeBuffs[id];
+    processTick(state: GameState, services: EngineServices, deltaTime: number) {
+      // Buff lifecycles
+      if (state.activeBuffs) {
+        Object.keys(state.activeBuffs).forEach((id) => {
+          const buff = state.activeBuffs[id];
           if (buff) {
             buff.remaining = Math.max(0, buff.remaining - deltaTime);
             if (buff.remaining <= 0) {
-              const newBuffs = { ...store.activeBuffs };
+              const newBuffs = { ...state.activeBuffs };
               delete newBuffs[id];
-              store.activeBuffs = newBuffs;
+              state.activeBuffs = newBuffs;
             }
           }
         });
       }
 
-      // C. Arcane Focus (Automation)
-      if (store.activeFocus) {
-        const cost = store.pipeline.calculate(store, 'arcane_focus_cost', 3) * deltaTime;
-        if (store.stats.magic >= cost) {
-          store.resource.consume(store, 'magic', cost, true);
+      // Arcane Focus
+      if (state.activeFocus) {
+        const cost = services.pipeline.calculate(state, 'arcane_focus_cost', 3) * deltaTime;
+        if (state.stats.magic >= cost) {
+          services.resource.consume(state, 'magic', cost, true);
         } else {
-          store.activeFocus = null;
-          store.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
-          store.playSound('fail');
+          state.activeFocus = null;
+          services.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
+          services.playSound('fail');
         }
       }
 
-      // D. Passive Regeneration
-      const magicRegen = store.pipeline.calculate(store, 'magic_regen_passive', 0);
+      // Passive Magic Regeneration
+      const magicRegen = services.pipeline.calculate(state, 'magic_regen_passive', 0);
       if (magicRegen > 0) {
         const gain = magicRegen * deltaTime;
         this.magicAccumulator = (this.magicAccumulator || 0) + gain;
-        
+
         if (this.magicAccumulator >= 0.1) {
-          store.resource.add(store, 'magic', this.magicAccumulator, true);
+          services.resource.add(state, 'magic', this.magicAccumulator, true);
           this.magicAccumulator = 0;
         }
       }
 
-      // E. Passive Yields
-      this.processPassiveProduction(store, deltaTime);
+      // Passive Yields
+      this.processPassiveProduction(state, services, deltaTime);
     },
 
-    /**
-     * Handles active progress bars and task completion.
-     */
-    processTasks(store: GameState, deltaMs: number) {
-      const taskIds = Object.keys(store.activeTasks || {});
+    processTasks(state: GameState, services: EngineServices, deltaMs: number) {
+      const taskIds = Object.keys(state.activeTasks || {});
       if (taskIds.length === 0) return;
 
       taskIds.forEach((id) => {
-        const task = store.activeTasks[id];
+        const task = state.activeTasks[id];
         task.remaining -= deltaMs;
 
         if (task.remaining <= 0) {
           const actionId = task.actionId as ActionId;
-          const action = store.content.get<ActionDefinition>(actionId, 'actions');
-          
-          const newTasks = { ...store.activeTasks };
+          const action = services.content.get<ActionDefinition>(actionId, 'actions');
+
+          const newTasks = { ...state.activeTasks };
           delete newTasks[id];
-          store.activeTasks = newTasks;
+          state.activeTasks = newTasks;
 
           if (action) {
-            const result = store.actions.processAction(store, actionId, action, 'finalize') as ActionResult;
-            store.actions.handleSuccess(store, actionId, action, result);
+            const result = services.actions.processAction(state, actionId, action, 'finalize') as ActionResult;
+            services.actions.handleSuccess(state, actionId, action, result);
 
             // AUTO-RESTART (Focus Loop)
-            if (store.activeFocus === actionId && action.isLoopable) {
+            if (state.activeFocus === actionId && action.isLoopable) {
               setTimeout(() => {
-                const refreshedStore = getStore();
-                if (refreshedStore.activeFocus === actionId && 
-                    refreshedStore.view !== 'menu' && 
-                    !refreshedStore.activeTasks[actionId] &&
+                const refreshed = getStore();
+                if (refreshed.activeFocus === actionId &&
+                    refreshed.view !== 'menu' &&
+                    !refreshed.activeTasks[actionId] &&
                     action.isLoopable) {
-                  refreshedStore.executeAction(actionId);
+                  refreshed.executeAction(actionId);
                 }
               }, 300);
             }
@@ -202,69 +208,67 @@ export function createEngineSystem(): Engine {
       });
     },
 
-    /**
-     * Handles buildings and passive earners
-     */
-    processPassiveProduction(store: GameState, deltaTime: number) {
-      store.activeProducers.forEach((id) => {
-        const action = store.content.get<ActionDefinition>(id, 'actions');
+    processPassiveProduction(state: GameState, services: EngineServices, deltaTime: number) {
+      state.activeProducers.forEach((id) => {
+        const action = services.content.get<ActionDefinition>(id, 'actions');
         if (!action?.passiveProduction) return;
 
         const prod = action.passiveProduction;
         const intervalSec = prod.interval / 1000;
 
-        // Check Requirements
         if (prod.requirements) {
-          const met = Object.entries(prod.requirements).every(([p, r]) => store.actions.checkRequirement(store, p, r));
+          const met = Object.entries(prod.requirements).every(
+            ([p, r]) => services.actions.checkRequirement(state, p, r),
+          );
           if (!met) return;
         }
 
-        // Magic Maintenance Cost
+        // Magic maintenance cost
         if (prod.magicCost) {
-          const tickCost = (store.pipeline.calculate(store, id + '_cost', prod.magicCost) / intervalSec) * deltaTime;
-          if (store.stats.magic < tickCost) {
-            if (store.counters.totalTime % 20 === 0) store.addLog(id + '_fail_log', 'logs', 'var(--accent-red)');
+          const tickCost = (services.pipeline.calculate(state, id + '_cost', prod.magicCost) / intervalSec) * deltaTime;
+          if (state.stats.magic < tickCost) {
+            if (state.counters.totalTime % 20 === 0) services.addLog(id + '_fail_log', 'logs', 'var(--accent-red)');
             return;
           }
-          store.resource.consume(store, 'magic', tickCost, true);
+          services.resource.consume(state, 'magic', tickCost, true);
         }
 
-        // Production Accumulation
-        const baseYield = store.pipeline.calculate(store, id + '_yield', prod.baseYield);
+        // Production accumulation
+        const baseYield = services.pipeline.calculate(state, id + '_yield', prod.baseYield);
         const yieldPerSec = baseYield / intervalSec;
         const currentYield = yieldPerSec * deltaTime;
-        
+
         this.productionAccumulator[id] = (this.productionAccumulator[id] || 0) + currentYield;
 
-        // Commit full units
         if (this.productionAccumulator[id] >= 1) {
           const amount = Math.floor(this.productionAccumulator[id]);
-          store.resource.add(store, prod.resource, amount, true);
+          services.resource.add(state, prod.resource, amount, true);
           this.productionAccumulator[id] -= amount;
 
-          if (store.counters.totalTime % 20 === 0) {
-            store.addLog(id + '_log', 'logs', 'var(--accent-teal)');
+          if (state.counters.totalTime % 20 === 0) {
+            services.addLog(id + '_log', 'logs', 'var(--accent-teal)');
           }
         }
       });
     },
 
-    checkMilestones(store: GameState) {
-      (Object.values(store.content.registries.milestones) as MilestoneDefinition[]).forEach((milestone: MilestoneDefinition) => {
+    checkMilestones(state: GameState, services: EngineServices) {
+      (Object.values(services.content.registries.milestones) as MilestoneDefinition[]).forEach((milestone: MilestoneDefinition) => {
         const flagId = milestone.id as FlagId;
-        if (store.flags[flagId]) return;
+        if (state.flags[flagId]) return;
 
-        const met = Object.entries(milestone.requirements).every(([p, r]) => store.actions.checkRequirement(store, p, r));
+        const met = Object.entries(milestone.requirements).every(
+          ([p, r]) => services.actions.checkRequirement(state, p, r),
+        );
         if (met) {
-          store.flags[flagId] = true;
+          state.flags[flagId] = true;
           milestone.onUnlock?.forEach((effect) => {
-            const handler = store.actions.effectHandlers[effect.type];
-            if (handler) handler(store, effect);
+            const handler = services.actions.effectHandlers[effect.type];
+            if (handler) handler(state, effect);
           });
 
-          // Ensure system-wide updates after milestone unlocks
-          if (store.pipeline) store.pipeline.invalidateCache();
-          if (store.resource) store.resource.invalidateCache();
+          if (services.pipeline) services.pipeline.invalidateCache();
+          if (services.resource) services.resource.invalidateCache();
         }
       });
     },
