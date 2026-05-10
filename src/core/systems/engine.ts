@@ -1,4 +1,5 @@
 import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, ActionResult } from '../../types/game';
+import { tickBuffs } from '../../engine/systems/buffs';
 
 declare const Alpine: {
   store: <T = any>(name: string, value?: T) => T;
@@ -129,20 +130,7 @@ export function createEngineSystem(): Engine {
     },
 
     processTick(state: GameState, services: EngineServices, deltaTime: number) {
-      // Buff lifecycles
-      if (state.activeBuffs) {
-        Object.keys(state.activeBuffs).forEach((id) => {
-          const buff = state.activeBuffs[id];
-          if (buff) {
-            buff.remaining = Math.max(0, buff.remaining - deltaTime);
-            if (buff.remaining <= 0) {
-              const newBuffs = { ...state.activeBuffs };
-              delete newBuffs[id];
-              state.activeBuffs = newBuffs;
-            }
-          }
-        });
-      }
+      tickBuffs(state, deltaTime);
 
       // Arcane Focus
       if (state.activeFocus) {
