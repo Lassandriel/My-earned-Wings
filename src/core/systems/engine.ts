@@ -2,6 +2,8 @@ import { GameState, ActionDefinition, MilestoneDefinition, ActionId, FlagId, Act
 import { EngineServices } from '../../engine/types';
 import { tickBuffs } from '../../engine/systems/buffs';
 import { tickFocus } from '../../engine/systems/focus';
+import { tickRegen } from '../../engine/systems/regen';
+import { tickProducers } from '../../engine/systems/producers';
 
 export type { EngineServices };
 
@@ -117,20 +119,7 @@ export function createEngineSystem(): Engine {
     processTick(state: GameState, services: EngineServices, deltaTime: number) {
       tickBuffs(state, deltaTime);
       tickFocus(state, services, deltaTime);
-
-      // Passive Magic Regeneration
-      const magicRegen = services.pipeline.calculate(state, 'magic_regen_passive', 0);
-      if (magicRegen > 0) {
-        const gain = magicRegen * deltaTime;
-        this.magicAccumulator = (this.magicAccumulator || 0) + gain;
-
-        if (this.magicAccumulator >= 0.1) {
-          services.resource.add(state, 'magic', this.magicAccumulator, true);
-          this.magicAccumulator = 0;
-        }
-      }
-
-      // Passive Yields
+      this.magicAccumulator = tickRegen(state, services, deltaTime, this.magicAccumulator || 0);
       this.processPassiveProduction(state, services, deltaTime);
     },
 
@@ -172,47 +161,7 @@ export function createEngineSystem(): Engine {
     },
 
     processPassiveProduction(state: GameState, services: EngineServices, deltaTime: number) {
-      state.activeProducers.forEach((id) => {
-        const action = services.content.get<ActionDefinition>(id, 'actions');
-        if (!action?.passiveProduction) return;
-
-        const prod = action.passiveProduction;
-        const intervalSec = prod.interval / 1000;
-
-        if (prod.requirements) {
-          const met = Object.entries(prod.requirements).every(
-            ([p, r]) => services.actions.checkRequirement(state, p, r),
-          );
-          if (!met) return;
-        }
-
-        // Magic maintenance cost
-        if (prod.magicCost) {
-          const tickCost = (services.pipeline.calculate(state, id + '_cost', prod.magicCost) / intervalSec) * deltaTime;
-          if (state.stats.magic < tickCost) {
-            if (state.counters.totalTime % 20 === 0) services.addLog(id + '_fail_log', 'logs', 'var(--accent-red)');
-            return;
-          }
-          services.resource.consume(state, 'magic', tickCost, true);
-        }
-
-        // Production accumulation
-        const baseYield = services.pipeline.calculate(state, id + '_yield', prod.baseYield);
-        const yieldPerSec = baseYield / intervalSec;
-        const currentYield = yieldPerSec * deltaTime;
-
-        this.productionAccumulator[id] = (this.productionAccumulator[id] || 0) + currentYield;
-
-        if (this.productionAccumulator[id] >= 1) {
-          const amount = Math.floor(this.productionAccumulator[id]);
-          services.resource.add(state, prod.resource, amount, true);
-          this.productionAccumulator[id] -= amount;
-
-          if (state.counters.totalTime % 20 === 0) {
-            services.addLog(id + '_log', 'logs', 'var(--accent-teal)');
-          }
-        }
-      });
+      tickProducers(state, services, deltaTime, this.productionAccumulator);
     },
 
     checkMilestones(state: GameState, services: EngineServices) {
