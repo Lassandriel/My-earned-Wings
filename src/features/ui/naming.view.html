@@ -27,7 +27,7 @@
         maxlength="16"
         @keydown.enter="if(tempName.trim().length >= 2) $store.game.confirmName(tempName)"
         class="premium-input"
-        :class="{ 'input-error': tempName.length > 0 && (tempName.trim().length < 2 || !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(tempName)) }"
+        :class="{ 'input-error': tempName.length && (tempName.trim().length <= 1 || !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(tempName)) }"
       />
       <div class="input-focus-line"></div>
       

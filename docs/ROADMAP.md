@@ -7,7 +7,7 @@
 * [x] **Tablet & Landscape Optimization (v1.4.8)**: Implemented collapsible sidebar and 4-column layout for tablets (1133px+).
 
 * [x] **Quality of Life: Full-screen Mode (v1.4.9)**: Added a dedicated toggle for full-screen mode in the game header for better immersion.
-* [x] **I18N Integrity Audit Fix (v1.4.10)**: Optimized the God-Tier i18n validator to ignore Alpine.js expressions and shorthands, resolving false positives.
+* [x] **I18N & Build Integrity Fix (v1.4.10)**: Fixed CSS syntax errors in `layout.css` and optimized the i18n validator to ignore Alpine.js shorthands.
 
 ***
 

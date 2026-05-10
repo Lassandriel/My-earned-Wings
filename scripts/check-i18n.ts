@@ -182,7 +182,7 @@ const scanForHardcodedHtmlText = () => {
         
         lines.forEach((line, idx) => {
             // Ignore lines with template tags or alpine attributes (including shorthands like :class and @click)
-            if (line.includes('x-') || line.includes(' :') || line.includes(' @') || line.includes('{{') || line.includes('<script') || line.includes('<style')) return;
+            if (line.includes('x-') || /^\s*[:@]/.test(line) || line.includes(' :') || line.includes(' @') || line.includes('{{') || line.includes('<script') || line.includes('<style')) return;
             
             const match = />\s*([^<>{}$]*[a-zA-ZäöüÄÖÜß]{2,}[^<>{}$]*)\s*</.exec(line);
             if (match) {
