@@ -8,6 +8,7 @@
 
 * [x] **Quality of Life: Full-screen Mode (v1.4.9)**: Added a dedicated toggle for full-screen mode in the game header for better immersion.
 * [x] **I18N & Build Integrity Fix (v1.4.10)**: Fixed CSS syntax errors in `layout.css` and optimized the i18n validator to ignore Alpine.js shorthands.
+* [x] **Magic Expansion & Resource Fix (v1.4.11)**: Balanced storage capacities and costs for Arcane Sanctum; added resin acquisition from wood gathering.
 
 ***
 
@@ -27,4 +28,4 @@
 
 ***
 
-10. Mai 2026 · v1.4.10 (I18N Integrity & QoL)
+10. Mai 2026 · v1.4.11 (Magic Expansion Fix)

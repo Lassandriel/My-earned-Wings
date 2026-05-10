@@ -134,7 +134,7 @@ export const baseConstruction = {
     sfx: 'craft',
     onSuccess: [{ type: 'setFlag', flag: 'build-wood-storage-3', value: true }],
     maxCount: 1,
-    modifiers: [{ key: 'wood_limit', add: 30 }],
+    modifiers: [{ key: 'wood_limit', add: 35 }],
   },
   'build-stone-storage-3': {
     id: 'build-stone-storage-3',
@@ -149,7 +149,7 @@ export const baseConstruction = {
     sfx: 'craft',
     onSuccess: [{ type: 'setFlag', flag: 'build-stone-storage-3', value: true }],
     maxCount: 1,
-    modifiers: [{ key: 'stone_limit', add: 30 }],
+    modifiers: [{ key: 'stone_limit', add: 35 }],
   },
   'build-wood-storage-4': {
     id: 'build-wood-storage-4',

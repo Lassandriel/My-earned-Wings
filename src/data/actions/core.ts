@@ -53,7 +53,7 @@ export const coreActions: Record<string, any> = {
     sfx: 'gather',
     counter: 'wood',
     isLoopable: true,
-    rewards: { wood: 'wood_yield' },
+    rewards: { wood: 'wood_yield', resin: 'resin_yield' },
     particleText: 'ui_wood',
     particleType: 'wood',
     logKey: 'wood_log',

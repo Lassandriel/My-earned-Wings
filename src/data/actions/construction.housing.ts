@@ -58,7 +58,7 @@ export const housingConstruction = {
     desc: 'build-arcane-sanctum',
     chapter: 'Refinement',
     category: 'housing',
-    costs: { stone: 115, magic: 50 },
+    costs: { stone: 100, magic: 50 },
     image: 'img/addons/sanctum.webp',
     requirements: {
       'flags.build-house': true,
