@@ -40,7 +40,8 @@ interface Engine {
   productionAccumulator: Record<string, number>;
   timeAccumulator?: number;
   magicAccumulator?: number;
-  init: () => void;
+  services: EngineServices | null;
+  init: (services: EngineServices) => void;
   stop: () => void;
   metadata?: import('../../types/system').SystemMetadata;
   processTick: (state: GameState, services: EngineServices, deltaTime: number) => void;
@@ -61,12 +62,14 @@ export function createEngineSystem(): Engine {
     lastTickTime: 0,
     lastTaskTime: 0,
     productionAccumulator: {},
+    services: null,
 
-    init() {
+    init(services: EngineServices) {
       if (this.tickInterval) clearInterval(this.tickInterval);
       if (this.taskInterval) clearInterval(this.taskInterval);
       if (this.saveInterval) clearInterval(this.saveInterval);
 
+      this.services = services;
       this.lastTickTime = Date.now();
       this.lastTaskTime = Date.now();
 
@@ -95,9 +98,7 @@ export function createEngineSystem(): Engine {
         }
 
         const start = performance.now();
-        // The Alpine store currently contains both data and services, so it
-        // satisfies GameState (data) and EngineServices (services) at once.
-        this.processTick(state, state, safeDelta);
+        this.processTick(state, this.services!, safeDelta);
         Alpine.store<PerfStore>('perf').lastTickMs = Math.round(performance.now() - start);
       }, 1000);
 
@@ -111,7 +112,7 @@ export function createEngineSystem(): Engine {
         this.lastTaskTime = now;
 
         const start = performance.now();
-        this.processTasks(state, state, Math.min(deltaMs, 2000));
+        this.processTasks(state, this.services!, Math.min(deltaMs, 2000));
         Alpine.store<PerfStore>('perf').lastTaskMs = Math.round(performance.now() - start);
       }, 100);
 
@@ -120,8 +121,8 @@ export function createEngineSystem(): Engine {
         const state = getStore();
         if (!state || state.view === 'menu') return;
 
-        this.checkMilestones(state, state);
-        state.saveGame();
+        this.checkMilestones(state, this.services!);
+        this.services!.saveGame();
       }, 5000);
 
       console.log('[ENGINE] Core initialized.');
