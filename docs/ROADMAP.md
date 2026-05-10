@@ -9,6 +9,8 @@
 * [x] **Quality of Life: Full-screen Mode (v1.4.9)**: Added a dedicated toggle for full-screen mode in the game header for better immersion.
 * [x] **I18N & Build Integrity Fix (v1.4.10)**: Fixed CSS syntax errors in `layout.css` and optimized the i18n validator to ignore Alpine.js shorthands.
 * [x] **Magic Expansion & Resource Fix (v1.4.11)**: Balanced storage capacities and costs for Arcane Sanctum; added resin acquisition from wood gathering.
+* [x] **Tablet Portrait Optimization (v1.4.12)**: Optimized layout for 744x1133 (iPad Mini) with a collapsible bottom-navigation and improved grid distribution.
+* [x] **iPad Mini 6 Optimization (v1.4.13)**: Extended tablet layout thresholds to 1200px to cover iPad Mini 6 in both orientations (Portrait & Landscape).
 
 ***
 
@@ -28,4 +30,4 @@
 
 ***
 
-10. Mai 2026 · v1.4.11 (Magic Expansion Fix)
+10. Mai 2026 · v1.4.13 (iPad Mini 6 Support)

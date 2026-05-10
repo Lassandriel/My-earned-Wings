@@ -106,3 +106,37 @@
   filter: drop-shadow(0 0 10px var(--accent-teal)) brightness(1.2);
   transform: scale(1.05);
 }
+
+/* Tablet & Mobile Horizontal Optimizations */
+@media (max-width: 1200px) {
+  .nav-item {
+    grid-template-columns: 2.8rem 1fr;
+    font-size: 0.9rem;
+    padding: 0 0.6rem;
+    width: auto;
+    margin: 0;
+  }
+
+  .menu-icon-img {
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+
+  .sidebar.collapsed .nav-item {
+    width: 3.5rem;
+    min-width: 3.5rem !important;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .sidebar.collapsed .nav-item span {
+    display: none;
+  }
+
+  .nav-item.active {
+    inset: auto;
+    box-shadow: 
+      0 0 20px rgba(45, 212, 191, 0.1),
+      inset 0 -4px 0 0 var(--accent-teal); /* Bottom indicator instead of left */
+  }
+}
