@@ -95,21 +95,6 @@ export const initialState: Partial<GameState> = {
     items: 0,
     energySpent: 0,
   },
-
-  exportGameData() {
-    return (this as GameState).persistence.exportGameData(this as GameState);
-  },
-
-  quit() {
-    const store = this as unknown as GameState;
-    if (window.electronAPI) {
-      window.electronAPI.quitApp();
-    } else {
-      console.warn('Quit only works in Electron');
-      store.returnToMenu();
-      store.settingsOpen = false;
-    }
-  },
 };
 
 export const getTranslations = () => translations;

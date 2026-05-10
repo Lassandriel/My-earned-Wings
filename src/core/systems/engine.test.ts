@@ -294,7 +294,7 @@ describe('Engine System', () => {
 
       engine.checkMilestones(store);
 
-      expect(store.flags.first_wood).toBe(true);
+      expect((store.flags as any).first_wood).toBe(true);
       expect(effectHandler).toHaveBeenCalledWith(store, {
         type: 'setFlag',
         flag: 'has_wood',
@@ -333,7 +333,7 @@ describe('Engine System', () => {
 
       engine.checkMilestones(store);
 
-      expect(store.flags.first_wood).toBeFalsy();
+      expect((store.flags as any).first_wood).toBeFalsy();
     });
   });
 });

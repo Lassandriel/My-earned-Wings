@@ -115,7 +115,7 @@ describe('Action System', () => {
       actions.effectHandlers.unlockItem(state, { type: 'unlockItem', id: 'iron_sword' as any });
 
       expect(state.discoveredItems).toContain('iron_sword');
-      expect(state.flags.iron_sword).toBe(true);
+      expect((state.flags as any).iron_sword).toBe(true);
     });
 
     it('modifyLimit updates maxStat for stats and limits for resources', () => {
