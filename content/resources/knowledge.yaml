@@ -1,0 +1,18 @@
+# Resources — Knowledge & Special
+# Auto-loaded by scripts/build-content.ts
+
+- id: study_xp
+  type: resource
+  category: knowledge
+  color: "#3b82f6"
+  initial: 0
+  initialLimit: 100
+  scalesWithSatiation: false
+
+- id: focus
+  type: resource
+  category: knowledge
+  color: "var(--accent-purple)"
+  initial: 0
+  initialLimit: 1
+  scalesWithSatiation: false

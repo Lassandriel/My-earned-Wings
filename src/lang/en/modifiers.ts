@@ -39,4 +39,6 @@ export default {
   rune_fragment_yield_desc: 'Increases the chance of finding rune fragments.',
   knowledge_yield_desc: 'Increases the gain of general knowledge.',
   resource_efficiency_desc: 'Affects the speed and yield of your work.',
+  satiation_drain_desc: 'Affects how quickly your hunger increases.',
+  limit_desc_generic: 'Increases the maximum storage limit for {res}.',
 };

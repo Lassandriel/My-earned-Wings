@@ -1,0 +1,105 @@
+# Modifiers — Yield values (base values for the pipeline system)
+# Auto-loaded by scripts/build-content.ts
+# scalesWithSatiation: true means this modifier is in the efficiency pipeline
+
+- id: wood_yield
+  title: wood_yield_title
+  desc: wood_yield_desc
+  baseValue: 3
+  scalesWithSatiation: true
+
+- id: stone_yield
+  title: stone_yield_title
+  desc: stone_yield_desc
+  baseValue: 2
+  scalesWithSatiation: true
+
+- id: meat_yield
+  title: meat_yield_title
+  desc: meat_yield_desc
+  baseValue: 2
+  scalesWithSatiation: true
+
+- id: flowers_yield
+  title: flowers_yield_title
+  desc: flowers_yield_desc
+  baseValue: 4
+  scalesWithSatiation: true
+
+- id: shards_yield
+  title: shards_yield_title
+  desc: shards_yield_desc
+  baseValue: 25
+  scalesWithSatiation: true
+
+- id: magic_yield
+  title: magic_yield_title
+  desc: magic_yield_desc
+  baseValue: 15
+  scalesWithSatiation: false
+
+- id: rest_energy_gain
+  title: rest_energy_gain_title
+  desc: rest_energy_gain_desc
+  baseValue: 10
+  scalesWithSatiation: false
+
+- id: eat_satiation_gain
+  title: eat_satiation_gain_title
+  desc: eat_satiation_gain_desc
+  baseValue: 10
+  scalesWithSatiation: false
+
+- id: garden_yield
+  title: garden_yield_title
+  desc: garden_yield_desc
+  baseValue: 15
+  scalesWithSatiation: true
+
+- id: ghostwood_yield
+  title: modifier_ghostwood_yield_title
+  desc: modifier_ghostwood_yield_desc
+  baseValue: 1
+  scalesWithSatiation: true
+
+- id: glowpollen_yield
+  title: modifier_glowpollen_yield_title
+  desc: modifier_glowpollen_yield_desc
+  baseValue: 1
+  scalesWithSatiation: false
+
+- id: fibers_yield
+  title: modifier_fibers_yield_title
+  desc: modifier_fibers_yield_desc
+  baseValue: 3
+  scalesWithSatiation: true
+
+- id: clay_yield
+  title: modifier_clay_yield_title
+  desc: modifier_clay_yield_desc
+  baseValue: 2
+  scalesWithSatiation: true
+
+- id: resin_yield
+  title: resin_limit_title
+  desc: resin_limit_desc
+  baseValue: 0.5
+  scalesWithSatiation: false
+
+- id: study_xp_yield
+  title: ui_study_xp
+  desc: study_xp_yield_desc
+  baseValue: 5
+  scalesWithSatiation: false
+
+- id: rune_fragment_yield
+  title: ui_rune_fragment
+  desc: rune_fragment_yield_desc
+  baseValue: 2
+  scalesWithSatiation: false
+
+- id: knowledge_yield
+  title: ui_knowledge
+  desc: knowledge_yield_desc
+  baseValue: 5
+  scalesWithSatiation: false

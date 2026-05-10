@@ -284,6 +284,7 @@ export default {
   unlock_whisper_grove: 'The path to the Whispering Grove is now open!',
   unlock_vandara: 'You have received permission to enter Vandara!',
   act_read_lore_1_title: 'Study: Imperial Bloodline',
+  act_read_lore_1_desc: 'Deepen your knowledge about the ruling family.',
   ui_maxed: 'Maxed',
   ui_required: 'Required',
   ui_current_home: 'Current Home',

@@ -1,0 +1,112 @@
+# Modifiers — Resource Limits
+# Auto-loaded by scripts/build-content.ts
+
+- id: shards_limit
+  title: ui_shards
+  desc: shards_limit_desc
+  baseValue: 1000
+
+- id: wood_limit
+  title: ui_wood
+  desc: wood_limit_desc
+  baseValue: 0
+
+- id: stone_limit
+  title: ui_stone
+  desc: stone_limit_desc
+  baseValue: 0
+
+- id: herbs_limit
+  title: ui_herbs
+  desc: herbs_limit_desc
+  baseValue: 0
+
+- id: meat_limit
+  title: ui_meat
+  desc: meat_limit_desc
+  baseValue: 0
+
+- id: water_limit
+  title: ui_water
+  desc: water_limit_desc
+  baseValue: 0
+
+- id: energy_limit
+  title: ui_energy
+  desc: energy_limit_desc
+  baseValue: 0
+
+- id: magic_limit
+  title: ui_magic
+  desc: magic_limit_desc
+  baseValue: 0
+
+- id: resin_limit
+  title: resin_limit_title
+  desc: resin_limit_desc
+  baseValue: 0
+
+- id: clay_limit
+  title: clay_limit_title
+  desc: clay_limit_desc
+  baseValue: 0
+
+- id: iron_parts_limit
+  title: iron_parts_limit_title
+  desc: iron_parts_limit_desc
+  baseValue: 0
+
+- id: satiation_limit
+  title: ui_satiation
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: astral_shards_limit
+  title: ui_astral_shards
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: flowers_limit
+  title: ui_flowers
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: ghostwood_limit
+  title: ui_ghostwood
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: glowpollen_limit
+  title: ui_glowpollen
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: fibers_limit
+  title: ui_fibers
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: rune_fragment_limit
+  title: ui_rune_fragment
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: arcane_dust_limit
+  title: ui_arcane_dust
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: gourmet-meal_limit
+  title: ui_gourmet-meal
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: study_xp_limit
+  title: ui_study_xp
+  desc: limit_desc_generic
+  baseValue: 0
+
+- id: focus_limit
+  title: ui_focus
+  desc: limit_desc_generic
+  baseValue: 0

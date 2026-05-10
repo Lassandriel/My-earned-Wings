@@ -41,9 +41,8 @@ export const createI18nSystem = () => {
 
       // Access global translations to avoid proxy overhead
       const translations = (window as any).TRANSLATIONS || {};
-      const language = (store && store.language) ? store.language : 'de';
-
-      const langData = (translations[language] || translations['de'] || {});
+      const language = (store && store.language) ? store.language : 'en';
+      const langData = (translations[language] || translations['en'] || translations['de'] || {});
       const contextData = (langData[context] || {});
       let data = contextData[key];
       

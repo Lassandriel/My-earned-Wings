@@ -41,8 +41,16 @@ const keyExistsInLang = (
 ): boolean => {
   if (context && lang[context]) {
     const exists = lang[context][key] !== undefined;
-    if (exists) markKeyUsed(context, key);
-    return exists;
+    if (exists) {
+        markKeyUsed(context, key);
+        return true;
+    }
+    // Fallback to 'ui'
+    if (context !== 'ui' && lang['ui'] && lang['ui'][key] !== undefined) {
+        markKeyUsed('ui', key);
+        return true;
+    }
+    return false;
   }
   
   let found = false;
@@ -128,6 +136,12 @@ const checkRegistries = () => {
     Object.keys(reg.milestones || {}).forEach(id => {
         // Milestones usually don't have UI titles, but they might be logged
         checkKey(`[reg.milestones] '${id}' log`, 'logs', 'milestone_' + id.replace('milestone-', ''));
+    });
+
+    Object.keys(reg.modifiers || {}).forEach(id => {
+        const mod = reg.modifiers[id];
+        if (mod.title) checkKey(`[reg.modifiers] title '${mod.title}'`, 'modifiers', mod.title);
+        if (mod.desc)  checkKey(`[reg.modifiers] desc '${mod.desc}'`,  'modifiers', mod.desc);
     });
 };
 

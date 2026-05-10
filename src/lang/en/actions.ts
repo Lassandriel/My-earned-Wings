@@ -2,6 +2,10 @@ export default {
   help: {
     title: 'Help',
   },
+  new_game: {
+    title: 'menu_new_game',
+    desc: 'ui_new_game_desc',
+  },
   'build-campfire': {
     title: 'Light Campfire',
     desc: 'Warmth in the dark. Increases satiation gain when eating.',

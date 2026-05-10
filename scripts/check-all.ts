@@ -61,7 +61,13 @@ const checkAll = () => {
         context: string | undefined,
         key: string
     ): boolean => {
-        if (context) return lang[context] !== undefined && lang[context][key] !== undefined;
+        if (context) {
+            const exists = lang[context] !== undefined && lang[context][key] !== undefined;
+            if (exists) return true;
+            // Fallback to 'ui' if not found in specific context
+            if (context !== 'ui' && lang['ui'] && lang['ui'][key] !== undefined) return true;
+            return false;
+        }
         return Object.values(lang).some((ns) => typeof ns === 'object' && ns !== null && ns[key] !== undefined);
     };
 
@@ -170,6 +176,11 @@ const checkAll = () => {
     Object.values(registries.milestones || {}).forEach((m: any) => {
         if (m.icon) validateAsset(`Milestone '${m.id}'`, m.icon);
         checkI18nKey(`Milestone '${m.id}' log`, 'logs', 'milestone_' + m.id.replace('milestone-', ''));
+    });
+
+    Object.values(registries.modifiers || {}).forEach((mod: any) => {
+        if (mod.title) checkI18nKey(`Modifier title '${mod.title}'`, 'modifiers', mod.title);
+        if (mod.desc)  checkI18nKey(`Modifier desc  '${mod.desc}'`,  'modifiers', mod.desc);
     });
 
     // ---------------------------------------------------------------------------

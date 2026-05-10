@@ -7,8 +7,9 @@
   "type": "module",
   "main": "dist_electron/main.js",
   "scripts": {
-    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development NODE_OPTIONS=\"--import=tsx\" .\\node_modules\\.bin\\electron.cmd src/electron/main.ts\"",
-    "build": "vite build",
+    "build:content": "tsx scripts/build-content.ts",
+    "dev": "npm run build:content && concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development NODE_OPTIONS=\"--import=tsx\" .\\node_modules\\.bin\\electron.cmd src/electron/main.ts\"",
+    "build": "npm run build:content && vite build",
     "build-electron": "tsc -p tsconfig.electron.json",
     "preview": "vite preview",
     "check-i18n": "tsx scripts/check-i18n.ts",
@@ -49,7 +50,9 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/alpinejs": "^3.13.11",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.6.2",
+    "ajv": "^6.15.0",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "electron": "^42.0.0",
@@ -71,6 +74,7 @@
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.15.12",
-    "alpinejs": "^3.15.12"
+    "alpinejs": "^3.15.12",
+    "js-yaml": "^4.1.1"
   }
 }

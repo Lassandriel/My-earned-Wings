@@ -1,0 +1,26 @@
+# Resources — Provisions (food, drink)
+# Auto-loaded by scripts/build-content.ts
+
+- id: meat
+  type: resource
+  category: provisions
+  color: "#f87171"
+  initial: 0
+  initialLimit: 10
+  scalesWithSatiation: false
+
+- id: water
+  type: resource
+  category: provisions
+  color: "#60a5fa"
+  initial: 0
+  initialLimit: 10
+  scalesWithSatiation: false
+
+- id: gourmet-meal
+  type: resource
+  category: provisions
+  color: "#fbbf24"
+  initial: 0
+  initialLimit: 10
+  scalesWithSatiation: false

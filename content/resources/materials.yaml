@@ -1,0 +1,114 @@
+# Resources — Base Materials
+# Auto-loaded by scripts/build-content.ts
+
+- id: wood
+  type: resource
+  category: materials
+  color: "var(--gold)"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: true
+
+- id: stone
+  type: resource
+  category: materials
+  color: "var(--text-dim)"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: true
+
+- id: shards
+  type: resource
+  category: materials
+  color: "var(--accent-teal)"
+  initial: 0
+  initialLimit: 1000
+  scalesWithSatiation: false
+
+- id: herbs
+  type: resource
+  category: materials
+  color: "var(--accent-teal)"
+  initial: 0
+  initialLimit: 50
+  scalesWithSatiation: true
+
+- id: astral_shards
+  type: resource
+  category: materials
+  color: "#818cf8"
+  initial: 0
+  initialLimit: 100
+  scalesWithSatiation: false
+
+- id: flowers
+  type: resource
+  category: materials
+  color: "#ec4899"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: true
+
+- id: ghostwood
+  type: resource
+  category: materials
+  color: "#94a3b8"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: true
+
+- id: glowpollen
+  type: resource
+  category: materials
+  color: "#fbbf24"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: false
+
+- id: fibers
+  type: resource
+  category: materials
+  color: "#fde68a"
+  initial: 0
+  initialLimit: 50
+  scalesWithSatiation: true
+
+- id: resin
+  type: resource
+  category: materials
+  color: "#b45309"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: false
+
+- id: iron_parts
+  type: resource
+  category: materials
+  color: "#64748b"
+  initial: 0
+  initialLimit: 25
+  scalesWithSatiation: false
+
+- id: clay
+  type: resource
+  category: materials
+  color: "#a8a29e"
+  initial: 0
+  initialLimit: 50
+  scalesWithSatiation: true
+
+- id: rune_fragment
+  type: resource
+  category: materials
+  color: "#8b5cf6"
+  initial: 0
+  initialLimit: 50
+  scalesWithSatiation: false
+
+- id: arcane_dust
+  type: resource
+  category: materials
+  color: "#a78bfa"
+  initial: 0
+  initialLimit: 50
+  scalesWithSatiation: false

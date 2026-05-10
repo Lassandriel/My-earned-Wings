@@ -1,0 +1,42 @@
+# Modifiers — Miscellaneous gameplay modifiers
+# Auto-loaded by scripts/build-content.ts
+
+- id: garden_magic_cost
+  title: modifier_garden_magic_cost_title
+  desc: modifier_garden_magic_cost_desc
+  baseValue: 1
+
+- id: magic_regen_passive
+  title: modifier_magic_regen_passive_title
+  desc: modifier_magic_regen_passive_desc
+  baseValue: 0
+
+- id: study_efficiency
+  title: modifier_study_efficiency_title
+  desc: modifier_study_efficiency_desc
+  baseValue: 1
+
+- id: energy_reg_bonus
+  title: energy_reg_bonus_title
+  desc: energy_reg_bonus_desc
+  baseValue: 0
+
+- id: magic_limit_gain
+  title: magic_limit_gain_title
+  desc: magic_limit_gain_desc
+  baseValue: 2
+
+- id: resource_efficiency
+  title: resource_efficiency_title
+  desc: resource_efficiency_desc
+  baseValue: 1
+
+- id: arcane_focus_cost
+  title: arcane_focus_cost_title
+  desc: arcane_focus_cost_desc
+  baseValue: 3
+
+- id: satiation_drain_multiplier
+  title: ui_satiation
+  desc: satiation_drain_desc
+  baseValue: 1

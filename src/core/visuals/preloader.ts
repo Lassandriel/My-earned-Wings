@@ -63,7 +63,6 @@ export const createPreloaderSystem = () => {
         'img/background/background 1/5.webp',
         'img/background/background 1/6.webp',
         // Common Menu Icons
-        'img/menu/menu_gameplay.webp',
         'img/menu/menu_village.webp',
         'img/menu/menu_crafting.webp',
         'img/menu/menu_housing.webp',

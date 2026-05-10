@@ -1,0 +1,34 @@
+# Resources — Stats (Energy, Magic, Satiation)
+# Auto-loaded by scripts/build-content.ts
+
+- id: energy
+  type: stat
+  category: vitality
+  color: "var(--accent-teal)"
+  initial: 50
+  initialMax: 50
+  isEssential: true
+  wingSlot: left
+  scalesWithSatiation: false
+  satiationDrain: 0.1
+
+- id: magic
+  type: stat
+  category: vitality
+  color: "var(--accent-purple)"
+  initial: 50
+  initialMax: 50
+  isEssential: true
+  wingSlot: right
+  scalesWithSatiation: false
+  satiationDrain: 0.1
+
+- id: satiation
+  type: stat
+  category: vitality
+  color: "var(--gold)"
+  initial: 50
+  initialMax: 50
+  isEssential: true
+  wingSlot: head
+  scalesWithSatiation: false

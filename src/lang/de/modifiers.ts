@@ -39,4 +39,6 @@ export default {
   rune_fragment_yield_desc: 'Erhöht die Chance auf Runenfragmente.',
   knowledge_yield_desc: 'Erhöht den Zuwachs an allgemeinem Wissen.',
   resource_efficiency_desc: 'Beeinflusst die Geschwindigkeit und Ausbeute deiner Arbeit.',
+  satiation_drain_desc: 'Beeinflusst wie schnell dein Hunger steigt.',
+  limit_desc_generic: 'Erhöht das maximale Limit für {res}.',
 };

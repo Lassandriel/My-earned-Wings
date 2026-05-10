@@ -2,6 +2,10 @@ export default {
   help: {
     title: 'Hilfe',
   },
+  new_game: {
+    title: 'menu_new_game',
+    desc: 'ui_new_game_desc',
+  },
   'build-campfire': {
     title: 'Lagerfeuer entzünden',
     desc: 'Wärme in der Dunkelheit. Erhöht die Sättigung beim Essen.',

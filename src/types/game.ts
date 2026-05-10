@@ -85,6 +85,8 @@ export interface GameState {
   currentScale: number;
   lastMouseX: number;
   lastMouseY: number;
+  isFullscreen: boolean;
+  sidebarCollapsed: boolean;
 
   // Global State Extensions
   hasSave: boolean;
@@ -163,6 +165,9 @@ export interface GameState {
     buildInitialState: (baseState: Partial<GameState>) => GameState;
     bootSystems: (store: GameState) => void;
   };
+  story: {
+    getGroupedHistory: (store: GameState) => Record<string, StoryHistoryEntry[]>;
+  };
   collection: {
     recordCollectionEntry: (
       game: GameState,
@@ -213,6 +218,7 @@ export interface GameState {
     updateBackground: (setName: string) => void;
   };
   preloader: {
+    preloadBackgroundSet: (setName: string, layers: number) => Promise<void>;
     boot: (store: GameState) => void;
   };
   settings: {
@@ -227,7 +233,7 @@ export interface GameState {
     calculateScale?: (store: GameState) => void;
   };
   ui: {
-    reposition: (x: number, y: number) => void;
+    reposition: (x: number, y: number, force?: boolean) => void;
     calculateScale: (store: GameState) => void;
     handleMouseMove: (e: MouseEvent, store: GameState) => void;
     cleanupHover: (store: GameState) => void;
@@ -340,6 +346,8 @@ export interface TooltipCost {
   value: string;
   amount: number;
   affordable: boolean;
+  status?: string;
+  display?: string;
 }
 
 /** Story history entry */

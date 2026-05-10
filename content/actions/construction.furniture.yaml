@@ -1,0 +1,176 @@
+# Actions — Furniture Crafting
+# Auto-loaded by scripts/build-content.ts
+
+- id: act-bed
+  category: furniture
+  requirements:
+    "flags.build-house": true
+  cost: 25
+  costType: wood
+  image: img/furniture/bed.webp
+  sfx: craft
+  onSuccess:
+    - type: unlockItem
+      id: item-bed
+  logKey: craft_bed
+
+- id: act-chair
+  category: furniture
+  requirements:
+    "flags.build-house": true
+  cost: 10
+  costType: wood
+  image: img/furniture/chair.webp
+  sfx: craft
+  onSuccess:
+    - type: unlockItem
+      id: item-chair
+  logKey: craft_chair
+
+- id: act-stove
+  category: furniture
+  requirements:
+    "flags.build-house": true
+  costs:
+    stone: 25
+    wood: 15
+  image: img/furniture/stove.webp
+  sfx: craft
+  onSuccess:
+    - type: unlockItem
+      id: item-stove
+  logKey: craft_stove
+
+- id: act-bookshelf
+  category: furniture
+  cost: 25
+  costType: wood
+  image: img/furniture/bookshelf.webp
+  requirements:
+    "flags.build-table": true
+    "flags.build-bookshelf": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: unlockItem
+      id: item-bookshelf
+    - type: setFlag
+      flag: build-bookshelf
+      value: true
+  logKey: craft_bookshelf
+  modifiers:
+    - key: magic_limit
+      add: 5
+
+- id: act-cabinet
+  category: furniture
+  cost: 60
+  costType: wood
+  image: img/furniture/cabinet.webp
+  requirements:
+    "flags.build-house": true
+    "flags.build-kitchen": true
+    "flags.item-cabinet": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: unlockItem
+      id: item-cabinet
+  logKey: craft_cabinet
+
+- id: act-grand-table
+  category: furniture
+  cost: 85
+  costType: wood
+  image: img/furniture/table_massive.webp
+  requirements:
+    "flags.build-table": true
+    "flags.build-kitchen": true
+    "flags.item-grand-table": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: unlockItem
+      id: item-grand-table
+  logKey: craft_grand_table
+
+- id: act-bed-2
+  category: furniture
+  costs:
+    shards: 150
+    magic: 40
+  requirements:
+    "flags.item-bed": true
+    "flags.item-crystal-mana": true
+    "flags.item-bed-2": {op: "!=", val: true}
+  sfx: magic
+  image: img/furniture/bed_2.webp
+  onSuccess:
+    - type: unlockItem
+      id: item-bed-2
+  logKey: craft_bed_2
+
+- id: act-stove-2
+  category: furniture
+  costs:
+    shards: 200
+    stone: 50
+  requirements:
+    "flags.item-stove": true
+    "flags.item-crystal-mana": true
+    "flags.item-stove-2": {op: "!=", val: true}
+  sfx: magic
+  image: img/furniture/stove_2.webp
+  onSuccess:
+    - type: unlockItem
+      id: item-stove-2
+  logKey: craft_stove_2
+
+- id: build-loom
+  category: furniture
+  costs:
+    wood: 50
+    ghostwood: 10
+    fibers: 15
+  image: img/furniture/loom.webp
+  requirements:
+    "flags.build-house": true
+    "flags.build-loom": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: setFlag
+      flag: build-loom
+      value: true
+    - type: unlockItem
+      id: item-loom
+
+- id: build-bookshelf-large
+  category: furniture
+  costs:
+    wood: 75
+    shards: 100
+  image: img/furniture/bookshelf_large.webp
+  requirements:
+    "flags.build-bookshelf": true
+    "flags.build-bookshelf-large": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: setFlag
+      flag: build-bookshelf-large
+      value: true
+    - type: unlockItem
+      id: item-bookshelf-large
+
+- id: build-desk
+  category: furniture
+  costs:
+    wood: 60
+    shards: 50
+  image: img/furniture/desk.webp
+  requirements:
+    "flags.build-table": true
+    "flags.build-desk": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: setFlag
+      flag: build-desk
+      value: true
+    - type: unlockItem
+      id: item-desk

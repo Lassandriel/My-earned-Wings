@@ -1,4 +1,3 @@
-import Alpine from 'alpinejs';
 import { GameState } from '../../types/game';
 
 /**

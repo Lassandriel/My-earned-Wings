@@ -289,6 +289,7 @@ export default {
   unlock_whisper_grove: 'Der Pfad zum Flüsterhain ist nun frei!',
   unlock_vandara: 'Du hast die Erlaubnis erhalten, Vandara zu betreten!',
   act_read_lore_1_title: 'Studium: Kaiserliche Blutlinie',
+  act_read_lore_1_desc: 'Vertiefe dein Wissen über die Herrscherfamilie.',
   ui_maxed: 'Maximiert',
   ui_required: 'Erfordert',
   ui_current_home: 'Momentanes Zuhause',

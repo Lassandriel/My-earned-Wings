@@ -11,6 +11,8 @@
 * [x] **Magic Expansion & Resource Fix (v1.4.11)**: Balanced storage capacities and costs for Arcane Sanctum; added resin acquisition from wood gathering.
 * [x] **Tablet Portrait Optimization (v1.4.12)**: Optimized layout for 744x1133 (iPad Mini) with a collapsible bottom-navigation and improved grid distribution.
 * [x] **iPad Mini 6 Optimization (v1.4.13)**: Extended tablet layout thresholds to 1200px to cover iPad Mini 6 in both orientations (Portrait & Landscape).
+* [x] **Stability & Fallback Polish (v1.4.14)**: Optimized icon validation (whitelist-based), corrected i18n fallbacks (EN-first), and cleared console warnings.
+* [x] **Architecture Phase 1 — YAML Content Pipeline (v2.0.0)**: Migrated all Resources, Modifiers, and Actions to structured YAML. A build script auto-generates typed TypeScript. Adding a new resource now requires 1 YAML file instead of 5+ TypeScript edits.
 
 ***
 
@@ -30,4 +32,4 @@
 
 ***
 
-10. Mai 2026 · v1.4.13 (iPad Mini 6 Support)
+10. Mai 2026 · v2.0.0 (Architecture Phase 1 - YAML Content Pipeline)

@@ -53,5 +53,8 @@ Desktop.ini
 *-linux-x64/
 /.agents
 
+# Claude Code worktrees & harness state
+.claude/
+
 # Other
 docs/RP_Draconia.md

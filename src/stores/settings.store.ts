@@ -38,11 +38,27 @@ export const createSettingsStore = (initialSettings: InitialSettings) => ({
   },
 
   calculateScale(store: GameState) {
-    if (!this.system) {
-      console.warn('[SETTINGS] Cannot calculate scale: system not booted.');
-      return;
+    const setting = this.uiScale || 'auto';
+
+    if (setting === 'auto') {
+      // Design Reference: 1440x900
+      const refW = 1440;
+      const refH = 900;
+
+      const scaleW = window.innerWidth / refW;
+      const scaleH = window.innerHeight / refH;
+
+      // Fluid scaling with a slightly protective clamp
+      const baseScale = Math.min(scaleW, scaleH);
+      store.currentScale = Math.max(0.65, Math.min(1.2, baseScale));
+    } else {
+      store.currentScale = parseFloat(setting) || 1;
     }
-    this.system.calculateScale(store);
+
+    document.documentElement.style.setProperty(
+      '--app-scale',
+      store.currentScale.toString()
+    );
   },
 
   setLanguage(store: GameState, lang: string) {

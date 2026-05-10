@@ -113,7 +113,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     } else if (extra) {
       store.hoveredAction = { ...extra, id };
     } else {
-      store.hoveredAction = { id, data: store.content.get(id) };
+      store.hoveredAction = { id, data: store.content.get(id) || undefined };
     }
     if (id && store.ui?.reposition) {
       store.ui.reposition(store.lastMouseX, store.lastMouseY, true);
@@ -176,8 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Register secondary stores
     Alpine.store('logs', createLogStore());
     const sStore = createSettingsStore(dynamicInitialState.settings);
-    const gameStore = Alpine.store('game') as GameState;
-    sStore.boot(gameStore.settingsSystem);
+    sStore.boot(systemInstances.settingsSystem as any);
     Alpine.store('settings', sStore);
 
     Alpine.start();

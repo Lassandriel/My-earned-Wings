@@ -9,6 +9,8 @@ import {
   BuffDefinition,
   TitleDefinition,
 } from '../../types/game';
+import { PIPELINE_EFFICIENCY_KEYS } from '../../generated/content';
+
 
 /**
  * Value Pipeline System - TypeScript Edition
@@ -132,14 +134,8 @@ export const createPipelineSystem = () => {
       // 2. DYNAMIC MODIFIERS (Never Cached)
       
       // 2.1 Satiation Efficiency
-      const efficiencyKeys = [
-        'resource_efficiency', 
-        'wood_yield', 'stone_yield', 'meat_yield', 'shards_yield',
-        'flowers_yield', 'herbs_yield', 'clay_yield', 
-        'ghostwood_yield', 'glowpollen_yield',
-        'garden_yield'
-      ];
-      if (efficiencyKeys.includes(key)) {
+      // Keys are auto-derived from YAML (scalesWithSatiation: true) via build:content
+      if (PIPELINE_EFFICIENCY_KEYS.includes(key)) {
         mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
       }
 

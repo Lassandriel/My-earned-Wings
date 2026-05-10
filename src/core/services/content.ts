@@ -105,7 +105,7 @@ export const createContentService = (registries: Registries) => ({
     if (id.startsWith('build-')) return 'actions';
     if (id.startsWith('buff-')) return 'buffs';
     if (id.startsWith('home-')) return 'homes';
-    if (this.registries.resources[id]) return 'resources';
+    if ((this.registries.resources as Record<string, any>)[id]) return 'resources';
     return null;
   },
 
@@ -131,7 +131,13 @@ export const createContentService = (registries: Registries) => ({
         }
 
         // 2. Metadata Consistency (Title/Icon)
-        if (regName !== 'resources' && regName !== 'buffs') {
+        const VISUAL_REQUIRED = ['items', 'npcs', 'homes'];
+        const isActionRequiringVisual = regName === 'actions' && data.category !== 'lore' && data.category !== 'vandara' && !data.isPassive;
+        
+        if (VISUAL_REQUIRED.includes(regName) || isActionRequiringVisual) {
+          // Explicitly allowing '' (empty string) as an intentional "no-icon" marker
+          if (data.icon === '' || data.image === '') return;
+
           if (!data.icon && !data.image) {
             // Ignore virtual resources/modifiers for visual checks
             const isVirtual = id.endsWith('_yield') || id.endsWith('_limit') || id.endsWith('_cost') || id.includes('focus_');
@@ -241,7 +247,13 @@ export const createContentService = (registries: Registries) => ({
           }
 
           checkKeys.forEach(({ key, context }) => {
-            const translation = store.translations?.[lang]?.[context]?.[key];
+            let translation = store.translations?.[lang]?.[context]?.[key];
+            
+            // Context-Fallback to 'ui' if not found in specific context
+            if (!translation && context !== 'ui') {
+               translation = store.translations?.[lang]?.['ui']?.[key];
+            }
+
             if (!translation) {
               console.warn(
                 `[MISSING L10N] ${lang.toUpperCase()} is missing key "${key}" for ${id} in context "${context}"`

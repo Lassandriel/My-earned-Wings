@@ -152,4 +152,5 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
   study_xp_yield: { id: 'study_xp_yield', title: 'ui_study_xp', desc: 'study_xp_yield_desc', baseValue: 5 },
   rune_fragment_yield: { id: 'rune_fragment_yield', title: 'ui_rune_fragment', desc: 'rune_fragment_yield_desc', baseValue: 2 },
   knowledge_yield: { id: 'knowledge_yield', title: 'ui_knowledge', desc: 'knowledge_yield_desc', baseValue: 5 },
+  satiation_drain_multiplier: { id: 'satiation_drain_multiplier', title: 'ui_satiation', desc: 'satiation_drain_desc', baseValue: 1 },
 };

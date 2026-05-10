@@ -31,7 +31,7 @@ export const createTitleSystem = () => ({
     store.activeTitle = id;
     store.playSound('click');
     store.addLog('title_set', 'logs', 'var(--accent-teal)', { 
-      title: id ? store.t(store.content.get<TitleDefinition>(id, 'titles').nameKey) : store.t('ui_none') 
+      title: id ? store.t(store.content.get<TitleDefinition>(id, 'titles')?.nameKey || '') : store.t('ui_none') 
     });
     
     // Rebuild producers/pipeline if titles provide modifiers
