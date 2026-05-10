@@ -134,6 +134,11 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   get groupedHistory() { return getStore().story.getGroupedHistory(getStore()); },
   get availableFurniture() { return getStore().housing.getAvailableFurniture(getStore()); },
   get placedFurnitureList() { return getStore().housing.getPlacedFurnitureList(getStore()); },
+  toggleSidebar() {
+    const store = getStore();
+    store.sidebarCollapsed = !store.sidebarCollapsed;
+    store.playSound('click');
+  },
 };
 
 // --- 4. REGISTRATION & BOOT ---

@@ -4,6 +4,7 @@
 
 * [x] **Core Dependency Modernization (v1.4.6)**: Update to Electron 42 (Chromium 148), Vite 8.0.11 and Alpine.js 3.15.12.
 * [x] **Herb Gathering Rebalance (v1.4.7)**: Increased garden herb yield to 15 (Base) / 25 (Upgraded) to compensate for 10s duration.
+* [x] **Tablet & Landscape Optimization (v1.4.8)**: Implemented collapsible sidebar and 4-column layout for tablets (1133px+).
 
 ***
 

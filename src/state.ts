@@ -23,6 +23,7 @@ export const initialState: Partial<GameState> = {
   selectedStoryNpc: 'world',
   activeHome: null,
   activeTitle: null,
+  sidebarCollapsed: false,
 
   // Dynamic Containers
   resources: {},
