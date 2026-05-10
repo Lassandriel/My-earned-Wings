@@ -73,14 +73,6 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     if (store.settings?.calculateScale) {
       store.settings.calculateScale(store);
     }
-    
-    // Safety check for view
-    setTimeout(() => {
-      if (store.view !== 'menu') {
-        console.log('[BOOT] Normalizing view to menu. Current:', store.view);
-        store.view = 'menu';
-      }
-    }, 150);
   },
 
   // --- EXPLICIT DELEGATIONS ---

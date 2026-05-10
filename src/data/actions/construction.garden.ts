@@ -34,7 +34,7 @@ export const gardenConstruction = {
     ],
     logKey: 'milestone_garden_upgrade',
     logColor: 'var(--accent-teal)',
-    modifiers: [{ key: 'garden_yield', mult: 1.5 }],
+    modifiers: [{ key: 'garden_yield', add: 10 }],
   },
   'build-mana-basin': {
     id: 'build-mana-basin',

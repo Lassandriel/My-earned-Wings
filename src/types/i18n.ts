@@ -22,6 +22,10 @@ export interface TranslationLanguage {
   buffs: FlatTranslations;
   modifiers: FlatTranslations;
   npcs: FlatTranslations;
+  resources: FlatTranslations;
+  milestones: ActionTranslations;
+  titles: FlatTranslations;
+  navigation: FlatTranslations;
   actions: ActionTranslations;
 }
 

@@ -73,6 +73,12 @@ export const createBootSystem = () => {
       this.execBoot(store, logicSystems);
 
       console.log('[Bootstrapper] System sequence complete.');
+
+      // Final Lifecycle Check: Ensure the view is at menu unless otherwise specified by state
+      if (store.view !== 'menu') {
+        console.log('[Bootstrapper] Normalizing view to menu. Previous:', store.view);
+        store.view = 'menu';
+      }
     },
 
     /**

@@ -3,6 +3,7 @@
 ## 🏛️ Current Update
 
 * [x] **Core Dependency Modernization (v1.4.6)**: Update to Electron 42 (Chromium 148), Vite 8.0.11 and Alpine.js 3.15.12.
+* [x] **Herb Gathering Rebalance (v1.4.7)**: Increased garden herb yield to 15 (Base) / 25 (Upgraded) to compensate for 10s duration.
 
 ***
 
@@ -22,4 +23,4 @@
 
 ***
 
-8\. Mai 2026 · v1\.4\.6 \(Core Modernization & Dependency Updates\)
+10. Mai 2026 · v1.4.7 (Herb Gathering Balance & Logic Improvements)

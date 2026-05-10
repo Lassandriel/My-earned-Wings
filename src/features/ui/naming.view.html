@@ -25,16 +25,24 @@
         x-model="tempName"
         :placeholder="$store.game.t('ui_naming_placeholder')"
         maxlength="16"
-        @keydown.enter="$store.game.confirmName(tempName)"
+        @keydown.enter="if(tempName.trim().length >= 2) $store.game.confirmName(tempName)"
         class="premium-input"
+        :class="{ 'input-error': tempName.length > 0 && (tempName.trim().length < 2 || !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(tempName)) }"
       />
       <div class="input-focus-line"></div>
+      
+      <!-- UX Feedback -->
+      <div class="input-feedback-row">
+        <span class="char-counter" :class="{ 'at-limit': tempName.length >= 16 }" x-text="tempName.length + ' / 16'"></span>
+        <span class="validation-hint" x-show="tempName.length > 0 && tempName.trim().length < 2" x-transition x-text="$store.game.t('ui_naming_too_short', 'ui') || 'Too short...'"></span>
+        <span class="validation-hint" x-show="tempName.length > 0 && !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(tempName)" x-transition x-text="$store.game.t('ui_naming_invalid_chars', 'ui') || 'Invalid characters...'"></span>
+      </div>
     </div>
 
     <div class="modal-footer">
       <button
         class="game-btn premium-confirm-btn"
-        :disabled="!tempName || tempName.trim().length === 0"
+        :disabled="!tempName || tempName.trim().length < 2 || !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(tempName)"
         @click="$store.game.confirmName(tempName)"
       >
         <span x-text="$store.game.t('ui_naming_confirm')"></span>

@@ -91,6 +91,45 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.naming-input-wrapper input.input-error {
+  border-bottom-color: #fb7185 !important;
+}
+
+.input-feedback-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  min-height: 20px;
+  padding: 0 5px;
+}
+
+.char-counter {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  opacity: 0.5;
+  font-family: 'Outfit', sans-serif;
+}
+
+.char-counter.at-limit {
+  color: var(--accent-gold);
+  opacity: 1;
+}
+
+.validation-hint {
+  font-size: 0.85rem;
+  color: #fb7185;
+  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .premium-confirm-btn {
   padding: 18px 50px;
   font-size: 1.2rem;

@@ -189,7 +189,7 @@ export const createContentService = (registries: Registries) => ({
             }
           });
         }
-        if (data.costType && !this.get(data.costType, null, true)) {
+        if (data.costType && data.costType !== 'mixed' && data.costType !== 'none' && !this.get(data.costType, null, true)) {
           console.error(`[INVALID COST] ${id} requires unknown costType: ${data.costType}`);
           errors++;
         }
@@ -209,20 +209,35 @@ export const createContentService = (registries: Registries) => ({
         // 5. LOCALIZATION CHECK
         languages.forEach((lang) => {
           const checkKeys: Array<{ key: string; context: string }> = [];
+          
+          // Primary identifiers
           if (data.nameKey) checkKeys.push({ key: data.nameKey, context: 'ui' });
-          if (data.title) checkKeys.push({ key: data.title, context: regName });
-          if (data.desc) checkKeys.push({ key: data.desc, context: regName });
-
-          // Fallback: Check ID if no title/nameKey is provided
-          if (!data.title && !data.nameKey) {
-            checkKeys.push({ key: id, context: regName });
+          if (data.descKey) checkKeys.push({ key: data.descKey, context: 'ui' });
+          if (data.label) {
+             const ctx = data.label.startsWith('nav_') || data.label.startsWith('ui_') ? 'ui' : regName;
+             checkKeys.push({ key: data.label, context: ctx });
           }
 
-          // Also check dialogue keys for NPC steps
+          // Dynamic identifiers (Registry specific)
+          if (data.title) {
+             const ctx = data.title.startsWith('ui_') || data.title.startsWith('act_') || data.title.startsWith('action_') ? 'ui' : regName;
+             checkKeys.push({ key: data.title, context: ctx });
+          }
+          if (data.desc) {
+             const ctx = data.desc.startsWith('ui_') || data.desc.startsWith('act_') || data.desc.startsWith('action_') ? 'ui' : regName;
+             checkKeys.push({ key: data.desc, context: ctx });
+          }
+
+          // Dialogue keys for NPC steps
           if (data.steps) {
             data.steps.forEach((s: any) => {
               if (s.dialogueKey) checkKeys.push({ key: s.dialogueKey, context: 'npcs' });
             });
+          }
+
+          // Fallback: Check ID if no title/nameKey/label is provided
+          if (!data.title && !data.nameKey && !data.label) {
+            checkKeys.push({ key: id, context: regName });
           }
 
           checkKeys.forEach(({ key, context }) => {
@@ -230,6 +245,11 @@ export const createContentService = (registries: Registries) => ({
             if (!translation) {
               console.warn(
                 `[MISSING L10N] ${lang.toUpperCase()} is missing key "${key}" for ${id} in context "${context}"`
+              );
+              warnings++;
+            } else if (typeof translation === 'object' && !translation.title) {
+               console.warn(
+                `[MISSING L10N] ${lang.toUpperCase()} is missing "title" in object for key "${key}" in context "${context}"`
               );
               warnings++;
             }

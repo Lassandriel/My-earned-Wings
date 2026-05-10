@@ -5,6 +5,10 @@ import actions from './de/actions';
 import npcs from './de/npcs';
 import buffs from './de/buffs';
 import modifiers from './de/modifiers';
+import resources from './de/resources';
+import milestones from './de/milestones';
+import titles from './de/titles';
+import navigation from './de/navigation';
 import { TranslationLanguage } from '../types/i18n';
 
 /**
@@ -18,6 +22,10 @@ const lang: TranslationLanguage = {
   npcs,
   buffs,
   modifiers,
+  resources,
+  milestones,
+  titles,
+  navigation,
 };
 
 export default lang;

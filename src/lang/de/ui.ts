@@ -63,6 +63,8 @@ export default {
   ui_naming_desc: 'Wie soll die Welt von Draconia dich nennen?',
   ui_naming_placeholder: 'Wandler-Name...',
   ui_naming_confirm: 'Reise beginnen',
+  ui_naming_too_short: 'Name ist zu kurz...',
+  ui_naming_invalid_chars: 'Ungültige Zeichen...',
   ui_btn_thanks: 'Vielen Dank, Ellie!',
   ui_recipe: 'Rezept',
   ui_new_recipe: 'Neues Rezept',
@@ -313,4 +315,30 @@ export default {
   chapter_the_transformation: 'Die Verwandlung',
   chapter_the_dream: 'Der Traum',
   chapter_chronicles: 'Chroniken',
+  
+  // Missing Keys
+  action_build_cart_reinforced_title: 'Verstärkten Karren bauen',
+  action_build_cart_reinforced_desc: 'Ein verbesserter Karren für schwere Lasten.',
+  act_read_lore_2_title: 'Studium: Die Schwebenden Lande',
+  act_read_lore_2_desc: 'Studiere die Geografie von Draconia.',
+  
+  shards_limit_desc: 'Erhöht die Kapazität für Seelensplitter.',
+  wood_limit_desc: 'Erhöht die Kapazität für Holz.',
+  stone_limit_desc: 'Erhöht die Kapazität für Stein.',
+  herbs_limit_desc: 'Erhöht die Kapazität für Kräuter.',
+  meat_limit_desc: 'Erhöht die Kapazität für Fleisch.',
+  water_limit_desc: 'Erhöht die Kapazität für Wasser.',
+  energy_limit_desc: 'Erhöht dein maximales Energie-Limit.',
+  magic_limit_desc: 'Erhöht dein maximales Magie-Limit.',
+  
+  resin_limit_title: 'Harz-Kapazität',
+  resin_limit_desc: 'Erhöht die Kapazität für Baumharz.',
+  clay_limit_title: 'Ton-Kapazität',
+  clay_limit_desc: 'Erhöht die Kapazität für Ton.',
+  iron_parts_limit_title: 'Eisen-Kapazität',
+  iron_parts_limit_desc: 'Erhöht die Kapazität für Eisenbeschläge.',
+  
+  resource_efficiency_title: 'Ressourcen-Effizienz',
+  arcane_focus_cost_title: 'Arkaner Fokus-Kosten',
+  arcane_focus_cost_desc: 'Verringert die Kosten für den arkanen Fokus.',
 };

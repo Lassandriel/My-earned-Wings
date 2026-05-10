@@ -93,7 +93,7 @@ export const MODIFIER_REGISTRY: Record<string, ModifierDefinition> = {
     id: 'garden_yield',
     title: 'garden_yield_title',
     desc: 'garden_yield_desc',
-    baseValue: 3
+    baseValue: 15
   },
   magic_limit_gain: {
     id: 'magic_limit_gain',

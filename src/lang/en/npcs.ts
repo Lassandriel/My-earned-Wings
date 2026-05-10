@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   npc_baker_1: '"Welcome! I am Gara. And what is your name, stranger?"',
   npc_baker_2: '"The furnace is burning hot. Thanks for the wood, {player}."',
   npc_baker_3: '"A cookie, perhaps, {player}? They keep you on your toes."',
@@ -67,7 +67,7 @@
   lore_1_step_3: '<i>Empress Amaterasu hails from the Crystal Realm in the north. Her gentle light magic warms the spirits of all the people.</i>',
   lore_1_step_4: '<i>Crown Princess Lunara is the firstborn. She commands not only the tides but also walks safely through the world of dreams.</i>',
   lore_1_step_5: '<i>Prince Valerius, the General of the Empire, uses his earth magic to shape even the hardest stone like soft wax.</i>',
-  lore_1_step_6: '<i>Zephyrion, the Wind Dragon, is famous for his speed â€“ but few know of his passion for alchemy.</i>',
+  lore_1_step_6: '<i>Zephyrion, the Wind Dragon, is famous for his speed – but few know of his passion for alchemy.</i>',
   lore_1_step_7: '<i>Young Ryuga is the youngest of the family. Still a small spark, but his potential will one day shake the world.</i>',
   lore_1_step_8: '<i>Dragonshifters possess two forms. It is considered impolite to wear wings openly in humanoid form without reason.</i>',
   lore_1_step_9: '<i>The Dual Monarchy ensures peace between the various species, as Draconia is too large for a single ruler.</i>',

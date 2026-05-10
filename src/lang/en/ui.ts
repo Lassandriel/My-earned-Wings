@@ -63,6 +63,8 @@ export default {
   ui_naming_desc: 'How shall the world of Draconia call you?',
   ui_naming_placeholder: 'Shifter name...',
   ui_naming_confirm: 'Start Journey',
+  ui_naming_too_short: 'Name is too short...',
+  ui_naming_invalid_chars: 'Invalid characters...',
   ui_btn_thanks: 'Thank you, Ellie!',
   ui_recipe: 'Recipe',
   ui_new_recipe: 'New Recipe',
@@ -308,4 +310,30 @@ export default {
   chapter_the_transformation: 'The Transformation',
   chapter_the_dream: 'The Dream',
   chapter_chronicles: 'Chronicles',
+  
+  // Missing Keys
+  action_build_cart_reinforced_title: 'Build Reinforced Cart',
+  action_build_cart_reinforced_desc: 'An improved cart for heavy loads.',
+  act_read_lore_2_title: 'Study: The Floating Lands',
+  act_read_lore_2_desc: 'Study the geography of Draconia.',
+  
+  shards_limit_desc: 'Increases soul shard capacity.',
+  wood_limit_desc: 'Increases wood capacity.',
+  stone_limit_desc: 'Increases stone capacity.',
+  herbs_limit_desc: 'Increases herb capacity.',
+  meat_limit_desc: 'Increases meat capacity.',
+  water_limit_desc: 'Increases water capacity.',
+  energy_limit_desc: 'Increases your maximum energy limit.',
+  magic_limit_desc: 'Increases your maximum magic limit.',
+  
+  resin_limit_title: 'Resin Capacity',
+  resin_limit_desc: 'Increases resin capacity.',
+  clay_limit_title: 'Clay Capacity',
+  clay_limit_desc: 'Increases clay capacity.',
+  iron_parts_limit_title: 'Iron Capacity',
+  iron_parts_limit_desc: 'Increases iron parts capacity.',
+  
+  resource_efficiency_title: 'Resource Efficiency',
+  arcane_focus_cost_title: 'Arcane Focus Cost',
+  arcane_focus_cost_desc: 'Reduces the cost of arcane focus.',
 };
