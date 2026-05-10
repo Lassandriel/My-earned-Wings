@@ -67,18 +67,36 @@
             <h1 class="game-title" x-text="$store.game.t('menu_title')"></h1>
           </div>
 
-          <!-- Settings Button (Relocated) -->
-          <div
-            class="settings-corner-btn"
-            @click="$store.game.settingsOpen = true"
-            @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('settings_title'), desc: '' })"
-            @mouseleave="$store.game.setHovered(null)"
-            role="button"
-            :aria-label="$store.game.t('settings_title')"
-            tabindex="0"
-            @keydown.enter="$store.game.settingsOpen = true"
-          >
-            ⚙️
+          <!-- Header Actions (Settings & Fullscreen) -->
+          <div class="header-actions">
+            <!-- Fullscreen Button -->
+            <div
+              class="header-btn fullscreen-btn"
+              @click="$store.game.toggleFullscreen()"
+              @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_fullscreen_title'), desc: '' })"
+              @mouseleave="$store.game.setHovered(null)"
+              role="button"
+              :aria-label="$store.game.t('ui_fullscreen_title')"
+              tabindex="0"
+              @keydown.enter="$store.game.toggleFullscreen()"
+            >
+              <span x-show="!$store.game.isFullscreen">🖥️</span>
+              <span x-show="$store.game.isFullscreen">🗗</span>
+            </div>
+
+            <!-- Settings Button -->
+            <div
+              class="header-btn settings-btn"
+              @click="$store.game.settingsOpen = true"
+              @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('settings_title'), desc: '' })"
+              @mouseleave="$store.game.setHovered(null)"
+              role="button"
+              :aria-label="$store.game.t('settings_title')"
+              tabindex="0"
+              @keydown.enter="$store.game.settingsOpen = true"
+            >
+              ⚙️
+            </div>
           </div>
         </header>
 

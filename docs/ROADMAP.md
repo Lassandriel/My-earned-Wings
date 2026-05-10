@@ -6,6 +6,8 @@
 * [x] **Herb Gathering Rebalance (v1.4.7)**: Increased garden herb yield to 15 (Base) / 25 (Upgraded) to compensate for 10s duration.
 * [x] **Tablet & Landscape Optimization (v1.4.8)**: Implemented collapsible sidebar and 4-column layout for tablets (1133px+).
 
+* [x] **Quality of Life: Full-screen Mode (v1.4.9)**: Added a dedicated toggle for full-screen mode in the game header for better immersion.
+
 ***
 
 ## 🗺️ Future Horizons
@@ -24,4 +26,4 @@
 
 ***
 
-10. Mai 2026 · v1.4.7 (Herb Gathering Balance & Logic Improvements)
+10. Mai 2026 · v1.4.9 (Full-screen Mode & QoL)

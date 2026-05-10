@@ -300,6 +300,7 @@ export default {
 
   // --- FINAL LOCALIZATION ---
   ui_wings_logo_alt: 'Wings Logo',
+  ui_fullscreen_title: 'Toggle Fullscreen',
   ui_placed_log: ' placed.',
   ui_removed_log: ' removed.',
   ui_missing_entry: 'Missing entry in registry',

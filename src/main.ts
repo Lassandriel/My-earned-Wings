@@ -45,6 +45,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   lastMouseX: 0,
   lastMouseY: 0,
   currentScale: 1,
+  isFullscreen: false,
 
   // Services
   content: createContentService(registries),
@@ -73,6 +74,11 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     if (store.settings?.calculateScale) {
       store.settings.calculateScale(store);
     }
+
+    // Sync Fullscreen State
+    document.addEventListener('fullscreenchange', () => {
+      store.isFullscreen = !!document.fullscreenElement;
+    });
   },
 
   // --- EXPLICIT DELEGATIONS ---
@@ -137,6 +143,18 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   toggleSidebar() {
     const store = getStore();
     store.sidebarCollapsed = !store.sidebarCollapsed;
+    store.playSound('click');
+  },
+
+  toggleFullscreen() {
+    const store = getStore();
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
     store.playSound('click');
   },
 };

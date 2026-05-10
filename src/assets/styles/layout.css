@@ -185,11 +185,17 @@
   position: relative;
 }
 
-.settings-corner-btn {
+.header-actions {
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+ 
+.header-btn {
   width: 44px;
   height: 44px;
   background: rgba(255, 255, 255, 0.05);
@@ -201,14 +207,29 @@
   justify-content: center;
   font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #fff;
+  user-select: none;
 }
-
-.settings-corner-btn:hover {
+ 
+.header-btn:hover {
   background: rgba(255, 255, 255, 0.15);
   border-color: var(--accent-teal);
-  transform: translateY(-50%) rotate(90deg) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.header-btn:active {
+  transform: scale(0.95);
+}
+
+.settings-btn:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+.fullscreen-btn:hover {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
 }
 
 .stat-header-flex {

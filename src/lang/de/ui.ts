@@ -305,6 +305,7 @@ export default {
 
   // --- FINALE LOKALISIERUNG ---
   ui_wings_logo_alt: 'Wings Logo',
+  ui_fullscreen_title: 'Vollbild umschalten',
   ui_placed_log: ' platziert.',
   ui_removed_log: ' entfernt.',
   ui_missing_entry: 'Eintrag fehlt im Register',
