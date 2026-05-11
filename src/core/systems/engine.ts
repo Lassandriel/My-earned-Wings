@@ -6,6 +6,7 @@ import { tickRegen } from '../../engine/systems/regen';
 import { tickProducers } from '../../engine/systems/producers';
 import { tickTasks } from '../../engine/systems/tasks';
 import { tickMilestones } from '../../engine/systems/milestones';
+import { createUISync } from '../../engine/systems/ui';
 
 export type { EngineServices };
 
@@ -31,6 +32,7 @@ interface Engine {
   timeAccumulator?: number;
   magicAccumulator?: number;
   services: EngineServices | null;
+  uiSync: ReturnType<typeof createUISync>;
   init: (services: EngineServices) => void;
   stop: () => void;
   metadata?: import('../../types/system').SystemMetadata;
@@ -53,6 +55,7 @@ export function createEngineSystem(): Engine {
     lastTaskTime: 0,
     productionAccumulator: {},
     services: null,
+    uiSync: createUISync(),
 
     init(services: EngineServices) {
       if (this.tickInterval) clearInterval(this.tickInterval);
@@ -123,6 +126,7 @@ export function createEngineSystem(): Engine {
       tickFocus(state, services, deltaTime);
       this.magicAccumulator = tickRegen(state, services, deltaTime, this.magicAccumulator || 0);
       this.processPassiveProduction(state, services, deltaTime);
+      this.uiSync.sync(state, services);
     },
 
     processTasks(state: GameState, services: EngineServices, deltaMs: number) {
