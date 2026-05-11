@@ -130,6 +130,7 @@ export function createEngineSystem(): Engine {
     processTasks(state: GameState, services: EngineServices, deltaMs: number) {
       services.commands.drain(state, services);
       tickTasks(state, services, deltaMs);
+      this.uiSync.sync(state, services);
     },
 
     processPassiveProduction(state: GameState, services: EngineServices, deltaTime: number) {

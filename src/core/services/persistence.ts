@@ -224,10 +224,16 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
       _lastSaveTime = now;
 
       try {
+        // Phase 2 Step 8: prefer the engine's plain state if available — it
+        // is the source of truth and may have mutations not yet pushed to
+        // the Alpine store by UISync.
+        const truth =
+          (store.engine as unknown as { services?: { gameState?: GameState } })?.services?.gameState ?? store;
+
         const saveObj: any = {};
         Object.keys(initialState).forEach((key) => {
           if (!CONFIG.EXCLUDE.includes(key)) {
-            (saveObj as Record<string, unknown>)[key] = (store as unknown as Record<string, unknown>)[key];
+            (saveObj as Record<string, unknown>)[key] = (truth as unknown as Record<string, unknown>)[key];
           }
         });
 
@@ -292,6 +298,20 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
 
         // Apply data to store
         deepMerge(store, validatedData);
+
+        // Phase 2 Step 8: also push the loaded data into the engine's plain
+        // state (separate object) so the engine doesn't keep the pre-load
+        // values for resources / flags / etc. Skip if they're identity-equal.
+        const engineState =
+          (store.engine as unknown as { services?: { gameState?: GameState } })?.services?.gameState;
+        if (engineState && engineState !== store) {
+          Object.keys(validatedData).forEach((key) => {
+            if (!CONFIG.EXCLUDE.includes(key)) {
+              (engineState as unknown as Record<string, unknown>)[key] =
+                (store as unknown as Record<string, unknown>)[key];
+            }
+          });
+        }
         
         // CRITICAL: Invalidate caches BEFORE clamping, so getMaxStat uses fresh data from loaded flags/items
         if (store.pipeline) store.pipeline.invalidateCache();

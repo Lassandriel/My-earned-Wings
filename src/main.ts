@@ -165,10 +165,19 @@ autoRegisterSystems(gameStoreObject, systemInstances);
 const game = Alpine.store('game', gameStoreObject as GameState);
 Alpine.store('ui', game);
 
-// Phase 2 Step 8 (Stage 1): point services.gameState at the live store so
-// engine code reads through services instead of calling Alpine.store('game')
-// directly. Stage 2 will swap this for a separate plain-data object.
-services.gameState = gameStoreObject as GameState;
+// Phase 2 Step 8 (Stage 1): expose the live game store as services.gameState
+// so the engine reads its state through services rather than calling
+// Alpine.store('game') directly. State and Alpine are identity-equal here.
+//
+// Stage 2 (deferred) would point gameState at a SEPARATE plain-data object
+// and have UISystem batch-sync engineState → Alpine each tick. Tried during
+// this session but parked: many feature-logics still write directly to the
+// Alpine store (e.g. viewManager.confirmName sets store.view), so the two
+// references diverge. Real Stage 2 needs every state writer migrated to
+// engineState first — a multi-day refactor. Engine API is ready for it.
+const liveStore = Alpine.store('game') as GameState;
+services.gameState = liveStore;
+(gameStoreObject as Record<string, unknown>).gameState = liveStore;
 
 // --- 5. DOM READY START ---
 document.addEventListener('DOMContentLoaded', () => {
