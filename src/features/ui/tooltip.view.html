@@ -55,33 +55,35 @@
     </div>
   </div>
 
-  <!-- 4. Effects & Unlocks Section -->
-  <div
-    class="tt-section"
-    x-show="!$store.game.hoveredAction?.isHelp && ($store.game.getActionEffect($store.game.hoveredAction).length > 0 || ($store.game.hoveredAction && $store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks))"
-  >
-    <div class="tt-section-header" x-text="$store.game.t('ui_effect') + $store.game.t('ui_divider_colon')"></div>
-    <div class="tt-effect-list">
-      <!-- Yield/Effects -->
-      <template
-        x-for="eff in $store.game.getActionEffect($store.game.hoveredAction)"
-        :key="eff"
-      >
-        <div class="tt-data-line tt-bonus">
-          <span x-text="eff"></span>
-        </div>
-      </template>
-      <!-- UNLOCKS -->
-      <template
-        x-for="item in ($store.game.t($store.game.hoveredAction?.id, 'actions')?.unlocks || '').split(',')"
-        :key="item"
-      >
-        <div class="tt-data-line tt-bonus" x-show="item.trim()">
-          <span x-text="$store.game.t('ui_list_bullet') + item.trim().replace(/^::\s*/, '')"></span>
-        </div>
-      </template>
+  <!-- 4. Effects & Unlocks Section (skipped entirely for help-mode hovers like menu buttons) -->
+  <template x-if="$store.game.hoveredAction && !$store.game.hoveredAction.isHelp">
+    <div
+      class="tt-section"
+      x-show="$store.game.getActionEffect($store.game.hoveredAction).length > 0 || $store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks"
+    >
+      <div class="tt-section-header" x-text="$store.game.t('ui_effect') + $store.game.t('ui_divider_colon')"></div>
+      <div class="tt-effect-list">
+        <!-- Yield/Effects -->
+        <template
+          x-for="eff in $store.game.getActionEffect($store.game.hoveredAction)"
+          :key="eff"
+        >
+          <div class="tt-data-line tt-bonus">
+            <span x-text="eff"></span>
+          </div>
+        </template>
+        <!-- UNLOCKS -->
+        <template
+          x-for="item in ($store.game.t($store.game.hoveredAction.id, 'actions')?.unlocks || '').split(',')"
+          :key="item"
+        >
+          <div class="tt-data-line tt-bonus" x-show="item.trim()">
+            <span x-text="$store.game.t('ui_list_bullet') + item.trim().replace(/^::\s*/, '')"></span>
+          </div>
+        </template>
+      </div>
     </div>
-  </div>
+  </template>
 
   <!-- 5. Buff Duration (NEW) -->
   <div class="tt-section" x-show="$store.game.hoveredAction?.isBuff">
