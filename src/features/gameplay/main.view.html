@@ -96,7 +96,7 @@
           <div class="btn-list-inner" x-show="expanded" x-collapse>
             <button
               class="game-btn action-btn-modular"
-              @click="$store.game.attemptAction($el, 'act-work')"
+              @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: 'act-work', element: $el })"
               @mouseover="$store.game.setHovered('act-work')"
               @mouseout="$store.game.setHovered(null)"
             >
