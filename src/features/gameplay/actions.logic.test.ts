@@ -60,11 +60,59 @@ const createMockState = (overrides: Partial<GameState> = {}): GameState => {
 
 describe('Action System', () => {
   let actions: ReturnType<typeof createActionSystem>;
+  let mockBus: { emit: ReturnType<typeof vi.fn> };
+  let mockPipeline: { calculate: ReturnType<typeof vi.fn>; invalidateCache: ReturnType<typeof vi.fn> };
+  let mockResource: {
+    canAfford: ReturnType<typeof vi.fn>;
+    consume: ReturnType<typeof vi.fn>;
+    add: ReturnType<typeof vi.fn>;
+    isFull: ReturnType<typeof vi.fn>;
+    invalidateCache: ReturnType<typeof vi.fn>;
+  };
+  let mockContent: { get: ReturnType<typeof vi.fn> };
+  let mockTitles: { unlockTitle: ReturnType<typeof vi.fn> };
+  let mockCollection: { recordCollectionEntry: ReturnType<typeof vi.fn> };
+  let mockAddLog: ReturnType<typeof vi.fn>;
+  let mockPlaySound: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    actions = createActionSystem();
-    actions.boot(); // registers built-in effect handlers
     vi.clearAllMocks();
+    actions = createActionSystem();
+    mockBus = { emit: vi.fn() };
+    mockPipeline = {
+      calculate: vi.fn((_s: any, _key: string, base: number) => base),
+      invalidateCache: vi.fn(),
+    };
+    mockResource = {
+      canAfford: vi.fn(() => true),
+      consume: vi.fn(() => true),
+      add: vi.fn(),
+      isFull: vi.fn(() => false),
+      invalidateCache: vi.fn(),
+    };
+    mockContent = { get: vi.fn(() => null) };
+    mockTitles = { unlockTitle: vi.fn() };
+    mockCollection = { recordCollectionEntry: vi.fn() };
+    mockAddLog = vi.fn();
+    mockPlaySound = vi.fn();
+    (actions as any).setServices({
+      bus: mockBus,
+      EVENTS: {
+        SOUND_TRIGGERED: 'sound:triggered',
+        PARTICLE_TRIGGERED: 'particle:triggered',
+        LOG_ADDED: 'log:added',
+        SAVE_REQUESTED: 'save:requested',
+      },
+      content: mockContent,
+      pipeline: mockPipeline,
+      resource: mockResource,
+      titles: mockTitles,
+      collection: mockCollection,
+      addLog: mockAddLog,
+      playSound: mockPlaySound,
+      t: (key: string) => key,
+    });
+    actions.boot(); // registers built-in effect handlers
   });
 
   // ── EFFECT HANDLERS ────────────────────────────────────────────────────────
@@ -74,13 +122,13 @@ describe('Action System', () => {
       actions.effectHandlers.setFlag(state, { type: 'setFlag', flag: 'school_unlocked' as any, value: true });
 
       expect(state.flags.school_unlocked).toBe(true);
-      expect(state.pipeline.invalidateCache).toHaveBeenCalled();
-      expect(state.resource.invalidateCache).toHaveBeenCalled();
+      expect(mockPipeline.invalidateCache).toHaveBeenCalled();
+      expect(mockResource.invalidateCache).toHaveBeenCalled();
     });
 
     it('setFlag adds to activeProducers when the action has passiveProduction', () => {
       const state = createMockState();
-      (state.content.get as any).mockImplementation((id: string, type: string) =>
+      mockContent.get.mockImplementation((id: string, type: string) =>
         id === 'lumber_mill' && type === 'actions'
           ? { passiveProduction: { resource: 'wood', baseYield: 1, interval: 1000 } }
           : null,
@@ -93,7 +141,7 @@ describe('Action System', () => {
 
     it('setFlag removes producer when value becomes false', () => {
       const state = createMockState({ activeProducers: ['lumber_mill'] as any });
-      (state.content.get as any).mockImplementation((_id: string) => ({
+      mockContent.get.mockImplementation((_id: string) => ({
         passiveProduction: { resource: 'wood', baseYield: 1, interval: 1000 },
       }));
 
@@ -131,7 +179,7 @@ describe('Action System', () => {
 
     it('addBuff puts a buff in activeBuffs with duration as remaining/total', () => {
       const state = createMockState();
-      (state.content.get as any).mockImplementation((id: string, type: string) =>
+      mockContent.get.mockImplementation((id: string, type: string) =>
         id === 'haste' && type === 'buffs'
           ? { duration: 30, title: 'Haste', desc: 'Faster' }
           : null,
@@ -169,22 +217,22 @@ describe('Action System', () => {
 
     it('returns failure when costs cannot be afforded', () => {
       const state = createMockState();
-      (state.resource.canAfford as any).mockReturnValue(false);
+      mockResource.canAfford.mockReturnValue(false);
       const action: any = { id: 'chop_wood', costType: 'energy', cost: 10 };
 
       const result = actions.processAction(state, 'chop_wood' as any, action);
       expect(result.success).toBe(false);
-      expect(state.resource.consume).not.toHaveBeenCalled();
+      expect(mockResource.consume).not.toHaveBeenCalled();
     });
 
     it('returns failure and logs when reward storage is full', () => {
       const state = createMockState();
-      (state.resource.isFull as any).mockReturnValue(true);
+      mockResource.isFull.mockReturnValue(true);
       const action: any = { id: 'chop_wood', rewards: { wood: 5 } };
 
       const result = actions.processAction(state, 'chop_wood' as any, action);
       expect(result.success).toBe(false);
-      expect(state.addLog).toHaveBeenCalledWith(
+      expect(mockAddLog).toHaveBeenCalledWith(
         expect.stringContaining('fail_full_'),
         'logs',
         expect.any(String),
@@ -203,8 +251,8 @@ describe('Action System', () => {
       const result = actions.processAction(state, 'chop_wood' as any, action);
 
       expect(result.success).toBe(true);
-      expect(state.resource.consume).toHaveBeenCalledWith(state, { energy: 5 });
-      expect(state.resource.add).toHaveBeenCalledWith(state, 'wood', 3);
+      expect(mockResource.consume).toHaveBeenCalledWith(state, { energy: 5 });
+      expect(mockResource.add).toHaveBeenCalledWith(state, 'wood', 3);
     });
 
     it('runs onSuccess effects in finalize mode', () => {
@@ -235,7 +283,7 @@ describe('Action System', () => {
       actions.processAction(state, 'chop_wood' as any, action);
 
       // energy should have been removed from the costs passed to consume
-      expect(state.resource.consume).toHaveBeenCalledWith(state, { wood: 1 });
+      expect(mockResource.consume).toHaveBeenCalledWith(state, { wood: 1 });
     });
 
     it('stops a focused action when satiation falls below 5', () => {
@@ -247,7 +295,7 @@ describe('Action System', () => {
 
       const result = actions.processAction(state, 'chop_wood' as any, action);
       expect(result.success).toBe(false);
-      expect(state.addLog).toHaveBeenCalledWith('fail_satiation_loop', 'logs', expect.any(String));
+      expect(mockAddLog).toHaveBeenCalledWith('fail_satiation_loop', 'logs', expect.any(String));
     });
   });
 
@@ -255,7 +303,7 @@ describe('Action System', () => {
   describe('execute()', () => {
     it('queues a task for actions with a duration', () => {
       const state = createMockState();
-      (state.content.get as any).mockReturnValue({
+      mockContent.get.mockReturnValue({
         id: 'build_hut',
         duration: 5000,
         costType: 'wood',
@@ -278,7 +326,7 @@ describe('Action System', () => {
           build_hut: { actionId: 'build_hut', remaining: 1000, total: 5000 },
         },
       });
-      (state.content.get as any).mockReturnValue({ id: 'build_hut', duration: 5000 });
+      mockContent.get.mockReturnValue({ id: 'build_hut', duration: 5000 });
 
       const ok = actions.execute(state, 'build_hut' as any);
       expect(ok).toBe(false);
@@ -286,7 +334,7 @@ describe('Action System', () => {
 
     it('returns false when action id is unknown', () => {
       const state = createMockState();
-      (state.content.get as any).mockReturnValue(null);
+      mockContent.get.mockReturnValue(null);
 
       const ok = actions.execute(state, 'nonexistent' as any);
       expect(ok).toBe(false);
@@ -300,7 +348,7 @@ describe('Action System', () => {
         flags: { lumber_mill: true, stone_quarry: true, school_unlocked: true } as any,
         activeProducers: [], // start empty
       });
-      (state.content.get as any).mockImplementation((id: string, type: string) => {
+      mockContent.get.mockImplementation((id: string, type: string) => {
         if (type !== 'actions') return null;
         if (id === 'lumber_mill') return { passiveProduction: { resource: 'wood', baseYield: 1, interval: 1000 } };
         if (id === 'stone_quarry') return { passiveProduction: { resource: 'stone', baseYield: 1, interval: 1000 } };

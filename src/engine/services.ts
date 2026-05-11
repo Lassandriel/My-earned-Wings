@@ -52,6 +52,21 @@ export function createGameServices(opts: CreateServicesOpts) {
     });
   }
 
+  if (typeof (systems.actions as any).setServices === 'function') {
+    (systems.actions as any).setServices({
+      bus: services.bus,
+      EVENTS: services.EVENTS,
+      content: services.content,
+      pipeline: (services as any).pipeline,
+      resource: (services as any).resource,
+      titles: (services as any).titles,
+      collection: (services as any).collection,
+      addLog: addLogShim,
+      playSound: (id: string) => services.bus.emit(services.EVENTS.SOUND_TRIGGERED, { key: id }),
+      t: (services as any).i18n?.t ?? ((k: string) => k),
+    });
+  }
+
   return { services, systems };
 }
 

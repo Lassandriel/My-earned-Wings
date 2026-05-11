@@ -11,7 +11,28 @@ import {
 } from '../../types/game';
 import { checkRequirement } from '../../core/systems/logicUtils';
 
+/**
+ * Services the action system depends on. Injected via setServices()
+ * during boot so action methods can keep `state` parameters pure data.
+ */
+interface ActionDeps {
+  bus: GameState['bus'];
+  EVENTS: GameState['EVENTS'];
+  content: GameState['content'];
+  pipeline: GameState['pipeline'];
+  resource: GameState['resource'];
+  titles: GameState['titles'];
+  collection: GameState['collection'];
+  addLog: GameState['addLog'];
+  playSound: GameState['playSound'];
+  t: GameState['t'];
+}
 
+let _deps: ActionDeps | null = null;
+const svc = (): ActionDeps => {
+  if (!_deps) throw new Error('[ACTIONS] services not bound — call setServices() during boot.');
+  return _deps;
+};
 
 /**
  * Action System - TypeScript Edition
@@ -41,11 +62,11 @@ export function createActionSystem() {
   const initEffects = () => {
     registerEffect('setFlag', (game, { flag, value }) => {
       game.flags[flag] = value;
-      game.pipeline.invalidateCache();
-      game.resource.invalidateCache();
+      svc().pipeline.invalidateCache();
+      svc().resource.invalidateCache();
       
       // Update active producers if the flag corresponds to a producer action
-      const action = game.content.get(flag as string, 'actions') as ActionDefinition | null;
+      const action = svc().content.get(flag as string, 'actions') as ActionDefinition | null;
       if (action && action.passiveProduction) {
         if (value && !game.activeProducers.includes(flag as ActionId)) {
           game.activeProducers.push(flag as ActionId);
@@ -59,31 +80,31 @@ export function createActionSystem() {
     registerEffect('unlockNPC', (game, { id }) => {
       if (!game.unlockedNPCs.includes(id)) {
         game.unlockedNPCs = [...game.unlockedNPCs, id];
-        const npc = game.content.get<NPCDefinition>(id, 'npcs');
-        const name = npc ? game.t(npc.nameKey) : id;
-        game.addLog('reward_unlock_npc', 'logs', 'var(--gold)', { name });
+        const npc = svc().content.get<NPCDefinition>(id, 'npcs');
+        const name = npc ? svc().t(npc.nameKey) : id;
+        svc().addLog('reward_unlock_npc', 'logs', 'var(--gold)', { name });
       }
     });
 
     registerEffect('unlockRecipe', (game, { id }) => {
       if (!game.unlockedRecipes.includes(id)) {
         game.unlockedRecipes = [...game.unlockedRecipes, id];
-        const actionDef = game.content.get<ActionDefinition>(id, 'actions');
-        const title = actionDef?.title ? game.t(actionDef.title, 'actions') : id;
-        game.addLog('reward_unlock_recipe', 'logs', 'var(--gold)', { title });
+        const actionDef = svc().content.get<ActionDefinition>(id, 'actions');
+        const title = actionDef?.title ? svc().t(actionDef.title, 'actions') : id;
+        svc().addLog('reward_unlock_recipe', 'logs', 'var(--gold)', { title });
       }
     });
 
     registerEffect('unlockItem', (game, { id }) => {
       if (!game.discoveredItems.includes(id)) {
         game.discoveredItems = [...game.discoveredItems, id];
-        const item = game.content.get<ItemDefinition>(id, 'items');
-        const title = item ? game.t(item.title, 'items') : id;
-        game.addLog('reward_unlock_item', 'logs', 'var(--gold)', { title });
+        const item = svc().content.get<ItemDefinition>(id, 'items');
+        const title = item ? svc().t(item.title, 'items') : id;
+        svc().addLog('reward_unlock_item', 'logs', 'var(--gold)', { title });
       }
       game.flags[id as FlagId] = true;
-      game.pipeline.invalidateCache();
-      game.resource.invalidateCache();
+      svc().pipeline.invalidateCache();
+      svc().resource.invalidateCache();
     });
 
     registerEffect('modifyLimit', (game, { resource, amount }) => {
@@ -94,12 +115,12 @@ export function createActionSystem() {
       } else {
         game.limits[resId] = (game.limits[resId] || 0) + amount;
       }
-      if (game.pipeline) game.pipeline.invalidateCache();
-      if (game.resource) game.resource.invalidateCache();
+      if (game.pipeline) svc().pipeline.invalidateCache();
+      if (game.resource) svc().resource.invalidateCache();
     });
 
     registerEffect('addBuff', (game, { buffId, override }) => {
-      const baseBuff = game.content.get<{ duration: number; title: string; desc: string; [key: string]: unknown }>(buffId, 'buffs');
+      const baseBuff = svc().content.get<{ duration: number; title: string; desc: string; [key: string]: unknown }>(buffId, 'buffs');
       if (!baseBuff) return;
       const finalBuff = { ...baseBuff, ...override };
       game.activeBuffs[buffId] = {
@@ -110,36 +131,36 @@ export function createActionSystem() {
         remaining: (finalBuff.duration as number) || 0,
         total: (finalBuff.duration as number) || 0,
       };
-      game.pipeline.invalidateCache();
-      game.resource.invalidateCache();
+      svc().pipeline.invalidateCache();
+      svc().resource.invalidateCache();
     });
 
     registerEffect('setObjective', (game, { id }) => {
       game.currentObjective = id;
     });
 
-    registerEffect('playSound', (game, { id }) => {
-      game.playSound(id);
+    registerEffect('playSound', (_game, { id }) => {
+      svc().playSound(id);
     });
 
-    registerEffect('log', (game, { logKey, color, params }) => {
-      game.addLog(logKey, 'logs', color, params);
+    registerEffect('log', (_game, { logKey, color, params }) => {
+      svc().addLog(logKey, 'logs', color, params);
     });
 
     registerEffect('modifyResource', (game, { resource, amount }) => {
-      game.resource.add(game, resource, amount);
+      svc().resource.add(game, resource, amount);
     });
 
     registerEffect('setHome', (game, { id }) => {
       game.activeHome = id;
-      game.pipeline.invalidateCache();
-      game.resource.invalidateCache();
+      svc().pipeline.invalidateCache();
+      svc().resource.invalidateCache();
     });
 
     registerEffect('unlockTitle', (game, { id }) => {
-      game.titles.unlockTitle(game, id);
-      if (game.pipeline) game.pipeline.invalidateCache();
-      if (game.resource) game.resource.invalidateCache();
+      svc().titles.unlockTitle(game, id);
+      if (game.pipeline) svc().pipeline.invalidateCache();
+      if (game.resource) svc().resource.invalidateCache();
     });
   };
 
@@ -147,17 +168,17 @@ export function createActionSystem() {
   const spawnParticles = (game: GameState, action: ActionDefinition, isAutomated: boolean = false) => {
     if (isAutomated) return; // Prevention of "ghost particles" at cursor during background loops
 
-    let pText = action.particleText ? game.t(action.particleText) : null;
+    let pText = action.particleText ? svc().t(action.particleText) : null;
     const resKey = action.yieldType || action.costType || action.counter;
 
     if (!pText && typeof resKey === 'string' && resKey !== 'none' && resKey !== 'mixed') {
-      const translated = game.t('ui_' + resKey);
+      const translated = svc().t('ui_' + resKey);
       if (translated && translated !== 'ui_' + resKey) pText = `+ ${translated}`;
     }
 
     if (!pText) pText = action.particleText || '';
 
-    game.bus.emit(game.EVENTS.PARTICLE_TRIGGERED, {
+    svc().bus.emit(svc().EVENTS.PARTICLE_TRIGGERED, {
       x: game.lastMouseX,
       y: game.lastMouseY,
       text: pText,
@@ -178,24 +199,24 @@ export function createActionSystem() {
 
     const satiationCost = action.satiationCost;
     if (satiationCost && satiationCost > 0) {
-      game.resource.consume(game, 'satiation', satiationCost);
+      svc().resource.consume(game, 'satiation', satiationCost);
     }
 
     if (action.isStory) {
       const dialogueKey = (result?.logParams?.textKey as string) || null;
       if (dialogueKey) {
-        game.collection.recordCollectionEntry(game, id, action, dialogueKey);
+        svc().collection.recordCollectionEntry(game, id, action, dialogueKey);
       }
     }
 
-    game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
+    svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
     if (action.particleText || action.yieldType) {
       const isAutomated = game.activeFocus === id;
       spawnParticles(game, action, isAutomated);
     }
 
     if (result && result.logKey) {
-      game.bus.emit(game.EVENTS.LOG_ADDED, {
+      svc().bus.emit(svc().EVENTS.LOG_ADDED, {
         id: result.logKey,
         context: 'logs',
         color: result.logColor,
@@ -207,21 +228,21 @@ export function createActionSystem() {
       });
     }
 
-    game.bus.emit(game.EVENTS.SAVE_REQUESTED);
+    svc().bus.emit(svc().EVENTS.SAVE_REQUESTED);
   };
 
   const handleFailure = (game: GameState, _id: ActionId, action: ActionDefinition) => {
-    game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
+    svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: 'fail' });
 
     const rewards = action.rewards || (action.yieldType ? { [action.yieldType]: 0 } : null);
-    const fullRes = rewards ? Object.keys(rewards).find(resId => game.resource.isFull(game, resId as ResourceId)) : null;
+    const fullRes = rewards ? Object.keys(rewards).find(resId => svc().resource.isFull(game, resId as ResourceId)) : null;
 
     if (fullRes) {
       if (game.activeFocus === _id) {
         game.activeFocus = null;
-        game.addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
+        svc().addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
       }
-      game.bus.emit(game.EVENTS.LOG_ADDED, {
+      svc().bus.emit(svc().EVENTS.LOG_ADDED, {
         id: 'fail_full_' + fullRes,
         color: 'var(--accent-red)',
       });
@@ -235,25 +256,25 @@ export function createActionSystem() {
 
     const firstMissing = Object.keys(effectiveCosts).find((r) => {
       const amount = effectiveCosts[r] ?? 0;
-      return !game.resource.canAfford(game, r as ResourceId, amount);
+      return !svc().resource.canAfford(game, r as ResourceId, amount);
     });
 
     if (firstMissing) {
       const specificKey = 'fail_' + firstMissing;
-      const logKey = game.t(specificKey) !== specificKey ? specificKey : 'fail_resources';
-      game.addLog(logKey, 'logs', 'var(--accent-red)');
+      const logKey = svc().t(specificKey) !== specificKey ? specificKey : 'fail_resources';
+      svc().addLog(logKey, 'logs', 'var(--accent-red)');
 
       // If it's a resource that scales with satiation, and efficiency is low, explain why
-      const efficiency = game.pipeline.calculate(game, 'resource_efficiency', 1);
+      const efficiency = svc().pipeline.calculate(game, 'resource_efficiency', 1);
       if (efficiency < 0.9) {
-        game.addLog('fail_low_efficiency', 'logs', 'var(--accent-red)');
+        svc().addLog('fail_low_efficiency', 'logs', 'var(--accent-red)');
       }
     }
 
     // NEW: Auto-stop focus if the focused action fails
     if (game.activeFocus === _id) {
       game.activeFocus = null;
-      game.addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
+      svc().addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
     }
   };
 
@@ -287,7 +308,7 @@ export function createActionSystem() {
 
       // Safety Guard: Automated loops stop if satiation is too low
       if (game.activeFocus === id && game.stats.satiation < 5) {
-        game.addLog('fail_satiation_loop', 'logs', 'var(--accent-red)');
+        svc().addLog('fail_satiation_loop', 'logs', 'var(--accent-red)');
         return { success: false };
       }
 
@@ -298,15 +319,15 @@ export function createActionSystem() {
       // Satiation drain is handled centrally in resource.logic.ts during consumption of energy.
       // We don't inject it here as a hard requirement anymore.
 
-      if (!game.resource.canAfford(game, costs)) return { success: false };
+      if (!svc().resource.canAfford(game, costs)) return { success: false };
 
       // Check for full storage on all rewards
       const rewards = action.rewards || (action.yieldType ? { [action.yieldType]: 0 } : null);
       if (rewards) {
-        const fullRes = Object.keys(rewards).find(resId => game.resource.isFull(game, resId as ResourceId));
+        const fullRes = Object.keys(rewards).find(resId => svc().resource.isFull(game, resId as ResourceId));
         if (fullRes) {
-          game.addLog('fail_full_' + fullRes, 'logs', 'var(--accent-red)');
-          game.playSound('fail');
+          svc().addLog('fail_full_' + fullRes, 'logs', 'var(--accent-red)');
+          svc().playSound('fail');
           return { success: false };
         }
       }
@@ -316,15 +337,15 @@ export function createActionSystem() {
         if (buffEffect && buffEffect.type === 'addBuff') {
           const existing = game.activeBuffs[buffEffect.buffId];
           if (existing && existing.remaining / existing.total > 0.1) {
-            game.addLog('fail_buff_active', 'logs', 'var(--accent-red)');
-            game.playSound('fail');
+            svc().addLog('fail_buff_active', 'logs', 'var(--accent-red)');
+            svc().playSound('fail');
             return { success: false };
           }
         }
       }
 
       if (costs && Object.keys(costs).length > 0) {
-        game.resource.consume(game, costs);
+        svc().resource.consume(game, costs);
       }
     }
 
@@ -333,11 +354,11 @@ export function createActionSystem() {
         Object.entries(action.rewards).forEach(([res, amountOrKey]) => {
           let amount =
             typeof amountOrKey === 'string'
-              ? game.pipeline.calculate(game, amountOrKey, 1)
+              ? svc().pipeline.calculate(game, amountOrKey, 1)
               : amountOrKey;
           const finalAmount = Math.round(amount);
           const resId = res as ResourceId;
-          game.resource.add(game, resId, finalAmount);
+          svc().resource.add(game, resId, finalAmount);
 
           const yieldType = action.yieldType;
           if (res === yieldType || logGain === null) {
@@ -375,6 +396,10 @@ export function createActionSystem() {
   };
 
   return {
+    setServices(deps: ActionDeps) {
+      _deps = deps;
+    },
+
     effectHandlers,
     registerEffect,
     initEffects,
@@ -384,7 +409,7 @@ export function createActionSystem() {
     handleFailure,
 
     execute(game: GameState, id: ActionId): boolean {
-      const action = game.content.get<ActionDefinition>(id, 'actions');
+      const action = svc().content.get<ActionDefinition>(id, 'actions');
       if (!action) return false;
 
       if (id in game.activeTasks) return false;
@@ -400,7 +425,7 @@ export function createActionSystem() {
               total: action.duration,
             }
           };
-          game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
+          svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
           return true;
         }
         handleFailure(game, id, action);
@@ -441,13 +466,13 @@ export function createActionSystem() {
      * Toggles the "magic focus" mode for a specific action.
      */
     toggleFocus(game: GameState, id: ActionId) {
-      const action = game.content.get<ActionDefinition>(id, 'actions');
+      const action = svc().content.get<ActionDefinition>(id, 'actions');
       if (game.activeFocus === id) {
         game.activeFocus = null;
-        game.playSound('click');
+        svc().playSound('click');
       } else {
         game.activeFocus = id;
-        game.playSound('magic');
+        svc().playSound('magic');
         if (action && action.isLoopable) {
           this.execute(game, id);
         }
@@ -466,7 +491,7 @@ export function createActionSystem() {
       game.activeProducers = [];
       Object.keys(game.flags).forEach(f => {
         if (game.flags[f as FlagId]) {
-          const action = game.content.get(f, 'actions') as ActionDefinition | null;
+          const action = svc().content.get(f, 'actions') as ActionDefinition | null;
           if (action && action.passiveProduction) {
             game.activeProducers.push(f as ActionId);
           }
