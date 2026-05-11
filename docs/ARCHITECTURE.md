@@ -359,12 +359,44 @@ Ready for Phase 14 Automation.
 
 **Goal:** Replace localStorage JSON blob with a proper SQLite save system.
 
-**What gets built:**
-- `src/electron/db.ts` — main process database handler (IPC bridge)
-- `src/core/services/persistence-db.ts` — replaces current `persistence.ts`
-- Migration function: reads `wings_save` from localStorage, imports into `saves.db`, removes old key
+#### Built (May 2026)
 
-**Result:** Multiple save slots, achievement history, action history, proper versioned migrations.
+- `src/electron/db.ts` ✅ — `better-sqlite3` wrapper, WAL mode, three tables
+  (`saves`, `achievements`, `history`), upsert/load/list/delete API.
+  DB lives in OS user-data dir (`%APPDATA%/my-earned-wings/saves.db` etc.).
+- `src/electron/ipc.ts` ✅ — IPC channels `DB_SAVE / DB_LOAD / DB_LIST / DB_DELETE`
+  plus typed payload interfaces.
+- `src/electron/main.ts` ✅ — registers `ipcMain.handle` endpoints for the four
+  channels, calls `closeDb()` on `window-all-closed`.
+- `src/electron/preload.ts` ✅ — exposes `dbSave / dbLoad / dbList / dbDelete`
+  on `window.electronAPI`.
+- `src/core/services/persistence.ts` ✅ extended in place:
+  - **Stage 1**: `saveGame` writes to localStorage (sync truth) AND fires SQLite
+    upsert (fire-and-forget) when `electronAPI.dbSave` exists.
+  - **Stage 2**: `loadGame` is now async and returns `Promise<boolean>`, prefers
+    SQLite slot 0 in Electron, falls back to localStorage LZW. `viewManager.continueGame`
+    awaits it; HTML callers were already async-friendly.
+
+#### Still to do
+
+- **Native rebuild for Electron:** `better-sqlite3` ships prebuilt Node.js
+  binaries. Electron uses a different Node ABI, so the first packaged build
+  needs `electron-rebuild` (or `@electron/rebuild`) to compile against
+  Electron's headers. Add to the `dist` script or as `postinstall`.
+- **Migration sweep:** dual-write covers the rollout passively (new saves
+  populate SQLite). For users who upgrade and never save again, add an
+  explicit "if SQLite is empty AND localStorage has a save, copy it once"
+  on the first Electron boot.
+- **Multiple save slots UI:** schema supports slot 1+, currently only slot
+  0 is used. Future "save slots" screen.
+- **Achievements + history tables:** schema is in place but untouched.
+  Wire when achievements / replay are designed.
+- **Drop localStorage path:** keep until Stage 3 (load truth = SQLite
+  for at least one full version cycle).
+
+**Result so far:** Saves persist to a real database file in Electron;
+localStorage stays as the dev-browser fallback. Multiple-slots, history,
+and achievements are reserved but not yet exposed.
 
 ---
 
@@ -412,7 +444,7 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 |---|---|---|---|
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
 | Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services, command queue, feature-logic decoupling all done. Plain state + UISync diff deferred to a frontend pass. |
-| Phase 3 — SQLite Saves | 🔲 Not started | v2.2.0 | |
+| Phase 3 — SQLite Saves | 🟡 Stage 1+2 done | v2.2.0 | DB layer, IPC, dual-write save, async SQLite-first load. Native rebuild for Electron + slots UI deferred. |
 | Phase 4 — Dev Tools | 🔲 Not started | v2.3.0+ | |
 
 ### Known Pre-Existing Issues (not introduced by Phase 1)
