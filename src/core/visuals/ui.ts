@@ -646,7 +646,7 @@ export const createUISystem = () => {
         }
 
         if (loreSnippet) {
-          return `${baseDesc}<br><br>${loreSnippet}`;
+          return baseDesc ? `${baseDesc}<br><br>${loreSnippet}` : loreSnippet;
         }
       }
 

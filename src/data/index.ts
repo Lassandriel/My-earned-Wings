@@ -8,6 +8,7 @@ import { HOME_REGISTRY } from '../features/housing/housing.data';
 import { TITLE_REGISTRY } from './definitions/titles';
 import { schoolActions } from '../features/school/school.data';
 import { loreActions } from './actions/lore';
+import { npcActions } from './actions/npcs';
 import { Registries } from '../types/game';
 
 // --- Phase 1: Auto-generated from YAML content files ---
@@ -34,6 +35,7 @@ export const registries: Registries = {
     ...vandaraActions,
     ...schoolActions,
     ...loreActions,
+    ...npcActions,
   },
   // Still TypeScript (to be migrated in later phases)
   items: itemDb,
