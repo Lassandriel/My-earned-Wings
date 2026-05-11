@@ -221,19 +221,26 @@ Engine State (plain JS object)    →    Alpine Store (read-only snapshot)
   └── activeProducers: [ ... ]
 ```
 
-#### Files to Create
+#### Files Created (as of May 2026)
 
-| File | Purpose |
+| File | Status |
 |---|---|
-| `src/engine/GameState.ts` | Plain JS class holding all game state (no Alpine) |
-| `src/engine/World.ts` | ECS world: entity/component registry + system runner |
-| `src/engine/systems/BuffSystem.ts` | Tick buff timers, remove expired buffs |
-| `src/engine/systems/FocusSystem.ts` | Drain magic for arcane focus, break if empty |
-| `src/engine/systems/RegenSystem.ts` | Passive magic regeneration |
-| `src/engine/systems/ProductionSystem.ts` | Passive building yields (accumulator pattern) |
-| `src/engine/systems/TaskSystem.ts` | Progress bars, task completion, auto-restart |
-| `src/engine/systems/MilestoneSystem.ts` | Check milestone conditions |
-| `src/engine/systems/UISystem.ts` | Sync engine state → Alpine store (the ONLY writer) |
+| `src/engine/types.ts` | ✅ `EngineServices` type (Pick of GameState services) |
+| `src/engine/services.ts` | ✅ `createGameServices()` — bundles all services + late-binds closure deps |
+| `src/engine/commands.ts` | ✅ Command Queue infrastructure (Variant B) |
+| `src/engine/systems/buffs.ts` | ✅ `tickBuffs(state, dt)` |
+| `src/engine/systems/focus.ts` | ✅ `tickFocus(state, services, dt)` |
+| `src/engine/systems/regen.ts` | ✅ `tickRegen(state, services, dt, acc) → acc` |
+| `src/engine/systems/producers.ts` | ✅ `tickProducers(state, services, dt, acc)` |
+| `src/engine/systems/tasks.ts` | ✅ `tickTasks(state, services, dt)` |
+| `src/engine/systems/milestones.ts` | ✅ `tickMilestones(state, services)` |
+| `src/engine/systems/ui.ts` | 🟡 Stub — diff/dirty-check pending plain-state extraction |
+
+Note: chose lowercase function-export style (consistent with the rest of the
+codebase) over the originally proposed `BuffSystem.ts` PascalCase. No
+`GameState.ts` class or `World.ts` registry — the player is currently the
+only entity with active state, so a class/world registry would be ceremony
+without payoff. Subsystems are plain functions taking `(state, services, …)`.
 
 #### Files to Modify
 
@@ -245,29 +252,35 @@ Engine State (plain JS object)    →    Alpine Store (read-only snapshot)
 
 #### Migration Strategy (Incremental, Not Big-Bang)
 
-**Step 1: Extract GameState class**
-- Create `src/engine/GameState.ts` as a plain class
-- Copy `stats`, `resources`, `flags`, `limits`, `activeBuffs`, `activeTasks`,
-  `activeProducers`, `npcProgress`, `counters` from Alpine store
-- Alpine store keeps a `_engine: GameState` reference
-- All existing code still works via Alpine (no behavior change yet)
+**Step 1: Pure data state.ts ✅ DONE**
+- Removed dead methods (`exportGameData`, `quit`) from `initialState`
+- `src/state.ts` now contains data only
 
-**Step 2: Create World + Systems one by one**
-- Start with `BuffSystem` (simplest: just tick timers)
-- Each system reads/writes `GameState`, NOT Alpine store
-- After each system migration, remove that logic from `engine.ts`
-- `engine.ts` shrinks as systems are extracted
+**Step 2: Engine subsystems extracted ✅ DONE**
+- All 6 subsystems live in `src/engine/systems/` as pure functions
+- `engine.ts` shrunk from 280 → 147 lines, acts as orchestrator
+- Tick methods take `(state, services, …)` instead of reading services off state
 
-**Step 3: UISystem (the bridge)**
-- Runs last in the system chain
-- Compares engine state with last-synced values
-- Only writes CHANGED fields to Alpine store (dirty checking)
-- This is where Alpine reactivity fires — but batched, once per frame
+**Step 3: Services container + Command Queue ✅ DONE**
+- `createGameServices()` is the single source of truth for what services exist
+- Engine receives services via `init(services)` instead of `getStore()`
+- Command queue drains every 100 ms inside `processTasks` before `tickTasks`
 
-**Step 4: Action system integration**
-- `actions.logic.ts` currently receives `game: GameState` (Alpine store)
-- Change to receive `engine.gameState` instead
-- UISystem syncs results to Alpine after action completes
+**Step 4: Feature-logic decoupling ✅ DONE**
+- 7 of 9 feature-logics migrated to closure-injected services:
+  resource, actions, titles, items, settings, prologue, collection, npc, housing
+- `ellie` and `dialogue` skipped (zero service dependencies — pure data mutations)
+- None of them read services off `state` anymore
+
+**Step 5: UISystem dirty-check 🟡 STUB**
+- Hook in place at end of `processTick`
+- Implementation deferred to after Step 6 (would be a no-op today since state IS Alpine)
+
+**Step 6: Plain GameState ❌ NOT STARTED**
+- Requires either migrating all `$store.game.X.Y()` callers in HTML templates,
+  or running services as a separate container while keeping a compat shim on
+  the store. Frontend-heavy work — not architectural anymore.
+- Once done, UISystem (Step 5) becomes meaningful and can be filled in.
 
 #### Current Engine Coupling Points (Must Decouple)
 
@@ -381,7 +394,7 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 | Phase | Status | Target Version | Notes |
 |---|---|---|---|
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
-| Phase 2 — ECS Engine | 🟡 Prep complete | v2.1.0 | Tests + decisions in place; refactor pending |
+| Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services, command queue, feature-logic decoupling all done. Plain state + UISync diff deferred to a frontend pass. |
 | Phase 3 — SQLite Saves | 🔲 Not started | v2.2.0 | |
 | Phase 4 — Dev Tools | 🔲 Not started | v2.3.0+ | |
 
@@ -391,5 +404,5 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 ---
 
 *Created: 10 May 2026 · Author: Antigravity (architectural analysis session)*
-*Last Updated: 10 May 2026 · Phase 1 complete*
+*Last Updated: 11 May 2026 · Phase 2 architecturally complete (services, command queue, all 9 feature-logics decoupled, engine in 6 subsystems). Plain-state + real UISync diff deferred to a later frontend pass.*
 *This document should be updated as each phase completes.*
