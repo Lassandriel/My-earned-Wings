@@ -2,14 +2,11 @@ import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 import { GameState, Translations, HoverActionData } from './types/game';
 import { initialState, getTranslations } from './state';
-import { registries } from './data/index';
 
 // Core Systems
-import { createEventBus, GAME_EVENTS } from './core/events/bus';
-import { createContentService } from './core/services/content';
 import { createBootSystem } from './core/systems/boot';
 import { autoRegisterSystems } from './core/systems/loader';
-import { getSystems } from './core/systems/registry';
+import { createGameServices } from './engine/services';
 
 // Stores
 import { createLogStore } from './stores/log.store';
@@ -31,12 +28,16 @@ window.Alpine = Alpine;
 // --- 2. PREPARE GAME LOGIC ---
 const bootSystem = createBootSystem();
 const dynamicInitialState = bootSystem.buildInitialState(initialState);
-const systemInstances = getSystems(dynamicInitialState);
+const { services, systems: systemInstances } = createGameServices({
+  bootSystem,
+  dynamicInitialState,
+  translations: TRANSLATIONS,
+});
 
 const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   ...dynamicInitialState,
   saveInfoText: '',
-  
+
   // UI State
   view: 'menu',
   hoveredAction: null,
@@ -47,12 +48,8 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   currentScale: 1,
   isFullscreen: false,
 
-  // Services
-  content: createContentService(registries),
-  bus: createEventBus(),
-  EVENTS: GAME_EVENTS,
-  bootstrapper: bootSystem,
-  translations: TRANSLATIONS,
+  // All services (content, bus, EVENTS, bootstrapper, translations, +systems)
+  ...services,
 
   get settings() { return getSettings(); },
 
