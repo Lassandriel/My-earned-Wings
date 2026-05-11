@@ -36,10 +36,28 @@ const createMockState = (overrides: Partial<GameState> = {}): GameState => {
 
 describe('Resource System', () => {
   let resource: ReturnType<typeof createResourceSystem>;
+  let mockBus: { emit: ReturnType<typeof vi.fn> };
+  let mockPipeline: { calculate: ReturnType<typeof vi.fn>; invalidateCache: ReturnType<typeof vi.fn> };
+  let mockContent: { get: ReturnType<typeof vi.fn> };
+  let mockAddLog: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    resource = createResourceSystem();
     vi.clearAllMocks();
+    resource = createResourceSystem();
+    mockBus = { emit: vi.fn() };
+    mockPipeline = {
+      calculate: vi.fn((_s: any, _key: string, base: number) => base),
+      invalidateCache: vi.fn(),
+    };
+    mockContent = { get: vi.fn(() => null) };
+    mockAddLog = vi.fn();
+    resource.setServices({
+      bus: mockBus as any,
+      EVENTS: { RESOURCE_SPENT: 'resource:spent', RESOURCE_GAINED: 'resource:gained' } as any,
+      content: mockContent as any,
+      pipeline: mockPipeline as any,
+      addLog: mockAddLog as any,
+    });
   });
 
   // ── ADD ───────────────────────────────────────────────────────────────────
@@ -84,13 +102,13 @@ describe('Resource System', () => {
     it('emits RESOURCE_GAINED event when not silent', () => {
       const state = createMockState();
       resource.add(state, 'wood', 1);
-      expect(state.bus.emit).toHaveBeenCalledWith('resource:gained', { type: 'wood' });
+      expect(mockBus.emit).toHaveBeenCalledWith('resource:gained', { type: 'wood' });
     });
 
     it('does not emit when silent flag is set', () => {
       const state = createMockState();
       resource.add(state, 'wood', 1, true);
-      expect(state.bus.emit).not.toHaveBeenCalled();
+      expect(mockBus.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -145,7 +163,7 @@ describe('Resource System', () => {
         resources: { wood: 5 },
         limits: { wood: 20 },
       });
-      (state.content.get as any).mockImplementation((id: string, type: string) =>
+      mockContent.get.mockImplementation((id: string, type: string) =>
         id === 'wood' && type === 'resources' ? { satiationDrain: 1 } : null,
       );
 
@@ -161,14 +179,14 @@ describe('Resource System', () => {
         resources: { wood: 10 },
         limits: { wood: 20 },
       });
-      (state.content.get as any).mockImplementation((id: string) =>
+      mockContent.get.mockImplementation((id: string) =>
         id === 'wood' ? { satiationDrain: 1 } : null,
       );
 
       resource.consume(state, 'wood', 5);
 
       expect(state.stats.satiation).toBeLessThan(20);
-      expect(state.addLog).toHaveBeenCalledWith('malus_satiation', 'logs', expect.any(String));
+      expect(mockAddLog).toHaveBeenCalledWith('malus_satiation', 'logs', expect.any(String));
     });
   });
 
@@ -194,11 +212,11 @@ describe('Resource System', () => {
 
     it('applies satiation-scaled cost when resource scalesWithSatiation', () => {
       const state = createMockState({ resources: { wood: 10 } });
-      (state.content.get as any).mockImplementation((id: string) =>
+      mockContent.get.mockImplementation((id: string) =>
         id === 'wood' ? { scalesWithSatiation: true } : null,
       );
       // efficiency 0.5 → cost doubles → 5 base becomes 10 effective
-      (state.pipeline.calculate as any).mockReturnValue(0.5);
+      mockPipeline.calculate.mockReturnValue(0.5);
 
       expect(resource.canAfford(state, 'wood', 5)).toBe(true); // exactly 10
       expect(resource.canAfford(state, 'wood', 6)).toBe(false); // needs 12
@@ -212,10 +230,10 @@ describe('Resource System', () => {
         limits: { wood: 20 },
         activeHome: 'shelter' as any,
       });
-      (state.pipeline.calculate as any).mockImplementation(
+      mockPipeline.calculate.mockImplementation(
         (_s: any, key: string) => (key === 'wood_limit' ? 5 : 0),
       );
-      (state.content.get as any).mockImplementation((id: string, type: string) =>
+      mockContent.get.mockImplementation((id: string, type: string) =>
         id === 'shelter' && type === 'homes' ? { baseLimits: { wood: 10 } } : null,
       );
 
@@ -227,11 +245,11 @@ describe('Resource System', () => {
       resource.getLimit(state, 'wood' as any);
       resource.getLimit(state, 'wood' as any);
       // pipeline called only on first lookup
-      expect(state.pipeline.calculate).toHaveBeenCalledTimes(1);
+      expect(mockPipeline.calculate).toHaveBeenCalledTimes(1);
 
       resource.invalidateCache();
       resource.getLimit(state, 'wood' as any);
-      expect(state.pipeline.calculate).toHaveBeenCalledTimes(2);
+      expect(mockPipeline.calculate).toHaveBeenCalledTimes(2);
     });
   });
 

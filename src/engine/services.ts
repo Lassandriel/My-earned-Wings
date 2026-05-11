@@ -1,4 +1,4 @@
-import { Translations } from '../types/game';
+import { GameState, Translations } from '../types/game';
 import { createEventBus, GAME_EVENTS } from '../core/events/bus';
 import { createContentService } from '../core/services/content';
 import { createBootSystem } from '../core/systems/boot';
@@ -33,6 +33,24 @@ export function createGameServices(opts: CreateServicesOpts) {
     translations: opts.translations,
     ...systems,
   };
+
+  // Late-bind services into systems that injected dependencies via closure.
+  // The store also exposes `addLog` as a method, but that's only available
+  // once the gameStoreObject is registered — so we wire it via a tiny shim
+  // that re-emits LOG_ADDED through the bus we already have.
+  const addLogShim: GameState['addLog'] = (id, context = 'logs', color = null, params = {}) => {
+    services.bus.emit(services.EVENTS.LOG_ADDED, { id, context, color, params });
+  };
+
+  if (typeof (systems.resource as any).setServices === 'function') {
+    (systems.resource as any).setServices({
+      bus: services.bus,
+      EVENTS: services.EVENTS,
+      content: services.content,
+      pipeline: (services as any).pipeline,
+      addLog: addLogShim,
+    });
+  }
 
   return { services, systems };
 }
