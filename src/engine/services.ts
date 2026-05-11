@@ -107,6 +107,56 @@ export function createGameServices(opts: CreateServicesOpts) {
     });
   }
 
+  if (typeof (systems.settingsSystem as any).setServices === 'function') {
+    (systems.settingsSystem as any).setServices({
+      ui: (services as any).ui,
+      playSound: playSoundShim,
+      t: tShim,
+      saveGame: saveGameShim,
+    });
+  }
+
+  if (typeof (systems.prologue as any).setServices === 'function') {
+    (systems.prologue as any).setServices({
+      collection: (services as any).collection,
+      addLog: addLogShim,
+      playSound: playSoundShim,
+    });
+  }
+
+  if (typeof (systems.collection as any).setServices === 'function') {
+    (systems.collection as any).setServices({
+      bus: services.bus,
+      EVENTS: services.EVENTS,
+      content: services.content,
+      t: tShim,
+    });
+  }
+
+  if (typeof (systems.npc as any).setServices === 'function') {
+    (systems.npc as any).setServices({
+      bus: services.bus,
+      EVENTS: services.EVENTS,
+      content: services.content,
+      actions: (services as any).actions,
+      resource: (services as any).resource,
+      addLog: addLogShim,
+    });
+  }
+
+  if (typeof (systems.housing as any).setServices === 'function') {
+    (systems.housing as any).setServices({
+      content: services.content,
+      pipeline: (services as any).pipeline,
+      resource: (services as any).resource,
+      ui: (services as any).ui,
+      addLog: addLogShim,
+      playSound: playSoundShim,
+      t: tShim,
+      saveGame: saveGameShim,
+    });
+  }
+
   return { services, systems };
 }
 

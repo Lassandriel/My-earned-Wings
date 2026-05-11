@@ -1,5 +1,20 @@
 import { GameState, ItemId, FlagId, ActionDefinition, NPCDefinition, NPCId, TranslationParams } from '../../types/game';
 
+interface NPCDeps {
+  bus: GameState['bus'];
+  EVENTS: GameState['EVENTS'];
+  content: GameState['content'];
+  actions: GameState['actions'];
+  resource: GameState['resource'];
+  addLog: GameState['addLog'];
+}
+
+let _deps: NPCDeps | null = null;
+const svc = (): NPCDeps => {
+  if (!_deps) throw new Error('[NPC] services not bound — call setServices() during boot.');
+  return _deps;
+};
+
 /**
  * NPC System - TypeScript Edition
  * Handles companion recruitment and NPC quest progress.
@@ -8,24 +23,28 @@ export const createNPCSystem = () => {
   return {
     metadata: {
       id: 'npc',
-      delegates: { npcExecute: 'execute' }
+      delegates: { npcExecute: 'execute' },
     },
+
+    setServices(deps: NPCDeps) {
+      _deps = deps;
+    },
+
     /**
      * Executes an NPC interaction step (Quest progress).
      */
     execute(
       game: GameState,
-      id: string
+      id: string,
     ): { success: boolean; logKey?: string; logParams?: TranslationParams } | false {
-      const action = game.content.get<ActionDefinition>(id, 'actions');
+      const action = svc().content.get<ActionDefinition>(id, 'actions');
 
       if (!action || !action.steps) return false;
 
-      // Use id as default progKey if not explicitly defined in action
       const progKey = action.progKey || id;
       const currentProg = game.npcProgress[progKey] || 0;
       const npcId = action.npcId;
-      const npcDef = npcId ? game.content.get<NPCDefinition>(npcId, 'npcs') : null;
+      const npcDef = npcId ? svc().content.get<NPCDefinition>(npcId, 'npcs') : null;
       const maxProg = npcDef ? npcDef.maxProgress : (action.maxProgress || 0);
 
       if (currentProg >= maxProg || !action.steps[currentProg]) return false;
@@ -34,16 +53,14 @@ export const createNPCSystem = () => {
       // 0. Requirements (Step-level)
       if (step.requirements) {
         const met = Object.entries(step.requirements).every(([path, rule]) => {
-          return game.actions.checkRequirement(game, path, rule as boolean | number | string | string[] | { op?: string; val: unknown });
+          return svc().actions.checkRequirement(game, path, rule as boolean | number | string | string[] | { op?: string; val: unknown });
         });
         if (!met) {
-          // If it fails due to requirements, we might want to show a specific dialogue
-          // like Teacher Aria's "come back when you have a house"
           if (npcId === 'npc-teacher' && !game.flags['build-house'] && currentProg === 1) {
-             game.addLog('npc_teacher_2_no_house', 'logs', 'var(--accent-red)');
+            svc().addLog('npc_teacher_2_no_house', 'logs', 'var(--accent-red)');
           }
           if (npcId === 'npc-teacher' && currentProg === 2 && (!game.flags['read_book_1_complete'] || !game.flags['read_book_2_complete'])) {
-             game.addLog('npc_teacher_4_not_read', 'logs', 'var(--accent-red)');
+            svc().addLog('npc_teacher_4_not_read', 'logs', 'var(--accent-red)');
           }
           return false;
         }
@@ -55,8 +72,8 @@ export const createNPCSystem = () => {
         costs[step.costType] = (costs[step.costType] || 0) + step.cost;
       }
 
-      if (Object.keys(costs).length > 0 && !game.resource.consume(game, costs)) {
-        game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'fail' });
+      if (Object.keys(costs).length > 0 && !svc().resource.consume(game, costs)) {
+        svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: 'fail' });
         return false;
       }
 
@@ -66,7 +83,7 @@ export const createNPCSystem = () => {
       // 3. Reward Handling (Modular)
       if (step.reward) {
         if (step.reward.startsWith('item-')) {
-          game.actions.effectHandlers.unlockItem(game, {
+          svc().actions.effectHandlers.unlockItem(game, {
             type: 'unlockItem',
             id: step.reward as ItemId,
           });
@@ -79,12 +96,12 @@ export const createNPCSystem = () => {
       // 4. Side Effects (using ActionSystem's handlers for consistency)
       if (Array.isArray(step.onSuccess)) {
         step.onSuccess.forEach((effect) => {
-          const handler = game.actions.effectHandlers[effect.type];
+          const handler = svc().actions.effectHandlers[effect.type];
           if (handler) handler(game, effect);
         });
       }
 
-      game.bus.emit(game.EVENTS.SOUND_TRIGGERED, { key: 'success' });
+      svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: 'success' });
 
       // Format Log: "Name: 'Satz'"
       if (step.dialogueKey) {
@@ -95,17 +112,16 @@ export const createNPCSystem = () => {
             logParams: {
               nameKey: npcDef.nameKey,
               textKey: step.dialogueKey,
-              dialogContext: 'npcs'
+              dialogContext: 'npcs',
             },
           };
         } else {
-          // Lore/Book entry
           return {
             success: true,
             logKey: 'lore_entry_log',
             logParams: {
               textKey: step.dialogueKey,
-              dialogContext: 'npcs'
+              dialogContext: 'npcs',
             },
           };
         }

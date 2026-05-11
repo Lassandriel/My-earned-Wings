@@ -1,5 +1,18 @@
 import { GameState } from '../../types/game';
 
+interface SettingsDeps {
+  ui: GameState['ui'];
+  playSound: GameState['playSound'];
+  t: GameState['t'];
+  saveGame: GameState['saveGame'];
+}
+
+let _deps: SettingsDeps | null = null;
+const svc = (): SettingsDeps => {
+  if (!_deps) throw new Error('[SETTINGS] services not bound — call setServices() during boot.');
+  return _deps;
+};
+
 /**
  * Settings System - TypeScript Edition
  * Handles resolution, scaling, language, and system actions.
@@ -10,13 +23,13 @@ export const createSettingsSystem = () => {
       id: 'settingsSystem',
       delegates: {
         setLanguage: 'setLanguage',
-        applyCheats: 'applyCheats'
-      }
+        applyCheats: 'applyCheats',
+      },
     },
-    /**
-     * Changes the window resolution (Electron only).
-     */
 
+    setServices(deps: SettingsDeps) {
+      _deps = deps;
+    },
 
     /**
      * Changes the window resolution (Electron only).
@@ -34,27 +47,25 @@ export const createSettingsSystem = () => {
       }
     },
 
-
     /**
      * Switches the game language and saves.
      */
     setLanguage(store: GameState, lang: string) {
       store.language = lang;
-      store.saveGame();
+      svc().saveGame();
     },
-
 
     /**
      * Toggles the settings modal visibility.
      */
     toggleSettings(store: GameState) {
       store.settingsOpen = !store.settingsOpen;
-      if (!store.settingsOpen && store.ui && store.ui.cleanupHover) {
-        store.ui.cleanupHover(store);
+      const ui = svc().ui;
+      if (!store.settingsOpen && ui && ui.cleanupHover) {
+        ui.cleanupHover(store);
       }
-      store.playSound('click');
+      svc().playSound('click');
     },
-
 
     /**
      * Development cheats for testing.
@@ -67,14 +78,13 @@ export const createSettingsSystem = () => {
       store.stats.satiation = 9999;
       store.stats.maxSatiation = 9999;
       store.stats.shards = 99999;
-      
+
       Object.keys(store.limits).forEach((k) => (store.limits[k as import('../../types/game').ResourceId] = 9999));
       Object.keys(store.resources).forEach((k) => (store.resources[k as import('../../types/game').ResourceId] = 9999));
 
-      store.saveGame();
-      store.ui.showToast(store.t('ui_cheat_toast'), 'success');
+      svc().saveGame();
+      svc().ui.showToast(svc().t('ui_cheat_toast'), 'success');
       store.settingsOpen = false;
     },
-
   };
 };
