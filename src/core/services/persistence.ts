@@ -239,9 +239,23 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
 
         saveObj.version = 1;
         saveObj.timestamp = now;
-        
+
         const json = JSON.stringify(saveObj);
+
+        // Phase 3 Stage 1: localStorage stays the synchronous source of
+        // truth (loadGame is still sync). When running inside Electron we
+        // ALSO write to SQLite so the file-on-disk save is built up in
+        // parallel; when the read path migrates to async we'll flip the
+        // truth source. SQLite write is fire-and-forget via IPC.
         localStorage.setItem(CONFIG.SAVE_KEY, 'LZW:' + LZW.compress(json));
+        if (window.electronAPI?.dbSave) {
+          window.electronAPI.dbSave({
+            slot: 0, // single auto-save slot for now
+            playerName: (truth as GameState).playerName || '',
+            data: json,
+            totalPlayTime: ((truth as GameState).counters?.totalTime as number) || 0,
+          }).catch((err) => console.error('[PERSISTENCE] SQLite save failed:', err));
+        }
         localStorage.setItem('hasSave', 'true');
         store.hasSave = true;
 

@@ -158,13 +158,4 @@ export interface MilestoneDefinition {
   onUnlock?: GameEffect[];
 }
 
-declare global {
-  interface Window {
-    electronAPI?: {
-      saveGame: (data: string) => Promise<boolean>;
-      loadGame: () => Promise<string | null>;
-      quitApp: () => void;
-      resizeWindow: (width: number, height: number) => void;
-    };
-  }
-}
+/* Window.electronAPI is declared in src/env.d.ts (Phase 3 SQLite shape) */

@@ -1,7 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { IpcChannel } from './ipc.js';
+import { IpcChannel, SaveSlotPayload } from './ipc.js';
+import { saveSlot, loadSlot, listSlots, deleteSlot, close as closeDb } from './db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -75,6 +76,30 @@ ipcMain.on(IpcChannel.RESIZE_WINDOW, (_event, width: number, height: number) => 
   }
 });
 
+// --- Phase 3: SQLite save system ---
+ipcMain.handle(IpcChannel.DB_SAVE, (_event, payload: SaveSlotPayload): boolean => {
+  return saveSlot(payload.slot, payload.playerName, payload.data, payload.totalPlayTime);
+});
+
+ipcMain.handle(IpcChannel.DB_LOAD, (_event, slot: number) => {
+  const row = loadSlot(slot);
+  if (!row) return null;
+  return {
+    slot: row.slot,
+    playerName: row.player_name,
+    data: row.data,
+    schemaVersion: row.schema_version,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    totalPlayTime: row.total_play_time,
+  };
+});
+
+ipcMain.handle(IpcChannel.DB_LIST, () => listSlots());
+
+ipcMain.handle(IpcChannel.DB_DELETE, (_event, slot: number): boolean => deleteSlot(slot));
+
 app.on('window-all-closed', () => {
+  closeDb();
   if (process.platform !== 'darwin') app.quit();
 });
