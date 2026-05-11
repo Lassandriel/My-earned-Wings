@@ -312,10 +312,8 @@ export default {
   chapter_the_transformation: 'The Transformation',
   chapter_the_dream: 'The Dream',
   chapter_chronicles: 'Chronicles',
-  
+
   // Missing Keys
-  action_build_cart_reinforced_title: 'Build Reinforced Cart',
-  action_build_cart_reinforced_desc: 'An improved cart for heavy loads.',
   act_read_lore_2_title: 'Study: The Floating Lands',
   act_read_lore_2_desc: 'Study the geography of Draconia.',
   

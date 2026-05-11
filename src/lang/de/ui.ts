@@ -317,10 +317,8 @@ export default {
   chapter_the_transformation: 'Die Verwandlung',
   chapter_the_dream: 'Der Traum',
   chapter_chronicles: 'Chroniken',
-  
+
   // Missing Keys
-  action_build_cart_reinforced_title: 'Verstärkten Karren bauen',
-  action_build_cart_reinforced_desc: 'Ein verbesserter Karren für schwere Lasten.',
   act_read_lore_2_title: 'Studium: Die Schwebenden Lande',
   act_read_lore_2_desc: 'Studiere die Geografie von Draconia.',
   
