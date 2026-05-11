@@ -1,25 +1,15 @@
 import path from 'path';
+import fs from 'fs';
 import { app } from 'electron';
-
-// better-sqlite3 12.x is incompatible with Electron 42's V8 headers
-// (compile errors around v8::External::Value/New signature changes), so the
-// package is not installed by default. db.ts imports it lazily and degrades
-// gracefully — when the module is missing, all DB ops return null/[]/false
-// and persistence falls back to localStorage. To enable: install a
-// compatible better-sqlite3 (or sql.js as a WASM fallback) and add an
-// `npm run rebuild:electron` step.
-let Database: any = null;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  Database = require('better-sqlite3');
-} catch (err) {
-  console.info('[DB] better-sqlite3 not installed — saves stay on localStorage.');
-}
+import initSqlJs, { Database, SqlJsStatic } from 'sql.js';
 
 /**
- * SQLite save database for My-earned-Wings (Phase 3).
+ * Phase 3 SQLite save database for My-earned-Wings.
  *
- * Lives in the OS user-data directory:
+ * Implementation: sql.js (pure JS / WASM build of SQLite). No native
+ * rebuild needed, works with any Electron version. Trade-off: DB lives
+ * in memory and we serialize it to disk after each write — fine for a
+ * single-player save file (a few KB). The file lives at:
  *   Windows : %APPDATA%/my-earned-wings/saves.db
  *   macOS   : ~/Library/Application Support/my-earned-wings/saves.db
  *   Linux   : ~/.config/my-earned-wings/saves.db
@@ -50,62 +40,98 @@ export interface SaveMeta {
   totalPlayTime: number;
 }
 
-let _db: any = null;
+let _SQL: SqlJsStatic | null = null;
+let _db: Database | null = null;
+let _dbPath: string | null = null;
 
-const open = (): any => {
+const SCHEMA_SQL = `
+  CREATE TABLE IF NOT EXISTS saves (
+    slot            INTEGER PRIMARY KEY,
+    player_name     TEXT    NOT NULL DEFAULT '',
+    data            TEXT    NOT NULL,
+    schema_version  INTEGER NOT NULL DEFAULT 1,
+    created_at      INTEGER NOT NULL,
+    updated_at      INTEGER NOT NULL,
+    total_play_time INTEGER NOT NULL DEFAULT 0
+  );
+
+  CREATE TABLE IF NOT EXISTS achievements (
+    save_id        INTEGER NOT NULL,
+    achievement_id TEXT    NOT NULL,
+    unlocked_at    INTEGER NOT NULL,
+    PRIMARY KEY (save_id, achievement_id)
+  );
+
+  CREATE TABLE IF NOT EXISTS history (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    save_id      INTEGER NOT NULL,
+    action_id    TEXT    NOT NULL,
+    performed_at INTEGER NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_history_save ON history(save_id, performed_at);
+`;
+
+/**
+ * Loads the WASM runtime once, opens the DB file (or creates one),
+ * runs the schema migrations. Returns null on failure.
+ */
+export const open = async (): Promise<Database | null> => {
   if (_db) return _db;
-  if (!Database) return null; // module unavailable, gracefully no-op
 
-  const dbPath = path.join(app.getPath('userData'), 'saves.db');
-  _db = new Database(dbPath);
-  _db.pragma('journal_mode = WAL');
+  try {
+    if (!_SQL) {
+      _SQL = await initSqlJs({
+        locateFile: (file) =>
+          path.join(path.dirname(require.resolve('sql.js')), file),
+      });
+    }
 
-  _db.exec(`
-    CREATE TABLE IF NOT EXISTS saves (
-      slot            INTEGER PRIMARY KEY,
-      player_name     TEXT    NOT NULL DEFAULT '',
-      data            TEXT    NOT NULL,
-      schema_version  INTEGER NOT NULL DEFAULT 1,
-      created_at      INTEGER NOT NULL,
-      updated_at      INTEGER NOT NULL,
-      total_play_time INTEGER NOT NULL DEFAULT 0
-    );
+    _dbPath = path.join(app.getPath('userData'), 'saves.db');
+    if (fs.existsSync(_dbPath)) {
+      const fileBuffer = fs.readFileSync(_dbPath);
+      _db = new _SQL.Database(new Uint8Array(fileBuffer));
+    } else {
+      _db = new _SQL.Database();
+    }
 
-    CREATE TABLE IF NOT EXISTS achievements (
-      save_id        INTEGER NOT NULL,
-      achievement_id TEXT    NOT NULL,
-      unlocked_at    INTEGER NOT NULL,
-      PRIMARY KEY (save_id, achievement_id)
-    );
-
-    CREATE TABLE IF NOT EXISTS history (
-      id           INTEGER PRIMARY KEY AUTOINCREMENT,
-      save_id      INTEGER NOT NULL,
-      action_id    TEXT    NOT NULL,
-      performed_at INTEGER NOT NULL
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_history_save ON history(save_id, performed_at);
-  `);
-
-  return _db;
+    _db.exec(SCHEMA_SQL);
+    return _db;
+  } catch (err) {
+    console.error('[DB] open failed:', err);
+    return null;
+  }
 };
 
-export const saveSlot = (
+/** Persist the in-memory DB snapshot to disk. */
+const flush = (): void => {
+  if (!_db || !_dbPath) return;
+  try {
+    const data = _db.export();
+    fs.writeFileSync(_dbPath, Buffer.from(data));
+  } catch (err) {
+    console.error('[DB] flush failed:', err);
+  }
+};
+
+export const saveSlot = async (
   slot: number,
   playerName: string,
   data: string,
   totalPlayTime: number,
-): boolean => {
+): Promise<boolean> => {
+  const db = await open();
+  if (!db) return false;
   try {
-    const db = open();
-    if (!db) return false;
     const now = Date.now();
-    const existing = db
-      .prepare('SELECT created_at FROM saves WHERE slot = ?')
-      .get(slot) as { created_at: number } | undefined;
 
-    db.prepare(
+    const existingResult = db.exec('SELECT created_at FROM saves WHERE slot = ?', [slot]);
+    const createdAt =
+      existingResult.length && existingResult[0].values.length
+        ? (existingResult[0].values[0][0] as number)
+        : now;
+
+    db.run(
       `INSERT INTO saves (slot, player_name, data, schema_version, created_at, updated_at, total_play_time)
        VALUES (?, ?, ?, ?, ?, ?, ?)
        ON CONFLICT(slot) DO UPDATE SET
@@ -114,15 +140,10 @@ export const saveSlot = (
          schema_version  = excluded.schema_version,
          updated_at      = excluded.updated_at,
          total_play_time = excluded.total_play_time`,
-    ).run(
-      slot,
-      playerName,
-      data,
-      SCHEMA_VERSION,
-      existing?.created_at ?? now,
-      now,
-      totalPlayTime,
+      [slot, playerName, data, SCHEMA_VERSION, createdAt, now, totalPlayTime],
     );
+
+    flush();
     return true;
   } catch (err) {
     console.error('[DB] saveSlot failed:', err);
@@ -130,32 +151,39 @@ export const saveSlot = (
   }
 };
 
-export const loadSlot = (slot: number): SaveRow | null => {
+export const loadSlot = async (slot: number): Promise<SaveRow | null> => {
+  const db = await open();
+  if (!db) return null;
   try {
-    const db = open();
-    if (!db) return null;
-    const row = db.prepare('SELECT * FROM saves WHERE slot = ?').get(slot) as SaveRow | undefined;
-    return row ?? null;
+    const result = db.exec('SELECT * FROM saves WHERE slot = ?', [slot]);
+    if (!result.length || !result[0].values.length) return null;
+
+    const cols = result[0].columns;
+    const row = result[0].values[0];
+    const obj: Record<string, unknown> = {};
+    cols.forEach((col, i) => (obj[col] = row[i]));
+    return obj as unknown as SaveRow;
   } catch (err) {
     console.error('[DB] loadSlot failed:', err);
     return null;
   }
 };
 
-export const listSlots = (): SaveMeta[] => {
+export const listSlots = async (): Promise<SaveMeta[]> => {
+  const db = await open();
+  if (!db) return [];
   try {
-    const db = open();
-    if (!db) return [];
-    const rows = db
-      .prepare('SELECT slot, player_name, schema_version, created_at, updated_at, total_play_time FROM saves ORDER BY slot')
-      .all() as SaveRow[];
-    return rows.map((r) => ({
-      slot: r.slot,
-      playerName: r.player_name,
-      schemaVersion: r.schema_version,
-      createdAt: r.created_at,
-      updatedAt: r.updated_at,
-      totalPlayTime: r.total_play_time,
+    const result = db.exec(
+      'SELECT slot, player_name, schema_version, created_at, updated_at, total_play_time FROM saves ORDER BY slot',
+    );
+    if (!result.length) return [];
+    return result[0].values.map((row) => ({
+      slot: row[0] as number,
+      playerName: row[1] as string,
+      schemaVersion: row[2] as number,
+      createdAt: row[3] as number,
+      updatedAt: row[4] as number,
+      totalPlayTime: row[5] as number,
     }));
   } catch (err) {
     console.error('[DB] listSlots failed:', err);
@@ -163,13 +191,14 @@ export const listSlots = (): SaveMeta[] => {
   }
 };
 
-export const deleteSlot = (slot: number): boolean => {
+export const deleteSlot = async (slot: number): Promise<boolean> => {
+  const db = await open();
+  if (!db) return false;
   try {
-    const db = open();
-    if (!db) return false;
-    db.prepare('DELETE FROM saves WHERE slot = ?').run(slot);
-    db.prepare('DELETE FROM achievements WHERE save_id = ?').run(slot);
-    db.prepare('DELETE FROM history WHERE save_id = ?').run(slot);
+    db.run('DELETE FROM saves WHERE slot = ?', [slot]);
+    db.run('DELETE FROM achievements WHERE save_id = ?', [slot]);
+    db.run('DELETE FROM history WHERE save_id = ?', [slot]);
+    flush();
     return true;
   } catch (err) {
     console.error('[DB] deleteSlot failed:', err);
@@ -179,6 +208,7 @@ export const deleteSlot = (slot: number): boolean => {
 
 export const close = (): void => {
   if (_db) {
+    flush();
     _db.close();
     _db = null;
   }

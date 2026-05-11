@@ -76,13 +76,13 @@ ipcMain.on(IpcChannel.RESIZE_WINDOW, (_event, width: number, height: number) => 
   }
 });
 
-// --- Phase 3: SQLite save system ---
-ipcMain.handle(IpcChannel.DB_SAVE, (_event, payload: SaveSlotPayload): boolean => {
+// --- Phase 3: SQLite save system (sql.js, all handlers async) ---
+ipcMain.handle(IpcChannel.DB_SAVE, async (_event, payload: SaveSlotPayload): Promise<boolean> => {
   return saveSlot(payload.slot, payload.playerName, payload.data, payload.totalPlayTime);
 });
 
-ipcMain.handle(IpcChannel.DB_LOAD, (_event, slot: number) => {
-  const row = loadSlot(slot);
+ipcMain.handle(IpcChannel.DB_LOAD, async (_event, slot: number) => {
+  const row = await loadSlot(slot);
   if (!row) return null;
   return {
     slot: row.slot,
@@ -95,9 +95,9 @@ ipcMain.handle(IpcChannel.DB_LOAD, (_event, slot: number) => {
   };
 });
 
-ipcMain.handle(IpcChannel.DB_LIST, () => listSlots());
+ipcMain.handle(IpcChannel.DB_LIST, async () => listSlots());
 
-ipcMain.handle(IpcChannel.DB_DELETE, (_event, slot: number): boolean => deleteSlot(slot));
+ipcMain.handle(IpcChannel.DB_DELETE, async (_event, slot: number): Promise<boolean> => deleteSlot(slot));
 
 app.on('window-all-closed', () => {
   closeDb();
