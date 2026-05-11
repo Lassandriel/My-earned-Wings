@@ -9,7 +9,6 @@
   "scripts": {
     "build:content": "tsx scripts/build-content.ts",
     "dev": "npm run build:content && concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development NODE_OPTIONS=\"--import=tsx\" .\\node_modules\\.bin\\electron.cmd src/electron/main.ts\"",
-    "rebuild:electron": "electron-rebuild -f -w better-sqlite3",
     "build": "npm run build:content && vite build",
     "build-electron": "tsc -p tsconfig.electron.json",
     "preview": "vite preview",
@@ -49,10 +48,8 @@
     "asar": true
   },
   "devDependencies": {
-    "@electron/rebuild": "^4.0.4",
     "@eslint/js": "^10.0.1",
     "@types/alpinejs": "^3.13.11",
-    "@types/better-sqlite3": "^7.6.13",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.6.2",
     "ajv": "^6.15.0",
@@ -78,7 +75,6 @@
   "dependencies": {
     "@alpinejs/collapse": "^3.15.12",
     "alpinejs": "^3.15.12",
-    "better-sqlite3": "^12.9.0",
     "js-yaml": "^4.1.1"
   }
 }

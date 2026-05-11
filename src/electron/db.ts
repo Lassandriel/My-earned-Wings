@@ -1,17 +1,19 @@
 import path from 'path';
 import { app } from 'electron';
 
-// better-sqlite3 is a native module that requires a rebuild for Electron's
-// Node ABI (run `npm run rebuild:electron`, needs VS Build Tools on Windows).
-// Until that's in place we keep the import lazy and degrade gracefully so
-// the rest of the app still runs from localStorage.
-type DbModule = typeof import('better-sqlite3');
-let Database: DbModule | null = null;
+// better-sqlite3 12.x is incompatible with Electron 42's V8 headers
+// (compile errors around v8::External::Value/New signature changes), so the
+// package is not installed by default. db.ts imports it lazily and degrades
+// gracefully — when the module is missing, all DB ops return null/[]/false
+// and persistence falls back to localStorage. To enable: install a
+// compatible better-sqlite3 (or sql.js as a WASM fallback) and add an
+// `npm run rebuild:electron` step.
+let Database: any = null;
 try {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   Database = require('better-sqlite3');
 } catch (err) {
-  console.warn('[DB] better-sqlite3 unavailable (run `npm run rebuild:electron`):', (err as Error).message);
+  console.info('[DB] better-sqlite3 not installed — saves stay on localStorage.');
 }
 
 /**
@@ -48,9 +50,9 @@ export interface SaveMeta {
   totalPlayTime: number;
 }
 
-let _db: import('better-sqlite3').Database | null = null;
+let _db: any = null;
 
-const open = (): import('better-sqlite3').Database | null => {
+const open = (): any => {
   if (_db) return _db;
   if (!Database) return null; // module unavailable, gracefully no-op
 
