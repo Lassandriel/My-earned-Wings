@@ -24,6 +24,10 @@ export interface CreateServicesOpts {
 export function createGameServices(opts: CreateServicesOpts) {
   const systems = getSystems(opts.dynamicInitialState);
 
+  // gameState is filled in by main.ts after Alpine.store('game', ...) registers,
+  // so the engine reads it through services.gameState rather than calling
+  // Alpine.store('game') directly. Stage 1 of Phase 2 Step 8 — Stage 2 will
+  // point this at a separate plain-data object and add UISync forwarding.
   const services = {
     commands: createCommandQueue(),
     content: createContentService(registries),
@@ -31,6 +35,7 @@ export function createGameServices(opts: CreateServicesOpts) {
     EVENTS: GAME_EVENTS,
     bootstrapper: opts.bootSystem,
     translations: opts.translations,
+    gameState: null as unknown as GameState,
     ...systems,
   };
 

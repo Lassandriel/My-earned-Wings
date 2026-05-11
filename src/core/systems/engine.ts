@@ -14,8 +14,6 @@ declare const Alpine: {
   store: <T = any>(name: string, value?: T) => T;
 };
 
-const getStore = (): GameState => Alpine.store<GameState>('game');
-
 interface PerfStore {
   lastTickMs: number;
   lastTaskMs: number;
@@ -74,7 +72,7 @@ export function createEngineSystem(): Engine {
 
       // 1. Simulation Heartbeat (1s)
       this.tickInterval = setInterval(() => {
-        const state = getStore();
+        const state = this.services!.gameState;
         if (!state || state.view === 'menu') return;
 
         const now = Date.now();
@@ -97,7 +95,7 @@ export function createEngineSystem(): Engine {
 
       // 2. High-Frequency Task Ticker (100ms)
       this.taskInterval = setInterval(() => {
-        const state = getStore();
+        const state = this.services!.gameState;
         if (!state || state.view === 'menu') return;
 
         const now = Date.now();
@@ -111,7 +109,7 @@ export function createEngineSystem(): Engine {
 
       // 3. Maintenance Loop: Milestones & Autosave
       this.saveInterval = setInterval(() => {
-        const state = getStore();
+        const state = this.services!.gameState;
         if (!state || state.view === 'menu') return;
 
         this.checkMilestones(state, this.services!);

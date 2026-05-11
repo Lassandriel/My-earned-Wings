@@ -15,9 +15,9 @@ const createMockServices = (): EngineServices => ({
   resource: {} as any,
   content: {} as any,
   commands: {} as any,
+  gameState: {} as any,
   addLog: vi.fn(),
   playSound: vi.fn(),
-  executeAction: vi.fn(),
   saveGame: vi.fn(),
 });
 

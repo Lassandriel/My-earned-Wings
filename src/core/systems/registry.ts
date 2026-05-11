@@ -42,7 +42,7 @@ export const getSystems = (initialState?: any): Record<string, GameSystem> => {
     prologue: createPrologueSystem() as GameSystem,
     npc: createNPCSystem() as GameSystem,
     actions: createActionSystem() as GameSystem,
-    engine: createEngineSystem() as GameSystem,
+    engine: createEngineSystem() as unknown as GameSystem,
     item: createItemSystem() as GameSystem,
     housing: createHousingSystem() as GameSystem,
     dialogue: createDialogueSystem() as GameSystem,

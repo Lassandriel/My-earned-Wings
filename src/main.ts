@@ -165,6 +165,11 @@ autoRegisterSystems(gameStoreObject, systemInstances);
 const game = Alpine.store('game', gameStoreObject as GameState);
 Alpine.store('ui', game);
 
+// Phase 2 Step 8 (Stage 1): point services.gameState at the live store so
+// engine code reads through services instead of calling Alpine.store('game')
+// directly. Stage 2 will swap this for a separate plain-data object.
+services.gameState = gameStoreObject as GameState;
+
 // --- 5. DOM READY START ---
 document.addEventListener('DOMContentLoaded', () => {
   if (!window.ALPINE_STARTED) {

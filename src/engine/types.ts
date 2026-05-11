@@ -15,6 +15,14 @@ export type EngineServices = Pick<
   | 'commands'
   | 'addLog'
   | 'playSound'
-  | 'executeAction'
   | 'saveGame'
->;
+> & {
+  /**
+   * Reference to the engine-owned game state. Phase 2 Step 8: engine code
+   * should read/write through this instead of Alpine.store('game') so
+   * mutations don't trigger Alpine reactivity per-tick. Today (Stage 1)
+   * this is identity-equal to the Alpine store; Stage 2 will deep-clone
+   * it so writes here don't propagate without UISync.
+   */
+  gameState: GameState;
+};

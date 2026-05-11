@@ -9,11 +9,16 @@ import { GameState } from '../../types/game';
 };
 
 /**
- * Creates a minimal GameState mock with the fields and helpers the engine touches.
- * Override any field via the `overrides` arg.
+ * Creates a minimal mock that satisfies both GameState (engine state slot)
+ * and EngineServices (engine services slot). The engine treats them as the
+ * same object in tests since services live on the store today.
  */
-const createMockStore = (overrides: Partial<GameState> = {}): GameState => {
+const createMockStore = (overrides: Partial<GameState> = {}): any => {
   const store: any = {
+    // gameState self-reference: in production services.gameState IS the
+    // engine state, so for engine tests where the mock acts as both state
+    // and services, gameState points back at the mock.
+    get gameState() { return store; },
     view: 'game',
     flags: {},
     resources: { magic: 100, wood: 0 },
@@ -57,14 +62,13 @@ const createMockStore = (overrides: Partial<GameState> = {}): GameState => {
       size: vi.fn(() => 0),
       clear: vi.fn(),
     },
-    executeAction: vi.fn(),
     addLog: vi.fn(),
     playSound: vi.fn(),
     saveGame: vi.fn(),
 
     ...overrides,
   };
-  return store as GameState;
+  return store;
 };
 
 describe('Engine System', () => {

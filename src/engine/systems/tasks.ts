@@ -41,7 +41,7 @@ export function tickTasks(state: GameState, services: EngineServices, deltaMs: n
           !state.activeTasks[actionId] &&
           action.isLoopable
         ) {
-          services.executeAction(actionId);
+          services.commands.enqueue({ type: 'executeAction', actionId });
         }
       }, 300);
     }
