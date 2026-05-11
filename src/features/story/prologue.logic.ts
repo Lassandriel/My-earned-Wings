@@ -1,10 +1,10 @@
 import { GameState, LogStore } from '../../types/game';
-import Alpine from 'alpinejs';
 
 interface PrologueDeps {
   collection: GameState['collection'];
   addLog: GameState['addLog'];
   playSound: GameState['playSound'];
+  getLogStore: () => LogStore;
 }
 
 let _deps: PrologueDeps | null = null;
@@ -52,7 +52,7 @@ export const createPrologueSystem = () => ({
 
     svc().playSound('click');
 
-    const logList = (Alpine.store('logs') as LogStore).list;
+    const logList = svc().getLogStore().list;
     for (let i = 1; i <= PROLOGUE_STEPS; i++) {
       const logKey = `intro_${i}`;
       const alreadyInLogs = logList.some((log) => log.id === logKey);

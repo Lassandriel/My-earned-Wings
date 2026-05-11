@@ -121,6 +121,10 @@ export function createGameServices(opts: CreateServicesOpts) {
       collection: (services as any).collection,
       addLog: addLogShim,
       playSound: playSoundShim,
+      getLogStore: () => {
+        const Alpine = (typeof window !== 'undefined' && (window as any).Alpine) || null;
+        return Alpine ? Alpine.store('logs') : { list: [] };
+      },
     });
   }
 
