@@ -299,13 +299,31 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
       }
     },
 
-    loadGame(store: GameState) {
-      let saved = localStorage.getItem(CONFIG.SAVE_KEY);
-      if (!saved) return false;
+    async loadGame(store: GameState): Promise<boolean> {
+      // Phase 3 Stage 2: prefer SQLite (Electron). The DB stores the JSON
+      // uncompressed (saveGame writes it that way); fall back to the
+      // localStorage LZW path so the game still loads in the vite dev
+      // browser and during the Electron rollout window.
+      let savedJson: string | null = null;
+
+      if (window.electronAPI?.dbLoad) {
+        try {
+          const row = await window.electronAPI.dbLoad(0);
+          if (row && row.data) savedJson = row.data;
+        } catch (err) {
+          console.warn('[PERSISTENCE] SQLite load failed, falling back to localStorage:', err);
+        }
+      }
+
+      if (!savedJson) {
+        let saved = localStorage.getItem(CONFIG.SAVE_KEY);
+        if (!saved) return false;
+        if (saved.startsWith('LZW:')) saved = LZW.decompress(saved.slice(4));
+        savedJson = saved;
+      }
 
       try {
-        if (saved.startsWith('LZW:')) saved = LZW.decompress(saved.slice(4));
-        const data = JSON.parse(saved);
+        const data = JSON.parse(savedJson);
         
         // Validation & Migration logic
         const validatedData = validateAndMigrate(data);

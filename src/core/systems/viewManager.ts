@@ -92,9 +92,10 @@ export const createViewManagerSystem = () => ({
     });
   },
 
-  continueGame(store: GameState) {
+  async continueGame(store: GameState) {
     store.playSound('click');
-    if (store.persistence.loadGame(store)) {
+    const ok = await store.persistence.loadGame(store);
+    if (ok) {
       store.view = 'main';
       if (store.audio) store.audio.startMusic();
 

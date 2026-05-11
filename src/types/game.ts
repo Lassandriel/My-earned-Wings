@@ -182,7 +182,7 @@ export interface GameState {
   };
   persistence: {
     saveGame: (store: GameState, isManual?: boolean) => void;
-    loadGame: (store: GameState) => boolean;
+    loadGame: (store: GameState) => Promise<boolean>;
     saveSettings: (store: GameState) => void;
     loadSettings: (store: GameState) => boolean;
     exportGameData: (store: GameState) => string;
@@ -309,7 +309,7 @@ export interface GameState {
   toggleFurniture: (id: string) => void;
   consumeItem: (id: string) => void;
   setActiveTitle: (id: string | null) => void;
-  loadGame: () => boolean;
+  loadGame: () => Promise<boolean>;
   setLanguage: (l: string) => void;
   hardReset: () => void;
   returnToMenu: () => void;
