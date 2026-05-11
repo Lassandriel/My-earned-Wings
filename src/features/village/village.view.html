@@ -60,7 +60,7 @@
         <div
           :id="npcId + '-card'"
           class="game-card npc-card"
-          @click="$store.game.executeAction('act-' + npcId)"
+          @click="$store.game.commands.enqueue({ type: 'executeAction', actionId: 'act-' + npcId })"
           @mouseenter="$store.game.setHovered('act-' + npcId)"
           @mouseleave="$store.game.setHovered(null)"
           x-data="{ npc: $store.game.ui.getNPCData($store.game, npcId) }"
@@ -99,7 +99,7 @@
             <template x-for="action in $store.game.content.getNPCActions($store.game, npcId)" :key="action.id">
               <button
                 class="npc-trade-btn"
-                @click.stop="$store.game.attemptAction($el, action.id)"
+                @click.stop="$store.game.commands.enqueue({ type: 'attemptAction', actionId: action.id, element: $el })"
                 @mouseenter="$store.game.setHovered(action.id)"
                 @mouseleave="$store.game.setHovered(null)"
                 :title="$store.game.t(action.id, 'actions').title"
@@ -137,7 +137,7 @@
               'active-focus': $store.game.activeFocus === actionId,
               ['card-' + actionId.split('-').pop()]: true
             }"
-            @click="$store.game.attemptAction($el, actionId)"
+            @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
             @mouseenter="$store.game.setHovered(actionId)"
             @mouseleave="$store.game.setHovered(null)"
             x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"
@@ -233,7 +233,7 @@
         <template x-for="actionId in vandaraActions" :key="actionId">
           <div
             class="game-card action-card"
-            @click="$store.game.attemptAction($el, actionId)"
+            @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
             @mouseenter="$store.game.setHovered(actionId)"
             @mouseleave="$store.game.setHovered(null)"
             x-show="!$store.game.content.get(actionId, 'actions').requirements || Object.entries($store.game.content.get(actionId, 'actions').requirements).every(([p, r]) => $store.game.actions.checkRequirement($store.game, p, r))"

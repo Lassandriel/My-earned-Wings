@@ -62,7 +62,7 @@
         <div
           class="game-card blueprint-card card-premium"
           :class="isCompleted(bp.id) && 'is-completed'"
-          @click="!isCompleted(bp.id) && $store.game.attemptAction($el, bp.id)"
+          @click="!isCompleted(bp.id) && $store.game.commands.enqueue({ type: 'attemptAction', actionId: bp.id, element: $el })"
           @mouseover="$store.game.setHovered(bp.id)"
           @mouseout="$store.game.setHovered(null)"
         >
