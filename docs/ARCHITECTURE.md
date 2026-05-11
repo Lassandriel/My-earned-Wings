@@ -287,16 +287,28 @@ without payoff. Subsystems are plain functions taking `(state, services, …)`.
   pipeline + command queue have at least basic coverage. Tests run in
   <600 ms on a clean run.
 
-**Step 7: UISystem dirty-check 🟡 STUB**
-- Hook in place at end of `processTick`
-- Implementation deferred to after Step 8 (would be a no-op today since state IS Alpine)
+**Step 7: UISystem dirty-check 🟡 IMPL READY, NO-OP TODAY**
+- `src/engine/systems/ui.ts` has the real reference-sharing clone-and-swap
+  implementation in `createUISync()`. It detects when `engineState ===
+  Alpine.store('game')` and short-circuits to a no-op (current Stage 1
+  state). Once Step 8 lands, the same code will start firing each tick
+  without further changes.
 
-**Step 8: Plain GameState ❌ NOT STARTED**
-- The remaining blocker for a real plain-state split is that services
-  still live on the Alpine store, so any code that reads `state.bus` /
-  `state.pipeline` (engine internals + autoRegisterSystems delegations)
-  still depends on the proxy. Untangling that is bookkeeping, not
-  architecture — when it lands, UISystem (Step 7) can be filled in.
+**Step 8: Plain GameState 🟡 STAGE 1 DONE, STAGE 2 PARKED**
+- *Stage 1 ✅:* the engine no longer calls `Alpine.store('game')` directly.
+  It reads its state slot through `services.gameState`, which `main.ts`
+  wires to the live Alpine store after registration. Engine API is
+  decoupled — flipping to a separate plain object only touches `main.ts`.
+- *Stage 2 ❌ parked:* tried pointing `services.gameState` at a SEPARATE
+  plain object (deep clone of `dynamicInitialState`) with UISync
+  forwarding the diff each tick. Worked for engine reads but
+  `viewManager.confirmName` and other feature-logics still write
+  directly to the Alpine store, so engineState went stale and the
+  engine's `view !== 'menu'` check kept early-returning. Real Stage 2
+  needs every state-mutating code path migrated to engineState first
+  — multi-day refactor, deferred. Reverted to Stage 1 wiring; the
+  scaffolding (`services.gameState`, UISync impl, persistence-aware
+  fallback) all stays in place.
 
 #### Current Engine Coupling Points (Must Decouple)
 
@@ -433,8 +445,15 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 - [x] **`content/` directory structure**: Created with `resources/`, `modifiers/`, `actions/` subdirectories
 - [x] **Build script**: `scripts/build-content.ts` — generates `src/generated/content.ts`
 - [x] **JSON Schema validation**: Implemented via Ajv in build script (Phase 2 prep complete)
-- [ ] **SQLite driver**: Deferred to Phase 3 — `better-sqlite3` preferred (synchronous, simpler in Electron)
-- [ ] **Save migration strategy**: Deferred to Phase 3 — v2.2.0 will mark the localStorage → SQLite switch
+- [x] **SQLite driver**: ~~`better-sqlite3` preferred~~ → switched to **`sql.js`** (WASM
+  build of SQLite). Reason: better-sqlite3 12.x source uses a v8::External
+  API that Electron 42's V8 headers no longer expose; electron-builder's
+  auto-rebuild fails with C2660. sql.js needs no native rebuild and works
+  on every Electron version. Trade-off: in-memory DB serialised to disk
+  per write — fine for save files of a few KB.
+- [ ] **Save migration strategy**: in flight — Phase 3 dual-writes
+  localStorage + SQLite, async load prefers SQLite. Explicit one-time
+  migration helper still TODO; passive dual-write covers most users.
 
 ## Decisions Made (Phase 2 Prep, May 2026)
 
@@ -450,7 +469,7 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 | Phase | Status | Target Version | Notes |
 |---|---|---|---|
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
-| Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services, command queue, feature-logic decoupling all done. Plain state + UISync diff deferred to a frontend pass. |
+| Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services container, command queue, feature-logic decoupling, HTML migration, 112 safety-net tests, UISync impl + engine `services.gameState` plumbing all done. Real plain-state separation (Step 8 Stage 2) deferred — needs every state-mutating call site migrated first. |
 | Phase 3 — SQLite Saves | 🟢 Functional (sql.js) | v2.2.0 | DB layer (sql.js/WASM), IPC, dual-write save, async SQLite-first load — runnable in Electron without native rebuild. Save-slots UI + achievements/history tables deferred. |
 | Phase 4 — Dev Tools | 🔲 Not started | v2.3.0+ | |
 
@@ -460,5 +479,11 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 ---
 
 *Created: 10 May 2026 · Author: Antigravity (architectural analysis session)*
-*Last Updated: 11 May 2026 · Phase 2 architecturally complete + HTML migration to command queue + 112-test safety net across 11 files. Only remaining work: extract services off the Alpine store so state can be pure data, then fill in the real UISync diff (Step 8 above).*
+*Last Updated: 11 May 2026 · Phases 1–3 all green or Stage-1 done.
+Phase 1 cleanup landed (12 dead TS data files removed, 2 orphan i18n
+keys gone). Phase 2 Step 8 Stage 1 in place (engine reads via
+`services.gameState`); Stage 2 attempted then parked until feature
+logics stop writing directly to Alpine. Phase 3 functional via
+`sql.js` (no native rebuild). 224 tests green; both build paths
+clean; `npm run check-all` reports zero warnings.*
 *This document should be updated as each phase completes.*
