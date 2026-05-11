@@ -272,15 +272,31 @@ without payoff. Subsystems are plain functions taking `(state, services, …)`.
 - `ellie` and `dialogue` skipped (zero service dependencies — pure data mutations)
 - None of them read services off `state` anymore
 
-**Step 5: UISystem dirty-check 🟡 STUB**
-- Hook in place at end of `processTick`
-- Implementation deferred to after Step 6 (would be a no-op today since state IS Alpine)
+**Step 5: HTML → Command Queue ✅ DONE**
+- All `@click="$store.game.attemptAction(...)"` / `toggleFocus(...)` /
+  `executeAction(...)` handlers in HTML templates now enqueue commands:
+  `$store.game.commands.enqueue({ type: 'attemptAction', ... })`
+- Verified end-to-end in a vite preview (Ausruhen, Fokussieren-fail-path,
+  Zweige sammeln all clean, no console errors)
+- Old delegate methods on the store (`executeAction`, `attemptAction`,
+  `toggleFocus`) are unused by templates now and can be removed in a
+  follow-up cleanup pass.
 
-**Step 6: Plain GameState ❌ NOT STARTED**
-- Requires either migrating all `$store.game.X.Y()` callers in HTML templates,
-  or running services as a separate container while keeping a compat shim on
-  the store. Frontend-heavy work — not architectural anymore.
-- Once done, UISystem (Step 5) becomes meaningful and can be filled in.
+**Step 6: Test safety net ✅ DONE**
+- 112 tests across 11 files. All 9 migrated feature-logics + engine +
+  pipeline + command queue have at least basic coverage. Tests run in
+  <600 ms on a clean run.
+
+**Step 7: UISystem dirty-check 🟡 STUB**
+- Hook in place at end of `processTick`
+- Implementation deferred to after Step 8 (would be a no-op today since state IS Alpine)
+
+**Step 8: Plain GameState ❌ NOT STARTED**
+- The remaining blocker for a real plain-state split is that services
+  still live on the Alpine store, so any code that reads `state.bus` /
+  `state.pipeline` (engine internals + autoRegisterSystems delegations)
+  still depends on the proxy. Untangling that is bookkeeping, not
+  architecture — when it lands, UISystem (Step 7) can be filled in.
 
 #### Current Engine Coupling Points (Must Decouple)
 
@@ -319,11 +335,12 @@ Line 259: store.flags[flagId] = true                   // → MilestoneSystem
 
 #### What Does NOT Change in Phase 2
 
-- `actions.logic.ts` effect handlers (setFlag, unlockNPC, etc.) — stay as-is
 - `pipeline.ts` calculation logic — stays as-is
-- `resource.logic.ts` — stays as-is (but reads from engine state)
-- All HTML templates — unchanged (they read Alpine store which UISystem updates)
+- HTML templates' **rendering** — unchanged (still read `$store.game.X` to
+  display data; only the **click handlers** were rewritten to enqueue
+  commands instead of calling action methods directly)
 - All CSS — unchanged
+- Save format — still localStorage JSON (Phase 3 will change this)
 
 #### Estimated Scope
 
@@ -404,5 +421,5 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 ---
 
 *Created: 10 May 2026 · Author: Antigravity (architectural analysis session)*
-*Last Updated: 11 May 2026 · Phase 2 architecturally complete (services, command queue, all 9 feature-logics decoupled, engine in 6 subsystems). Plain-state + real UISync diff deferred to a later frontend pass.*
+*Last Updated: 11 May 2026 · Phase 2 architecturally complete + HTML migration to command queue + 112-test safety net across 11 files. Only remaining work: extract services off the Alpine store so state can be pure data, then fill in the real UISync diff (Step 8 above).*
 *This document should be updated as each phase completes.*
