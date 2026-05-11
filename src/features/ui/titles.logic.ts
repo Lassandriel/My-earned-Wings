@@ -1,5 +1,20 @@
 import { GameState, TitleId, TitleDefinition } from '../../types/game';
 
+interface TitleDeps {
+  content: GameState['content'];
+  actions: GameState['actions'];
+  addLog: GameState['addLog'];
+  playSound: GameState['playSound'];
+  t: GameState['t'];
+  saveGame: GameState['saveGame'];
+}
+
+let _deps: TitleDeps | null = null;
+const svc = (): TitleDeps => {
+  if (!_deps) throw new Error('[TITLES] services not bound — call setServices() during boot.');
+  return _deps;
+};
+
 /**
  * Title System Logic - Phase 12
  * Handles unlocking and switching titles.
@@ -7,19 +22,23 @@ import { GameState, TitleId, TitleDefinition } from '../../types/game';
 export const createTitleSystem = () => ({
   metadata: {
     id: 'titles',
-    delegates: { setActiveTitle: 'setActiveTitle' }
+    delegates: { setActiveTitle: 'setActiveTitle' },
   },
+
+  setServices(deps: TitleDeps) {
+    _deps = deps;
+  },
+
   unlockTitle(store: GameState, id: TitleId) {
     if (store.discoveredTitles.includes(id)) return;
-    
-    const title = store.content.get<TitleDefinition>(id, 'titles');
+
+    const title = svc().content.get<TitleDefinition>(id, 'titles');
     if (!title) return;
 
     store.discoveredTitles.push(id);
-    store.addLog('title_unlocked', 'logs', 'var(--gold)', { title: store.t(title.nameKey) });
-    store.playSound('milestone');
-    
-    // Auto-set if first title
+    svc().addLog('title_unlocked', 'logs', 'var(--gold)', { title: svc().t(title.nameKey) });
+    svc().playSound('milestone');
+
     if (!store.activeTitle) {
       this.setActiveTitle(store, id);
     }
@@ -27,15 +46,16 @@ export const createTitleSystem = () => ({
 
   setActiveTitle(store: GameState, id: TitleId | null) {
     if (id && !store.discoveredTitles.includes(id)) return;
-    
+
     store.activeTitle = id;
-    store.playSound('click');
-    store.addLog('title_set', 'logs', 'var(--accent-teal)', { 
-      title: id ? store.t(store.content.get<TitleDefinition>(id, 'titles')?.nameKey || '') : store.t('ui_none') 
+    svc().playSound('click');
+    svc().addLog('title_set', 'logs', 'var(--accent-teal)', {
+      title: id
+        ? svc().t(svc().content.get<TitleDefinition>(id, 'titles')?.nameKey || '')
+        : svc().t('ui_none'),
     });
-    
-    // Rebuild producers/pipeline if titles provide modifiers
-    store.actions.rebuildProducers(store);
-    store.saveGame();
-  }
+
+    svc().actions.rebuildProducers(store);
+    svc().saveGame();
+  },
 });

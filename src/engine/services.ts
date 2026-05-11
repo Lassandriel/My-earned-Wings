@@ -35,11 +35,29 @@ export function createGameServices(opts: CreateServicesOpts) {
   };
 
   // Late-bind services into systems that injected dependencies via closure.
-  // The store also exposes `addLog` as a method, but that's only available
-  // once the gameStoreObject is registered — so we wire it via a tiny shim
-  // that re-emits LOG_ADDED through the bus we already have.
+  // Several "services" are really store methods (addLog, playSound, t, saveGame).
+  // We can't reference store.* at this point because the Alpine store isn't
+  // registered yet — so we wire each via a tiny shim that fans out through
+  // the bus / runs the underlying system at call time.
+
   const addLogShim: GameState['addLog'] = (id, context = 'logs', color = null, params = {}) => {
     services.bus.emit(services.EVENTS.LOG_ADDED, { id, context, color, params });
+  };
+
+  const playSoundShim: GameState['playSound'] = (key: string) => {
+    services.bus.emit(services.EVENTS.SOUND_TRIGGERED, { key });
+  };
+
+  // t needs the current state (for `language`); look it up via Alpine at call time.
+  const tShim: GameState['t'] = (key: string, context?: string, params?: any) => {
+    const store = (typeof window !== 'undefined' && (window as any).Alpine)
+      ? (window as any).Alpine.store('game')
+      : null;
+    return (systems.i18n as any).t(store, key, context, params);
+  };
+
+  const saveGameShim: GameState['saveGame'] = (isManual = false) => {
+    services.bus.emit(services.EVENTS.SAVE_REQUESTED, { isManual });
   };
 
   if (typeof (systems.resource as any).setServices === 'function') {
@@ -62,8 +80,30 @@ export function createGameServices(opts: CreateServicesOpts) {
       titles: (services as any).titles,
       collection: (services as any).collection,
       addLog: addLogShim,
-      playSound: (id: string) => services.bus.emit(services.EVENTS.SOUND_TRIGGERED, { key: id }),
-      t: (services as any).i18n?.t ?? ((k: string) => k),
+      playSound: playSoundShim,
+      t: tShim,
+    });
+  }
+
+  if (typeof (systems.titles as any).setServices === 'function') {
+    (systems.titles as any).setServices({
+      content: services.content,
+      actions: (services as any).actions,
+      addLog: addLogShim,
+      playSound: playSoundShim,
+      t: tShim,
+      saveGame: saveGameShim,
+    });
+  }
+
+  if (typeof (systems.item as any).setServices === 'function') {
+    (systems.item as any).setServices({
+      content: services.content,
+      actions: (services as any).actions,
+      addLog: addLogShim,
+      playSound: playSoundShim,
+      t: tShim,
+      saveGame: saveGameShim,
     });
   }
 
