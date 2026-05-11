@@ -1,6 +1,18 @@
-import Database from 'better-sqlite3';
 import path from 'path';
 import { app } from 'electron';
+
+// better-sqlite3 is a native module that requires a rebuild for Electron's
+// Node ABI (run `npm run rebuild:electron`, needs VS Build Tools on Windows).
+// Until that's in place we keep the import lazy and degrade gracefully so
+// the rest of the app still runs from localStorage.
+type DbModule = typeof import('better-sqlite3');
+let Database: DbModule | null = null;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  Database = require('better-sqlite3');
+} catch (err) {
+  console.warn('[DB] better-sqlite3 unavailable (run `npm run rebuild:electron`):', (err as Error).message);
+}
 
 /**
  * SQLite save database for My-earned-Wings (Phase 3).
@@ -36,10 +48,11 @@ export interface SaveMeta {
   totalPlayTime: number;
 }
 
-let _db: Database.Database | null = null;
+let _db: import('better-sqlite3').Database | null = null;
 
-const open = (): Database.Database => {
+const open = (): import('better-sqlite3').Database | null => {
   if (_db) return _db;
+  if (!Database) return null; // module unavailable, gracefully no-op
 
   const dbPath = path.join(app.getPath('userData'), 'saves.db');
   _db = new Database(dbPath);
@@ -84,6 +97,7 @@ export const saveSlot = (
 ): boolean => {
   try {
     const db = open();
+    if (!db) return false;
     const now = Date.now();
     const existing = db
       .prepare('SELECT created_at FROM saves WHERE slot = ?')
@@ -117,6 +131,7 @@ export const saveSlot = (
 export const loadSlot = (slot: number): SaveRow | null => {
   try {
     const db = open();
+    if (!db) return null;
     const row = db.prepare('SELECT * FROM saves WHERE slot = ?').get(slot) as SaveRow | undefined;
     return row ?? null;
   } catch (err) {
@@ -128,6 +143,7 @@ export const loadSlot = (slot: number): SaveRow | null => {
 export const listSlots = (): SaveMeta[] => {
   try {
     const db = open();
+    if (!db) return [];
     const rows = db
       .prepare('SELECT slot, player_name, schema_version, created_at, updated_at, total_play_time FROM saves ORDER BY slot')
       .all() as SaveRow[];
@@ -148,6 +164,7 @@ export const listSlots = (): SaveMeta[] => {
 export const deleteSlot = (slot: number): boolean => {
   try {
     const db = open();
+    if (!db) return false;
     db.prepare('DELETE FROM saves WHERE slot = ?').run(slot);
     db.prepare('DELETE FROM achievements WHERE save_id = ?').run(slot);
     db.prepare('DELETE FROM history WHERE save_id = ?').run(slot);
