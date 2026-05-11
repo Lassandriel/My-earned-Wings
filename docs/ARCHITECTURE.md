@@ -361,9 +361,16 @@ Ready for Phase 14 Automation.
 
 #### Built (May 2026)
 
-- `src/electron/db.ts` ✅ — `better-sqlite3` wrapper, WAL mode, three tables
-  (`saves`, `achievements`, `history`), upsert/load/list/delete API.
-  DB lives in OS user-data dir (`%APPDATA%/my-earned-wings/saves.db` etc.).
+- `src/electron/db.ts` ✅ — `sql.js` wrapper (WASM build of SQLite — no native
+  rebuild needed, works on any Electron version). Three tables (`saves`,
+  `achievements`, `history`), async upsert/load/list/delete API. The
+  in-memory DB is serialized to `%APPDATA%/my-earned-wings/saves.db` after
+  each write.
+
+  *(History note: tried `better-sqlite3 12.x` first; its source uses a
+  v8::External API that Electron 42's V8 headers no longer expose —
+  electron-builder's auto-rebuild fails with C2660. sql.js sidesteps the
+  whole native-rebuild problem.)*
 - `src/electron/ipc.ts` ✅ — IPC channels `DB_SAVE / DB_LOAD / DB_LIST / DB_DELETE`
   plus typed payload interfaces.
 - `src/electron/main.ts` ✅ — registers `ipcMain.handle` endpoints for the four
@@ -379,14 +386,14 @@ Ready for Phase 14 Automation.
 
 #### Still to do
 
-- **Native rebuild for Electron:** `better-sqlite3` ships prebuilt Node.js
-  binaries. Electron uses a different Node ABI, so the first packaged build
-  needs `electron-rebuild` (or `@electron/rebuild`) to compile against
-  Electron's headers. Add to the `dist` script or as `postinstall`.
 - **Migration sweep:** dual-write covers the rollout passively (new saves
   populate SQLite). For users who upgrade and never save again, add an
   explicit "if SQLite is empty AND localStorage has a save, copy it once"
   on the first Electron boot.
+- **Asar packaging check:** `db.ts` resolves `sql-wasm.wasm` via
+  `require.resolve('sql.js')`. Should work transparently when packaged
+  (Node fs reads through asar) but verify on the first `npm run dist`
+  build that the WASM file ends up in `app.asar` and is readable.
 - **Multiple save slots UI:** schema supports slot 1+, currently only slot
   0 is used. Future "save slots" screen.
 - **Achievements + history tables:** schema is in place but untouched.
@@ -444,7 +451,7 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 |---|---|---|---|
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
 | Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services, command queue, feature-logic decoupling all done. Plain state + UISync diff deferred to a frontend pass. |
-| Phase 3 — SQLite Saves | 🟡 Stage 1+2 done | v2.2.0 | DB layer, IPC, dual-write save, async SQLite-first load. Native rebuild for Electron + slots UI deferred. |
+| Phase 3 — SQLite Saves | 🟢 Functional (sql.js) | v2.2.0 | DB layer (sql.js/WASM), IPC, dual-write save, async SQLite-first load — runnable in Electron without native rebuild. Save-slots UI + achievements/history tables deferred. |
 | Phase 4 — Dev Tools | 🔲 Not started | v2.3.0+ | |
 
 ### Known Pre-Existing Issues (not introduced by Phase 1)
