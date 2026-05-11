@@ -44,11 +44,9 @@ export function createActionSystem() {
   const DEBOUNCE_MS = 50;
   const metadata = {
     id: 'actions',
-    delegates: {
-      executeAction: 'execute',
-      attemptAction: 'attemptAction',
-      toggleFocus: 'toggleFocus'
-    }
+    // Delegates removed: executeAction / attemptAction / toggleFocus on the
+    // store are no longer needed — all callers now go through
+    // services.commands.enqueue({ type: ..., actionId: ... }).
   };
 
   const registerEffect = <T extends GameEffect['type']>(

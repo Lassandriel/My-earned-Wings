@@ -101,8 +101,8 @@ export const createViewManagerSystem = () => ({
       // --- AUTO-RESUME FOCUS: Start the automation loop if a focus was loaded ---
       if (store.activeFocus) {
         setTimeout(() => {
-          if (store.activeFocus && store.executeAction) {
-            store.executeAction(store.activeFocus);
+          if (store.activeFocus && store.commands) {
+            store.commands.enqueue({ type: 'executeAction', actionId: store.activeFocus });
           }
         }, 500);
       }

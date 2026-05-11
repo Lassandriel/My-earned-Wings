@@ -62,8 +62,8 @@ export const createInputSystem = () => {
             '2': 'act-meditieren', 
             '3': 'act-essen' 
           };
-          if (SHORTCUTS[e.key] && store.executeAction) {
-            store.executeAction(SHORTCUTS[e.key]);
+          if (SHORTCUTS[e.key] && store.commands) {
+            store.commands.enqueue({ type: 'executeAction', actionId: SHORTCUTS[e.key] });
           }
         }
       });
