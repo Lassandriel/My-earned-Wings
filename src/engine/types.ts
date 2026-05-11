@@ -12,6 +12,7 @@ export type EngineServices = Pick<
   | 'resource'
   | 'actions'
   | 'content'
+  | 'commands'
   | 'addLog'
   | 'playSound'
   | 'executeAction'

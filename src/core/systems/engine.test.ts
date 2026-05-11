@@ -51,6 +51,12 @@ const createMockStore = (overrides: Partial<GameState> = {}): GameState => {
       checkRequirement: vi.fn(() => true),
       effectHandlers: {},
     },
+    commands: {
+      enqueue: vi.fn(),
+      drain: vi.fn(),
+      size: vi.fn(() => 0),
+      clear: vi.fn(),
+    },
     executeAction: vi.fn(),
     addLog: vi.fn(),
     playSound: vi.fn(),

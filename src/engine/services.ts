@@ -4,6 +4,7 @@ import { createContentService } from '../core/services/content';
 import { createBootSystem } from '../core/systems/boot';
 import { getSystems } from '../core/systems/registry';
 import { registries } from '../data';
+import { createCommandQueue } from './commands';
 
 /**
  * Bundles every service the game uses into a single container.
@@ -24,6 +25,7 @@ export function createGameServices(opts: CreateServicesOpts) {
   const systems = getSystems(opts.dynamicInitialState);
 
   const services = {
+    commands: createCommandQueue(),
     content: createContentService(registries),
     bus: createEventBus(),
     EVENTS: GAME_EVENTS,

@@ -7,6 +7,7 @@ import { ItemDefinition, ActionDefinition, ActionResult } from './features/actio
 import { NPCDefinition } from './features/npcs';
 import { HomeDefinition } from './features/homes';
 import { EventBus } from '../core/events/bus';
+import { CommandQueue } from '../engine/commands';
 import { Translations, TranslationParams } from './i18n';
 
 export * from './core/base';
@@ -107,6 +108,7 @@ export interface GameState {
   translations: Translations;
 
   // Systems & Content
+  commands: CommandQueue;
   content: ContentService;
   currentLocation: string;
   RESOURCE_REGISTRY: Record<ResourceId, ResourceDefinition>;
