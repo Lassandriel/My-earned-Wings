@@ -8,7 +8,7 @@
   "main": "dist_electron/main.js",
   "scripts": {
     "build:content": "tsx scripts/build-content.ts",
-    "dev": "npm run build:content && npm run build-electron && concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development NODE_OPTIONS=\"--import=tsx\" .\\node_modules\\.bin\\electron.cmd src/electron/main.ts\"",
+    "dev": "npm run build:content && npm run build-electron && concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development .\\node_modules\\.bin\\electron.cmd dist_electron/main.js\"",
     "build": "npm run build:content && vite build",
     "build-electron": "tsc -p tsconfig.electron.json",
     "preview": "vite preview",

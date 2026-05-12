@@ -3,12 +3,10 @@ import path from 'path';
 import fs from 'fs';
 import { spawn } from 'child_process';
 import yaml from 'js-yaml';
-import { fileURLToPath } from 'url';
 import { IpcChannel, SaveSlotPayload } from './ipc.js';
 import { saveSlot, loadSlot, listSlots, deleteSlot, close as closeDb } from './db.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// __dirname is provided by CommonJS at runtime — no import.meta dance needed.
 
 let mainWindow: BrowserWindow | null;
 let devtoolsWindow: BrowserWindow | null = null;
