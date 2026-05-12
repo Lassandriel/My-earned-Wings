@@ -90,6 +90,37 @@ Wenn der Channel nicht funktioniert (z.B. weil das Spiel-Fenster nicht offen ist
 
 ***
 
+## Editor-Modus (Iter 3)
+
+Auf dem **Actions-Tab** erscheint im Detail-Header ein **„✎ Edit"** Button. Drauf klicken → Form mit den Top-Level-Scalar-Feldern erscheint:
+
+- `category`
+- `cost`
+- `costType`
+- `duration` (in ms)
+- `yieldType`
+
+Zwei Save-Buttons:
+
+- **„Save YAML only"** — schreibt die geänderten Felder zurück in die richtige `content/actions/*.yaml`. Spielinhalt bleibt unberührt bis du manuell rebuildest.
+- **„Save & rebuild"** — schreibt UND ruft `npm run build:content` automatisch auf. Vite hot-reloaded das Hauptspiel mit den neuen Werten.
+
+### Wichtig
+
+- **Nur in Electron-Mode** verfügbar. In der Browser-Vorschau (vite ohne Electron) erscheint der Edit-Button nicht.
+- **Kommentare in der YAML werden gestrippt** (Limitation von `js-yaml`). Falls du wichtige Kommentare hast — vor dem Editieren committen.
+- **Verschachtelte Felder** (`rewards`, `costs`, `requirements`, `onSuccess`) werden NICHT exposed. Nur Top-Level-Scalars. Komplexere Edits weiterhin direkt in der YAML.
+- **Patch-only**: nur Felder die du tatsächlich änderst werden geschrieben. Andere Felder bleiben wie sie sind.
+- Vor dem Schreiben wird die neue YAML re-parsed → bei kaputtem Output kein Save (Original bleibt).
+
+### Beispiel-Workflow
+
+1. Dev-Tools öffnen
+2. Actions-Tab → „chop_wood" anklicken
+3. „✎ Edit" → cost auf 8 ändern (war 5)
+4. „Save & rebuild" → Status zeigt „✓ Wrote and rebuilt"
+5. Hauptspiel: chop_wood Tooltip zeigt jetzt „Cost: 8 Energy" — ohne Game-Reload
+
 ## Wofür benutze ich das im Alltag?
 
 ### Beispiel-Workflows
@@ -117,10 +148,11 @@ Wenn der Channel nicht funktioniert (z.B. weil das Spiel-Fenster nicht offen ist
 | --------- | ------ |
 | ✅ MVP | Read-only Browser für Actions, YAML-Preview |
 | ✅ Iter 2 | Tabs für alle Entity-Typen, Cheats-Panel |
-| ✅ Iter 4 | Mehr Cheats (Buffs aktivieren, NPCs unlocken, View springen, Demo abschließen, Save wipen) |
-| 🟡 Iter 3 | **Editier-Modus**: Form für Action-Felder, Save-Button schreibt YAML zurück, vite hot-reloaded das Spiel |
+| ✅ Iter 3 | **Editier-Modus** für Action-Top-Level-Felder + Auto-Rebuild |
+| ✅ Iter 4 | Mehr Cheats (Buffs, NPCs, View, Demo, Save wipen) |
 | 🟡 Iter 5 | Integrierter `npm run check-all` — Validierungs-Output direkt im Fenster statt im Terminal |
 | 🟡 Iter 6 | Modifier-Visualisierung: welche Modifier betreffen welche Berechnung, in einer Baum-Ansicht |
+| 🟡 Iter 7 | Editor erweitern: nested fields (rewards/costs/requirements), Items + NPCs editierbar, Translations bearbeiten |
 
 ***
 
