@@ -198,5 +198,43 @@ document.addEventListener('DOMContentLoaded', () => {
         store.bootstrap();
       }
     }, 100);
+
+    // --- Phase 4: listen for cheat commands from the dev tools window ---
+    if (typeof BroadcastChannel !== 'undefined') {
+      const devChannel = new BroadcastChannel('mw-devtools');
+      devChannel.addEventListener('message', (ev) => {
+        const cmd = ev.data as { type: string; [k: string]: any };
+        const store = getStore();
+        if (!store || !cmd?.type) return;
+
+        try {
+          switch (cmd.type) {
+            case 'applyCheats':
+              store.applyCheats?.();
+              break;
+            case 'addResource':
+              if (cmd.resource && typeof cmd.amount === 'number') {
+                store.resource.add(store, cmd.resource, cmd.amount);
+              }
+              break;
+            case 'addStat':
+              if (cmd.stat && typeof cmd.amount === 'number') {
+                store.stats[cmd.stat] = (store.stats[cmd.stat] || 0) + cmd.amount;
+              }
+              break;
+            case 'setFlag':
+              if (cmd.flag !== undefined) {
+                (store.flags as Record<string, boolean>)[cmd.flag] = cmd.value;
+                store.pipeline?.invalidateCache?.();
+                store.resource?.invalidateCache?.();
+              }
+              break;
+          }
+          store.bus?.emit?.(store.EVENTS.SAVE_REQUESTED);
+        } catch (err) {
+          console.warn('[DEVTOOLS] cheat failed:', err);
+        }
+      });
+    }
   }
 });

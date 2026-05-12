@@ -174,6 +174,87 @@
         font-size: 13px;
         margin-bottom: 8px;
       }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        gap: 4px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--border);
+        padding: 0 12px;
+        grid-area: tabs;
+      }
+      .tab {
+        padding: 10px 16px;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-family: inherit;
+        font-size: 13px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+      }
+      .tab:hover { color: var(--text); }
+      .tab.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      /* Cheats panel */
+      .cheats { display: grid; gap: 16px; }
+      .cheats section {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 16px;
+      }
+      .cheats h3 {
+        margin: 0 0 10px;
+        font-family: 'Cinzel', serif;
+        font-size: 13px;
+        color: var(--gold);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .cheats button {
+        padding: 8px 14px;
+        background: var(--panel-light);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 13px;
+        cursor: pointer;
+        margin: 4px 4px 0 0;
+        transition: background 0.15s;
+      }
+      .cheats button:hover { background: var(--accent-dim); color: #000; }
+      .cheats button.flash {
+        background: var(--accent);
+        color: #000;
+      }
+      .cheats .custom-row { display: flex; gap: 8px; margin-top: 4px; }
+      .cheats .custom-row input {
+        padding: 6px 10px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 13px;
+      }
+      .cheats .custom-row input[type='text'] { flex: 1; }
+      .cheats .custom-row input[type='number'] { width: 100px; }
+      .cheats .hint { color: var(--text-dim); font-size: 12px; margin: 0; }
+
+      /* Updated grid for tab row */
+      body {
+        grid-template-rows: 48px 40px 1fr;
+        grid-template-areas:
+          "header header"
+          "tabs tabs"
+          "sidebar main";
+      }
     </style>
   </head>
   <body>
@@ -183,13 +264,15 @@
       <span class="meta" id="meta">loading…</span>
     </header>
 
+    <nav class="tabs" id="tabs"></nav>
+
     <aside class="dev-sidebar" id="sidebar">
       <input class="search" type="text" id="search" placeholder="Filter…" />
       <div id="list"></div>
     </aside>
 
     <main class="dev-main" id="main">
-      <div class="empty-state">Wähle eine Aktion links aus.</div>
+      <div class="empty-state">Wähle einen Eintrag links aus.</div>
     </main>
   </body>
 </html>
