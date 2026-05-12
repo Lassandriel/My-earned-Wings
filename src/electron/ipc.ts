@@ -10,6 +10,9 @@ export const IpcChannel = {
   DB_LOAD: 'db:load',
   DB_LIST: 'db:list',
   DB_DELETE: 'db:delete',
+
+  // Phase 4: Dev tools window
+  OPEN_DEVTOOLS: 'devtools:open',
 } as const;
 
 export interface SaveSlotPayload {

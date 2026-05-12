@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null;
+let devtoolsWindow: BrowserWindow | null = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -98,6 +99,36 @@ ipcMain.handle(IpcChannel.DB_LOAD, async (_event, slot: number) => {
 ipcMain.handle(IpcChannel.DB_LIST, async () => listSlots());
 
 ipcMain.handle(IpcChannel.DB_DELETE, async (_event, slot: number): Promise<boolean> => deleteSlot(slot));
+
+// --- Phase 4: Dev tools window ---
+ipcMain.on(IpcChannel.OPEN_DEVTOOLS, () => {
+  if (devtoolsWindow && !devtoolsWindow.isDestroyed()) {
+    devtoolsWindow.focus();
+    return;
+  }
+  devtoolsWindow = new BrowserWindow({
+    width: 1280,
+    height: 800,
+    minWidth: 800,
+    minHeight: 500,
+    autoHideMenuBar: true,
+    backgroundColor: '#0f172a',
+    title: 'My-earned-Wings · Dev Tools',
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
+  if (process.env.NODE_ENV === 'development') {
+    devtoolsWindow.loadURL('http://localhost:5173/devtools.html');
+  } else {
+    devtoolsWindow.loadFile(path.join(__dirname, 'dist/devtools.html'));
+  }
+  devtoolsWindow.on('closed', () => {
+    devtoolsWindow = null;
+  });
+});
 
 app.on('window-all-closed', () => {
   closeDb();

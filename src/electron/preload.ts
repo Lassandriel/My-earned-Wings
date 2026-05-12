@@ -14,4 +14,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke(IpcChannel.DB_LOAD, slot),
   dbList: (): Promise<SaveSlotMeta[]> => ipcRenderer.invoke(IpcChannel.DB_LIST),
   dbDelete: (slot: number): Promise<boolean> => ipcRenderer.invoke(IpcChannel.DB_DELETE, slot),
+
+  // Phase 4: Dev tools window
+  openDevtools: () => ipcRenderer.send(IpcChannel.OPEN_DEVTOOLS),
 });

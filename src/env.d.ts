@@ -35,6 +35,9 @@ declare global {
         totalPlayTime: number;
       }>>;
       dbDelete: (slot: number) => Promise<boolean>;
+
+      // Phase 4: Dev tools
+      openDevtools: () => void;
     };
     Alpine: AlpineType;
     TRANSLATIONS: import('./types/i18n').Translations;

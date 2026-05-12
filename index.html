@@ -69,6 +69,21 @@
 
           <!-- Header Actions (Settings & Fullscreen) -->
           <div class="header-actions">
+            <!-- Dev Tools Button (Electron + dev only) -->
+            <div
+              class="header-btn"
+              x-show="window.electronAPI?.openDevtools"
+              @click="window.electronAPI.openDevtools()"
+              @mouseenter="$store.game.setHovered('help', { isHelp: true, title: 'Dev Tools', desc: 'Content browser' })"
+              @mouseleave="$store.game.setHovered(null)"
+              role="button"
+              aria-label="Open Dev Tools"
+              tabindex="0"
+              @keydown.enter="window.electronAPI.openDevtools()"
+            >
+              🛠️
+            </div>
+
             <!-- Fullscreen Button -->
             <div
               class="header-btn fullscreen-btn"
