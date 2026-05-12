@@ -229,6 +229,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 store.resource?.invalidateCache?.();
               }
               break;
+            case 'addBuff':
+              if (cmd.buffId) {
+                const handler = store.actions?.effectHandlers?.addBuff;
+                if (handler) handler(store, { type: 'addBuff', buffId: cmd.buffId } as any);
+              }
+              break;
+            case 'unlockNPC':
+              if (cmd.npcId) {
+                const handler = store.actions?.effectHandlers?.unlockNPC;
+                if (handler) handler(store, { type: 'unlockNPC', id: cmd.npcId } as any);
+              }
+              break;
+            case 'unlockAllNPCs': {
+              const npcs = (store.content as any)?.registries?.npcs ?? {};
+              const handler = store.actions?.effectHandlers?.unlockNPC;
+              if (handler) {
+                for (const npcId of Object.keys(npcs)) {
+                  if (!store.unlockedNPCs.includes(npcId as any)) {
+                    handler(store, { type: 'unlockNPC', id: npcId } as any);
+                  }
+                }
+              }
+              break;
+            }
+            case 'setView':
+              if (cmd.view) store.view = cmd.view;
+              break;
+            case 'completeDemo':
+              store.demoCompleted = true;
+              (store.flags as Record<string, boolean>)['unlocked-library'] = true;
+              store.pipeline?.invalidateCache?.();
+              break;
+            case 'resetSave':
+              localStorage.removeItem('wings_save');
+              localStorage.removeItem('hasSave');
+              window.location.reload();
+              return; // skip the save trigger
           }
           store.bus?.emit?.(store.EVENTS.SAVE_REQUESTED);
         } catch (err) {

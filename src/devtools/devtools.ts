@@ -162,6 +162,9 @@ function renderDetail() {
 }
 
 function renderCheatsPanel(): string {
+  const buffs = Object.values(BUFF_REGISTRY);
+  const npcs = Object.values({ ...NPC_REGISTRY, ...vandaraNPCs });
+
   return `
     <div class="detail-header">
       <h2>Cheats &amp; Spawn helpers</h2>
@@ -191,6 +194,41 @@ function renderCheatsPanel(): string {
         <button data-cheat="setFlag" data-flag="ability-arcane-focus" data-value="true">Unlock Arcane Focus</button>
         <button data-cheat="setFlag" data-flag="school_unlocked" data-value="true">Unlock School</button>
         <button data-cheat="setFlag" data-flag="vandara_unlocked" data-value="true">Unlock Vandara</button>
+        <button data-cheat="setFlag" data-flag="academy_phase_1" data-value="true">Academy Phase 1</button>
+        <button data-cheat="setFlag" data-flag="academy_phase_2" data-value="true">Academy Phase 2</button>
+        <button data-cheat="setFlag" data-flag="academy_graduate" data-value="true">Academy Graduate</button>
+      </section>
+
+      <section>
+        <h3>Activate buff</h3>
+        ${buffs.map((b) => `<button data-cheat="addBuff" data-buffid="${b.id}">${b.id} (${b.duration}s)</button>`).join('')}
+      </section>
+
+      <section>
+        <h3>NPCs</h3>
+        <button data-cheat="unlockAllNPCs">Unlock ALL NPCs</button>
+        ${npcs
+          .slice(0, 12)
+          .map((n: any) => `<button data-cheat="unlockNPC" data-npcid="${n.id}">Unlock ${n.id}</button>`)
+          .join('')}
+      </section>
+
+      <section>
+        <h3>Jump to view</h3>
+        <button data-cheat="setView" data-view="main">main</button>
+        <button data-cheat="setView" data-view="crafting">crafting</button>
+        <button data-cheat="setView" data-view="upgrades">upgrades</button>
+        <button data-cheat="setView" data-view="village">village</button>
+        <button data-cheat="setView" data-view="housing">housing</button>
+        <button data-cheat="setView" data-view="collection">collection</button>
+        <button data-cheat="setView" data-view="finale">finale</button>
+        <button data-cheat="setView" data-view="menu">menu</button>
+      </section>
+
+      <section>
+        <h3>Demo / save management</h3>
+        <button data-cheat="completeDemo">Mark demo as completed</button>
+        <button data-cheat="resetSave" class="danger">Wipe save &amp; reload</button>
       </section>
 
       <section>
@@ -215,9 +253,22 @@ function wireCheatsHandlers(): void {
     btn.onclick = () => {
       const cheat = btn.getAttribute('data-cheat')!;
       const cmd: Record<string, unknown> = { type: cheat };
-      for (const attr of ['resource', 'stat', 'flag', 'amount', 'value']) {
+      // dataset attribute → command field name (HTML lowercases data-*)
+      const attrMap: Record<string, string> = {
+        resource: 'resource',
+        stat: 'stat',
+        flag: 'flag',
+        amount: 'amount',
+        value: 'value',
+        buffid: 'buffId',
+        npcid: 'npcId',
+        view: 'view',
+      };
+      for (const [attr, field] of Object.entries(attrMap)) {
         const v = btn.getAttribute('data-' + attr);
-        if (v !== null) cmd[attr] = attr === 'amount' ? Number(v) : attr === 'value' ? v === 'true' : v;
+        if (v !== null) {
+          cmd[field] = field === 'amount' ? Number(v) : field === 'value' ? v === 'true' : v;
+        }
       }
       sendCheat(cmd);
       flashButton(btn);
