@@ -13,6 +13,16 @@ const __dirname = path.dirname(__filename);
 let mainWindow: BrowserWindow | null;
 let devtoolsWindow: BrowserWindow | null = null;
 
+// Resolve the compiled preload location.
+// In dev, main.ts runs from src/electron/ via tsx; preload.js is built into
+// dist_electron/. In a packaged build, both files live next to each other in
+// dist_electron/. Existence check picks whichever is current.
+const resolvePreloadPath = (): string => {
+  const sibling = path.join(__dirname, 'preload.js');
+  if (fs.existsSync(sibling)) return sibling;
+  return path.join(__dirname, '..', '..', 'dist_electron', 'preload.js');
+};
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1920,
@@ -27,7 +37,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: resolvePreloadPath(),
     },
     backgroundColor: '#0f172a',
   });
@@ -210,7 +220,7 @@ ipcMain.on(IpcChannel.OPEN_DEVTOOLS, () => {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: resolvePreloadPath(),
     },
   });
   if (process.env.NODE_ENV === 'development') {
