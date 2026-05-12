@@ -422,34 +422,40 @@ and achievements are reserved but not yet exposed.
 ### Phase 4 — Dev Tools
 
 A second Electron window dedicated to content authoring & inspection.
+**See [`docs/DEVTOOLS.md`](DEVTOOLS.md) for the user-facing guide.**
 
-#### Built (May 2026 — MVP)
+#### Built (May 2026)
 
-- `devtools.html` — separate Vite entry, dark-themed standalone page.
-- `src/devtools/devtools.ts` — Alpine-free renderer. Loads
-  `ACTION_REGISTRY_GENERATED` from the YAML build, lists 78 actions
-  grouped by category (14 categories), live search filter, click on a
-  row → YAML preview + stat cards (cost, duration, yields, producer
-  config).
+**MVP (Iter 1):**
+- `devtools.html` + `src/devtools/devtools.ts` — separate Vite entry,
+  Alpine-free renderer.
 - `src/electron/main.ts` — opens a second `BrowserWindow` on demand
-  (1280×800, focuses if already open). Loads `/devtools.html` from
-  vite in dev, or `dist/devtools.html` in production.
+  (1280×800, focuses if already open).
 - IPC: `OPEN_DEVTOOLS` channel + `electronAPI.openDevtools()` shim.
-- Header button 🛠️ in the main game (only rendered when
-  `window.electronAPI.openDevtools` exists, so dev-only / Electron-only).
+- Header button 🛠️ in the main game (only when `electronAPI.openDevtools`
+  exists, i.e. Electron only).
+
+**Iter 2:**
+- Tabs for every registry: Actions / Items / NPCs / Modifiers / Buffs /
+  Cheats. Each tab lists its registry grouped by category, search
+  filter, click → YAML preview + stat cards.
+- **Cheats panel** — talks to the running game via the
+  `mw-devtools` BroadcastChannel. Buttons for: max all stats,
+  +energy/magic/satiation, common resources, common flag unlocks,
+  custom-resource form. Listener in `src/main.ts` handles
+  `applyCheats / addResource / addStat / setFlag` commands.
 
 #### Still to do
 
-- **Editing:** today the view is read-only. Next iteration: form-based
-  editor for action fields, write-back to `content/actions/*.yaml`,
-  trigger `npm run build:content`, vite hot-reloads main game.
-- **Other entity types:** items, NPCs, modifiers, milestones — same
-  pattern, separate panels.
-- **Spawn / cheat helpers:** "give me 100 wood", "unlock all flags",
-  jump to a specific story step — all useful for testing without
-  having to grind in-game.
+- **Editing:** read-only today. Next iter: form-based editor for fields,
+  write-back to `content/*.yaml`, trigger `npm run build:content`,
+  vite hot-reloads main game.
 - **Validation panel:** surface `npm run check-all` output inside the
   window instead of requiring a CLI run.
+- **More cheats:** activate buffs, unlock NPCs, jump to story phases,
+  "complete demo" shortcut.
+- **Modifier visualisation:** which modifiers affect which calculation,
+  rendered as a tree.
 
 ---
 
@@ -498,7 +504,7 @@ A second Electron window dedicated to content authoring & inspection.
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
 | Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services container, command queue, feature-logic decoupling, HTML migration, 112 safety-net tests, UISync impl + engine `services.gameState` plumbing all done. Real plain-state separation (Step 8 Stage 2) deferred — needs every state-mutating call site migrated first. |
 | Phase 3 — SQLite Saves | 🟢 Functional (sql.js) | v2.2.0 | DB layer (sql.js/WASM), IPC, dual-write save, async SQLite-first load — runnable in Electron without native rebuild. Save-slots UI + achievements/history tables deferred. |
-| Phase 4 — Dev Tools | 🟡 MVP shipped | v2.3.0+ | Second Electron window — read-only content browser (78 actions, search, YAML preview). Editing / write-back / other entity types in follow-up iterations. |
+| Phase 4 — Dev Tools | 🟢 Iter 2 shipped | v2.3.0+ | Tabs for all registries (Actions/Items/NPCs/Modifiers/Buffs) + live Cheats panel via BroadcastChannel. User guide: [DEVTOOLS.md](DEVTOOLS.md). Editing / write-back in next iter. |
 
 ### Known Pre-Existing Issues (not introduced by Phase 1)
 ✅ Alle bekannten TypeScript-Fehler in `main.ts`, `background.ts` und `state.ts` (die vor Phase 1 existierten) wurden erfolgreich behoben und die Typen für den `GameState` korrigiert.
