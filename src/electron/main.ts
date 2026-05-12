@@ -35,6 +35,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      sandbox: false, // preload uses relative require('./ipc.js')
       preload: resolvePreloadPath(),
     },
     backgroundColor: '#0f172a',
@@ -218,6 +219,7 @@ ipcMain.on(IpcChannel.OPEN_DEVTOOLS, () => {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      sandbox: false, // preload uses relative require('./ipc.js')
       preload: resolvePreloadPath(),
     },
   });
