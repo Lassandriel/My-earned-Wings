@@ -1,5 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
+import fs from 'fs';
+import { spawn } from 'child_process';
+import yaml from 'js-yaml';
 import { fileURLToPath } from 'url';
 import { IpcChannel, SaveSlotPayload } from './ipc.js';
 import { saveSlot, loadSlot, listSlots, deleteSlot, close as closeDb } from './db.js';
@@ -99,6 +102,96 @@ ipcMain.handle(IpcChannel.DB_LOAD, async (_event, slot: number) => {
 ipcMain.handle(IpcChannel.DB_LIST, async () => listSlots());
 
 ipcMain.handle(IpcChannel.DB_DELETE, async (_event, slot: number): Promise<boolean> => deleteSlot(slot));
+
+// --- Phase 4 Iter 3: content authoring (read/write content/*.yaml) ---
+
+/**
+ * Project root resolves differently in dev (running from src) vs packaged.
+ * In dev, app.getAppPath() returns the project root. In packaged, it
+ * points inside app.asar — content/ files would not be writable. We
+ * limit content authoring to dev mode.
+ */
+const projectRoot = (): string => app.getAppPath();
+const isContentAuthoringAllowed = () => process.env.NODE_ENV === 'development';
+
+const findActionFile = (id: string): string | null => {
+  const contentDir = path.join(projectRoot(), 'content', 'actions');
+  if (!fs.existsSync(contentDir)) return null;
+  for (const file of fs.readdirSync(contentDir)) {
+    if (!file.endsWith('.yaml')) continue;
+    const full = path.join(contentDir, file);
+    try {
+      const text = fs.readFileSync(full, 'utf8');
+      const parsed = yaml.load(text) as Record<string, any> | null;
+      if (parsed && typeof parsed === 'object' && id in parsed) {
+        return path.join('content', 'actions', file); // return relative
+      }
+    } catch {
+      // ignore unreadable file
+    }
+  }
+  return null;
+};
+
+ipcMain.handle(IpcChannel.CONTENT_FIND, async (_event, entityType: string, id: string): Promise<string | null> => {
+  if (entityType !== 'actions') return null;
+  return findActionFile(id);
+});
+
+ipcMain.handle(IpcChannel.CONTENT_READ, async (_event, relativePath: string): Promise<string | null> => {
+  if (!isContentAuthoringAllowed()) return null;
+  const safe = path.normalize(relativePath).replace(/^([./\\]+)/, '');
+  if (!safe.startsWith('content' + path.sep) && !safe.startsWith('content/')) return null;
+  const full = path.join(projectRoot(), safe);
+  try {
+    return fs.readFileSync(full, 'utf8');
+  } catch (err) {
+    console.error('[CONTENT_READ] failed:', err);
+    return null;
+  }
+});
+
+ipcMain.handle(IpcChannel.CONTENT_WRITE_ACTION, async (
+  _event,
+  id: string,
+  patch: Record<string, unknown>,
+): Promise<{ ok: boolean; error?: string }> => {
+  if (!isContentAuthoringAllowed()) return { ok: false, error: 'Content authoring is dev-mode only.' };
+  const rel = findActionFile(id);
+  if (!rel) return { ok: false, error: `Action '${id}' not found in content/actions/*.yaml` };
+  const full = path.join(projectRoot(), rel);
+  try {
+    const text = fs.readFileSync(full, 'utf8');
+    const parsed = yaml.load(text) as Record<string, any>;
+    if (!parsed || typeof parsed !== 'object' || !(id in parsed)) {
+      return { ok: false, error: `'${id}' missing from ${rel} (file changed?)` };
+    }
+    // Apply patch — caller decides which fields to overwrite
+    parsed[id] = { ...parsed[id], ...patch };
+    const newText = yaml.dump(parsed, { lineWidth: 100, sortKeys: false, noRefs: true });
+    // Validate by re-parsing the dumped output
+    yaml.load(newText);
+    fs.writeFileSync(full, newText, 'utf8');
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: (err as Error).message };
+  }
+});
+
+ipcMain.handle(IpcChannel.CONTENT_BUILD, async (): Promise<{ ok: boolean; output: string }> => {
+  if (!isContentAuthoringAllowed()) return { ok: false, output: 'dev-only' };
+  return new Promise((resolve) => {
+    const child = spawn('npm.cmd', ['run', 'build:content'], {
+      cwd: projectRoot(),
+      shell: false,
+    });
+    let out = '';
+    child.stdout.on('data', (d) => (out += d.toString()));
+    child.stderr.on('data', (d) => (out += d.toString()));
+    child.on('close', (code) => resolve({ ok: code === 0, output: out }));
+    child.on('error', (err) => resolve({ ok: false, output: err.message }));
+  });
+});
 
 // --- Phase 4: Dev tools window ---
 ipcMain.on(IpcChannel.OPEN_DEVTOOLS, () => {

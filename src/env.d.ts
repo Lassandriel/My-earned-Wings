@@ -38,6 +38,12 @@ declare global {
 
       // Phase 4: Dev tools
       openDevtools: () => void;
+
+      // Phase 4 Iter 3: content authoring
+      contentFind: (entityType: string, id: string) => Promise<string | null>;
+      contentRead: (relativePath: string) => Promise<string | null>;
+      contentWriteAction: (id: string, patch: Record<string, unknown>) => Promise<{ ok: boolean; error?: string }>;
+      contentBuild: () => Promise<{ ok: boolean; output: string }>;
     };
     Alpine: AlpineType;
     TRANSLATIONS: import('./types/i18n').Translations;

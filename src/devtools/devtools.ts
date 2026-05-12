@@ -51,6 +51,11 @@ const TAB_NAMES = [...Object.keys(REGISTRIES), 'Cheats'];
 let activeTab = TAB_NAMES[0];
 let activeId: string | null = null;
 let filter = '';
+let editMode = false;
+let editStatus = '';
+
+// API shim: only available when running inside Electron with our preload.
+const api: any = (window as any).electronAPI || null;
 
 // --- Rendering ---
 function renderTabs() {
@@ -151,14 +156,119 @@ function renderDetail() {
 
   const yamlText = yaml.dump(entity, { lineWidth: 80, sortKeys: false });
 
+  const editableHere = activeTab === 'Actions' && api?.contentWriteAction;
+  const editButton = editableHere
+    ? `<button id="edit-toggle" class="edit-btn">${editMode ? '✕ Cancel' : '✎ Edit'}</button>`
+    : '';
+
+  const editorHtml = editMode && editableHere ? renderEditor(entity) : '';
+
   main.innerHTML = `
     <div class="detail-header">
-      <h2>${entity.id}</h2>
+      <h2>${entity.id} ${editButton}</h2>
       <div class="id">category: ${entity.category || '—'} · type: ${activeTab}</div>
     </div>
     ${stats.length ? `<div class="stats-grid">${stats.join('')}</div>` : ''}
+    ${editorHtml}
     <pre class="yaml">${escapeHtml(yamlText)}</pre>
   `;
+
+  if (editableHere) {
+    document.getElementById('edit-toggle')!.onclick = () => {
+      editMode = !editMode;
+      editStatus = '';
+      render();
+    };
+  }
+  if (editMode && editableHere) wireEditorHandlers(entity);
+}
+
+function renderEditor(entity: Entity): string {
+  const cost = entity.cost ?? '';
+  const costType = entity.costType ?? '';
+  const duration = entity.duration ?? '';
+  const category = entity.category ?? '';
+  const yieldType = entity.yieldType ?? '';
+
+  return `
+    <div class="editor">
+      <h3>Edit (writes back to YAML)</h3>
+      <div class="form">
+        <label>category <input id="ed-category" value="${escapeAttr(String(category))}" /></label>
+        <label>cost <input id="ed-cost" type="number" value="${cost === '' ? '' : Number(cost)}" /></label>
+        <label>costType <input id="ed-costType" value="${escapeAttr(String(costType))}" /></label>
+        <label>duration (ms) <input id="ed-duration" type="number" value="${duration === '' ? '' : Number(duration)}" /></label>
+        <label>yieldType <input id="ed-yieldType" value="${escapeAttr(String(yieldType))}" /></label>
+      </div>
+      <div class="actions">
+        <button id="save-only">Save YAML only</button>
+        <button id="save-and-build">Save &amp; rebuild</button>
+        <span class="status">${escapeHtml(editStatus)}</span>
+      </div>
+      <p class="hint">⚠️ Only top-level scalar fields are exposed. Comments in the YAML
+      file will be stripped by the rewrite (js-yaml limitation). Nested fields
+      (rewards/costs/requirements/onSuccess) keep their existing values.</p>
+    </div>
+  `;
+}
+
+function wireEditorHandlers(entity: Entity): void {
+  const collectPatch = (): Record<string, unknown> => {
+    const patch: Record<string, unknown> = {};
+    const get = (id: string) => (document.getElementById(id) as HTMLInputElement).value;
+    const cat = get('ed-category').trim();
+    if (cat !== String(entity.category ?? '')) patch.category = cat || undefined;
+    const cost = get('ed-cost').trim();
+    if (cost !== String(entity.cost ?? '')) patch.cost = cost === '' ? undefined : Number(cost);
+    const costType = get('ed-costType').trim();
+    if (costType !== String(entity.costType ?? '')) patch.costType = costType || undefined;
+    const dur = get('ed-duration').trim();
+    if (dur !== String(entity.duration ?? '')) patch.duration = dur === '' ? undefined : Number(dur);
+    const yt = get('ed-yieldType').trim();
+    if (yt !== String(entity.yieldType ?? '')) patch.yieldType = yt || undefined;
+    // Strip undefined keys from patch
+    for (const k of Object.keys(patch)) if (patch[k] === undefined) delete patch[k];
+    return patch;
+  };
+
+  const save = async (alsoBuild: boolean) => {
+    if (!api?.contentWriteAction) {
+      editStatus = '✗ Not running in Electron — content write unavailable.';
+      render();
+      return;
+    }
+    const patch = collectPatch();
+    if (Object.keys(patch).length === 0) {
+      editStatus = 'No changes.';
+      render();
+      return;
+    }
+    editStatus = 'Writing…';
+    render();
+    const res = await api.contentWriteAction(entity.id, patch);
+    if (!res.ok) {
+      editStatus = '✗ ' + (res.error || 'unknown error');
+      render();
+      return;
+    }
+    editStatus = `✓ Wrote ${Object.keys(patch).length} field(s).`;
+    if (alsoBuild) {
+      editStatus += ' Building…';
+      render();
+      const build = await api.contentBuild();
+      editStatus = build.ok
+        ? `✓ Wrote and rebuilt — main game will hot-reload.`
+        : `⚠ Wrote but build failed: ${build.output.split('\n').slice(-3).join(' | ')}`;
+    }
+    render();
+  };
+
+  document.getElementById('save-only')!.onclick = () => save(false);
+  document.getElementById('save-and-build')!.onclick = () => save(true);
+}
+
+function escapeAttr(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
 function renderCheatsPanel(): string {

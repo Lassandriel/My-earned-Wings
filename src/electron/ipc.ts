@@ -13,6 +13,11 @@ export const IpcChannel = {
 
   // Phase 4: Dev tools window
   OPEN_DEVTOOLS: 'devtools:open',
+  // Phase 4 Iter 3: content authoring
+  CONTENT_FIND: 'content:find',          // (entityType, id) → file path or null
+  CONTENT_READ: 'content:read',          // (relativePath) → text
+  CONTENT_WRITE_ACTION: 'content:writeAction', // (id, patch) → ok / error
+  CONTENT_BUILD: 'content:build',        // run npm run build:content
 } as const;
 
 export interface SaveSlotPayload {
