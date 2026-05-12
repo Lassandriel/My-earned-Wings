@@ -419,10 +419,37 @@ and achievements are reserved but not yet exposed.
 
 ---
 
-### Phase 4 — Dev Tools (Optional, Long-term)
+### Phase 4 — Dev Tools
 
-A second Electron window (dev mode only) with forms to create new content.  
-Fills in the YAML template, validates it, and shows a preview in the game immediately.
+A second Electron window dedicated to content authoring & inspection.
+
+#### Built (May 2026 — MVP)
+
+- `devtools.html` — separate Vite entry, dark-themed standalone page.
+- `src/devtools/devtools.ts` — Alpine-free renderer. Loads
+  `ACTION_REGISTRY_GENERATED` from the YAML build, lists 78 actions
+  grouped by category (14 categories), live search filter, click on a
+  row → YAML preview + stat cards (cost, duration, yields, producer
+  config).
+- `src/electron/main.ts` — opens a second `BrowserWindow` on demand
+  (1280×800, focuses if already open). Loads `/devtools.html` from
+  vite in dev, or `dist/devtools.html` in production.
+- IPC: `OPEN_DEVTOOLS` channel + `electronAPI.openDevtools()` shim.
+- Header button 🛠️ in the main game (only rendered when
+  `window.electronAPI.openDevtools` exists, so dev-only / Electron-only).
+
+#### Still to do
+
+- **Editing:** today the view is read-only. Next iteration: form-based
+  editor for action fields, write-back to `content/actions/*.yaml`,
+  trigger `npm run build:content`, vite hot-reloads main game.
+- **Other entity types:** items, NPCs, modifiers, milestones — same
+  pattern, separate panels.
+- **Spawn / cheat helpers:** "give me 100 wood", "unlock all flags",
+  jump to a specific story step — all useful for testing without
+  having to grind in-game.
+- **Validation panel:** surface `npm run check-all` output inside the
+  window instead of requiring a CLI run.
 
 ---
 
@@ -471,7 +498,7 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
 | Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services container, command queue, feature-logic decoupling, HTML migration, 112 safety-net tests, UISync impl + engine `services.gameState` plumbing all done. Real plain-state separation (Step 8 Stage 2) deferred — needs every state-mutating call site migrated first. |
 | Phase 3 — SQLite Saves | 🟢 Functional (sql.js) | v2.2.0 | DB layer (sql.js/WASM), IPC, dual-write save, async SQLite-first load — runnable in Electron without native rebuild. Save-slots UI + achievements/history tables deferred. |
-| Phase 4 — Dev Tools | 🔲 Not started | v2.3.0+ | |
+| Phase 4 — Dev Tools | 🟡 MVP shipped | v2.3.0+ | Second Electron window — read-only content browser (78 actions, search, YAML preview). Editing / write-back / other entity types in follow-up iterations. |
 
 ### Known Pre-Existing Issues (not introduced by Phase 1)
 ✅ Alle bekannten TypeScript-Fehler in `main.ts`, `background.ts` und `state.ts` (die vor Phase 1 existierten) wurden erfolgreich behoben und die Typen für den `GameState` korrigiert.
@@ -479,11 +506,10 @@ Fills in the YAML template, validates it, and shows a preview in the game immedi
 ---
 
 *Created: 10 May 2026 · Author: Antigravity (architectural analysis session)*
-*Last Updated: 11 May 2026 · Phases 1–3 all green or Stage-1 done.
-Phase 1 cleanup landed (12 dead TS data files removed, 2 orphan i18n
-keys gone). Phase 2 Step 8 Stage 1 in place (engine reads via
-`services.gameState`); Stage 2 attempted then parked until feature
-logics stop writing directly to Alpine. Phase 3 functional via
-`sql.js` (no native rebuild). 224 tests green; both build paths
-clean; `npm run check-all` reports zero warnings.*
+*Last Updated: 11 May 2026 · All four phases now have something
+shipped. Phase 1 ✅ complete. Phase 2 architecturally complete with
+Step 8 Stage 1 wiring; Stage 2 parked. Phase 3 functional via
+`sql.js`. Phase 4 MVP shipped — second Electron window listing all
+78 actions with YAML preview, ready to grow into a full content
+editor. 224 tests green; both build paths clean.*
 *This document should be updated as each phase completes.*
