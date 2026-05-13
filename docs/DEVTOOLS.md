@@ -33,9 +33,11 @@ Falls du das Dev-Tools-Fenster schließt, öffnet ein erneuter Klick auf 🛠️
 | **Actions** | Alle 78+ Aktionen (Sammeln, Bauen, Quests, Story-Beats). Aus YAML-Build + TypeScript-Specials zusammengeführt. |
 | **Items** | Crafting-Items, Möbel, Verbrauchsgegenstände aus `items.data.ts`. |
 | **NPCs** | Dorfbewohner + Vandara-NPCs aus den Village/Vandara Registries. |
-| **Modifiers** | Pipeline-Modifier (Buffs auf Yields/Costs/Limits) aus YAML. |
+| **Modifiers** | Pipeline-Modifier (Calculation-Keys mit Base-Wert) aus YAML. |
 | **Buffs** | Aktive Effekte aus `buffs.ts` (Definitionen, nicht laufende Buffs). |
 | **Cheats** | Live-Befehle ans Hauptspiel. Siehe unten. |
+| **Validation** | `npm run check-all` direkt im Fenster ausführen. Siehe unten. |
+| **Modifier Tree** | Welche Quellen (Buffs/Items/Homes) wirken auf welchen Calculation-Key. |
 
 ### Suchen
 
@@ -121,6 +123,38 @@ Zwei Save-Buttons:
 4. „Save & rebuild" → Status zeigt „✓ Wrote and rebuilt"
 5. Hauptspiel: chop_wood Tooltip zeigt jetzt „Cost: 8 Energy" — ohne Game-Reload
 
+## Validation-Tab (Iter 5)
+
+Klick auf **„▶ Run check-all"** → führt `npm run check-all` im Projekt-Root aus, Output landet direkt im Panel. Zeilen werden eingefärbt:
+
+- 🔴 rot bei `✗` / `error` / `FAIL` / `fehlt`
+- 🟡 gelb bei `⚠` / `warn`
+- 🟢 grün bei `✓` / `OK` / `PASS` / `perfect`
+
+Macht den Wechsel zwischen Game-Window und Terminal überflüssig wenn du Inhalt änderst und schnell prüfen willst ob alles noch konsistent ist.
+
+---
+
+## Modifier-Tree-Tab (Iter 6)
+
+Sidebar listet alle 49 Calculation-Keys (z.B. `wood_yield`, `magic_regen_passive`, `arcane_focus_cost`, alle `*_limit` Keys). Hinter jedem steht in Klammern die Anzahl der Quellen die ihn modifizieren.
+
+Klick auf einen Key → rechts:
+
+- **Base value** (aus `MODIFIER_REGISTRY_GENERATED`)
+- **Buffs** Liste mit `+X` / `×Y` Operationen
+- **Items** Liste mit Kategorie + Operation
+- **Homes** Liste
+
+Beispiel `wood_yield`:
+- Base: 3
+- Buffs: `buff-harvest +1`
+- Items: `item-walking-stick +1`, `item-axe ×2`, `item-cart-reinforced +1`
+
+Praktisch fürs Balancing: „warum ist mein Holz-Yield plötzlich so hoch?" → Modifier-Tree → alles sichtbar.
+
+---
+
 ## Wofür benutze ich das im Alltag?
 
 ### Beispiel-Workflows
@@ -150,8 +184,8 @@ Zwei Save-Buttons:
 | ✅ Iter 2 | Tabs für alle Entity-Typen, Cheats-Panel |
 | ✅ Iter 3 | **Editier-Modus** für Action-Top-Level-Felder + Auto-Rebuild |
 | ✅ Iter 4 | Mehr Cheats (Buffs, NPCs, View, Demo, Save wipen) |
-| 🟡 Iter 5 | Integrierter `npm run check-all` — Validierungs-Output direkt im Fenster statt im Terminal |
-| 🟡 Iter 6 | Modifier-Visualisierung: welche Modifier betreffen welche Berechnung, in einer Baum-Ansicht |
+| ✅ Iter 5 | Validation-Panel (`npm run check-all` im Fenster) |
+| ✅ Iter 6 | Modifier-Tree (welche Quellen wirken auf welchen Calculation-Key) |
 | 🟡 Iter 7 | Editor erweitern: nested fields (rewards/costs/requirements), Items + NPCs editierbar, Translations bearbeiten |
 
 ***
