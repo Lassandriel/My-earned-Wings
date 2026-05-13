@@ -94,13 +94,18 @@ Wenn der Channel nicht funktioniert (z.B. weil das Spiel-Fenster nicht offen ist
 
 ## Editor-Modus (Iter 3)
 
-Auf dem **Actions-Tab** erscheint im Detail-Header ein **„✎ Edit"** Button. Drauf klicken → Form mit den Top-Level-Scalar-Feldern erscheint:
+Auf dem **Actions-Tab** erscheint im Detail-Header ein **„✎ Edit"** Button. Drauf klicken → Form mit den Top-Level-Scalar-Feldern und zwei dynamischen Listen erscheint:
 
+**Top-Level-Scalars** (Iter 3):
 - `category`
 - `cost`
 - `costType`
 - `duration` (in ms)
 - `yieldType`
+
+**Nested Listen** (Iter 7):
+- **Rewards**: Tabelle mit Resource-ID + Anzahl. „+ add reward" macht eine neue Zeile, „✕" entfernt eine. Numerische Werte werden Zahlen; Strings (z.B. Pipeline-Keys wie `wood_yield`) bleiben Strings.
+- **Costs (multi-resource)**: gleiche Mechanik. Hier kannst du beliebig viele Kosten-Resourcen kombinieren statt nur einen einzigen `cost`/`costType`.
 
 Zwei Save-Buttons:
 
@@ -111,8 +116,10 @@ Zwei Save-Buttons:
 
 - **Nur in Electron-Mode** verfügbar. In der Browser-Vorschau (vite ohne Electron) erscheint der Edit-Button nicht.
 - **Kommentare in der YAML werden gestrippt** (Limitation von `js-yaml`). Falls du wichtige Kommentare hast — vor dem Editieren committen.
-- **Verschachtelte Felder** (`rewards`, `costs`, `requirements`, `onSuccess`) werden NICHT exposed. Nur Top-Level-Scalars. Komplexere Edits weiterhin direkt in der YAML.
-- **Patch-only**: nur Felder die du tatsächlich änderst werden geschrieben. Andere Felder bleiben wie sie sind.
+- **Requirements + onSuccess** sind weiterhin nicht im Editor — komplexere verschachtelte Strukturen brauchen direkten YAML-Edit.
+- **Items / NPCs / Translations** sind aktuell nicht editierbar im Tool — die Files liegen in TypeScript (nicht YAML), das wäre ein eigener Migrations-Schritt.
+- **Patch-only**: nur Felder die du tatsächlich änderst werden geschrieben. Andere Felder bleiben byte-identisch.
+- **Komplettes Entfernen einer Liste** (alle Rewards/Costs auf null setzen) geht aktuell nicht über das UI — entferne dann manuell die Zeile im YAML.
 - Vor dem Schreiben wird die neue YAML re-parsed → bei kaputtem Output kein Save (Original bleibt).
 
 ### Beispiel-Workflow
@@ -186,7 +193,8 @@ Praktisch fürs Balancing: „warum ist mein Holz-Yield plötzlich so hoch?" →
 | ✅ Iter 4 | Mehr Cheats (Buffs, NPCs, View, Demo, Save wipen) |
 | ✅ Iter 5 | Validation-Panel (`npm run check-all` im Fenster) |
 | ✅ Iter 6 | Modifier-Tree (welche Quellen wirken auf welchen Calculation-Key) |
-| 🟡 Iter 7 | Editor erweitern: nested fields (rewards/costs/requirements), Items + NPCs editierbar, Translations bearbeiten |
+| 🟢 Iter 7a | Nested Editor: rewards + costs als dynamische Listen |
+| 🟡 Iter 7b | requirements + onSuccess für Actions; Items / NPCs / Translations editieren — diese leben noch in TS, brauchen YAML-Migration zuerst |
 
 ***
 

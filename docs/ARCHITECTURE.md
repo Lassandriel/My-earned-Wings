@@ -504,7 +504,7 @@ A second Electron window dedicated to content authoring & inspection.
 | Phase 1 — YAML Pipeline | ✅ Complete | v2.0.0 | Resources, Modifiers, Actions migrated |
 | Phase 2 — ECS Engine | 🟢 Architecturally complete | v2.1.0 | Subsystems, services container, command queue, feature-logic decoupling, HTML migration, 112 safety-net tests, UISync impl + engine `services.gameState` plumbing all done. Real plain-state separation (Step 8 Stage 2) deferred — needs every state-mutating call site migrated first. |
 | Phase 3 — SQLite Saves | 🟢 Functional (sql.js) | v2.2.0 | DB layer (sql.js/WASM), IPC, dual-write save, async SQLite-first load — runnable in Electron without native rebuild. Save-slots UI + achievements/history tables deferred. |
-| Phase 4 — Dev Tools | 🟢 Iter 3–6 shipped | v2.3.0+ | Tabs + Cheats + action YAML editor + **integrated check-all validation** + **modifier tree** showing which buffs/items/homes affect each calculation key. User guide: [DEVTOOLS.md](DEVTOOLS.md). Remaining: nested-field editor, Items/NPCs editing, Translations editing (Iter 7). |
+| Phase 4 — Dev Tools | 🟢 Iter 3–7a shipped | v2.3.0+ | Tabs + Cheats + action YAML editor (incl. **nested rewards/costs lists** as of Iter 7a) + integrated check-all validation + modifier tree. User guide: [DEVTOOLS.md](DEVTOOLS.md). Iter 7b (requirements/onSuccess + Items/NPCs/Translations editing) needs the underlying entities migrated to YAML first. |
 
 ### Known Pre-Existing Issues (not introduced by Phase 1)
 ✅ Alle bekannten TypeScript-Fehler in `main.ts`, `background.ts` und `state.ts` (die vor Phase 1 existierten) wurden erfolgreich behoben und die Typen für den `GameState` korrigiert.
