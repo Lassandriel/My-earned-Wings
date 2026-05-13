@@ -390,6 +390,48 @@
         border-radius: 3px;
       }
       .mod-op { color: var(--accent); font-family: 'Inter', monospace; font-weight: 600; }
+
+      /* Editor — nested rewards/costs */
+      .editor h3 + .kv-list,
+      .editor h3 + .form { margin-top: 8px; }
+      .kv-list { margin: 0 0 8px; }
+      .kv-row {
+        display: grid;
+        grid-template-columns: 1fr 120px 32px;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .kv-row input {
+        padding: 6px 8px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-family: 'Inter', monospace;
+        font-size: 12px;
+      }
+      .kv-del {
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text-dim);
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .kv-del:hover { background: #7f1d1d; color: #fecaca; border-color: #b91c1c; }
+      .kv-add {
+        padding: 6px 12px;
+        background: transparent;
+        border: 1px dashed var(--border);
+        border-radius: 4px;
+        color: var(--text-dim);
+        font-family: inherit;
+        font-size: 12px;
+        cursor: pointer;
+        margin-bottom: 8px;
+      }
+      .kv-add:hover { color: var(--accent); border-color: var(--accent); }
+      .kv-empty { color: var(--text-dim); font-style: italic; font-size: 12px; margin: 4px 0; }
     </style>
   </head>
   <body>

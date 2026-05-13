@@ -265,10 +265,27 @@ function renderEditor(entity: Entity): string {
   const duration = entity.duration ?? '';
   const category = entity.category ?? '';
   const yieldType = entity.yieldType ?? '';
+  const rewards = (entity.rewards as Record<string, number | string>) || {};
+  const costs = (entity.costs as Record<string, number>) || {};
+
+  const renderKVRows = (prefix: string, obj: Record<string, number | string>): string => {
+    const entries = Object.entries(obj);
+    if (entries.length === 0) return `<p class="kv-empty">no entries</p>`;
+    return entries
+      .map(
+        ([k, v], i) => `
+        <div class="kv-row" data-prefix="${prefix}" data-index="${i}">
+          <input class="kv-key" value="${escapeAttr(k)}" placeholder="resource id" />
+          <input class="kv-val" value="${escapeAttr(String(v))}" placeholder="amount" />
+          <button class="kv-del" type="button" title="remove">✕</button>
+        </div>`,
+      )
+      .join('');
+  };
 
   return `
     <div class="editor">
-      <h3>Edit (writes back to YAML)</h3>
+      <h3>Edit — top-level fields</h3>
       <div class="form">
         <label>category <input id="ed-category" value="${escapeAttr(String(category))}" /></label>
         <label>cost <input id="ed-cost" type="number" value="${cost === '' ? '' : Number(cost)}" /></label>
@@ -276,19 +293,84 @@ function renderEditor(entity: Entity): string {
         <label>duration (ms) <input id="ed-duration" type="number" value="${duration === '' ? '' : Number(duration)}" /></label>
         <label>yieldType <input id="ed-yieldType" value="${escapeAttr(String(yieldType))}" /></label>
       </div>
+
+      <h3>Rewards</h3>
+      <div class="kv-list" id="kv-rewards">${renderKVRows('rewards', rewards)}</div>
+      <button class="kv-add" data-prefix="rewards" type="button">+ add reward</button>
+
+      <h3>Costs (multi-resource)</h3>
+      <div class="kv-list" id="kv-costs">${renderKVRows('costs', costs as any)}</div>
+      <button class="kv-add" data-prefix="costs" type="button">+ add cost</button>
+
       <div class="actions">
         <button id="save-only">Save YAML only</button>
         <button id="save-and-build">Save &amp; rebuild</button>
         <span class="status">${escapeHtml(editStatus)}</span>
       </div>
-      <p class="hint">⚠️ Only top-level scalar fields are exposed. Comments in the YAML
-      file will be stripped by the rewrite (js-yaml limitation). Nested fields
-      (rewards/costs/requirements/onSuccess) keep their existing values.</p>
+      <p class="hint">⚠️ Comments in the YAML file are stripped on save (js-yaml limit).
+      Requirements + onSuccess effects still need direct YAML edits.
+      Numeric reward values become numbers; pipeline-key strings (e.g. <code>wood_yield</code>) stay strings.</p>
     </div>
   `;
 }
 
 function wireEditorHandlers(entity: Entity): void {
+  // KV add buttons
+  document.querySelectorAll<HTMLButtonElement>('.kv-add').forEach((btn) => {
+    btn.onclick = () => {
+      const prefix = btn.getAttribute('data-prefix')!;
+      const list = document.getElementById('kv-' + prefix)!;
+      // Drop the empty placeholder if present
+      const empty = list.querySelector('.kv-empty');
+      if (empty) empty.remove();
+      const row = document.createElement('div');
+      row.className = 'kv-row';
+      row.setAttribute('data-prefix', prefix);
+      row.innerHTML = `
+        <input class="kv-key" value="" placeholder="resource id" />
+        <input class="kv-val" value="" placeholder="amount" />
+        <button class="kv-del" type="button" title="remove">✕</button>`;
+      list.appendChild(row);
+      wireKVDelete(row);
+    };
+  });
+
+  // KV delete buttons (existing rows)
+  document.querySelectorAll<HTMLDivElement>('.kv-row').forEach(wireKVDelete);
+
+  function wireKVDelete(row: HTMLElement) {
+    const del = row.querySelector('.kv-del') as HTMLButtonElement | null;
+    if (del) del.onclick = () => row.remove();
+  }
+
+  const collectKV = (prefix: string, numericValues: boolean): Record<string, number | string> | undefined => {
+    const rows = document.querySelectorAll<HTMLDivElement>(`.kv-row[data-prefix="${prefix}"]`);
+    const out: Record<string, number | string> = {};
+    rows.forEach((row) => {
+      const k = (row.querySelector('.kv-key') as HTMLInputElement).value.trim();
+      const vRaw = (row.querySelector('.kv-val') as HTMLInputElement).value.trim();
+      if (!k || !vRaw) return;
+      if (numericValues) {
+        const n = Number(vRaw);
+        out[k] = Number.isFinite(n) ? n : vRaw; // fall through to string for pipeline keys
+      } else {
+        out[k] = vRaw;
+      }
+    });
+    return Object.keys(out).length ? out : undefined;
+  };
+
+  const objectsEqual = (a: Record<string, unknown>, b: Record<string, unknown>): boolean => {
+    const ka = Object.keys(a).sort();
+    const kb = Object.keys(b).sort();
+    if (ka.length !== kb.length) return false;
+    for (let i = 0; i < ka.length; i++) {
+      if (ka[i] !== kb[i]) return false;
+      if (a[ka[i]] !== b[kb[i]]) return false;
+    }
+    return true;
+  };
+
   const collectPatch = (): Record<string, unknown> => {
     const patch: Record<string, unknown> = {};
     const get = (id: string) => (document.getElementById(id) as HTMLInputElement).value;
@@ -302,6 +384,19 @@ function wireEditorHandlers(entity: Entity): void {
     if (dur !== String(entity.duration ?? '')) patch.duration = dur === '' ? undefined : Number(dur);
     const yt = get('ed-yieldType').trim();
     if (yt !== String(entity.yieldType ?? '')) patch.yieldType = yt || undefined;
+
+    // Nested fields — only patch when they actually changed
+    const newRewards = collectKV('rewards', true) || {};
+    const oldRewards = (entity.rewards as Record<string, unknown>) || {};
+    if (!objectsEqual(newRewards, oldRewards)) {
+      patch.rewards = Object.keys(newRewards).length ? newRewards : undefined;
+    }
+    const newCosts = collectKV('costs', true) || {};
+    const oldCosts = (entity.costs as Record<string, unknown>) || {};
+    if (!objectsEqual(newCosts, oldCosts)) {
+      patch.costs = Object.keys(newCosts).length ? newCosts : undefined;
+    }
+
     // Strip undefined keys from patch
     for (const k of Object.keys(patch)) if (patch[k] === undefined) delete patch[k];
     return patch;
