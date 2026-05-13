@@ -18,6 +18,7 @@ export const IpcChannel = {
   CONTENT_READ: 'content:read',          // (relativePath) → text
   CONTENT_WRITE_ACTION: 'content:writeAction', // (id, patch) → ok / error
   CONTENT_BUILD: 'content:build',        // run npm run build:content
+  CONTENT_VALIDATE: 'content:validate',  // run npm run check-all
 } as const;
 
 export interface SaveSlotPayload {

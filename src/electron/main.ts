@@ -187,19 +187,24 @@ ipcMain.handle(IpcChannel.CONTENT_WRITE_ACTION, async (
   }
 });
 
-ipcMain.handle(IpcChannel.CONTENT_BUILD, async (): Promise<{ ok: boolean; output: string }> => {
-  if (!isContentAuthoringAllowed()) return { ok: false, output: 'dev-only' };
-  return new Promise((resolve) => {
-    const child = spawn('npm.cmd', ['run', 'build:content'], {
-      cwd: projectRoot(),
-      shell: false,
-    });
+const runNpmScript = (script: string): Promise<{ ok: boolean; output: string }> =>
+  new Promise((resolve) => {
+    const child = spawn('npm.cmd', ['run', script], { cwd: projectRoot(), shell: false });
     let out = '';
     child.stdout.on('data', (d) => (out += d.toString()));
     child.stderr.on('data', (d) => (out += d.toString()));
     child.on('close', (code) => resolve({ ok: code === 0, output: out }));
     child.on('error', (err) => resolve({ ok: false, output: err.message }));
   });
+
+ipcMain.handle(IpcChannel.CONTENT_BUILD, async (): Promise<{ ok: boolean; output: string }> => {
+  if (!isContentAuthoringAllowed()) return { ok: false, output: 'dev-only' };
+  return runNpmScript('build:content');
+});
+
+ipcMain.handle(IpcChannel.CONTENT_VALIDATE, async (): Promise<{ ok: boolean; output: string }> => {
+  if (!isContentAuthoringAllowed()) return { ok: false, output: 'dev-only' };
+  return runNpmScript('check-all');
 });
 
 // --- Phase 4: Dev tools window ---

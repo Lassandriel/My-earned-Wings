@@ -44,6 +44,7 @@ declare global {
       contentRead: (relativePath: string) => Promise<string | null>;
       contentWriteAction: (id: string, patch: Record<string, unknown>) => Promise<{ ok: boolean; error?: string }>;
       contentBuild: () => Promise<{ ok: boolean; output: string }>;
+      contentValidate: () => Promise<{ ok: boolean; output: string }>;
     };
     Alpine: AlpineType;
     TRANSLATIONS: import('./types/i18n').Translations;

@@ -27,4 +27,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke(IpcChannel.CONTENT_WRITE_ACTION, id, patch),
   contentBuild: (): Promise<{ ok: boolean; output: string }> =>
     ipcRenderer.invoke(IpcChannel.CONTENT_BUILD),
+  contentValidate: (): Promise<{ ok: boolean; output: string }> =>
+    ipcRenderer.invoke(IpcChannel.CONTENT_VALIDATE),
 });

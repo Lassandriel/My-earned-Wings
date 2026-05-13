@@ -47,12 +47,14 @@ const search = document.getElementById('search') as HTMLInputElement;
 const tabsBar = document.getElementById('tabs')!;
 
 // --- State ---
-const TAB_NAMES = [...Object.keys(REGISTRIES), 'Cheats'];
+const TAB_NAMES = [...Object.keys(REGISTRIES), 'Cheats', 'Validation'];
 let activeTab = TAB_NAMES[0];
 let activeId: string | null = null;
 let filter = '';
 let editMode = false;
 let editStatus = '';
+let validationOutput = '';
+let validationRunning = false;
 
 // API shim: only available when running inside Electron with our preload.
 const api: any = (window as any).electronAPI || null;
@@ -80,6 +82,11 @@ function renderList() {
 
   if (activeTab === 'Cheats') {
     list.innerHTML = '<div class="category">Quick actions</div>';
+    return;
+  }
+
+  if (activeTab === 'Validation') {
+    list.innerHTML = '<div class="category">Project validators</div>';
     return;
   }
 
@@ -121,6 +128,12 @@ function renderDetail() {
   if (activeTab === 'Cheats') {
     main.innerHTML = renderCheatsPanel();
     wireCheatsHandlers();
+    return;
+  }
+
+  if (activeTab === 'Validation') {
+    main.innerHTML = renderValidationPanel();
+    wireValidationHandlers();
     return;
   }
 
@@ -271,6 +284,67 @@ function escapeAttr(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
+function renderValidationPanel(): string {
+  const apiOk = !!api?.contentValidate;
+  const out = validationOutput || (apiOk
+    ? '> Click „Run check-all" to validate the project content.'
+    : '> Validation is only available inside Electron (electronAPI missing).');
+
+  // Strip ANSI escape codes for display
+  const clean = out.replace(/\x1b\[[0-9;]*m/g, '');
+
+  // Naive line classification for color hints
+  const lines = clean.split(/\r?\n/).map((line) => {
+    if (/✗|✖|error|fehlt|FAIL/i.test(line)) return `<span class="vline err">${escapeHtml(line)}</span>`;
+    if (/⚠|warn|warning/i.test(line)) return `<span class="vline warn">${escapeHtml(line)}</span>`;
+    if (/✓|✅|ok|pass|complete|perfect/i.test(line)) return `<span class="vline ok">${escapeHtml(line)}</span>`;
+    return `<span class="vline">${escapeHtml(line)}</span>`;
+  });
+
+  return `
+    <div class="detail-header">
+      <h2>Validation</h2>
+      <div class="id">runs <code>npm run check-all</code> in the project root</div>
+    </div>
+
+    <div class="cheats">
+      <section>
+        <h3>Run validators</h3>
+        <button id="run-validate" ${validationRunning ? 'disabled' : ''}>${validationRunning ? 'Running…' : '▶ Run check-all'}</button>
+        <p class="hint">Checks: i18n keys, asset paths, content references, save fixtures, parity. Output below.</p>
+      </section>
+
+      <section>
+        <h3>Output</h3>
+        <pre class="validation-output">${lines.join('\n')}</pre>
+      </section>
+    </div>
+  `;
+}
+
+function wireValidationHandlers(): void {
+  const btn = document.getElementById('run-validate') as HTMLButtonElement | null;
+  if (!btn) return;
+  btn.onclick = async () => {
+    if (!api?.contentValidate) {
+      validationOutput = 'Validation requires Electron (electronAPI missing).';
+      render();
+      return;
+    }
+    validationRunning = true;
+    validationOutput = 'Running…';
+    render();
+    try {
+      const res = await api.contentValidate();
+      validationOutput = res.output || (res.ok ? 'No output (OK).' : 'No output (FAIL).');
+    } catch (err) {
+      validationOutput = 'Error: ' + (err as Error).message;
+    }
+    validationRunning = false;
+    render();
+  };
+}
+
 function renderCheatsPanel(): string {
   const buffs = Object.values(BUFF_REGISTRY);
   const npcs = Object.values({ ...NPC_REGISTRY, ...vandaraNPCs });
@@ -410,9 +484,8 @@ function render(): void {
   renderTabs();
   renderList();
   renderDetail();
-  if (activeTab === 'Cheats') {
-    meta.textContent = 'Cheats & Spawn helpers';
-  }
+  if (activeTab === 'Cheats') meta.textContent = 'Cheats & Spawn helpers';
+  if (activeTab === 'Validation') meta.textContent = 'Run project validators';
 }
 
 search.addEventListener('input', () => {

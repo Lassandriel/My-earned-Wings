@@ -335,6 +335,25 @@
         vertical-align: middle;
       }
       .edit-btn:hover { background: var(--accent-dim); color: #000; }
+
+      /* Validation panel */
+      pre.validation-output {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 12px 14px;
+        max-height: 60vh;
+        overflow: auto;
+        font-family: 'Inter', monospace;
+        font-size: 12px;
+        line-height: 1.5;
+        margin: 0;
+      }
+      .vline { display: block; }
+      .vline.err { color: #fca5a5; }
+      .vline.warn { color: #fde68a; }
+      .vline.ok { color: #6ee7b7; }
+      .cheats button:disabled { opacity: 0.5; cursor: wait; }
     </style>
   </head>
   <body>
