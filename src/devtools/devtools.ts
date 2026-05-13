@@ -19,6 +19,7 @@ import { itemDb } from '../features/crafting/items.data';
 import { NPC_REGISTRY } from '../features/village/village.data';
 import { vandaraNPCs } from '../features/vandara/vandara.data';
 import { BUFF_REGISTRY } from '../data/definitions/buffs';
+import { HOME_REGISTRY } from '../features/housing/housing.data';
 import yaml from 'js-yaml';
 
 type Entity = Record<string, unknown> & { id: string; category?: string };
@@ -46,8 +47,43 @@ const meta = document.getElementById('meta')!;
 const search = document.getElementById('search') as HTMLInputElement;
 const tabsBar = document.getElementById('tabs')!;
 
+// --- Modifier sources index (Iter 6) ---
+interface ModifierSource {
+  type: 'buff' | 'item' | 'home';
+  id: string;
+  category?: string;
+  add?: number;
+  mult?: number;
+}
+const MODIFIER_INDEX: Record<string, ModifierSource[]> = (() => {
+  const idx: Record<string, ModifierSource[]> = {};
+  const push = (key: string, src: ModifierSource) => {
+    (idx[key] ??= []).push(src);
+  };
+  for (const buff of Object.values(BUFF_REGISTRY) as any[]) {
+    for (const m of buff.modifiers || []) {
+      push(m.key, { type: 'buff', id: buff.id, add: m.add, mult: m.mult });
+    }
+  }
+  for (const item of Object.values(itemDb) as any[]) {
+    for (const m of item.modifiers || []) {
+      push(m.key, { type: 'item', id: item.id, category: item.category, add: m.add, mult: m.mult });
+    }
+  }
+  for (const home of Object.values(HOME_REGISTRY) as any[]) {
+    for (const m of home.modifiers || []) {
+      push(m.key, { type: 'home', id: home.id, add: m.add, mult: m.mult });
+    }
+  }
+  // Make sure every base modifier shows up even if nothing modifies it
+  for (const key of Object.keys(MODIFIER_REGISTRY_GENERATED)) {
+    idx[key] ??= [];
+  }
+  return idx;
+})();
+
 // --- State ---
-const TAB_NAMES = [...Object.keys(REGISTRIES), 'Cheats', 'Validation'];
+const TAB_NAMES = [...Object.keys(REGISTRIES), 'Cheats', 'Validation', 'Modifier Tree'];
 let activeTab = TAB_NAMES[0];
 let activeId: string | null = null;
 let filter = '';
@@ -87,6 +123,28 @@ function renderList() {
 
   if (activeTab === 'Validation') {
     list.innerHTML = '<div class="category">Project validators</div>';
+    return;
+  }
+
+  if (activeTab === 'Modifier Tree') {
+    const keys = Object.keys(MODIFIER_INDEX).sort();
+    const filtered = keys.filter((k) => !filter || k.toLowerCase().includes(filter));
+    meta.textContent = `${keys.length} calculation keys · ${filtered.length} shown`;
+    const header = document.createElement('div');
+    header.className = 'category';
+    header.textContent = 'calculation keys';
+    list.appendChild(header);
+    for (const key of filtered) {
+      const sources = MODIFIER_INDEX[key];
+      const row = document.createElement('div');
+      row.className = 'item-row' + (key === activeId ? ' active' : '');
+      row.innerHTML = `${key} <span class="id">(${sources.length})</span>`;
+      row.onclick = () => {
+        activeId = key;
+        render();
+      };
+      list.appendChild(row);
+    }
     return;
   }
 
@@ -134,6 +192,11 @@ function renderDetail() {
   if (activeTab === 'Validation') {
     main.innerHTML = renderValidationPanel();
     wireValidationHandlers();
+    return;
+  }
+
+  if (activeTab === 'Modifier Tree') {
+    main.innerHTML = renderModifierTree();
     return;
   }
 
@@ -282,6 +345,71 @@ function wireEditorHandlers(entity: Entity): void {
 
 function escapeAttr(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+function renderModifierTree(): string {
+  if (!activeId) {
+    return `<div class="empty-state">Wähle links einen Calculation-Key aus.<br><br>
+      <span style="font-size:12px;opacity:0.7;">Filterbeispiele: <code>wood</code>, <code>magic</code>, <code>limit</code>, <code>yield</code>, <code>cost</code></span></div>`;
+  }
+  const key = activeId;
+  const sources = MODIFIER_INDEX[key] || [];
+  const base = (MODIFIER_REGISTRY_GENERATED as any)[key];
+  const baseValue = base?.baseValue;
+
+  const groupBy = <T extends ModifierSource>(arr: T[], k: 'type'): Record<string, T[]> => {
+    const out: Record<string, T[]> = {};
+    for (const x of arr) (out[x[k]] ??= []).push(x);
+    return out;
+  };
+  const grouped = groupBy(sources, 'type');
+
+  const fmtOp = (s: ModifierSource): string => {
+    const parts: string[] = [];
+    if (s.add !== undefined) parts.push(`+${s.add}`);
+    if (s.mult !== undefined) parts.push(`×${s.mult}`);
+    return parts.join(' / ') || '?';
+  };
+
+  const groupHtml = (label: string, items: ModifierSource[]): string => {
+    if (!items?.length) return '';
+    return `
+      <div class="mod-group">
+        <h4>${label} (${items.length})</h4>
+        <ul>
+          ${items
+            .map(
+              (s) => `
+            <li>
+              <span class="mod-id">${escapeHtml(s.id)}</span>
+              ${s.category ? `<span class="mod-cat">${escapeHtml(s.category)}</span>` : ''}
+              <span class="mod-op">${fmtOp(s)}</span>
+            </li>`,
+            )
+            .join('')}
+        </ul>
+      </div>`;
+  };
+
+  return `
+    <div class="detail-header">
+      <h2>${escapeHtml(key)}</h2>
+      <div class="id">${base ? `base: ${baseValue ?? '?'}` : 'no base entry — calculated key'} · ${sources.length} modifier source(s)</div>
+    </div>
+    ${
+      base
+        ? `<div class="stats-grid"><div class="stat"><div class="num">${baseValue ?? '?'}</div><div class="label">base value</div></div></div>`
+        : ''
+    }
+    ${groupHtml('Buffs', grouped.buff)}
+    ${groupHtml('Items', grouped.item)}
+    ${groupHtml('Homes', grouped.home)}
+    ${
+      sources.length === 0
+        ? '<p class="hint">No modifiers target this key. It uses the base value (or 0 if no base).</p>'
+        : ''
+    }
+  `;
 }
 
 function renderValidationPanel(): string {
@@ -487,6 +615,11 @@ function render(): void {
   if (activeTab === 'Cheats') meta.textContent = 'Cheats & Spawn helpers';
   if (activeTab === 'Validation') meta.textContent = 'Run project validators';
 }
+
+// re-render list as user types in the search box, also for the Modifier Tree tab
+search.addEventListener('input', () => {
+  if (activeTab === 'Modifier Tree') render();
+});
 
 search.addEventListener('input', () => {
   filter = search.value.trim().toLowerCase();
