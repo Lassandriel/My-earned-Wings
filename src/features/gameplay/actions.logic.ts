@@ -10,6 +10,7 @@ import {
   ActionResult,
 } from '../../types/game';
 import { checkRequirement } from '../../core/systems/logicUtils';
+import { CUSTOM_EXECUTE_HANDLERS } from '../../data/actions/custom-handlers';
 
 /**
  * Services the action system depends on. Injected via setServices()
@@ -383,10 +384,26 @@ export function createActionSystem() {
       yield: totalYield,
     };
 
-    if (isFinalize && 'execute' in action && typeof action.execute === 'function') {
-      const execResult = action.execute(game);
-      if (execResult) {
-        result = { ...result, ...execResult };
+    if (isFinalize) {
+      // Inline TS execute() — used by hand-written ActionDefinitions.
+      if ('execute' in action && typeof (action as any).execute === 'function') {
+        const execResult = (action as any).execute(game);
+        if (execResult) {
+          result = { ...result, ...(execResult as object) };
+        }
+      }
+      // YAML-driven customExecute — looks up handler in CUSTOM_EXECUTE_HANDLERS.
+      const customName = (action as any).customExecute;
+      if (typeof customName === 'string') {
+        const handler = CUSTOM_EXECUTE_HANDLERS[customName];
+        if (handler) {
+          const execResult = handler(game, id);
+          if (execResult && typeof execResult === 'object') {
+            result = { ...result, ...(execResult as object) };
+          }
+        } else if (typeof console !== 'undefined') {
+          console.warn(`[actions] Unknown customExecute handler: '${customName}' on '${id}'`);
+        }
       }
     }
 

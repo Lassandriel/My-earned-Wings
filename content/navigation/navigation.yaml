@@ -1,0 +1,25 @@
+# Top-level navigation tabs.
+- id: main
+  icon: story
+  label: nav_main
+
+- id: crafting
+  icon: crafting
+  label: nav_crafting
+
+- id: village
+  icon: village
+  label: nav_locations
+
+- id: upgrades
+  icon: upgrades
+  label: nav_upgrades
+
+- id: housing
+  icon: housing
+  label: nav_housing
+  requiredFlag: build-house
+
+- id: collection
+  icon: chronic
+  label: nav_collection

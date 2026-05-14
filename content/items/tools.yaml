@@ -1,0 +1,61 @@
+# Tools — owned, non-consumable, often grant yield modifiers.
+- id: item-walking-stick
+  title: item_wanderstock_title
+  desc: item_wanderstock_desc
+  image: img/tools/walkingstick.webp
+  consumable: false
+  category: tools
+  modifiers:
+    - { key: wood_yield, add: 1 }
+    - { key: stone_yield, add: 1 }
+
+- id: item-axe
+  title: item_axe_title
+  desc: item_axe_desc
+  image: img/tools/axe_1.webp
+  consumable: false
+  category: tools
+  modifiers:
+    - { key: wood_yield, mult: 2 }
+
+- id: item-pickaxe
+  title: item_pickaxe_title
+  desc: item_pickaxe_desc
+  image: img/tools/pickaxe_1.webp
+  consumable: false
+  category: tools
+  modifiers:
+    - { key: stone_yield, mult: 2 }
+
+- id: item-bow
+  title: item_bow_title
+  desc: item_bow_desc
+  image: img/tools/bow.webp
+  consumable: false
+  category: tools
+
+- id: item-spice-rack
+  title: item_spice_rack_title
+  desc: item_spice_rack_desc
+  image: img/tools/spice-rack.webp
+  consumable: false
+  category: tools
+  modifiers:
+    - { key: herbs_limit, add: 10 }
+
+- id: item-chisel
+  title: item_chisel_title
+  desc: item_chisel_desc
+  image: img/tools/chisel.webp
+  consumable: false
+  category: tools
+
+- id: item-cart-reinforced
+  title: item_cart_reinforced_title
+  desc: item_cart_reinforced_desc
+  image: img/tools/cart_reinforced.webp
+  consumable: false
+  category: tools
+  modifiers:
+    - { key: wood_yield, add: 1 }
+    - { key: stone_yield, add: 1 }

@@ -25,6 +25,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke(IpcChannel.CONTENT_READ, relativePath),
   contentWriteAction: (id: string, patch: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> =>
     ipcRenderer.invoke(IpcChannel.CONTENT_WRITE_ACTION, id, patch),
+  contentWrite: (entityType: string, id: string, patch: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> =>
+    ipcRenderer.invoke(IpcChannel.CONTENT_WRITE, entityType, id, patch),
+  contentWriteTranslation: (lang: string, context: string, key: string, value: string | null): Promise<{ ok: boolean; error?: string }> =>
+    ipcRenderer.invoke(IpcChannel.CONTENT_WRITE_TRANSLATION, lang, context, key, value),
   contentBuild: (): Promise<{ ok: boolean; output: string }> =>
     ipcRenderer.invoke(IpcChannel.CONTENT_BUILD),
   contentValidate: (): Promise<{ ok: boolean; output: string }> =>

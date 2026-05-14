@@ -43,6 +43,8 @@ declare global {
       contentFind: (entityType: string, id: string) => Promise<string | null>;
       contentRead: (relativePath: string) => Promise<string | null>;
       contentWriteAction: (id: string, patch: Record<string, unknown>) => Promise<{ ok: boolean; error?: string }>;
+      contentWrite: (entityType: string, id: string, patch: Record<string, unknown>) => Promise<{ ok: boolean; error?: string }>;
+      contentWriteTranslation: (lang: string, context: string, key: string, value: string | null) => Promise<{ ok: boolean; error?: string }>;
       contentBuild: () => Promise<{ ok: boolean; output: string }>;
       contentValidate: () => Promise<{ ok: boolean; output: string }>;
     };

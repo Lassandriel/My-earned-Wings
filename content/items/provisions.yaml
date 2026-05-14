@@ -1,0 +1,49 @@
+# Provisions — consumable food, restore stats on use.
+- id: item-bread
+  title: item_bread_title
+  desc: item_bread_desc
+  image: img/items/bread.webp
+  consumable: true
+  category: items
+  effect:
+    satiation: 25
+
+- id: item-cookie
+  title: item_cookie_title
+  desc: item_cookie_desc
+  image: img/items/cookie.webp
+  consumable: true
+  category: items
+  effect:
+    satiation: 40
+    energy: 5
+
+- id: item-dried-meat
+  title: item_dried_meat_title
+  desc: item_dried_meat_desc
+  image: img/items/driedmeat.webp
+  consumable: true
+  category: items
+  effect:
+    satiation: 15
+    energy: 15
+
+- id: item-gourmet-meal
+  title: item_gourmet_meal_title
+  desc: item_gourmet_meal_desc
+  image: img/items/gourmetmeal.webp
+  consumable: true
+  category: items
+  effect:
+    satiation: 50
+    energy: 30
+
+- id: item-crystal_apple
+  title: item_crystal_apple_title
+  desc: item_crystal_apple_desc
+  image: img/items/crystal_apple.webp
+  consumable: true
+  category: food
+  effect:
+    satiation: 30
+    energy: 20

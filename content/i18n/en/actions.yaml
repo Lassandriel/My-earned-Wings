@@ -1,0 +1,304 @@
+# Auto-migrated from src/lang/en/actions.ts
+help:
+  title: Help
+new_game:
+  title: menu_new_game
+  desc: ui_new_game_desc
+build-campfire:
+  title: Light Campfire
+  desc: Warmth in the dark. Increases satiation gain when eating.
+build-tent:
+  title: Pitch Tent
+  desc: First modest protection. Improves energy regeneration during rest.
+build-house:
+  title: Build House
+  desc: Your firm foundation on the ground.
+build-home-lake:
+  title: Build Lake House
+  desc: A serene dwelling by the water.
+build-home-tower:
+  title: Build Aura Tower
+  desc: A beacon for magical energies.
+build-wood-storage:
+  title: Wood Storage I
+  desc: Space for more supplies (+25).
+build-stone-storage:
+  title: Stone Storage I
+  desc: More stone capacity (+25).
+build-wood-storage-2:
+  title: Wood Storage II
+  desc: Additional storage capacity (+25).
+build-stone-storage-2:
+  title: Stone Storage II
+  desc: Additional storage capacity (+25).
+build-wood-storage-3:
+  title: Wood Shed
+  desc: A sturdy shed for more wood (+30).
+build-stone-storage-3:
+  title: Stone Shed
+  desc: A place for heavy boulders (+30).
+build-wood-storage-4:
+  title: Wood Warehouse
+  desc: Ample storage space for wood supplies (+35).
+build-stone-storage-4:
+  title: Stone Warehouse
+  desc: Massive storage for stone resources (+35).
+build-water-barrel:
+  title: Water Barrel
+  desc: Collects rainwater. Increases water capacity (+25).
+build-table:
+  title: Massive Table
+  desc: Place for study and strategy.
+build-kitchen:
+  title: Kitchen Station
+  desc: Enables cooking complex recipes.
+build-arcane-sanctum:
+  title: Arcane Sanctum
+  desc: Research the magic of the aether.
+build-garden:
+  title: Create Garden
+  desc: Sow herbs and flowers.
+  effect: Enables herb gardening.
+build-garden-upgrade:
+  title: Garden Expansion
+  desc: Second garden slot.
+  effect: Unlocks second garden slot.
+act-study:
+  title: Study
+  desc: Expand your mental magic limit.
+  effect: +{val} Magic Limit
+act-meditate:
+  title: Meditate
+  desc: Draw astral shards from the air.
+  effect: +1 Astral Shard
+act-cook-gourmet:
+  title: Gourmet Cooking
+  desc: Prepare a feast.
+  effect: +1 Gourmet Meal
+act-garden-plant:
+  title: Plant (Slot 1)
+  desc: Sow herbs.
+  effect: +{val} Herbs
+act-garden-plant-2:
+  title: Plant (Slot 2)
+  desc: Use the parallel bed.
+  effect: +{val} Herbs
+act-garden-water:
+  title: Water
+  desc: Accelerates plant growth.
+  effect: Garden growth accelerated
+act-sell-wood:
+  title: Sell Wood
+  desc: Trade wood for shards.
+  effect: +5 Shards
+act-sell-meat:
+  title: Sell Meat
+  desc: Give away prey for shards.
+  effect: +12 Shards
+act-sell-stone:
+  title: Sell Stone
+  desc: Sell boulders for shards.
+  effect: +8 Shards
+act-buy-meat:
+  title: Buy Meat
+  desc: Fresh hunting provisions from the merchant.
+  effect: +1 Meat
+act-hunt:
+  title: Hunt
+  desc: Use the bow in the forest.
+  effect: +{val} Meat
+act-wood:
+  title: Gather Twigs
+  title_alt: Quarry Stones
+  effect: +{val} Wood
+act-stone:
+  title: Gather Pebbles
+  title_alt: Quarry Stones
+  effect: +{val} Stone
+act-mine-quartz:
+  title: Mine Quartz
+  desc: Extract rare crystals in the dark mine.
+  effect: +{val} Shards & Stone
+act-collect-water:
+  title: Collect Water
+  desc: Fetch fresh water from the forest lake.
+  effect: +1 Water
+act-pick-flowers:
+  title: Pick Flowers
+  desc: Gather colorful wild flowers for your home.
+  effect: +{val} Flowers
+act-essen:
+  title: Eat Berries
+  desc: Nourish yourself from the gifts of the earth.
+  effect: +{val} Satiation
+act-ausruhen:
+  title: Rest
+  desc: Listen to the beating of wings in the distance.
+  effect: +{val} Energy
+act-meditieren:
+  title: Focus
+  desc: Look up, but roots on the ground.
+  effect: +{val} Magic
+act-npc-baker:
+  title: Baker Gara
+act-npc-flowerGirl:
+  title: Flower Girl Mina
+act-npc-artisan:
+  title: Artisan Geron
+act-npc-teacher:
+  title: Teacher Aria
+act-npc-townHall:
+  title: Town Hall Official
+act-npc-blacksmith:
+  title: Blacksmith Thorin
+act-npc-sage:
+  title: Old Sage
+act-npc-hunter:
+  title: Hunter Nyx
+act-npc-ellie:
+  title: Ellie
+act-npc-aris:
+  title: Aris
+act-npc-treeOfLife:
+  title: Tree of Life
+act-work:
+  title: Day Labor
+  desc: Perform simple tasks in the village for soul shards.
+  effect: +{val} Shards
+act-dream-bloom:
+  title: Dream Bloom
+  desc: Manifest magic in the form of an ethereal flower.
+  effect: +1 Dream Bloom
+act-spell-harvest:
+  title: Magic Harvest
+  desc: Gain pure energy from your arcane studies.
+  effect: +{val} Magic
+act-wanderstock:
+  title: Carve Walking Stick
+  desc: A faithful companion for your travels.
+act-axe:
+  title: Craft Stone Axe
+  desc: Enables felling trees.
+  effect: Enables felling trees.
+act-pickaxe:
+  title: Craft Pickaxe
+  desc: Enables mining rocks.
+  effect: Enables mining rocks.
+act-bow:
+  title: Build Hunting Bow
+  desc: Essential for hunting in the forest.
+  effect: Essential for hunting in the forest.
+act-bed:
+  title: Simple Bed
+  desc: Improves your recovery while sleeping.
+act-chair:
+  title: Wooden Chair
+  desc: A simple seat for your home.
+act-stove:
+  title: Stone Stove
+  desc: Enables baking and cooking.
+act-bookshelf:
+  title: Bookshelf
+  desc: Space for gathered knowledge.
+act-book:
+  title: Bind Book
+  desc: Record your insights.
+act-cabinet:
+  title: Provisions Cabinet
+  desc: Increases storage capacity for provisions.
+act-spice-rack:
+  title: Spice Rack
+  desc: Space for more herbs.
+act-grand-table:
+  title: Massive Dining Table
+  desc: A magnificent piece of furniture.
+act-bed-2:
+  title: Weave Silk Bed
+  desc: Maximum comfort through magical silk.
+act-stove-2:
+  title: Eternal Stove
+  desc: A stove with infinite arcane heat.
+act-chisel:
+  title: Craft Chisel
+  effect: Enables finer craftsmanship.
+build-loom:
+  title: Build Loom
+  desc: Allows the production of fine fabrics.
+build-bookshelf-large:
+  title: Build Large Bookshelf
+  desc: A massive shelf for a vast library.
+build-desk:
+  title: Build Writing Desk
+  desc: A dedicated space for studying.
+act-grind-dust:
+  title: Grind Arcane Dust
+  desc: Use magical energy to grind herbs into fine arcane dust.
+build-cart-reinforced:
+  title: Build Reinforced Cart
+  desc: An improved cart for heavy loads.
+build-mana-basin:
+  title: Build Mana Basin
+  desc: A basin that channels the magic of nature.
+build-terrace:
+  title: Add Sun Terrace
+  desc: A wonderful outdoor area for your house.
+act-whisper-wood:
+  title: Gather Ghostwood
+  desc: Search for the silvery glow in the grove.
+  effect: +{val} Ghostwood
+act-whisper-pollen:
+  title: Catch Glowpollen
+  desc: Collect the dancing lights.
+  effect: +{val} Glowpollen
+act-dig-clay:
+  title: Dig for Clay
+  desc: Search the moist forest floor for usable clay.
+  effect: +{val} Clay
+act-buy-iron-parts:
+  title: Buy Iron Parts
+  desc: Acquire high-quality iron fittings directly from the blacksmith.
+  effect: +1 Iron Fittings
+act-school-read:
+  title: Practice Reading
+  desc: Learn the characters of the Draconian language.
+  effect: +{val} Knowledge
+act-school-numbers:
+  title: Learn Numbers
+  desc: Understand the mathematics of trade.
+  effect: +{val} Knowledge
+act-school-history:
+  title: Listen to History
+  desc: Listen to Aria's stories about the world.
+  effect: +{val} Knowledge
+act-school-herbs:
+  title: Herbology
+  desc: Learn from Mina which plants are useful.
+  effect: +{val} Knowledge & Herbs
+act-school-runes:
+  title: Read Runes
+  desc: Study the symbols of magic with Aris.
+  effect: +{val} Knowledge & Runes
+act-vandara-magic-runes:
+  title: Map Runes
+  desc: Investigate the magical ley lines of the Academy.
+act-vandara-magic-experiments:
+  title: Arcane Experiments
+  desc: Conduct dangerous tests in Solen's lab.
+act-vandara-craft-furniture:
+  title: Elaborate Furniture
+  desc: Craft masterpieces according to Bram's instructions.
+act-vandara-craft-masterpiece:
+  title: The Masterpiece
+  desc: Present your skills to the Academy.
+act-vandara-nature-gather:
+  title: Exclusive Forest Resources
+  desc: Find rare materials for Lyra.
+act-vandara-nature-festival:
+  title: Community Festival
+  desc: Prepare the grand festival.
+act-read-lore-1:
+  title: "Read: Imperial Bloodline"
+  desc: Deepen your knowledge about the ruling family.
+act-read-lore-2:
+  title: "Read: The Floating Lands"
+  desc: Study the geography of Draconia.

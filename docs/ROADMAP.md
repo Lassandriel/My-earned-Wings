@@ -13,6 +13,8 @@
 * [x] **iPad Mini 6 Optimization (v1.4.13)**: Extended tablet layout thresholds to 1200px to cover iPad Mini 6 in both orientations (Portrait & Landscape).
 * [x] **Stability & Fallback Polish (v1.4.14)**: Optimized icon validation (whitelist-based), corrected i18n fallbacks (EN-first), and cleared console warnings.
 * [x] **Architecture Phase 1 — YAML Content Pipeline (v2.0.0)**: Migrated all Resources, Modifiers, and Actions to structured YAML. A build script auto-generates typed TypeScript. Adding a new resource now requires 1 YAML file instead of 5+ TypeScript edits.
+* [x] **Architecture Phase 1.5 — Full Content YAML-isation**: Migrated the remaining content categories (Items, NPCs, Buffs, Homes, Milestones, Navigation, Titles, Translations) to YAML. Story actions with bespoke logic now declare `customExecute: <handler>` and resolve through a small TS handler registry (`src/data/actions/custom-handlers.ts`). All registries, including i18n, are auto-generated from `content/`.
+* [x] **Dev Tools Iter 7b — Generic write-back**: Replaced the action-only writer with a generic `CONTENT_WRITE` IPC channel that patches array- and record-style YAMLs across all 10 entity types. Editor exposes a structured form plus a raw-YAML patch textarea for arbitrary fields.
 
 ***
 
@@ -33,3 +35,4 @@
 ***
 
 10. Mai 2026 · v2.0.0 (Architecture Phase 1 - YAML Content Pipeline)
+14. Mai 2026 · Architecture Phase 1.5 (Full Content YAML-isation) + Dev Tools Iter 7b (generic write-back)

@@ -1,0 +1,508 @@
+# Actions — NPC dialogues. customExecute routes to src/data/actions/custom-handlers.ts.
+# Auto-loaded by scripts/build-content.ts
+- id: act-npc-baker
+  npcId: npc-baker
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: baker
+  maxProgress: 5
+  journalIcon: 🍞
+  icon: 🥖
+  journalColor: '#f59e0b'
+  steps:
+    - cost: 8
+      costType: energy
+      reward: item-bread
+      dialogueKey: npc_baker_1
+    - costs:
+        wood: 30
+      reward: item-bread
+      onSuccess:
+        - type: setFlag
+          flag: unlock-baker-bread
+          value: true
+      dialogueKey: npc_baker_2
+    - cost: 20
+      costType: energy
+      reward: item-cookie
+      dialogueKey: npc_baker_3
+    - costs:
+        wood: 15
+        stone: 15
+      reward: item-cookie
+      dialogueKey: npc_baker_4
+    - cost: 25
+      costType: energy
+      reward: item-cookie
+      dialogueKey: npc_baker_5
+  customExecute: npc_execute
+- id: act-npc-flowerGirl
+  npcId: npc-flowerGirl
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: flowerGirl
+  maxProgress: 7
+  journalIcon: 🌸
+  icon: 🌸
+  journalColor: '#ec4899'
+  steps:
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: modifyResource
+          resource: herbs
+          amount: 5
+        - type: setFlag
+          flag: npc-flowerGirl-introduced
+          value: true
+      dialogueKey: npc_flowerGirl_1
+    - costs:
+        water: 5
+      onSuccess:
+        - type: modifyResource
+          resource: herbs
+          amount: 10
+      dialogueKey: npc_flowerGirl_2
+    - cost: 10
+      costType: energy
+      onSuccess:
+        - type: modifyResource
+          resource: astral_shards
+          amount: 5
+      dialogueKey: npc_flowerGirl_3
+    - costs:
+        herbs: 10
+      reward: item-wyvern-scale
+      dialogueKey: npc_flowerGirl_4
+    - cost: 15
+      costType: energy
+      onSuccess:
+        - type: unlockNPC
+          id: npc-blacksmith
+        - type: setFlag
+          flag: blueprint-garden
+          value: true
+      dialogueKey: npc_flowerGirl_5
+    - costs:
+        herbs: 50
+        water: 20
+      onSuccess:
+        - type: setFlag
+          flag: blueprint-home-lake
+          value: true
+        - type: log
+          logKey: reward_blueprint_lake
+          color: var(--gold)
+      dialogueKey: npc_flowerGirl_6
+    - costs:
+        herbs: 50
+      requirements:
+        flags.build-garden-upgrade: true
+      onSuccess:
+        - type: setFlag
+          flag: unlocked-whispering-grove
+          value: true
+        - type: log
+          logKey: unlock_whisper_grove
+          color: var(--accent-teal)
+      dialogueKey: npc_flowerGirl_7
+  customExecute: npc_execute
+- id: act-npc-artisan
+  npcId: npc-artisan
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: artisan
+  maxProgress: 3
+  journalIcon: 🏗️
+  icon: 🔨
+  journalColor: '#d97706'
+  steps:
+    - costs:
+        wood: 20
+      onSuccess:
+        - type: setFlag
+          flag: unlock-wanderstock
+          value: true
+        - type: unlockRecipe
+          id: act-wanderstock
+      dialogueKey: npc_artisan_1
+    - costs:
+        stone: 20
+      onSuccess:
+        - type: modifyResource
+          resource: wood
+          amount: 10
+      dialogueKey: npc_artisan_2
+    - costs:
+        wood: 10
+        stone: 10
+      onSuccess:
+        - type: unlockRecipe
+          id: act-chisel
+        - type: setFlag
+          flag: unlock-artisan-tools
+          value: true
+        - type: unlockRecipe
+          id: act-axe
+        - type: unlockRecipe
+          id: act-pickaxe
+      dialogueKey: npc_artisan_3
+  customExecute: npc_execute
+- id: act-npc-teacher
+  npcId: npc-teacher
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: teacher
+  maxProgress: 4
+  journalIcon: 📖
+  icon: 🎓
+  journalColor: '#3b82f6'
+  steps:
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: unlockItem
+          id: item-crystal_apple
+        - type: log
+          logKey: receive_apple
+          color: var(--gold)
+      dialogueKey: npc_teacher_1
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.build-house: true
+      onSuccess:
+        - type: unlockItem
+          id: item-book_lore_1
+        - type: unlockItem
+          id: item-book_lore_2
+        - type: unlockRecipe
+          id: act-read-lore-1
+        - type: unlockRecipe
+          id: act-read-lore-2
+        - type: setFlag
+          flag: unlocked-library
+          value: true
+        - type: log
+          logKey: receive_books
+          color: var(--gold)
+      dialogueKey: npc_teacher_3
+    - cost: 15
+      costType: energy
+      requirements:
+        flags.read_book_1_complete: true
+        flags.read_book_2_complete: true
+      reward: school_graduate
+      onSuccess:
+        - type: unlockItem
+          id: item-book-knowledge
+      dialogueKey: npc_teacher_6
+    - cost: 0
+      costType: magic
+      requirements:
+        flags.school_graduate: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara_unlocked
+          value: true
+        - type: log
+          logKey: unlock_vandara
+          color: var(--gold)
+      dialogueKey: npc_teacher_7
+  customExecute: npc_execute
+- id: act-npc-townHall
+  npcId: npc-townHall
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: townHall
+  maxProgress: 5
+  journalIcon: 🏛️
+  icon: 🏛️
+  journalColor: '#94a3b8'
+  steps:
+    - cost: 20
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: registered-resident
+          value: true
+        - type: log
+          logKey: townhall_registered
+          color: var(--accent-teal)
+      dialogueKey: npc_townHall_1
+    - cost: 25
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: unlocked-work
+          value: true
+      dialogueKey: npc_townHall_2
+    - costs:
+        shards: 100
+      reward: ui_tax_receipt
+      onSuccess:
+        - type: setFlag
+          flag: townhall_tax_paid
+          value: true
+        - type: log
+          logKey: townhall_tax_paid
+          color: var(--accent-teal)
+      dialogueKey: npc_townHall_3
+    - costs:
+        shards: 250
+      reward: ui_land_prep
+      onSuccess:
+        - type: setFlag
+          flag: townhall_land_prepped
+          value: true
+        - type: log
+          logKey: townhall_land_prepped
+          color: var(--accent-teal)
+      dialogueKey: npc_townHall_4
+    - cost: 40
+      costType: energy
+      costs:
+        shards: 500
+      reward: item-deed
+      dialogueKey: npc_townHall_5
+  customExecute: npc_execute
+- id: act-npc-blacksmith
+  npcId: npc-blacksmith
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: blacksmith
+  maxProgress: 5
+  journalIcon: ⚒️
+  icon: ⚒️
+  journalColor: '#475569'
+  steps:
+    - cost: 20
+      costType: energy
+      onSuccess:
+        - type: modifyResource
+          resource: stone
+          amount: 15
+      dialogueKey: npc_blacksmith_1
+    - cost: 15
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: stone
+          amount: 20
+      dialogueKey: npc_blacksmith_2
+    - costs:
+        stone: 30
+      reward: item-whetstone
+      dialogueKey: npc_blacksmith_3
+    - cost: 15
+      costType: energy
+      reward: item-whetstone
+      dialogueKey: npc_blacksmith_4
+    - cost: 25
+      costType: energy
+      reward: item-whetstone
+      dialogueKey: npc_blacksmith_5
+  customExecute: npc_execute
+- id: act-npc-sage
+  npcId: npc-sage
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: sage
+  maxProgress: 5
+  journalIcon: 🔮
+  icon: 🔮
+  journalColor: '#8b5cf6'
+  steps:
+    - cost: 20
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: study_xp
+          amount: 25
+      dialogueKey: npc_sage_1
+    - cost: 30
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: arcane_dust
+          amount: 2
+      dialogueKey: npc_sage_2
+    - cost: 40
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: arcane_dust
+          amount: 3
+      dialogueKey: npc_sage_3
+    - cost: 50
+      costType: magic
+      reward: item-scroll
+      dialogueKey: npc_sage_4
+    - cost: 60
+      costType: magic
+      reward: item-scroll
+      dialogueKey: npc_sage_5
+  customExecute: npc_execute
+- id: act-npc-hunter
+  npcId: npc-hunter
+  category: npc
+  isStory: true
+  chapter: chapter_village_life
+  progKey: hunter
+  maxProgress: 5
+  journalIcon: 🏹
+  icon: 🏹
+  journalColor: '#10b981'
+  steps:
+    - cost: 15
+      costType: energy
+      reward: item-arrowhead
+      dialogueKey: npc_hunter_1
+    - costs:
+        wood: 10
+      onSuccess:
+        - type: setFlag
+          flag: unlock-bow
+          value: true
+        - type: unlockRecipe
+          id: act-bow
+      dialogueKey: npc_hunter_2
+    - cost: 15
+      costType: energy
+      reward: item-dried-meat
+      dialogueKey: npc_hunter_3
+    - costs:
+        wood: 20
+      reward: item-dried-meat
+      dialogueKey: npc_hunter_4
+    - cost: 20
+      costType: energy
+      reward: item-dried-meat
+      dialogueKey: npc_hunter_5
+  customExecute: npc_execute
+- id: act-npc-treeOfLife
+  npcId: npc-treeOfLife
+  category: npc
+  isStory: true
+  chapter: chapter_the_transformation
+  progKey: treeOfLife
+  maxProgress: 1
+  journalIcon: 🌳
+  icon: 🌳
+  journalColor: '#10b981'
+  steps:
+    - cost: 0
+      costType: none
+      onSuccess:
+        - type: modifyResource
+          resource: astral_shards
+          amount: 10
+      dialogueKey: npc_treeOfLife_1
+  customExecute: tree_of_life
+- id: act-npc-ellie
+  npcId: npc-ellie
+  category: npc
+  isStory: true
+  chapter: chapter_the_dream
+  progKey: ellie
+  maxProgress: 5
+  journalIcon: ✨
+  icon: ✨
+  journalColor: '#a78bfa'
+  steps:
+    - cost: 10
+      costType: energy
+      onSuccess:
+        - type: modifyResource
+          resource: magic
+          amount: 5
+      dialogueKey: npc_ellie_1
+    - cost: 15
+      costType: magic
+      onSuccess:
+        - type: unlockRecipe
+          id: act-dream-bloom
+      dialogueKey: npc_ellie_2
+    - costs:
+        herbs: 5
+      reward: item-dream-dust
+      dialogueKey: npc_ellie_3
+    - cost: 20
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: magic
+          amount: 15
+      dialogueKey: npc_ellie_4
+    - cost: 25
+      costType: magic
+      reward: item-wyvern-scale
+      dialogueKey: npc_ellie_5
+  customExecute: npc_execute
+- id: act-npc-aris
+  npcId: npc-aris
+  category: npc
+  isStory: true
+  chapter: chapter_the_dream
+  progKey: aris
+  maxProgress: 6
+  journalIcon: 🧙‍♂️
+  icon: 🧙‍♂️
+  journalColor: '#8b5cf6'
+  steps:
+    - cost: 20
+      costType: magic
+      onSuccess:
+        - type: setFlag
+          flag: ability-arcane-focus
+          value: true
+      dialogueKey: npc_aris_1
+    - cost: 30
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: arcane_dust
+          amount: 2
+      dialogueKey: npc_aris_2
+    - cost: 40
+      costType: magic
+      onSuccess:
+        - type: modifyResource
+          resource: magic
+          amount: 20
+      dialogueKey: npc_aris_3
+    - cost: 50
+      costType: magic
+      reward: item-crystal-mana
+      dialogueKey: npc_aris_4
+    - cost: 60
+      costType: magic
+      onSuccess:
+        - type: unlockRecipe
+          id: act-bed-2
+        - type: unlockRecipe
+          id: act-stove-2
+      dialogueKey: npc_aris_5
+    - cost: 100
+      costType: magic
+      costs:
+        astral_shards: 10
+        arcane_dust: 5
+      onSuccess:
+        - type: setFlag
+          flag: blueprint-home-tower
+          value: true
+        - type: unlockNPC
+          id: npc-treeOfLife
+        - type: log
+          logKey: reward_blueprint_tower
+          color: var(--gold)
+      dialogueKey: npc_aris_6
+  customExecute: npc_execute

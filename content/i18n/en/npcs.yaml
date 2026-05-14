@@ -1,0 +1,149 @@
+# Auto-migrated from src/lang/en/npcs.ts
+npc_baker_1: "\"Welcome! I am Gara. And what is your name, stranger?\""
+npc_baker_2: "\"The furnace is burning hot. Thanks for the wood, {player}.\""
+npc_baker_3: "\"A cookie, perhaps, {player}? They keep you on your toes.\""
+npc_baker_4: "\"More and more people come for my pastries. You are a blessing, {player}.\""
+npc_baker_5: "\"{player}, take this last supply. You've done much for us.\""
+npc_flowerGirl_1: "\"Hello... uhm, I am Mina. I, uh... {player}? That is a beautiful name.\""
+npc_flowerGirl_2: >-
+  "The soil was so dry... the water you brought will help these herbs thrive,
+  {player}."
+npc_flowerGirl_3: "\"The world's colors change, {player}, if you look closely.\""
+npc_flowerGirl_4: "\"This scale... take it, {player}. It belongs to the aether.\""
+npc_flowerGirl_5: "\"Thorin needs someone like you, {player}. Tell him I sent you.\""
+npc_flowerGirl_6: >-
+  "The shore is calling, {player}. I've found a spot where the water-herbs grow
+  best. Here, take this blueprint for a home by the lake."
+npc_flowerGirl_7: >-
+  "You have helped me so much... I know a place, deep in the forest, that only a
+  few can see. It is the Whispering Grove. Here, take this path. But be careful
+  with the spirits there."
+npc_artisan_1: >-
+  "I am Geron. Wood is the beginning of everything. A walking stick gives you
+  support."
+npc_artisan_2: "\"Stone is patient, {player}. It shapes the world, step by step.\""
+npc_artisan_3: "\"Precision is everything. Take this chisel, {player}, and shape your destiny.\""
+npc_teacher_1: >-
+  "Hello there! You must be {player}, right? I am Aria, the teacher here in the
+  village."
+npc_teacher_2_no_house: >-
+  "It is nice to see you, {player}. But without a solid roof over your head,
+  learning will be difficult. Come back once you have a house of your own."
+npc_teacher_2_with_house: >-
+  "Ah, I see you have already settled in! Very good. How about you catch up on
+  your school diploma? There is much to learn about Draconia."
+npc_teacher_3: >-
+  "Ah, I see you have already settled in! Very good. Here are two foundational
+  works about our world. One covers the Imperial Bloodline, the other the
+  geography of our floating islands. Read them carefully under "Your Journey".
+  We will speak again after!"
+npc_teacher_6: >-
+  "Congratulations, {player}. You have studied the books and earned your
+  diploma!"
+npc_teacher_7: >-
+  "I have received a letter from Vandara. They have heard of you... and want to
+  see you!"
+npc_magistra_solen_1: >-
+  "Magic denies you the sky, yet flows through your mind. Welcome to the Path of
+  the Sky."
+npc_meister_bram_1: "\"A masterpiece needs a strong foundation. Show me what you can build.\""
+npc_lyra_1: "\"The roots of the world carry us all. Let us grow together.\""
+npc_aris_6: >-
+  "The aether is dense here. A tower would act as a conduit for your soul form.
+  This design will guide your construction."
+npc_townHall_1: >-
+  "Welcome to the Town Hall. I am the official. All Shifters must be properly
+  registered."
+npc_townHall_2: "\"Your papers are in order, {player}. You may now work in the village.\""
+npc_townHall_3: "\"Taxes and duties... only then can our village grow, {player}.\""
+npc_townHall_4: "\"You are well-known here now, {player}. A valued member of our community.\""
+npc_townHall_5: "\"This deed seals your place in Draconia, {player}.\""
+npc_blacksmith_1: "\"Who disturbs the forge? Ah... I am Thorin. And you?\""
+npc_blacksmith_2: "\"Magic in the fire, {player}. You understand the craft.\""
+npc_blacksmith_3: "\"A rock is just an obstacle, {player}, until you break it.\""
+npc_blacksmith_4: "\"A good whetstone is worth gold, {player}. It keeps your goals sharp.\""
+npc_blacksmith_5: "\"{player}, no flight, but a firm stand. That's your true strength.\""
+npc_hunter_1: "\"Halt! Who stalks there? ... Ah, a new face. I am Nyx.\""
+npc_hunter_2: "\"A bow takes patience, {player}. And good ash wood.\""
+npc_hunter_3: >-
+  "With that bow, you're a real hunter now, {player}. Here is some dried meat
+  for your next trek through the thicket."
+npc_hunter_4: "\"The forest gives what we need, {player}. If we respect it.\""
+npc_hunter_5: "\"shadows belong to us both now. I hunt at your side, {player}.\""
+npc_sage_1: "\"Knowledge is a burden. I am the Sage. Read this book, Shifter.\""
+npc_sage_2: "\"The stars whisper of past ages, {player}.\""
+npc_sage_3: "\"Your mind expands, {player}... do you see the patterns?\""
+npc_sage_4: "\"History doesn't repeat itself, {player}, but it does rhyme.\""
+npc_sage_5: "\"{player}, you're no longer a mystery, but a part of Draconia.\""
+npc_ellie_1: "\"Do you feel the tremor of the earth?\""
+npc_ellie_2: "\"The dreams show us the way.\""
+npc_ellie_3: "\"The light of the aether grows brighter.\""
+npc_ellie_4: "\"Patience, little dragon. Your path is almost ready.\""
+npc_ellie_5: "\"The heart of the ground beats for you, {player}.\""
+npc_aris_1: "\"Every spell begins with a single thought.\""
+npc_aris_2: "\"Feel the energy flowing into your fingertips.\""
+npc_aris_3: "\"Magic is not just power, it is responsibility.\""
+npc_aris_4: "\"Your connection to the aether is growing stronger.\""
+npc_aris_5: "\"You have touched the heart of Draconia.\""
+npc_treeOfLife_1: "\"I am the pulse of this world. Your journey has only just begun, little one.\""
+lore_1_step_1: >-
+  <i>The Imperial family rules from the Sun Palace, located in the heart of the
+  Caldera, a massive, lush volcanic crater.</i>
+lore_1_step_2: >-
+  <i>Emperor Ignis Aurum leads Draconia with iron discipline. His magic is as
+  hot as the sun itself.</i>
+lore_1_step_3: >-
+  <i>Empress Amaterasu hails from the Crystal Realm in the north. Her gentle
+  light magic warms the spirits of all the people.</i>
+lore_1_step_4: >-
+  <i>Crown Princess Lunara is the firstborn. She commands not only the tides but
+  also walks safely through the world of dreams.</i>
+lore_1_step_5: >-
+  <i>Prince Valerius, the General of the Empire, uses his earth magic to shape
+  even the hardest stone like soft wax.</i>
+lore_1_step_6: >-
+  <i>Zephyrion, the Wind Dragon, is famous for his speed – but few know of his
+  passion for alchemy.</i>
+lore_1_step_7: >-
+  <i>Young Ryuga is the youngest of the family. Still a small spark, but his
+  potential will one day shake the world.</i>
+lore_1_step_8: >-
+  <i>Dragonshifters possess two forms. It is considered impolite to wear wings
+  openly in humanoid form without reason.</i>
+lore_1_step_9: >-
+  <i>The Dual Monarchy ensures peace between the various species, as Draconia is
+  too large for a single ruler.</i>
+lore_1_step_10: >-
+  <i>Under the rule of the Emperors stand the Vassal Kings, who manage the more
+  distant island groups and swear loyalty to the Sun Palace.</i>
+lore_2_step_1: >-
+  <i>Draconia consists of countless islands floating above an endless sea of
+  boiling lava.</i>
+lore_2_step_2: >-
+  <i>Luxana, the magnificent capital, lies directly next to the majestic Caldera
+  of the Sun Palace and forms the pulsating heart of the empire.</i>
+lore_2_step_3: >-
+  <i>In the far north lies the Crystal Realm, a world of glowing gemstones that
+  reflect all magic.</i>
+lore_2_step_4: >-
+  <i>Luxana, the City of Light, is the cultural center of the empire and the
+  seat of scholars.</i>
+lore_2_step_5: >-
+  <i>The Emerald Forest is a gigantic jungle whose flora grows faster than one
+  can watch.</i>
+lore_2_step_6: >-
+  <i>The Whispering Grove is a mystical place where the spirits of ancestors
+  dwell in the trees.</i>
+lore_2_step_7: >-
+  <i>Vandara is the City of Scholars. In the famous Rose Gold Academy, dragons
+  from all over the empire study the secrets of the ether.</i>
+lore_2_step_8: >-
+  <i>It rains almost daily in Draconia, making the floating islands extremely
+  fertile and green.</i>
+lore_2_step_9: >-
+  <i>Legends say the planet was once a whole sphere until an unknown event
+  shattered it into a thousand pieces.</i>
+npc_teacher_4_not_read: "\"Have you read the books I gave you? Please study them thoroughly first.\""
+lore_2_step_10: >-
+  <i>The Accord of Luxana is renewed every hundred years to strengthen the bond
+  between dragon species.</i>

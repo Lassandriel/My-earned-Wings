@@ -1,0 +1,132 @@
+# Furniture — placed in the home, take spaceCost, often grant capacity bonuses.
+- id: item-bed
+  title: item_bed_title
+  desc: item_bed_desc
+  image: img/furniture/bed.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: rest_energy_gain, add: 30 }
+    - { key: energy_limit, add: 50 }
+
+- id: item-chair
+  title: item_chair_title
+  desc: item_chair_desc
+  image: img/furniture/chair.webp
+  consumable: false
+  category: furniture
+  spaceCost: 1
+  effect: ui_decorative
+
+- id: item-stove
+  title: item_stove_title
+  desc: item_stove_desc
+  image: img/furniture/stove.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: eat_satiation_gain, add: 20 }
+
+- id: item-bookshelf
+  title: item_bookshelf_title
+  desc: item_bookshelf_desc
+  image: img/furniture/bookshelf.webp
+  consumable: false
+  category: furniture
+  spaceCost: 1
+  modifiers:
+    - { key: books_limit, add: 5 }
+
+- id: item-cabinet
+  title: item_cabinet_title
+  desc: item_cabinet_desc
+  image: img/furniture/cabinet.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: meat_limit, add: 10 }
+    - { key: water_limit, add: 10 }
+    - { key: herbs_limit, add: 20 }
+
+- id: item-grand-table
+  title: item_grand_table_title
+  desc: item_grand_table_desc
+  image: img/furniture/table_massive.webp
+  consumable: false
+  category: furniture
+  spaceCost: 3
+  effect: ui_decorative
+
+- id: item-bed-2
+  title: item_bed_2_title
+  desc: item_bed_2_desc
+  image: img/furniture/bed_2.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: rest_energy_gain, add: 50 }
+    - { key: energy_limit, add: 100 }
+
+- id: item-stove-2
+  title: item_stove_2_title
+  desc: item_stove_2_desc
+  image: img/furniture/stove_2.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: eat_satiation_gain, add: 50 }
+    - { key: energy_limit, add: 25 }
+
+- id: item-loom
+  title: item_loom_title
+  desc: item_loom_desc
+  image: img/furniture/loom.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  effect: ui_decorative
+
+- id: item-bookshelf-large
+  title: item_bookshelf_large_title
+  desc: item_bookshelf_large_desc
+  image: img/furniture/bookshelf_large.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: books_limit, add: 15 }
+
+- id: item-desk
+  title: item_desk_title
+  desc: item_desk_desc
+  image: img/furniture/desk.webp
+  consumable: false
+  category: furniture
+  spaceCost: 2
+  modifiers:
+    - { key: study_efficiency, mult: 1.25 }
+
+- id: item-mana-basin
+  title: item_mana_basin_title
+  desc: item_mana_basin_desc
+  image: img/addons/mana_basin.webp
+  consumable: false
+  category: furniture
+  spaceCost: 1
+  modifiers:
+    - { key: magic_regen_passive, add: 1 }
+
+- id: item-terrace
+  title: item_terrace_title
+  desc: item_terrace_desc
+  image: img/housing/terrace.webp
+  consumable: false
+  category: furniture
+  spaceCost: 3
+  modifiers:
+    - { key: rest_energy_gain, mult: 1.2 }

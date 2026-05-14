@@ -14,23 +14,37 @@
  *
  * Editing + write-back to YAML is the next iteration.
  */
-import { ACTION_REGISTRY_GENERATED, MODIFIER_REGISTRY_GENERATED } from '../generated/content';
-import { itemDb } from '../features/crafting/items.data';
-import { NPC_REGISTRY } from '../features/village/village.data';
-import { vandaraNPCs } from '../features/vandara/vandara.data';
-import { BUFF_REGISTRY } from '../data/definitions/buffs';
-import { HOME_REGISTRY } from '../features/housing/housing.data';
+import {
+  ACTION_REGISTRY_GENERATED,
+  MODIFIER_REGISTRY_GENERATED,
+  RESOURCE_REGISTRY_GENERATED,
+  ITEM_REGISTRY_GENERATED as itemDb,
+  NPC_REGISTRY_GENERATED as NPC_REGISTRY,
+  BUFF_REGISTRY_GENERATED as BUFF_REGISTRY,
+  HOME_REGISTRY_GENERATED as HOME_REGISTRY,
+  MILESTONE_REGISTRY_GENERATED,
+  NAVIGATION_REGISTRY_GENERATED,
+  TITLE_REGISTRY_GENERATED,
+  TRANSLATIONS_GENERATED,
+} from '../generated/content';
 import yaml from 'js-yaml';
 
 type Entity = Record<string, unknown> & { id: string; category?: string };
 
-// --- Registries ---
+// --- Registries (label → loader) ---
+// Each label MUST lower-case to a key the main process recognises in
+// ENTITY_DIR_MAP (src/electron/main.ts) so write-back can find the YAML file.
 const REGISTRIES: Record<string, () => Record<string, Entity>> = {
   Actions: () => ACTION_REGISTRY_GENERATED as Record<string, Entity>,
   Items: () => itemDb as unknown as Record<string, Entity>,
-  NPCs: () => ({ ...NPC_REGISTRY, ...vandaraNPCs }) as unknown as Record<string, Entity>,
+  NPCs: () => NPC_REGISTRY as unknown as Record<string, Entity>,
   Modifiers: () => MODIFIER_REGISTRY_GENERATED as Record<string, Entity>,
   Buffs: () => BUFF_REGISTRY as unknown as Record<string, Entity>,
+  Homes: () => HOME_REGISTRY as unknown as Record<string, Entity>,
+  Milestones: () => MILESTONE_REGISTRY_GENERATED as Record<string, Entity>,
+  Navigation: () => NAVIGATION_REGISTRY_GENERATED as Record<string, Entity>,
+  Titles: () => TITLE_REGISTRY_GENERATED as Record<string, Entity>,
+  Resources: () => RESOURCE_REGISTRY_GENERATED as Record<string, Entity>,
 };
 
 // --- BroadcastChannel for live cheats → main game ---
@@ -83,7 +97,7 @@ const MODIFIER_INDEX: Record<string, ModifierSource[]> = (() => {
 })();
 
 // --- State ---
-const TAB_NAMES = [...Object.keys(REGISTRIES), 'Cheats', 'Validation', 'Modifier Tree'];
+const TAB_NAMES = [...Object.keys(REGISTRIES), 'Translations', 'Cheats', 'Validation', 'Modifier Tree'];
 let activeTab = TAB_NAMES[0];
 let activeId: string | null = null;
 let filter = '';
@@ -91,6 +105,19 @@ let editMode = false;
 let editStatus = '';
 let validationOutput = '';
 let validationRunning = false;
+
+// --- Translations state ---
+type TrMap = Record<string, Record<string, Record<string, string>>>;
+const trData: TrMap = JSON.parse(JSON.stringify(TRANSLATIONS_GENERATED)) as TrMap;
+const TR_LANGS = Object.keys(trData).sort();
+const TR_CONTEXTS = (() => {
+  const all = new Set<string>();
+  for (const lang of TR_LANGS) for (const ctx of Object.keys(trData[lang] || {})) all.add(ctx);
+  return [...all].sort();
+})();
+let trContext: string = TR_CONTEXTS[0] ?? 'ui';
+let trActiveKey: string | null = null;
+let trEditStatus = '';
 
 // API shim: only available when running inside Electron with our preload.
 const api: any = (window as any).electronAPI || null;
@@ -123,6 +150,11 @@ function renderList() {
 
   if (activeTab === 'Validation') {
     list.innerHTML = '<div class="category">Project validators</div>';
+    return;
+  }
+
+  if (activeTab === 'Translations') {
+    renderTranslationsList();
     return;
   }
 
@@ -200,6 +232,11 @@ function renderDetail() {
     return;
   }
 
+  if (activeTab === 'Translations') {
+    renderTranslationsDetail();
+    return;
+  }
+
   if (!activeId) {
     main.innerHTML = `<div class="empty-state">Wähle einen Eintrag links aus.</div>`;
     return;
@@ -232,7 +269,8 @@ function renderDetail() {
 
   const yamlText = yaml.dump(entity, { lineWidth: 80, sortKeys: false });
 
-  const editableHere = activeTab === 'Actions' && api?.contentWriteAction;
+  // Iter 7b: every YAML-backed registry tab is editable via CONTENT_WRITE.
+  const editableHere = activeTab in REGISTRIES && !!(api?.contentWrite || api?.contentWriteAction);
   const editButton = editableHere
     ? `<button id="edit-toggle" class="edit-btn">${editMode ? '✕ Cancel' : '✎ Edit'}</button>`
     : '';
@@ -301,6 +339,13 @@ function renderEditor(entity: Entity): string {
       <h3>Costs (multi-resource)</h3>
       <div class="kv-list" id="kv-costs">${renderKVRows('costs', costs as any)}</div>
       <button class="kv-add" data-prefix="costs" type="button">+ add cost</button>
+
+      <h3>Raw YAML patch (advanced)</h3>
+      <p class="hint">For tabs other than Actions (Items, NPCs, Buffs, Modifiers): paste a partial YAML
+      object here to overwrite top-level fields not covered above. Keys with <code>null</code> values
+      are deleted from the entity. Example:
+      <code>capacity: 16</code> or <code>modifiers:&nbsp;[{ key: rest_energy_gain, add: 100 }]</code></p>
+      <textarea id="ed-raw-yaml" class="raw-yaml" rows="6" placeholder="# leave blank if not needed"></textarea>
 
       <div class="actions">
         <button id="save-only">Save YAML only</button>
@@ -397,13 +442,34 @@ function wireEditorHandlers(entity: Entity): void {
       patch.costs = Object.keys(newCosts).length ? newCosts : undefined;
     }
 
-    // Strip undefined keys from patch
+    // Merge in advanced raw-YAML patch (overrides structured fields on key collision).
+    const rawEl = document.getElementById('ed-raw-yaml') as HTMLTextAreaElement | null;
+    const rawText = rawEl?.value?.trim() ?? '';
+    if (rawText) {
+      try {
+        const rawObj = yaml.load(rawText);
+        if (rawObj && typeof rawObj === 'object' && !Array.isArray(rawObj)) {
+          Object.assign(patch, rawObj);
+        } else {
+          editStatus = '✗ Raw YAML must be a key:value mapping at the top level.';
+        }
+      } catch (e) {
+        editStatus = '✗ Raw YAML parse error: ' + (e as Error).message;
+      }
+    }
+
+    // Strip undefined keys from patch (null is intentional → delete on server)
     for (const k of Object.keys(patch)) if (patch[k] === undefined) delete patch[k];
     return patch;
   };
 
   const save = async (alsoBuild: boolean) => {
-    if (!api?.contentWriteAction) {
+    const writer = api?.contentWrite
+      ? (id: string, p: Record<string, unknown>) => api.contentWrite(activeTab.toLowerCase(), id, p)
+      : api?.contentWriteAction
+        ? (id: string, p: Record<string, unknown>) => api.contentWriteAction(id, p)
+        : null;
+    if (!writer) {
       editStatus = '✗ Not running in Electron — content write unavailable.';
       render();
       return;
@@ -416,7 +482,7 @@ function wireEditorHandlers(entity: Entity): void {
     }
     editStatus = 'Writing…';
     render();
-    const res = await api.contentWriteAction(entity.id, patch);
+    const res = await writer(entity.id, patch);
     if (!res.ok) {
       editStatus = '✗ ' + (res.error || 'unknown error');
       render();
@@ -570,7 +636,7 @@ function wireValidationHandlers(): void {
 
 function renderCheatsPanel(): string {
   const buffs = Object.values(BUFF_REGISTRY);
-  const npcs = Object.values({ ...NPC_REGISTRY, ...vandaraNPCs });
+  const npcs = Object.values(NPC_REGISTRY);
 
   return `
     <div class="detail-header">
@@ -722,3 +788,158 @@ search.addEventListener('input', () => {
 });
 
 render();
+
+// --- Translations editor ---
+
+function renderTranslationsList(): void {
+  const allKeys = new Set<string>();
+  for (const lang of TR_LANGS) for (const k of Object.keys(trData[lang]?.[trContext] || {})) allKeys.add(k);
+  const keyArr = [...allKeys].sort();
+  const filtered = keyArr.filter(k => !filter || k.toLowerCase().includes(filter));
+  meta.textContent = `${TR_LANGS.join(' / ')} · context "${trContext}" · ${keyArr.length} keys · ${filtered.length} shown`;
+
+  const ctxBar = document.createElement('div');
+  ctxBar.className = 'category';
+  ctxBar.innerHTML = `context: <select id="tr-ctx-pick" style="margin-left:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-size:12px;">${
+    TR_CONTEXTS.map(c => `<option value="${c}"${c === trContext ? ' selected' : ''}>${c} (${Object.keys(trData[TR_LANGS[0]]?.[c] || {}).length})</option>`).join('')
+  }</select> &nbsp;<button id="tr-add-key" class="kv-add" style="display:inline-block;margin:0;padding:2px 8px;">+ new key</button>`;
+  list.appendChild(ctxBar);
+
+  for (const key of filtered) {
+    const missing: string[] = [];
+    for (const lang of TR_LANGS) {
+      if (!trData[lang]?.[trContext]?.[key]) missing.push(lang);
+    }
+    const row = document.createElement('div');
+    row.className = 'item-row' + (key === trActiveKey ? ' active' : '');
+    const badge = missing.length ? ` <span class="id" style="color:#fca5a5;">missing: ${missing.join(',')}</span>` : '';
+    row.innerHTML = `${escapeHtml(key)}${badge}`;
+    row.onclick = () => {
+      trActiveKey = key;
+      trEditStatus = '';
+      render();
+    };
+    list.appendChild(row);
+  }
+
+  (document.getElementById('tr-ctx-pick') as HTMLSelectElement).onchange = (e) => {
+    trContext = (e.target as HTMLSelectElement).value;
+    trActiveKey = null;
+    trEditStatus = '';
+    render();
+  };
+  (document.getElementById('tr-add-key') as HTMLButtonElement).onclick = () => {
+    const newKey = prompt(`New translation key in context "${trContext}":`)?.trim();
+    if (!newKey) return;
+    if (allKeys.has(newKey)) {
+      alert(`Key "${newKey}" already exists in this context.`);
+      return;
+    }
+    for (const lang of TR_LANGS) {
+      (trData[lang] ??= {});
+      (trData[lang][trContext] ??= {});
+      trData[lang][trContext][newKey] = '';
+    }
+    trActiveKey = newKey;
+    trEditStatus = 'New key added (not saved yet — click Save).';
+    render();
+  };
+}
+
+function renderTranslationsDetail(): void {
+  if (!trActiveKey) {
+    main.innerHTML = `<div class="empty-state">Wähle links einen Translation-Key aus.<br><br>
+      <span style="font-size:12px;opacity:0.7;">Roter <code>missing:</code>-Badge zeigt Lücken in einer Sprache.<br>
+      Mit "+ new key" oben kannst du neue Keys anlegen.</span></div>`;
+    return;
+  }
+
+  const writer = api?.contentWriteTranslation;
+  const writable = !!writer;
+
+  const langInputs = TR_LANGS.map(lang => {
+    const val = trData[lang]?.[trContext]?.[trActiveKey!] ?? '';
+    return `
+      <div class="tr-pane">
+        <h4>${lang.toUpperCase()}</h4>
+        <textarea class="raw-yaml" data-lang="${lang}" rows="4" placeholder="(empty)">${escapeHtml(val)}</textarea>
+      </div>`;
+  }).join('');
+
+  main.innerHTML = `
+    <div class="detail-header">
+      <h2>${escapeHtml(trActiveKey)}</h2>
+      <div class="id">context: ${trContext} · ${TR_LANGS.length} languages</div>
+    </div>
+    <div class="tr-grid">${langInputs}</div>
+    <div class="editor">
+      <div class="actions">
+        <button id="tr-save"${writable ? '' : ' disabled'}>Save all languages</button>
+        <button id="tr-delete"${writable ? '' : ' disabled'} style="background:#7f1d1d;border-color:#b91c1c;">🗑 Delete key (all langs)</button>
+        <button id="tr-build"${writable ? '' : ' disabled'}>Save &amp; rebuild</button>
+        <span class="status">${escapeHtml(trEditStatus)}</span>
+      </div>
+      <p class="hint">Empty values are written as empty strings. Use the red Delete button to remove a key from all languages. Rebuild regenerates <code>src/generated/content.ts</code> so the running game picks up the change.</p>
+    </div>
+  `;
+
+  if (!writable) return;
+
+  const collect = (): Record<string, string> => {
+    const out: Record<string, string> = {};
+    for (const lang of TR_LANGS) {
+      const ta = main.querySelector<HTMLTextAreaElement>(`textarea[data-lang="${lang}"]`);
+      out[lang] = ta?.value ?? '';
+    }
+    return out;
+  };
+
+  const saveAll = async (alsoBuild: boolean) => {
+    const values = collect();
+    trEditStatus = 'Writing…';
+    render();
+    const errs: string[] = [];
+    for (const lang of TR_LANGS) {
+      const v = values[lang];
+      const res = await writer!(lang, trContext, trActiveKey!, v);
+      if (!res.ok) errs.push(`${lang}: ${res.error}`);
+      else (trData[lang] ??= {})[trContext] = { ...(trData[lang][trContext] || {}), [trActiveKey!]: v };
+    }
+    if (errs.length) {
+      trEditStatus = '✗ ' + errs.join(' | ');
+      render();
+      return;
+    }
+    trEditStatus = `✓ Saved ${TR_LANGS.length} language(s).`;
+    if (alsoBuild) {
+      trEditStatus += ' Building…';
+      render();
+      const build = await api.contentBuild();
+      trEditStatus = build.ok
+        ? '✓ Saved and rebuilt — main game will hot-reload.'
+        : '⚠ Saved but build failed: ' + build.output.split('\n').slice(-3).join(' | ');
+    }
+    render();
+  };
+
+  document.getElementById('tr-save')!.onclick = () => saveAll(false);
+  document.getElementById('tr-build')!.onclick = () => saveAll(true);
+  document.getElementById('tr-delete')!.onclick = async () => {
+    if (!confirm(`Delete key "${trActiveKey}" from all languages?`)) return;
+    trEditStatus = 'Deleting…';
+    render();
+    const errs: string[] = [];
+    for (const lang of TR_LANGS) {
+      const res = await writer!(lang, trContext, trActiveKey!, null);
+      if (!res.ok) errs.push(`${lang}: ${res.error}`);
+      else delete trData[lang]?.[trContext]?.[trActiveKey!];
+    }
+    if (errs.length) {
+      trEditStatus = '✗ ' + errs.join(' | ');
+    } else {
+      trEditStatus = '';
+      trActiveKey = null;
+    }
+    render();
+  };
+}

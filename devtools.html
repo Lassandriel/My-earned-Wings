@@ -432,6 +432,31 @@
       }
       .kv-add:hover { color: var(--accent); border-color: var(--accent); }
       .kv-empty { color: var(--text-dim); font-style: italic; font-size: 12px; margin: 4px 0; }
+      .tr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 12px;
+        margin: 12px 0;
+      }
+      .tr-pane h4 {
+        margin: 0 0 4px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        color: var(--text-dim);
+      }
+      .raw-yaml {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 12px;
+        padding: 8px;
+        resize: vertical;
+        margin-bottom: 8px;
+      }
     </style>
   </head>
   <body>

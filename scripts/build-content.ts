@@ -83,15 +83,66 @@ const actions = [
   ...loadDir(path.join(CONTENT_DIR, 'actions')),
 ];
 
-// Note: NPCs, Items, Homes, Buffs, Milestones, Navigation, Titles
-// are still loaded from TypeScript until they are fully migrated.
-// They will be added to this pipeline in subsequent iterations.
+const items = [
+  ...loadDir(path.join(CONTENT_DIR, 'items')),
+];
+
+const npcs = [
+  ...loadDir(path.join(CONTENT_DIR, 'npcs')),
+];
+
+const buffs = [
+  ...loadDir(path.join(CONTENT_DIR, 'buffs')),
+];
+
+const homes = [
+  ...loadDir(path.join(CONTENT_DIR, 'homes')),
+];
+
+const milestones = [
+  ...loadDir(path.join(CONTENT_DIR, 'milestones')),
+];
+
+const navigation = [
+  ...loadDir(path.join(CONTENT_DIR, 'navigation')),
+];
+
+const titles = [
+  ...loadDir(path.join(CONTENT_DIR, 'titles')),
+];
+
+// ─── Translations (special: nested map, not array) ──────────────────────────
+function loadTranslations(): Record<string, Record<string, Record<string, string>>> {
+  const i18nDir = path.join(CONTENT_DIR, 'i18n');
+  const out: Record<string, Record<string, Record<string, string>>> = {};
+  if (!fs.existsSync(i18nDir)) return out;
+  for (const lang of fs.readdirSync(i18nDir)) {
+    const langDir = path.join(i18nDir, lang);
+    if (!fs.statSync(langDir).isDirectory()) continue;
+    out[lang] = {};
+    for (const file of fs.readdirSync(langDir).filter(f => /\.ya?ml$/.test(f))) {
+      const ctx = file.replace(/\.ya?ml$/, '');
+      const raw = fs.readFileSync(path.join(langDir, file), 'utf-8');
+      const parsed = yaml.load(raw);
+      out[lang][ctx] = (parsed && typeof parsed === 'object') ? parsed as any : {};
+    }
+  }
+  return out;
+}
+const translations = loadTranslations();
 
 // ─── Build registries ───────────────────────────────────────────────────────
 
 const resourceRegistry = arrayToRecord(resources);
 const modifierRegistry = arrayToRecord(modifiers);
 const actionRegistry = arrayToRecord(actions);
+const itemRegistry = arrayToRecord(items);
+const npcRegistry = arrayToRecord(npcs);
+const buffRegistry = arrayToRecord(buffs);
+const homeRegistry = arrayToRecord(homes);
+const milestoneRegistry = arrayToRecord(milestones);
+const navigationRegistry = arrayToRecord(navigation);
+const titleRegistry = arrayToRecord(titles);
 
 // ─── Derive the efficiency keys for the pipeline automatically ───────────────
 // Any resource or modifier with scalesWithSatiation: true gets added
@@ -115,6 +166,18 @@ const uniqueEfficiencyKeys = [...new Set(efficiencyKeys)];
 console.log(`✅ Resources: ${Object.keys(resourceRegistry).length}`);
 console.log(`✅ Modifiers: ${Object.keys(modifierRegistry).length}`);
 console.log(`✅ Actions:   ${Object.keys(actionRegistry).length}`);
+console.log(`✅ Items:     ${Object.keys(itemRegistry).length}`);
+console.log(`✅ NPCs:      ${Object.keys(npcRegistry).length}`);
+console.log(`✅ Buffs:     ${Object.keys(buffRegistry).length}`);
+console.log(`✅ Homes:     ${Object.keys(homeRegistry).length}`);
+console.log(`✅ Milestones:${Object.keys(milestoneRegistry).length}`);
+console.log(`✅ Navigation:${Object.keys(navigationRegistry).length}`);
+console.log(`✅ Titles:    ${Object.keys(titleRegistry).length}`);
+const trKeyCount = Object.values(translations).reduce(
+  (acc, ctxMap) => acc + Object.values(ctxMap).reduce((a, m) => a + Object.keys(m).length, 0),
+  0
+);
+console.log(`✅ Translations: ${Object.keys(translations).length} langs, ${trKeyCount} total keys`);
 console.log(`✅ Pipeline efficiency keys: ${uniqueEfficiencyKeys.length}`);
 
 // ─── Generate output ─────────────────────────────────────────────────────────
@@ -140,6 +203,38 @@ export const MODIFIER_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify
 // === Action Registry ===
 
 export const ACTION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(actionRegistry, null, 2)};
+
+// === Item Registry ===
+
+export const ITEM_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(itemRegistry, null, 2)};
+
+// === NPC Registry ===
+
+export const NPC_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(npcRegistry, null, 2)};
+
+// === Buff Registry ===
+
+export const BUFF_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(buffRegistry, null, 2)};
+
+// === Home Registry ===
+
+export const HOME_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(homeRegistry, null, 2)};
+
+// === Milestone Registry ===
+
+export const MILESTONE_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(milestoneRegistry, null, 2)};
+
+// === Navigation Registry ===
+
+export const NAVIGATION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(navigationRegistry, null, 2)};
+
+// === Title Registry ===
+
+export const TITLE_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(titleRegistry, null, 2)};
+
+// === Translations (lang -> context -> key -> string) ===
+
+export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string, string>>> = ${JSON.stringify(translations, null, 2)};
 
 // === Pipeline Config ===
 // Auto-derived from YAML: resources/modifiers with scalesWithSatiation: true

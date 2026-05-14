@@ -1,8 +1,9 @@
-import de from './lang/de';
-import en from './lang/en';
 import { GameState, Translations, LanguageCode } from './types/game';
+import { TRANSLATIONS_GENERATED } from './generated/content';
 
-const translations: Record<LanguageCode, Translations[LanguageCode]> = { de, en };
+// Translations are now YAML-generated (Phase 1.5).
+// Run `npm run build:content` after editing content/i18n/**/*.yaml.
+const translations = TRANSLATIONS_GENERATED as unknown as Record<LanguageCode, Translations[LanguageCode]>;
 
 /**
  * CORE 3.5 STATE DEFINITION - TypeScript Edition

@@ -16,7 +16,9 @@ export const IpcChannel = {
   // Phase 4 Iter 3: content authoring
   CONTENT_FIND: 'content:find',          // (entityType, id) → file path or null
   CONTENT_READ: 'content:read',          // (relativePath) → text
-  CONTENT_WRITE_ACTION: 'content:writeAction', // (id, patch) → ok / error
+  CONTENT_WRITE_ACTION: 'content:writeAction', // (id, patch) → ok / error  [LEGACY, use CONTENT_WRITE]
+  CONTENT_WRITE: 'content:write',              // (entityType, id, patch) → ok / error
+  CONTENT_WRITE_TRANSLATION: 'content:writeTranslation', // (lang, context, key, value|null) → ok
   CONTENT_BUILD: 'content:build',        // run npm run build:content
   CONTENT_VALIDATE: 'content:validate',  // run npm run check-all
 } as const;

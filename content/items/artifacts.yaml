@@ -1,0 +1,86 @@
+# Artifacts — quest items, lore books, magic ingredients (mostly non-consumable).
+- id: item-deed
+  title: item_deed_title
+  desc: item_deed_desc
+  image: img/items/deed.webp
+  consumable: false
+  category: items
+
+- id: item-book-knowledge
+  title: item_book_knowledge_title
+  desc: item_book_knowledge_desc
+  image: img/items/bookknowledge.webp
+  consumable: false
+  category: items
+
+- id: item-book_lore_1
+  title: item_book_lore_1_title
+  desc: item_book_lore_1_desc
+  image: img/items/book_lore_1.webp
+  consumable: false
+  category: lore
+
+- id: item-book_lore_2
+  title: item_book_lore_2_title
+  desc: item_book_lore_2_desc
+  image: img/items/book_lore_2.webp
+  consumable: false
+  category: lore
+
+- id: item-scroll
+  title: item_scroll_title
+  desc: item_scroll_desc
+  image: img/items/scroll.webp
+  consumable: false
+  category: items
+
+- id: item-whetstone
+  title: item_whetstone_title
+  desc: item_whetstone_desc
+  image: img/items/whetstone.webp
+  consumable: false
+  category: items
+
+- id: item-arrowhead
+  title: item_arrowhead_title
+  desc: item_arrowhead_desc
+  image: img/items/arrowhead.webp
+  consumable: false
+  category: items
+
+- id: item-astral-shards
+  title: item_astral_shards_title
+  desc: item_astral_shards_desc
+  image: img/items/astralshard.webp
+  consumable: false
+  category: items
+
+- id: item-dream-dust
+  title: item_dream_dust_title
+  desc: item_dream_dust_desc
+  image: img/items/dreamdust.webp
+  consumable: false
+  category: items
+
+- id: item-wyvern-scale
+  title: item_wyvern_scale_title
+  desc: item_wyvern_scale_desc
+  image: img/items/wyvernshard.webp
+  consumable: false
+  category: items
+
+- id: item-arcane-dust
+  title: item_arcane_dust_title
+  desc: item_arcane_dust_desc
+  image: img/items/arcane_dust.webp
+  consumable: false
+  category: items
+
+- id: item-crystal-mana
+  title: item_crystal_mana_title
+  desc: item_crystal_mana_desc
+  image: img/items/mana_crystal.webp
+  consumable: false
+  category: items
+  modifiers:
+    - { key: garden_magic_cost, add: -1 }
