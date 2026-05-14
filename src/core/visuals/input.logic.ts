@@ -57,10 +57,10 @@ export const createInputSystem = () => {
 
         // Gameplay Shortcuts
         if (view !== 'menu' && view !== 'prologue' && !settingsOpen) {
-          const SHORTCUTS: Record<string, string> = { 
-            '1': 'act-ausruhen', 
-            '2': 'act-meditieren', 
-            '3': 'act-essen' 
+          const SHORTCUTS: Record<string, string> = {
+            '1': 'act-rest',
+            '2': 'act-meditate',
+            '3': 'act-eat',
           };
           if (SHORTCUTS[e.key] && store.commands) {
             store.commands.enqueue({ type: 'executeAction', actionId: SHORTCUTS[e.key] });

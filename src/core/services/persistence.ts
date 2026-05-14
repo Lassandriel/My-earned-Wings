@@ -185,10 +185,46 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
   };
 
   /**
+   * Maps action IDs that were renamed in newer game versions so old saves keep
+   * their unlocks/counters/recipes. Add new entries here whenever you rename
+   * an action, item, npc, etc. — silent drop happens otherwise.
+   */
+  const LEGACY_ID_MAP: Record<string, string> = {
+    // 2026-05-14: Phase 1.5 follow-up — primary actions standardised to English,
+    //             Sanctum meditation got -sanctum suffix to free up `act-meditate`.
+    'act-essen': 'act-eat',
+    'act-ausruhen': 'act-rest',
+    'act-meditieren': 'act-meditate',
+    'act-meditate': 'act-meditate-sanctum',
+  };
+
+  const remapLegacyIds = (store: GameState) => {
+    const remapArr = (arr: unknown): unknown =>
+      Array.isArray(arr) ? arr.map((v) => (typeof v === 'string' && LEGACY_ID_MAP[v]) || v) : arr;
+    const remapKeys = (obj: Record<string, unknown> | undefined): Record<string, unknown> | undefined => {
+      if (!obj || typeof obj !== 'object') return obj;
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(obj)) {
+        const newKey = LEGACY_ID_MAP[k] || k;
+        if (newKey in out && typeof out[newKey] === 'number' && typeof v === 'number') {
+          out[newKey] = (out[newKey] as number) + v;
+        } else {
+          out[newKey] = v;
+        }
+      }
+      return out;
+    };
+
+    if (store.unlockedRecipes) store.unlockedRecipes = remapArr(store.unlockedRecipes) as string[];
+    if (store.counters) store.counters = remapKeys(store.counters as any) as any;
+  };
+
+  /**
    * Removes legacy/invalid IDs from save arrays.
-   * This prevents content registry fallback spam and keeps state consistent after updates.
+   * Runs after remapLegacyIds() so renames survive the cleanup.
    */
   const sanitizeSaveArrays = (store: GameState) => {
+    remapLegacyIds(store);
     const contentService = store.content as unknown as { registries?: Record<string, Record<string, unknown>> };
     const regs = contentService?.registries;
     if (!regs) return;

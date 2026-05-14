@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 13:49:09
+// Generated: 14.5.2026 14:41:02
 
 // === Resource Registry ===
 
@@ -1388,7 +1388,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       },
       {
         "type": "unlockRecipe",
-        "id": "act-meditate"
+        "id": "act-meditate-sanctum"
       }
     ],
     "modifiers": [
@@ -1639,8 +1639,8 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       }
     ]
   },
-  "act-essen": {
-    "id": "act-essen",
+  "act-eat": {
+    "id": "act-eat",
     "category": "primary",
     "icon": "🍱",
     "cost": 0,
@@ -1654,8 +1654,8 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "satiationCost": 0,
     "logKey": "eat_log"
   },
-  "act-ausruhen": {
-    "id": "act-ausruhen",
+  "act-rest": {
+    "id": "act-rest",
     "category": "primary",
     "icon": "💤",
     "cost": 0,
@@ -1669,8 +1669,8 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "satiationCost": 0,
     "logKey": "rest_log"
   },
-  "act-meditieren": {
-    "id": "act-meditieren",
+  "act-meditate": {
+    "id": "act-meditate",
     "category": "primary",
     "icon": "🧘",
     "cost": 0,
@@ -2149,8 +2149,8 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     ],
     "logKey": "dream_bloom_log"
   },
-  "act-meditate": {
-    "id": "act-meditate",
+  "act-meditate-sanctum": {
+    "id": "act-meditate-sanctum",
     "category": "magic",
     "icon": "🧘",
     "duration": 10000,
@@ -4305,7 +4305,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "desc": "Erweitere dein geistiges Magie-Limit.",
         "effect": "+{val} Magie-Limit"
       },
-      "act-meditate": {
+      "act-meditate-sanctum": {
         "title": "Meditieren",
         "desc": "Ziehe Astral-Splitter aus der Luft.",
         "effect": "+1 Astralsplitter"
@@ -4380,17 +4380,17 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "desc": "Sammle bunte Wiesenblumen für dein Heim.",
         "effect": "+{val} Blumen"
       },
-      "act-essen": {
+      "act-eat": {
         "title": "Beeren essen",
         "desc": "Nähr dich von den Gaben des Bodens.",
         "effect": "+{val} Sättigung"
       },
-      "act-ausruhen": {
+      "act-rest": {
         "title": "Ausruhen",
         "desc": "Hör auf das Schwingenschlagen in der Ferne.",
         "effect": "+{val} Energie"
       },
-      "act-meditieren": {
+      "act-meditate": {
         "title": "Fokussieren",
         "desc": "Blick nach oben, doch Wurzeln am Boden.",
         "effect": "+{val} Magie"
@@ -5437,7 +5437,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "desc": "Expand your mental magic limit.",
         "effect": "+{val} Magic Limit"
       },
-      "act-meditate": {
+      "act-meditate-sanctum": {
         "title": "Meditate",
         "desc": "Draw astral shards from the air.",
         "effect": "+1 Astral Shard"
@@ -5512,17 +5512,17 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "desc": "Gather colorful wild flowers for your home.",
         "effect": "+{val} Flowers"
       },
-      "act-essen": {
+      "act-eat": {
         "title": "Eat Berries",
         "desc": "Nourish yourself from the gifts of the earth.",
         "effect": "+{val} Satiation"
       },
-      "act-ausruhen": {
+      "act-rest": {
         "title": "Rest",
         "desc": "Listen to the beating of wings in the distance.",
         "effect": "+{val} Energy"
       },
-      "act-meditieren": {
+      "act-meditate": {
         "title": "Focus",
         "desc": "Look up, but roots on the ground.",
         "effect": "+{val} Magic"

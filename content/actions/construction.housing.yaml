@@ -87,7 +87,7 @@
     - type: unlockNPC
       id: npc-aris
     - type: unlockRecipe
-      id: act-meditate
+      id: act-meditate-sanctum
   modifiers:
     - key: magic_limit
       add: 50

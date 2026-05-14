@@ -67,7 +67,7 @@ act-study:
   title: Study
   desc: Expand your mental magic limit.
   effect: +{val} Magic Limit
-act-meditate:
+act-meditate-sanctum:
   title: Meditate
   desc: Draw astral shards from the air.
   effect: +1 Astral Shard
@@ -127,15 +127,15 @@ act-pick-flowers:
   title: Pick Flowers
   desc: Gather colorful wild flowers for your home.
   effect: +{val} Flowers
-act-essen:
+act-eat:
   title: Eat Berries
   desc: Nourish yourself from the gifts of the earth.
   effect: +{val} Satiation
-act-ausruhen:
+act-rest:
   title: Rest
   desc: Listen to the beating of wings in the distance.
   effect: +{val} Energy
-act-meditieren:
+act-meditate:
   title: Focus
   desc: Look up, but roots on the ground.
   effect: +{val} Magic

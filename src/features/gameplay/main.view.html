@@ -22,20 +22,20 @@
 >
   <!-- Primary Stats Actions -->
   <nav class="primary-actions-bar">
-    <template x-for="id in ['act-ausruhen', 'act-meditieren', 'act-essen']" :key="id">
+    <template x-for="id in ['act-rest', 'act-meditate-sanctum', 'act-eat']" :key="id">
       <button
         class="game-btn primary-btn"
         :class="{
-          'primary-energy': id === 'act-ausruhen',
-          'primary-magic': id === 'act-meditieren',
-          'primary-satiation': id === 'act-essen'
+          'primary-energy': id === 'act-rest',
+          'primary-magic': id === 'act-meditate-sanctum',
+          'primary-satiation': id === 'act-eat'
         }"
         @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: id, element: $el })"
         @mouseover="$store.game.setHovered(id)"
         @mouseout="$store.game.setHovered(null)"
       >
         <span x-text="$store.game.t(id, 'actions').title"></span>
-        <span class="key-tag" x-text="id === 'act-ausruhen' ? '1' : (id === 'act-meditieren' ? '2' : '3')"></span>
+        <span class="key-tag" x-text="id === 'act-rest' ? '1' : (id === 'act-meditate-sanctum' ? '2' : '3')"></span>
       </button>
     </template>
   </nav>
@@ -144,14 +144,14 @@
           <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_magic'), desc: $store.game.t('help_magic_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
         <div class="btn-list">
-          <template x-for="actionId in getActions('magic', (a) => a.id !== 'act-meditate' && a.id !== 'act-spell-harvest')" :key="actionId">
+          <template x-for="actionId in getActions('magic', (a) => a.id !== 'act-meditate-sanctum' && a.id !== 'act-spell-harvest')" :key="actionId">
             <button class="game-btn primary-magic" @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })" @mouseover="$store.game.setHovered(actionId)" @mouseout="$store.game.setHovered(null)" x-text="$store.game.t(actionId, 'actions').title"></button>
           </template>
           
           <!-- Long-running Magic Actions -->
-          <template x-for="actionId in ['act-meditate', 'act-spell-harvest']" :key="actionId">
+          <template x-for="actionId in ['act-meditate-sanctum', 'act-spell-harvest']" :key="actionId">
             <button
-              x-show="actionId === 'act-meditate' ? $store.game.flags['build-arcane-sanctum'] : true"
+              x-show="actionId === 'act-meditate-sanctum' ? $store.game.flags['build-arcane-sanctum'] : true"
               class="game-btn primary-magic action-btn-modular"
               :class="$store.game.isTaskActive(actionId) && 'is-working'"
               @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"

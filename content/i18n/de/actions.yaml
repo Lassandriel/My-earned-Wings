@@ -67,7 +67,7 @@ act-study:
   title: Studieren
   desc: Erweitere dein geistiges Magie-Limit.
   effect: +{val} Magie-Limit
-act-meditate:
+act-meditate-sanctum:
   title: Meditieren
   desc: Ziehe Astral-Splitter aus der Luft.
   effect: +1 Astralsplitter
@@ -127,15 +127,15 @@ act-pick-flowers:
   title: Blumen pflücken
   desc: Sammle bunte Wiesenblumen für dein Heim.
   effect: +{val} Blumen
-act-essen:
+act-eat:
   title: Beeren essen
   desc: Nähr dich von den Gaben des Bodens.
   effect: +{val} Sättigung
-act-ausruhen:
+act-rest:
   title: Ausruhen
   desc: Hör auf das Schwingenschlagen in der Ferne.
   effect: +{val} Energie
-act-meditieren:
+act-meditate:
   title: Fokussieren
   desc: Blick nach oben, doch Wurzeln am Boden.
   effect: +{val} Magie

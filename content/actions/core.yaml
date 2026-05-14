@@ -5,7 +5,7 @@
 
 # --- PRIMARY ACTIONS ---
 
-- id: act-essen
+- id: act-eat
   category: primary
   icon: "🍱"
   cost: 0
@@ -18,7 +18,7 @@
   satiationCost: 0
   logKey: eat_log
 
-- id: act-ausruhen
+- id: act-rest
   category: primary
   icon: "💤"
   cost: 0
@@ -31,7 +31,7 @@
   satiationCost: 0
   logKey: rest_log
 
-- id: act-meditieren
+- id: act-meditate
   category: primary
   icon: "🧘"
   cost: 0

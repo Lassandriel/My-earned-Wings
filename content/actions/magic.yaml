@@ -15,7 +15,7 @@
       amount: 5
   logKey: dream_bloom_log
 
-- id: act-meditate
+- id: act-meditate-sanctum
   category: magic
   icon: "🧘"
   duration: 10000
