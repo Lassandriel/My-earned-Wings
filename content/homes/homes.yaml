@@ -19,7 +19,7 @@
   baseLimits:
     water: 50
   modifiers:
-    - { key: garden_yield, mult: 1.2 }
+    - { key: garden_yield, add: 3 }
 
 - id: home-tower
   nameKey: home_tower_title
@@ -29,4 +29,4 @@
   baseLimits:
     magic: 100
   modifiers:
-    - { key: magic_cost, mult: 0.8 }
+    - { key: magic_cost, add: -2 }

@@ -11,7 +11,7 @@
   descKey: title_wise_desc
   icon: ''
   modifiers:
-    - { key: study_efficiency, mult: 1.15 }
+    - { key: study_efficiency, add: 1 }
 
 - id: title-master
   nameKey: title_master_name
@@ -26,7 +26,7 @@
   descKey: title_keeper_desc
   icon: ''
   modifiers:
-    - { key: flowers_yield, mult: 1.25 }
+    - { key: flowers_yield, add: 1 }
 
 - id: title-arcane
   nameKey: title_arcane_name

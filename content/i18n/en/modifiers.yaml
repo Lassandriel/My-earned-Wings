@@ -17,6 +17,8 @@ eat_satiation_gain_title: Satiation Bonus
 eat_satiation_gain_desc: Increases satiation gain from meals.
 modifier_garden_magic_cost_title: Garden Magic
 modifier_garden_magic_cost_desc: Reduces magic costs in the garden.
+modifier_magic_cost_title: Magic Efficiency
+modifier_magic_cost_desc: Reduces the magic cost of every action.
 modifier_ghostwood_yield_title: Ghostwood Yield
 modifier_ghostwood_yield_desc: Increases yield when gathering in the grove.
 modifier_glowpollen_yield_title: Pollen Yield

@@ -12,6 +12,7 @@ import {
 import { checkRequirement } from '../../core/systems/logicUtils';
 import { CUSTOM_EXECUTE_HANDLERS } from '../../data/actions/custom-handlers';
 
+
 /**
  * Services the action system depends on. Injected via setServices()
  * during boot so action methods can keep `state` parameters pure data.
@@ -43,6 +44,35 @@ export function createActionSystem() {
   const effectHandlers: Record<string, (game: GameState, effect: GameEffect) => void> = {};
   let _lastActionTime = 0;
   const DEBOUNCE_MS = 50;
+
+  /**
+   * Apply per-resource cost modifiers. For every entry in `costs`, if a
+   * `<resource>_cost` modifier exists (e.g. `magic_cost`), its pipeline value
+   * is added to the cost. Negative values discount; floor at 0 so actions
+   * never become negative-cost / give resources.
+   *
+   * Adding a new cost-discountable resource is now zero-code: define a
+   * modifier `<resource>_cost` in YAML with `baseValue: 0` and add sources
+   * (items, titles, homes, buildings...) that contribute add: -N.
+   */
+  const applyCostModifiers = (game: GameState, costs: Record<string, number>): Record<string, number> => {
+    const pipeline = svc().pipeline;
+    const content = svc().content;
+    if (!pipeline || !content) return costs;
+    const out: Record<string, number> = {};
+    for (const [res, amt] of Object.entries(costs)) {
+      const key = `${res}_cost`;
+      const def = (content as any).get?.(key, 'modifiers');
+      if (def) {
+        const delta = pipeline.calculate(game, key, 0);
+        out[res] = Math.max(0, amt + delta);
+      } else {
+        out[res] = amt;
+      }
+    }
+    return out;
+  };
+
   const metadata = {
     id: 'actions',
     // Delegates removed: executeAction / attemptAction / toggleFocus on the
@@ -251,7 +281,8 @@ export function createActionSystem() {
     const hasCosts = !!(action.costs || (action.costType && action.costType !== 'none'));
     if (!hasCosts) return;
 
-    const effectiveCosts: Record<string, number> = action.costs ? { ...action.costs } : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
+    const rawCosts: Record<string, number> = action.costs ? { ...action.costs } : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
+    const effectiveCosts = applyCostModifiers(game, rawCosts);
 
     const firstMissing = Object.keys(effectiveCosts).find((r) => {
       const amount = effectiveCosts[r] ?? 0;
@@ -301,9 +332,12 @@ export function createActionSystem() {
         return { success: false };
       }
 
-      let costs: Record<string, number> = action.costs 
-        ? { ...action.costs } 
-        : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {});
+      let costs: Record<string, number> = applyCostModifiers(
+        game,
+        action.costs
+          ? { ...action.costs }
+          : (action.costType && action.costType !== 'none' ? { [action.costType]: action.cost! } : {}),
+      );
 
       // Safety Guard: Automated loops stop if satiation is too low
       if (game.activeFocus === id && game.stats.satiation < 5) {

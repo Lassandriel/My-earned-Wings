@@ -109,7 +109,7 @@
   category: furniture
   spaceCost: 2
   modifiers:
-    - { key: study_efficiency, mult: 1.25 }
+    - { key: study_efficiency, add: 1 }
 
 - id: item-mana-basin
   title: item_mana_basin_title
@@ -129,4 +129,4 @@
   category: furniture
   spaceCost: 3
   modifiers:
-    - { key: rest_energy_gain, mult: 1.2 }
+    - { key: rest_energy_gain, add: 2 }

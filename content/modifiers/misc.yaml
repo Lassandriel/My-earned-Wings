@@ -6,6 +6,15 @@
   desc: modifier_garden_magic_cost_desc
   baseValue: 1
 
+# Generic per-resource cost reducer. Naming convention: <resource>_cost.
+# Engine reads this in actions.logic.ts → applyCostModifiers() and adds the
+# pipeline value to the resource cost (negative = discount, floor at 0).
+# Add energy_cost / wood_cost / etc. here if you want similar discounts.
+- id: magic_cost
+  title: modifier_magic_cost_title
+  desc: modifier_magic_cost_desc
+  baseValue: 0
+
 - id: magic_regen_passive
   title: modifier_magic_regen_passive_title
   desc: modifier_magic_regen_passive_desc

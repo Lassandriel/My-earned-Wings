@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 14:41:02
+// Generated: 14.5.2026 15:02:34
 
 // === Resource Registry ===
 
@@ -354,6 +354,12 @@ export const MODIFIER_REGISTRY_GENERATED: Record<string, any> = {
     "title": "modifier_garden_magic_cost_title",
     "desc": "modifier_garden_magic_cost_desc",
     "baseValue": 1
+  },
+  "magic_cost": {
+    "id": "magic_cost",
+    "title": "modifier_magic_cost_title",
+    "desc": "modifier_magic_cost_desc",
+    "baseValue": 0
   },
   "magic_regen_passive": {
     "id": "magic_regen_passive",
@@ -3566,7 +3572,7 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "study_efficiency",
-        "mult": 1.25
+        "add": 1
       }
     ]
   },
@@ -3596,7 +3602,7 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "rest_energy_gain",
-        "mult": 1.2
+        "add": 2
       }
     ]
   },
@@ -3687,7 +3693,7 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "wood_yield",
-        "mult": 2
+        "add": 3
       }
     ]
   },
@@ -3701,7 +3707,7 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "stone_yield",
-        "mult": 2
+        "add": 2
       }
     ]
   },
@@ -3999,7 +4005,7 @@ export const HOME_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "garden_yield",
-        "mult": 1.2
+        "add": 3
       }
     ]
   },
@@ -4015,7 +4021,7 @@ export const HOME_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "magic_cost",
-        "mult": 0.8
+        "add": -2
       }
     ]
   }
@@ -4163,7 +4169,7 @@ export const TITLE_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "study_efficiency",
-        "mult": 1.15
+        "add": 1
       }
     ]
   },
@@ -4191,7 +4197,7 @@ export const TITLE_REGISTRY_GENERATED: Record<string, any> = {
     "modifiers": [
       {
         "key": "flowers_yield",
-        "mult": 1.25
+        "add": 1
       }
     ]
   },
@@ -4884,6 +4890,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "eat_satiation_gain_desc": "Erhöht die Sättigung durch Mahlzeiten.",
       "modifier_garden_magic_cost_title": "Garten-Magie",
       "modifier_garden_magic_cost_desc": "Verringert die Magiekosten im Garten.",
+      "modifier_magic_cost_title": "Magie-Effizienz",
+      "modifier_magic_cost_desc": "Verringert die Magiekosten aller Aktionen.",
       "modifier_ghostwood_yield_title": "Geisterholz-Ertrag",
       "modifier_ghostwood_yield_desc": "Erhöht die Ausbeute beim Sammeln im Hain.",
       "modifier_glowpollen_yield_title": "Pollen-Ertrag",
@@ -6016,6 +6024,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "eat_satiation_gain_desc": "Increases satiation gain from meals.",
       "modifier_garden_magic_cost_title": "Garden Magic",
       "modifier_garden_magic_cost_desc": "Reduces magic costs in the garden.",
+      "modifier_magic_cost_title": "Magic Efficiency",
+      "modifier_magic_cost_desc": "Reduces the magic cost of every action.",
       "modifier_ghostwood_yield_title": "Ghostwood Yield",
       "modifier_ghostwood_yield_desc": "Increases yield when gathering in the grove.",
       "modifier_glowpollen_yield_title": "Pollen Yield",

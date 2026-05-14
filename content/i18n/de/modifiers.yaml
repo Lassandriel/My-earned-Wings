@@ -17,6 +17,8 @@ eat_satiation_gain_title: Sättigungs-Bonus
 eat_satiation_gain_desc: Erhöht die Sättigung durch Mahlzeiten.
 modifier_garden_magic_cost_title: Garten-Magie
 modifier_garden_magic_cost_desc: Verringert die Magiekosten im Garten.
+modifier_magic_cost_title: Magie-Effizienz
+modifier_magic_cost_desc: Verringert die Magiekosten aller Aktionen.
 modifier_ghostwood_yield_title: Geisterholz-Ertrag
 modifier_ghostwood_yield_desc: Erhöht die Ausbeute beim Sammeln im Hain.
 modifier_glowpollen_yield_title: Pollen-Ertrag

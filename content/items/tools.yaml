@@ -16,7 +16,7 @@
   consumable: false
   category: tools
   modifiers:
-    - { key: wood_yield, mult: 2 }
+    - { key: wood_yield, add: 3 }
 
 - id: item-pickaxe
   title: item_pickaxe_title
@@ -25,7 +25,7 @@
   consumable: false
   category: tools
   modifiers:
-    - { key: stone_yield, mult: 2 }
+    - { key: stone_yield, add: 2 }
 
 - id: item-bow
   title: item_bow_title
