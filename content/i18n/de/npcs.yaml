@@ -45,9 +45,6 @@ npc_teacher_4_not_read: >-
 npc_teacher_6: >-
   "Herzlichen Glückwunsch, {player}. Du hast die Bücher studiert und damit
   deinen Abschluss verdient!"
-npc_teacher_7: >-
-  "Ich habe einen Brief aus Vandara erhalten. Sie haben von dir gehört... und
-  wollen dich sehen!"
 npc_aris_6: >-
   "Der Äther ist hier besonders dicht. Ein Turm würde als Kanal für deine
   Seelenform dienen. Dieser Entwurf wird deinen Bau leiten."
@@ -97,7 +94,7 @@ lore_1_step_2: >-
   <i>Kaiser Ignis Aurum führt Draconia mit eiserner Disziplin. Seine Magie ist
   so heiß wie die Sonne selbst.</i>
 lore_1_step_3: >-
-  <i>Kaiserin Amaterasu stammt aus dem Kristallreich im Norden. Ihre sanfte
+  <i>Kaiserin Amaterasu stammt aus dem Kristallreich im Westen. Ihre sanfte
   Lichtmagie wärmt das Gemüt des gesamten Volkes.</i>
 lore_1_step_4: >-
   <i>Kronprinzessin Lunara ist die Erstgeborene. Sie befehligt nicht nur die
@@ -115,7 +112,7 @@ lore_1_step_8: >-
   <i>Drachenwandler besitzen zwei Formen. Es gilt als unhöflich, die Schwingen
   in der humanoiden Form ohne Grund offen zu tragen.</i>
 lore_1_step_9: >-
-  <i>Die Doppelmonarchie stellt sicher, dass Frieden zwischen den verschiedenen
+  <i>Die Dual-Monarchie stellt sicher, dass Frieden zwischen den verschiedenen
   Spezies herrscht, da Draconia zu groß für einen einzelnen Herrscher ist.</i>
 lore_1_step_10: >-
   <i>Unter der Herrschaft der Kaiser stehen die Vasallen-Könige, welche die
@@ -128,11 +125,12 @@ lore_2_step_2: >-
   <i>Luxana, die prachtvolle Hauptstadt, liegt direkt neben der majestätischen
   Caldera des Sonnenpalastes und bildet das pulsierende Herz des Reiches.</i>
 lore_2_step_3: >-
-  <i>Im hohen Norden liegt das Kristallreich, eine Welt aus leuchtenden
+  <i>Im fernen Westen liegt das Kristallreich, eine Welt aus leuchtenden
   Edelsteinen, die jegliche Magie reflektieren.</i>
 lore_2_step_4: >-
-  <i>Luxana, die Stadt des Lichts, ist das kulturelle Zentrum des Reiches und
-  Sitz der Gelehrten.</i>
+  <i>Luxana, die Stadt des Lichts, glüht selbst bei Nacht in warmen Goldtönen.
+  In ihren Straßen treffen sich Drachen aus allen Reichen — Händler, Künstler
+  und Reisende.</i>
 lore_2_step_5: >-
   <i>Der Smaragd-Wald ist ein gigantischer Dschungel, dessen Flora schneller
   wächst als man zusehen kann.</i>

@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 15:44:54
+// Generated: 14.5.2026 21:06:03
 
 // === Resource Registry ===
 
@@ -4307,7 +4307,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "intro_4": "Regen setzt ein. Die anderen schütteln ihre Schwingen – Leder, Federn, Schuppen – und fliegen nach Hause. Du bleibst am Boden.",
       "intro_5": "Du bleibst unten, wie immer. Du vermisst eine Verbindung, die du nie hattest...",
       "intro_6": "Doch hier, am Rande des Dorfes, möchtest du dir ein Leben aufbauen. Mit deinen eigenen Händen.",
-      "intro_7": "Willkommen in deinem neuen Zuhause. Du Drachewandler ohne Drachenform... ein Rätsel in Draconia.",
+      "intro_7": "Willkommen in deinem neuen Zuhause. Du Drachenwandler ohne Drachenform... ein Rätsel in Draconia.",
       "fail_resources": "Mangelnde Ressourcen für diese Aktion.",
       "fail_buff_active": "Wirkung ist noch aktiv.",
       "fail_furniture_space": "Nicht genügend Platz für weitere Möbel!",
@@ -4513,7 +4513,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_3": "\"Wunderbar! Hier sind zwei grundlegende Werke über unsere Welt. Das eine handelt von der kaiserlichen Blutlinie, das andere von der Geographie unserer schwebenden Inseln. Lies sie dir unter \"Deine Reise\" aufmerksam durch. Wir sprechen uns danach wieder!\"",
       "npc_teacher_4_not_read": "\"Hast du die Bücher schon gelesen, die ich dir gegeben habe? Studiere sie bitte erst gründlich.\"",
       "npc_teacher_6": "\"Herzlichen Glückwunsch, {player}. Du hast die Bücher studiert und damit deinen Abschluss verdient!\"",
-      "npc_teacher_7": "\"Ich habe einen Brief aus Vandara erhalten. Sie haben von dir gehört... und wollen dich sehen!\"",
       "npc_aris_6": "\"Der Äther ist hier besonders dicht. Ein Turm würde als Kanal für deine Seelenform dienen. Dieser Entwurf wird deinen Bau leiten.\"",
       "npc_townHall_1": "\"Willkommen im Rathaus. Ich bin der Verwalter. Alle Ankömmlinge müssen registriert werden, wenn sie hier sesshaft werden wollen.\"",
       "npc_townHall_2": "\"Deine Papiere sind nun in Ordnung, {player}. Du darfst nun im Dorf arbeiten.\"",
@@ -4548,18 +4547,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_treeOfLife_1": "\"Ich bin der Puls dieser Welt. Deine Reise hat gerade erst begonnen, Kleiner.\"",
       "lore_1_step_1": "<i>Die kaiserliche Familie herrscht vom Sonnenpalast aus, der im Herzen der Caldera thront, einem gewaltigen, üppig bewachsenen Vulkankrater.</i>",
       "lore_1_step_2": "<i>Kaiser Ignis Aurum führt Draconia mit eiserner Disziplin. Seine Magie ist so heiß wie die Sonne selbst.</i>",
-      "lore_1_step_3": "<i>Kaiserin Amaterasu stammt aus dem Kristallreich im Norden. Ihre sanfte Lichtmagie wärmt das Gemüt des gesamten Volkes.</i>",
+      "lore_1_step_3": "<i>Kaiserin Amaterasu stammt aus dem Kristallreich im Westen. Ihre sanfte Lichtmagie wärmt das Gemüt des gesamten Volkes.</i>",
       "lore_1_step_4": "<i>Kronprinzessin Lunara ist die Erstgeborene. Sie befehligt nicht nur die Gezeiten, sondern wandelt auch sicher durch die Welt der Träume.</i>",
       "lore_1_step_5": "<i>Prinz Valerius, der General des Reiches, nutzt seine Erdmagie, um selbst härtestes Gestein wie weiches Wachs zu formen.</i>",
       "lore_1_step_6": "<i>Zephyrion, der Winddrache, ist für seine Schnelligkeit berühmt – doch nur wenige wissen von seiner Leidenschaft für die Alchemie.</i>",
       "lore_1_step_7": "<i>Der junge Ryuga ist der Jüngste der Familie. Noch ein kleiner Funke, doch sein Potenzial wird eines Tages die Welt erschüttern.</i>",
       "lore_1_step_8": "<i>Drachenwandler besitzen zwei Formen. Es gilt als unhöflich, die Schwingen in der humanoiden Form ohne Grund offen zu tragen.</i>",
-      "lore_1_step_9": "<i>Die Doppelmonarchie stellt sicher, dass Frieden zwischen den verschiedenen Spezies herrscht, da Draconia zu groß für einen einzelnen Herrscher ist.</i>",
+      "lore_1_step_9": "<i>Die Dual-Monarchie stellt sicher, dass Frieden zwischen den verschiedenen Spezies herrscht, da Draconia zu groß für einen einzelnen Herrscher ist.</i>",
       "lore_1_step_10": "<i>Unter der Herrschaft der Kaiser stehen die Vasallen-Könige, welche die entlegeneren Inselgruppen verwalten und die Treue zum Sonnenpalast schwören.</i>",
       "lore_2_step_1": "<i>Draconia besteht aus zahllosen Inseln, die über einem endlosen Meer aus kochender Lava schweben.</i>",
       "lore_2_step_2": "<i>Luxana, die prachtvolle Hauptstadt, liegt direkt neben der majestätischen Caldera des Sonnenpalastes und bildet das pulsierende Herz des Reiches.</i>",
-      "lore_2_step_3": "<i>Im hohen Norden liegt das Kristallreich, eine Welt aus leuchtenden Edelsteinen, die jegliche Magie reflektieren.</i>",
-      "lore_2_step_4": "<i>Luxana, die Stadt des Lichts, ist das kulturelle Zentrum des Reiches und Sitz der Gelehrten.</i>",
+      "lore_2_step_3": "<i>Im fernen Westen liegt das Kristallreich, eine Welt aus leuchtenden Edelsteinen, die jegliche Magie reflektieren.</i>",
+      "lore_2_step_4": "<i>Luxana, die Stadt des Lichts, glüht selbst bei Nacht in warmen Goldtönen. In ihren Straßen treffen sich Drachen aus allen Reichen — Händler, Künstler und Reisende.</i>",
       "lore_2_step_5": "<i>Der Smaragd-Wald ist ein gigantischer Dschungel, dessen Flora schneller wächst als man zusehen kann.</i>",
       "lore_2_step_6": "<i>Der Flüsterhain ist ein mystischer Ort, an dem die Geister der Ahnen in den Bäumen wohnen.</i>",
       "lore_2_step_7": "<i>Vandara ist die Stadt der Gelehrten. In der berühmten Roségold-Akademie studieren Drachen aus dem ganzen Reich die Geheimnisse des Äthers.</i>",
@@ -5569,7 +5568,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_with_house": "\"Ah, I see you have already settled in! Very good. How about you catch up on your school diploma? There is much to learn about Draconia.\"",
       "npc_teacher_3": "\"Ah, I see you have already settled in! Very good. Here are two foundational works about our world. One covers the Imperial Bloodline, the other the geography of our floating islands. Read them carefully under \"Your Journey\". We will speak again after!\"",
       "npc_teacher_6": "\"Congratulations, {player}. You have studied the books and earned your diploma!\"",
-      "npc_teacher_7": "\"I have received a letter from Vandara. They have heard of you... and want to see you!\"",
       "npc_aris_6": "\"The aether is dense here. A tower would act as a conduit for your soul form. This design will guide your construction.\"",
       "npc_townHall_1": "\"Welcome to the Town Hall. I am the official. All Shifters must be properly registered.\"",
       "npc_townHall_2": "\"Your papers are in order, {player}. You may now work in the village.\"",
@@ -5604,7 +5602,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_treeOfLife_1": "\"I am the pulse of this world. Your journey has only just begun, little one.\"",
       "lore_1_step_1": "<i>The Imperial family rules from the Sun Palace, located in the heart of the Caldera, a massive, lush volcanic crater.</i>",
       "lore_1_step_2": "<i>Emperor Ignis Aurum leads Draconia with iron discipline. His magic is as hot as the sun itself.</i>",
-      "lore_1_step_3": "<i>Empress Amaterasu hails from the Crystal Realm in the north. Her gentle light magic warms the spirits of all the people.</i>",
+      "lore_1_step_3": "<i>Empress Amaterasu hails from the Crystal Realm in the west. Her gentle light magic warms the spirits of all the people.</i>",
       "lore_1_step_4": "<i>Crown Princess Lunara is the firstborn. She commands not only the tides but also walks safely through the world of dreams.</i>",
       "lore_1_step_5": "<i>Prince Valerius, the General of the Empire, uses his earth magic to shape even the hardest stone like soft wax.</i>",
       "lore_1_step_6": "<i>Zephyrion, the Wind Dragon, is famous for his speed – but few know of his passion for alchemy.</i>",
@@ -5614,8 +5612,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_1_step_10": "<i>Under the rule of the Emperors stand the Vassal Kings, who manage the more distant island groups and swear loyalty to the Sun Palace.</i>",
       "lore_2_step_1": "<i>Draconia consists of countless islands floating above an endless sea of boiling lava.</i>",
       "lore_2_step_2": "<i>Luxana, the magnificent capital, lies directly next to the majestic Caldera of the Sun Palace and forms the pulsating heart of the empire.</i>",
-      "lore_2_step_3": "<i>In the far north lies the Crystal Realm, a world of glowing gemstones that reflect all magic.</i>",
-      "lore_2_step_4": "<i>Luxana, the City of Light, is the cultural center of the empire and the seat of scholars.</i>",
+      "lore_2_step_3": "<i>Far in the west lies the Crystal Realm, a world of glowing gemstones that reflect all magic.</i>",
+      "lore_2_step_4": "<i>Luxana, the City of Light, glows in warm gold even at night. Dragons from every realm gather in its streets — merchants, artists, and travelers.</i>",
       "lore_2_step_5": "<i>The Emerald Forest is a gigantic jungle whose flora grows faster than one can watch.</i>",
       "lore_2_step_6": "<i>The Whispering Grove is a mystical place where the spirits of ancestors dwell in the trees.</i>",
       "lore_2_step_7": "<i>Vandara is the City of Scholars. In the famous Rose Gold Academy, dragons from all over the empire study the secrets of the ether.</i>",

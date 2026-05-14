@@ -40,9 +40,6 @@ npc_teacher_3: >-
 npc_teacher_6: >-
   "Congratulations, {player}. You have studied the books and earned your
   diploma!"
-npc_teacher_7: >-
-  "I have received a letter from Vandara. They have heard of you... and want to
-  see you!"
 npc_aris_6: >-
   "The aether is dense here. A tower would act as a conduit for your soul form.
   This design will guide your construction."
@@ -88,7 +85,7 @@ lore_1_step_2: >-
   <i>Emperor Ignis Aurum leads Draconia with iron discipline. His magic is as
   hot as the sun itself.</i>
 lore_1_step_3: >-
-  <i>Empress Amaterasu hails from the Crystal Realm in the north. Her gentle
+  <i>Empress Amaterasu hails from the Crystal Realm in the west. Her gentle
   light magic warms the spirits of all the people.</i>
 lore_1_step_4: >-
   <i>Crown Princess Lunara is the firstborn. She commands not only the tides but
@@ -118,11 +115,11 @@ lore_2_step_2: >-
   <i>Luxana, the magnificent capital, lies directly next to the majestic Caldera
   of the Sun Palace and forms the pulsating heart of the empire.</i>
 lore_2_step_3: >-
-  <i>In the far north lies the Crystal Realm, a world of glowing gemstones that
+  <i>Far in the west lies the Crystal Realm, a world of glowing gemstones that
   reflect all magic.</i>
 lore_2_step_4: >-
-  <i>Luxana, the City of Light, is the cultural center of the empire and the
-  seat of scholars.</i>
+  <i>Luxana, the City of Light, glows in warm gold even at night. Dragons from
+  every realm gather in its streets — merchants, artists, and travelers.</i>
 lore_2_step_5: >-
   <i>The Emerald Forest is a gigantic jungle whose flora grows faster than one
   can watch.</i>
