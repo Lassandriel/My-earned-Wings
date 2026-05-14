@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 15:36:58
+// Generated: 14.5.2026 15:44:54
 
 // === Resource Registry ===
 
