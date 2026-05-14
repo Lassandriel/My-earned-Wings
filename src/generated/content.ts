@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 21:06:03
+// Generated: 14.5.2026 22:36:33
 
 // === Resource Registry ===
 
@@ -4682,7 +4682,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_settings_desc": "Passe das Spielerlebnis an deine Wünsche an.",
       "ui_quit_desc": "Verlasse die Welt von Draconia.",
       "menu_subtitle": "Der Boden ist nur der Anfang",
-      "menu_version": "v1.4.6",
+      "menu_version": "v1.4.10",
+      "menu_report_bug": "Fehler oder Wunsch melden →",
       "ui_demo_badge": "DEMO",
       "ui_use": "Nutzen",
       "ui_unknown": "Unbekannt",
@@ -5738,7 +5739,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_settings_desc": "Customize your gaming experience.",
       "ui_quit_desc": "Exit the world of Draconia.",
       "menu_subtitle": "The ground is just the beginning",
-      "menu_version": "v1.4.6",
+      "menu_version": "v1.4.10",
+      "menu_report_bug": "Report a bug or wish →",
       "ui_demo_badge": "DEMO",
       "ui_use": "Use",
       "ui_unknown": "Unknown",
