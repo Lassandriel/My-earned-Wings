@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/en/logs.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 save_success: Game saved successfully.
 intro_welcome: Welcome back to solid ground, {player}.
 reward_unlock_npc: "New acquaintance: {name}"
@@ -7,7 +7,6 @@ reward_unlock_item: "Item discovered: {title}"
 reward_blueprint_lake: Blueprint for the Lake House received.
 reward_blueprint_tower: Received blueprint for the Aura Tower.
 unlock_whisper_grove: "Mina leads you to a secret path: The Whisper Grove is now accessible."
-unlock_vandara: Aria's recommendation opens the gates to the Academy Vandara for you.
 receive_books: Books received! You can now read them in your Chronicle.
 receive_apple: You received a Crystal Apple! A sweet refreshment for your journey.
 townhall_registered: Official Registration

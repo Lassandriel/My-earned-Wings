@@ -86,18 +86,6 @@
   baseValue: 0.5
   scalesWithSatiation: false
 
-- id: study_xp_yield
-  title: ui_study_xp
-  desc: study_xp_yield_desc
-  baseValue: 5
-  scalesWithSatiation: false
-
-- id: rune_fragment_yield
-  title: ui_rune_fragment
-  desc: rune_fragment_yield_desc
-  baseValue: 2
-  scalesWithSatiation: false
-
 - id: knowledge_yield
   title: ui_knowledge
   desc: knowledge_yield_desc

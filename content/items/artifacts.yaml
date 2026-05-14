@@ -6,13 +6,6 @@
   consumable: false
   category: items
 
-- id: item-book-knowledge
-  title: item_book_knowledge_title
-  desc: item_book_knowledge_desc
-  image: img/items/bookknowledge.webp
-  consumable: false
-  category: items
-
 - id: item-book_lore_1
   title: item_book_lore_1_title
   desc: item_book_lore_1_desc

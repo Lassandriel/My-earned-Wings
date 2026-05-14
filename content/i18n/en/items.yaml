@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/en/items.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 item_wanderstock_title: Walking Stick
 item_wanderstock_desc: A matching ash wood staff.
 item_axe_title: Stone Axe
@@ -17,8 +17,6 @@ item_gourmet_meal_title: Gourmet Meal
 item_gourmet_meal_desc: An exquisite meal (+50 Satiation, +30 Energy).
 item_deed_title: Land Deed
 item_deed_desc: Official document of land ownership.
-item_book_knowledge_title: Book of Knowledge
-item_book_knowledge_desc: Permanently increases your magic limit.
 item_scroll_title: Ancient Scroll
 item_scroll_desc: Whispers of Draconia's mysterious history.
 item_whetstone_title: Whetstone

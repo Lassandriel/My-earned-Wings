@@ -665,11 +665,7 @@ function renderCheatsPanel(): string {
       <section>
         <h3>Flags</h3>
         <button data-cheat="setFlag" data-flag="ability-arcane-focus" data-value="true">Unlock Arcane Focus</button>
-        <button data-cheat="setFlag" data-flag="school_unlocked" data-value="true">Unlock School</button>
-        <button data-cheat="setFlag" data-flag="vandara_unlocked" data-value="true">Unlock Vandara</button>
-        <button data-cheat="setFlag" data-flag="academy_phase_1" data-value="true">Academy Phase 1</button>
-        <button data-cheat="setFlag" data-flag="academy_phase_2" data-value="true">Academy Phase 2</button>
-        <button data-cheat="setFlag" data-flag="academy_graduate" data-value="true">Academy Graduate</button>
+        <button data-cheat="setFlag" data-flag="school_graduate" data-value="true">Village School Graduate</button>
       </section>
 
       <section>

@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/de/npcs.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 npc_baker_1: >-
   "Willkommen! Ich bin Gara. Ich bin der Bäcker hier im Ort. Und wie heißt du,
   Fremder?"
@@ -48,13 +48,6 @@ npc_teacher_6: >-
 npc_teacher_7: >-
   "Ich habe einen Brief aus Vandara erhalten. Sie haben von dir gehört... und
   wollen dich sehen!"
-npc_magistra_solen_1: >-
-  "Die Magie versagt dir den Himmel, doch sie durchströmt deinen Geist.
-  Willkommen am Weg des Himmels."
-npc_meister_bram_1: >-
-  "Ein Meisterwerk braucht ein starkes Fundament. Zeig mir, was du bauen
-  kannst."
-npc_lyra_1: "\"Die Wurzeln der Welt tragen uns alle. Lass uns gemeinsam wachsen.\""
 npc_aris_6: >-
   "Der Äther ist hier besonders dicht. Ein Turm würde als Kanal für deine
   Seelenform dienen. Dieser Entwurf wird deinen Bau leiten."

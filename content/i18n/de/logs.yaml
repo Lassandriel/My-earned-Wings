@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/de/logs.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 save_success: Spiel erfolgreich gespeichert.
 intro_welcome: Willkommen zurück am festen Boden, {player}.
 reward_unlock_npc: "Neue Bekanntschaft: {name}"
@@ -7,7 +7,6 @@ reward_unlock_item: "Gegenstand entdeckt: {title}"
 reward_blueprint_lake: Bauplan für das Haus am See erhalten.
 reward_blueprint_tower: Bauplan für den Aura-Turm erhalten.
 unlock_whisper_grove: "Mina führt dich zu einem geheimen Pfad: Der Flüsterhain ist nun zugänglich."
-unlock_vandara: Arias Empfehlung öffnet dir die Tore der Akademie Vandara.
 receive_books: Bücher erhalten! Du kannst sie jetzt in deiner Chronik lesen.
 receive_apple: Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.
 townhall_registered: Offizielle Registrierung

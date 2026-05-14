@@ -15,15 +15,12 @@
   desc: modifier_magic_cost_desc
   baseValue: 0
 
-- id: magic_regen_passive
-  title: modifier_magic_regen_passive_title
-  desc: modifier_magic_regen_passive_desc
-  baseValue: 0
-
-- id: study_efficiency
-  title: modifier_study_efficiency_title
-  desc: modifier_study_efficiency_desc
-  baseValue: 1
+# Bonus magic gained per act-meditate. Mirrors how rest_energy_gain stacks
+# bonuses for act-rest. Read by the engine when computing meditate's reward.
+- id: meditate_magic_gain
+  title: modifier_meditate_magic_gain_title
+  desc: modifier_meditate_magic_gain_desc
+  baseValue: 15
 
 - id: energy_reg_bonus
   title: energy_reg_bonus_title

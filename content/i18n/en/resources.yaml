@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/en/resources.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 energy: Energy
 magic: Magic
 satiation: Satiation
@@ -19,6 +19,5 @@ arcane_dust: Arcane Dust
 meat: Meat
 water: Water
 gourmet-meal: Gourmet Meal
-study_xp: Study Experience
-focus: Focus
+focus: Arcane Focus
 knowledge: Knowledge

@@ -35,11 +35,8 @@ export type ResourceId =
   | 'rest_energy_gain'
   | 'eat_satiation_gain'
   | 'garden_magic_cost'
-  | 'magic_regen_passive'
-  | 'study_efficiency'
-  | 'rune_fragment'
   | 'arcane_dust'
-  | 'study_xp';
+  | 'rune_fragment';
 
 export type FlagId =
   | 'build-campfire'

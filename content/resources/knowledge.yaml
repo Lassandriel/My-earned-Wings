@@ -1,14 +1,12 @@
 # Resources — Knowledge & Special
 # Auto-loaded by scripts/build-content.ts
+# NOTE: study_xp resource was removed — it was the Vandara/Schule learning
+#       progress; rolled back to roadmap. See ROADMAP.md.
 
-- id: study_xp
-  type: resource
-  category: knowledge
-  color: "#3b82f6"
-  initial: 0
-  initialLimit: 100
-  scalesWithSatiation: false
-
+# Internal id `focus` is what GAMEDESIGN.md calls "Arcane Focus" — the
+# background-automation system that consumes Magic to repeat actions.
+# Kept the short id to avoid touching engine variables (activeFocus, etc.);
+# the player-facing label in i18n/{de,en}/resources.yaml uses the long form.
 - id: focus
   type: resource
   category: knowledge

@@ -119,9 +119,9 @@ describe('Action System', () => {
   describe('Effect Handlers', () => {
     it('setFlag sets the flag and invalidates caches', () => {
       const state = createMockState();
-      actions.effectHandlers.setFlag(state, { type: 'setFlag', flag: 'school_unlocked' as any, value: true });
+      actions.effectHandlers.setFlag(state, { type: 'setFlag', flag: 'school_graduate' as any, value: true });
 
-      expect(state.flags.school_unlocked).toBe(true);
+      expect(state.flags.school_graduate).toBe(true);
       expect(mockPipeline.invalidateCache).toHaveBeenCalled();
       expect(mockResource.invalidateCache).toHaveBeenCalled();
     });

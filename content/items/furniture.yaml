@@ -109,7 +109,7 @@
   category: furniture
   spaceCost: 2
   modifiers:
-    - { key: study_efficiency, add: 1 }
+    - { key: meditate_magic_gain, add: 5 }
 
 - id: item-mana-basin
   title: item_mana_basin_title
@@ -119,7 +119,7 @@
   category: furniture
   spaceCost: 1
   modifiers:
-    - { key: magic_regen_passive, add: 1 }
+    - { key: meditate_magic_gain, add: 3 }
 
 - id: item-terrace
   title: item_terrace_title

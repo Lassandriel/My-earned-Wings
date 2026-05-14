@@ -68,8 +68,7 @@ describe('Pipeline System', () => {
     });
 
     const result = pipeline.calculate(store, 'magic_limit_gain', 10);
-    // Base 10 + (5 * 2) = 20
-    // Multiplied by study_efficiency (default 1)
+    // Base 10 + (books 5 × 2) = 20
     expect(result).toBe(20);
   });
 });

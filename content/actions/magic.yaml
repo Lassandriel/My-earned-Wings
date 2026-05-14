@@ -41,7 +41,7 @@
     magic: 20
   requirements:
     "flags.build-arcane-sanctum": true
-    "flags.item-book-knowledge": true
+    "flags.school_graduate": true
   sfx: magic
   particleText: particle_blessing
   particleType: shards
@@ -59,7 +59,7 @@
     herbs: 5
     magic: 10
   requirements:
-    "flags.item-book-knowledge": true
+    "flags.school_graduate": true
   sfx: magic
   isLoopable: true
   rewards:

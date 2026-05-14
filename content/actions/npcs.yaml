@@ -157,7 +157,7 @@
   isStory: true
   chapter: chapter_village_life
   progKey: teacher
-  maxProgress: 4
+  maxProgress: 3
   journalIcon: 📖
   icon: 🎓
   journalColor: '#3b82f6'
@@ -196,23 +196,14 @@
       requirements:
         flags.read_book_1_complete: true
         flags.read_book_2_complete: true
-      reward: school_graduate
-      onSuccess:
-        - type: unlockItem
-          id: item-book-knowledge
-      dialogueKey: npc_teacher_6
-    - cost: 0
-      costType: magic
-      requirements:
-        flags.school_graduate: true
       onSuccess:
         - type: setFlag
-          flag: vandara_unlocked
+          flag: school_graduate
           value: true
         - type: log
-          logKey: unlock_vandara
+          logKey: school_graduate_log
           color: var(--gold)
-      dialogueKey: npc_teacher_7
+      dialogueKey: npc_teacher_6
   customExecute: npc_execute
 - id: act-npc-townHall
   npcId: npc-townHall

@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/en/npcs.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 npc_baker_1: "\"Welcome! I am Gara. And what is your name, stranger?\""
 npc_baker_2: "\"The furnace is burning hot. Thanks for the wood, {player}.\""
 npc_baker_3: "\"A cookie, perhaps, {player}? They keep you on your toes.\""
@@ -43,11 +43,6 @@ npc_teacher_6: >-
 npc_teacher_7: >-
   "I have received a letter from Vandara. They have heard of you... and want to
   see you!"
-npc_magistra_solen_1: >-
-  "Magic denies you the sky, yet flows through your mind. Welcome to the Path of
-  the Sky."
-npc_meister_bram_1: "\"A masterpiece needs a strong foundation. Show me what you can build.\""
-npc_lyra_1: "\"The roots of the world carry us all. Let us grow together.\""
 npc_aris_6: >-
   "The aether is dense here. A tower would act as a conduit for your soul form.
   This design will guide your construction."

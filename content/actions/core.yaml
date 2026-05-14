@@ -40,7 +40,7 @@
   particleType: magic
   counter: magic
   rewards:
-    magic: 15
+    magic: meditate_magic_gain
   satiationCost: 0
   logKey: meditate_log
 

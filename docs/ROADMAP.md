@@ -15,6 +15,7 @@
 * [x] **Architecture Phase 1 — YAML Content Pipeline (v2.0.0)**: Migrated all Resources, Modifiers, and Actions to structured YAML. A build script auto-generates typed TypeScript. Adding a new resource now requires 1 YAML file instead of 5+ TypeScript edits.
 * [x] **Architecture Phase 1.5 — Full Content YAML-isation**: Migrated the remaining content categories (Items, NPCs, Buffs, Homes, Milestones, Navigation, Titles, Translations) to YAML. Story actions with bespoke logic now declare `customExecute: <handler>` and resolve through a small TS handler registry (`src/data/actions/custom-handlers.ts`). All registries, including i18n, are auto-generated from `content/`.
 * [x] **Dev Tools Iter 7b — Generic write-back**: Replaced the action-only writer with a generic `CONTENT_WRITE` IPC channel that patches array- and record-style YAMLs across all 10 entity types. Editor exposes a structured form plus a raw-YAML patch textarea for arbitrary fields.
+* [x] **Vandara/Academy Rollback**: Removed the entire Vandara/Schule/Studienerfahrung subsystem from the playable demo (the system was half-built and `study_xp` clashed with the no-XP-no-levels design pillar). Engine code, GameState fields, and asset files for titles + magic regen are kept dormant so the system can be re-introduced cleanly later.
 
 ***
 
@@ -22,6 +23,7 @@
 
 ### Phase 13.5: Verzweigte Schicksale & Endings
 
+* [ ] **Akademie Vandara (re-introduction)**: Bring the academy back from the rollback as a real system — three paths (Solen / Bram / Lyra), exclusive late-game recipes, and proper integration with the new additive-modifier engine. Existing assets (`img/npcs/{magistra_solen,meister_bram,lyra}.webp`, `img/school/*`) and dormant code (`activeTitle`, `magic_regen_passive` modifier slot, `regen.ts`) are still in the repo.
 * [ ] **Pfad-spezifisches Gameplay**: Die gewählte Akademie-Fachrichtung beeinflusst das Late-Game (exklusive Rezepte & Mechaniken).
 * [ ] **Erweiterte Story**: Neue NPCs in Vandara, Schwarzmarkt-Interaktionen und individuelle Endsequenzen.
 
@@ -35,4 +37,4 @@
 ***
 
 10. Mai 2026 · v2.0.0 (Architecture Phase 1 - YAML Content Pipeline)
-14. Mai 2026 · Architecture Phase 1.5 (Full Content YAML-isation) + Dev Tools Iter 7b (generic write-back)
+14. Mai 2026 · Architecture Phase 1.5 (Full Content YAML-isation) + Dev Tools Iter 7b (generic write-back) + Vandara rollback to roadmap

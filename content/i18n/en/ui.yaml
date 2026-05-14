@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/en/ui.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 nav_main: Main
 nav_collection: Collection
 nav_story_tab_header: Your Story
@@ -121,9 +121,6 @@ npc_hunter_name: Hunter Nyx
 npc_treeoflife_name: Tree of Life
 npc_ellie_name: Ellie
 npc_aris_name: Aris
-npc_magistra_solen_name: Magistra Solen
-npc_meister_bram_name: Master Bram
-npc_lyra_name: Lyra
 collection_desc: Records of your life on the ground.
 buff_gourmet_desc: Your gourmet meal nourishes your body sustainably.
 cat_upgrades_desc: >-
@@ -148,16 +145,6 @@ ui_titles: Titles
 ui_none: None
 title_unlocked: "Title Unlocked: {title}"
 title_set: "Active Title: {title}"
-title_wanderer_name: The Wanderer
-title_wanderer_desc: A humble traveler on the ground. (+5 Energy when resting)
-title_wise_name: The Wise
-title_wise_desc: A seeker of knowledge. (+15% Study Efficiency)
-title_master_name: The Master
-title_master_desc: A skilled craftsman. (+2 yield on Wood & Stone)
-title_keeper_name: The Keeper
-title_keeper_desc: A friend of nature. (+25% yield on Flowers)
-title_arcane_name: The Arcanist
-title_arcane_desc: A master of energies. (+0.1 Passive Magic Regeneration)
 ui_tab_camp: Camp Life
 ui_tab_housing: Buildings
 ui_tab_crafting: Crafting
@@ -173,7 +160,6 @@ fail_satiation_loop: Too hungry for focused work!
 ui_library: Library
 school_graduate: School Graduation
 ui_graduated: Graduated
-vandara_unlocked: Access to Vandara
 townhall_registered: Official Registration
 townhall_tax_paid: Taxes & Fees
 townhall_land_prepped: Land Title (Preliminary)
@@ -272,8 +258,6 @@ item_crystal_apple_title: Crystal Apple
 item_crystal_apple_desc: >-
   A glass-like shimmering apple that nourishes magically (+30 Satiation, +20
   Energy).
-item_book_knowledge_title: Book of Knowledge
-item_book_knowledge_desc: Contains the accumulated experience of a long life. Grants study experience.
 item_book_lore_1_title: "History: Bloodline"
 item_book_lore_1_desc: An old book about the imperial bloodline of Draconia.
 item_book_lore_2_title: "Geography: Floating Lands"
@@ -289,7 +273,6 @@ item_whetstone_desc: Essential for sharpening tools.
 reward_blueprint_lake: "Blueprint received: Lake House!"
 reward_blueprint_tower: "Blueprint received: Aura Tower!"
 unlock_whisper_grove: The path to the Whispering Grove is now open!
-unlock_vandara: You have received permission to enter Vandara!
 act_read_lore_1_title: "Study: Imperial Bloodline"
 act_read_lore_1_desc: Deepen your knowledge about the ruling family.
 ui_maxed: Maxed

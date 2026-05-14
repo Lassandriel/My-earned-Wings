@@ -139,14 +139,9 @@ export const createPipelineSystem = () => {
         mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
       }
 
-      // 2.2 Study Efficiency (Recursive call to calculate - must be careful)
-      const studyKeys = ['study_xp_yield', 'knowledge_yield', 'magic_limit_gain'];
-      if (studyKeys.includes(key)) {
-        const studyEff = this.calculate(store, 'study_efficiency', 1);
-        if (studyEff !== 1) mods.push({ mult: studyEff });
-      }
-
-      // 2.3 Books scaling
+      // 2.2 Books scaling — extra magic_limit per stored book.
+      // (Phase 1.5 follow-up: study_efficiency multiplier was removed with the
+      //  Vandara/Schule rollback. Reintroduce here when the academy returns.)
       if (key === 'magic_limit_gain') {
         const books = store.resources?.books ?? 0;
         if (typeof books === 'number' && books > 0) mods.push({ add: books * 2 });

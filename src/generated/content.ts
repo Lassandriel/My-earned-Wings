@@ -1,20 +1,11 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 15:02:34
+// Generated: 14.5.2026 15:36:58
 
 // === Resource Registry ===
 
 export const RESOURCE_REGISTRY_GENERATED: Record<string, any> = {
-  "study_xp": {
-    "id": "study_xp",
-    "type": "resource",
-    "category": "knowledge",
-    "color": "#3b82f6",
-    "initial": 0,
-    "initialLimit": 100,
-    "scalesWithSatiation": false
-  },
   "focus": {
     "id": "focus",
     "type": "resource",
@@ -361,17 +352,11 @@ export const MODIFIER_REGISTRY_GENERATED: Record<string, any> = {
     "desc": "modifier_magic_cost_desc",
     "baseValue": 0
   },
-  "magic_regen_passive": {
-    "id": "magic_regen_passive",
-    "title": "modifier_magic_regen_passive_title",
-    "desc": "modifier_magic_regen_passive_desc",
-    "baseValue": 0
-  },
-  "study_efficiency": {
-    "id": "study_efficiency",
-    "title": "modifier_study_efficiency_title",
-    "desc": "modifier_study_efficiency_desc",
-    "baseValue": 1
+  "meditate_magic_gain": {
+    "id": "meditate_magic_gain",
+    "title": "modifier_meditate_magic_gain_title",
+    "desc": "modifier_meditate_magic_gain_desc",
+    "baseValue": 15
   },
   "energy_reg_bonus": {
     "id": "energy_reg_bonus",
@@ -499,20 +484,6 @@ export const MODIFIER_REGISTRY_GENERATED: Record<string, any> = {
     "title": "resin_limit_title",
     "desc": "resin_limit_desc",
     "baseValue": 0.5,
-    "scalesWithSatiation": false
-  },
-  "study_xp_yield": {
-    "id": "study_xp_yield",
-    "title": "ui_study_xp",
-    "desc": "study_xp_yield_desc",
-    "baseValue": 5,
-    "scalesWithSatiation": false
-  },
-  "rune_fragment_yield": {
-    "id": "rune_fragment_yield",
-    "title": "ui_rune_fragment",
-    "desc": "rune_fragment_yield_desc",
-    "baseValue": 2,
     "scalesWithSatiation": false
   },
   "knowledge_yield": {
@@ -1685,7 +1656,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "particleType": "magic",
     "counter": "magic",
     "rewards": {
-      "magic": 15
+      "magic": "meditate_magic_gain"
     },
     "satiationCost": 0,
     "logKey": "meditate_log"
@@ -2186,7 +2157,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     },
     "requirements": {
       "flags.build-arcane-sanctum": true,
-      "flags.item-book-knowledge": true
+      "flags.school_graduate": true
     },
     "sfx": "magic",
     "particleText": "particle_blessing",
@@ -2210,7 +2181,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       "magic": 10
     },
     "requirements": {
-      "flags.item-book-knowledge": true
+      "flags.school_graduate": true
     },
     "sfx": "magic",
     "isLoopable": true,
@@ -2473,7 +2444,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_village_life",
     "progKey": "teacher",
-    "maxProgress": 4,
+    "maxProgress": 3,
     "journalIcon": "📖",
     "icon": "🎓",
     "journalColor": "#3b82f6",
@@ -2537,34 +2508,19 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           "flags.read_book_1_complete": true,
           "flags.read_book_2_complete": true
         },
-        "reward": "school_graduate",
-        "onSuccess": [
-          {
-            "type": "unlockItem",
-            "id": "item-book-knowledge"
-          }
-        ],
-        "dialogueKey": "npc_teacher_6"
-      },
-      {
-        "cost": 0,
-        "costType": "magic",
-        "requirements": {
-          "flags.school_graduate": true
-        },
         "onSuccess": [
           {
             "type": "setFlag",
-            "flag": "vandara_unlocked",
+            "flag": "school_graduate",
             "value": true
           },
           {
             "type": "log",
-            "logKey": "unlock_vandara",
+            "logKey": "school_graduate_log",
             "color": "var(--gold)"
           }
         ],
-        "dialogueKey": "npc_teacher_7"
+        "dialogueKey": "npc_teacher_6"
       }
     ],
     "customExecute": "npc_execute"
@@ -3025,184 +2981,6 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     ],
     "customExecute": "npc_execute"
   },
-  "act-school-read": {
-    "id": "act-school-read",
-    "category": "school",
-    "chapter": "The New City Vandara",
-    "cost": 5,
-    "costType": "energy",
-    "yieldType": "study_xp",
-    "rewards": {
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "craft",
-    "particleType": "knowledge",
-    "image": "img/school/school_reading.png"
-  },
-  "act-school-numbers": {
-    "id": "act-school-numbers",
-    "category": "school",
-    "chapter": "The New City Vandara",
-    "cost": 5,
-    "costType": "energy",
-    "yieldType": "study_xp",
-    "rewards": {
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "craft",
-    "particleType": "knowledge",
-    "image": "img/school/school_arithmetic.png"
-  },
-  "act-school-history": {
-    "id": "act-school-history",
-    "category": "school",
-    "chapter": "The New City Vandara",
-    "cost": 10,
-    "costType": "energy",
-    "requirements": {
-      "npcProgress.teacher": {
-        "op": ">=",
-        "val": 2
-      }
-    },
-    "yieldType": "study_xp",
-    "rewards": {
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "magic",
-    "particleType": "knowledge",
-    "image": "img/school/school_history.png"
-  },
-  "act-school-herbs": {
-    "id": "act-school-herbs",
-    "category": "school",
-    "chapter": "The New City Vandara",
-    "cost": 5,
-    "costType": "energy",
-    "requirements": {
-      "npcProgress.flowerGirl": {
-        "op": ">=",
-        "val": 3
-      }
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield",
-      "herbs": 1
-    },
-    "sfx": "gather",
-    "particleType": "knowledge",
-    "image": "img/school/school_herbalism.png"
-  },
-  "act-school-runes": {
-    "id": "act-school-runes",
-    "category": "school",
-    "chapter": "The New City Vandara",
-    "cost": 10,
-    "costType": "magic",
-    "requirements": {
-      "npcProgress.aris": {
-        "op": ">=",
-        "val": 2
-      }
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield",
-      "rune_fragment": "rune_fragment_yield"
-    },
-    "sfx": "magic",
-    "particleType": "knowledge",
-    "image": "img/school/school_runes.png"
-  },
-  "act-vandara-magic-runes": {
-    "id": "act-vandara-magic-runes",
-    "category": "vandara",
-    "chapter": "Vandara: Magic Path",
-    "cost": 15,
-    "costType": "magic",
-    "requirements": {
-      "academy_path": "solen"
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield",
-      "rune_fragment": "rune_fragment_yield"
-    },
-    "sfx": "magic",
-    "particleType": "magic"
-  },
-  "act-vandara-magic-experiments": {
-    "id": "act-vandara-magic-experiments",
-    "category": "vandara",
-    "chapter": "Vandara: Magic Path",
-    "cost": 30,
-    "costType": "magic",
-    "requirements": {
-      "academy_path": "solen"
-    },
-    "rewards": {
-      "astral_shards": 2,
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "magic",
-    "particleType": "magic"
-  },
-  "act-vandara-craft-furniture": {
-    "id": "act-vandara-craft-furniture",
-    "category": "vandara",
-    "chapter": "Vandara: Handwerk Path",
-    "cost": 20,
-    "costType": "energy",
-    "requirements": {
-      "academy_path": "bram"
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "craft"
-  },
-  "act-vandara-craft-masterpiece": {
-    "id": "act-vandara-craft-masterpiece",
-    "category": "vandara",
-    "chapter": "Vandara: Handwerk Path",
-    "cost": 50,
-    "costType": "energy",
-    "requirements": {
-      "academy_path": "bram"
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "success"
-  },
-  "act-vandara-nature-gather": {
-    "id": "act-vandara-nature-gather",
-    "category": "vandara",
-    "chapter": "Vandara: Natur Path",
-    "cost": 15,
-    "costType": "energy",
-    "requirements": {
-      "academy_path": "lyra"
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield",
-      "herbs": 3,
-      "flowers": 3
-    },
-    "sfx": "gather"
-  },
-  "act-vandara-nature-festival": {
-    "id": "act-vandara-nature-festival",
-    "category": "vandara",
-    "chapter": "Vandara: Natur Path",
-    "cost": 30,
-    "costType": "satiation",
-    "requirements": {
-      "academy_path": "lyra"
-    },
-    "rewards": {
-      "study_xp": "study_xp_yield"
-    },
-    "sfx": "magic"
-  },
   "act-sell-wood": {
     "id": "act-sell-wood",
     "category": "village",
@@ -3309,14 +3087,6 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "title": "item_deed_title",
     "desc": "item_deed_desc",
     "image": "img/items/deed.webp",
-    "consumable": false,
-    "category": "items"
-  },
-  "item-book-knowledge": {
-    "id": "item-book-knowledge",
-    "title": "item_book_knowledge_title",
-    "desc": "item_book_knowledge_desc",
-    "image": "img/items/bookknowledge.webp",
     "consumable": false,
     "category": "items"
   },
@@ -3571,8 +3341,8 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "spaceCost": 2,
     "modifiers": [
       {
-        "key": "study_efficiency",
-        "add": 1
+        "key": "meditate_magic_gain",
+        "add": 5
       }
     ]
   },
@@ -3586,8 +3356,8 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "spaceCost": 1,
     "modifiers": [
       {
-        "key": "magic_regen_passive",
-        "add": 1
+        "key": "meditate_magic_gain",
+        "add": 3
       }
     ]
   },
@@ -3764,42 +3534,6 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
 // === NPC Registry ===
 
 export const NPC_REGISTRY_GENERATED: Record<string, any> = {
-  "npc-magistra_solen": {
-    "id": "npc-magistra_solen",
-    "nameKey": "npc_magistra_solen_name",
-    "icon": "🔮",
-    "image": "img/npcs/magistra_solen.webp",
-    "progKey": "magistra_solen",
-    "maxProgress": 5,
-    "isVandara": true,
-    "dialogues": {
-      "0": "npc_magistra_solen_1"
-    }
-  },
-  "npc-meister_bram": {
-    "id": "npc-meister_bram",
-    "nameKey": "npc_meister_bram_name",
-    "icon": "⚒️",
-    "image": "img/npcs/meister_bram.webp",
-    "progKey": "meister_bram",
-    "maxProgress": 5,
-    "isVandara": true,
-    "dialogues": {
-      "0": "npc_meister_bram_1"
-    }
-  },
-  "npc-lyra": {
-    "id": "npc-lyra",
-    "nameKey": "npc_lyra_name",
-    "icon": "🌿",
-    "image": "img/npcs/lyra.webp",
-    "progKey": "lyra",
-    "maxProgress": 5,
-    "isVandara": true,
-    "dialogues": {
-      "0": "npc_lyra_1"
-    }
-  },
   "npc-baker": {
     "id": "npc-baker",
     "nameKey": "npc_baker_name",
@@ -4041,15 +3775,11 @@ export const MILESTONE_REGISTRY_GENERATED: Record<string, any> = {
       },
       "npcProgress.teacher": {
         "op": ">=",
-        "val": 5
+        "val": 3
       },
       "npcProgress.sage": {
         "op": ">=",
         "val": 5
-      },
-      "counters.study": {
-        "op": ">=",
-        "val": 3
       }
     },
     "onUnlock": [
@@ -4069,42 +3799,6 @@ export const MILESTONE_REGISTRY_GENERATED: Record<string, any> = {
         "type": "log",
         "logKey": "tree_unlocked_log",
         "color": "var(--gold)"
-      }
-    ]
-  },
-  "milestone-school": {
-    "id": "milestone-school",
-    "requirements": {
-      "flags.build-house": true
-    }
-  },
-  "milestone-school-graduate": {
-    "id": "milestone-school-graduate",
-    "requirements": {
-      "flags.school_unlocked": true,
-      "resources.study_xp": {
-        "op": ">=",
-        "val": 50
-      },
-      "npcProgress.teacher": {
-        "op": ">=",
-        "val": 7
-      }
-    },
-    "onUnlock": [
-      {
-        "type": "log",
-        "logKey": "school_graduate_log",
-        "color": "var(--gold)"
-      },
-      {
-        "type": "playSound",
-        "id": "success"
-      },
-      {
-        "type": "setFlag",
-        "flag": "vandara_unlocked",
-        "value": true
       }
     ]
   }
@@ -4148,72 +3842,7 @@ export const NAVIGATION_REGISTRY_GENERATED: Record<string, any> = {
 
 // === Title Registry ===
 
-export const TITLE_REGISTRY_GENERATED: Record<string, any> = {
-  "title-wanderer": {
-    "id": "title-wanderer",
-    "nameKey": "title_wanderer_name",
-    "descKey": "title_wanderer_desc",
-    "icon": "",
-    "modifiers": [
-      {
-        "key": "rest_energy_gain",
-        "add": 5
-      }
-    ]
-  },
-  "title-wise": {
-    "id": "title-wise",
-    "nameKey": "title_wise_name",
-    "descKey": "title_wise_desc",
-    "icon": "",
-    "modifiers": [
-      {
-        "key": "study_efficiency",
-        "add": 1
-      }
-    ]
-  },
-  "title-master": {
-    "id": "title-master",
-    "nameKey": "title_master_name",
-    "descKey": "title_master_desc",
-    "icon": "",
-    "modifiers": [
-      {
-        "key": "wood_yield",
-        "add": 2
-      },
-      {
-        "key": "stone_yield",
-        "add": 2
-      }
-    ]
-  },
-  "title-keeper": {
-    "id": "title-keeper",
-    "nameKey": "title_keeper_name",
-    "descKey": "title_keeper_desc",
-    "icon": "",
-    "modifiers": [
-      {
-        "key": "flowers_yield",
-        "add": 1
-      }
-    ]
-  },
-  "title-arcane": {
-    "id": "title-arcane",
-    "nameKey": "title_arcane_name",
-    "descKey": "title_arcane_desc",
-    "icon": "",
-    "modifiers": [
-      {
-        "key": "magic_regen_passive",
-        "add": 1
-      }
-    ]
-  }
-};
+export const TITLE_REGISTRY_GENERATED: Record<string, any> = {};
 
 // === Translations (lang -> context -> key -> string) ===
 
@@ -4560,55 +4189,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "desc": "Erhalte hochwertige Eisenbeschläge direkt vom Schmied.",
         "effect": "+1 Eisenbeschläge"
       },
-      "act-school-read": {
-        "title": "Lesen üben",
-        "desc": "Lerne die Schriftzeichen der Draconia-Sprache.",
-        "effect": "+{val} Wissen"
-      },
-      "act-school-numbers": {
-        "title": "Zahlen lernen",
-        "desc": "Verstehe die Mathematik des Handels.",
-        "effect": "+{val} Wissen"
-      },
-      "act-school-history": {
-        "title": "Geschichte hören",
-        "desc": "Lausche Arias Geschichten über die Welt.",
-        "effect": "+{val} Wissen"
-      },
-      "act-school-herbs": {
-        "title": "Kräuterkunde",
-        "desc": "Lerne von Mina, welche Pflanzen nützlich sind.",
-        "effect": "+{val} Wissen & Kräuter"
-      },
-      "act-school-runes": {
-        "title": "Runenlesen",
-        "desc": "Studiere bei Aris die Symbole der Magie.",
-        "effect": "+{val} Wissen & Runen"
-      },
-      "act-vandara-magic-runes": {
-        "title": "Runen kartografieren",
-        "desc": "Untersuche die magischen Leylinien der Akademie."
-      },
-      "act-vandara-magic-experiments": {
-        "title": "Arkane Experimente",
-        "desc": "Führe gefährliche Tests in Solens Labor durch."
-      },
-      "act-vandara-craft-furniture": {
-        "title": "Aufwendige Möbel",
-        "desc": "Stelle Meisterstücke nach Brams Vorgaben her."
-      },
-      "act-vandara-craft-masterpiece": {
-        "title": "Das Meisterwerk",
-        "desc": "Präsentiere dein Können der Akademie."
-      },
-      "act-vandara-nature-gather": {
-        "title": "Exklusive Wald-Ressourcen",
-        "desc": "Finde seltene Materialien für Lyra."
-      },
-      "act-vandara-nature-festival": {
-        "title": "Gemeinschaftsfest",
-        "desc": "Bereite das große Fest vor."
-      },
       "act-read-lore-1": {
         "title": "Lesen: Kaiserliche Blutlinie",
         "desc": "Vertiefe dein Wissen über die Herrscherfamilie."
@@ -4643,8 +4223,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_gourmet_meal_desc": "Ein exquisites Mahl (+50 Sättigung, +30 Energie).",
       "item_deed_title": "Landurkunde",
       "item_deed_desc": "Ein offizielles Dokument über den Landbesitz.",
-      "item_book_knowledge_title": "Buch des Wissens",
-      "item_book_knowledge_desc": "Erhöht permanent dein Magie-Limit.",
       "item_scroll_title": "Alte Schriftrolle",
       "item_scroll_desc": "Flüstert von der geheimnisvollen Geschichte Draconias.",
       "item_whetstone_title": "Wetzstein",
@@ -4712,7 +4290,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "reward_blueprint_lake": "Bauplan für das Haus am See erhalten.",
       "reward_blueprint_tower": "Bauplan für den Aura-Turm erhalten.",
       "unlock_whisper_grove": "Mina führt dich zu einem geheimen Pfad: Der Flüsterhain ist nun zugänglich.",
-      "unlock_vandara": "Arias Empfehlung öffnet dir die Tore der Akademie Vandara.",
       "receive_books": "Bücher erhalten! Du kannst sie jetzt in deiner Chronik lesen.",
       "receive_apple": "Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.",
       "townhall_registered": "Offizielle Registrierung",
@@ -4896,10 +4473,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "modifier_ghostwood_yield_desc": "Erhöht die Ausbeute beim Sammeln im Hain.",
       "modifier_glowpollen_yield_title": "Pollen-Ertrag",
       "modifier_glowpollen_yield_desc": "Erhöht die Menge des gefangenen Pollens.",
-      "modifier_magic_regen_passive_title": "Passive Magie-Regeneration",
-      "modifier_magic_regen_passive_desc": "Stellt langsam Magie über Zeit wieder her.",
-      "modifier_study_efficiency_title": "Studien-Effizienz",
-      "modifier_study_efficiency_desc": "Erhöht den Gewinn beim Studieren.",
       "modifier_fibers_yield_title": "Faser-Ertrag",
       "modifier_fibers_yield_desc": "Erhöht die Ausbeute an Fasern.",
       "modifier_clay_yield_title": "Ton-Ertrag",
@@ -4910,12 +4483,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "garden_yield_desc": "Erhöht die Ernte im Garten.",
       "magic_limit_gain_title": "Magische Kapazität",
       "magic_limit_gain_desc": "Erweitert dein Magie-Potenzial.",
-      "study_xp_yield_desc": "Erhöht den Gewinn an Studienerfahrung.",
-      "rune_fragment_yield_desc": "Erhöht die Chance auf Runenfragmente.",
       "knowledge_yield_desc": "Erhöht den Zuwachs an allgemeinem Wissen.",
       "resource_efficiency_desc": "Beeinflusst die Geschwindigkeit und Ausbeute deiner Arbeit.",
       "satiation_drain_desc": "Beeinflusst wie schnell dein Hunger steigt.",
-      "limit_desc_generic": "Erhöht das maximale Limit für {res}."
+      "limit_desc_generic": "Erhöht das maximale Limit für {res}.",
+      "modifier_meditate_magic_gain_title": "Meditations-Gewinn",
+      "modifier_meditate_magic_gain_desc": "Erhöht die Magie pro Meditation."
     },
     "navigation": {},
     "npcs": {
@@ -4941,9 +4514,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_4_not_read": "\"Hast du die Bücher schon gelesen, die ich dir gegeben habe? Studiere sie bitte erst gründlich.\"",
       "npc_teacher_6": "\"Herzlichen Glückwunsch, {player}. Du hast die Bücher studiert und damit deinen Abschluss verdient!\"",
       "npc_teacher_7": "\"Ich habe einen Brief aus Vandara erhalten. Sie haben von dir gehört... und wollen dich sehen!\"",
-      "npc_magistra_solen_1": "\"Die Magie versagt dir den Himmel, doch sie durchströmt deinen Geist. Willkommen am Weg des Himmels.\"",
-      "npc_meister_bram_1": "\"Ein Meisterwerk braucht ein starkes Fundament. Zeig mir, was du bauen kannst.\"",
-      "npc_lyra_1": "\"Die Wurzeln der Welt tragen uns alle. Lass uns gemeinsam wachsen.\"",
       "npc_aris_6": "\"Der Äther ist hier besonders dicht. Ein Turm würde als Kanal für deine Seelenform dienen. Dieser Entwurf wird deinen Bau leiten.\"",
       "npc_townHall_1": "\"Willkommen im Rathaus. Ich bin der Verwalter. Alle Ankömmlinge müssen registriert werden, wenn sie hier sesshaft werden wollen.\"",
       "npc_townHall_2": "\"Deine Papiere sind nun in Ordnung, {player}. Du darfst nun im Dorf arbeiten.\"",
@@ -5018,8 +4588,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "meat": "Fleisch",
       "water": "Wasser",
       "gourmet-meal": "Gourmet-Mahlzeit",
-      "study_xp": "Studienerfahrung",
-      "focus": "Fokus",
+      "focus": "Arkaner Fokus",
       "knowledge": "Wissen"
     },
     "titles": {},
@@ -5144,9 +4713,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_treeoflife_name": "Baum des Lebens",
       "npc_ellie_name": "Ellie",
       "npc_aris_name": "Aris",
-      "npc_magistra_solen_name": "Magistra Solen",
-      "npc_meister_bram_name": "Meister Bram",
-      "npc_lyra_name": "Lyra",
       "collection_desc": "Die Aufzeichnungen deines Lebens am Boden.",
       "buff_gourmet_desc": "Deine Gourmet-Mahlzeit nährt deinen Körper nachhaltig.",
       "cat_upgrades_desc": "Hier verwaltest du deine Werkzeuge, magischen Artefakte und deinen Proviant.<br><br><b>Farbenlehre:</b><br><span style=\"color:var(--accent-teal)\">● Türkis:</span> Werkzeuge<br><span style=\"color:var(--accent-purple)\">● Violett:</span> Besondere Gegenstände & Artefakte",
@@ -5177,7 +4743,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_library": "Bibliothek",
       "school_graduate": "Schulabschluss",
       "ui_graduated": "Abschluss",
-      "vandara_unlocked": "Zugang zu Vandara",
       "townhall_registered": "Offizielle Registrierung",
       "townhall_tax_paid": "Steuern & Gebühren",
       "townhall_land_prepped": "Landurkunde (Vorstufe)",
@@ -5266,16 +4831,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_none": "Keiner",
       "title_unlocked": "Titel freigeschaltet: {title}",
       "title_set": "Aktiver Titel: {title}",
-      "title_wanderer_name": "Der Wanderer",
-      "title_wanderer_desc": "Ein bescheidener Reisender am Boden. (+5 Energie beim Ausruhen)",
-      "title_wise_name": "Der Weise",
-      "title_wise_desc": "Ein Sucher nach Wissen. (+15% Lern-Effizienz)",
-      "title_master_name": "Der Meister",
-      "title_master_desc": "Ein geschickter Handwerker. (+2 Ertrag auf Holz & Stein)",
-      "title_keeper_name": "Der Hüter",
-      "title_keeper_desc": "Ein Freund der Natur. (+25% Ertrag auf Blumen)",
-      "title_arcane_name": "Der Arkanist",
-      "title_arcane_desc": "Ein Beherrscher der Energien. (+0.1 Passive Magie-Regeneration)",
       "particle_meditation": "Innere Ruhe...",
       "particle_blessing": "Segen!",
       "ui_duration": "Laufzeit",
@@ -5287,8 +4842,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "receive_apple": "Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.",
       "item_crystal_apple_title": "Kristallapfel",
       "item_crystal_apple_desc": "Ein glasartig schimmernder Apfel, der auf magische Weise nährt (+30 Sättigung, +20 Energie).",
-      "item_book_knowledge_title": "Buch des Wissens",
-      "item_book_knowledge_desc": "Enthält die gesammelten Erfahrungen eines langen Lebens. Gewährt Studienerfahrung.",
       "item_book_lore_1_title": "Geschichte: Blutlinie",
       "item_book_lore_1_desc": "Ein altes Buch über die kaiserliche Blutlinie von Draconia.",
       "item_book_lore_2_title": "Geografie: Schwebende Lande",
@@ -5304,7 +4857,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "reward_blueprint_lake": "Bauplan erhalten: Haus am See!",
       "reward_blueprint_tower": "Bauplan erhalten: Aura-Turm!",
       "unlock_whisper_grove": "Der Pfad zum Flüsterhain ist nun frei!",
-      "unlock_vandara": "Du hast die Erlaubnis erhalten, Vandara zu betreten!",
       "act_read_lore_1_title": "Studium: Kaiserliche Blutlinie",
       "act_read_lore_1_desc": "Vertiefe dein Wissen über die Herrscherfamilie.",
       "ui_maxed": "Maximiert",
@@ -5694,55 +5246,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "desc": "Acquire high-quality iron fittings directly from the blacksmith.",
         "effect": "+1 Iron Fittings"
       },
-      "act-school-read": {
-        "title": "Practice Reading",
-        "desc": "Learn the characters of the Draconian language.",
-        "effect": "+{val} Knowledge"
-      },
-      "act-school-numbers": {
-        "title": "Learn Numbers",
-        "desc": "Understand the mathematics of trade.",
-        "effect": "+{val} Knowledge"
-      },
-      "act-school-history": {
-        "title": "Listen to History",
-        "desc": "Listen to Aria's stories about the world.",
-        "effect": "+{val} Knowledge"
-      },
-      "act-school-herbs": {
-        "title": "Herbology",
-        "desc": "Learn from Mina which plants are useful.",
-        "effect": "+{val} Knowledge & Herbs"
-      },
-      "act-school-runes": {
-        "title": "Read Runes",
-        "desc": "Study the symbols of magic with Aris.",
-        "effect": "+{val} Knowledge & Runes"
-      },
-      "act-vandara-magic-runes": {
-        "title": "Map Runes",
-        "desc": "Investigate the magical ley lines of the Academy."
-      },
-      "act-vandara-magic-experiments": {
-        "title": "Arcane Experiments",
-        "desc": "Conduct dangerous tests in Solen's lab."
-      },
-      "act-vandara-craft-furniture": {
-        "title": "Elaborate Furniture",
-        "desc": "Craft masterpieces according to Bram's instructions."
-      },
-      "act-vandara-craft-masterpiece": {
-        "title": "The Masterpiece",
-        "desc": "Present your skills to the Academy."
-      },
-      "act-vandara-nature-gather": {
-        "title": "Exclusive Forest Resources",
-        "desc": "Find rare materials for Lyra."
-      },
-      "act-vandara-nature-festival": {
-        "title": "Community Festival",
-        "desc": "Prepare the grand festival."
-      },
       "act-read-lore-1": {
         "title": "Read: Imperial Bloodline",
         "desc": "Deepen your knowledge about the ruling family."
@@ -5777,8 +5280,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_gourmet_meal_desc": "An exquisite meal (+50 Satiation, +30 Energy).",
       "item_deed_title": "Land Deed",
       "item_deed_desc": "Official document of land ownership.",
-      "item_book_knowledge_title": "Book of Knowledge",
-      "item_book_knowledge_desc": "Permanently increases your magic limit.",
       "item_scroll_title": "Ancient Scroll",
       "item_scroll_desc": "Whispers of Draconia's mysterious history.",
       "item_whetstone_title": "Whetstone",
@@ -5846,7 +5347,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "reward_blueprint_lake": "Blueprint for the Lake House received.",
       "reward_blueprint_tower": "Received blueprint for the Aura Tower.",
       "unlock_whisper_grove": "Mina leads you to a secret path: The Whisper Grove is now accessible.",
-      "unlock_vandara": "Aria's recommendation opens the gates to the Academy Vandara for you.",
       "receive_books": "Books received! You can now read them in your Chronicle.",
       "receive_apple": "You received a Crystal Apple! A sweet refreshment for your journey.",
       "townhall_registered": "Official Registration",
@@ -6030,10 +5530,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "modifier_ghostwood_yield_desc": "Increases yield when gathering in the grove.",
       "modifier_glowpollen_yield_title": "Pollen Yield",
       "modifier_glowpollen_yield_desc": "Increases the amount of pollen caught.",
-      "modifier_magic_regen_passive_title": "Passive Magic Regeneration",
-      "modifier_magic_regen_passive_desc": "Slowly restores magic over time.",
-      "modifier_study_efficiency_title": "Study Efficiency",
-      "modifier_study_efficiency_desc": "Increases the gain when studying.",
       "modifier_fibers_yield_title": "Fibers Yield",
       "modifier_fibers_yield_desc": "Increases the amount of fibers gathered.",
       "modifier_clay_yield_title": "Clay Yield",
@@ -6044,12 +5540,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "garden_yield_desc": "Increases the harvest in the garden.",
       "magic_limit_gain_title": "Magic Capacity",
       "magic_limit_gain_desc": "Expands your magic potential.",
-      "study_xp_yield_desc": "Increases the amount of study experience gained.",
-      "rune_fragment_yield_desc": "Increases the chance of finding rune fragments.",
       "knowledge_yield_desc": "Increases the gain of general knowledge.",
       "resource_efficiency_desc": "Affects the speed and yield of your work.",
       "satiation_drain_desc": "Affects how quickly your hunger increases.",
-      "limit_desc_generic": "Increases the maximum storage limit for {res}."
+      "limit_desc_generic": "Increases the maximum storage limit for {res}.",
+      "modifier_meditate_magic_gain_title": "Meditation Gain",
+      "modifier_meditate_magic_gain_desc": "Increases magic gained per meditation."
     },
     "navigation": {},
     "npcs": {
@@ -6074,9 +5570,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_3": "\"Ah, I see you have already settled in! Very good. Here are two foundational works about our world. One covers the Imperial Bloodline, the other the geography of our floating islands. Read them carefully under \"Your Journey\". We will speak again after!\"",
       "npc_teacher_6": "\"Congratulations, {player}. You have studied the books and earned your diploma!\"",
       "npc_teacher_7": "\"I have received a letter from Vandara. They have heard of you... and want to see you!\"",
-      "npc_magistra_solen_1": "\"Magic denies you the sky, yet flows through your mind. Welcome to the Path of the Sky.\"",
-      "npc_meister_bram_1": "\"A masterpiece needs a strong foundation. Show me what you can build.\"",
-      "npc_lyra_1": "\"The roots of the world carry us all. Let us grow together.\"",
       "npc_aris_6": "\"The aether is dense here. A tower would act as a conduit for your soul form. This design will guide your construction.\"",
       "npc_townHall_1": "\"Welcome to the Town Hall. I am the official. All Shifters must be properly registered.\"",
       "npc_townHall_2": "\"Your papers are in order, {player}. You may now work in the village.\"",
@@ -6152,8 +5645,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "meat": "Meat",
       "water": "Water",
       "gourmet-meal": "Gourmet Meal",
-      "study_xp": "Study Experience",
-      "focus": "Focus",
+      "focus": "Arcane Focus",
       "knowledge": "Knowledge"
     },
     "titles": {},
@@ -6278,9 +5770,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_treeoflife_name": "Tree of Life",
       "npc_ellie_name": "Ellie",
       "npc_aris_name": "Aris",
-      "npc_magistra_solen_name": "Magistra Solen",
-      "npc_meister_bram_name": "Master Bram",
-      "npc_lyra_name": "Lyra",
       "collection_desc": "Records of your life on the ground.",
       "buff_gourmet_desc": "Your gourmet meal nourishes your body sustainably.",
       "cat_upgrades_desc": "Manage your tools, magical artifacts, and provisions here.<br><br><b>Color Legend:</b><br><span style=\"color:var(--accent-teal)\">● Teal:</span> Tools<br><span style=\"color:var(--accent-purple)\">● Purple:</span> Special Items & Artifacts",
@@ -6299,16 +5788,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_none": "None",
       "title_unlocked": "Title Unlocked: {title}",
       "title_set": "Active Title: {title}",
-      "title_wanderer_name": "The Wanderer",
-      "title_wanderer_desc": "A humble traveler on the ground. (+5 Energy when resting)",
-      "title_wise_name": "The Wise",
-      "title_wise_desc": "A seeker of knowledge. (+15% Study Efficiency)",
-      "title_master_name": "The Master",
-      "title_master_desc": "A skilled craftsman. (+2 yield on Wood & Stone)",
-      "title_keeper_name": "The Keeper",
-      "title_keeper_desc": "A friend of nature. (+25% yield on Flowers)",
-      "title_arcane_name": "The Arcanist",
-      "title_arcane_desc": "A master of energies. (+0.1 Passive Magic Regeneration)",
       "ui_tab_camp": "Camp Life",
       "ui_tab_housing": "Buildings",
       "ui_tab_crafting": "Crafting",
@@ -6324,7 +5803,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_library": "Library",
       "school_graduate": "School Graduation",
       "ui_graduated": "Graduated",
-      "vandara_unlocked": "Access to Vandara",
       "townhall_registered": "Official Registration",
       "townhall_tax_paid": "Taxes & Fees",
       "townhall_land_prepped": "Land Title (Preliminary)",
@@ -6421,8 +5899,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "receive_apple": "You received a Crystal Apple! A sweet refreshment for your journey.",
       "item_crystal_apple_title": "Crystal Apple",
       "item_crystal_apple_desc": "A glass-like shimmering apple that nourishes magically (+30 Satiation, +20 Energy).",
-      "item_book_knowledge_title": "Book of Knowledge",
-      "item_book_knowledge_desc": "Contains the accumulated experience of a long life. Grants study experience.",
       "item_book_lore_1_title": "History: Bloodline",
       "item_book_lore_1_desc": "An old book about the imperial bloodline of Draconia.",
       "item_book_lore_2_title": "Geography: Floating Lands",
@@ -6438,7 +5914,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "reward_blueprint_lake": "Blueprint received: Lake House!",
       "reward_blueprint_tower": "Blueprint received: Aura Tower!",
       "unlock_whisper_grove": "The path to the Whispering Grove is now open!",
-      "unlock_vandara": "You have received permission to enter Vandara!",
       "act_read_lore_1_title": "Study: Imperial Bloodline",
       "act_read_lore_1_desc": "Deepen your knowledge about the ruling family.",
       "ui_maxed": "Maxed",

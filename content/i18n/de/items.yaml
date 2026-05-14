@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/de/items.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 item_wanderstock_title: Wanderstock
 item_wanderstock_desc: Ein massiver Eschenholzstock.
 item_axe_title: Steinaxt
@@ -17,8 +17,6 @@ item_gourmet_meal_title: Gourmet-Mahlzeit
 item_gourmet_meal_desc: Ein exquisites Mahl (+50 Sättigung, +30 Energie).
 item_deed_title: Landurkunde
 item_deed_desc: Ein offizielles Dokument über den Landbesitz.
-item_book_knowledge_title: Buch des Wissens
-item_book_knowledge_desc: Erhöht permanent dein Magie-Limit.
 item_scroll_title: Alte Schriftrolle
 item_scroll_desc: Flüstert von der geheimnisvollen Geschichte Draconias.
 item_whetstone_title: Wetzstein

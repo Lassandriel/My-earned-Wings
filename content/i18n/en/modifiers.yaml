@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/en/modifiers.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 wood_yield_title: Wood Yield
 wood_yield_desc: Increases the amount of wood gathered.
 stone_yield_title: Stone Yield
@@ -23,10 +23,6 @@ modifier_ghostwood_yield_title: Ghostwood Yield
 modifier_ghostwood_yield_desc: Increases yield when gathering in the grove.
 modifier_glowpollen_yield_title: Pollen Yield
 modifier_glowpollen_yield_desc: Increases the amount of pollen caught.
-modifier_magic_regen_passive_title: Passive Magic Regeneration
-modifier_magic_regen_passive_desc: Slowly restores magic over time.
-modifier_study_efficiency_title: Study Efficiency
-modifier_study_efficiency_desc: Increases the gain when studying.
 modifier_fibers_yield_title: Fibers Yield
 modifier_fibers_yield_desc: Increases the amount of fibers gathered.
 modifier_clay_yield_title: Clay Yield
@@ -37,9 +33,9 @@ garden_yield_title: Garden Yield
 garden_yield_desc: Increases the harvest in the garden.
 magic_limit_gain_title: Magic Capacity
 magic_limit_gain_desc: Expands your magic potential.
-study_xp_yield_desc: Increases the amount of study experience gained.
-rune_fragment_yield_desc: Increases the chance of finding rune fragments.
 knowledge_yield_desc: Increases the gain of general knowledge.
 resource_efficiency_desc: Affects the speed and yield of your work.
 satiation_drain_desc: Affects how quickly your hunger increases.
 limit_desc_generic: Increases the maximum storage limit for {res}.
+modifier_meditate_magic_gain_title: Meditation Gain
+modifier_meditate_magic_gain_desc: Increases magic gained per meditation.

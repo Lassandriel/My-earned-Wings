@@ -44,7 +44,6 @@ const PRIMITIVE_KEYS = [
   'demoCompletedHintSeen',
   'ellieIntroSeen',
   'showEllieIntro',
-  'academy_path',
   'currentObjective',
   'activeHome',
   'activeTitle',

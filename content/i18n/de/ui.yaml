@@ -1,4 +1,4 @@
-# Auto-migrated from src/lang/de/ui.ts
+# Auto-cleaned 2026-05-14 after Vandara rollback.
 nav_main: Haupt
 nav_collection: Sammlung
 nav_story_tab_header: Deine Geschichte
@@ -121,9 +121,6 @@ npc_hunter_name: Jäger Nyx
 npc_treeoflife_name: Baum des Lebens
 npc_ellie_name: Ellie
 npc_aris_name: Aris
-npc_magistra_solen_name: Magistra Solen
-npc_meister_bram_name: Meister Bram
-npc_lyra_name: Lyra
 collection_desc: Die Aufzeichnungen deines Lebens am Boden.
 buff_gourmet_desc: Deine Gourmet-Mahlzeit nährt deinen Körper nachhaltig.
 cat_upgrades_desc: >-
@@ -161,7 +158,6 @@ ui_house: Eigenes Haus
 ui_library: Bibliothek
 school_graduate: Schulabschluss
 ui_graduated: Abschluss
-vandara_unlocked: Zugang zu Vandara
 townhall_registered: Offizielle Registrierung
 townhall_tax_paid: Steuern & Gebühren
 townhall_land_prepped: Landurkunde (Vorstufe)
@@ -250,16 +246,6 @@ ui_titles: Titel
 ui_none: Keiner
 title_unlocked: "Titel freigeschaltet: {title}"
 title_set: "Aktiver Titel: {title}"
-title_wanderer_name: Der Wanderer
-title_wanderer_desc: Ein bescheidener Reisender am Boden. (+5 Energie beim Ausruhen)
-title_wise_name: Der Weise
-title_wise_desc: Ein Sucher nach Wissen. (+15% Lern-Effizienz)
-title_master_name: Der Meister
-title_master_desc: Ein geschickter Handwerker. (+2 Ertrag auf Holz & Stein)
-title_keeper_name: Der Hüter
-title_keeper_desc: Ein Freund der Natur. (+25% Ertrag auf Blumen)
-title_arcane_name: Der Arkanist
-title_arcane_desc: Ein Beherrscher der Energien. (+0.1 Passive Magie-Regeneration)
 particle_meditation: Innere Ruhe...
 particle_blessing: Segen!
 ui_duration: Laufzeit
@@ -273,10 +259,6 @@ item_crystal_apple_title: Kristallapfel
 item_crystal_apple_desc: >-
   Ein glasartig schimmernder Apfel, der auf magische Weise nährt (+30 Sättigung,
   +20 Energie).
-item_book_knowledge_title: Buch des Wissens
-item_book_knowledge_desc: >-
-  Enthält die gesammelten Erfahrungen eines langen Lebens. Gewährt
-  Studienerfahrung.
 item_book_lore_1_title: "Geschichte: Blutlinie"
 item_book_lore_1_desc: Ein altes Buch über die kaiserliche Blutlinie von Draconia.
 item_book_lore_2_title: "Geografie: Schwebende Lande"
@@ -292,7 +274,6 @@ item_whetstone_desc: Unverzichtbar zum Schärfen von Werkzeugen.
 reward_blueprint_lake: "Bauplan erhalten: Haus am See!"
 reward_blueprint_tower: "Bauplan erhalten: Aura-Turm!"
 unlock_whisper_grove: Der Pfad zum Flüsterhain ist nun frei!
-unlock_vandara: Du hast die Erlaubnis erhalten, Vandara zu betreten!
 act_read_lore_1_title: "Studium: Kaiserliche Blutlinie"
 act_read_lore_1_desc: Vertiefe dein Wissen über die Herrscherfamilie.
 ui_maxed: Maximiert
