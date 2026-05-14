@@ -18,14 +18,17 @@ import { PIPELINE_EFFICIENCY_KEYS } from '../../generated/content';
  */
 export const createPipelineSystem = () => {
   /**
-   * Internal Core Rules - Hardcoded balancing logic
+   * Internal Core Rules - Hardcoded balancing logic.
+   *
+   * Phase 1.5 follow-up (May 2026): the engine no longer multiplies. Satiation
+   * is now a flat integer additive that ranges from -5 (starving) to +5
+   * (well-fed), applied to every yield with `scalesWithSatiation: true`.
    */
   const CoreRules = {
-    calculateEfficiency(satiation: number): number {
-      if (satiation >= 85) return 1.3;
-      if (satiation <= 15) return 0.4;
-      // Linear interpolation between 0.4 (at 15%) and 1.3 (at 85%)
-      return 0.4 + ((satiation - 15) / 70) * 0.9;
+    calculateSatiationBonus(satiation: number): number {
+      // (sat - 50) / 10, rounded toward zero, clamped to [-5, +5].
+      const raw = Math.trunc((satiation - 50) / 10);
+      return Math.max(-5, Math.min(5, raw));
     },
   };
 
@@ -35,7 +38,9 @@ export const createPipelineSystem = () => {
     metadata: { id: 'pipeline' },
     /**
      * Calculates a modified value for a given key.
-     * Formula: (Base + TotalAdditive) * TotalMultiplicative
+     * Formula: max(0, base + Σ adds)   — additive only, no multiplication.
+     * (Multiplicative modifiers were removed during Phase 1.5; the field is
+     *  still tolerated on GameModifier for forward compat but ignored here.)
      */
     calculate(store: GameState, key: string, baseValue: number = 1): number {
       const modDef = store.content.get<ModifierDefinition>(key, 'modifiers');
@@ -43,14 +48,11 @@ export const createPipelineSystem = () => {
 
       const modifiers = this.getModifiers(store, key);
       let add = 0;
-      let mult = 1;
-
       modifiers.forEach((m: GameModifier) => {
         if (m.add) add += m.add;
-        if (m.mult) mult *= m.mult;
       });
 
-      const final = Math.round((base + add) * mult);
+      const final = Math.max(0, base + add);
 
       if (!isFinite(final) || isNaN(final)) {
         console.warn(`[PIPELINE] Invalid result for ${key}. Falling back to base.`, final);
@@ -133,10 +135,11 @@ export const createPipelineSystem = () => {
 
       // 2. DYNAMIC MODIFIERS (Never Cached)
       
-      // 2.1 Satiation Efficiency
-      // Keys are auto-derived from YAML (scalesWithSatiation: true) via build:content
+      // 2.1 Satiation bonus — flat integer add (-5 starving … +5 well-fed).
+      // Keys are auto-derived from YAML (scalesWithSatiation: true) via build:content.
       if (PIPELINE_EFFICIENCY_KEYS.includes(key)) {
-        mods.push({ mult: CoreRules.calculateEfficiency(store.stats.satiation) });
+        const bonus = CoreRules.calculateSatiationBonus(store.stats.satiation);
+        if (bonus !== 0) mods.push({ add: bonus });
       }
 
       // 2.2 Books scaling — extra magic_limit per stored book.

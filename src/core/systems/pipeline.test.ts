@@ -24,19 +24,18 @@ describe('Pipeline System', () => {
     } as unknown as GameState;
   };
 
-  it('should calculate base value modified by default satiation (0.85)', () => {
+  it('returns base when satiation is neutral (50%) and no other modifiers', () => {
     const store = createMockStore();
     const result = pipeline.calculate(store, 'wood_yield', 10);
-    // 10 * 0.85 = 8.5 => rounded to 9
-    expect(result).toBe(9);
+    // satiation 50 → bonus 0; base 10 + 0 = 10
+    expect(result).toBe(10);
   });
 
-  it('should apply additive modifiers from items', () => {
+  it('stacks additive modifiers from items on top of the base', () => {
     const store = createMockStore({
       flags: { 'item-axe': true } as any,
     });
-    
-    // Mock item with modifier
+
     vi.mocked(store.content.get).mockImplementation((id: string, type: any) => {
       if (id === 'item-axe' && type === 'items') {
         return { id: 'item-axe', modifiers: [{ key: 'wood_yield', add: 5 }] };
@@ -45,20 +44,25 @@ describe('Pipeline System', () => {
     });
 
     const result = pipeline.calculate(store, 'wood_yield', 10);
-    // (10 + 5) * 0.85 (at 50 satiation efficiency)
-    // Satiation 50 => efficiency = 0.4 + ((50-15)/70)*0.9 = 0.4 + 0.45 = 0.85
-    // 15 * 0.85 = 12.75 => round to 13
-    expect(result).toBe(13);
+    // base 10 + axe 5 + satiation 0 = 15
+    expect(result).toBe(15);
   });
 
-  it('should respect satiated efficiency bonus', () => {
+  it('adds +5 satiation bonus when well-fed (100%)', () => {
     const store = createMockStore({
       stats: { satiation: 100 },
     });
-    
     const result = pipeline.calculate(store, 'wood_yield', 10);
-    // 10 * 1.3 = 13
-    expect(result).toBe(13);
+    // base 10 + satiation bonus +5 = 15
+    expect(result).toBe(15);
+  });
+
+  it('subtracts up to -5 when starving (0%) and floors at 0', () => {
+    const store = createMockStore({ stats: { satiation: 0 } });
+    // base 3 + satiation -5 = -2 → clamped to 0
+    expect(pipeline.calculate(store, 'wood_yield', 3)).toBe(0);
+    // base 10 + satiation -5 = 5
+    expect(pipeline.calculate(store, 'wood_yield', 10)).toBe(5);
   });
 
   it('should apply book knowledge scaling for magic gain', () => {
