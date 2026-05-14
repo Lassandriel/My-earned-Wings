@@ -801,7 +801,7 @@ function renderTranslationsList(): void {
   const ctxBar = document.createElement('div');
   ctxBar.className = 'category';
   ctxBar.innerHTML = `context: <select id="tr-ctx-pick" style="margin-left:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-size:12px;">${
-    TR_CONTEXTS.map(c => `<option value="${c}"${c === trContext ? ' selected' : ''}>${c} (${Object.keys(trData[TR_LANGS[0]]?.[c] || {}).length})</option>`).join('')
+    TR_CONTEXTS.map(c => `<option value="${escapeAttr(c)}"${c === trContext ? ' selected' : ''}>${escapeHtml(c)} (${Object.keys(trData[TR_LANGS[0]]?.[c] || {}).length})</option>`).join('')
   }</select> &nbsp;<button id="tr-add-key" class="kv-add" style="display:inline-block;margin:0;padding:2px 8px;">+ new key</button>`;
   list.appendChild(ctxBar);
 
@@ -812,7 +812,7 @@ function renderTranslationsList(): void {
     }
     const row = document.createElement('div');
     row.className = 'item-row' + (key === trActiveKey ? ' active' : '');
-    const badge = missing.length ? ` <span class="id" style="color:#fca5a5;">missing: ${missing.join(',')}</span>` : '';
+    const badge = missing.length ? ` <span class="id" style="color:#fca5a5;">missing: ${escapeHtml(missing.join(','))}</span>` : '';
     row.innerHTML = `${escapeHtml(key)}${badge}`;
     row.onclick = () => {
       trActiveKey = key;
@@ -861,15 +861,15 @@ function renderTranslationsDetail(): void {
     const val = trData[lang]?.[trContext]?.[trActiveKey!] ?? '';
     return `
       <div class="tr-pane">
-        <h4>${lang.toUpperCase()}</h4>
-        <textarea class="raw-yaml" data-lang="${lang}" rows="4" placeholder="(empty)">${escapeHtml(val)}</textarea>
+        <h4>${escapeHtml(lang.toUpperCase())}</h4>
+        <textarea class="raw-yaml" data-lang="${escapeAttr(lang)}" rows="4" placeholder="(empty)">${escapeHtml(val)}</textarea>
       </div>`;
   }).join('');
 
   main.innerHTML = `
     <div class="detail-header">
       <h2>${escapeHtml(trActiveKey)}</h2>
-      <div class="id">context: ${trContext} · ${TR_LANGS.length} languages</div>
+      <div class="id">context: ${escapeHtml(trContext)} · ${TR_LANGS.length} languages</div>
     </div>
     <div class="tr-grid">${langInputs}</div>
     <div class="editor">
