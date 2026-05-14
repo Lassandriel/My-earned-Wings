@@ -1,6 +1,7 @@
-import de from '../src/lang/de';
-import en from '../src/lang/en';
+import { TRANSLATIONS_GENERATED } from '../src/generated/content';
 import { registries } from '../src/data/index';
+const de = TRANSLATIONS_GENERATED.de as any;
+const en = TRANSLATIONS_GENERATED.en as any;
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';

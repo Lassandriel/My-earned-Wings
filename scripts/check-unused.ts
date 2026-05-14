@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import de from '../src/lang/de';
 import { registries } from '../src/data/index';
 
 const __filename = fileURLToPath(import.meta.url);

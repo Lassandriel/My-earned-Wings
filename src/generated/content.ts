@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 14.5.2026 13:11:41
+// Generated: 14.5.2026 13:49:09
 
 // === Resource Registry ===
 
@@ -4211,7 +4211,8 @@ export const TITLE_REGISTRY_GENERATED: Record<string, any> = {
 
 // === Translations (lang -> context -> key -> string) ===
 
-export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string, string>>> = {
+// Translation values can be flat strings or nested objects ({title, desc, ...}).
+export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string, any>>> = {
   "de": {
     "actions": {
       "help": {

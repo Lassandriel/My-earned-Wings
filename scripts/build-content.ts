@@ -234,7 +234,8 @@ export const TITLE_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(ti
 
 // === Translations (lang -> context -> key -> string) ===
 
-export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string, string>>> = ${JSON.stringify(translations, null, 2)};
+// Translation values can be flat strings or nested objects ({title, desc, ...}).
+export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string, any>>> = ${JSON.stringify(translations, null, 2)};
 
 // === Pipeline Config ===
 // Auto-derived from YAML: resources/modifiers with scalesWithSatiation: true
