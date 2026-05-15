@@ -35,6 +35,48 @@ const CONFIG = {
 };
 
 /**
+ * Why a save couldn't be loaded. `empty` is the normal "no save yet" case
+ * and is NOT an error; everything else means the data on disk is bad and
+ * the caller should quarantine it + show the player a recovery message.
+ */
+export type SaveDecodeResult =
+  | { ok: true; data: Record<string, unknown> }
+  | { ok: false; reason: 'empty' | 'decompress_error' | 'parse_error' | 'invalid_shape'; detail?: string };
+
+/**
+ * Pure helper — turn the raw localStorage / SQLite JSON string into a
+ * structured result. Used by loadGame() but extracted so the corruption
+ * paths can be unit-tested without touching Alpine / IPC / the DOM.
+ */
+export function decodeRawSave(raw: string | null | undefined): SaveDecodeResult {
+  if (!raw) return { ok: false, reason: 'empty' };
+
+  let json = raw;
+  if (raw.startsWith('LZW:')) {
+    try {
+      json = LZW.decompress(raw.slice(4));
+    } catch (err) {
+      return { ok: false, reason: 'decompress_error', detail: (err as Error).message };
+    }
+    // Decompression that produced empty output is also bad.
+    if (!json) return { ok: false, reason: 'decompress_error', detail: 'empty after LZW' };
+  }
+
+  let data: unknown;
+  try {
+    data = JSON.parse(json);
+  } catch (err) {
+    return { ok: false, reason: 'parse_error', detail: (err as Error).message };
+  }
+
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    return { ok: false, reason: 'invalid_shape', detail: `expected object, got ${Array.isArray(data) ? 'array' : typeof data}` };
+  }
+
+  return { ok: true, data: data as Record<string, unknown> };
+}
+
+/**
  * LZW Compression System
  * Dependency-free compression for LocalStorage limits.
  */
@@ -312,28 +354,45 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
       // uncompressed (saveGame writes it that way); fall back to the
       // localStorage LZW path so the game still loads in the vite dev
       // browser and during the Electron rollout window.
-      let savedJson: string | null = null;
+      let savedRaw: string | null = null;
 
       if (window.electronAPI?.dbLoad) {
         try {
           const row = await window.electronAPI.dbLoad(0);
-          if (row && row.data) savedJson = row.data;
+          if (row && row.data) savedRaw = row.data;
         } catch (err) {
           console.warn('[PERSISTENCE] SQLite load failed, falling back to localStorage:', err);
         }
       }
 
-      if (!savedJson) {
-        let saved = localStorage.getItem(CONFIG.SAVE_KEY);
-        if (!saved) return false;
-        if (saved.startsWith('LZW:')) saved = LZW.decompress(saved.slice(4));
-        savedJson = saved;
+      if (!savedRaw) savedRaw = localStorage.getItem(CONFIG.SAVE_KEY);
+
+      const decoded = decodeRawSave(savedRaw);
+      if (!decoded.ok) {
+        if (decoded.reason === 'empty') return false;
+        // Real corruption — quarantine the bad data, surface to the user,
+        // start fresh on next session. Without this the same broken save
+        // would fail to load every single boot.
+        console.error(`[PERSISTENCE] Save corrupted (${decoded.reason}): ${decoded.detail}`);
+        try {
+          const bad = localStorage.getItem(CONFIG.SAVE_KEY);
+          if (bad) {
+            localStorage.setItem(`${CONFIG.SAVE_KEY}_corrupt_${Date.now()}`, bad);
+            localStorage.removeItem(CONFIG.SAVE_KEY);
+          }
+        } catch {
+          // localStorage unavailable / quota — nothing else we can do.
+        }
+        store.hasSave = false;
+        store.ui?.showToast?.(store.t('save_corrupted_msg', 'logs'), 'error');
+        return false;
       }
 
       try {
-        const data = JSON.parse(savedJson);
-        
-        // Validation & Migration logic
+        const data = decoded.data;
+
+        // Validation & Migration logic — wrapped so a throwing migration
+        // doesn't leave the caller without a return value.
         const validatedData = validateAndMigrate(data);
 
         // Apply data to store
@@ -371,7 +430,11 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         store.saveInfoText = `${store.t('ui_load_at', 'ui')} ${time}`;
         return true;
       } catch (e) {
-        console.error('[PERSISTENCE] Failed to load game:', e);
+        // Reaches here only if a migration throws or deepMerge / clamping
+        // crashes on otherwise-valid JSON. Treat as corruption: tell the
+        // user, return false so the menu doesn't think a save loaded.
+        console.error('[PERSISTENCE] Failed to apply loaded save:', e);
+        store.ui?.showToast?.(store.t('save_corrupted_msg', 'logs'), 'error');
         return false;
       }
     },
