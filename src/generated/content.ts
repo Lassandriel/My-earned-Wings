@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 15.5.2026 15:41:51
+// Generated: 15.5.2026 15:54:14
 
 // === Resource Registry ===
 
@@ -4810,6 +4810,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "controls_esc": "Einstellungen öffnen / schließen, Prolog überspringen",
       "controls_tab_nav": "Zwischen Buttons innerhalb einer Ansicht wechseln",
       "controls_laptop_note": "Hinweis: Auf manchen Laptops müssen F-Tasten zusammen mit der Fn-Taste gedrückt werden.",
+      "sidebar_help_title": "Tastatur",
+      "sidebar_help_desc": "Tabs wechseln: Zifferntasten 1-6 oder Pfeil hoch / runter. Hauptaktionen oben: F1 Ausruhen, F2 Meditieren, F3 Beeren essen. Volle Übersicht in den Einstellungen unter Steuerung.",
       "settings_tab_audio": "Audio & Klang",
       "settings_vol_global": "Gesamtlautstärke",
       "settings_vol_music": "Hintergrundmusik",
@@ -5889,6 +5891,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "controls_esc": "Open / close settings, skip prologue",
       "controls_tab_nav": "Move focus between buttons inside a view",
       "controls_laptop_note": "Note: On some laptops the F-keys need the Fn key held.",
+      "sidebar_help_title": "Keyboard",
+      "sidebar_help_desc": "Switch tabs: number keys 1-6 or Arrow Up / Down. Top primary actions: F1 Rest, F2 Meditate, F3 Eat Berries. Full reference in Settings under Controls.",
       "settings_tab_audio": "Audio & Sounds",
       "settings_vol_global": "Global Volume",
       "settings_vol_music": "Background Music",

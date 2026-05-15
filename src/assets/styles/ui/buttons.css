@@ -168,27 +168,6 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* Sidebar Tab Number Badge — same look as .key-tag, positioned for nav-item */
-.nav-key-tag {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  font-size: 0.65rem;
-  font-family: 'Courier New', monospace;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 3px;
-  padding: 1px 5px;
-  color: rgba(255, 255, 255, 0.7);
-  pointer-events: none;
-}
-.nav-item:hover .nav-key-tag,
-.nav-item.active .nav-key-tag {
-  color: rgba(255, 255, 255, 0.95);
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(0, 0, 0, 0.55);
-}
-
 /* ARCANE FOCUS STYLES */
 .focus-toggle-btn {
   position: absolute;

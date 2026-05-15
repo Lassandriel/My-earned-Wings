@@ -15,7 +15,6 @@
 }
 
 .nav-item {
-  position: relative; /* anchor for the .nav-key-tag hotkey badge */
   width: calc(100% - 12px);
   margin-left: 6px;
   margin-right: 6px;
@@ -72,6 +71,13 @@
   opacity: 1;
   color: var(--accent-teal);
   transform: scale(1.1);
+}
+
+/* Top-of-sidebar help row hosting the keyboard-shortcut ? */
+.sidebar-help-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 6px 12px 0;
 }
 
 .nav-item:hover {

@@ -226,6 +226,8 @@ controls_enter: Bestätigen — z. B. Dialog weiterklicken oder Modal schließen
 controls_esc: Einstellungen öffnen / schließen, Prolog überspringen
 controls_tab_nav: Zwischen Buttons innerhalb einer Ansicht wechseln
 controls_laptop_note: "Hinweis: Auf manchen Laptops müssen F-Tasten zusammen mit der Fn-Taste gedrückt werden."
+sidebar_help_title: Tastatur
+sidebar_help_desc: "Tabs wechseln: Zifferntasten 1-6 oder Pfeil hoch / runter. Hauptaktionen oben: F1 Ausruhen, F2 Meditieren, F3 Beeren essen. Volle Übersicht in den Einstellungen unter Steuerung."
 settings_tab_audio: Audio & Klang
 settings_vol_global: Gesamtlautstärke
 settings_vol_music: Hintergrundmusik

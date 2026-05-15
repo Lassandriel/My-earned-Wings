@@ -9,8 +9,16 @@
     <span x-show="$store.game.sidebarCollapsed">▶</span>
   </div>
 
+  <div class="sidebar-help-row" x-show="!$store.game.sidebarCollapsed">
+    <div
+      class="nav-help-icon"
+      @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('sidebar_help_title'), desc: $store.game.t('sidebar_help_desc') })"
+      @mouseleave="$store.game.setHovered(null)"
+    >?</div>
+  </div>
+
   <ul class="nav-list nav-items-top">
-    <template x-for="(item, index) in Object.values($store.game.content.registries.navigation).filter(i => !i.requiredFlag || $store.game.flags[i.requiredFlag])" :key="item.id">
+    <template x-for="item in Object.values($store.game.content.registries.navigation).filter(i => !i.requiredFlag || $store.game.flags[i.requiredFlag])" :key="item.id">
       <li
         class="nav-item"
         :id="'nav-' + item.id"
@@ -25,7 +33,6 @@
       >
         <img :src="'img/menu/menu_' + item.icon + '.webp'" :alt="$store.game.t(item.label)" class="menu-icon-img" loading="lazy" />
         <span x-text="$store.game.t(item.label)"></span>
-        <span class="nav-key-tag" x-text="index + 1" x-show="!$store.game.sidebarCollapsed && index < 9"></span>
       </li>
     </template>
   </ul>

@@ -234,6 +234,8 @@ controls_enter: Confirm — e.g. advance dialogue or close a modal
 controls_esc: Open / close settings, skip prologue
 controls_tab_nav: Move focus between buttons inside a view
 controls_laptop_note: "Note: On some laptops the F-keys need the Fn key held."
+sidebar_help_title: Keyboard
+sidebar_help_desc: "Switch tabs: number keys 1-6 or Arrow Up / Down. Top primary actions: F1 Rest, F2 Meditate, F3 Eat Berries. Full reference in Settings under Controls."
 settings_tab_audio: Audio & Sounds
 settings_vol_global: Global Volume
 settings_vol_music: Background Music
