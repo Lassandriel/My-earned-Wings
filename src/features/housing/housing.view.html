@@ -21,6 +21,7 @@
         <div class="home-visual">
           <img
             :src="$store.game.content.get($store.game.activeHome, 'homes')?.image"
+            :alt="$store.game.t($store.game.content.get($store.game.activeHome, 'homes')?.nameKey)"
             class="home-img"
             loading="lazy"
           />

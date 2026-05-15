@@ -91,6 +91,9 @@ ui_quit_desc: Exit the world of Draconia.
 menu_subtitle: The ground is just the beginning
 menu_version: v1.4.10
 menu_report_bug: Report a bug or wish →
+prologue_alt_islands: Floating islands above a sea of lava
+prologue_alt_luxana: The city of Luxana at the foot of the volcano
+prologue_alt_village: A small village at the edge of the steppe
 ui_demo_badge: DEMO
 ui_use: Use
 ui_unknown: Unknown

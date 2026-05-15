@@ -12,16 +12,19 @@
   <div class="prologue-images" @click="$store.game.prologue.advancePrologue($store.game)">
     <img
       src="/img/prologue/LM_islands.webp"
+      :alt="$store.game.t('prologue_alt_islands')"
       class="pro-img"
       :class="{ 'active': [1,2].includes($store.game.prologueStep) }"
     />
     <img
       src="/img/prologue/LM_Luxana.webp"
+      :alt="$store.game.t('prologue_alt_luxana')"
       class="pro-img"
       :class="{ 'active': [3,4,5].includes($store.game.prologueStep) }"
     />
     <img
       src="/img/prologue/LM_Dorf.webp"
+      :alt="$store.game.t('prologue_alt_village')"
       class="pro-img"
       :class="{ 'active': [6,7].includes($store.game.prologueStep) }"
     />

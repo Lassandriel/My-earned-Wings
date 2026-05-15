@@ -91,6 +91,9 @@ ui_quit_desc: Verlasse die Welt von Draconia.
 menu_subtitle: Der Boden ist nur der Anfang
 menu_version: v1.4.10
 menu_report_bug: Fehler oder Wunsch melden →
+prologue_alt_islands: Schwebende Inseln über dem Lavameer
+prologue_alt_luxana: Die Stadt Luxana am Fuß des Vulkans
+prologue_alt_village: Ein kleines Dorf am Rande der Steppe
 ui_demo_badge: DEMO
 ui_use: Nutzen
 ui_unknown: Unbekannt

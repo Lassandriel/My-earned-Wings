@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 15.5.2026 10:25:12
+// Generated: 15.5.2026 15:04:39
 
 // === Resource Registry ===
 
@@ -4684,6 +4684,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "menu_subtitle": "Der Boden ist nur der Anfang",
       "menu_version": "v1.4.10",
       "menu_report_bug": "Fehler oder Wunsch melden →",
+      "prologue_alt_islands": "Schwebende Inseln über dem Lavameer",
+      "prologue_alt_luxana": "Die Stadt Luxana am Fuß des Vulkans",
+      "prologue_alt_village": "Ein kleines Dorf am Rande der Steppe",
       "ui_demo_badge": "DEMO",
       "ui_use": "Nutzen",
       "ui_unknown": "Unbekannt",
@@ -5741,6 +5744,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "menu_subtitle": "The ground is just the beginning",
       "menu_version": "v1.4.10",
       "menu_report_bug": "Report a bug or wish →",
+      "prologue_alt_islands": "Floating islands above a sea of lava",
+      "prologue_alt_luxana": "The city of Luxana at the foot of the volcano",
+      "prologue_alt_village": "A small village at the edge of the steppe",
       "ui_demo_badge": "DEMO",
       "ui_use": "Use",
       "ui_unknown": "Unknown",
