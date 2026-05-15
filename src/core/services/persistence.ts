@@ -1,6 +1,9 @@
 import { LOG_COLOR, invalidateCaches } from '../constants';
 import { GameState, ResourceId } from '../../types/game';
 import { SAVE_SCHEMA_VERSION, runMigrations } from './save-migrations';
+import { makeLogger } from '../log';
+
+const log = makeLogger('PERSISTENCE');
 
 /**
  * Persistence Configuration
@@ -184,7 +187,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
     // 1. Ensure all top-level keys from initialState exist
     Object.keys(initialState).forEach((key) => {
       if (!CONFIG.EXCLUDE.includes(key) && data[key] === undefined) {
-        console.warn(`[PERSISTENCE] Missing key "${key}" in save. Applying default.`);
+        log.warn(`Missing key "${key}" in save. Applying default.`);
         (data as Record<string, unknown>)[key] = initialState[key as keyof GameState];
       }
     });
@@ -304,7 +307,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
             playerName: (truth as GameState).playerName || '',
             data: json,
             totalPlayTime: ((truth as GameState).counters?.totalTime as number) || 0,
-          }).catch((err) => console.error('[PERSISTENCE] SQLite save failed:', err));
+          }).catch((err) => log.error('SQLite save failed:', err));
         }
         localStorage.setItem('hasSave', 'true');
         store.hasSave = true;
@@ -320,7 +323,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
           store.ui?.showToast?.(store.t('save_success', 'logs') as string, 'success');
         }
       } catch (err) {
-        console.error('[PERSISTENCE] Save failed:', err);
+        log.error('Save failed:', err);
       }
     },
 
@@ -344,7 +347,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
         return true;
       } catch (e) {
-        console.warn('[PERSISTENCE] Failed to load settings:', e);
+        log.warn('Failed to load settings:', e);
         return false;
       }
     },
@@ -361,7 +364,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
           const row = await window.electronAPI.dbLoad(0);
           if (row && row.data) savedRaw = row.data;
         } catch (err) {
-          console.warn('[PERSISTENCE] SQLite load failed, falling back to localStorage:', err);
+          log.warn('SQLite load failed, falling back to localStorage:', err);
         }
       }
 
@@ -373,7 +376,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         // Real corruption — quarantine the bad data, surface to the user,
         // start fresh on next session. Without this the same broken save
         // would fail to load every single boot.
-        console.error(`[PERSISTENCE] Save corrupted (${decoded.reason}): ${decoded.detail}`);
+        log.error(`Save corrupted (${decoded.reason}): ${decoded.detail}`);
         try {
           const bad = localStorage.getItem(CONFIG.SAVE_KEY);
           if (bad) {
@@ -433,7 +436,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         // Reaches here only if a migration throws or deepMerge / clamping
         // crashes on otherwise-valid JSON. Treat as corruption: tell the
         // user, return false so the menu doesn't think a save loaded.
-        console.error('[PERSISTENCE] Failed to apply loaded save:', e);
+        log.error('Failed to apply loaded save:', e);
         store.ui?.showToast?.(store.t('save_corrupted_msg', 'logs'), 'error');
         return false;
       }
@@ -464,7 +467,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         window.location.reload();
         return true;
       } catch (e) {
-        console.error('[PERSISTENCE] Import failed:', e);
+        log.error('Import failed:', e);
         return false;
       }
     },

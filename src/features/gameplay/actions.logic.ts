@@ -1,4 +1,7 @@
 import { LOG_COLOR, ANIM, invalidateCaches, makeServiceContainer } from '../../core/constants';
+import { makeLogger } from '../../core/log';
+
+const log = makeLogger('ACTIONS');
 import {
   GameState,
   ActionDefinition,
@@ -83,7 +86,7 @@ export function createActionSystem() {
     handler: (game: GameState, effect: Extract<GameEffect, { type: T }>) => void
   ) => {
     effectHandlers[type] = handler as (game: GameState, effect: GameEffect) => void;
-    console.log(`[ACTIONS] Registered effect handler: ${type}`);
+    log.debug('Registered effect handler:', type);
   };
 
   const initEffects = () => {
@@ -96,7 +99,7 @@ export function createActionSystem() {
       if (action && action.passiveProduction) {
         if (value && !game.activeProducers.includes(flag as ActionId)) {
           game.activeProducers.push(flag as ActionId);
-          console.log(`[ACTIONS] Registered active producer: ${flag}`);
+          log.debug('Registered active producer:', flag);
         } else if (!value) {
           game.activeProducers = game.activeProducers.filter(id => id !== flag);
         }
@@ -428,7 +431,7 @@ export function createActionSystem() {
             result = { ...result, ...(execResult as object) };
           }
         } else if (typeof console !== 'undefined') {
-          console.warn(`[actions] Unknown customExecute handler: '${customName}' on '${id}'`);
+          log.warn(`Unknown customExecute handler: '${customName}' on '${id}'`);
         }
       }
     }
@@ -536,7 +539,7 @@ export function createActionSystem() {
           }
         }
       });
-      console.log(`[ACTIONS] Rebuilt active producers: ${game.activeProducers.length}`);
+      log.debug('Rebuilt active producers:', game.activeProducers.length);
     },
 
     metadata
