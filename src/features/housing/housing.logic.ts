@@ -1,5 +1,5 @@
 import { GameState, ItemId, ItemDefinition, HomeDefinition } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, invalidateCaches } from '../../core/constants';
 
 interface HousingDeps {
   content: GameState['content'];
@@ -75,9 +75,7 @@ export const createHousingSystem = () => {
         svc().addLog(svc().t(item.title, 'items') + svc().t('ui_placed_log'), 'custom', LOG_COLOR.success);
       }
 
-      const { pipeline, resource } = svc();
-      if (pipeline) pipeline.invalidateCache();
-      if (resource) resource.invalidateCache();
+      invalidateCaches(svc());
 
       svc().saveGame();
     },

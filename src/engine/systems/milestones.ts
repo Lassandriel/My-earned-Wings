@@ -1,5 +1,6 @@
 import { GameState, MilestoneDefinition, FlagId } from '../../types/game';
 import { EngineServices } from '../types';
+import { invalidateCaches } from '../../core/constants';
 
 /**
  * Walks every milestone in the registry and unlocks those whose
@@ -28,7 +29,6 @@ export function tickMilestones(state: GameState, services: EngineServices): void
       if (handler) handler(state, effect);
     });
 
-    if (services.pipeline) services.pipeline.invalidateCache();
-    if (services.resource) services.resource.invalidateCache();
+    invalidateCaches(services);
   });
 }

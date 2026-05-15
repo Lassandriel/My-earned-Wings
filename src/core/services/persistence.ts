@@ -1,4 +1,4 @@
-import { LOG_COLOR } from '../constants';
+import { LOG_COLOR, invalidateCaches } from '../constants';
 import { GameState, ResourceId } from '../../types/game';
 import { SAVE_SCHEMA_VERSION, runMigrations } from './save-migrations';
 
@@ -354,8 +354,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         }
         
         // CRITICAL: Invalidate caches BEFORE clamping, so getMaxStat uses fresh data from loaded flags/items
-        if (store.pipeline) store.pipeline.invalidateCache();
-        if (store.resource) store.resource.invalidateCache();
+        invalidateCaches(store);
 
         clampState(store);
         sanitizeSaveArrays(store);
@@ -364,8 +363,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         if (store.actions?.rebuildProducers) store.actions.rebuildProducers(store);
         store.activeTasks = {};
         
-        if (store.pipeline) store.pipeline.invalidateCache();
-        if (store.resource) store.resource.invalidateCache();
+        invalidateCaches(store);
         
         store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
 

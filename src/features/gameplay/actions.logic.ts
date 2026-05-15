@@ -1,4 +1,4 @@
-import { LOG_COLOR, ANIM } from '../../core/constants';
+import { LOG_COLOR, ANIM, invalidateCaches } from '../../core/constants';
 import {
   GameState,
   ActionDefinition,
@@ -92,8 +92,7 @@ export function createActionSystem() {
   const initEffects = () => {
     registerEffect('setFlag', (game, { flag, value }) => {
       game.flags[flag] = value;
-      svc().pipeline.invalidateCache();
-      svc().resource.invalidateCache();
+      invalidateCaches(svc());
       
       // Update active producers if the flag corresponds to a producer action
       const action = svc().content.get(flag as string, 'actions') as ActionDefinition | null;
@@ -133,8 +132,7 @@ export function createActionSystem() {
         svc().addLog('reward_unlock_item', 'logs', LOG_COLOR.notable, { title });
       }
       game.flags[id as FlagId] = true;
-      svc().pipeline.invalidateCache();
-      svc().resource.invalidateCache();
+      invalidateCaches(svc());
     });
 
     registerEffect('modifyLimit', (game, { resource, amount }) => {
@@ -145,8 +143,7 @@ export function createActionSystem() {
       } else {
         game.limits[resId] = (game.limits[resId] || 0) + amount;
       }
-      if (game.pipeline) svc().pipeline.invalidateCache();
-      if (game.resource) svc().resource.invalidateCache();
+      invalidateCaches(svc());
     });
 
     registerEffect('addBuff', (game, { buffId, override }) => {
@@ -161,8 +158,7 @@ export function createActionSystem() {
         remaining: (finalBuff.duration as number) || 0,
         total: (finalBuff.duration as number) || 0,
       };
-      svc().pipeline.invalidateCache();
-      svc().resource.invalidateCache();
+      invalidateCaches(svc());
     });
 
     registerEffect('setObjective', (game, { id }) => {
@@ -183,14 +179,12 @@ export function createActionSystem() {
 
     registerEffect('setHome', (game, { id }) => {
       game.activeHome = id;
-      svc().pipeline.invalidateCache();
-      svc().resource.invalidateCache();
+      invalidateCaches(svc());
     });
 
     registerEffect('unlockTitle', (game, { id }) => {
       svc().titles.unlockTitle(game, id);
-      if (game.pipeline) svc().pipeline.invalidateCache();
-      if (game.resource) svc().resource.invalidateCache();
+      invalidateCaches(svc());
     });
   };
 

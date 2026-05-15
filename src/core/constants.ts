@@ -57,3 +57,21 @@ export const ANIM = {
  */
 export const PRIMARY_ACTIONS = ['act-rest', 'act-meditate', 'act-eat'] as const;
 export type PrimaryActionId = (typeof PRIMARY_ACTIONS)[number];
+
+/**
+ * Invalidate the two caches that depend on world state (flags, items,
+ * buffs, homes, …). They are always invalidated together — calling only
+ * one leaves the other reading stale data on the next tick.
+ *
+ * Accepts anything that exposes the two cacheable services (the engine
+ * services bag, the Alpine store, a setServices-style deps object).
+ * Missing services are silently skipped, which matches the existing
+ * `if (svc().pipeline)` guards at every call site.
+ */
+export function invalidateCaches(services: {
+  pipeline?: { invalidateCache(): void };
+  resource?: { invalidateCache(): void };
+}): void {
+  services.pipeline?.invalidateCache();
+  services.resource?.invalidateCache();
+}
