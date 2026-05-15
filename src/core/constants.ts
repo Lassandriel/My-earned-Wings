@@ -119,3 +119,26 @@ export function makeServiceContainer<T>(name: string): ServiceContainer<T> {
     },
   };
 }
+
+/**
+ * Boot-time helper: if `system` looks like an object with a setServices()
+ * method, call it with `deps`. Silently no-ops otherwise.
+ *
+ * Used in src/engine/services.ts to wire each subsystem to its dependencies.
+ * Replaces the boilerplate
+ *
+ *   if (typeof (systems.x as any).setServices === 'function') {
+ *     (systems.x as any).setServices({ ... });
+ *   }
+ *
+ * with:
+ *
+ *   bindServices(systems.x, { ... });
+ *
+ * Carries the deps generic through so callers get type-inference on the
+ * object literal — much better than the old `as any` approach.
+ */
+export function bindServices<T>(system: unknown, deps: T): void {
+  const s = system as { setServices?: (deps: T) => void } | null | undefined;
+  s?.setServices?.(deps);
+}

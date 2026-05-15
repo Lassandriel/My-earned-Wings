@@ -3,6 +3,7 @@ import { createEventBus, GAME_EVENTS } from '../core/events/bus';
 import { createContentService } from '../core/services/content';
 import { createBootSystem } from '../core/systems/boot';
 import { getSystems } from '../core/systems/registry';
+import { bindServices } from '../core/constants';
 import { registries } from '../data';
 import { createCommandQueue } from './commands';
 
@@ -65,106 +66,90 @@ export function createGameServices(opts: CreateServicesOpts) {
     services.bus.emit(services.EVENTS.SAVE_REQUESTED, { isManual });
   };
 
-  if (typeof (systems.resource as any).setServices === 'function') {
-    (systems.resource as any).setServices({
-      bus: services.bus,
-      EVENTS: services.EVENTS,
-      content: services.content,
-      pipeline: (services as any).pipeline,
-      addLog: addLogShim,
-    });
-  }
+  // Wire each subsystem to its dependencies via the shared bindServices()
+  // helper. Order doesn't matter — every module reads its deps lazily.
+  bindServices(systems.resource, {
+    bus: services.bus,
+    EVENTS: services.EVENTS,
+    content: services.content,
+    pipeline: (services as any).pipeline,
+    addLog: addLogShim,
+  });
 
-  if (typeof (systems.actions as any).setServices === 'function') {
-    (systems.actions as any).setServices({
-      bus: services.bus,
-      EVENTS: services.EVENTS,
-      content: services.content,
-      pipeline: (services as any).pipeline,
-      resource: (services as any).resource,
-      titles: (services as any).titles,
-      collection: (services as any).collection,
-      addLog: addLogShim,
-      playSound: playSoundShim,
-      t: tShim,
-    });
-  }
+  bindServices(systems.actions, {
+    bus: services.bus,
+    EVENTS: services.EVENTS,
+    content: services.content,
+    pipeline: (services as any).pipeline,
+    resource: (services as any).resource,
+    titles: (services as any).titles,
+    collection: (services as any).collection,
+    addLog: addLogShim,
+    playSound: playSoundShim,
+    t: tShim,
+  });
 
-  if (typeof (systems.titles as any).setServices === 'function') {
-    (systems.titles as any).setServices({
-      content: services.content,
-      actions: (services as any).actions,
-      addLog: addLogShim,
-      playSound: playSoundShim,
-      t: tShim,
-      saveGame: saveGameShim,
-    });
-  }
+  bindServices(systems.titles, {
+    content: services.content,
+    actions: (services as any).actions,
+    addLog: addLogShim,
+    playSound: playSoundShim,
+    t: tShim,
+    saveGame: saveGameShim,
+  });
 
-  if (typeof (systems.item as any).setServices === 'function') {
-    (systems.item as any).setServices({
-      content: services.content,
-      actions: (services as any).actions,
-      addLog: addLogShim,
-      playSound: playSoundShim,
-      t: tShim,
-      saveGame: saveGameShim,
-    });
-  }
+  bindServices(systems.item, {
+    content: services.content,
+    actions: (services as any).actions,
+    addLog: addLogShim,
+    playSound: playSoundShim,
+    t: tShim,
+    saveGame: saveGameShim,
+  });
 
-  if (typeof (systems.settingsSystem as any).setServices === 'function') {
-    (systems.settingsSystem as any).setServices({
-      ui: (services as any).ui,
-      playSound: playSoundShim,
-      t: tShim,
-      saveGame: saveGameShim,
-    });
-  }
+  bindServices(systems.settingsSystem, {
+    ui: (services as any).ui,
+    playSound: playSoundShim,
+    t: tShim,
+    saveGame: saveGameShim,
+  });
 
-  if (typeof (systems.prologue as any).setServices === 'function') {
-    (systems.prologue as any).setServices({
-      collection: (services as any).collection,
-      addLog: addLogShim,
-      playSound: playSoundShim,
-      getLogStore: () => {
-        const Alpine = (typeof window !== 'undefined' && (window as any).Alpine) || null;
-        return Alpine ? Alpine.store('logs') : { list: [] };
-      },
-    });
-  }
+  bindServices(systems.prologue, {
+    collection: (services as any).collection,
+    addLog: addLogShim,
+    playSound: playSoundShim,
+    getLogStore: () => {
+      const Alpine = (typeof window !== 'undefined' && (window as any).Alpine) || null;
+      return Alpine ? Alpine.store('logs') : { list: [] };
+    },
+  });
 
-  if (typeof (systems.collection as any).setServices === 'function') {
-    (systems.collection as any).setServices({
-      bus: services.bus,
-      EVENTS: services.EVENTS,
-      content: services.content,
-      t: tShim,
-    });
-  }
+  bindServices(systems.collection, {
+    bus: services.bus,
+    EVENTS: services.EVENTS,
+    content: services.content,
+    t: tShim,
+  });
 
-  if (typeof (systems.npc as any).setServices === 'function') {
-    (systems.npc as any).setServices({
-      bus: services.bus,
-      EVENTS: services.EVENTS,
-      content: services.content,
-      actions: (services as any).actions,
-      resource: (services as any).resource,
-      addLog: addLogShim,
-    });
-  }
+  bindServices(systems.npc, {
+    bus: services.bus,
+    EVENTS: services.EVENTS,
+    content: services.content,
+    actions: (services as any).actions,
+    resource: (services as any).resource,
+    addLog: addLogShim,
+  });
 
-  if (typeof (systems.housing as any).setServices === 'function') {
-    (systems.housing as any).setServices({
-      content: services.content,
-      pipeline: (services as any).pipeline,
-      resource: (services as any).resource,
-      ui: (services as any).ui,
-      addLog: addLogShim,
-      playSound: playSoundShim,
-      t: tShim,
-      saveGame: saveGameShim,
-    });
-  }
+  bindServices(systems.housing, {
+    content: services.content,
+    pipeline: (services as any).pipeline,
+    resource: (services as any).resource,
+    ui: (services as any).ui,
+    addLog: addLogShim,
+    playSound: playSoundShim,
+    t: tShim,
+    saveGame: saveGameShim,
+  });
 
   return { services, systems };
 }
