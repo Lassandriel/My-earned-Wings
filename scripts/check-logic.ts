@@ -176,12 +176,6 @@ const checkLogic = () => {
                     }
                 }
 
-                // Simulate Academy Path Choice (Optimistic branching)
-                if (reachableFlags.get('vandara_unlocked')) {
-                    // If vandara is unlocked, we assume the player can choose ANY path
-                    // To handle this in a single pass without true branching, we "cheat" and allow requirements to match
-                    // any of the paths if we are in "validation mode"
-                }
             }
         });
     }
@@ -191,29 +185,50 @@ const checkLogic = () => {
     Object.keys(registries.actions).forEach(id => {
         if (!processedActions.has(id)) {
             const act = registries.actions[id];
-            
-            // Special case for academy paths: they are exclusive, so we check if they WOULD be reachable
-            if (act.requirements && act.requirements.academy_path) {
-                const pathValue = act.requirements.academy_path;
-                const mockGameWithPath = {
-                    flags: Object.fromEntries(reachableFlags),
-                    npcProgress: reachableFlags.get('npcProgress') || {},
-                    discoveredItems: Array.from(unlockedItems),
-                    unlockedRecipes: Array.from(unlockedActions),
-                    academy_path: pathValue // Test with this specific path
-                };
-
-                let met = Object.entries(act.requirements).every(([path, rule]) => {
-                    return checkRequirement(mockGameWithPath, path, rule);
-                });
-
-                if (met && reachableFlags.get('vandara_unlocked')) {
-                    // It is reachable if the player chooses this path
-                    return;
-                }
-            }
-
             logWarning(`Action '${id}' is unreachable. Requirements: ${JSON.stringify(act.requirements)}`);
+        }
+    });
+
+    // 4. EXPLICIT MILESTONE REACHABILITY (Tree of Life is the demo finale)
+    // The progression simulator above only handles setFlag effects, not NPC
+    // dialogue progress (which accumulates via npcExecute at runtime). For
+    // milestone reachability we OPTIMISTICALLY assume the player can grind
+    // each NPC up to its maxProgress — i.e. requirements like
+    // npcProgress.baker >= 5 are satisfied iff baker.maxProgress >= 5.
+    console.log("--- Verifying Milestone Reachability ---");
+    const optimisticNpcProgress: Record<string, number> = {};
+    for (const npc of Object.values(registries.npcs || {}) as any[]) {
+        if (npc?.progKey && typeof npc.maxProgress === 'number') {
+            optimisticNpcProgress[npc.progKey] = npc.maxProgress;
+        }
+    }
+    // Same trick for resources — assume the player can grind any producible
+    // resource to whatever the milestone needs.
+    const optimisticResources = new Proxy({}, {
+        get: () => Number.MAX_SAFE_INTEGER,
+        has: () => true,
+    }) as Record<string, number>;
+    const optimisticCounters = new Proxy({}, {
+        get: () => Number.MAX_SAFE_INTEGER,
+        has: () => true,
+    }) as Record<string, number>;
+
+    Object.keys(registries.milestones || {}).forEach(milestoneId => {
+        const m = registries.milestones[milestoneId];
+        if (!m.requirements) return;
+        const mockGame = {
+            flags: Object.fromEntries(reachableFlags),
+            npcProgress: optimisticNpcProgress,
+            discoveredItems: Array.from(unlockedItems),
+            unlockedRecipes: Array.from(unlockedActions),
+            counters: optimisticCounters,
+            resources: optimisticResources,
+        };
+        const missing = Object.entries(m.requirements).filter(([path, rule]) =>
+            !checkRequirement(mockGame, path, rule)
+        ).map(([p]) => p);
+        if (missing.length > 0) {
+            logWarning(`Milestone '${milestoneId}' NOT reachable even optimistically. Missing: ${missing.join(', ')}`);
         }
     });
 
