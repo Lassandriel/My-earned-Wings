@@ -1,4 +1,5 @@
 import { GameState, Registries, NPCId } from '../../types/game';
+import { LOG_COLOR } from '../constants';
 
 /**
  * Content Service - TypeScript Edition
@@ -40,7 +41,7 @@ export const createContentService = (registries: Registries) => ({
         nameKey: 'ui_unknown',
         desc: 'ui_missing_entry',
         icon: '⚠️',
-        color: 'var(--accent-red)',
+        color: LOG_COLOR.failure,
         maxProgress: 1,
         capacity: 0,
       } as unknown as T;

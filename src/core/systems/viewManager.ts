@@ -1,3 +1,4 @@
+import { LOG_COLOR } from '../constants';
 import Alpine from 'alpinejs';
 import { GameState } from '../../types/game';
 
@@ -50,7 +51,7 @@ export const createViewManagerSystem = () => ({
     if (store.prologue && typeof store.prologue.playIntro === 'function') {
       store.prologue.playIntro(store);
     } else {
-      store.addLog('intro_1', 'logs', 'var(--accent-teal)');
+      store.addLog('intro_1', 'logs', LOG_COLOR.success);
     }
 
     try {
@@ -127,16 +128,16 @@ export const createViewManagerSystem = () => ({
       store.ellieIntroSeen = true;
     }
 
-    store.addLog('intro_welcome', 'logs', 'var(--accent-teal)');
-    store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
+    store.addLog('intro_welcome', 'logs', LOG_COLOR.success);
+    store.addLog('npc_dialogue_log', 'logs', LOG_COLOR.success, {
       name: store.t('npc_ellie_name'),
       text: store.t('ellie_tutorial_1', 'logs'),
     });
-    store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
+    store.addLog('npc_dialogue_log', 'logs', LOG_COLOR.success, {
       name: store.t('npc_ellie_name'),
       text: store.t('ellie_tutorial_2', 'logs'),
     });
-    store.addLog('npc_dialogue_log', 'logs', 'var(--accent-teal)', {
+    store.addLog('npc_dialogue_log', 'logs', LOG_COLOR.success, {
       name: store.t('npc_ellie_name'),
       text: store.t('ellie_tutorial_3', 'logs'),
     });

@@ -1,4 +1,5 @@
 import { GameState, LogStore } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 interface PrologueDeps {
   collection: GameState['collection'];
@@ -29,7 +30,7 @@ export const createPrologueSystem = () => ({
     state.prologueStep = 1;
     state.view = 'prologue';
 
-    svc().addLog('intro_1', 'logs', 'var(--accent-teal)');
+    svc().addLog('intro_1', 'logs', LOG_COLOR.success);
     svc().collection.recordCollectionEntry(state, 'intro_1', null, 'intro_1', 'logs');
   },
 
@@ -40,7 +41,7 @@ export const createPrologueSystem = () => ({
     if (state.prologueStep < PROLOGUE_STEPS) {
       state.prologueStep++;
       const key = `intro_${state.prologueStep}`;
-      svc().addLog(key, 'logs', 'var(--accent-teal)');
+      svc().addLog(key, 'logs', LOG_COLOR.success);
       svc().collection.recordCollectionEntry(state, key, null, key, 'logs');
     } else {
       state.finishPrologue();
@@ -58,7 +59,7 @@ export const createPrologueSystem = () => ({
       const alreadyInLogs = logList.some((log) => log.id === logKey);
 
       if (!alreadyInLogs) {
-        svc().addLog(logKey, 'logs', 'var(--accent-teal)');
+        svc().addLog(logKey, 'logs', LOG_COLOR.success);
       }
       svc().collection.recordCollectionEntry(state, logKey, null, logKey, 'logs');
     }

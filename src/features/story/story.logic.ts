@@ -1,4 +1,5 @@
 import { GameState, ActionDefinition, StoryHistoryEntry, NPCDefinition } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 interface CollectionDeps {
   bus: GameState['bus'];
@@ -75,7 +76,7 @@ export const createCollectionSystem = () => ({
           id: npcId,
           name: '',
           symbol: '📜',
-          color: 'var(--accent-ivory)',
+          color: LOG_COLOR.story,
           entries: [],
         };
 
@@ -84,7 +85,7 @@ export const createCollectionSystem = () => ({
           if (npc) {
             groups[npcId].name = svc().t(npc.nameKey);
             groups[npcId].symbol = npc.icon || '👤';
-            groups[npcId].color = npc.color || 'var(--gold)';
+            groups[npcId].color = npc.color || LOG_COLOR.notable;
           }
         } else {
           groups[npcId].name = svc().t('cat_collection_world');

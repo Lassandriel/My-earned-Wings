@@ -1,3 +1,4 @@
+import { LOG_COLOR } from '../constants';
 import { GameState, ResourceId } from '../../types/game';
 import { SAVE_SCHEMA_VERSION, runMigrations } from './save-migrations';
 
@@ -272,7 +273,7 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         store.saveInfoText = `${store.t('save_at', 'ui')} ${time}`;
 
         if (isManual) {
-          store.addLog('save_success', 'logs', 'var(--accent-teal)');
+          store.addLog('save_success', 'logs', LOG_COLOR.success);
           store.playSound('success');
           store.ui?.showToast?.(store.t('save_success', 'logs') as string, 'success');
         }

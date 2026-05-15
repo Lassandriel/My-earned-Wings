@@ -1,4 +1,5 @@
 import { GameState } from '../../types/game';
+import { PRIMARY_ACTIONS } from '../constants';
 
 /**
  * Input System - Handles global event listeners.
@@ -62,15 +63,16 @@ export const createInputSystem = () => {
 
         // F1 / F2 / F3 — primary actions (Rest, Meditate, Eat).
         // We preventDefault so browser Help / Find shortcuts don't trigger.
-        const PRIMARY: Record<string, string> = {
-          F1: 'act-rest',
-          F2: 'act-meditate',
-          F3: 'act-eat',
-        };
-        if (PRIMARY[e.key] && store.commands) {
-          e.preventDefault();
-          store.commands.enqueue({ type: 'executeAction', actionId: PRIMARY[e.key] });
-          return;
+        // Source list is PRIMARY_ACTIONS in core/constants — also used by
+        // the top action bar in main.view.html so the order stays in sync.
+        const fIndex = e.key.startsWith('F') ? parseInt(e.key.slice(1), 10) : NaN;
+        if (!Number.isNaN(fIndex) && fIndex >= 1 && fIndex <= PRIMARY_ACTIONS.length) {
+          const actionId = PRIMARY_ACTIONS[fIndex - 1];
+          if (store.commands) {
+            e.preventDefault();
+            store.commands.enqueue({ type: 'executeAction', actionId });
+            return;
+          }
         }
 
         // Tab switching: 1-6 select the Nth visible sidebar tab. Up/Down cycle

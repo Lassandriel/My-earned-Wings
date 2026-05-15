@@ -1,4 +1,5 @@
 import { GameState, ItemId, ItemDefinition } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 interface ItemDeps {
   content: GameState['content'];
@@ -46,7 +47,7 @@ export const createItemSystem = () => ({
 
       if (statsBenefitted.length === 0 && !item.onSuccess) {
         const firstStat = Object.keys(item.effect)[0];
-        svc().addLog(`fail_full_${firstStat}`, 'logs', 'var(--accent-red)');
+        svc().addLog(`fail_full_${firstStat}`, 'logs', LOG_COLOR.failure);
         svc().playSound('fail');
         return;
       }
@@ -76,7 +77,7 @@ export const createItemSystem = () => ({
 
     // Feedback
     const itemName = svc().t(item.title, 'items');
-    svc().addLog('item_used', 'logs', 'var(--accent-teal)', { item: itemName });
+    svc().addLog('item_used', 'logs', LOG_COLOR.success, { item: itemName });
     svc().playSound(item.sfx || 'success');
 
     // Auto-select next item

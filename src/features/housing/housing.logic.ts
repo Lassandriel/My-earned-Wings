@@ -1,4 +1,5 @@
 import { GameState, ItemId, ItemDefinition, HomeDefinition } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 interface HousingDeps {
   content: GameState['content'];
@@ -49,7 +50,7 @@ export const createHousingSystem = () => {
       if (isPlaced) {
         store.placedItems.splice(placedIdx, 1);
         svc().playSound('click');
-        svc().addLog(svc().t(item.title, 'items') + svc().t('ui_removed_log'), 'custom', 'var(--text-muted)');
+        svc().addLog(svc().t(item.title, 'items') + svc().t('ui_removed_log'), 'custom', LOG_COLOR.muted);
       } else {
         const invIdx = store.discoveredItems.indexOf(id as ItemId);
         if (invIdx === -1) return;
@@ -71,7 +72,7 @@ export const createHousingSystem = () => {
 
         store.placedItems.push(id as ItemId);
         svc().playSound('magic');
-        svc().addLog(svc().t(item.title, 'items') + svc().t('ui_placed_log'), 'custom', 'var(--accent-teal)');
+        svc().addLog(svc().t(item.title, 'items') + svc().t('ui_placed_log'), 'custom', LOG_COLOR.success);
       }
 
       const { pipeline, resource } = svc();

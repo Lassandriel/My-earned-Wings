@@ -1,4 +1,5 @@
 import Alpine from 'alpinejs';
+import { ANIM } from '../constants';
 import {
   GameState,
   ResourceId,
@@ -438,7 +439,7 @@ export const createUISystem = () => {
       requestAnimationFrame(() => toast.classList.add('show'));
       const t1 = setTimeout(() => {
         toast.classList.remove('show');
-        const t2 = setTimeout(() => toast.remove(), 500);
+        const t2 = setTimeout(() => toast.remove(), ANIM.toast);
         addTimer(t2);
       }, 3500);
       addTimer(t1);
@@ -696,7 +697,7 @@ export const createUISystem = () => {
         el.classList.remove(cssClass);
         void (el as HTMLElement).offsetWidth;
         el.classList.add(cssClass);
-        const t = setTimeout(() => el.classList.remove(cssClass), 600);
+        const t = setTimeout(() => el.classList.remove(cssClass), ANIM.pulse);
         addTimer(t);
       };
 

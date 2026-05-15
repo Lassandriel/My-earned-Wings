@@ -1,3 +1,4 @@
+import { LOG_COLOR, ANIM } from '../../core/constants';
 import {
   GameState,
   ActionDefinition,
@@ -111,7 +112,7 @@ export function createActionSystem() {
         game.unlockedNPCs = [...game.unlockedNPCs, id];
         const npc = svc().content.get<NPCDefinition>(id, 'npcs');
         const name = npc ? svc().t(npc.nameKey) : id;
-        svc().addLog('reward_unlock_npc', 'logs', 'var(--gold)', { name });
+        svc().addLog('reward_unlock_npc', 'logs', LOG_COLOR.notable, { name });
       }
     });
 
@@ -120,7 +121,7 @@ export function createActionSystem() {
         game.unlockedRecipes = [...game.unlockedRecipes, id];
         const actionDef = svc().content.get<ActionDefinition>(id, 'actions');
         const title = actionDef?.title ? svc().t(actionDef.title, 'actions') : id;
-        svc().addLog('reward_unlock_recipe', 'logs', 'var(--gold)', { title });
+        svc().addLog('reward_unlock_recipe', 'logs', LOG_COLOR.notable, { title });
       }
     });
 
@@ -129,7 +130,7 @@ export function createActionSystem() {
         game.discoveredItems = [...game.discoveredItems, id];
         const item = svc().content.get<ItemDefinition>(id, 'items');
         const title = item ? svc().t(item.title, 'items') : id;
-        svc().addLog('reward_unlock_item', 'logs', 'var(--gold)', { title });
+        svc().addLog('reward_unlock_item', 'logs', LOG_COLOR.notable, { title });
       }
       game.flags[id as FlagId] = true;
       svc().pipeline.invalidateCache();
@@ -269,11 +270,11 @@ export function createActionSystem() {
     if (fullRes) {
       if (game.activeFocus === _id) {
         game.activeFocus = null;
-        svc().addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
+        svc().addLog('ui_focus_stopped', 'logs', LOG_COLOR.dim);
       }
       svc().bus.emit(svc().EVENTS.LOG_ADDED, {
         id: 'fail_full_' + fullRes,
-        color: 'var(--accent-red)',
+        color: LOG_COLOR.failure,
       });
       return;
     }
@@ -292,19 +293,19 @@ export function createActionSystem() {
     if (firstMissing) {
       const specificKey = 'fail_' + firstMissing;
       const logKey = svc().t(specificKey) !== specificKey ? specificKey : 'fail_resources';
-      svc().addLog(logKey, 'logs', 'var(--accent-red)');
+      svc().addLog(logKey, 'logs', LOG_COLOR.failure);
 
       // If it's a resource that scales with satiation, and efficiency is low, explain why
       const efficiency = svc().pipeline.calculate(game, 'resource_efficiency', 1);
       if (efficiency < 0.9) {
-        svc().addLog('fail_low_efficiency', 'logs', 'var(--accent-red)');
+        svc().addLog('fail_low_efficiency', 'logs', LOG_COLOR.failure);
       }
     }
 
     // NEW: Auto-stop focus if the focused action fails
     if (game.activeFocus === _id) {
       game.activeFocus = null;
-      svc().addLog('ui_focus_stopped', 'logs', 'var(--text-dim)');
+      svc().addLog('ui_focus_stopped', 'logs', LOG_COLOR.dim);
     }
   };
 
@@ -341,7 +342,7 @@ export function createActionSystem() {
 
       // Safety Guard: Automated loops stop if satiation is too low
       if (game.activeFocus === id && game.stats.satiation < 5) {
-        svc().addLog('fail_satiation_loop', 'logs', 'var(--accent-red)');
+        svc().addLog('fail_satiation_loop', 'logs', LOG_COLOR.failure);
         return { success: false };
       }
 
@@ -359,7 +360,7 @@ export function createActionSystem() {
       if (rewards) {
         const fullRes = Object.keys(rewards).find(resId => svc().resource.isFull(game, resId as ResourceId));
         if (fullRes) {
-          svc().addLog('fail_full_' + fullRes, 'logs', 'var(--accent-red)');
+          svc().addLog('fail_full_' + fullRes, 'logs', LOG_COLOR.failure);
           svc().playSound('fail');
           return { success: false };
         }
@@ -370,7 +371,7 @@ export function createActionSystem() {
         if (buffEffect && buffEffect.type === 'addBuff') {
           const existing = game.activeBuffs[buffEffect.buffId];
           if (existing && existing.remaining / existing.total > 0.1) {
-            svc().addLog('fail_buff_active', 'logs', 'var(--accent-red)');
+            svc().addLog('fail_buff_active', 'logs', LOG_COLOR.failure);
             svc().playSound('fail');
             return { success: false };
           }
@@ -505,7 +506,7 @@ export function createActionSystem() {
       if (res === false) {
         if (el) {
           el.classList.add('btn-shake');
-          setTimeout(() => el.classList.remove('btn-shake'), 400);
+          setTimeout(() => el.classList.remove('btn-shake'), ANIM.shake);
         }
       }
       return res;

@@ -1,4 +1,5 @@
 import { GameState, ResourceId, ResourceDefinition, HomeDefinition } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 /**
  * Service handles the resource system needs.
@@ -92,7 +93,7 @@ export const createResourceSystem = () => {
         state.stats.satiation = Math.max(0, state.stats.satiation - finalDrain);
 
         if (state.stats.satiation < 20 && oldSatiation >= 20) {
-          addLog('malus_satiation', 'logs', 'var(--accent-red)');
+          addLog('malus_satiation', 'logs', LOG_COLOR.failure);
         }
       }
     }

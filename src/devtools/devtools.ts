@@ -28,6 +28,7 @@ import {
   TRANSLATIONS_GENERATED,
 } from '../generated/content';
 import yaml from 'js-yaml';
+import { ANIM } from '../core/constants';
 
 type Entity = Record<string, unknown> & { id: string; category?: string };
 
@@ -758,7 +759,7 @@ function wireCheatsHandlers(): void {
 
 function flashButton(btn: HTMLButtonElement): void {
   btn.classList.add('flash');
-  setTimeout(() => btn.classList.remove('flash'), 400);
+  setTimeout(() => btn.classList.remove('flash'), ANIM.flash);
 }
 
 function escapeHtml(s: string): string {

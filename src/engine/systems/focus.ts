@@ -1,5 +1,6 @@
 import { GameState } from '../../types/game';
 import { EngineServices } from '../types';
+import { LOG_COLOR } from '../../core/constants';
 
 /**
  * Drains magic per tick while arcane focus is active.
@@ -14,7 +15,7 @@ export function tickFocus(state: GameState, services: EngineServices, deltaTime:
     services.resource.consume(state, 'magic', cost, true);
   } else {
     state.activeFocus = null;
-    services.addLog('focus_broken_magic', 'logs', 'var(--accent-red)');
+    services.addLog('focus_broken_magic', 'logs', LOG_COLOR.failure);
     services.playSound('fail');
   }
 }

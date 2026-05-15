@@ -1,5 +1,6 @@
 import { GameState, ActionDefinition } from '../../types/game';
 import { EngineServices } from '../types';
+import { LOG_COLOR } from '../../core/constants';
 
 /**
  * Ticks every active producer: checks requirements, deducts magic
@@ -33,7 +34,7 @@ export function tickProducers(
       const tickCost = (services.pipeline.calculate(state, id + '_cost', prod.magicCost) / intervalSec) * deltaTime;
       if (state.stats.magic < tickCost) {
         if (state.counters.totalTime % 20 === 0) {
-          services.addLog(id + '_fail_log', 'logs', 'var(--accent-red)');
+          services.addLog(id + '_fail_log', 'logs', LOG_COLOR.failure);
         }
         return;
       }
@@ -52,7 +53,7 @@ export function tickProducers(
       accumulator[id] -= amount;
 
       if (state.counters.totalTime % 20 === 0) {
-        services.addLog(id + '_log', 'logs', 'var(--accent-teal)');
+        services.addLog(id + '_log', 'logs', LOG_COLOR.success);
       }
     }
   });

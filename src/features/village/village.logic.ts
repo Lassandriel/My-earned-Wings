@@ -1,4 +1,5 @@
 import { GameState, ItemId, FlagId, ActionDefinition, NPCDefinition, NPCId, TranslationParams } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 interface NPCDeps {
   bus: GameState['bus'];
@@ -57,10 +58,10 @@ export const createNPCSystem = () => {
         });
         if (!met) {
           if (npcId === 'npc-teacher' && !game.flags['build-house'] && currentProg === 1) {
-            svc().addLog('npc_teacher_2_no_house', 'logs', 'var(--accent-red)');
+            svc().addLog('npc_teacher_2_no_house', 'logs', LOG_COLOR.failure);
           }
           if (npcId === 'npc-teacher' && currentProg === 2 && (!game.flags['read_book_1_complete'] || !game.flags['read_book_2_complete'])) {
-            svc().addLog('npc_teacher_4_not_read', 'logs', 'var(--accent-red)');
+            svc().addLog('npc_teacher_4_not_read', 'logs', LOG_COLOR.failure);
           }
           return false;
         }

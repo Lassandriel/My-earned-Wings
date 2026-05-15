@@ -1,4 +1,5 @@
 import { GameState, TitleId, TitleDefinition } from '../../types/game';
+import { LOG_COLOR } from '../../core/constants';
 
 interface TitleDeps {
   content: GameState['content'];
@@ -36,7 +37,7 @@ export const createTitleSystem = () => ({
     if (!title) return;
 
     store.discoveredTitles.push(id);
-    svc().addLog('title_unlocked', 'logs', 'var(--gold)', { title: svc().t(title.nameKey) });
+    svc().addLog('title_unlocked', 'logs', LOG_COLOR.notable, { title: svc().t(title.nameKey) });
     svc().playSound('milestone');
 
     if (!store.activeTitle) {
@@ -49,7 +50,7 @@ export const createTitleSystem = () => ({
 
     store.activeTitle = id;
     svc().playSound('click');
-    svc().addLog('title_set', 'logs', 'var(--accent-teal)', {
+    svc().addLog('title_set', 'logs', LOG_COLOR.success, {
       title: id
         ? svc().t(svc().content.get<TitleDefinition>(id, 'titles')?.nameKey || '')
         : svc().t('ui_none'),

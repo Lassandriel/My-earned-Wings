@@ -21,6 +21,8 @@
   }"
 >
   <!-- Primary Stats Actions -->
+  <!-- ID list mirrors PRIMARY_ACTIONS in src/core/constants.ts. If you change
+       one place, change the other so F1/F2/F3 hotkeys keep matching the buttons. -->
   <nav class="primary-actions-bar">
     <template x-for="id in ['act-rest', 'act-meditate', 'act-eat']" :key="id">
       <button
