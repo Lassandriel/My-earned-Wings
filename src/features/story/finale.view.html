@@ -39,6 +39,7 @@
       <button
         class="menu-btn primary glow-btn"
         @click="$store.game.view = 'main'; $store.game.saveGame()"
+        x-effect="if ($store.game.view === 'finale') $nextTick(() => $el.focus())"
       >
         <span x-text="$store.game.t('finale_sandbox_btn')"></span>
       </button>

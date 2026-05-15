@@ -24,10 +24,11 @@
       <p x-text="$store.game.t('ellie_tutorial_3', 'logs')"></p>
       <p x-text="$store.game.t('ellie_tutorial_4', 'logs')"></p>
       
-      <button 
-        class="btn-small" 
-        @click="$store.game.ellie.close($store.game)" 
+      <button
+        class="btn-small"
+        @click="$store.game.ellie.close($store.game)"
         x-text="$store.game.t('ui_btn_thanks')"
+        x-effect="if ($store.game.showEllieIntro) $nextTick(() => $el.focus())"
       ></button>
     </div>
   </div>

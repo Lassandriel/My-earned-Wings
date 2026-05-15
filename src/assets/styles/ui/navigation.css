@@ -15,6 +15,7 @@
 }
 
 .nav-item {
+  position: relative; /* anchor for the .nav-key-tag hotkey badge */
   width: calc(100% - 12px);
   margin-left: 6px;
   margin-right: 6px;
@@ -24,11 +25,11 @@
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: var(--radius-md);
   cursor: pointer;
-  display: grid; 
-  grid-template-columns: 3.5rem 1fr; 
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
   align-items: center;
   transition: all var(--trans-mid);
   color: #ffffff;

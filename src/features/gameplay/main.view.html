@@ -35,7 +35,7 @@
         @mouseout="$store.game.setHovered(null)"
       >
         <span x-text="$store.game.t(id, 'actions').title"></span>
-        <span class="key-tag" x-text="id === 'act-rest' ? '1' : (id === 'act-meditate-sanctum' ? '2' : '3')"></span>
+        <span class="key-tag" x-text="id === 'act-rest' ? 'F1' : (id === 'act-meditate' ? 'F2' : 'F3')"></span>
       </button>
     </template>
   </nav>

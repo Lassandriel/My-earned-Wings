@@ -77,6 +77,11 @@
     <!-- Vitality Section (Essential Stats) -->
     <div class="stat-header-flex">
       <div class="stat-category" x-text="$store.game.t('ui_vitality')"></div>
+      <div
+        class="nav-help-icon"
+        @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_vitality'), desc: $store.game.t('help_vitality_desc') })"
+        @mouseleave="$store.game.setHovered(null)"
+      >?</div>
     </div>
     <template
       x-for="stat in $store.game.content.getCategorizedResources('vitality')"

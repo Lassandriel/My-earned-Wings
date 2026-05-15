@@ -40,31 +40,68 @@ export const createInputSystem = () => {
 
         const view = store.view;
         const settingsOpen = store.settingsOpen;
-        
-        // Handle Escape
+
+        // Handle Escape — settings toggle, prologue skip
         if (e.key === 'Escape') {
           if (view === 'prologue' && store.prologue?.skipPrologue) {
             store.prologue.skipPrologue(store);
           } else if (store.settingsSystem?.toggleSettings) {
             store.settingsSystem.toggleSettings(store);
           }
+          return;
         }
 
-        // Handle Enter for Prologue
+        // Handle Enter — prologue advance (modal confirms work via auto-focused buttons)
         if (e.key === 'Enter' && view === 'prologue' && store.prologue?.advancePrologue) {
           store.prologue.advancePrologue(store);
+          return;
         }
 
-        // Gameplay Shortcuts
-        if (view !== 'menu' && view !== 'prologue' && !settingsOpen) {
-          const SHORTCUTS: Record<string, string> = {
-            '1': 'act-rest',
-            '2': 'act-meditate',
-            '3': 'act-eat',
-          };
-          if (SHORTCUTS[e.key] && store.commands) {
-            store.commands.enqueue({ type: 'executeAction', actionId: SHORTCUTS[e.key] });
+        // Everything below only applies during actual gameplay.
+        if (view === 'menu' || view === 'prologue' || view === 'naming' || settingsOpen) return;
+
+        // F1 / F2 / F3 — primary actions (Rest, Meditate, Eat).
+        // We preventDefault so browser Help / Find shortcuts don't trigger.
+        const PRIMARY: Record<string, string> = {
+          F1: 'act-rest',
+          F2: 'act-meditate',
+          F3: 'act-eat',
+        };
+        if (PRIMARY[e.key] && store.commands) {
+          e.preventDefault();
+          store.commands.enqueue({ type: 'executeAction', actionId: PRIMARY[e.key] });
+          return;
+        }
+
+        // Tab switching: 1-6 select the Nth visible sidebar tab. Up/Down cycle
+        // through the visible tabs sequentially with wrap-around.
+        const navRegistry = (store.content as any)?.registries?.navigation;
+        if (!navRegistry) return;
+        const visibleTabs = (Object.values(navRegistry) as Array<{ id: string; requiredFlag?: string }>)
+          .filter((t) => !t.requiredFlag || (store.flags as any)[t.requiredFlag]);
+
+        const numKey = parseInt(e.key, 10);
+        if (!Number.isNaN(numKey) && numKey >= 1 && numKey <= visibleTabs.length) {
+          const target = visibleTabs[numKey - 1];
+          if (target && view !== target.id) {
+            store.view = target.id;
+            store.playSound?.('click');
           }
+          return;
+        }
+
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          const currentIdx = visibleTabs.findIndex((t) => t.id === view);
+          if (currentIdx === -1) return;
+          const delta = e.key === 'ArrowDown' ? 1 : -1;
+          const nextIdx = (currentIdx + delta + visibleTabs.length) % visibleTabs.length;
+          const target = visibleTabs[nextIdx];
+          if (target && target.id !== view) {
+            e.preventDefault();
+            store.view = target.id;
+            store.playSound?.('click');
+          }
+          return;
         }
       });
 

@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: 15.5.2026 15:04:39
+// Generated: 15.5.2026 15:41:51
 
 // === Resource Registry ===
 
@@ -4796,10 +4796,20 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "nav_collection_desc": "Die Aufzeichnungen deines Lebens am Boden.",
       "help_kitchen_desc": "Bereite komplexe Nahrungsmittel zu, die stärkere Boni gewähren.",
       "help_garden_desc": "Säe seltene Kräuter, die für Alchemie und Verpflegung wichtig sind.",
+      "help_vitality_desc": "Energie und Magie sind dein Treibstoff. Sättigung beeinflusst alle Erträge — wenn du satt bist, arbeitest du effizienter, wenn du hungerst, verlieren manche Aktionen ihre Wirkung.",
       "help_library_desc": "Studiere deine gesammelten Bücher, um mehr über die Welt zu erfahren.",
       "help_magic_desc": "Erforsche die arkanen Energien deiner Seelenform.",
       "settings_tab_general": "Generell",
       "settings_name": "Name des Wandlers",
+      "settings_tab_controls": "Steuerung",
+      "controls_intro": "Du kannst das Spiel komplett mit der Tastatur bedienen.",
+      "controls_primary": "Hauptaktionen (Ausruhen, Meditieren, Beeren essen)",
+      "controls_tabs_number": "Direkt zum jeweiligen Tab springen",
+      "controls_tabs_arrow": "Tab vor / zurück (mit Wrap-around)",
+      "controls_enter": "Bestätigen — z. B. Dialog weiterklicken oder Modal schließen",
+      "controls_esc": "Einstellungen öffnen / schließen, Prolog überspringen",
+      "controls_tab_nav": "Zwischen Buttons innerhalb einer Ansicht wechseln",
+      "controls_laptop_note": "Hinweis: Auf manchen Laptops müssen F-Tasten zusammen mit der Fn-Taste gedrückt werden.",
       "settings_tab_audio": "Audio & Klang",
       "settings_vol_global": "Gesamtlautstärke",
       "settings_vol_music": "Hintergrundmusik",
@@ -5867,8 +5877,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "help_library_desc": "Study your collected books to learn more about the world.",
       "help_magic_desc": "Explore the arcane energies of your soul form.",
       "help_garden_desc": "Sow rare herbs important for alchemy and provisions.",
+      "help_vitality_desc": "Energy and Magic are your fuel. Satiation affects all yields — well-fed you work more efficiently, starving you lose effectiveness on many actions.",
       "settings_tab_general": "General",
       "settings_name": "Shifter Name",
+      "settings_tab_controls": "Controls",
+      "controls_intro": "You can play the game entirely with the keyboard.",
+      "controls_primary": "Primary actions (Rest, Meditate, Eat Berries)",
+      "controls_tabs_number": "Jump directly to that tab",
+      "controls_tabs_arrow": "Cycle to previous / next tab (wraps around)",
+      "controls_enter": "Confirm — e.g. advance dialogue or close a modal",
+      "controls_esc": "Open / close settings, skip prologue",
+      "controls_tab_nav": "Move focus between buttons inside a view",
+      "controls_laptop_note": "Note: On some laptops the F-keys need the Fn key held.",
       "settings_tab_audio": "Audio & Sounds",
       "settings_vol_global": "Global Volume",
       "settings_vol_music": "Background Music",

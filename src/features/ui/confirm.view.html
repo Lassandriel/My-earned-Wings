@@ -15,6 +15,7 @@
         class="confirm-btn confirm-btn-yes"
         @click="$store.game.resolveConfirm(true)"
         x-text="$store.game.t('btn_confirm_yes')"
+        x-effect="if ($store.game.confirmModal.open) $nextTick(() => $el.focus())"
       ></button>
       <button
         class="confirm-btn confirm-btn-no"

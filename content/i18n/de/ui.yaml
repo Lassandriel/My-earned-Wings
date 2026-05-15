@@ -212,10 +212,20 @@ nav_housing_desc: Verwalte dein Zuhause und deine Einrichtung.
 nav_collection_desc: Die Aufzeichnungen deines Lebens am Boden.
 help_kitchen_desc: Bereite komplexe Nahrungsmittel zu, die stärkere Boni gewähren.
 help_garden_desc: Säe seltene Kräuter, die für Alchemie und Verpflegung wichtig sind.
+help_vitality_desc: Energie und Magie sind dein Treibstoff. Sättigung beeinflusst alle Erträge — wenn du satt bist, arbeitest du effizienter, wenn du hungerst, verlieren manche Aktionen ihre Wirkung.
 help_library_desc: Studiere deine gesammelten Bücher, um mehr über die Welt zu erfahren.
 help_magic_desc: Erforsche die arkanen Energien deiner Seelenform.
 settings_tab_general: Generell
 settings_name: Name des Wandlers
+settings_tab_controls: Steuerung
+controls_intro: Du kannst das Spiel komplett mit der Tastatur bedienen.
+controls_primary: Hauptaktionen (Ausruhen, Meditieren, Beeren essen)
+controls_tabs_number: Direkt zum jeweiligen Tab springen
+controls_tabs_arrow: Tab vor / zurück (mit Wrap-around)
+controls_enter: Bestätigen — z. B. Dialog weiterklicken oder Modal schließen
+controls_esc: Einstellungen öffnen / schließen, Prolog überspringen
+controls_tab_nav: Zwischen Buttons innerhalb einer Ansicht wechseln
+controls_laptop_note: "Hinweis: Auf manchen Laptops müssen F-Tasten zusammen mit der Fn-Taste gedrückt werden."
 settings_tab_audio: Audio & Klang
 settings_vol_global: Gesamtlautstärke
 settings_vol_music: Hintergrundmusik

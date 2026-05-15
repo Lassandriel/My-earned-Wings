@@ -222,8 +222,18 @@ help_kitchen_desc: Prepare complex foods that grant stronger bonuses.
 help_library_desc: Study your collected books to learn more about the world.
 help_magic_desc: Explore the arcane energies of your soul form.
 help_garden_desc: Sow rare herbs important for alchemy and provisions.
+help_vitality_desc: Energy and Magic are your fuel. Satiation affects all yields — well-fed you work more efficiently, starving you lose effectiveness on many actions.
 settings_tab_general: General
 settings_name: Shifter Name
+settings_tab_controls: Controls
+controls_intro: You can play the game entirely with the keyboard.
+controls_primary: Primary actions (Rest, Meditate, Eat Berries)
+controls_tabs_number: Jump directly to that tab
+controls_tabs_arrow: Cycle to previous / next tab (wraps around)
+controls_enter: Confirm — e.g. advance dialogue or close a modal
+controls_esc: Open / close settings, skip prologue
+controls_tab_nav: Move focus between buttons inside a view
+controls_laptop_note: "Note: On some laptops the F-keys need the Fn key held."
 settings_tab_audio: Audio & Sounds
 settings_vol_global: Global Volume
 settings_vol_music: Background Music

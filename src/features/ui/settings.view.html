@@ -27,6 +27,14 @@
         </button>
         <button
           class="tab-btn"
+          :class="settingsTab === 'controls' && 'active'"
+          @click="settingsTab = 'controls'"
+        >
+          <span class="tab-icon">⌨️</span>
+          <span x-text="$store.game.t('settings_tab_controls')"></span>
+        </button>
+        <button
+          class="tab-btn"
           :class="settingsTab === 'audio' && 'active'"
           @click="settingsTab = 'audio'"
         >
@@ -66,6 +74,10 @@
         <h3
           x-show="settingsTab === 'general'"
           x-text="$store.game.t('settings_tab_general')"
+        ></h3>
+        <h3
+          x-show="settingsTab === 'controls'"
+          x-text="$store.game.t('settings_tab_controls')"
         ></h3>
         <h3
           x-show="settingsTab === 'audio'"
@@ -115,6 +127,42 @@
                 <span x-text="$store.game.t('ui_lang_en')"></span>
               </button>
             </div>
+          </section>
+        </div>
+
+        <!-- 1.5 Controls Tab — keyboard shortcut reference -->
+        <div x-show="settingsTab === 'controls'" x-transition>
+          <section class="settings-card">
+            <p class="hint" x-text="$store.game.t('controls_intro')"></p>
+            <table class="hotkeys-table">
+              <tbody>
+                <tr>
+                  <td><kbd>F1</kbd> · <kbd>F2</kbd> · <kbd>F3</kbd></td>
+                  <td x-text="$store.game.t('controls_primary')"></td>
+                </tr>
+                <tr>
+                  <td><kbd>1</kbd> – <kbd>6</kbd></td>
+                  <td x-text="$store.game.t('controls_tabs_number')"></td>
+                </tr>
+                <tr>
+                  <td><kbd>↑</kbd> · <kbd>↓</kbd></td>
+                  <td x-text="$store.game.t('controls_tabs_arrow')"></td>
+                </tr>
+                <tr>
+                  <td><kbd>Enter</kbd></td>
+                  <td x-text="$store.game.t('controls_enter')"></td>
+                </tr>
+                <tr>
+                  <td><kbd>Esc</kbd></td>
+                  <td x-text="$store.game.t('controls_esc')"></td>
+                </tr>
+                <tr>
+                  <td><kbd>Tab</kbd></td>
+                  <td x-text="$store.game.t('controls_tab_nav')"></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="hint" x-text="$store.game.t('controls_laptop_note')"></p>
           </section>
         </div>
 
