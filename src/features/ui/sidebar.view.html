@@ -12,7 +12,7 @@
   <div class="sidebar-help-row" x-show="!$store.game.sidebarCollapsed">
     <div
       class="nav-help-icon"
-      @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('sidebar_help_title'), desc: $store.game.t('sidebar_help_desc') })"
+      @mouseenter="$store.game.helpHover('sidebar_help_title', 'sidebar_help_desc')"
       @mouseleave="$store.game.setHovered(null)"
     >?</div>
   </div>

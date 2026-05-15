@@ -298,6 +298,7 @@ export interface GameState {
   bootstrap: () => void;
   isTaskActive: (id: string) => boolean;
   setHovered: (id: string | null, customData?: HoverActionData) => void;
+  helpHover: (titleKey: string, descKey: string, hoverId?: string) => void;
   startNewGame: () => void;
   continueGame: () => void;
   finishPrologue: () => void;

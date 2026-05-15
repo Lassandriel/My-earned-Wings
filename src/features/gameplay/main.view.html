@@ -49,7 +49,7 @@
       <section class="action-group">
         <header class="category-header">
           <h3 x-text="$store.game.t('cat_gather')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_gather'), desc: $store.game.t('nav_gather_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('cat_gather', 'nav_gather_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
 
         <template x-for="loc in $store.game.ui.getAvailableLocations($store.game)" :key="loc">
@@ -88,7 +88,7 @@
       <section class="action-group" x-show="$store.game.flags['unlocked-work']" x-transition>
         <header class="category-header">
           <h3 x-text="$store.game.t('cat_work')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_work'), desc: $store.game.t('nav_work_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('cat_work', 'nav_work_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
         <div class="location-group" x-data="{ expanded: true }">
           <h4 class="location-heading" @click="expanded = !expanded" style="cursor: pointer;">
@@ -119,7 +119,7 @@
       <section class="action-group" x-show="$store.game.flags['build-kitchen']" x-collapse>
         <header class="category-header">
           <h3 x-text="$store.game.t('ui_tab_kitchen')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_tab_kitchen'), desc: $store.game.t('help_kitchen_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('ui_tab_kitchen', 'help_kitchen_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
         <div class="btn-list">
           <template x-for="actionId in getActions('kitchen')" :key="actionId">
@@ -143,7 +143,7 @@
       <section class="action-group" x-show="$store.game.unlockedRecipes.includes('act-dream-bloom')" x-collapse>
         <header class="category-header">
           <h3 x-text="$store.game.t('cat_magic')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_magic'), desc: $store.game.t('help_magic_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('cat_magic', 'help_magic_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
         <div class="btn-list">
           <template x-for="actionId in getActions('magic', (a) => a.id !== 'act-meditate-sanctum' && a.id !== 'act-spell-harvest')" :key="actionId">
@@ -173,7 +173,7 @@
       <section class="action-group" x-show="$store.game.flags['unlocked-library']" x-collapse>
         <header class="category-header">
           <h3 x-text="$store.game.t('ui_library')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_library'), desc: $store.game.t('help_library_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('ui_library', 'help_library_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
         <div class="location-group" x-data="{ expanded: true }">
           <h4 class="location-heading" @click="expanded = !expanded" style="cursor: pointer;">
@@ -204,7 +204,7 @@
       <section class="action-group" x-show="$store.game.flags['build-garden']" x-collapse>
         <header class="category-header">
           <h3 x-text="$store.game.t('ui_tab_garden')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('ui_tab_garden'), desc: $store.game.t('help_garden_desc') })" @mouseleave="$store.game.setHovered(null)">?</div>
+          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('ui_tab_garden', 'help_garden_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
         </header>
         <div class="btn-list">
           <template x-for="actionId in getActions('garden_task')" :key="actionId">

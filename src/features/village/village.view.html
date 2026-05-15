@@ -37,7 +37,7 @@
     <h3 x-text="$store.game.t('cat_locations')"></h3>
     <div
       class="nav-help-icon"
-      @mouseenter="$store.game.setHovered('help', { isHelp: true, title: $store.game.t('cat_village'), desc: $store.game.t('nav_village_desc') })"
+      @mouseenter="$store.game.helpHover('cat_village', 'nav_village_desc')"
       @mouseleave="$store.game.setHovered(null)"
     >
       ?

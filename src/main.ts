@@ -117,6 +117,22 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     }
   },
 
+  /**
+   * Shortcut for the very common help-tooltip pattern. Call from a view as
+   *   @mouseenter="$store.game.helpHover('cat_crafting', 'nav_crafting_desc')"
+   *   @mouseleave="$store.game.setHovered(null)"
+   * The two strings are translation keys (resolved via t()), not literal text.
+   */
+  helpHover(titleKey: string, descKey: string, hoverId: string = 'help') {
+    const store = getStore();
+    store.setHovered(hoverId, {
+      id: hoverId,
+      isHelp: true,
+      title: store.t(titleKey),
+      desc: store.t(descKey),
+    } as HoverActionData);
+  },
+
   getTooltipRequirements(hAction: HoverActionData) {
     const store = getStore();
     return store.ui.getRequirements(store, hAction);
