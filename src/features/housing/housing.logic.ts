@@ -1,5 +1,5 @@
 import { GameState, ItemId, ItemDefinition, HomeDefinition } from '../../types/game';
-import { LOG_COLOR, invalidateCaches } from '../../core/constants';
+import { LOG_COLOR, invalidateCaches, makeServiceContainer } from '../../core/constants';
 
 interface HousingDeps {
   content: GameState['content'];
@@ -12,11 +12,8 @@ interface HousingDeps {
   saveGame: GameState['saveGame'];
 }
 
-let _deps: HousingDeps | null = null;
-const svc = (): HousingDeps => {
-  if (!_deps) throw new Error('[HOUSING] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<HousingDeps>('HOUSING');
+const svc = ctx.get;
 
 /**
  * Housing System - TypeScript Edition
@@ -33,9 +30,7 @@ export const createHousingSystem = () => {
       ],
     },
 
-    setServices(deps: HousingDeps) {
-      _deps = deps;
-    },
+    setServices: ctx.set,
 
     /**
      * Toggles a piece of furniture in the current home.

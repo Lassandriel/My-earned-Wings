@@ -1,5 +1,5 @@
 import { GameState, ActionDefinition, StoryHistoryEntry, NPCDefinition } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
 
 interface CollectionDeps {
   bus: GameState['bus'];
@@ -8,11 +8,8 @@ interface CollectionDeps {
   t: GameState['t'];
 }
 
-let _deps: CollectionDeps | null = null;
-const svc = (): CollectionDeps => {
-  if (!_deps) throw new Error('[COLLECTION] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<CollectionDeps>('COLLECTION');
+const svc = ctx.get;
 
 /**
  * Collection System - TypeScript Edition
@@ -24,9 +21,7 @@ export const createCollectionSystem = () => ({
     delegates: ['getGroupedHistory'],
   },
 
-  setServices(deps: CollectionDeps) {
-    _deps = deps;
-  },
+  setServices: ctx.set,
 
   /**
    * Records a chronicle entry.

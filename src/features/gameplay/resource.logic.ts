@@ -1,5 +1,5 @@
 import { GameState, ResourceId, ResourceDefinition, HomeDefinition } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
 
 /**
  * Service handles the resource system needs.
@@ -14,13 +14,8 @@ interface ResourceDeps {
   addLog: GameState['addLog'];
 }
 
-let _deps: ResourceDeps | null = null;
-const requireDeps = (): ResourceDeps => {
-  if (!_deps) {
-    throw new Error('[RESOURCE] services not bound — call setServices() during boot.');
-  }
-  return _deps;
-};
+const ctx = makeServiceContainer<ResourceDeps>('RESOURCE');
+const requireDeps = ctx.get;
 
 export const createResourceSystem = () => {
   const metadata = { id: 'resource' };
@@ -101,9 +96,7 @@ export const createResourceSystem = () => {
   };
 
   return {
-    setServices(deps: ResourceDeps) {
-      _deps = deps;
-    },
+    setServices: ctx.set,
 
     canAfford,
     consume,

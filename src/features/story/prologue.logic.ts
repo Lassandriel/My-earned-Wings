@@ -1,5 +1,5 @@
 import { GameState, LogStore } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
 
 interface PrologueDeps {
   collection: GameState['collection'];
@@ -8,11 +8,8 @@ interface PrologueDeps {
   getLogStore: () => LogStore;
 }
 
-let _deps: PrologueDeps | null = null;
-const svc = (): PrologueDeps => {
-  if (!_deps) throw new Error('[PROLOGUE] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<PrologueDeps>('PROLOGUE');
+const svc = ctx.get;
 
 /** Total number of prologue slides. Update here only if new slides are added. */
 const PROLOGUE_STEPS = 7;
@@ -22,9 +19,7 @@ export const createPrologueSystem = () => ({
     id: 'prologue',
   },
 
-  setServices(deps: PrologueDeps) {
-    _deps = deps;
-  },
+  setServices: ctx.set,
 
   playIntro(state: GameState) {
     state.prologueStep = 1;

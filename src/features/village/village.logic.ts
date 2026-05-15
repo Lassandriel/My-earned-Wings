@@ -1,5 +1,5 @@
 import { GameState, ItemId, FlagId, ActionDefinition, NPCDefinition, NPCId, TranslationParams } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
 
 interface NPCDeps {
   bus: GameState['bus'];
@@ -10,11 +10,8 @@ interface NPCDeps {
   addLog: GameState['addLog'];
 }
 
-let _deps: NPCDeps | null = null;
-const svc = (): NPCDeps => {
-  if (!_deps) throw new Error('[NPC] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<NPCDeps>('NPC');
+const svc = ctx.get;
 
 /**
  * NPC System - TypeScript Edition
@@ -27,9 +24,7 @@ export const createNPCSystem = () => {
       delegates: { npcExecute: 'execute' },
     },
 
-    setServices(deps: NPCDeps) {
-      _deps = deps;
-    },
+    setServices: ctx.set,
 
     /**
      * Executes an NPC interaction step (Quest progress).

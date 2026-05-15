@@ -1,5 +1,5 @@
 import { GameState, ItemId, ItemDefinition } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
 
 interface ItemDeps {
   content: GameState['content'];
@@ -10,11 +10,8 @@ interface ItemDeps {
   saveGame: GameState['saveGame'];
 }
 
-let _deps: ItemDeps | null = null;
-const svc = (): ItemDeps => {
-  if (!_deps) throw new Error('[ITEMS] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<ItemDeps>('ITEMS');
+const svc = ctx.get;
 
 /**
  * Item System - TypeScript Edition
@@ -26,9 +23,7 @@ export const createItemSystem = () => ({
     delegates: { consumeItem: 'consumeItem' },
   },
 
-  setServices(deps: ItemDeps) {
-    _deps = deps;
-  },
+  setServices: ctx.set,
 
   consumeItem(store: GameState, id: ItemId) {
     const item = svc().content.get<ItemDefinition>(id, 'items');

@@ -1,3 +1,4 @@
+import { makeServiceContainer } from '../../core/constants';
 import { GameState } from '../../types/game';
 
 interface SettingsDeps {
@@ -7,11 +8,8 @@ interface SettingsDeps {
   saveGame: GameState['saveGame'];
 }
 
-let _deps: SettingsDeps | null = null;
-const svc = (): SettingsDeps => {
-  if (!_deps) throw new Error('[SETTINGS] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<SettingsDeps>('SETTINGS');
+const svc = ctx.get;
 
 /**
  * Settings System - TypeScript Edition
@@ -27,9 +25,7 @@ export const createSettingsSystem = () => {
       },
     },
 
-    setServices(deps: SettingsDeps) {
-      _deps = deps;
-    },
+    setServices: ctx.set,
 
     /**
      * Changes the window resolution (Electron only).

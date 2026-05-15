@@ -1,5 +1,5 @@
 import { GameState, TitleId, TitleDefinition } from '../../types/game';
-import { LOG_COLOR } from '../../core/constants';
+import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
 
 interface TitleDeps {
   content: GameState['content'];
@@ -10,11 +10,8 @@ interface TitleDeps {
   saveGame: GameState['saveGame'];
 }
 
-let _deps: TitleDeps | null = null;
-const svc = (): TitleDeps => {
-  if (!_deps) throw new Error('[TITLES] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<TitleDeps>('TITLES');
+const svc = ctx.get;
 
 /**
  * Title System Logic - Phase 12
@@ -26,9 +23,7 @@ export const createTitleSystem = () => ({
     delegates: { setActiveTitle: 'setActiveTitle' },
   },
 
-  setServices(deps: TitleDeps) {
-    _deps = deps;
-  },
+  setServices: ctx.set,
 
   unlockTitle(store: GameState, id: TitleId) {
     if (store.discoveredTitles.includes(id)) return;

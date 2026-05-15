@@ -1,4 +1,4 @@
-import { LOG_COLOR, ANIM, invalidateCaches } from '../../core/constants';
+import { LOG_COLOR, ANIM, invalidateCaches, makeServiceContainer } from '../../core/constants';
 import {
   GameState,
   ActionDefinition,
@@ -31,11 +31,8 @@ interface ActionDeps {
   t: GameState['t'];
 }
 
-let _deps: ActionDeps | null = null;
-const svc = (): ActionDeps => {
-  if (!_deps) throw new Error('[ACTIONS] services not bound — call setServices() during boot.');
-  return _deps;
-};
+const ctx = makeServiceContainer<ActionDeps>('ACTIONS');
+const svc = ctx.get;
 
 /**
  * Action System - TypeScript Edition
@@ -440,9 +437,7 @@ export function createActionSystem() {
   };
 
   return {
-    setServices(deps: ActionDeps) {
-      _deps = deps;
-    },
+    setServices: ctx.set,
 
     effectHandlers,
     registerEffect,

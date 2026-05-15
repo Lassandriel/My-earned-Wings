@@ -75,3 +75,47 @@ export function invalidateCaches(services: {
   services.pipeline?.invalidateCache();
   services.resource?.invalidateCache();
 }
+
+/**
+ * Tiny dependency-injection container for the per-system service bags.
+ * Replaces the boilerplate every feature module had:
+ *
+ *   let _deps: FooDeps | null = null;
+ *   const svc = (): FooDeps => {
+ *     if (!_deps) throw new Error('[FOO] services not bound — ...');
+ *     return _deps;
+ *   };
+ *   // ...
+ *   setServices(deps: FooDeps) { _deps = deps; }
+ *
+ * with:
+ *
+ *   const ctx = makeServiceContainer<FooDeps>('FOO');
+ *   const svc = ctx.get;
+ *   // ...
+ *   setServices: ctx.set
+ *
+ * The `name` is purely for the error message so a missing-deps crash points
+ * at the right system.
+ */
+export interface ServiceContainer<T> {
+  /** Returns the bound deps. Throws if setServices() hasn't run yet. */
+  get(): T;
+  /** Stores the deps. Call once during boot. */
+  set(deps: T): void;
+}
+
+export function makeServiceContainer<T>(name: string): ServiceContainer<T> {
+  let _deps: T | null = null;
+  return {
+    get: () => {
+      if (!_deps) {
+        throw new Error(`[${name}] services not bound — call setServices() during boot.`);
+      }
+      return _deps;
+    },
+    set: (deps: T) => {
+      _deps = deps;
+    },
+  };
+}
