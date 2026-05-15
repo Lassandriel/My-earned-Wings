@@ -22,12 +22,12 @@
 >
   <!-- Primary Stats Actions -->
   <nav class="primary-actions-bar">
-    <template x-for="id in ['act-rest', 'act-meditate-sanctum', 'act-eat']" :key="id">
+    <template x-for="id in ['act-rest', 'act-meditate', 'act-eat']" :key="id">
       <button
         class="game-btn primary-btn"
         :class="{
           'primary-energy': id === 'act-rest',
-          'primary-magic': id === 'act-meditate-sanctum',
+          'primary-magic': id === 'act-meditate',
           'primary-satiation': id === 'act-eat'
         }"
         @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: id, element: $el })"
