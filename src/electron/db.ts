@@ -19,7 +19,10 @@ import initSqlJs, { Database, SqlJsStatic } from 'sql.js';
  * tables are reserved for later phases.
  */
 
-const SCHEMA_VERSION = 1;
+// Save-data shape version. Bumped whenever the JSON state shape inside the
+// `data` column changes in a way that breaks older loads. Migrations live
+// in src/core/services/save-migrations.ts — keep these two in sync.
+const SCHEMA_VERSION = 2;
 
 export interface SaveRow {
   slot: number;
