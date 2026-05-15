@@ -1,0 +1,50 @@
+name: CI
+
+# Runs on every push to any branch and on pull requests targeting main.
+# This catches breakages BEFORE they hit deploy.yml (which only fires on
+# main and assumes the build already works).
+on:
+  push:
+  pull_request:
+    branches: ["main"]
+
+# Cancel a previous run on the same branch if a new push lands —
+# saves Actions minutes when you push twice in a row.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Tests, Type-Check, Validators
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Content has to be generated before TS / tests / validators run —
+      # the pipeline writes src/generated/content.ts that everything
+      # imports from.
+      - name: Build YAML content
+        run: npm run build:content
+
+      - name: TypeScript type-check
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Project validators (i18n, assets, logic, parity, …)
+        run: npm run check-all
+
+      - name: Production build sanity check
+        run: npm run build

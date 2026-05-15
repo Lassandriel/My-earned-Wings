@@ -774,14 +774,16 @@ function render(): void {
   if (activeTab === 'Validation') meta.textContent = 'Run project validators';
 }
 
-// re-render list as user types in the search box, also for the Modifier Tree tab
-search.addEventListener('input', () => {
-  if (activeTab === 'Modifier Tree') render();
-});
-
+// Re-render as user types in the search box. Modifier Tree needs a full
+// render() because its detail pane depends on the filter; other tabs only
+// need the list to refresh.
 search.addEventListener('input', () => {
   filter = search.value.trim().toLowerCase();
-  renderList();
+  if (activeTab === 'Modifier Tree') {
+    render();
+  } else {
+    renderList();
+  }
 });
 
 render();
