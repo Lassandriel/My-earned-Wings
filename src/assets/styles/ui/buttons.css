@@ -34,7 +34,7 @@
 }
 
 .game-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-4px) scale(1.02);
   box-shadow:
@@ -60,7 +60,7 @@
 
 .game-btn:active {
   transform: scale(0.94);
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--surface-medium);
 }
 
 /* PROGRESS BAR FOR ASYNC ACTIONS */
@@ -97,7 +97,7 @@
   }
   50% {
     transform: scale(1.01);
-    box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+    box-shadow: var(--glow-teal);
   }
   100% {
     transform: scale(1);
@@ -114,14 +114,14 @@
 
 .primary-btn:hover {
   background: rgba(20, 184, 166, 0.2);
-  box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+  box-shadow: var(--glow-teal);
 }
 
 /* Nav Help Icon (Tiny Circle Button) */
 .nav-help-icon {
   width: 20px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: inline-flex;
@@ -138,7 +138,7 @@
 
 .nav-help-icon:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   color: #fff;
   border-color: var(--accent-teal);
   box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);

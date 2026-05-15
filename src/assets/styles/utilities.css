@@ -50,14 +50,14 @@
 }
 
 .card-premium {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--surface-whisper);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--radius-sm);
     transition: var(--trans-fast);
 }
 
 .card-premium:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--surface-soft);
     border-color: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
 }

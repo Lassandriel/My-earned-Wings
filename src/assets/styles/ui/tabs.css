@@ -43,7 +43,7 @@
 
 .nav-tab-btn:hover:not(.active) {
   color: #fff;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
   transform: translateY(-1px);
 }
 

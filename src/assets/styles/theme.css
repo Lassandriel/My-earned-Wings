@@ -20,6 +20,24 @@
   --space-xl: 2rem;
   --space-xxl: 3rem;
 
+  /* Surface tints — semi-transparent white overlays used for panel/card
+     backgrounds. Pick by intended visual weight (whisper = barely there,
+     soft = standard panel, light = elevated, medium = strong card). */
+  --surface-whisper: rgba(255, 255, 255, 0.03);
+  --surface-faint:   rgba(255, 255, 255, 0.05);
+  --surface-soft:    rgba(255, 255, 255, 0.08);
+  --surface-light:   rgba(255, 255, 255, 0.10);
+  --surface-medium:  rgba(255, 255, 255, 0.15);
+
+  /* Shadows / depth */
+  --shadow-faint: 0 4px 12px rgba(0, 0, 0, 0.2);   /* default card lift */
+  --shadow-card:  0 4px 15px rgba(0, 0, 0, 0.2);   /* slightly heavier card */
+  --shadow-deep:  0 8px 32px rgba(0, 0, 0, 0.5);   /* same as --glass-shadow */
+
+  /* Accent glows — for hover/focus on themed buttons. */
+  --glow-teal:   0 0 20px rgba(20, 184, 166, 0.20);
+  --glow-purple: 0 0 20px rgba(139, 92, 246, 0.20);
+
   /* Glassmorphism */
   --glass-blur: blur(12px);
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);

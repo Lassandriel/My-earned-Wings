@@ -31,7 +31,7 @@
 /* Sidebar Section */
 .settings-sidebar {
   width: 240px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-whisper);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
@@ -79,7 +79,7 @@
 }
 
 .tab-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
   color: #fff;
 }
 
@@ -87,7 +87,7 @@
   background: rgba(20, 184, 166, 0.15);
   border-color: rgba(20, 184, 166, 0.3);
   color: var(--accent-teal);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-card);
 }
 
 .tab-icon {
@@ -228,7 +228,7 @@
 
 .val-pill {
   font-family: monospace;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -245,7 +245,7 @@
 input[type='text'],
 .modern-textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-whisper);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   padding: 12px 18px;
@@ -259,7 +259,7 @@ input[type='text'],
 input[type='text']:focus,
 .modern-textarea:focus {
   border-color: var(--accent-teal);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
 }
 
 .lang-grid {
@@ -270,7 +270,7 @@ input[type='text']:focus,
 
 .lang-btn-modern {
   padding: 14px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-whisper);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   color: var(--text-dim);
@@ -296,7 +296,7 @@ input[type='text']:focus,
 .game-btn-wide {
   width: 100%;
   padding: 18px;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--surface-faint) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px;
   color: #fff !important;
@@ -320,12 +320,12 @@ input[type='text']:focus,
 }
 
 .game-btn-wide.secondary {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: var(--surface-whisper) !important;
   color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .game-btn-wide.secondary:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: var(--surface-soft) !important;
   color: #fff !important;
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
@@ -333,7 +333,7 @@ input[type='text']:focus,
 .action-btn-sm {
   flex: 1;
   padding: 10px 15px;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--surface-faint) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 10px;
   color: var(--text-dim) !important;
@@ -344,7 +344,7 @@ input[type='text']:focus,
 }
 
 .action-btn-sm:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: var(--surface-light) !important;
   border-color: var(--accent-teal) !important;
   color: #fff !important;
 }
@@ -375,7 +375,7 @@ input[type='range'] {
 }
 input[type='range']::-webkit-slider-runnable-track {
   height: 6px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   border-radius: 3px;
 }
 input[type='range']::-webkit-slider-thumb {
@@ -403,7 +403,7 @@ input[type='range']::-webkit-slider-thumb {
 .slider {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   border-radius: 30px;
   cursor: pointer;
   transition: 0.3s;
@@ -475,7 +475,7 @@ input:checked + .slider:before {
 
 .res-btn {
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: var(--text-dim);
@@ -486,7 +486,7 @@ input:checked + .slider:before {
 }
 
 .res-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   border-color: var(--accent-teal);
   color: #fff;
 }

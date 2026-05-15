@@ -73,7 +73,7 @@
 
 .naming-input-wrapper input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-whisper);
   border: none;
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0;
@@ -88,7 +88,7 @@
 
 .naming-input-wrapper input:focus {
   border-bottom-color: var(--accent-teal);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
 }
 
 .naming-input-wrapper input.input-error {
@@ -263,7 +263,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 .confirm-btn-no:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   color: #fff;
   transform: translateY(-2px);
 }

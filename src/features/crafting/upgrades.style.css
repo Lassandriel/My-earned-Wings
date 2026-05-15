@@ -13,7 +13,7 @@
 
 .item-slot:hover {
   transform: translateY(-5px) scale(1.02);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
 }
 
 .item-slot.is-selected {

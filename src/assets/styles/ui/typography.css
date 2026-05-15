@@ -53,6 +53,6 @@ main .category-header h3 {
   font-size: 0.75rem;
   padding: 2px 8px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   color: var(--text-dim);
 }

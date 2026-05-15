@@ -36,7 +36,7 @@
 .primary-energy:hover {
   background: rgba(20, 184, 166, 0.2);
   border-color: var(--accent-teal);
-  box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+  box-shadow: var(--glow-teal);
 }
 
 .primary-magic {
@@ -47,7 +47,7 @@
 .primary-magic:hover {
   background: rgba(139, 92, 246, 0.2);
   border-color: var(--accent-purple);
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+  box-shadow: var(--glow-purple);
 }
 
 .primary-satiation {
@@ -175,7 +175,7 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-light);
   z-index: 1;
 }
 
@@ -300,14 +300,14 @@
 .automation-bar {
   margin: 0 0 2rem 0;
   padding: 1rem 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-whisper);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-card);
 }
 
 .loop-toggle-wrapper {

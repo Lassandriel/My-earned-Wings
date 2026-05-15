@@ -81,7 +81,7 @@
 }
 
 .finale-stats-panel {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-whisper);
   border-radius: 20px;
   padding: 30px;
   margin-bottom: 40px;

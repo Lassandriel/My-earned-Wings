@@ -92,7 +92,7 @@
 }
 
 .skip-btn {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.6);
   padding: 10px 20px;
@@ -106,7 +106,7 @@
 }
 
 .skip-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-faint);
   color: rgba(255, 255, 255, 0.8);
   border-color: rgba(255, 255, 255, 0.3);
 }
