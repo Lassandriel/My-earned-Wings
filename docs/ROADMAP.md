@@ -32,7 +32,39 @@
 * [ ] **Zauberwerkstatt**: Lerne magische Zauber, um die physischen Grenzen deines Lagers zu erweitern.
 * [ ] **Automation (Ancient Echoes)**: Nutzung von Schatten früherer Leben zur Automatisierung von Produktionsketten.
 * [ ] **Tree of Life Finale**: Die finale spirituelle Erweckung und das Erreichen des Palastes über den Wolken.
-* 
+
+### Phase 15+: Engine-Hardening & Addon System
+
+The engine has to feel rock-solid before bolting an addon system on top of
+it. The order matters — finish the existing tech-debt first, then turn
+content into modules.
+
+* [ ] **Engine Hardening (prerequisite)**:
+  * Phase 2 Stage 2 — pure-data state separation, so the engine has no
+    Alpine dependency.
+  * Split the three large files (`src/devtools/devtools.ts` ~940 LOC,
+    `src/core/visuals/ui.ts` ~740 LOC, `src/features/gameplay/actions.logic.ts`
+    ~540 LOC) into focused modules.
+  * Reduce the ~200 `as any` casts (especially the `(services as any).x`
+    pattern) by widening the GameServices type.
+  * Add tests for engine subsystems that currently lack them
+    (`producers.ts`, `regen.ts`, `tasks.ts`, boot sequence).
+* [ ] **Addon System (compile-time)**:
+  * Restructure `content/` into `content/base/` + `content/addons/<name>/`.
+  * Build script auto-discovers addon folders, merges into registries.
+  * Per-addon `manifest.yaml` (name, version, requires).
+  * ID-conflict detection during build.
+  * Decisions to make at that point: ID-namespacing (strict `vandara:npc-x`
+    vs lax warn-on-collision), custom-execute handlers from addons (TS code
+    or YAML-only), translation overrides, asset path conventions.
+  * First real addon: Vandara/Academy as `content/addons/vandara/` once
+    Phase 13.5 design is clear.
+  * Documentation: `docs/ADDONS.md` with the structure + a `_example/`
+    skeleton for contributors.
+* [ ] **Runtime Addon Toggling (only if community grows)**: settings UI to
+  enable/disable addons without rebuild, save format tracks active addons,
+  conflict resolution UI. Day(s) of work — defer until 3rd-party modders
+  show real interest.
 
 ***
 
