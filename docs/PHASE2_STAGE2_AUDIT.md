@@ -108,3 +108,59 @@ from one side, drift returns.
   (engine/systems/*.ts) — already correct; those mutate the engine
   state object via the `state` parameter, which after cutover IS the
   separate plain-data object.
+
+---
+
+## Plan B — the short path (discovered during audit)
+
+Looking at the data again: **every one of the 50+ TS writers takes `store`
+as a function parameter.** That `store` is sourced from exactly ONE place:
+`getStore()` in src/main.ts (and the tShim closure in engine/services.ts,
+plus UISync which is supposed to read Alpine — that one is correct).
+
+```ts
+// main.ts today
+const getStore = (): GameState => Alpine.store('game') as GameState;
+```
+
+If we just change this single line to return `services.gameState`, every
+downstream writer transparently mutates whatever `services.gameState`
+points at. In Stage 1 that's still Alpine (no observable change). After
+cutover it's the separate plain-data object. **No per-writer migration
+needed.**
+
+The only remaining piece is the 14 UI-template writes
+(`$store.game.x = …` in *.html), which mutate Alpine directly:
+- `settingsOpen` (5), `view` (3), `selectedStoryNpc` (3),
+  `sidebarCollapsed`, `selectedItem`, `saveCode`
+
+After cutover those writes would land on Alpine and get overwritten by
+the next UISync.sync() copying engine→Alpine. Fix: add these to an
+`UI_WRITEBACK_KEYS` list in UISync that copies *Alpine→engine* before the
+normal engine→Alpine pass. Two-way sync, but only for the small set of
+fields the UI actually mutates directly.
+
+### Plan B commit sequence (4 commits, ~half a day)
+
+1. Route through `services.gameState`: change `getStore()` in main.ts to
+   return `services.gameState`. Add tiny i18n shim fix in
+   engine/services.ts:60 so it reads `services.gameState` too. No
+   behavior change.
+2. Add `UI_WRITEBACK_KEYS` two-way sync in `engine/systems/ui.ts`. Keys
+   are pulled Alpine→engine before the existing engine→Alpine copy. Still
+   no observable change (engine and Alpine still identity-equal).
+3. Cutover: in `engine/services.ts`, set `services.gameState` to a deep
+   clone of the initial state instead of `liveStore`. UISync.sync() now
+   does real work each tick.
+4. Smoke test commit (manual playthrough notes in PR description).
+
+### Why Plan B is preferable
+
+- 4 commits instead of ~16
+- No structural changes to feature logic (writers untouched)
+- Cutover is one line + one helper, easier to revert if something
+  diverges
+- Smaller surface area for hidden field-drift bugs
+
+Plan A is still in this doc as a fallback if Plan B uncovers writers
+that bypass `getStore()` somehow (the grep above suggests none exist).
