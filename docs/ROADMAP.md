@@ -16,6 +16,7 @@
 * [x] **Architecture Phase 1.5 — Full Content YAML-isation**: Migrated the remaining content categories (Items, NPCs, Buffs, Homes, Milestones, Navigation, Titles, Translations) to YAML. Story actions with bespoke logic now declare `customExecute: <handler>` and resolve through a small TS handler registry (`src/data/actions/custom-handlers.ts`). All registries, including i18n, are auto-generated from `content/`.
 * [x] **Dev Tools Iter 7b — Generic write-back**: Replaced the action-only writer with a generic `CONTENT_WRITE` IPC channel that patches array- and record-style YAMLs across all 10 entity types. Editor exposes a structured form plus a raw-YAML patch textarea for arbitrary fields.
 * [x] **Vandara/Academy Rollback**: Removed the entire Vandara/Schule/Studienerfahrung subsystem from the playable demo (the system was half-built and `study_xp` clashed with the no-XP-no-levels design pillar). Engine code, GameState fields, and asset files for titles + magic regen are kept dormant so the system can be re-introduced cleanly later.
+* [x] **Engine Hardening Round 1 (May 2026)**: GitHub Actions CI (tsc + tests + check-all + build on every push); save-corruption recovery (quarantines broken saves instead of wiping); dev-side `makeLogger` module with `[PREFIX]` tags + production suppression (36 call sites migrated); duplicate-event-listener audit in devtools; service-container DI helpers; FPS overlay (`?perf` URL param); `ui.ts` split into ui/ui-tooltip/ui-formatter (-310 LOC); `services.ts` type cleanup (-15 `as any` casts via concrete `getSystems` typing); deterministic `content.ts` header (no more timestamp noise in git status). New unit tests for UISync, boot, and validator subsystems (152 tests total).
 
 ***
 
@@ -37,18 +38,22 @@
 
 The engine has to feel rock-solid before bolting an addon system on top of
 it. The order matters — finish the existing tech-debt first, then turn
-content into modules.
+content into modules. **TODO.md is the live working list** for these items;
+this section tracks the strategic outline.
 
-* [ ] **Engine Hardening (prerequisite)**:
-  * Phase 2 Stage 2 — pure-data state separation, so the engine has no
-    Alpine dependency.
-  * Split the three large files (`src/devtools/devtools.ts` ~940 LOC,
-    `src/core/visuals/ui.ts` ~740 LOC, `src/features/gameplay/actions.logic.ts`
-    ~540 LOC) into focused modules.
-  * Reduce the ~200 `as any` casts (especially the `(services as any).x`
-    pattern) by widening the GameServices type.
-  * Add tests for engine subsystems that currently lack them
-    (`producers.ts`, `regen.ts`, `tasks.ts`, boot sequence).
+* [ ] **Engine Hardening Round 2 (prerequisite for addons)**:
+  * `devtools.ts` (~940 LOC) split into panel modules (cheats / validation /
+    modifier-tree / translations / entity editor). Needs a shared
+    state-shim first because panels share module-level state today.
+  * `actions.logic.ts` (~540 LOC) — borderline; split only if effect
+    handlers grow further.
+  * Enable `noUncheckedIndexedAccess` (162 type errors to fix in
+    focused per-file commits).
+  * Reduce the remaining ~50 production `as any` casts opportunistically
+    when touching the affected files.
+  * **Phase 2 Stage 2** — pure-data state separation, so the engine has no
+    Alpine dependency. Required for replays / multiplayer / save robustness.
+    Multi-day refactor; tackle last.
 * [ ] **Addon System (compile-time)**:
   * Restructure `content/` into `content/base/` + `content/addons/<name>/`.
   * Build script auto-discovers addon folders, merges into registries.
