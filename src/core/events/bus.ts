@@ -48,7 +48,8 @@ export const createEventBus = (): EventBus => {
 
       // Return an unsubscribe function
       return () => {
-        listeners[event] = listeners[event].filter((l) => l !== callback);
+        const arr = listeners[event];
+        if (arr) listeners[event] = arr.filter((l) => l !== callback);
       };
     },
 

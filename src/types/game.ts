@@ -6,7 +6,7 @@ import { ResourceDefinition, BuffDefinition } from './features/resources';
 import { ItemDefinition, ActionDefinition, ActionResult } from './features/actions';
 import { NPCDefinition } from './features/npcs';
 import { HomeDefinition } from './features/homes';
-import { EventBus } from '../core/events/bus';
+import { EventBus, GAME_EVENTS } from '../core/events/bus';
 import { CommandQueue } from '../engine/commands';
 import { Translations, TranslationParams } from './i18n';
 
@@ -285,7 +285,7 @@ export interface GameState {
 
   // Infrastructure
   bus: EventBus;
-  EVENTS: Record<string, string>;
+  EVENTS: typeof GAME_EVENTS;
 
   // Helper Methods
   t: (key: string, context?: string, params?: Record<string, any>) => any;

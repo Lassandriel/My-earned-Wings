@@ -17,6 +17,7 @@ export function tickTasks(state: GameState, services: EngineServices, deltaMs: n
 
   taskIds.forEach((id) => {
     const task = state.activeTasks[id];
+    if (!task) return;
     task.remaining -= deltaMs;
 
     if (task.remaining > 0) return;

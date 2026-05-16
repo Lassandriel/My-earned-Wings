@@ -79,7 +79,7 @@ export const createNPCSystem = () => {
       // 3. Reward Handling (Modular)
       if (step.reward) {
         if (step.reward.startsWith('item-')) {
-          svc().actions.effectHandlers.unlockItem(game, {
+          svc().actions.effectHandlers.unlockItem?.(game, {
             type: 'unlockItem',
             id: step.reward as ItemId,
           });

@@ -37,11 +37,11 @@ export const createItemSystem = () => ({
       const statsBenefitted = Object.entries(item.effect).filter(([stat]) => {
         const maxKey = 'max' + stat.charAt(0).toUpperCase() + stat.slice(1);
         const maxValue = store.stats[maxKey] || 100;
-        return store.stats[stat] < maxValue;
+        return (store.stats[stat] ?? 0) < maxValue;
       });
 
       if (statsBenefitted.length === 0 && !item.onSuccess) {
-        const firstStat = Object.keys(item.effect)[0];
+        const firstStat = Object.keys(item.effect)[0] ?? 'unknown';
         svc().addLog(`fail_full_${firstStat}`, 'logs', LOG_COLOR.failure);
         svc().playSound('fail');
         return;
@@ -77,7 +77,7 @@ export const createItemSystem = () => ({
 
     // Auto-select next item
     if (store.discoveredItems.length > 0) {
-      store.selectedItem = store.discoveredItems[Math.max(0, idx - 1)];
+      store.selectedItem = store.discoveredItems[Math.max(0, idx - 1)] ?? null;
     } else {
       store.selectedItem = null;
     }

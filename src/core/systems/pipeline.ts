@@ -141,7 +141,7 @@ export const createPipelineSystem = () => {
       // 2.1 Satiation bonus — flat integer add (-5 starving … +5 well-fed).
       // Keys are auto-derived from YAML (scalesWithSatiation: true) via build:content.
       if (PIPELINE_EFFICIENCY_KEYS.includes(key)) {
-        const bonus = CoreRules.calculateSatiationBonus(store.stats.satiation);
+        const bonus = CoreRules.calculateSatiationBonus(store.stats.satiation ?? 50);
         if (bonus !== 0) mods.push({ add: bonus });
       }
 

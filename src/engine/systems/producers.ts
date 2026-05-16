@@ -32,8 +32,8 @@ export function tickProducers(
 
     if (prod.magicCost) {
       const tickCost = (services.pipeline.calculate(state, id + '_cost', prod.magicCost) / intervalSec) * deltaTime;
-      if (state.stats.magic < tickCost) {
-        if (state.counters.totalTime % 20 === 0) {
+      if ((state.stats.magic ?? 0) < tickCost) {
+        if ((state.counters.totalTime ?? 0) % 20 === 0) {
           services.addLog(id + '_fail_log', 'logs', LOG_COLOR.failure);
         }
         return;
@@ -52,7 +52,7 @@ export function tickProducers(
       services.resource.add(state, prod.resource, amount, true);
       accumulator[id] -= amount;
 
-      if (state.counters.totalTime % 20 === 0) {
+      if ((state.counters.totalTime ?? 0) % 20 === 0) {
         services.addLog(id + '_log', 'logs', LOG_COLOR.success);
       }
     }

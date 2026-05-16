@@ -11,7 +11,7 @@ export function tickFocus(state: GameState, services: EngineServices, deltaTime:
 
   const cost = services.pipeline.calculate(state, 'arcane_focus_cost', 3) * deltaTime;
 
-  if (state.stats.magic >= cost) {
+  if ((state.stats.magic ?? 0) >= cost) {
     services.resource.consume(state, 'magic', cost, true);
   } else {
     state.activeFocus = null;

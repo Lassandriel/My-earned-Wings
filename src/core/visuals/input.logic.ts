@@ -68,7 +68,7 @@ export const createInputSystem = () => {
         const fIndex = e.key.startsWith('F') ? parseInt(e.key.slice(1), 10) : NaN;
         if (!Number.isNaN(fIndex) && fIndex >= 1 && fIndex <= PRIMARY_ACTIONS.length) {
           const actionId = PRIMARY_ACTIONS[fIndex - 1];
-          if (store.commands) {
+          if (actionId && store.commands) {
             e.preventDefault();
             store.commands.enqueue({ type: 'executeAction', actionId });
             return;

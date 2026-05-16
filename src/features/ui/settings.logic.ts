@@ -35,8 +35,8 @@ export const createSettingsSystem = () => {
       if (res === 'auto') return;
 
       const parts = res.split('x');
-      const w = parseInt(parts[0]);
-      const h = parseInt(parts[1]);
+      const w = parseInt(parts[0] ?? '0');
+      const h = parseInt(parts[1] ?? '0');
 
       if (w && h && window.electronAPI) {
         window.electronAPI.resizeWindow(w, h);

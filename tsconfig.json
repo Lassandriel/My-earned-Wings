@@ -16,9 +16,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    // TODO: enable noUncheckedIndexedAccess — first attempt found 162 type
-    // errors (91 production, 20 test, rest in scripts). Tackle file-by-file
-    // in dedicated commits; see TODO.md "Engine hardening" section.
+    "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"]

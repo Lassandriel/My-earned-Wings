@@ -45,9 +45,11 @@ export const createAudioSystem = () => {
 
     // Apply to loaded instances
     Object.keys(sfx).forEach((key) => {
+      const audio = sfx[key];
+      if (!audio) return;
       let mult = volumeSfx;
       if (key === 'fail') mult *= 0.3;
-      sfx[key].volume = minMax(mult * globalMult);
+      audio.volume = minMax(mult * globalMult);
     });
 
     bgm.volume = minMax(volumeMusic * globalMult);

@@ -110,7 +110,7 @@ const LZW = {
     const bytes = new Uint8Array(buf.buffer);
     let binary = "";
     for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
+      binary += String.fromCharCode(bytes[i]!);
     }
     return btoa(binary);
   },
@@ -128,13 +128,13 @@ const LZW = {
     
     if (codes.length === 0) return "";
     
-    let phrase = dict.get(codes[0])!;
+    let phrase = dict.get(codes[0]!)!;
     let out = [phrase];
     let code = 256;
     let prevPhrase = phrase;
 
     for (let i = 1; i < codes.length; i++) {
-        const currCode = codes[i];
+        const currCode = codes[i]!;
         let currPhrase: string;
         if (dict.has(currCode)) {
           currPhrase = dict.get(currCode)!;
