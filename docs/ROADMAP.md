@@ -17,6 +17,7 @@
 * [x] **Dev Tools Iter 7b — Generic write-back**: Replaced the action-only writer with a generic `CONTENT_WRITE` IPC channel that patches array- and record-style YAMLs across all 10 entity types. Editor exposes a structured form plus a raw-YAML patch textarea for arbitrary fields.
 * [x] **Vandara/Academy Rollback**: Removed the entire Vandara/Schule/Studienerfahrung subsystem from the playable demo (the system was half-built and `study_xp` clashed with the no-XP-no-levels design pillar). Engine code, GameState fields, and asset files for titles + magic regen are kept dormant so the system can be re-introduced cleanly later.
 * [x] **Engine Hardening Round 1 (May 2026)**: GitHub Actions CI (tsc + tests + check-all + build on every push); save-corruption recovery (quarantines broken saves instead of wiping); dev-side `makeLogger` module with `[PREFIX]` tags + production suppression (36 call sites migrated); duplicate-event-listener audit in devtools; service-container DI helpers; FPS overlay (`?perf` URL param); `ui.ts` split into ui/ui-tooltip/ui-formatter (-310 LOC); `services.ts` type cleanup (-15 `as any` casts via concrete `getSystems` typing); deterministic `content.ts` header (no more timestamp noise in git status). New unit tests for UISync, boot, and validator subsystems (152 tests total).
+* [x] **Engine Hardening Round 2 (May 2026)**: `noUncheckedIndexedAccess` enabled in tsconfig — 110 type errors fixed (biggest single win: typing `GameState.EVENTS` as `typeof GAME_EVENTS` killed 27 errors at once). `devtools.ts` split into 6 focused modules: state.ts (shared state + helpers), cheats.ts, translations.ts, modifier-tree.ts, validation.ts, devtools.ts itself (944 → 467 LOC, kept entity editor). Engine now compiles under strict indexed access; every `arr[i]` is narrowed and handled explicitly.
 
 ***
 
@@ -41,15 +42,10 @@ it. The order matters — finish the existing tech-debt first, then turn
 content into modules. **TODO.md is the live working list** for these items;
 this section tracks the strategic outline.
 
-* [ ] **Engine Hardening Round 2 (prerequisite for addons)**:
-  * `devtools.ts` (~940 LOC) split into panel modules (cheats / validation /
-    modifier-tree / translations / entity editor). Needs a shared
-    state-shim first because panels share module-level state today.
+* [ ] **Engine Hardening Round 3 (last hardening stretch before addons)**:
   * `actions.logic.ts` (~540 LOC) — borderline; split only if effect
     handlers grow further.
-  * Enable `noUncheckedIndexedAccess` (162 type errors to fix in
-    focused per-file commits).
-  * Reduce the remaining ~50 production `as any` casts opportunistically
+  * Reduce the remaining production `as any` casts opportunistically
     when touching the affected files.
   * **Phase 2 Stage 2** — pure-data state separation, so the engine has no
     Alpine dependency. Required for replays / multiplayer / save robustness.
