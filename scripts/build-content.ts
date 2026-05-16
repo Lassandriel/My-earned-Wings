@@ -187,10 +187,12 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
+// Header is deterministic on purpose — no timestamp — so re-running
+// build:content with unchanged YAML produces a byte-identical output.
+// That keeps git status clean across dev sessions and CI runs.
 const output = `// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
-// Generated: ${new Date().toLocaleString('de-DE').replace(/,/g, '')}
 
 // === Resource Registry ===
 
