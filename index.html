@@ -173,6 +173,20 @@
       </div>
 
       <%- include('./src/features/ui/tooltip.view.html') %>
+
+      <!-- Performance overlay — visible only when ?perf is in the URL.
+           Reads from Alpine.store('perf') which the engine updates each
+           tick + each animation frame. -->
+      <div
+        class="perf-overlay"
+        x-data="{ perf: $store.perf, show: new URLSearchParams(window.location.search).has('perf') }"
+        x-show="show"
+        style="display: none"
+      >
+        <span><b x-text="perf?.fps ?? '?'"></b> fps</span>
+        <span>tick <b x-text="perf?.lastTickMs ?? '?'"></b>ms</span>
+        <span>task <b x-text="perf?.lastTaskMs ?? '?'"></b>ms</span>
+      </div>
     </div>
   </body>
 </html>

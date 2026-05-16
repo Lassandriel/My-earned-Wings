@@ -94,3 +94,28 @@
     text-transform: uppercase;
     margin: 0;
 }
+
+/* Dev-only performance overlay — only shown when ?perf is in the URL.
+   Bottom-right corner, no pointer events so it never blocks gameplay.
+   Mono font + tabular nums = numbers don't jitter as they update. */
+.perf-overlay {
+    position: fixed;
+    right: 8px;
+    bottom: 8px;
+    z-index: 100020;
+    display: flex;
+    gap: 10px;
+    padding: 4px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid var(--surface-light);
+    border-radius: 4px;
+    pointer-events: none;
+    user-select: none;
+}
+.perf-overlay b {
+    color: var(--accent-teal);
+}

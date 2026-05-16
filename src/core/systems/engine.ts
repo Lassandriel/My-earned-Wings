@@ -70,6 +70,24 @@ export function createEngineSystem(): Engine {
         fps: 60,
       });
 
+      // Real FPS via requestAnimationFrame, rolling 60-frame average.
+      // Updates the perf store ~once per second so the overlay isn't jittery.
+      // Cheap — RAF runs at the browser's natural rate; we just count frames.
+      let frameCount = 0;
+      let fpsLastSample = performance.now();
+      const measureFps = () => {
+        frameCount++;
+        const now = performance.now();
+        const elapsed = now - fpsLastSample;
+        if (elapsed >= 1000) {
+          Alpine.store<PerfStore>('perf').fps = Math.round((frameCount * 1000) / elapsed);
+          frameCount = 0;
+          fpsLastSample = now;
+        }
+        requestAnimationFrame(measureFps);
+      };
+      requestAnimationFrame(measureFps);
+
       // 1. Simulation Heartbeat (1s)
       this.tickInterval = setInterval(() => {
         const state = this.services!.gameState;
