@@ -54,11 +54,15 @@ export function createGameServices(opts: CreateServicesOpts) {
     services.bus.emit(services.EVENTS.SOUND_TRIGGERED, { key });
   };
 
-  // t needs the current state (for `language`); look it up via Alpine at call time.
+  // t needs the current state (for `language`); read it through services.gameState
+  // so it tracks the engine-owned state after Phase 2 Stage 2 cutover. Falls
+  // back to Alpine if services.gameState hasn't been assigned yet (early boot).
   const tShim: GameState['t'] = (key: string, context?: string, params?: any) => {
-    const store = (typeof window !== 'undefined' && (window as any).Alpine)
-      ? (window as any).Alpine.store('game')
-      : null;
+    const store =
+      services.gameState ??
+      ((typeof window !== 'undefined' && (window as any).Alpine)
+        ? (window as any).Alpine.store('game')
+        : null);
     return systems.i18n.t(store, key, context, params);
   };
 

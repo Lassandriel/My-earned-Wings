@@ -18,7 +18,17 @@ import { makeLogger } from './core/log';
 const log = makeLogger('MAIN');
 
 // --- 1. TYPED STORE HELPERS ---
-const getStore = (): GameState => Alpine.store('game') as GameState;
+// Phase 2 Stage 2: getStore() returns services.gameState (the engine-owned
+// state object) instead of Alpine.store('game'). In Stage 1 these are
+// identity-equal so the change is invisible; at cutover services.gameState
+// becomes a separate plain-data clone and every TS writer that flows
+// through this helper transparently mutates engine state.
+//
+// Initial null check: services.gameState is assigned just below
+// Alpine.store('game', ...) but if a caller somehow runs before that
+// assignment, fall through to the Alpine store to avoid a null deref.
+const getStore = (): GameState =>
+  (services.gameState ?? (Alpine.store('game') as GameState));
 const getSettings = (): GameState['settings'] => Alpine.store('settings') as GameState['settings'];
 
 // --- 2. GLOBALS & PLUGINS ---
