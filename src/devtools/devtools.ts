@@ -1,144 +1,53 @@
 /**
- * My-earned-Wings · Dev Tools (Phase 4 — Iteration 2)
+ * My-earned-Wings · Dev Tools
  *
- * Tabbed content browser for the YAML-generated registries plus a
- * cheats panel that talks to the main game window via BroadcastChannel.
+ * Tabbed content browser for the YAML-generated registries plus cheats /
+ * validation / modifier-tree / translations panels. Each panel lives in
+ * its own module (cheats.ts, validation.ts, modifier-tree.ts,
+ * translations.ts) and shares state via state.ts.
  *
- * Tabs:
- *   - Actions    (78+ from ACTION_REGISTRY_GENERATED)
- *   - Items      (from itemDb)
- *   - NPCs       (from NPC_REGISTRY + vandaraNPCs)
- *   - Modifiers  (from MODIFIER_REGISTRY_GENERATED)
- *   - Buffs      (from BUFF_REGISTRY)
- *   - Cheats     (live commands → main game)
- *
- * Editing + write-back to YAML is the next iteration.
+ * This entry point owns:
+ *   - the top-level render() dispatcher
+ *   - the tabs bar (renderTabs)
+ *   - the entity list and detail/editor for YAML-backed registry tabs
+ *   - search wiring
  */
-import {
-  ACTION_REGISTRY_GENERATED,
-  MODIFIER_REGISTRY_GENERATED,
-  RESOURCE_REGISTRY_GENERATED,
-  ITEM_REGISTRY_GENERATED as itemDb,
-  NPC_REGISTRY_GENERATED as NPC_REGISTRY,
-  BUFF_REGISTRY_GENERATED as BUFF_REGISTRY,
-  HOME_REGISTRY_GENERATED as HOME_REGISTRY,
-  MILESTONE_REGISTRY_GENERATED,
-  NAVIGATION_REGISTRY_GENERATED,
-  TITLE_REGISTRY_GENERATED,
-  TRANSLATIONS_GENERATED,
-} from '../generated/content';
 import yaml from 'js-yaml';
-import { ANIM } from '../core/constants';
-
-type Entity = Record<string, unknown> & { id: string; category?: string };
-
-// --- Registries (label → loader) ---
-// Each label MUST lower-case to a key the main process recognises in
-// ENTITY_DIR_MAP (src/electron/main.ts) so write-back can find the YAML file.
-const REGISTRIES: Record<string, () => Record<string, Entity>> = {
-  Actions: () => ACTION_REGISTRY_GENERATED as Record<string, Entity>,
-  Items: () => itemDb as unknown as Record<string, Entity>,
-  NPCs: () => NPC_REGISTRY as unknown as Record<string, Entity>,
-  Modifiers: () => MODIFIER_REGISTRY_GENERATED as Record<string, Entity>,
-  Buffs: () => BUFF_REGISTRY as unknown as Record<string, Entity>,
-  Homes: () => HOME_REGISTRY as unknown as Record<string, Entity>,
-  Milestones: () => MILESTONE_REGISTRY_GENERATED as Record<string, Entity>,
-  Navigation: () => NAVIGATION_REGISTRY_GENERATED as Record<string, Entity>,
-  Titles: () => TITLE_REGISTRY_GENERATED as Record<string, Entity>,
-  Resources: () => RESOURCE_REGISTRY_GENERATED as Record<string, Entity>,
-};
-
-// --- BroadcastChannel for live cheats → main game ---
-const channel: BroadcastChannel | null =
-  typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('mw-devtools') : null;
-const sendCheat = (cmd: Record<string, unknown>): void => {
-  if (channel) channel.postMessage(cmd);
-};
-
-// --- DOM refs ---
-const list = document.getElementById('list')!;
-const main = document.getElementById('main')!;
-const meta = document.getElementById('meta')!;
-const search = document.getElementById('search') as HTMLInputElement;
-const tabsBar = document.getElementById('tabs')!;
-
-// --- Modifier sources index (Iter 6) ---
-interface ModifierSource {
-  type: 'buff' | 'item' | 'home';
-  id: string;
-  category?: string;
-  add?: number;
-  mult?: number;
-}
-const MODIFIER_INDEX: Record<string, ModifierSource[]> = (() => {
-  const idx: Record<string, ModifierSource[]> = {};
-  const push = (key: string, src: ModifierSource) => {
-    (idx[key] ??= []).push(src);
-  };
-  for (const buff of Object.values(BUFF_REGISTRY) as any[]) {
-    for (const m of buff.modifiers || []) {
-      push(m.key, { type: 'buff', id: buff.id, add: m.add, mult: m.mult });
-    }
-  }
-  for (const item of Object.values(itemDb) as any[]) {
-    for (const m of item.modifiers || []) {
-      push(m.key, { type: 'item', id: item.id, category: item.category, add: m.add, mult: m.mult });
-    }
-  }
-  for (const home of Object.values(HOME_REGISTRY) as any[]) {
-    for (const m of home.modifiers || []) {
-      push(m.key, { type: 'home', id: home.id, add: m.add, mult: m.mult });
-    }
-  }
-  // Make sure every base modifier shows up even if nothing modifies it
-  for (const key of Object.keys(MODIFIER_REGISTRY_GENERATED)) {
-    idx[key] ??= [];
-  }
-  return idx;
-})();
-
-// --- State ---
-const TAB_NAMES = [...Object.keys(REGISTRIES), 'Translations', 'Cheats', 'Validation', 'Modifier Tree'];
-// First entry is always defined (we just built TAB_NAMES non-empty above).
-let activeTab: string = TAB_NAMES[0]!;
-let activeId: string | null = null;
-let filter = '';
-let editMode = false;
-let editStatus = '';
-let validationOutput = '';
-let validationRunning = false;
-
-// --- Translations state ---
-type TrMap = Record<string, Record<string, Record<string, string>>>;
-const trData: TrMap = JSON.parse(JSON.stringify(TRANSLATIONS_GENERATED)) as TrMap;
-const TR_LANGS = Object.keys(trData).sort();
-const TR_CONTEXTS = (() => {
-  const all = new Set<string>();
-  for (const lang of TR_LANGS) for (const ctx of Object.keys(trData[lang] || {})) all.add(ctx);
-  return [...all].sort();
-})();
-let trContext: string = TR_CONTEXTS[0] ?? 'ui';
-// TR_LANGS[0] is the canonical language used to enumerate keys. Default
-// to 'de' if the translations dict is somehow empty (defensive only — the
-// build script never emits an empty TRANSLATIONS_GENERATED).
-const PRIMARY_LANG: string = TR_LANGS[0] ?? 'de';
-let trActiveKey: string | null = null;
-let trEditStatus = '';
-
-// API shim: only available when running inside Electron with our preload.
-const api: any = (window as any).electronAPI || null;
+import {
+  Entity,
+  REGISTRIES,
+  MODIFIER_INDEX,
+  TAB_NAMES,
+  state,
+  list,
+  main,
+  meta,
+  search,
+  tabsBar,
+  api,
+  setRenderer,
+  render,
+  escapeHtml,
+  escapeAttr,
+} from './state';
+import { renderCheatsPanel, wireCheatsHandlers } from './cheats';
+import { renderValidationPanel, wireValidationHandlers } from './validation';
+import { renderModifierTree } from './modifier-tree';
+import { renderTranslationsList, renderTranslationsDetail } from './translations';
 
 // --- Rendering ---
 function renderTabs() {
   tabsBar.innerHTML = '';
   for (const name of TAB_NAMES) {
     const btn = document.createElement('button');
-    btn.className = 'tab' + (name === activeTab ? ' active' : '');
+    btn.className = 'tab' + (name === state.activeTab ? ' active' : '');
     btn.textContent = name;
     btn.onclick = () => {
-      activeTab = name;
-      activeId = null;
-      filter = '';
+      state.activeTab = name;
+      state.activeId = null;
+      state.filter = '';
+      state.editMode = false;
+      state.editStatus = '';
       search.value = '';
       render();
     };
@@ -149,25 +58,20 @@ function renderTabs() {
 function renderList() {
   list.innerHTML = '';
 
-  if (activeTab === 'Cheats') {
-    list.innerHTML = '<div class="category">Quick actions</div>';
+  if (state.activeTab === 'Cheats' || state.activeTab === 'Validation') {
+    // Cheats + Validation own the right-hand pane entirely; no list view.
     return;
   }
 
-  if (activeTab === 'Validation') {
-    list.innerHTML = '<div class="category">Project validators</div>';
-    return;
-  }
-
-  if (activeTab === 'Translations') {
+  if (state.activeTab === 'Translations') {
     renderTranslationsList();
     return;
   }
 
-  if (activeTab === 'Modifier Tree') {
+  if (state.activeTab === 'Modifier Tree') {
     const keys = Object.keys(MODIFIER_INDEX).sort();
-    const filtered = keys.filter((k) => !filter || k.toLowerCase().includes(filter));
-    meta.textContent = `${keys.length} calculation keys · ${filtered.length} shown`;
+    const filtered = keys.filter((k) => !state.filter || k.toLowerCase().includes(state.filter));
+    meta.textContent = `${keys.length} calc keys · ${filtered.length} shown`;
     const header = document.createElement('div');
     header.className = 'category';
     header.textContent = 'calculation keys';
@@ -175,10 +79,10 @@ function renderList() {
     for (const key of filtered) {
       const sources = MODIFIER_INDEX[key];
       const row = document.createElement('div');
-      row.className = 'item-row' + (key === activeId ? ' active' : '');
+      row.className = 'item-row' + (key === state.activeId ? ' active' : '');
       row.innerHTML = `${key} <span class="id">(${(sources ?? []).length})</span>`;
       row.onclick = () => {
-        activeId = key;
+        state.activeId = key;
         render();
       };
       list.appendChild(row);
@@ -186,7 +90,7 @@ function renderList() {
     return;
   }
 
-  const registryLoader = REGISTRIES[activeTab];
+  const registryLoader = REGISTRIES[state.activeTab];
   if (!registryLoader) return;
   const registry = registryLoader();
   const all = Object.values(registry).filter(Boolean) as Entity[];
@@ -196,11 +100,14 @@ function renderList() {
     (byCategory[cat] ??= []).push(e);
   }
 
-  meta.textContent = `${all.length} ${activeTab.toLowerCase()} · ${Object.keys(byCategory).length} categories`;
+  meta.textContent = `${all.length} ${state.activeTab.toLowerCase()} · ${Object.keys(byCategory).length} categories`;
 
   for (const cat of Object.keys(byCategory).sort()) {
     const filtered = (byCategory[cat] ?? []).filter(
-      (e) => !filter || (e.id || '').toLowerCase().includes(filter) || cat.toLowerCase().includes(filter),
+      (e) =>
+        !state.filter ||
+        (e.id || '').toLowerCase().includes(state.filter) ||
+        cat.toLowerCase().includes(state.filter),
     );
     if (!filtered.length) continue;
 
@@ -209,12 +116,14 @@ function renderList() {
     header.textContent = cat;
     list.appendChild(header);
 
-    for (const e of filtered.sort((a, b) => (a.id || '').localeCompare(b.id || ''))) {
+    for (const e of filtered) {
       const row = document.createElement('div');
-      row.className = 'item-row' + (e.id === activeId ? ' active' : '');
-      row.textContent = e.id;
+      row.className = 'item-row' + (e.id === state.activeId ? ' active' : '');
+      row.innerHTML = `${e.id}`;
       row.onclick = () => {
-        activeId = e.id;
+        state.activeId = e.id;
+        state.editMode = false;
+        state.editStatus = '';
         render();
       };
       list.appendChild(row);
@@ -223,37 +132,36 @@ function renderList() {
 }
 
 function renderDetail() {
-  if (activeTab === 'Cheats') {
+  if (state.activeTab === 'Cheats') {
     main.innerHTML = renderCheatsPanel();
     wireCheatsHandlers();
     return;
   }
-
-  if (activeTab === 'Validation') {
+  if (state.activeTab === 'Validation') {
     main.innerHTML = renderValidationPanel();
     wireValidationHandlers();
     return;
   }
-
-  if (activeTab === 'Modifier Tree') {
+  if (state.activeTab === 'Modifier Tree') {
     main.innerHTML = renderModifierTree();
     return;
   }
-
-  if (activeTab === 'Translations') {
+  if (state.activeTab === 'Translations') {
     renderTranslationsDetail();
     return;
   }
 
-  if (!activeId) {
+  if (!state.activeId) {
     main.innerHTML = `<div class="empty-state">Wähle einen Eintrag links aus.</div>`;
     return;
   }
 
-  const registryLoader2 = REGISTRIES[activeTab];
-  if (!registryLoader2) return;
-  const registry = registryLoader2();
-  const entity = Object.values(registry).find((e) => (e as Entity).id === activeId) as Entity | undefined;
+  const registryLoader = REGISTRIES[state.activeTab];
+  if (!registryLoader) return;
+  const registry = registryLoader();
+  const entity = Object.values(registry).find((e) => (e as Entity).id === state.activeId) as
+    | Entity
+    | undefined;
   if (!entity) {
     main.innerHTML = `<div class="empty-state">Eintrag nicht gefunden.</div>`;
     return;
@@ -261,50 +169,64 @@ function renderDetail() {
 
   const stats: string[] = [];
   if (entity.cost && entity.costType) {
-    stats.push(`<div class="stat"><div class="num">${entity.cost}</div><div class="label">Cost (${entity.costType})</div></div>`);
+    stats.push(
+      `<div class="stat"><div class="num">${entity.cost}</div><div class="label">Cost (${entity.costType})</div></div>`,
+    );
   }
   if (entity.duration) {
-    stats.push(`<div class="stat"><div class="num">${(entity.duration as number / 1000).toFixed(1)}s</div><div class="label">Duration</div></div>`);
+    stats.push(
+      `<div class="stat"><div class="num">${((entity.duration as number) / 1000).toFixed(1)}s</div><div class="label">Duration</div></div>`,
+    );
   }
   if (entity.yieldType) {
-    stats.push(`<div class="stat"><div class="num">${entity.yieldType}</div><div class="label">Yields</div></div>`);
+    stats.push(
+      `<div class="stat"><div class="num">${entity.yieldType}</div><div class="label">Yields</div></div>`,
+    );
   }
   if (entity.passiveProduction) {
-    const p = entity.passiveProduction as { resource?: string; baseYield?: number; interval?: number };
-    stats.push(`<div class="stat"><div class="num">${p.baseYield ?? '?'}/${p.interval ? p.interval / 1000 + 's' : '?'}</div><div class="label">Producer (${p.resource})</div></div>`);
+    const p = entity.passiveProduction as {
+      resource?: string;
+      baseYield?: number;
+      interval?: number;
+    };
+    stats.push(
+      `<div class="stat"><div class="num">${p.baseYield ?? '?'}/${p.interval ? p.interval / 1000 + 's' : '?'}</div><div class="label">Producer (${p.resource})</div></div>`,
+    );
   }
   if (entity.duration === undefined && entity.spaceCost) {
-    stats.push(`<div class="stat"><div class="num">${entity.spaceCost}</div><div class="label">Space</div></div>`);
+    stats.push(
+      `<div class="stat"><div class="num">${entity.spaceCost}</div><div class="label">Space</div></div>`,
+    );
   }
 
   const yamlText = yaml.dump(entity, { lineWidth: 80, sortKeys: false });
 
   // Iter 7b: every YAML-backed registry tab is editable via CONTENT_WRITE.
-  const editableHere = activeTab in REGISTRIES && !!(api?.contentWrite || api?.contentWriteAction);
+  const editableHere = state.activeTab in REGISTRIES && !!(api?.contentWrite || api?.contentWriteAction);
   const editButton = editableHere
-    ? `<button id="edit-toggle" class="edit-btn">${editMode ? '✕ Cancel' : '✎ Edit'}</button>`
+    ? `<button id="edit-toggle" class="edit-btn">${state.editMode ? '✕ Cancel' : '✎ Edit'}</button>`
     : '';
 
-  const editorHtml = editMode && editableHere ? renderEditor(entity) : '';
+  const editorHtml = state.editMode && editableHere ? renderEditor(entity) : '';
 
   main.innerHTML = `
     <div class="detail-header">
-      <h2>${entity.id} ${editButton}</h2>
-      <div class="id">category: ${entity.category || '—'} · type: ${activeTab}</div>
+      <h2>${escapeHtml((entity as any).nameKey || (entity as any).title || entity.id)}</h2>
+      <div class="id">${entity.id}${entity.category ? ` · ${entity.category}` : ''} ${editButton}</div>
     </div>
     ${stats.length ? `<div class="stats-grid">${stats.join('')}</div>` : ''}
     ${editorHtml}
-    <pre class="yaml">${escapeHtml(yamlText)}</pre>
+    <details ${state.editMode ? '' : 'open'}><summary>YAML source</summary><pre class="raw-yaml">${escapeHtml(yamlText)}</pre></details>
   `;
 
   if (editableHere) {
     document.getElementById('edit-toggle')!.onclick = () => {
-      editMode = !editMode;
-      editStatus = '';
+      state.editMode = !state.editMode;
+      state.editStatus = '';
       render();
     };
   }
-  if (editMode && editableHere) wireEditorHandlers(entity);
+  if (state.editMode && editableHere) wireEditorHandlers(entity);
 }
 
 function renderEditor(entity: Entity): string {
@@ -360,7 +282,7 @@ function renderEditor(entity: Entity): string {
       <div class="actions">
         <button id="save-only">Save YAML only</button>
         <button id="save-and-build">Save &amp; rebuild</button>
-        <span class="status">${escapeHtml(editStatus)}</span>
+        <span class="status">${escapeHtml(state.editStatus)}</span>
       </div>
       <p class="hint">⚠️ Comments in the YAML file are stripped on save (js-yaml limit).
       Requirements + onSuccess effects still need direct YAML edits.
@@ -374,9 +296,9 @@ function wireEditorHandlers(entity: Entity): void {
   document.querySelectorAll<HTMLButtonElement>('.kv-add').forEach((btn) => {
     btn.onclick = () => {
       const prefix = btn.getAttribute('data-prefix')!;
-      const list = document.getElementById('kv-' + prefix)!;
+      const listEl = document.getElementById('kv-' + prefix)!;
       // Drop the empty placeholder if present
-      const empty = list.querySelector('.kv-empty');
+      const empty = listEl.querySelector('.kv-empty');
       if (empty) empty.remove();
       const row = document.createElement('div');
       row.className = 'kv-row';
@@ -385,7 +307,7 @@ function wireEditorHandlers(entity: Entity): void {
         <input class="kv-key" value="" placeholder="resource id" />
         <input class="kv-val" value="" placeholder="amount" />
         <button class="kv-del" type="button" title="remove">✕</button>`;
-      list.appendChild(row);
+      listEl.appendChild(row);
       wireKVDelete(row);
     };
   });
@@ -398,7 +320,10 @@ function wireEditorHandlers(entity: Entity): void {
     if (del) del.onclick = () => row.remove();
   }
 
-  const collectKV = (prefix: string, numericValues: boolean): Record<string, number | string> | undefined => {
+  const collectKV = (
+    prefix: string,
+    numericValues: boolean,
+  ): Record<string, number | string> | undefined => {
     const rows = document.querySelectorAll<HTMLDivElement>(`.kv-row[data-prefix="${prefix}"]`);
     const out: Record<string, number | string> = {};
     rows.forEach((row) => {
@@ -462,10 +387,10 @@ function wireEditorHandlers(entity: Entity): void {
         if (rawObj && typeof rawObj === 'object' && !Array.isArray(rawObj)) {
           Object.assign(patch, rawObj);
         } else {
-          editStatus = '✗ Raw YAML must be a key:value mapping at the top level.';
+          state.editStatus = '✗ Raw YAML must be a key:value mapping at the top level.';
         }
       } catch (e) {
-        editStatus = '✗ Raw YAML parse error: ' + (e as Error).message;
+        state.editStatus = '✗ Raw YAML parse error: ' + (e as Error).message;
       }
     }
 
@@ -476,35 +401,36 @@ function wireEditorHandlers(entity: Entity): void {
 
   const save = async (alsoBuild: boolean) => {
     const writer = api?.contentWrite
-      ? (id: string, p: Record<string, unknown>) => api.contentWrite(activeTab.toLowerCase(), id, p)
+      ? (id: string, p: Record<string, unknown>) =>
+          api.contentWrite(state.activeTab.toLowerCase(), id, p)
       : api?.contentWriteAction
         ? (id: string, p: Record<string, unknown>) => api.contentWriteAction(id, p)
         : null;
     if (!writer) {
-      editStatus = '✗ Not running in Electron — content write unavailable.';
+      state.editStatus = '✗ Not running in Electron — content write unavailable.';
       render();
       return;
     }
     const patch = collectPatch();
     if (Object.keys(patch).length === 0) {
-      editStatus = 'No changes.';
+      state.editStatus = 'No changes.';
       render();
       return;
     }
-    editStatus = 'Writing…';
+    state.editStatus = 'Writing…';
     render();
     const res = await writer(entity.id, patch);
     if (!res.ok) {
-      editStatus = '✗ ' + (res.error || 'unknown error');
+      state.editStatus = '✗ ' + (res.error || 'unknown error');
       render();
       return;
     }
-    editStatus = `✓ Wrote ${Object.keys(patch).length} field(s).`;
+    state.editStatus = `✓ Wrote ${Object.keys(patch).length} field(s).`;
     if (alsoBuild) {
-      editStatus += ' Building…';
+      state.editStatus += ' Building…';
       render();
       const build = await api.contentBuild();
-      editStatus = build.ok
+      state.editStatus = build.ok
         ? `✓ Wrote and rebuilt — main game will hot-reload.`
         : `⚠ Wrote but build failed: ${build.output.split('\n').slice(-3).join(' | ')}`;
     }
@@ -515,281 +441,23 @@ function wireEditorHandlers(entity: Entity): void {
   document.getElementById('save-and-build')!.onclick = () => save(true);
 }
 
-function escapeAttr(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-}
-
-function renderModifierTree(): string {
-  if (!activeId) {
-    return `<div class="empty-state">Wähle links einen Calculation-Key aus.<br><br>
-      <span style="font-size:12px;opacity:0.7;">Filterbeispiele: <code>wood</code>, <code>magic</code>, <code>limit</code>, <code>yield</code>, <code>cost</code></span></div>`;
-  }
-  const key = activeId;
-  const sources = MODIFIER_INDEX[key] || [];
-  const base = (MODIFIER_REGISTRY_GENERATED as any)[key];
-  const baseValue = base?.baseValue;
-
-  const groupBy = <T extends ModifierSource>(arr: T[], k: 'type'): Record<string, T[]> => {
-    const out: Record<string, T[]> = {};
-    for (const x of arr) (out[x[k]] ??= []).push(x);
-    return out;
-  };
-  const grouped = groupBy(sources, 'type');
-
-  const fmtOp = (s: ModifierSource): string => {
-    const parts: string[] = [];
-    if (s.add !== undefined) parts.push(`+${s.add}`);
-    if (s.mult !== undefined) parts.push(`×${s.mult}`);
-    return parts.join(' / ') || '?';
-  };
-
-  const groupHtml = (label: string, items: ModifierSource[]): string => {
-    if (!items?.length) return '';
-    return `
-      <div class="mod-group">
-        <h4>${label} (${items.length})</h4>
-        <ul>
-          ${items
-            .map(
-              (s) => `
-            <li>
-              <span class="mod-id">${escapeHtml(s.id)}</span>
-              ${s.category ? `<span class="mod-cat">${escapeHtml(s.category)}</span>` : ''}
-              <span class="mod-op">${fmtOp(s)}</span>
-            </li>`,
-            )
-            .join('')}
-        </ul>
-      </div>`;
-  };
-
-  return `
-    <div class="detail-header">
-      <h2>${escapeHtml(key)}</h2>
-      <div class="id">${base ? `base: ${baseValue ?? '?'}` : 'no base entry — calculated key'} · ${sources.length} modifier source(s)</div>
-    </div>
-    ${
-      base
-        ? `<div class="stats-grid"><div class="stat"><div class="num">${baseValue ?? '?'}</div><div class="label">base value</div></div></div>`
-        : ''
-    }
-    ${groupHtml('Buffs', grouped.buff ?? [])}
-    ${groupHtml('Items', grouped.item ?? [])}
-    ${groupHtml('Homes', grouped.home ?? [])}
-    ${
-      sources.length === 0
-        ? '<p class="hint">No modifiers target this key. It uses the base value (or 0 if no base).</p>'
-        : ''
-    }
-  `;
-}
-
-function renderValidationPanel(): string {
-  const apiOk = !!api?.contentValidate;
-  const out = validationOutput || (apiOk
-    ? '> Click „Run check-all" to validate the project content.'
-    : '> Validation is only available inside Electron (electronAPI missing).');
-
-  // Strip ANSI escape codes for display
-  const clean = out.replace(/\x1b\[[0-9;]*m/g, '');
-
-  // Naive line classification for color hints
-  const lines = clean.split(/\r?\n/).map((line) => {
-    if (/✗|✖|error|fehlt|FAIL/i.test(line)) return `<span class="vline err">${escapeHtml(line)}</span>`;
-    if (/⚠|warn|warning/i.test(line)) return `<span class="vline warn">${escapeHtml(line)}</span>`;
-    if (/✓|✅|ok|pass|complete|perfect/i.test(line)) return `<span class="vline ok">${escapeHtml(line)}</span>`;
-    return `<span class="vline">${escapeHtml(line)}</span>`;
-  });
-
-  return `
-    <div class="detail-header">
-      <h2>Validation</h2>
-      <div class="id">runs <code>npm run check-all</code> in the project root</div>
-    </div>
-
-    <div class="cheats">
-      <section>
-        <h3>Run validators</h3>
-        <button id="run-validate" ${validationRunning ? 'disabled' : ''}>${validationRunning ? 'Running…' : '▶ Run check-all'}</button>
-        <p class="hint">Checks: i18n keys, asset paths, content references, save fixtures, parity. Output below.</p>
-      </section>
-
-      <section>
-        <h3>Output</h3>
-        <pre class="validation-output">${lines.join('\n')}</pre>
-      </section>
-    </div>
-  `;
-}
-
-function wireValidationHandlers(): void {
-  const btn = document.getElementById('run-validate') as HTMLButtonElement | null;
-  if (!btn) return;
-  btn.onclick = async () => {
-    if (!api?.contentValidate) {
-      validationOutput = 'Validation requires Electron (electronAPI missing).';
-      render();
-      return;
-    }
-    validationRunning = true;
-    validationOutput = 'Running…';
-    render();
-    try {
-      const res = await api.contentValidate();
-      validationOutput = res.output || (res.ok ? 'No output (OK).' : 'No output (FAIL).');
-    } catch (err) {
-      validationOutput = 'Error: ' + (err as Error).message;
-    }
-    validationRunning = false;
-    render();
-  };
-}
-
-function renderCheatsPanel(): string {
-  const buffs = Object.values(BUFF_REGISTRY);
-  const npcs = Object.values(NPC_REGISTRY);
-
-  return `
-    <div class="detail-header">
-      <h2>Cheats &amp; Spawn helpers</h2>
-      <div class="id">live commands → main game window (BroadcastChannel)</div>
-    </div>
-
-    <div class="cheats">
-      <section>
-        <h3>Quick stats</h3>
-        <button data-cheat="applyCheats">Max all stats &amp; resources</button>
-        <button data-cheat="addStat" data-stat="energy" data-amount="100">+100 Energy</button>
-        <button data-cheat="addStat" data-stat="magic" data-amount="100">+100 Magic</button>
-        <button data-cheat="addStat" data-stat="satiation" data-amount="100">+100 Satiation</button>
-      </section>
-
-      <section>
-        <h3>Resources</h3>
-        <button data-cheat="addResource" data-resource="wood" data-amount="100">+100 Holz</button>
-        <button data-cheat="addResource" data-resource="stone" data-amount="100">+100 Stein</button>
-        <button data-cheat="addResource" data-resource="herbs" data-amount="50">+50 Kräuter</button>
-        <button data-cheat="addResource" data-resource="resin" data-amount="50">+50 Baumharz</button>
-        <button data-cheat="addResource" data-resource="shards" data-amount="100">+100 Shards</button>
-      </section>
-
-      <section>
-        <h3>Flags</h3>
-        <button data-cheat="setFlag" data-flag="ability-arcane-focus" data-value="true">Unlock Arcane Focus</button>
-        <button data-cheat="setFlag" data-flag="school_graduate" data-value="true">Village School Graduate</button>
-      </section>
-
-      <section>
-        <h3>Activate buff</h3>
-        ${buffs.map((b) => `<button data-cheat="addBuff" data-buffid="${b.id}">${b.id} (${b.duration}s)</button>`).join('')}
-      </section>
-
-      <section>
-        <h3>NPCs</h3>
-        <button data-cheat="unlockAllNPCs">Unlock ALL NPCs</button>
-        ${npcs
-          .slice(0, 12)
-          .map((n: any) => `<button data-cheat="unlockNPC" data-npcid="${n.id}">Unlock ${n.id}</button>`)
-          .join('')}
-      </section>
-
-      <section>
-        <h3>Jump to view</h3>
-        <button data-cheat="setView" data-view="main">main</button>
-        <button data-cheat="setView" data-view="crafting">crafting</button>
-        <button data-cheat="setView" data-view="upgrades">upgrades</button>
-        <button data-cheat="setView" data-view="village">village</button>
-        <button data-cheat="setView" data-view="housing">housing</button>
-        <button data-cheat="setView" data-view="collection">collection</button>
-        <button data-cheat="setView" data-view="finale">finale</button>
-        <button data-cheat="setView" data-view="menu">menu</button>
-      </section>
-
-      <section>
-        <h3>Demo / save management</h3>
-        <button data-cheat="completeDemo">Mark demo as completed</button>
-        <button data-cheat="resetSave" class="danger">Wipe save &amp; reload</button>
-      </section>
-
-      <section>
-        <h3>Custom resource</h3>
-        <div class="custom-row">
-          <input type="text" id="custom-resource" placeholder="resource id (e.g. wood)" />
-          <input type="number" id="custom-amount" placeholder="amount" value="10" />
-          <button id="custom-add">Add</button>
-        </div>
-      </section>
-
-      <section>
-        <h3>Status</h3>
-        <p class="hint">${channel ? '✓ Connected (BroadcastChannel active)' : '✗ Not connected — open this window in the same browser as the main game.'}</p>
-      </section>
-    </div>
-  `;
-}
-
-function wireCheatsHandlers(): void {
-  document.querySelectorAll<HTMLButtonElement>('.cheats button[data-cheat]').forEach((btn) => {
-    btn.onclick = () => {
-      const cheat = btn.getAttribute('data-cheat')!;
-      const cmd: Record<string, unknown> = { type: cheat };
-      // dataset attribute → command field name (HTML lowercases data-*)
-      const attrMap: Record<string, string> = {
-        resource: 'resource',
-        stat: 'stat',
-        flag: 'flag',
-        amount: 'amount',
-        value: 'value',
-        buffid: 'buffId',
-        npcid: 'npcId',
-        view: 'view',
-      };
-      for (const [attr, field] of Object.entries(attrMap)) {
-        const v = btn.getAttribute('data-' + attr);
-        if (v !== null) {
-          cmd[field] = field === 'amount' ? Number(v) : field === 'value' ? v === 'true' : v;
-        }
-      }
-      sendCheat(cmd);
-      flashButton(btn);
-    };
-  });
-  const customAdd = document.getElementById('custom-add');
-  if (customAdd) {
-    customAdd.onclick = () => {
-      const r = (document.getElementById('custom-resource') as HTMLInputElement).value.trim();
-      const a = Number((document.getElementById('custom-amount') as HTMLInputElement).value);
-      if (r && a) {
-        sendCheat({ type: 'addResource', resource: r, amount: a });
-        flashButton(customAdd as HTMLButtonElement);
-      }
-    };
-  }
-}
-
-function flashButton(btn: HTMLButtonElement): void {
-  btn.classList.add('flash');
-  setTimeout(() => btn.classList.remove('flash'), ANIM.flash);
-}
-
-function escapeHtml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function render(): void {
+// --- Render dispatcher ---
+function renderImpl(): void {
   renderTabs();
   renderList();
   renderDetail();
-  if (activeTab === 'Cheats') meta.textContent = 'Cheats & Spawn helpers';
-  if (activeTab === 'Validation') meta.textContent = 'Run project validators';
+  if (state.activeTab === 'Cheats') meta.textContent = 'Cheats & Spawn helpers';
+  if (state.activeTab === 'Validation') meta.textContent = 'Run project validators';
 }
+
+setRenderer(renderImpl);
 
 // Re-render as user types in the search box. Modifier Tree needs a full
 // render() because its detail pane depends on the filter; other tabs only
 // need the list to refresh.
 search.addEventListener('input', () => {
-  filter = search.value.trim().toLowerCase();
-  if (activeTab === 'Modifier Tree') {
+  state.filter = search.value.trim().toLowerCase();
+  if (state.activeTab === 'Modifier Tree') {
     render();
   } else {
     renderList();
@@ -797,161 +465,3 @@ search.addEventListener('input', () => {
 });
 
 render();
-
-// --- Translations editor ---
-
-function renderTranslationsList(): void {
-  const allKeys = new Set<string>();
-  for (const lang of TR_LANGS) for (const k of Object.keys(trData[lang]?.[trContext] || {})) allKeys.add(k);
-  const keyArr = [...allKeys].sort();
-  const filtered = keyArr.filter(k => !filter || k.toLowerCase().includes(filter));
-  meta.textContent = `${TR_LANGS.join(' / ')} · context "${trContext}" · ${keyArr.length} keys · ${filtered.length} shown`;
-
-  const ctxBar = document.createElement('div');
-  ctxBar.className = 'category';
-  ctxBar.innerHTML = `context: <select id="tr-ctx-pick" style="margin-left:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-size:12px;">${
-    TR_CONTEXTS.map(c => `<option value="${escapeAttr(c)}"${c === trContext ? ' selected' : ''}>${escapeHtml(c)} (${Object.keys(trData[PRIMARY_LANG]?.[c] || {}).length})</option>`).join('')
-  }</select> &nbsp;<button id="tr-add-key" class="kv-add" style="display:inline-block;margin:0;padding:2px 8px;">+ new key</button>`;
-  list.appendChild(ctxBar);
-
-  for (const key of filtered) {
-    const missing: string[] = [];
-    for (const lang of TR_LANGS) {
-      if (!trData[lang]?.[trContext]?.[key]) missing.push(lang);
-    }
-    const row = document.createElement('div');
-    row.className = 'item-row' + (key === trActiveKey ? ' active' : '');
-    const badge = missing.length ? ` <span class="id" style="color:#fca5a5;">missing: ${escapeHtml(missing.join(','))}</span>` : '';
-    row.innerHTML = `${escapeHtml(key)}${badge}`;
-    row.onclick = () => {
-      trActiveKey = key;
-      trEditStatus = '';
-      render();
-    };
-    list.appendChild(row);
-  }
-
-  (document.getElementById('tr-ctx-pick') as HTMLSelectElement).onchange = (e) => {
-    trContext = (e.target as HTMLSelectElement).value;
-    trActiveKey = null;
-    trEditStatus = '';
-    render();
-  };
-  (document.getElementById('tr-add-key') as HTMLButtonElement).onclick = () => {
-    const newKey = prompt(`New translation key in context "${trContext}":`)?.trim();
-    if (!newKey) return;
-    if (allKeys.has(newKey)) {
-      alert(`Key "${newKey}" already exists in this context.`);
-      return;
-    }
-    for (const lang of TR_LANGS) {
-      const langMap = (trData[lang] ??= {});
-      const ctxMap = (langMap[trContext] ??= {});
-      ctxMap[newKey] = '';
-    }
-    trActiveKey = newKey;
-    trEditStatus = 'New key added (not saved yet — click Save).';
-    render();
-  };
-}
-
-function renderTranslationsDetail(): void {
-  if (!trActiveKey) {
-    main.innerHTML = `<div class="empty-state">Wähle links einen Translation-Key aus.<br><br>
-      <span style="font-size:12px;opacity:0.7;">Roter <code>missing:</code>-Badge zeigt Lücken in einer Sprache.<br>
-      Mit "+ new key" oben kannst du neue Keys anlegen.</span></div>`;
-    return;
-  }
-
-  const writer = api?.contentWriteTranslation;
-  const writable = !!writer;
-
-  const langInputs = TR_LANGS.map(lang => {
-    const val = trData[lang]?.[trContext]?.[trActiveKey!] ?? '';
-    return `
-      <div class="tr-pane">
-        <h4>${escapeHtml(lang.toUpperCase())}</h4>
-        <textarea class="raw-yaml" data-lang="${escapeAttr(lang)}" rows="4" placeholder="(empty)">${escapeHtml(val)}</textarea>
-      </div>`;
-  }).join('');
-
-  main.innerHTML = `
-    <div class="detail-header">
-      <h2>${escapeHtml(trActiveKey)}</h2>
-      <div class="id">context: ${escapeHtml(trContext)} · ${TR_LANGS.length} languages</div>
-    </div>
-    <div class="tr-grid">${langInputs}</div>
-    <div class="editor">
-      <div class="actions">
-        <button id="tr-save"${writable ? '' : ' disabled'}>Save all languages</button>
-        <button id="tr-delete"${writable ? '' : ' disabled'} style="background:#7f1d1d;border-color:#b91c1c;">🗑 Delete key (all langs)</button>
-        <button id="tr-build"${writable ? '' : ' disabled'}>Save &amp; rebuild</button>
-        <span class="status">${escapeHtml(trEditStatus)}</span>
-      </div>
-      <p class="hint">Empty values are written as empty strings. Use the red Delete button to remove a key from all languages. Rebuild regenerates <code>src/generated/content.ts</code> so the running game picks up the change.</p>
-    </div>
-  `;
-
-  if (!writable) return;
-
-  const collect = (): Record<string, string> => {
-    const out: Record<string, string> = {};
-    for (const lang of TR_LANGS) {
-      const ta = main.querySelector<HTMLTextAreaElement>(`textarea[data-lang="${lang}"]`);
-      out[lang] = ta?.value ?? '';
-    }
-    return out;
-  };
-
-  const saveAll = async (alsoBuild: boolean) => {
-    const values = collect();
-    trEditStatus = 'Writing…';
-    render();
-    const errs: string[] = [];
-    for (const lang of TR_LANGS) {
-      const v = values[lang] ?? '';
-      const res = await writer!(lang, trContext, trActiveKey!, v);
-      if (!res.ok) errs.push(`${lang}: ${res.error}`);
-      else {
-        const langMap = (trData[lang] ??= {});
-        langMap[trContext] = { ...(langMap[trContext] || {}), [trActiveKey!]: v };
-      }
-    }
-    if (errs.length) {
-      trEditStatus = '✗ ' + errs.join(' | ');
-      render();
-      return;
-    }
-    trEditStatus = `✓ Saved ${TR_LANGS.length} language(s).`;
-    if (alsoBuild) {
-      trEditStatus += ' Building…';
-      render();
-      const build = await api.contentBuild();
-      trEditStatus = build.ok
-        ? '✓ Saved and rebuilt — main game will hot-reload.'
-        : '⚠ Saved but build failed: ' + build.output.split('\n').slice(-3).join(' | ');
-    }
-    render();
-  };
-
-  document.getElementById('tr-save')!.onclick = () => saveAll(false);
-  document.getElementById('tr-build')!.onclick = () => saveAll(true);
-  document.getElementById('tr-delete')!.onclick = async () => {
-    if (!confirm(`Delete key "${trActiveKey}" from all languages?`)) return;
-    trEditStatus = 'Deleting…';
-    render();
-    const errs: string[] = [];
-    for (const lang of TR_LANGS) {
-      const res = await writer!(lang, trContext, trActiveKey!, null);
-      if (!res.ok) errs.push(`${lang}: ${res.error}`);
-      else delete trData[lang]?.[trContext]?.[trActiveKey!];
-    }
-    if (errs.length) {
-      trEditStatus = '✗ ' + errs.join(' | ');
-    } else {
-      trEditStatus = '';
-      trActiveKey = null;
-    }
-    render();
-  };
-}
