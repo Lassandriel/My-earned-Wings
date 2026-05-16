@@ -1,8 +1,6 @@
 import Alpine from 'alpinejs';
 import { ANIM } from '../constants';
 import { makeLogger } from '../log';
-
-const log = makeLogger('UI');
 import {
   GameState,
   ResourceId,
@@ -11,20 +9,24 @@ import {
   ModifierDefinition,
   NPCDefinition,
   ItemDefinition,
-  HomeDefinition,
   HoverActionData,
-  GameModifier,
-  TooltipCost,
   BuffDefinition,
 } from '../../types/game';
+import { TooltipManager } from './ui-tooltip';
+import { Formatter } from './ui-formatter';
+
+const log = makeLogger('UI');
 
 /**
  * UI System - Refactored Edition
  * Handles tooltips, status bars, scaling, and toasts.
- * Optimized for performance and readability.
+ *
+ * Tooltip positioning + cost/requirement extraction is split out into
+ * ui-tooltip.ts. Effect-line formatting (NPC steps, yields, homes) lives in
+ * ui-formatter.ts. This file keeps the system lifecycle (boot/destroy) and
+ * the action-effect renderer that glues the helpers together.
  */
 export const createUISystem = () => {
-  let _tt: HTMLElement | null = null;
   const _timers: ReturnType<typeof setTimeout>[] = [];
 
   const addTimer = (id: ReturnType<typeof setTimeout>) => _timers.push(id);
@@ -35,326 +37,6 @@ export const createUISystem = () => {
 
   // --- Internal Helpers ---
   const getResLabel = (store: GameState, res: string) => store.t('ui_' + res) || res;
-
-  const formatValue = (val: string | number) => (typeof val === 'number' ? Math.round(val) : val);
-
-  /**
-   * Tooltip Positioning & Logic
-   */
-  const TooltipManager = {
-    handleMove(e: MouseEvent) {
-      this.reposition(e.clientX, e.clientY);
-    },
-
-    _lastX: -1,
-    _lastY: -1,
-
-    reposition(x: number, y: number, force = false) {
-      if (!_tt) _tt = document.getElementById('tooltip-container');
-      if (!_tt) return;
-
-      // Distance threshold to prevent micro-jitters (unless forced)
-      if (!force && Math.abs(this._lastX - x) < 2 && Math.abs(this._lastY - y) < 2) return;
-      this._lastX = x;
-      this._lastY = y;
-
-      const padding = 20;
-      let left = x + padding;
-      let top = y + padding;
-
-      // Use clientWidth (no border/scrollbar) for faster lookup
-      const ttWidth = _tt.clientWidth || 360;
-      const ttHeight = _tt.clientHeight || 150;
-
-      if (left + ttWidth > window.innerWidth) left = x - ttWidth - padding;
-      if (top + ttHeight > window.innerHeight) top = y - ttHeight - padding;
-
-      left = Math.max(10, left);
-      top = Math.max(10, top);
-
-      _tt.style.left = `${left}px`;
-      _tt.style.top = `${top}px`;
-      _tt.style.transform = 'none';
-    },
-
-    cleanup(store: GameState) {
-      store.hoveredAction = null;
-      document
-        .querySelectorAll('.stat-row.highlight-needed')
-        .forEach((r) => r.classList.remove('highlight-needed'));
-    },
-
-    getCosts(store: GameState, hAction: HoverActionData) {
-      if (!hAction?.data) return [];
-
-      const action = hAction.data as ActionDefinition;
-      const hId = hAction.id as string;
-
-      // Determine correct data source (NPC step vs standard action)
-      const isProgressive = hId.includes('npc-') || (action.steps && (action.progKey || hId));
-      const prog = isProgressive ? store.npcProgress[action.progKey || hId] || 0 : null;
-      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
-
-      const results: TooltipCost[] = [];
-
-      const processCost = (type: ResourceId, amt: number) => {
-        const finalAmt = Math.round(store.resource.getScaledCost(store, type, amt));
-        const current = Math.floor(store.resources[type] ?? store.stats[type] ?? 0);
-        const limit = (store.resources[type] !== undefined) 
-          ? store.getLimit(type) 
-          : store.getMaxStat(type);
-        const status = limit ? ` (${current}/${limit})` : ` (${current})`;
-
-        const label = getResLabel(store, type);
-        results.push({
-          resource: type,
-          label,
-          value: finalAmt.toString(),
-          affordable: current >= finalAmt,
-          amount: finalAmt,
-          status,
-          display: `${finalAmt} ${label}${status}`,
-        });
-      };
-
-      if (source.costs) {
-        Object.entries(source.costs).forEach(([k, v]) => processCost(k as ResourceId, v as number));
-      } else if (source.cost && source.costType) {
-        processCost(source.costType as ResourceId, source.cost);
-      }
-
-      // Add Space Cost for items
-      if (hId.startsWith('item-')) {
-        const item = store.content.get<ItemDefinition>(hId, 'items');
-        if (item?.spaceCost) {
-          results.push({
-            resource: 'space',
-            amount: item.spaceCost,
-            affordable: true,
-            label: '',
-            value: '',
-          });
-        }
-      }
-
-      return results;
-    },
-
-    getRequirements(store: GameState, hAction: HoverActionData) {
-      if (!hAction?.data) return [];
-      const action = hAction.data as ActionDefinition;
-      const hId = hAction.id as string;
-      const isProgressive = hId.includes('npc-') || (action.steps && (action.progKey || hId));
-      const prog = isProgressive ? store.npcProgress[action.progKey || hId] || 0 : null;
-      const source = (prog !== null && action.steps) ? action.steps[prog] : action;
-
-      if (!source.requirements) return [];
-
-      return Object.entries(source.requirements)
-        .filter(([_, rule]) => {
-          // Filter out internal "not yet built" requirements (e.g. { op: '!=', val: true })
-          if (
-            typeof rule === 'object' &&
-            rule !== null &&
-            (rule as any).op === '!=' &&
-            (rule as any).val === true
-          ) {
-            return false;
-          }
-          return true;
-        })
-        .map(([path, rule]) => {
-          let label = path;
-          let value = rule === true ? '✓' : rule.toString();
-
-          if (path === 'flags.build-house') label = store.t('ui_house');
-          else if (path === 'flags.unlocked-library') label = store.t('ui_library');
-          else if (path === 'flags.read_book_1_complete')
-            label = store.t('item_book_lore_1_title', 'items');
-          else if (path === 'flags.read_book_2_complete')
-            label = store.t('item_book_lore_2_title', 'items');
-          else if (path === 'flags.school_graduate')
-            label = store.t('school_graduate') || store.t('ui_graduated');
-          else if (path.startsWith('flags.')) {
-            const flagKey = path.split('.')[1];
-            // Only check registry if it's likely a content ID (has prefix or known as action/item)
-            const isContentId = flagKey.includes('-') || flagKey.includes('_');
-
-            // Try better translation fallback
-            const uiTrans = store.t('ui_' + flagKey);
-            if (uiTrans && uiTrans !== `[ui_${flagKey}]`) {
-              label = uiTrans;
-            } else {
-              const type = store.content.detectType(flagKey) || 'actions';
-              const def = isContentId ? store.content.get(flagKey, type as any, true) : null;
-
-              if (def) {
-                // If the definition has a title key, check if it's a valid translation key or the text itself
-                const transKey = (def as any).title || (def as any).nameKey || flagKey;
-                const trans = store.t(transKey, type);
-
-                if (typeof trans === 'object' && trans?.title) {
-                  label = trans.title;
-                } else if (trans && trans !== `[${transKey}]`) {
-                  label = trans;
-                } else {
-                  // If transKey failed, try the flagKey itself
-                  const altTrans = store.t(flagKey, type);
-                  label = (typeof altTrans === 'object' && altTrans?.title) ? altTrans.title : (altTrans || flagKey);
-                }
-              } else {
-                label = flagKey;
-              }
-            }
-          }
-
-          const met = store.actions.checkRequirement(store, path, rule);
-          const display = (value === '✓' ? '✓ ' : value + ' ') + label;
-
-          return { label, value, met, display };
-        });
-    },
-  };
-
-  /**
-   * Formatting & Description Logic
-   */
-  const Formatter = {
-    getNpcStepEffects(store: GameState, action: ActionDefinition): string[] {
-      const progKey = action.progKey || '';
-      const currentProg = store.npcProgress[progKey] || 0;
-      const step = action.steps?.[currentProg];
-      if (!step) return [];
-
-      const effects: string[] = [];
-
-      if (action.category === 'lore') {
-        const max = action.maxProgress || action.steps?.length || 10;
-        let bookTitle = (store.t(action.id, 'actions') as { title?: string })?.title || action.id;
-        
-        // Strip prefixes for the effect line
-        bookTitle = bookTitle.replace('Study: ', '')
-                             .replace('Read: ', '')
-                             .replace('Studium: ', '')
-                             .replace('Lesen: ', '');
-        
-        if (currentProg + 1 >= max) {
-          effects.push(`${store.t('ui_finishes')} ${bookTitle}`);
-        } else {
-          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${bookTitle} ${currentProg + 1} / ${max}`);
-        }
-      }
-
-      if (step.reward) {
-        const isItem = step.reward.startsWith('item-');
-        const item = isItem ? store.content.get<ItemDefinition>(step.reward, 'items', true) : null;
-        if (item) {
-          effects.push(`+1 ${store.t(item.title, 'items')}`);
-        } else {
-          // It's a flag or special reward, translate it
-          const label = store.t(step.reward) || store.t('ui_' + step.reward) || step.reward;
-          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${label}`);
-        }
-      }
-
-      step.onSuccess?.forEach((eff) => {
-        if (eff.type === 'unlockNPC') {
-          const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
-          const name = npc
-            ? store.t(npc.nameKey)
-            : store.t('npc_' + eff.id.replace('npc-', '').toLowerCase() + '_name', 'ui');
-          effects.push(`${store.t('ui_unlocked')}${store.t('ui_divider_colon')}${name}`);
-        } else if (eff.type === 'unlockRecipe') {
-          const recAction = store.content.get<ActionDefinition>(eff.id, 'actions');
-          const recName = recAction
-            ? (store.t(eff.id, 'actions') as { title?: string })?.title
-            : eff.id;
-          effects.push(`${store.t('ui_new_recipe')}${store.t('ui_divider_colon')}${recName}`);
-        } else if (eff.type === 'unlockItem') {
-          const item = store.content.get<ItemDefinition>(eff.id, 'items');
-          const itemName = item ? store.t(item.title, 'items') : eff.id;
-          effects.push(`${store.t('ui_item')}${store.t('ui_divider_colon')}${itemName}`);
-          if (item?.category === 'furniture') {
-            effects.push(`${store.t('ui_symbol_sparkle')}${store.t('ui_can_be_placed')}`);
-          }
-        } else if (eff.type === 'modifyResource') {
-          effects.push(
-            `${eff.amount > 0 ? '+' : ''}${eff.amount} ${getResLabel(store, eff.resource)}`
-          );
-        } else if (eff.type === 'modifyLimit') {
-          effects.push(
-            store.t('ui_limit_increase')
-              .replace('{res}', getResLabel(store, eff.resource))
-              .replace('{val}', eff.amount.toString())
-          );
-        }
-      });
-
-      return effects;
-    },
-
-    getPrimaryYield(store: GameState, actionId: string, action: ActionDefinition): string {
-      const lang = store.t(actionId, 'actions') as Record<string, string>;
-      if (!lang?.effect) return '';
-
-      let yieldVal: number | Record<string, number> | string | null = null;
-      if (action.rewards) {
-        const first = Object.entries(action.rewards)[0];
-        if (first) {
-          yieldVal =
-            typeof first[1] === 'string' ? store.pipeline.calculate(store, first[1], 1) : first[1];
-        }
-      } else if (action.yieldType) {
-        yieldVal = store.pipeline.calculate(store, action.yieldType + '_yield', 1);
-      }
-
-      if (yieldVal === null) return lang.effect;
-
-      let result = lang.effect;
-      if (typeof yieldVal === 'object' && yieldVal !== null) {
-        Object.entries(yieldVal).forEach(([k, v]) => {
-          result = result.replace(`{${k}}`, formatValue(v as number).toString());
-        });
-      } else {
-        result = result.replace('{val}', formatValue(yieldVal as number).toString());
-      }
-      
-      // Ensure space after + or - if at start
-      if (result.startsWith('+') && result[1] !== ' ') result = '+ ' + result.substring(1);
-      if (result.startsWith('-') && result[1] !== ' ') result = '- ' + result.substring(1);
-
-      // Append Current Stock for Resources
-      const resKey = action.yieldType || (action.rewards ? Object.keys(action.rewards)[0] : null);
-      if (resKey && store.resources[resKey as ResourceId] !== undefined) {
-        const cur = Math.floor(store.resources[resKey as ResourceId]!);
-        const lim = store.getLimit(resKey as ResourceId);
-        result += ` (${cur}${lim ? '/' + lim : ''})`;
-      }
-
-      return result;
-    },
-
-    getHomeEffects(store: GameState, homeId: string): string[] {
-      const home = store.content.get<HomeDefinition>(homeId, 'homes');
-      if (!home) return [];
-
-      const effects = [
-        `${store.t('ui_furniture_space')}${store.t('ui_divider_colon')}${home.capacity}`,
-      ];
-
-      home.modifiers?.forEach((m: GameModifier) => {
-        const lab = store.t('ui_' + m.key) || m.key;
-        effects.push(`${lab} ${m.mult ? 'x' + m.mult : '+' + m.add}`);
-      });
-
-      if (home.baseLimits) {
-        Object.entries(home.baseLimits).forEach(([k, v]) => {
-          effects.push(`${store.t('ui_limit')}${store.t('ui_divider_colon')}${getResLabel(store, k)} +${v}`);
-        });
-      }
-      return effects;
-    },
-  };
 
   return {
     metadata: {
@@ -367,12 +49,11 @@ export const createUISystem = () => {
     cleanupHover: TooltipManager.cleanup,
     getTooltipCosts: TooltipManager.getCosts,
     getRequirements: TooltipManager.getRequirements,
-    handleMouseMove: TooltipManager.handleMove,
+    handleMouseMove: TooltipManager.handleMove.bind(TooltipManager),
     reposition: TooltipManager.reposition.bind(TooltipManager),
 
     formatNumber(num: number, store?: GameState): string {
-      if (num >= 1000000)
-        return (num / 1000000).toFixed(2) + (store?.t('ui_num_m') || 'M');
+      if (num >= 1000000) return (num / 1000000).toFixed(2) + (store?.t('ui_num_m') || 'M');
       if (num >= 1000) return (num / 1000).toFixed(1) + (store?.t('ui_num_k') || 'k');
       return Math.floor(num).toString();
     },
@@ -395,7 +76,7 @@ export const createUISystem = () => {
           const vis =
             !a.requirements ||
             Object.entries(a.requirements).every(([p, r]) =>
-              store.actions.checkRequirement(store, p, r)
+              store.actions.checkRequirement(store, p, r),
             );
           if (vis) locations.add(a.locationId);
         }
@@ -465,7 +146,7 @@ export const createUISystem = () => {
         }
 
         // 1. Modifiers (Passive)
-        item.modifiers?.forEach((mod: GameModifier) => {
+        item.modifiers?.forEach((mod) => {
           if (!mod.key) return;
           const isLimit = mod.key.endsWith('_limit');
           const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
@@ -477,15 +158,20 @@ export const createUISystem = () => {
           if (isLimit) {
             label = getResLabel(store, cleanKey);
             effects.push(
-              store.t('ui_limit_increase')
+              store
+                .t('ui_limit_increase')
                 .replace('{res}', label)
-                .replace('{val}', (mod.add || mod.mult || '').toString())
+                .replace('{val}', (mod.add || mod.mult || '').toString()),
             );
           } else {
             label = modDef
               ? store.t(modDef.title, modDef.title.startsWith('ui_') ? 'ui' : 'modifiers')
               : store.t('ui_' + mod.key) || mod.key;
-            effects.push(`${label}${store.t('ui_divider_colon')}${mod.mult ? '×' + mod.mult : '+' + mod.add}`);
+            effects.push(
+              `${label}${store.t('ui_divider_colon')}${
+                mod.mult ? '×' + mod.mult : '+' + mod.add
+              }`,
+            );
           }
         });
 
@@ -522,9 +208,10 @@ export const createUISystem = () => {
       action.onSuccess?.forEach((eff) => {
         if (eff.type === 'modifyLimit') {
           effects.push(
-            store.t('ui_limit_increase')
+            store
+              .t('ui_limit_increase')
               .replace('{res}', getResLabel(store, eff.resource))
-              .replace('{val}', eff.amount.toString())
+              .replace('{val}', eff.amount.toString()),
           );
         } else if (eff.type === 'unlockNPC' && !hId.startsWith('act-npc-')) {
           const npc = store.content.get<NPCDefinition>(eff.id, 'npcs');
@@ -558,13 +245,14 @@ export const createUISystem = () => {
         if (!mod.key) return;
         const isLimit = mod.key.endsWith('_limit');
         const cleanKey = isLimit ? mod.key.replace('_limit', '') : mod.key;
-        
+
         if (isLimit) {
           const label = getResLabel(store, cleanKey);
           effects.push(
-            store.t('ui_limit_increase')
+            store
+              .t('ui_limit_increase')
               .replace('{res}', label)
-              .replace('{val}', (mod.add || mod.mult || '').toString())
+              .replace('{val}', (mod.add || mod.mult || '').toString()),
           );
         } else {
           const modDef = store.content.get<ModifierDefinition>(cleanKey, 'modifiers');
@@ -583,7 +271,7 @@ export const createUISystem = () => {
       const useAlt =
         (id === 'act-wood' && store.flags['item-axe' as FlagId]) ||
         (id === 'act-stone' && store.flags['item-pickaxe' as FlagId]);
-      
+
       let title = (useAlt ? lang.title_alt : lang.title) || lang.title || id;
 
       // Add Progress (e.g. 1/10) for NPC-style actions/books
@@ -614,9 +302,11 @@ export const createUISystem = () => {
         const npc = actionData.npcId
           ? store.content.get<NPCDefinition>(actionData.npcId, 'npcs')
           : null;
-        const base = npc ? store.t(npc.nameKey) : (store.t(h.id, 'actions') as { title?: string })?.title || h.id;
+        const base = npc
+          ? store.t(npc.nameKey)
+          : (store.t(h.id, 'actions') as { title?: string })?.title || h.id;
         const progKey = actionData.progKey || h.id;
-        const maxProg = actionData.maxProgress || (actionData.steps?.length || 0);
+        const maxProg = actionData.maxProgress || actionData.steps?.length || 0;
         const cur = store.npcProgress[progKey] || 0;
         return `${base} (${Math.min(maxProg, cur + 1)}/${maxProg})`;
       }
@@ -705,10 +395,10 @@ export const createUISystem = () => {
       };
 
       store.bus.on(store.EVENTS.RESOURCE_GAINED, (d: { type: ResourceId }) =>
-        triggerPulse(d.type, 'gain-pulse')
+        triggerPulse(d.type, 'gain-pulse'),
       );
       store.bus.on(store.EVENTS.RESOURCE_SPENT, (d: { type: ResourceId }) =>
-        triggerPulse(d.type, 'drain-flash')
+        triggerPulse(d.type, 'drain-flash'),
       );
 
       // View Validation & Reactive Cleanups
