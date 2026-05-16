@@ -51,8 +51,12 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   currentScale: 1,
   isFullscreen: false,
 
-  // All services (content, bus, EVENTS, bootstrapper, translations, +systems)
-  ...services,
+  // All services (content, bus, EVENTS, bootstrapper, translations, +systems).
+  // Cast to `any` because the concrete subsystem types are stricter than the
+  // GameState slots they slot into (e.g. actions.effectHandlers uses GameEffect
+  // discriminated unions, but the GameState alias widens to {type:string,...}).
+  // The runtime objects are correct — only the structural typing diverges.
+  ...(services as any),
 
   get settings() { return getSettings(); },
 

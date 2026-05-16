@@ -488,12 +488,12 @@ export function createActionSystem() {
     /**
      * Attempts to execute an action with UI feedback (shake effect on failure).
      */
-    attemptAction(game: GameState, el: HTMLElement, id: ActionId) {
+    attemptAction(game: GameState, el: HTMLElement, id: ActionId): boolean {
       const now = Date.now();
-      if (now - _lastActionTime < DEBOUNCE_MS) return;
+      if (now - _lastActionTime < DEBOUNCE_MS) return false;
       _lastActionTime = now;
 
-      if (game.activeTasks[id]) return;
+      if (game.activeTasks[id]) return false;
       const res = this.execute(game, id);
       if (res === false) {
         if (el) {
@@ -501,7 +501,7 @@ export function createActionSystem() {
           setTimeout(() => el.classList.remove('btn-shake'), ANIM.shake);
         }
       }
-      return res;
+      return res !== false;
     },
 
     /**

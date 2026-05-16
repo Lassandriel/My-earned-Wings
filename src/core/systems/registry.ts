@@ -1,5 +1,3 @@
-import { GameSystem } from '../../types/system';
-
 // System Factories
 import { createResourceSystem } from '../../features/gameplay/resource.logic';
 import { createAudioSystem } from '../../core/visuals/audio';
@@ -26,33 +24,39 @@ import { createTitleSystem } from '../../features/ui/titles.logic';
 import { createInputSystem } from '../../core/visuals/input.logic';
 
 /**
- * Returns a list of all game systems.
+ * Returns a list of all game systems with concrete inferred types — so
+ * downstream consumers (engine/services.ts, devtools, tests) see
+ * `systems.pipeline.calculate(...)` typed correctly instead of being widened
+ * to the lossy GameSystem index signature.
+ *
  * Boot priority is implicitly defined by the order here or explicitly in metadata.
  */
-export const getSystems = (initialState?: any): Record<string, GameSystem> => {
+export const getSystems = (initialState?: any) => {
   return {
-    input: createInputSystem() as GameSystem,
-    resource: createResourceSystem() as GameSystem,
-    audio: createAudioSystem() as GameSystem,
-    persistence: createPersistenceSystem(initialState) as GameSystem,
-    logger: createLoggerSystem() as GameSystem,
-    juice: createJuiceSystem() as GameSystem,
-    ui: createUISystem() as GameSystem,
-    collection: createCollectionSystem() as GameSystem,
-    prologue: createPrologueSystem() as GameSystem,
-    npc: createNPCSystem() as GameSystem,
-    actions: createActionSystem() as GameSystem,
-    engine: createEngineSystem() as unknown as GameSystem,
-    item: createItemSystem() as GameSystem,
-    housing: createHousingSystem() as GameSystem,
-    dialogue: createDialogueSystem() as GameSystem,
-    pipeline: createPipelineSystem() as GameSystem,
-    ellie: createEllieSystem() as GameSystem,
-    viewManager: createViewManagerSystem() as GameSystem,
-    settingsSystem: createSettingsSystem() as GameSystem,
-    i18n: createI18nSystem() as GameSystem,
-    background: createBackgroundSystem() as GameSystem,
-    preloader: createPreloaderSystem() as GameSystem,
-    titles: createTitleSystem() as GameSystem,
+    input: createInputSystem(),
+    resource: createResourceSystem(),
+    audio: createAudioSystem(),
+    persistence: createPersistenceSystem(initialState),
+    logger: createLoggerSystem(),
+    juice: createJuiceSystem(),
+    ui: createUISystem(),
+    collection: createCollectionSystem(),
+    prologue: createPrologueSystem(),
+    npc: createNPCSystem(),
+    actions: createActionSystem(),
+    engine: createEngineSystem(),
+    item: createItemSystem(),
+    housing: createHousingSystem(),
+    dialogue: createDialogueSystem(),
+    pipeline: createPipelineSystem(),
+    ellie: createEllieSystem(),
+    viewManager: createViewManagerSystem(),
+    settingsSystem: createSettingsSystem(),
+    i18n: createI18nSystem(),
+    background: createBackgroundSystem(),
+    preloader: createPreloaderSystem(),
+    titles: createTitleSystem(),
   };
 };
+
+export type Systems = ReturnType<typeof getSystems>;

@@ -59,7 +59,7 @@ export function createGameServices(opts: CreateServicesOpts) {
     const store = (typeof window !== 'undefined' && (window as any).Alpine)
       ? (window as any).Alpine.store('game')
       : null;
-    return (systems.i18n as any).t(store, key, context, params);
+    return systems.i18n.t(store, key, context, params);
   };
 
   const saveGameShim: GameState['saveGame'] = (isManual = false) => {
@@ -72,7 +72,7 @@ export function createGameServices(opts: CreateServicesOpts) {
     bus: services.bus,
     EVENTS: services.EVENTS,
     content: services.content,
-    pipeline: (services as any).pipeline,
+    pipeline: services.pipeline,
     addLog: addLogShim,
   });
 
@@ -80,10 +80,10 @@ export function createGameServices(opts: CreateServicesOpts) {
     bus: services.bus,
     EVENTS: services.EVENTS,
     content: services.content,
-    pipeline: (services as any).pipeline,
-    resource: (services as any).resource,
-    titles: (services as any).titles,
-    collection: (services as any).collection,
+    pipeline: services.pipeline,
+    resource: services.resource,
+    titles: services.titles,
+    collection: services.collection,
     addLog: addLogShim,
     playSound: playSoundShim,
     t: tShim,
@@ -91,7 +91,7 @@ export function createGameServices(opts: CreateServicesOpts) {
 
   bindServices(systems.titles, {
     content: services.content,
-    actions: (services as any).actions,
+    actions: services.actions,
     addLog: addLogShim,
     playSound: playSoundShim,
     t: tShim,
@@ -100,7 +100,7 @@ export function createGameServices(opts: CreateServicesOpts) {
 
   bindServices(systems.item, {
     content: services.content,
-    actions: (services as any).actions,
+    actions: services.actions,
     addLog: addLogShim,
     playSound: playSoundShim,
     t: tShim,
@@ -108,14 +108,14 @@ export function createGameServices(opts: CreateServicesOpts) {
   });
 
   bindServices(systems.settingsSystem, {
-    ui: (services as any).ui,
+    ui: services.ui,
     playSound: playSoundShim,
     t: tShim,
     saveGame: saveGameShim,
   });
 
   bindServices(systems.prologue, {
-    collection: (services as any).collection,
+    collection: services.collection,
     addLog: addLogShim,
     playSound: playSoundShim,
     getLogStore: () => {
@@ -135,16 +135,16 @@ export function createGameServices(opts: CreateServicesOpts) {
     bus: services.bus,
     EVENTS: services.EVENTS,
     content: services.content,
-    actions: (services as any).actions,
-    resource: (services as any).resource,
+    actions: services.actions,
+    resource: services.resource,
     addLog: addLogShim,
   });
 
   bindServices(systems.housing, {
     content: services.content,
-    pipeline: (services as any).pipeline,
-    resource: (services as any).resource,
-    ui: (services as any).ui,
+    pipeline: services.pipeline,
+    resource: services.resource,
+    ui: services.ui,
     addLog: addLogShim,
     playSound: playSoundShim,
     t: tShim,

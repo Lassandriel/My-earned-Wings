@@ -1,4 +1,3 @@
-import { GameSystem } from '../../types/system';
 import { makeLogger } from '../log';
 
 const log = makeLogger('LOADER');
@@ -28,8 +27,14 @@ export const delegateMethods = (store: any, systemName: string, methodMapping: R
 
 /**
  * Automatically registers systems into the store and handles method delegation.
+ *
+ * Accepts `Record<string, any>` so callers can pass a registry whose values
+ * have concrete subsystem types (PipelineSystem, ResourceSystem, …) rather
+ * than being widened to the lossy GameSystem interface. The function only
+ * reads .metadata.delegates and method names off each entry — both safe on
+ * any object — so the lax type is fine here.
  */
-export const autoRegisterSystems = (store: any, systems: Record<string, GameSystem>) => {
+export const autoRegisterSystems = (store: any, systems: Record<string, any>) => {
   Object.entries(systems).forEach(([id, system]) => {
     // 1. Assign to store
     store[id] = system;
@@ -39,7 +44,7 @@ export const autoRegisterSystems = (store: any, systems: Record<string, GameSyst
       if (Array.isArray(system.metadata.delegates)) {
         // Simple array mapping: store.method = system.method
         const mapping: Record<string, string> = {};
-        system.metadata.delegates.forEach(method => {
+        system.metadata.delegates.forEach((method: string) => {
           mapping[method] = method;
         });
         delegateMethods(store, id, mapping);
