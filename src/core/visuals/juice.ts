@@ -1,4 +1,7 @@
 import { GameState } from '../../types/game';
+import { makeLogger } from '../log';
+
+const log = makeLogger('JUICE');
 
 // DOM element cache
 let container: HTMLElement | null = null;
@@ -20,7 +23,7 @@ export const createJuiceSystem = () => {
     boot(store: GameState) {
       container = document.getElementById('juice-container');
       if (!container) {
-        console.warn('Juice container not found. Particles disabled.');
+        log.warn('Juice container not found. Particles disabled.');
       }
       store.bus.on(store.EVENTS.PARTICLE_TRIGGERED, (data: any) => {
         this.spawnParticle(data.x, data.y, data.text, data.type);

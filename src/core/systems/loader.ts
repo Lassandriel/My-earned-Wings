@@ -1,4 +1,7 @@
 import { GameSystem } from '../../types/system';
+import { makeLogger } from '../log';
+
+const log = makeLogger('LOADER');
 
 /**
  * Utility to delegate methods from a system to the store.
@@ -7,13 +10,13 @@ import { GameSystem } from '../../types/system';
 export const delegateMethods = (store: any, systemName: string, methodMapping: Record<string, string>) => {
   const system = store[systemName];
   if (!system) {
-    console.error(`[SYSTEM] System ${systemName} not found in store.`);
+    log.error(`System ${systemName} not found in store.`);
     return;
   }
 
   Object.entries(methodMapping).forEach(([storeMethodName, systemMethodName]) => {
     if (typeof system[systemMethodName] !== 'function') {
-      console.warn(`[SYSTEM] Method ${systemMethodName} not found in system ${systemName}.`);
+      log.warn(`Method ${systemMethodName} not found in system ${systemName}.`);
       return;
     }
 

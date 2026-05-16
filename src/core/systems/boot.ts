@@ -1,5 +1,8 @@
 import { registries } from '../../data/index';
 import { GameState } from '../../types/game';
+import { makeLogger } from '../log';
+
+const log = makeLogger('BOOT');
 
 /**
  * Boot Service - Draconia
@@ -58,7 +61,7 @@ export const createBootSystem = () => {
      * Handles the orderly startup of all game systems.
      */
     bootSystems(store: GameState) {
-      console.log('[Bootstrapper] Starting system sequence...');
+      log.info('Starting system sequence...');
 
       // 1. Infrastructure first
       const infraSystems = ['bus', 'input', 'i18n', 'persistence', 'settingsSystem', 'logger'];
@@ -72,11 +75,11 @@ export const createBootSystem = () => {
       const logicSystems = ['actions', 'npc', 'story', 'engine', 'item', 'housing', 'dialogue', 'ellie', 'viewManager'];
       this.execBoot(store, logicSystems);
 
-      console.log('[Bootstrapper] System sequence complete.');
+      log.info('System sequence complete.');
 
       // Final Lifecycle Check: Ensure the view is at menu unless otherwise specified by state
       if (store.view !== 'menu') {
-        console.log('[Bootstrapper] Normalizing view to menu. Previous:', store.view);
+        log.info('Normalizing view to menu. Previous:', store.view);
         store.view = 'menu';
       }
     },
@@ -88,10 +91,10 @@ export const createBootSystem = () => {
       systems.forEach(sys => {
         const instance = (store as unknown as Record<string, { boot?: (s: GameState) => void; init?: (s: GameState) => void }>)[sys];
         if (instance && typeof instance.boot === 'function') {
-          console.log(`[Bootstrapper] Booting system: ${sys}`);
+          log.debug(`Booting system: ${sys}`);
           instance.boot(store);
         } else if (instance && typeof instance.init === 'function') {
-          console.log(`[Bootstrapper] Initializing system: ${sys}`);
+          log.debug(`Initializing system: ${sys}`);
           instance.init(store);
         }
       });

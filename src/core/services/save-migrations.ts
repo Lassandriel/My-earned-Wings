@@ -16,6 +16,10 @@
  * focused; never delete data without a comment explaining why.
  */
 
+import { makeLogger } from '../log';
+
+const log = makeLogger('SAVE');
+
 /** Bump this whenever you add a migration. The number must match the
  *  highest key in MIGRATIONS. */
 export const SAVE_SCHEMA_VERSION = 2;
@@ -102,13 +106,9 @@ export function runMigrations(
     try {
       migration(state);
       // Visible-but-quiet log: helpful when debugging player saves.
-      if (typeof console !== 'undefined') {
-        console.log(`[SAVE] Migrated state from v${v - 1} to v${v}`);
-      }
+      log.info(`Migrated state from v${v - 1} to v${v}`);
     } catch (err) {
-      if (typeof console !== 'undefined') {
-        console.error(`[SAVE] Migration to v${v} failed:`, err);
-      }
+      log.error(`Migration to v${v} failed:`, err);
       return false;
     }
   }

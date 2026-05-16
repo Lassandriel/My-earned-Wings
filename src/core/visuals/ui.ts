@@ -1,5 +1,8 @@
 import Alpine from 'alpinejs';
 import { ANIM } from '../constants';
+import { makeLogger } from '../log';
+
+const log = makeLogger('UI');
 import {
   GameState,
   ResourceId,
@@ -726,7 +729,7 @@ export const createUISystem = () => {
           'demo_end',
         ];
         if (uiStore.view && !VALID_VIEWS.includes(uiStore.view)) {
-          console.warn(`[UI] Invalid view: ${uiStore.view}. Resetting to menu.`);
+          log.warn(`Invalid view: ${uiStore.view}. Resetting to menu.`);
           uiStore.view = 'menu';
         }
         this.cleanupHover(store);

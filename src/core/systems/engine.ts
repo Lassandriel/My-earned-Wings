@@ -7,6 +7,9 @@ import { tickProducers } from '../../engine/systems/producers';
 import { tickTasks } from '../../engine/systems/tasks';
 import { tickMilestones } from '../../engine/systems/milestones';
 import { createUISync } from '../../engine/systems/ui';
+import { makeLogger } from '../log';
+
+const log = makeLogger('ENGINE');
 
 export type { EngineServices };
 
@@ -134,7 +137,7 @@ export function createEngineSystem(): Engine {
         this.services!.saveGame();
       }, 5000);
 
-      console.log('[ENGINE] Core initialized.');
+      log.info('Core initialized.');
     },
 
     processTick(state: GameState, services: EngineServices, deltaTime: number) {

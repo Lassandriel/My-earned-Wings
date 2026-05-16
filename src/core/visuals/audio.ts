@@ -1,4 +1,7 @@
 import { GameState } from '../../types/game';
+import { makeLogger } from '../log';
+
+const log = makeLogger('AUDIO');
 
 // Declare Alpine globally for TS
 declare const Alpine: {
@@ -54,7 +57,7 @@ export const createAudioSystem = () => {
     if (!audio) return;
     audio.currentTime = 0;
     return audio.play().catch((e) => {
-      if (e.name !== 'NotAllowedError') console.warn('SFX failed', e);
+      if (e.name !== 'NotAllowedError') log.warn('SFX failed', e);
     });
   };
 
@@ -73,7 +76,7 @@ export const createAudioSystem = () => {
       let source = sfxSources[actualKey];
       
       if (!source) {
-        console.warn(`[AUDIO] Missing source for: ${key}. Falling back to click.`);
+        log.warn(`Missing source for: ${key}. Falling back to click.`);
         source = sfxSources['click'];
       }
 
@@ -96,7 +99,7 @@ export const createAudioSystem = () => {
           })
           .catch(() => {
             // Log but don't crash if BGM is blocked
-            console.log('BGM blocked by browser policy. Interaction required.');
+            log.info('BGM blocked by browser policy. Interaction required.');
           });
       }
     },

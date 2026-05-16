@@ -10,6 +10,9 @@ import {
   TitleDefinition,
 } from '../../types/game';
 import { PIPELINE_EFFICIENCY_KEYS } from '../../generated/content';
+import { makeLogger } from '../log';
+
+const log = makeLogger('PIPELINE');
 
 
 /**
@@ -55,7 +58,7 @@ export const createPipelineSystem = () => {
       const final = Math.max(0, base + add);
 
       if (!isFinite(final) || isNaN(final)) {
-        console.warn(`[PIPELINE] Invalid result for ${key}. Falling back to base.`, final);
+        log.warn(`Invalid result for ${key}. Falling back to base.`, final);
         return base;
       }
 

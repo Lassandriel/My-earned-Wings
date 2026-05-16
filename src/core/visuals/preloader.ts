@@ -1,3 +1,7 @@
+import { makeLogger } from '../log';
+
+const log = makeLogger('PRELOADER');
+
 /**
  * Asset Preloader Service
  * Ensures critical images are loaded in the browser cache before display.
@@ -27,7 +31,7 @@ export const createPreloaderSystem = () => {
           }
         };
         img.onerror = () => {
-          console.warn(`[PRELOADER] Failed to load: ${url}`);
+          log.warn(`Failed to load: ${url}`);
           resolve(); // Resolve anyway to not block the chain
         };
         img.src = url;
@@ -45,7 +49,7 @@ export const createPreloaderSystem = () => {
      * Preloads a list of essential game assets.
      */
     async preloadEssential() {
-      console.log('[PRELOADER] Starting essential asset preload...');
+      log.info('Starting essential asset preload...');
       
       const assets = [
         'img/menu/logo_wings.webp',
@@ -74,7 +78,7 @@ export const createPreloaderSystem = () => {
       const promises = assets.map(url => this.preloadImage(url));
       await Promise.allSettled(promises);
       
-      console.log('[PRELOADER] Essential assets preloaded.');
+      log.info('Essential assets preloaded.');
     },
 
     /**

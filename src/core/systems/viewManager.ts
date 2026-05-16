@@ -1,6 +1,9 @@
 import { LOG_COLOR } from '../constants';
 import Alpine from 'alpinejs';
 import { GameState } from '../../types/game';
+import { makeLogger } from '../log';
+
+const log = makeLogger('VIEW');
 
 /**
  * View Manager System - Draconia Core 3.5 - TypeScript Edition
@@ -26,7 +29,7 @@ export const createViewManagerSystem = () => ({
   ]),
 
   _doStartNewGame(store: GameState, buildInitialState: () => any) {
-    console.log('[CORE] Starting new game, resetting state...');
+    log.info('Starting new game, resetting state...');
 
     const cleanState = buildInitialState();
     localStorage.removeItem('wings_save');
@@ -57,7 +60,7 @@ export const createViewManagerSystem = () => ({
     try {
       store.audio?.startMusic();
     } catch {
-      console.warn('Music failed to start');
+      log.warn('Music failed to start');
     }
     store.saveGame();
   },
@@ -145,7 +148,7 @@ export const createViewManagerSystem = () => ({
   },
 
   completeDemo(store: GameState) {
-    console.log('[FINALE] Demo completed! Preparing summary...');
+    log.info('Demo completed! Preparing summary...');
 
     // 1. Calculate Stats
     const counters = store.counters || {};

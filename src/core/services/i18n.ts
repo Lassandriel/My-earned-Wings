@@ -1,4 +1,7 @@
 import { GameState } from '../../types/game';
+import { makeLogger } from '../log';
+
+const log = makeLogger('I18N');
 
 /**
  * Localization System - TypeScript Edition
@@ -11,20 +14,12 @@ export const createI18nSystem = () => {
     if (missingOnce.has(id)) return;
     missingOnce.add(id);
 
-    // Vite defines import.meta.env on the client; Electron main/preload do not use this module.
-    const isDev =
-      typeof import.meta !== 'undefined' &&
-      (import.meta as any).env &&
-      (import.meta as any).env.DEV;
-
-    if (!isDev) return;
-
     // Expose enough info to fix quickly; keep it non-fatal by default.
     // If you want it to hard-fail in dev, set: window.__I18N_STRICT__ = true
     const strict = Boolean((window as any).__I18N_STRICT__);
-    const msg = `[i18n] Missing key '${context}.${key}' (lang='${language}')`;
+    const msg = `Missing key '${context}.${key}' (lang='${language}')`;
     if (strict) throw new Error(msg);
-    console.warn(msg);
+    log.warn(msg);
   };
 
   return {

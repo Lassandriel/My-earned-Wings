@@ -13,6 +13,9 @@ import { createLogStore } from './stores/log.store';
 import { createSettingsStore } from './stores/settings.store';
 
 import './assets/styles/main.css';
+import { makeLogger } from './core/log';
+
+const log = makeLogger('MAIN');
 
 // --- 1. TYPED STORE HELPERS ---
 const getStore = (): GameState => Alpine.store('game') as GameState;
@@ -54,7 +57,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   get settings() { return getSettings(); },
 
   bootstrap() {
-    console.log('[BOOT] Unified Bootstrap Executing...');
+    log.info('Unified Bootstrap Executing...');
     const store = getStore();
 
     store.bootstrapper.bootSystems(store);
@@ -163,7 +166,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     const store = getStore();
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(err => {
-        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+        log.error(`Error attempting to enable full-screen mode: ${err.message}`);
       });
     } else {
       document.exitFullscreen();
@@ -285,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           store.bus?.emit?.(store.EVENTS.SAVE_REQUESTED);
         } catch (err) {
-          console.warn('[DEVTOOLS] cheat failed:', err);
+          log.warn('cheat failed:', err);
         }
       });
     }

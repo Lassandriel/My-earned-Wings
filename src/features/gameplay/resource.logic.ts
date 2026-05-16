@@ -1,5 +1,8 @@
 import { GameState, ResourceId, ResourceDefinition, HomeDefinition } from '../../types/game';
 import { LOG_COLOR, makeServiceContainer } from '../../core/constants';
+import { makeLogger } from '../../core/log';
+
+const log = makeLogger('RESOURCE');
 
 /**
  * Service handles the resource system needs.
@@ -103,7 +106,7 @@ export const createResourceSystem = () => {
 
     add(state: GameState, type: string, amount: number, silent: boolean = false): boolean {
       if (amount < 0) {
-        console.warn(`[RESOURCE] Negative amount passed to add() for ${type}: ${amount}. Use consume() instead.`);
+        log.warn(`Negative amount passed to add() for ${type}: ${amount}. Use consume() instead.`);
         return false;
       }
       if (amount < 0.001) return false;

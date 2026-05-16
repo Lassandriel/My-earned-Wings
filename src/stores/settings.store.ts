@@ -1,5 +1,8 @@
 import { GameState } from '../types/game';
 import { SettingsSystemRef } from '../types/stores';
+import { makeLogger } from '../core/log';
+
+const log = makeLogger('SETTINGS');
 
 /**
  * Settings store initial values type
@@ -28,7 +31,7 @@ export const createSettingsStore = (initialSettings: InitialSettings) => ({
    * Named 'boot' instead of 'init' to avoid Alpine.js auto-init conflicts.
    */
   boot(system: SettingsSystemRef) {
-    console.log('[SETTINGS] Bootstrapping with system:', system);
+    log.debug('Bootstrapping with system:', system);
     this.system = system;
   },
 
