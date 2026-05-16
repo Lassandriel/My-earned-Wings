@@ -42,14 +42,15 @@ it. The order matters — finish the existing tech-debt first, then turn
 content into modules. **TODO.md is the live working list** for these items;
 this section tracks the strategic outline.
 
-* [ ] **Engine Hardening Round 3 (last hardening stretch before addons)**:
-  * `actions.logic.ts` (~540 LOC) — borderline; split only if effect
-    handlers grow further.
-  * Reduce the remaining production `as any` casts opportunistically
-    when touching the affected files.
-  * **Phase 2 Stage 2** — pure-data state separation, so the engine has no
-    Alpine dependency. Required for replays / multiplayer / save robustness.
-    Multi-day refactor; tackle last.
+* [x] **Engine Hardening Round 3 (May 2026)**: `actions.logic.ts` split —
+  12 built-in effect handlers extracted into actions.effects.ts behind a
+  `registerBuiltinEffects(register, svc)` helper (546 → 448 LOC). After
+  this round the only remaining hardening work is Phase 2 Stage 2.
+* [ ] **Phase 2 Stage 2 — pure-data state separation**. Pull the engine
+  fully off Alpine: introduce a separate plain-data `engineState`
+  object, route every state writer through it, batch-sync to Alpine via
+  UISync. Required for replays / multiplayer / proper save robustness
+  later. Multi-day refactor — tackle in a dedicated session.
 * [ ] **Addon System (compile-time)**:
   * Restructure `content/` into `content/base/` + `content/addons/<name>/`.
   * Build script auto-discovers addon folders, merges into registries.
