@@ -99,7 +99,8 @@ const MODIFIER_INDEX: Record<string, ModifierSource[]> = (() => {
 
 // --- State ---
 const TAB_NAMES = [...Object.keys(REGISTRIES), 'Translations', 'Cheats', 'Validation', 'Modifier Tree'];
-let activeTab = TAB_NAMES[0];
+// First entry is always defined (we just built TAB_NAMES non-empty above).
+let activeTab: string = TAB_NAMES[0]!;
 let activeId: string | null = null;
 let filter = '';
 let editMode = false;
@@ -117,6 +118,10 @@ const TR_CONTEXTS = (() => {
   return [...all].sort();
 })();
 let trContext: string = TR_CONTEXTS[0] ?? 'ui';
+// TR_LANGS[0] is the canonical language used to enumerate keys. Default
+// to 'de' if the translations dict is somehow empty (defensive only — the
+// build script never emits an empty TRANSLATIONS_GENERATED).
+const PRIMARY_LANG: string = TR_LANGS[0] ?? 'de';
 let trActiveKey: string | null = null;
 let trEditStatus = '';
 
@@ -171,7 +176,7 @@ function renderList() {
       const sources = MODIFIER_INDEX[key];
       const row = document.createElement('div');
       row.className = 'item-row' + (key === activeId ? ' active' : '');
-      row.innerHTML = `${key} <span class="id">(${sources.length})</span>`;
+      row.innerHTML = `${key} <span class="id">(${(sources ?? []).length})</span>`;
       row.onclick = () => {
         activeId = key;
         render();
@@ -181,7 +186,9 @@ function renderList() {
     return;
   }
 
-  const registry = REGISTRIES[activeTab]();
+  const registryLoader = REGISTRIES[activeTab];
+  if (!registryLoader) return;
+  const registry = registryLoader();
   const all = Object.values(registry).filter(Boolean) as Entity[];
   const byCategory: Record<string, Entity[]> = {};
   for (const e of all) {
@@ -192,7 +199,7 @@ function renderList() {
   meta.textContent = `${all.length} ${activeTab.toLowerCase()} · ${Object.keys(byCategory).length} categories`;
 
   for (const cat of Object.keys(byCategory).sort()) {
-    const filtered = byCategory[cat].filter(
+    const filtered = (byCategory[cat] ?? []).filter(
       (e) => !filter || (e.id || '').toLowerCase().includes(filter) || cat.toLowerCase().includes(filter),
     );
     if (!filtered.length) continue;
@@ -243,7 +250,9 @@ function renderDetail() {
     return;
   }
 
-  const registry = REGISTRIES[activeTab]();
+  const registryLoader2 = REGISTRIES[activeTab];
+  if (!registryLoader2) return;
+  const registry = registryLoader2();
   const entity = Object.values(registry).find((e) => (e as Entity).id === activeId) as Entity | undefined;
   if (!entity) {
     main.innerHTML = `<div class="empty-state">Eintrag nicht gefunden.</div>`;
@@ -411,8 +420,9 @@ function wireEditorHandlers(entity: Entity): void {
     const kb = Object.keys(b).sort();
     if (ka.length !== kb.length) return false;
     for (let i = 0; i < ka.length; i++) {
-      if (ka[i] !== kb[i]) return false;
-      if (a[ka[i]] !== b[kb[i]]) return false;
+      const ki = ka[i]!;
+      if (ki !== kb[i]) return false;
+      if (a[ki] !== b[ki]) return false;
     }
     return true;
   };
@@ -563,9 +573,9 @@ function renderModifierTree(): string {
         ? `<div class="stats-grid"><div class="stat"><div class="num">${baseValue ?? '?'}</div><div class="label">base value</div></div></div>`
         : ''
     }
-    ${groupHtml('Buffs', grouped.buff)}
-    ${groupHtml('Items', grouped.item)}
-    ${groupHtml('Homes', grouped.home)}
+    ${groupHtml('Buffs', grouped.buff ?? [])}
+    ${groupHtml('Items', grouped.item ?? [])}
+    ${groupHtml('Homes', grouped.home ?? [])}
     ${
       sources.length === 0
         ? '<p class="hint">No modifiers target this key. It uses the base value (or 0 if no base).</p>'
@@ -800,7 +810,7 @@ function renderTranslationsList(): void {
   const ctxBar = document.createElement('div');
   ctxBar.className = 'category';
   ctxBar.innerHTML = `context: <select id="tr-ctx-pick" style="margin-left:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-size:12px;">${
-    TR_CONTEXTS.map(c => `<option value="${escapeAttr(c)}"${c === trContext ? ' selected' : ''}>${escapeHtml(c)} (${Object.keys(trData[TR_LANGS[0]]?.[c] || {}).length})</option>`).join('')
+    TR_CONTEXTS.map(c => `<option value="${escapeAttr(c)}"${c === trContext ? ' selected' : ''}>${escapeHtml(c)} (${Object.keys(trData[PRIMARY_LANG]?.[c] || {}).length})</option>`).join('')
   }</select> &nbsp;<button id="tr-add-key" class="kv-add" style="display:inline-block;margin:0;padding:2px 8px;">+ new key</button>`;
   list.appendChild(ctxBar);
 
@@ -835,9 +845,9 @@ function renderTranslationsList(): void {
       return;
     }
     for (const lang of TR_LANGS) {
-      (trData[lang] ??= {});
-      (trData[lang][trContext] ??= {});
-      trData[lang][trContext][newKey] = '';
+      const langMap = (trData[lang] ??= {});
+      const ctxMap = (langMap[trContext] ??= {});
+      ctxMap[newKey] = '';
     }
     trActiveKey = newKey;
     trEditStatus = 'New key added (not saved yet — click Save).';
@@ -899,10 +909,13 @@ function renderTranslationsDetail(): void {
     render();
     const errs: string[] = [];
     for (const lang of TR_LANGS) {
-      const v = values[lang];
+      const v = values[lang] ?? '';
       const res = await writer!(lang, trContext, trActiveKey!, v);
       if (!res.ok) errs.push(`${lang}: ${res.error}`);
-      else (trData[lang] ??= {})[trContext] = { ...(trData[lang][trContext] || {}), [trActiveKey!]: v };
+      else {
+        const langMap = (trData[lang] ??= {});
+        langMap[trContext] = { ...(langMap[trContext] || {}), [trActiveKey!]: v };
+      }
     }
     if (errs.length) {
       trEditStatus = '✗ ' + errs.join(' | ');

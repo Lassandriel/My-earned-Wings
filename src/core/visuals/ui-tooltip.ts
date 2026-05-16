@@ -96,9 +96,9 @@ export const TooltipManager = {
       });
     };
 
-    if (source.costs) {
+    if (source?.costs) {
       Object.entries(source.costs).forEach(([k, v]) => processCost(k as ResourceId, v as number));
-    } else if (source.cost && source.costType) {
+    } else if (source?.cost && source.costType) {
       processCost(source.costType as ResourceId, source.cost);
     }
 
@@ -127,7 +127,7 @@ export const TooltipManager = {
     const prog = isProgressive ? store.npcProgress[action.progKey || hId] || 0 : null;
     const source = prog !== null && action.steps ? action.steps[prog] : action;
 
-    if (!source.requirements) return [];
+    if (!source?.requirements) return [];
 
     return Object.entries(source.requirements)
       .filter(([_, rule]) => {
@@ -155,7 +155,7 @@ export const TooltipManager = {
         else if (path === 'flags.school_graduate')
           label = store.t('school_graduate') || store.t('ui_graduated');
         else if (path.startsWith('flags.')) {
-          const flagKey = path.split('.')[1];
+          const flagKey = path.split('.')[1] ?? '';
           // Only check registry if it's likely a content ID (has prefix or known as action/item)
           const isContentId = flagKey.includes('-') || flagKey.includes('_');
 

@@ -65,7 +65,7 @@ describe('Collection System (Story)', () => {
       collection.recordCollectionEntry(state, 'new', null, 'fresh');
 
       expect(state.collectionHistory).toHaveLength(50);
-      expect(state.collectionHistory[0].id).toBe('new');
+      expect(state.collectionHistory[0]!.id).toBe('new');
     });
   });
 
@@ -84,10 +84,10 @@ describe('Collection System (Story)', () => {
 
       const groups = collection.getGroupedHistory(state);
 
-      expect(groups[0].id).toBe('world');
-      expect(groups[0].entries).toHaveLength(1);
-      expect(groups[1].id).toBe('npc-aria');
-      expect(groups[1].entries).toHaveLength(2);
+      expect(groups[0]!.id).toBe('world');
+      expect(groups[0]!.entries).toHaveLength(1);
+      expect(groups[1]!.id).toBe('npc-aria');
+      expect(groups[1]!.entries).toHaveLength(2);
     });
   });
 });

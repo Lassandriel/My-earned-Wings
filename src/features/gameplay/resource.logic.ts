@@ -82,15 +82,16 @@ export const createResourceSystem = () => {
       bus.emit(EVENTS.RESOURCE_SPENT, { type });
 
       const resDef = content?.get<ResourceDefinition>(type as string, 'resources');
-      if (resDef?.satiationDrain && state.stats.satiation > 0) {
+      const satNow = state.stats.satiation ?? 0;
+      if (resDef?.satiationDrain && satNow > 0) {
         const baseDrain = finalAmount * resDef.satiationDrain;
         const multiplier = pipeline.calculate(state, 'satiation_drain_multiplier', 1);
         const finalDrain = baseDrain * multiplier;
 
-        const oldSatiation = state.stats.satiation;
-        state.stats.satiation = Math.max(0, state.stats.satiation - finalDrain);
+        const oldSatiation = satNow;
+        state.stats.satiation = Math.max(0, satNow - finalDrain);
 
-        if (state.stats.satiation < 20 && oldSatiation >= 20) {
+        if ((state.stats.satiation ?? 0) < 20 && oldSatiation >= 20) {
           addLog('malus_satiation', 'logs', LOG_COLOR.failure);
         }
       }

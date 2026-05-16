@@ -44,7 +44,7 @@ describe('save-migrations', () => {
       const state: Record<string, unknown> = {};
       const exec = (target: number) => {
         try {
-          tmp[target](state);
+          tmp[target]!(state);
           return true;
         } catch {
           return false;
@@ -55,7 +55,7 @@ describe('save-migrations', () => {
   });
 
   describe('v1 → v2 (Phase 1.5 action renames)', () => {
-    const v2 = MIGRATIONS[2];
+    const v2 = MIGRATIONS[2]!;
     it('exists', () => expect(v2).toBeDefined());
 
     it('renames unlockedRecipes entries', () => {

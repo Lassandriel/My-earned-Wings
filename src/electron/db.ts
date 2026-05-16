@@ -129,9 +129,10 @@ export const saveSlot = async (
     const now = Date.now();
 
     const existingResult = db.exec('SELECT created_at FROM saves WHERE slot = ?', [slot]);
+    const firstRow = existingResult[0];
     const createdAt =
-      existingResult.length && existingResult[0].values.length
-        ? (existingResult[0].values[0][0] as number)
+      firstRow && firstRow.values.length
+        ? (firstRow.values[0]![0] as number)
         : now;
 
     db.run(
@@ -159,10 +160,11 @@ export const loadSlot = async (slot: number): Promise<SaveRow | null> => {
   if (!db) return null;
   try {
     const result = db.exec('SELECT * FROM saves WHERE slot = ?', [slot]);
-    if (!result.length || !result[0].values.length) return null;
+    const r0 = result[0];
+    if (!r0 || !r0.values.length) return null;
 
-    const cols = result[0].columns;
-    const row = result[0].values[0];
+    const cols = r0.columns;
+    const row = r0.values[0]!;
     const obj: Record<string, unknown> = {};
     cols.forEach((col, i) => (obj[col] = row[i]));
     return obj as unknown as SaveRow;
@@ -180,7 +182,7 @@ export const listSlots = async (): Promise<SaveMeta[]> => {
       'SELECT slot, player_name, schema_version, created_at, updated_at, total_play_time FROM saves ORDER BY slot',
     );
     if (!result.length) return [];
-    return result[0].values.map((row) => ({
+    return result[0]!.values.map((row) => ({
       slot: row[0] as number,
       playerName: row[1] as string,
       schemaVersion: row[2] as number,

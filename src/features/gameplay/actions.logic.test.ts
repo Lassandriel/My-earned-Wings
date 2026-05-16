@@ -119,7 +119,7 @@ describe('Action System', () => {
   describe('Effect Handlers', () => {
     it('setFlag sets the flag and invalidates caches', () => {
       const state = createMockState();
-      actions.effectHandlers.setFlag(state, { type: 'setFlag', flag: 'school_graduate' as any, value: true });
+      actions.effectHandlers.setFlag!(state, { type: 'setFlag', flag: 'school_graduate' as any, value: true });
 
       expect(state.flags.school_graduate).toBe(true);
       expect(mockPipeline.invalidateCache).toHaveBeenCalled();
@@ -134,7 +134,7 @@ describe('Action System', () => {
           : null,
       );
 
-      actions.effectHandlers.setFlag(state, { type: 'setFlag', flag: 'lumber_mill' as any, value: true });
+      actions.effectHandlers.setFlag!(state, { type: 'setFlag', flag: 'lumber_mill' as any, value: true });
 
       expect(state.activeProducers).toContain('lumber_mill');
     });
@@ -145,22 +145,22 @@ describe('Action System', () => {
         passiveProduction: { resource: 'wood', baseYield: 1, interval: 1000 },
       }));
 
-      actions.effectHandlers.setFlag(state, { type: 'setFlag', flag: 'lumber_mill' as any, value: false });
+      actions.effectHandlers.setFlag!(state, { type: 'setFlag', flag: 'lumber_mill' as any, value: false });
 
       expect(state.activeProducers).not.toContain('lumber_mill');
     });
 
     it('unlockNPC appends to unlockedNPCs without duplicating', () => {
       const state = createMockState({ unlockedNPCs: ['ellie'] as any });
-      actions.effectHandlers.unlockNPC(state, { type: 'unlockNPC', id: 'ellie' as any });
-      actions.effectHandlers.unlockNPC(state, { type: 'unlockNPC', id: 'bram' as any });
+      actions.effectHandlers.unlockNPC!(state, { type: 'unlockNPC', id: 'ellie' as any });
+      actions.effectHandlers.unlockNPC!(state, { type: 'unlockNPC', id: 'bram' as any });
 
       expect(state.unlockedNPCs).toEqual(['ellie', 'bram']);
     });
 
     it('unlockItem sets the flag and adds to discoveredItems', () => {
       const state = createMockState();
-      actions.effectHandlers.unlockItem(state, { type: 'unlockItem', id: 'iron_sword' as any });
+      actions.effectHandlers.unlockItem!(state, { type: 'unlockItem', id: 'iron_sword' as any });
 
       expect(state.discoveredItems).toContain('iron_sword');
       expect((state.flags as any).iron_sword).toBe(true);
@@ -169,11 +169,11 @@ describe('Action System', () => {
     it('modifyLimit updates maxStat for stats and limits for resources', () => {
       const state = createMockState();
       // 'magic' is a stat → uses maxKey 'maxMagic'
-      actions.effectHandlers.modifyLimit(state, { type: 'modifyLimit', resource: 'magic' as any, amount: 25 });
+      actions.effectHandlers.modifyLimit!(state, { type: 'modifyLimit', resource: 'magic' as any, amount: 25 });
       expect(state.stats.maxMagic).toBe(25);
 
       // 'wood' is a resource → uses limits
-      actions.effectHandlers.modifyLimit(state, { type: 'modifyLimit', resource: 'wood' as any, amount: 10 });
+      actions.effectHandlers.modifyLimit!(state, { type: 'modifyLimit', resource: 'wood' as any, amount: 10 });
       expect(state.limits.wood).toBe(30);
     });
 
@@ -185,7 +185,7 @@ describe('Action System', () => {
           : null,
       );
 
-      actions.effectHandlers.addBuff(state, { type: 'addBuff', buffId: 'haste' });
+      actions.effectHandlers.addBuff!(state, { type: 'addBuff', buffId: 'haste' });
 
       expect(state.activeBuffs.haste).toMatchObject({
         id: 'haste',
@@ -196,7 +196,7 @@ describe('Action System', () => {
 
     it('setObjective sets the current objective', () => {
       const state = createMockState();
-      actions.effectHandlers.setObjective(state, { type: 'setObjective', id: 'find_ellie' });
+      actions.effectHandlers.setObjective!(state, { type: 'setObjective', id: 'find_ellie' });
       expect(state.currentObjective).toBe('find_ellie');
     });
   });

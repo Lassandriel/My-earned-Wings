@@ -211,7 +211,7 @@ export function createActionSystem() {
   };
 
   const handleSuccess = (game: GameState, id: ActionId, action: ActionDefinition, result: ActionResult) => {
-    game.counters.totalActions++;
+    game.counters.totalActions = (game.counters.totalActions ?? 0) + 1;
 
     if (action.maxCount) {
       game.counters[id] = (game.counters[id] || 0) + 1;
@@ -335,7 +335,7 @@ export function createActionSystem() {
       );
 
       // Safety Guard: Automated loops stop if satiation is too low
-      if (game.activeFocus === id && game.stats.satiation < 5) {
+      if (game.activeFocus === id && (game.stats.satiation ?? 0) < 5) {
         svc().addLog('fail_satiation_loop', 'logs', LOG_COLOR.failure);
         return { success: false };
       }
@@ -398,9 +398,8 @@ export function createActionSystem() {
 
       if (action.onSuccess) {
         action.onSuccess.forEach((effect) => {
-          if (effectHandlers[effect.type]) {
-            effectHandlers[effect.type](game, effect);
-          }
+          const handler = effectHandlers[effect.type];
+          if (handler) handler(game, effect);
         });
       }
     }
