@@ -36,8 +36,17 @@ const treeOfLife: CustomExecuteHandler = (state, actionId) => {
  */
 const dreamBloom: CustomExecuteHandler = () => true;
 
+import { ADDON_HANDLERS } from '../../generated/addon-handlers';
+
+/**
+ * Built-in handlers shipped with the base game live here. Addon handlers
+ * come in from `src/generated/addon-handlers.ts` (auto-generated from
+ * `content/addons/<name>/handlers.ts`) with their keys namespaced to
+ * `<addon>/<name>` so collisions across addons are impossible.
+ */
 export const CUSTOM_EXECUTE_HANDLERS: Record<string, CustomExecuteHandler> = {
   npc_execute: npcExecute,
   tree_of_life: treeOfLife,
   dream_bloom: dreamBloom,
+  ...ADDON_HANDLERS,
 };

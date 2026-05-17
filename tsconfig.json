@@ -22,6 +22,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.js", "scripts/**/*.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.js",
+    "scripts/**/*.js",
+    "content/addons/*/handlers.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

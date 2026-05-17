@@ -357,4 +357,54 @@ export const PIPELINE_EFFICIENCY_KEYS: readonly string[] = ${JSON.stringify(uniq
 
 fs.writeFileSync(OUTPUT_FILE, output, 'utf-8');
 console.log(`\n🎉 [build-content] Generated: ${path.relative(ROOT, OUTPUT_FILE)}`);
+
+// ─── Generate addon-handlers.ts ─────────────────────────────────────────────
+// For every addon that ships a handlers.ts, import its handler map and
+// merge into ADDON_HANDLERS with auto-prefixed keys (<addon>/<name>) so
+// addons can never collide on handler names. YAML refers to the handler
+// via the prefixed name, e.g. customExecute: vandara/npc_execute.
+const ADDON_HANDLERS_FILE = path.join(ROOT, 'src', 'generated', 'addon-handlers.ts');
+const addonsWithHandlers = addons.filter((a) =>
+  fs.existsSync(path.join(a.dir, 'handlers.ts')),
+);
+let addonHandlersOutput = `// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
+// Source: content/addons/<name>/handlers.ts
+// Regenerate: npm run build:content
+//
+// Handler keys are namespaced to <addon>/<name> so YAML can reference them
+// without risk of collision (e.g. customExecute: vandara/npc_execute).
+
+import type { CustomExecuteHandler } from '../data/actions/custom-handlers';
+`;
+
+if (addonsWithHandlers.length === 0) {
+  addonHandlersOutput += `\nexport const ADDON_HANDLERS: Record<string, CustomExecuteHandler> = {};\n`;
+} else {
+  // Imports
+  for (const a of addonsWithHandlers) {
+    addonHandlersOutput += `import * as h_${a.manifest.name} from '../../content/addons/${a.manifest.name}/handlers';\n`;
+  }
+  addonHandlersOutput += `\nconst prefix = (name: string, hs: Record<string, CustomExecuteHandler>): Record<string, CustomExecuteHandler> => {\n`;
+  addonHandlersOutput += `  const out: Record<string, CustomExecuteHandler> = {};\n`;
+  addonHandlersOutput += `  for (const k of Object.keys(hs)) out[\`\${name}/\${k}\`] = hs[k]!;\n`;
+  addonHandlersOutput += `  return out;\n`;
+  addonHandlersOutput += `};\n\n`;
+  addonHandlersOutput += `// Each addon's handlers.ts may export a default object or named handlers.\n`;
+  addonHandlersOutput += `// We try default first, then fall back to the module's named exports.\n`;
+  addonHandlersOutput += `const pick = (mod: any): Record<string, CustomExecuteHandler> =>\n`;
+  addonHandlersOutput += `  (mod.default && typeof mod.default === 'object') ? mod.default : mod;\n\n`;
+  addonHandlersOutput += `export const ADDON_HANDLERS: Record<string, CustomExecuteHandler> = {\n`;
+  for (const a of addonsWithHandlers) {
+    addonHandlersOutput += `  ...prefix('${a.manifest.name}', pick(h_${a.manifest.name})),\n`;
+  }
+  addonHandlersOutput += `};\n`;
+}
+
+fs.writeFileSync(ADDON_HANDLERS_FILE, addonHandlersOutput, 'utf-8');
+const handlerSummary =
+  addonsWithHandlers.length === 0
+    ? 'no addons ship handlers.ts'
+    : `${addonsWithHandlers.length} addon(s) ship handlers: ${addonsWithHandlers.map((a) => a.manifest.name).join(', ')}`;
+console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_HANDLERS_FILE)} (${handlerSummary})`);
+
 console.log('   Run "npm run dev" to use the new content.\n');
