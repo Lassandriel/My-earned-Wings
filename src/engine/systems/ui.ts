@@ -62,6 +62,33 @@ const PRIMITIVE_KEYS = [
   'language',
   'hasSave',
   'sidebarCollapsed',
+  'settingsOpen',
+] as const;
+
+/**
+ * Fields that HTML view templates mutate directly (via @click handlers)
+ * AND that engine code never writes. UISync copies these Alpine→engine
+ * BEFORE the regular pass so UI writes are preserved after the Phase 2
+ * Stage 2 cutover.
+ *
+ * Found via grep for `$store.game.X = ` in src/**\/*.html. Two fields
+ * from that grep are NOT in this list because the engine also writes
+ * them and would otherwise lose its updates to the unconditional
+ * writeback:
+ *   - `view`: engine sets it via viewManager.{startNewGame,continueGame,
+ *     finishPrologue,confirmName,completeDemo,returnToMenu}. The one UI
+ *     write (finale → main button in finale.view.html) needs to be
+ *     converted to call viewManager.returnToMenu() instead.
+ *   - `selectedItem`: engine auto-advances it in items.logic after use.
+ *     The UI click in upgrades.view.html needs to be routed through an
+ *     action.
+ * Both pending conversions tracked in TODO.md.
+ */
+const UI_WRITEBACK_KEYS = [
+  'settingsOpen',
+  'selectedStoryNpc',
+  'sidebarCollapsed',
+  'saveCode',
 ] as const;
 
 /**
@@ -89,6 +116,15 @@ export function createUISync() {
       if (!alpineStore || alpineStore === state) {
         snapshot.lastSyncedAt = Date.now();
         return;
+      }
+
+      // Pre-pass: UI-writeback. HTML templates mutate a small set of
+      // primitive fields on Alpine directly (settingsOpen, view, …).
+      // Copy those Alpine→engine BEFORE the regular sync so the engine
+      // sees the user's input and the engine→Alpine pass below doesn't
+      // clobber it with a stale value.
+      for (const key of UI_WRITEBACK_KEYS) {
+        (state as any)[key] = (alpineStore as any)[key];
       }
 
       // Reference-sharing clone pattern — see OBJECT_KEYS comment above.

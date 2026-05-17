@@ -103,6 +103,28 @@ describe('UISync', () => {
     expect(alpineStore.resources).toEqual({ wood: 0 });
   });
 
+  it('copies UI_WRITEBACK_KEYS Alpine→engine before the engine→Alpine pass', () => {
+    // settingsOpen is a UI-owned field; HTML templates set it directly on
+    // Alpine. UISync must preserve that write into the engine state so the
+    // next engine→Alpine pass doesn't clobber it with a stale value.
+    const alpineStore: any = { settingsOpen: true, sidebarCollapsed: true };
+    (globalThis as any).window.Alpine = fakeAlpine(alpineStore);
+
+    // Engine state starts with the old values
+    const engineState: any = { settingsOpen: false, sidebarCollapsed: false };
+
+    const sync = createUISync();
+    sync.sync(engineState, {} as any);
+
+    // After sync, engine has picked up the UI writes
+    expect(engineState.settingsOpen).toBe(true);
+    expect(engineState.sidebarCollapsed).toBe(true);
+
+    // And Alpine still shows the UI's values (engine didn't override)
+    expect(alpineStore.settingsOpen).toBe(true);
+    expect(alpineStore.sidebarCollapsed).toBe(true);
+  });
+
   it('clones arrays as arrays (not as plain objects)', () => {
     const alpineStore: any = { discoveredItems: [] };
     (globalThis as any).window.Alpine = fakeAlpine(alpineStore);
