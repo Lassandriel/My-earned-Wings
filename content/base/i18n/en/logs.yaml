@@ -1,6 +1,7 @@
 # Auto-cleaned 2026-05-14 after Vandara rollback.
 save_success: Game saved successfully.
 save_corrupted_msg: Your save was corrupted and has been set aside for safety. Starting fresh.
+save_failed_msg: Save failed — storage may be full. Progress since the last save is not preserved.
 intro_welcome: Welcome back to solid ground, {player}.
 reward_unlock_npc: "New acquaintance: {name}"
 reward_unlock_recipe: "New recipe unlocked: {title}"

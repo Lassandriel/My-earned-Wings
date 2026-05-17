@@ -1,6 +1,7 @@
 # Auto-cleaned 2026-05-14 after Vandara rollback.
 save_success: Spiel erfolgreich gespeichert.
 save_corrupted_msg: Spielstand war beschädigt und wurde zur Sicherheit beiseitegelegt. Wir starten neu.
+save_failed_msg: Speichern fehlgeschlagen — vielleicht ist der Speicher voll? Fortschritt seit dem letzten Save ist nicht gesichert.
 intro_welcome: Willkommen zurück am festen Boden, {player}.
 reward_unlock_npc: "Neue Bekanntschaft: {name}"
 reward_unlock_recipe: "Neues Rezept freigeschaltet: {title}"

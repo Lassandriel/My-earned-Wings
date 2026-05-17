@@ -31,12 +31,6 @@ export const initialState: Partial<GameState> = {
   limits: {},
   stats: {},
   flags: {
-    school_unlocked: false,
-    school_graduate: false,
-    vandara_unlocked: false,
-    academy_phase_1: false,
-    academy_phase_2: false,
-    academy_graduate: false,
     'unlocked-library': false,
     'read_book_1_complete': false,
     'read_book_2_complete': false,
@@ -75,10 +69,9 @@ export const initialState: Partial<GameState> = {
 
   counters: {
     totalActions: 0,
-    study: 0,
   },
 
-  academy_path: null, // 'solen' | 'bram' | 'lyra'
+  academy_path: null, // dead in demo; reintroduced with the Vandara addon
   activeTasks: {},
   demoCompleted: false,
   demoCompletedHintSeen: false,

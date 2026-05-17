@@ -66,12 +66,7 @@ export type FlagId =
   | 'blueprint-garden'
   | 'blueprint-home-lake'
   | 'blueprint-home-tower'
-  | 'school_unlocked'
-  | 'school_graduate'
-  | 'vandara_unlocked'
-  | 'academy_phase_1'
-  | 'academy_phase_2'
-  | 'academy_graduate'
+  | 'school_graduate'           // set by Teacher Aria's final dialogue step
   | 'unlocked-library'
   | 'read_book_1_complete'
   | 'read_book_2_complete';

@@ -4283,6 +4283,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
     "logs": {
       "save_success": "Spiel erfolgreich gespeichert.",
       "save_corrupted_msg": "Spielstand war beschädigt und wurde zur Sicherheit beiseitegelegt. Wir starten neu.",
+      "save_failed_msg": "Speichern fehlgeschlagen — vielleicht ist der Speicher voll? Fortschritt seit dem letzten Save ist nicht gesichert.",
       "intro_welcome": "Willkommen zurück am festen Boden, {player}.",
       "reward_unlock_npc": "Neue Bekanntschaft: {name}",
       "reward_unlock_recipe": "Neues Rezept freigeschaltet: {title}",
@@ -5350,6 +5351,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
     "logs": {
       "save_success": "Game saved successfully.",
       "save_corrupted_msg": "Your save was corrupted and has been set aside for safety. Starting fresh.",
+      "save_failed_msg": "Save failed — storage may be full. Progress since the last save is not preserved.",
       "intro_welcome": "Welcome back to solid ground, {player}.",
       "reward_unlock_npc": "New acquaintance: {name}",
       "reward_unlock_recipe": "New recipe unlocked: {title}",

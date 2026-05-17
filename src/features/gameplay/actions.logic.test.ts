@@ -258,12 +258,12 @@ describe('Action System', () => {
     it('runs onSuccess effects in finalize mode', () => {
       const state = createMockState();
       const action: any = {
-        id: 'unlock_school',
-        onSuccess: [{ type: 'setFlag', flag: 'school_unlocked', value: true }],
+        id: 'unlock_library',
+        onSuccess: [{ type: 'setFlag', flag: 'unlocked-library', value: true }],
       };
 
-      actions.processAction(state, 'unlock_school' as any, action);
-      expect(state.flags.school_unlocked).toBe(true);
+      actions.processAction(state, 'unlock_library' as any, action);
+      expect(state.flags['unlocked-library']).toBe(true);
     });
 
     it('blocks an action at its maxCount', () => {

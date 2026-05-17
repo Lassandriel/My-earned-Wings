@@ -324,15 +324,25 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         }
       } catch (err) {
         log.error('Save failed:', err);
+        // Surface to the player — silent save failures (typically
+        // localStorage quota exceeded) used to be invisible until the
+        // player closed and reopened the app and discovered their
+        // progress was gone. The toast at least flags the problem.
+        store.ui?.showToast?.(store.t('save_failed_msg', 'logs') as string || 'Speichern fehlgeschlagen', 'error');
       }
     },
 
     saveSettings(store: GameState) {
-      const settings = {
-        language: store.language,
-        settings: store.settings,
-      };
-      localStorage.setItem(CONFIG.SETTINGS_KEY, JSON.stringify(settings));
+      try {
+        const settings = {
+          language: store.language,
+          settings: store.settings,
+        };
+        localStorage.setItem(CONFIG.SETTINGS_KEY, JSON.stringify(settings));
+      } catch (err) {
+        // Settings being unsaveable shouldn't crash gameplay; log and continue.
+        log.warn('Failed to persist settings:', err);
+      }
     },
 
     loadSettings(store: GameState) {

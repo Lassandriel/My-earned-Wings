@@ -32,7 +32,11 @@ export const createAudioSystem = () => {
   const bgm = new Audio('music/forest_ambient.mp3');
   let isMusicPlaying = false;
 
-  const minMax = (val: number) => Math.max(0, Math.min(1, val));
+  // Clamp to [0, 1] and treat NaN/Infinity as silent. Without the Number.isFinite
+  // guard, a corrupted-settings save would propagate NaN into audio.volume,
+  // which the HTMLMediaElement spec rejects with a TypeError that crashes
+  // the whole audio init. Defensive: better silent than dead audio system.
+  const minMax = (val: number) => (Number.isFinite(val) ? Math.max(0, Math.min(1, val)) : 0);
 
   const updateVolumes = (settings: {
     volumeGlobal: number;
