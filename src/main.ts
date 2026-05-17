@@ -80,9 +80,14 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     if (store.audio) store.audio.init(store.settings);
     if (store.juice) store.juice.boot(store);
 
+    // Alpine.effect tracks reads through Alpine's reactive proxy, not via
+    // the engine state (which is a plain object after Phase 2 Stage 2).
+    // Read from Alpine.store('game') inside the callback so the effect
+    // re-fires when language / translations change.
     Alpine.effect(() => {
-      document.documentElement.lang = store.language || 'de';
-      document.title = store.t('menu_title');
+      const ui = Alpine.store('game') as GameState;
+      document.documentElement.lang = ui.language || 'de';
+      document.title = ui.t('menu_title');
     });
 
     if (store.settings?.calculateScale) {
@@ -198,19 +203,25 @@ autoRegisterSystems(gameStoreObject, systemInstances);
 const game = Alpine.store('game', gameStoreObject as GameState);
 Alpine.store('ui', game);
 
-// Phase 2 Step 8 (Stage 1): expose the live game store as services.gameState
-// so the engine reads its state through services rather than calling
-// Alpine.store('game') directly. State and Alpine are identity-equal here.
+// Phase 2 Stage 2 cutover (May 2026): services.gameState is now a SEPARATE
+// shallow-clone of the Alpine store. Primitive fields (view, playerName, …)
+// are independent — engine writes don't fire Alpine reactivity. Object/array
+// fields (resources, flags, …) start as shared references; UISync.sync()
+// re-clones them every tick (engine→Alpine pass) so reactivity fires once
+// per tick instead of per-mutation.
 //
-// Stage 2 (deferred) would point gameState at a SEPARATE plain-data object
-// and have UISystem batch-sync engineState → Alpine each tick. Tried during
-// this session but parked: many feature-logics still write directly to the
-// Alpine store (e.g. viewManager.confirmName sets store.view), so the two
-// references diverge. Real Stage 2 needs every state writer migrated to
-// engineState first — a multi-day refactor. Engine API is ready for it.
+// Writers that get `store` via getStore() (main.ts:21) automatically mutate
+// the engine clone. HTML templates still write directly to Alpine for a few
+// UI-owned fields (settingsOpen, sidebarCollapsed, selectedStoryNpc, saveCode);
+// UISync's UI_WRITEBACK_KEYS pre-pass copies those Alpine→engine each tick.
+//
+// Service/system method references (audio, persistence, t, addLog, …) are
+// copied by reference into the clone so `store.X()` keeps working regardless
+// of which side you came from.
 const liveStore = Alpine.store('game') as GameState;
-services.gameState = liveStore;
-(gameStoreObject as Record<string, unknown>).gameState = liveStore;
+const engineState = Object.assign({}, liveStore) as GameState;
+services.gameState = engineState;
+(gameStoreObject as Record<string, unknown>).gameState = engineState;
 
 // --- 5. DOM READY START ---
 document.addEventListener('DOMContentLoaded', () => {

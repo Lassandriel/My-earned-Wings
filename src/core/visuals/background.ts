@@ -22,9 +22,13 @@ export const createBackgroundSystem = () => {
     currentSet: '',
 
     boot(store: GameState) {
-      // Listen for time changes to update background cycle
+      // Listen for time changes to update background cycle.
+      // Read through Alpine.store('game') (not the captured `store`) because
+      // after Phase 2 Stage 2 cutover `store` is the plain engine state,
+      // not reactive — only Alpine-proxy reads trigger effect re-runs.
       Alpine.effect(() => {
-        const totalTime = store.counters.totalTime || 0;
+        const ui = Alpine.store('game') as GameState;
+        const totalTime = ui.counters.totalTime || 0;
         const cycleTime = totalTime % 600; // 10 minute full cycle
         
         let targetSet = 'background 1';

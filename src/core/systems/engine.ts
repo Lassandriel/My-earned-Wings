@@ -76,6 +76,13 @@ export function createEngineSystem(): Engine {
       // Real FPS via requestAnimationFrame, rolling 60-frame average.
       // Updates the perf store ~once per second so the overlay isn't jittery.
       // Cheap — RAF runs at the browser's natural rate; we just count frames.
+      //
+      // After Phase 2 Stage 2 cutover: this loop ALSO drives uiSync.sync()
+      // every frame so UI updates aren't gated by the 100 ms task tick.
+      // Without this, a click that mutates engineState would take up to a
+      // full task tick to become visible in the Alpine-backed UI. RAF
+      // syncing at ~60 Hz means worst-case ~16 ms — imperceptible. The
+      // sync itself is cheap (a handful of property copies per call).
       let frameCount = 0;
       let fpsLastSample = performance.now();
       const measureFps = () => {
@@ -87,6 +94,8 @@ export function createEngineSystem(): Engine {
           frameCount = 0;
           fpsLastSample = now;
         }
+        const liveServices = this.services;
+        if (liveServices?.gameState) this.uiSync.sync(liveServices.gameState, liveServices);
         requestAnimationFrame(measureFps);
       };
       requestAnimationFrame(measureFps);
