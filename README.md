@@ -6,7 +6,8 @@ edge of a quiet village and starts building a life on the ground.
 This is a **free passion project**. No ads, no monetisation, no plan to ever
 charge for it.
 
-**Current demo version: v1.5.0** — see [CHANGELOG.md](./CHANGELOG.md).
+**Current demo version: v1.5.0** — see [CHANGELOG.md](./CHANGELOG.md). For
+asset/audio credits see [CREDITS.md](./CREDITS.md).
 
 ![Official Logo](public/img/menu/logo_wings.webp)
 
