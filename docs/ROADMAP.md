@@ -46,11 +46,20 @@ this section tracks the strategic outline.
   12 built-in effect handlers extracted into actions.effects.ts behind a
   `registerBuiltinEffects(register, svc)` helper (546 → 448 LOC). After
   this round the only remaining hardening work is Phase 2 Stage 2.
-* [ ] **Phase 2 Stage 2 — pure-data state separation**. Pull the engine
-  fully off Alpine: introduce a separate plain-data `engineState`
-  object, route every state writer through it, batch-sync to Alpine via
-  UISync. Required for replays / multiplayer / proper save robustness
-  later. Multi-day refactor — tackle in a dedicated session.
+* [x] **Phase 2 Stage 2 — pure-data state separation (May 2026)**.
+  services.gameState is now a separate Object.assign clone instead of
+  identity-equal to Alpine. Plan B path: single getStore() touchpoint
+  re-routed everyone through engineState in one commit; UI_WRITEBACK_KEYS
+  pre-pass in UISync preserves HTML-template writes; RAF-driven
+  UISync.sync keeps click→render latency ~16ms; explicit gameState
+  self-reference on engineState so engine.init's tick loop finds state
+  via this.services.gameState. Engine now owns its plain-data state,
+  Alpine reactivity fires once per RAF tick instead of per-mutation.
+
+***
+
+**Engine hardening is now COMPLETE** (Rounds 1+2+3+Stage 2 all done).
+Next milestone: the Addon System below.
 * [ ] **Addon System (compile-time)**:
   * Restructure `content/` into `content/base/` + `content/addons/<name>/`.
   * Build script auto-discovers addon folders, merges into registries.
