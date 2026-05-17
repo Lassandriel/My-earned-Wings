@@ -220,35 +220,50 @@ Alpine.store('ui', game);
 // of which side you came from.
 const liveStore = Alpine.store('game') as GameState;
 const engineState = Object.assign({}, liveStore) as GameState;
+// Self-reference: engine.init() is called via execBoot with the engine
+// state as its argument, then names that argument `services` and reads
+// `services.gameState`. So engineState.gameState must point back at
+// engineState itself for the tick loop to find any state to operate on.
+// Pre-cutover this worked accidentally because liveStore was Alpine's
+// self-referencing proxy; after the cutover we have to re-establish the
+// self-ref on the plain-data clone.
+(engineState as unknown as Record<string, unknown>).gameState = engineState;
 services.gameState = engineState;
 (gameStoreObject as Record<string, unknown>).gameState = engineState;
 
 // --- 5. DOM READY START ---
-document.addEventListener('DOMContentLoaded', () => {
-  if (!window.ALPINE_STARTED) {
-    window.ALPINE_STARTED = true;
+// main.ts is loaded as a `<script type="module">` which is implicitly
+// deferred. Per spec DOMContentLoaded fires after deferred scripts run, so
+// the listener registered below normally catches it. But in some embedding
+// contexts (notably Vite-dev in a plain browser tab vs. Electron) the
+// listener can be attached after DOMContentLoaded has already fired,
+// leaving the app stuck at view='menu' with Alpine never started. Run the
+// boot inline if the document is already past 'loading'.
+const startBoot = () => {
+  if (window.ALPINE_STARTED) return;
+  window.ALPINE_STARTED = true;
 
-    // Register secondary stores
-    Alpine.store('logs', createLogStore());
-    const sStore = createSettingsStore(dynamicInitialState.settings);
-    sStore.boot(systemInstances.settingsSystem as any);
-    Alpine.store('settings', sStore);
+  // Register secondary stores
+  Alpine.store('logs', createLogStore());
+  const sStore = createSettingsStore(dynamicInitialState.settings);
+  sStore.boot(systemInstances.settingsSystem as any);
+  Alpine.store('settings', sStore);
 
-    Alpine.start();
+  Alpine.start();
 
-    setTimeout(() => {
+  setTimeout(() => {
+    const store = getStore();
+    if (store && typeof store.bootstrap === 'function') {
+      store.bootstrap();
+    }
+  }, 100);
+
+  // --- Phase 4: listen for cheat commands from the dev tools window ---
+  if (typeof BroadcastChannel !== 'undefined') {
+    const devChannel = new BroadcastChannel('mw-devtools');
+    devChannel.addEventListener('message', (ev) => {
+      const cmd = ev.data as { type: string; [k: string]: any };
       const store = getStore();
-      if (store && typeof store.bootstrap === 'function') {
-        store.bootstrap();
-      }
-    }, 100);
-
-    // --- Phase 4: listen for cheat commands from the dev tools window ---
-    if (typeof BroadcastChannel !== 'undefined') {
-      const devChannel = new BroadcastChannel('mw-devtools');
-      devChannel.addEventListener('message', (ev) => {
-        const cmd = ev.data as { type: string; [k: string]: any };
-        const store = getStore();
         if (!store || !cmd?.type) return;
 
         try {
@@ -317,5 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
-  }
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startBoot);
+} else {
+  startBoot();
+}
