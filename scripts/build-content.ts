@@ -25,15 +25,41 @@ const contentSchema = {
 };
 const validateSchema = ajv.compile(contentSchema);
 
+// Addon manifest schema (v1). Required: name + version. Optional fields
+// are documented in docs/ADDON_SYSTEM_PLAN.md.
+interface AddonManifest {
+  name: string;
+  version: string;
+  description?: string;
+  author?: string;
+  enabledByDefault?: boolean;
+  requires?: string[];
+}
+const manifestSchema = {
+  type: "object",
+  properties: {
+    name: { type: "string", pattern: "^[a-z][a-z0-9_-]*$" },
+    version: { type: "string", pattern: "^\\d+\\.\\d+\\.\\d+$" },
+    description: { type: "string" },
+    author: { type: "string" },
+    enabledByDefault: { type: "boolean" },
+    requires: { type: "array", items: { type: "string" } },
+  },
+  required: ["name", "version"],
+  additionalProperties: false,
+};
+const validateManifest = ajv.compile(manifestSchema);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
-// Phase 15+ addon system step 1: base content moved from `content/` to
-// `content/base/`. Addons will live at `content/addons/<name>/` and get
-// merged in by later build-script changes. Keeping BASE_DIR named
-// explicitly so the next steps (addon discovery) read cleanly.
+// Phase 15+ addon system: base content lives at content/base/, opt-in
+// addons at content/addons/<name>/. Step 1 moved base; step 2 (this
+// commit) discovers addons and validates their manifests but does NOT
+// yet merge addon content into the registries — that's step 3.
 const CONTENT_DIR = path.join(ROOT, 'content');
 const BASE_DIR = path.join(CONTENT_DIR, 'base');
+const ADDONS_DIR = path.join(CONTENT_DIR, 'addons');
 const OUTPUT_FILE = path.join(ROOT, 'src', 'generated', 'content.ts');
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -57,6 +83,46 @@ function loadDir(dir: string): any[] {
     .flatMap(f => readYaml(path.join(dir, f)));
 }
 
+/**
+ * Discover addons under content/addons/<name>/. Each addon directory must
+ * contain a manifest.yaml matching the v1 schema. Directories starting with
+ * `_` are skipped (used for `_example/` and disabled-by-rename addons).
+ *
+ * Returns the manifest list sorted by name for deterministic build output.
+ * Does NOT load addon content — that's step 3.
+ */
+function discoverAddons(): Array<{ manifest: AddonManifest; dir: string }> {
+  if (!fs.existsSync(ADDONS_DIR)) return [];
+  const out: Array<{ manifest: AddonManifest; dir: string }> = [];
+  const entries = fs.readdirSync(ADDONS_DIR).sort();
+  for (const name of entries) {
+    if (name.startsWith('_')) continue;
+    const dir = path.join(ADDONS_DIR, name);
+    if (!fs.statSync(dir).isDirectory()) continue;
+    const manifestPath = path.join(dir, 'manifest.yaml');
+    if (!fs.existsSync(manifestPath)) {
+      throw new Error(`[addon] ${name}: missing manifest.yaml`);
+    }
+    const raw = fs.readFileSync(manifestPath, 'utf-8');
+    const manifest = yaml.load(raw) as AddonManifest;
+    if (!manifest || typeof manifest !== 'object') {
+      throw new Error(`[addon] ${name}: manifest.yaml is not an object`);
+    }
+    if (!validateManifest(manifest)) {
+      throw new Error(
+        `[addon] ${name}: manifest validation failed — ${ajv.errorsText(validateManifest.errors)}`,
+      );
+    }
+    if (manifest.name !== name) {
+      throw new Error(
+        `[addon] folder name "${name}" does not match manifest.name "${manifest.name}"`,
+      );
+    }
+    out.push({ manifest, dir });
+  }
+  return out;
+}
+
 function arrayToRecord(items: any[], key = 'id'): Record<string, any> {
   const result: Record<string, any> = {};
   for (const item of items) {
@@ -75,6 +141,16 @@ function arrayToRecord(items: any[], key = 'id'): Record<string, any> {
 // ─── Load all content ───────────────────────────────────────────────────────
 
 console.log('📦 [build-content] Reading YAML files...');
+
+const addons = discoverAddons();
+if (addons.length > 0) {
+  console.log(
+    `🧩 Discovered ${addons.length} addon(s): ${addons.map((a) => `${a.manifest.name}@${a.manifest.version}`).join(', ')}`,
+  );
+  console.log('   (manifests validated; addon content merging is the next step)');
+} else if (fs.existsSync(ADDONS_DIR)) {
+  console.log('🧩 No active addons found (content/addons/ exists but is empty or all _-prefixed).');
+}
 
 const resources = [
   ...loadDir(path.join(BASE_DIR, 'resources')),
