@@ -6,7 +6,6 @@ nav_crafting: Workshop
 nav_upgrades: Possessions
 nav_locations: Locations
 nav_village: Village
-nav_vandara: Vandara
 nav_housing: Home
 cat_gather: Gather
 cat_work: Work
@@ -15,8 +14,6 @@ cat_upgrades: Possessions & Artifacts
 cat_furniture: Furniture
 cat_locations: Locations & Travel
 cat_village: The Village
-cat_school: Village School
-cat_vandara: Academy Vandara
 cat_magic: Magic
 cat_log: Event Log
 cat_collection_world: The World of Collection
@@ -141,10 +138,7 @@ ui_empty_collection: >-
   here.
 ui_tab_all: All
 objective_label: Current Objective
-ui_vandara_path_hint: Choose wisely, for this decision is final.
-ui_vandara_path_confirm: Choose this path permanently?
 ui_teacher_label: Instructor
-ui_mentor_label: Mentor
 ui_titles: Titles
 ui_none: None
 title_unlocked: "Title Unlocked: {title}"

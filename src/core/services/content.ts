@@ -133,7 +133,7 @@ export const createContentService = (registries: Registries) => ({
 
         // 2. Metadata Consistency (Title/Icon)
         const VISUAL_REQUIRED = ['items', 'npcs', 'homes'];
-        const isActionRequiringVisual = regName === 'actions' && data.category !== 'lore' && data.category !== 'vandara' && !data.isPassive;
+        const isActionRequiringVisual = regName === 'actions' && data.category !== 'lore' && !data.isPassive;
         
         if (VISUAL_REQUIRED.includes(regName) || isActionRequiringVisual) {
           // Explicitly allowing '' (empty string) as an intentional "no-icon" marker

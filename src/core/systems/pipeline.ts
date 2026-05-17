@@ -146,8 +146,6 @@ export const createPipelineSystem = () => {
       }
 
       // 2.2 Books scaling — extra magic_limit per stored book.
-      // (Phase 1.5 follow-up: study_efficiency multiplier was removed with the
-      //  Vandara/Schule rollback. Reintroduce here when the academy returns.)
       if (key === 'magic_limit_gain') {
         const books = store.resources?.books ?? 0;
         if (typeof books === 'number' && books > 0) mods.push({ add: books * 2 });

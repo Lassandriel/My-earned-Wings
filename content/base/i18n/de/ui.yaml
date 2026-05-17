@@ -6,7 +6,6 @@ nav_crafting: Werkstatt
 nav_upgrades: Besitztümer
 nav_locations: Orte
 nav_village: Dorf
-nav_vandara: Vandara
 nav_housing: Zuhause
 cat_gather: Sammeln
 cat_work: Arbeit
@@ -15,8 +14,6 @@ cat_upgrades: Besitztümer & Artefakte
 cat_furniture: Möbel
 cat_locations: Orte & Reise
 cat_village: Das Dorf
-cat_school: Dorfschule
-cat_vandara: Akademie Vandara
 cat_magic: Magie
 cat_log: Ereignis-Log
 cat_collection_world: Die Welt der Sammlung
@@ -254,10 +251,7 @@ ui_empty_category: Noch keine Baupläne in dieser Kategorie freigeschaltet.
 ui_no_furniture_placed: Keine Möbel platziert.
 ui_no_more_furniture: Keine weiteren Möbel verfügbar.
 objective_label: Aktuelles Ziel
-ui_vandara_path_hint: Wähle weise, denn diese Entscheidung ist endgültig.
-ui_vandara_path_confirm: Diesen Pfad endgültig wählen?
 ui_teacher_label: Lehrkraft
-ui_mentor_label: Mentor
 ui_titles: Titel
 ui_none: Keiner
 title_unlocked: "Titel freigeschaltet: {title}"
