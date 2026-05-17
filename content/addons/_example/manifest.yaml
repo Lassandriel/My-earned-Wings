@@ -1,0 +1,23 @@
+# Example addon manifest. See docs/ADDON_AUTHORING.md for the full reference.
+#
+# This addon's folder starts with an underscore (_example), which tells the
+# build script to skip it. Copy this folder to a name WITHOUT the underscore
+# (e.g. content/addons/my_addon/) and edit to taste.
+
+name: _example        # MUST match the folder name. Pattern: lowercase, digits,
+                      # underscore, hyphen. Starts with a letter.
+version: 0.1.0        # Strict semver (MAJOR.MINOR.PATCH).
+
+# All fields below are optional.
+description: "A commented skeleton showing every addon concept."
+author: "Lassandriel"
+
+# When true, the addon is loaded as long as its folder doesn't start with `_`.
+# Runtime toggling (settings UI to disable without rebuild) is a later
+# milestone; for now `false` here is purely informational.
+enabledByDefault: true
+
+# Other addons this one depends on. Format: bare name, or `name >=X.Y.Z`.
+# Step 2 doesn't enforce this yet (dependency resolution lives in a future
+# build step); listed names exist as documentation for now.
+requires: []

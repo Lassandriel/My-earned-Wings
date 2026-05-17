@@ -1,0 +1,4 @@
+act_example_ping_title:
+  title: Ping
+  desc: Calls the example handler.
+  effect: "+ one log entry"

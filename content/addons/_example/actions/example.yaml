@@ -1,0 +1,16 @@
+# Actions contributed by this addon. Same schema as content/base/actions/*.yaml.
+#
+# Pattern conventions:
+# - `act-<addon>-<name>` IDs to stay collision-free.
+# - `customExecute: <addon>/<handler>` to call a handler from handlers.ts.
+#   The `<addon>/` prefix is auto-applied to every key exported from your
+#   addon's handlers.ts, so a handler named `ping` becomes `_example/ping`.
+
+- id: act-example-ping
+  title: act_example_ping_title
+  desc: act_example_ping_desc
+  category: misc
+  cost: 0
+  costType: none
+  duration: 0
+  customExecute: _example/ping

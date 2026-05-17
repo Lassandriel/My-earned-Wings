@@ -1,0 +1,6 @@
+# Adds the German strings for this addon's item.
+# Addon translation keys ADD to the base bundle. If a key already exists
+# in base, the addon's value OVERRIDES it and a warning is logged at build
+# time so accidental overrides are visible.
+item_example_trinket_title: Beispiel-Talisman
+item_example_trinket_desc: Ein kleiner Glücksbringer aus der Beispielwelt.

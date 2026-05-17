@@ -1,0 +1,4 @@
+act_example_ping_title:
+  title: Pingen
+  desc: Ruft den Beispiel-Handler auf.
+  effect: "+ ein Log-Eintrag"

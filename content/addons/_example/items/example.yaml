@@ -1,0 +1,16 @@
+# Items contributed by this addon. Same schema as content/base/items/*.yaml.
+# IDs must be unique across base + every active addon, otherwise the build
+# fails with an origin-aware "duplicate ID" error.
+#
+# Convention: prefix addon-specific IDs with the addon name to avoid
+# accidental collisions: `item-myaddon-relic` rather than `item-relic`.
+
+- id: item-example-trinket
+  title: item_example_trinket_title   # translation key in i18n/<lang>/items.yaml
+  desc: item_example_trinket_desc
+  category: misc
+  # icon is a single-character glyph fallback for when the image is missing.
+  icon: ✨
+  # image path convention: img/addons/<addon>/<...> for addon-shipped assets.
+  # base assets stay at img/<topic>/<...>.
+  # image: img/addons/_example/trinket.webp
