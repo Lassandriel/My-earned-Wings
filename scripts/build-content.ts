@@ -28,7 +28,12 @@ const validateSchema = ajv.compile(contentSchema);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
+// Phase 15+ addon system step 1: base content moved from `content/` to
+// `content/base/`. Addons will live at `content/addons/<name>/` and get
+// merged in by later build-script changes. Keeping BASE_DIR named
+// explicitly so the next steps (addon discovery) read cleanly.
 const CONTENT_DIR = path.join(ROOT, 'content');
+const BASE_DIR = path.join(CONTENT_DIR, 'base');
 const OUTPUT_FILE = path.join(ROOT, 'src', 'generated', 'content.ts');
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -72,48 +77,49 @@ function arrayToRecord(items: any[], key = 'id'): Record<string, any> {
 console.log('📦 [build-content] Reading YAML files...');
 
 const resources = [
-  ...loadDir(path.join(CONTENT_DIR, 'resources')),
+  ...loadDir(path.join(BASE_DIR, 'resources')),
 ];
 
 const modifiers = [
-  ...loadDir(path.join(CONTENT_DIR, 'modifiers')),
+  ...loadDir(path.join(BASE_DIR, 'modifiers')),
 ];
 
 const actions = [
-  ...loadDir(path.join(CONTENT_DIR, 'actions')),
+  ...loadDir(path.join(BASE_DIR, 'actions')),
 ];
 
 const items = [
-  ...loadDir(path.join(CONTENT_DIR, 'items')),
+  ...loadDir(path.join(BASE_DIR, 'items')),
 ];
 
 const npcs = [
-  ...loadDir(path.join(CONTENT_DIR, 'npcs')),
+  ...loadDir(path.join(BASE_DIR, 'npcs')),
 ];
 
 const buffs = [
-  ...loadDir(path.join(CONTENT_DIR, 'buffs')),
+  ...loadDir(path.join(BASE_DIR, 'buffs')),
 ];
 
 const homes = [
-  ...loadDir(path.join(CONTENT_DIR, 'homes')),
+  ...loadDir(path.join(BASE_DIR, 'homes')),
 ];
 
 const milestones = [
-  ...loadDir(path.join(CONTENT_DIR, 'milestones')),
+  ...loadDir(path.join(BASE_DIR, 'milestones')),
 ];
 
 const navigation = [
-  ...loadDir(path.join(CONTENT_DIR, 'navigation')),
+  ...loadDir(path.join(BASE_DIR, 'navigation')),
 ];
 
 const titles = [
-  ...loadDir(path.join(CONTENT_DIR, 'titles')),
+  ...loadDir(path.join(BASE_DIR, 'titles')),
 ];
 
 // ─── Translations (special: nested map, not array) ──────────────────────────
 function loadTranslations(): Record<string, Record<string, Record<string, string>>> {
-  const i18nDir = path.join(CONTENT_DIR, 'i18n');
+  const i18nDir = path.join(BASE_DIR, 'i18n');
+  // (function body unchanged — addon i18n merging comes in a later step)
   const out: Record<string, Record<string, Record<string, string>>> = {};
   if (!fs.existsSync(i18nDir)) return out;
   for (const lang of fs.readdirSync(i18nDir)) {
