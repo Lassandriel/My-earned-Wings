@@ -56,22 +56,22 @@ this section tracks the strategic outline.
   via this.services.gameState. Engine now owns its plain-data state,
   Alpine reactivity fires once per RAF tick instead of per-mutation.
 
+* [x] **Addon System — compile-time infrastructure (May 2026)**.
+  Content moved to `content/base/` + `content/addons/<name>/`. Build
+  script discovers addons via `manifest.yaml` (semver-validated),
+  merges all 10 categories + i18n into the base registries with
+  origin-tracked duplicate-ID errors, and generates
+  `src/generated/addon-handlers.ts` for addon-shipped `handlers.ts`
+  (auto-namespaced as `<addon>/<name>`). Translations override base
+  with dev-time warnings. Skeleton at `content/addons/_example/` and
+  full authoring docs at `docs/ADDON_AUTHORING.md`. See
+  `docs/ADDON_SYSTEM_PLAN.md` for the design decisions.
+
 ***
 
-**Engine hardening is now COMPLETE** (Rounds 1+2+3+Stage 2 all done).
-Next milestone: the Addon System below.
-* [ ] **Addon System (compile-time)**:
-  * Restructure `content/` into `content/base/` + `content/addons/<name>/`.
-  * Build script auto-discovers addon folders, merges into registries.
-  * Per-addon `manifest.yaml` (name, version, requires).
-  * ID-conflict detection during build.
-  * Decisions to make at that point: ID-namespacing (strict `vandara:npc-x`
-    vs lax warn-on-collision), custom-execute handlers from addons (TS code
-    or YAML-only), translation overrides, asset path conventions.
-  * First real addon: Vandara/Academy as `content/addons/vandara/` once
-    Phase 13.5 design is clear.
-  * Documentation: `docs/ADDONS.md` with the structure + a `_example/`
-    skeleton for contributors.
+**Engine hardening + Addon infrastructure COMPLETE.** Vandara/Academy
+(Phase 13.5) and any future content drops can now ship as
+`content/addons/<name>/` without touching engine code.
 * [ ] **Runtime Addon Toggling (only if community grows)**: settings UI to
   enable/disable addons without rebuild, save format tracks active addons,
   conflict resolution UI. Day(s) of work — defer until 3rd-party modders
