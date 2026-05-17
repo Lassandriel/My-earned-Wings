@@ -84,6 +84,23 @@ function loadDir(dir: string): any[] {
 }
 
 /**
+ * Loads a category from base + every addon, tagged with origin so the
+ * registry builder can produce useful collision errors. Sort is by
+ * source order (base first, then addons in name order) so the resulting
+ * record's iteration order matches load order — deterministic.
+ */
+type TaggedItem = { item: any; origin: string };
+function loadCategoryFromAllSources(category: string): TaggedItem[] {
+  const tag = (origin: string) => (item: any): TaggedItem => ({ item, origin });
+  const out: TaggedItem[] = loadDir(path.join(BASE_DIR, category)).map(tag(`base/${category}`));
+  for (const { manifest, dir } of addons) {
+    const addonDir = path.join(dir, category);
+    out.push(...loadDir(addonDir).map(tag(`addons/${manifest.name}/${category}`)));
+  }
+  return out;
+}
+
+/**
  * Discover addons under content/addons/<name>/. Each addon directory must
  * contain a manifest.yaml matching the v1 schema. Directories starting with
  * `_` are skipped (used for `_example/` and disabled-by-rename addons).
@@ -123,17 +140,28 @@ function discoverAddons(): Array<{ manifest: AddonManifest; dir: string }> {
   return out;
 }
 
-function arrayToRecord(items: any[], key = 'id'): Record<string, any> {
+/**
+ * Convert a tagged-item list to a Record<id, item>. Throws with origin
+ * info on duplicate IDs (the whole point of tagging).
+ */
+function taggedToRecord(items: TaggedItem[], key = 'id'): Record<string, any> {
   const result: Record<string, any> = {};
-  for (const item of items) {
+  const origins: Record<string, string> = {};
+  for (const { item, origin } of items) {
     if (!item[key]) {
-      console.warn(`[build-content] Item missing "${key}" field:`, JSON.stringify(item).slice(0, 80));
+      console.warn(`[build-content] Item missing "${key}" field in ${origin}:`, JSON.stringify(item).slice(0, 80));
       continue;
     }
-    if (result[item[key]]) {
-      throw new Error(`[build-content] Duplicate ID: "${item[key]}"`);
+    const id = item[key];
+    if (result[id]) {
+      throw new Error(
+        `[build-content] Duplicate ID "${id}": defined in BOTH ${origins[id]} AND ${origin}. ` +
+          `Each entry must have a unique id across base + all addons. ` +
+          `Either rename one (preferably the addon's; e.g. prefix with the addon name) or remove the dup.`,
+      );
     }
-    result[item[key]] = item;
+    result[id] = item;
+    origins[id] = origin;
   }
   return result;
 }
@@ -147,67 +175,67 @@ if (addons.length > 0) {
   console.log(
     `🧩 Discovered ${addons.length} addon(s): ${addons.map((a) => `${a.manifest.name}@${a.manifest.version}`).join(', ')}`,
   );
-  console.log('   (manifests validated; addon content merging is the next step)');
+  console.log('   (manifests validated, content + translations merged into base)');
 } else if (fs.existsSync(ADDONS_DIR)) {
   console.log('🧩 No active addons found (content/addons/ exists but is empty or all _-prefixed).');
 }
 
-const resources = [
-  ...loadDir(path.join(BASE_DIR, 'resources')),
-];
-
-const modifiers = [
-  ...loadDir(path.join(BASE_DIR, 'modifiers')),
-];
-
-const actions = [
-  ...loadDir(path.join(BASE_DIR, 'actions')),
-];
-
-const items = [
-  ...loadDir(path.join(BASE_DIR, 'items')),
-];
-
-const npcs = [
-  ...loadDir(path.join(BASE_DIR, 'npcs')),
-];
-
-const buffs = [
-  ...loadDir(path.join(BASE_DIR, 'buffs')),
-];
-
-const homes = [
-  ...loadDir(path.join(BASE_DIR, 'homes')),
-];
-
-const milestones = [
-  ...loadDir(path.join(BASE_DIR, 'milestones')),
-];
-
-const navigation = [
-  ...loadDir(path.join(BASE_DIR, 'navigation')),
-];
-
-const titles = [
-  ...loadDir(path.join(BASE_DIR, 'titles')),
-];
+const resources = loadCategoryFromAllSources('resources');
+const modifiers = loadCategoryFromAllSources('modifiers');
+const actions = loadCategoryFromAllSources('actions');
+const items = loadCategoryFromAllSources('items');
+const npcs = loadCategoryFromAllSources('npcs');
+const buffs = loadCategoryFromAllSources('buffs');
+const homes = loadCategoryFromAllSources('homes');
+const milestones = loadCategoryFromAllSources('milestones');
+const navigation = loadCategoryFromAllSources('navigation');
+const titles = loadCategoryFromAllSources('titles');
 
 // ─── Translations (special: nested map, not array) ──────────────────────────
-function loadTranslations(): Record<string, Record<string, Record<string, string>>> {
-  const i18nDir = path.join(BASE_DIR, 'i18n');
-  // (function body unchanged — addon i18n merging comes in a later step)
-  const out: Record<string, Record<string, Record<string, string>>> = {};
-  if (!fs.existsSync(i18nDir)) return out;
+//
+// Load order: base first, then addons in name order. Within each source
+// the structure is i18n/<lang>/<context>.yaml. Per D3 in the addon plan,
+// addon keys override base keys with a dev-time warning so accidental
+// overrides are visible. Add-only keys silently merge.
+function loadTranslationDir(
+  i18nDir: string,
+  origin: string,
+  out: Record<string, Record<string, Record<string, string>>>,
+  overrides: Array<{ lang: string; ctx: string; key: string; from: string; to: string }>,
+): void {
+  if (!fs.existsSync(i18nDir)) return;
   for (const lang of fs.readdirSync(i18nDir)) {
     const langDir = path.join(i18nDir, lang);
     if (!fs.statSync(langDir).isDirectory()) continue;
-    out[lang] = {};
-    for (const file of fs.readdirSync(langDir).filter(f => /\.ya?ml$/.test(f))) {
+    (out[lang] ??= {});
+    for (const file of fs.readdirSync(langDir).filter((f) => /\.ya?ml$/.test(f))) {
       const ctx = file.replace(/\.ya?ml$/, '');
       const raw = fs.readFileSync(path.join(langDir, file), 'utf-8');
       const parsed = yaml.load(raw);
-      out[lang][ctx] = (parsed && typeof parsed === 'object') ? parsed as any : {};
+      if (!parsed || typeof parsed !== 'object') continue;
+      const existing = (out[lang][ctx] ??= {});
+      for (const [k, v] of Object.entries(parsed as Record<string, string>)) {
+        if (k in existing && existing[k] !== v) {
+          overrides.push({ lang, ctx, key: k, from: existing[k] as string, to: v });
+        }
+        existing[k] = v;
+      }
     }
+  }
+}
+function loadTranslations(): Record<string, Record<string, Record<string, string>>> {
+  const out: Record<string, Record<string, Record<string, string>>> = {};
+  const overrides: Array<{ lang: string; ctx: string; key: string; from: string; to: string }> = [];
+  loadTranslationDir(path.join(BASE_DIR, 'i18n'), 'base', out, overrides);
+  for (const { manifest, dir } of addons) {
+    loadTranslationDir(path.join(dir, 'i18n'), `addons/${manifest.name}`, out, overrides);
+  }
+  if (overrides.length > 0) {
+    console.log(`⚠️  ${overrides.length} translation override(s) by addons:`);
+    for (const o of overrides.slice(0, 10)) {
+      console.log(`   [${o.lang}/${o.ctx}] ${o.key}: "${String(o.from).slice(0, 40)}" → "${String(o.to).slice(0, 40)}"`);
+    }
+    if (overrides.length > 10) console.log(`   …(+${overrides.length - 10} more)`);
   }
   return out;
 }
@@ -215,28 +243,28 @@ const translations = loadTranslations();
 
 // ─── Build registries ───────────────────────────────────────────────────────
 
-const resourceRegistry = arrayToRecord(resources);
-const modifierRegistry = arrayToRecord(modifiers);
-const actionRegistry = arrayToRecord(actions);
-const itemRegistry = arrayToRecord(items);
-const npcRegistry = arrayToRecord(npcs);
-const buffRegistry = arrayToRecord(buffs);
-const homeRegistry = arrayToRecord(homes);
-const milestoneRegistry = arrayToRecord(milestones);
-const navigationRegistry = arrayToRecord(navigation);
-const titleRegistry = arrayToRecord(titles);
+const resourceRegistry = taggedToRecord(resources);
+const modifierRegistry = taggedToRecord(modifiers);
+const actionRegistry = taggedToRecord(actions);
+const itemRegistry = taggedToRecord(items);
+const npcRegistry = taggedToRecord(npcs);
+const buffRegistry = taggedToRecord(buffs);
+const homeRegistry = taggedToRecord(homes);
+const milestoneRegistry = taggedToRecord(milestones);
+const navigationRegistry = taggedToRecord(navigation);
+const titleRegistry = taggedToRecord(titles);
 
 // ─── Derive the efficiency keys for the pipeline automatically ───────────────
-// Any resource or modifier with scalesWithSatiation: true gets added
+// Any resource or modifier with scalesWithSatiation: true gets added.
+// Reads through the TaggedItem wrapper (.item) since loadCategoryFromAllSources
+// returns origin-tagged entries.
 const efficiencyKeys: string[] = [
-  // From resources: resource_id + '_yield'
   ...resources
-    .filter(r => r.scalesWithSatiation)
-    .map(r => `${r.id}_yield`),
-  // From modifiers: direct modifier ids
+    .filter((t) => t.item.scalesWithSatiation)
+    .map((t) => `${t.item.id}_yield`),
   ...modifiers
-    .filter(m => m.scalesWithSatiation)
-    .map(m => m.id),
+    .filter((t) => t.item.scalesWithSatiation)
+    .map((t) => t.item.id),
   // Always include these base keys
   'garden_yield',
 ];
