@@ -10,7 +10,7 @@
     "build:content": "tsx scripts/build-content.ts",
     "dev": "npm run build:content && npm run build-electron && concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development .\\node_modules\\.bin\\electron.cmd dist_electron/main.js\"",
     "build": "npm run build:content && vite build",
-    "build-electron": "tsc -p tsconfig.electron.json",
+    "build-electron": "tsc -p tsconfig.electron.json && node scripts/finalize-electron-build.cjs",
     "preview": "vite preview",
     "check-i18n": "tsx scripts/check-i18n.ts",
     "check-assets": "tsx scripts/check-assets.ts",
@@ -22,8 +22,8 @@
     "check-unused": "tsx scripts/check-unused.ts",
     "clean": "tsx scripts/clean.ts",
     "test": "vitest run",
-    "dist": "npm run build && npm run build-electron && electron-builder",
-    "build-exe": "powershell -Command \"Remove-Item -Recurse -Force dist_electron -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Path dist_electron\" && npm run build && npm run build-electron && powershell -Command \"Copy-Item package.json dist_electron/; New-Item -ItemType Directory -Path dist_electron/public/img -Force; Copy-Item public/img/Game_icon.ico dist_electron/public/img/; Copy-Item -Recurse dist dist_electron/dist; electron-packager dist_electron My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --asar --icon=dist_electron/public/img/Game_icon.ico\""
+    "dist": "tsx scripts/build-dist.ts",
+    "build-exe": "npm run clean && powershell -Command \"Remove-Item -Recurse -Force dist_electron -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Path dist_electron\" && npm run build && npm run build-electron && powershell -Command \"Copy-Item package.json dist_electron/; New-Item -ItemType Directory -Path dist_electron/public/img -Force; Copy-Item public/img/Game_icon.ico dist_electron/public/img/; Copy-Item -Recurse dist dist_electron/dist; electron-packager dist_electron My-earned-Wings --platform=win32 --arch=x64 --out=BUILDS --overwrite --asar --icon=dist_electron/public/img/Game_icon.ico\""
   },
   "build": {
     "appId": "com.lassandriel.myearnedwings",
@@ -43,6 +43,9 @@
       "dist/**/*",
       "dist_electron/main.js",
       "dist_electron/preload.js",
+      "dist_electron/ipc.js",
+      "dist_electron/db.js",
+      "dist_electron/package.json",
       "package.json"
     ],
     "asar": true

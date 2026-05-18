@@ -163,18 +163,23 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   // Resource & NPC Helpers
   getUsedFurnitureSpace() { return getStore().housing.getUsedFurnitureSpace(getStore()); },
   getHomeCapacity() { return getStore().housing.getHomeCapacity(getStore()); },
-  get energyPercent() { return getStore().resource.getStatPercent(getStore(), 'energy'); },
-  get magicPercent() { return getStore().resource.getStatPercent(getStore(), 'magic'); },
-  get satiationPercent() { return getStore().resource.getStatPercent(getStore(), 'satiation'); },
-  get maxEnergy() { return getStore().resource.getMaxStat(getStore(), 'energy'); },
-  get maxMagic() { return getStore().resource.getMaxStat(getStore(), 'magic'); },
-  get maxSatiation() { return getStore().resource.getMaxStat(getStore(), 'satiation'); },
-  getMaxStat(id: string) { return getStore().resource.getMaxStat(getStore(), id as 'energy' | 'magic' | 'satiation'); },
-  getLimit(id: string) { return getStore().resource.getLimit(getStore(), id as 'energy' | 'magic' | 'satiation' | 'shards' | 'wood' | 'stone' | 'herbs' | 'astral_shards' | 'ghostwood' | 'glowpollen' | 'fibers' | 'resin' | 'iron_parts' | 'clay' | 'meat' | 'water' | 'flowers'); },
-  get canAccessTreeOfLife() { return getStore().npc.canAccessTreeOfLife(getStore()); },
-  get groupedHistory() { return getStore().story.getGroupedHistory(getStore()); },
-  get availableFurniture() { return getStore().housing.getAvailableFurniture(getStore()); },
-  get placedFurnitureList() { return getStore().housing.getPlacedFurnitureList(getStore()); },
+  // Defensive getters — these are called by Alpine while it sets up the
+  // reactive store, including during property enumeration *before* the
+  // subsystems (resource/story/housing/npc) have been attached. Without
+  // the optional chaining, the very first enumeration crashes module
+  // load and the renderer ends up stuck with x-show never evaluated.
+  get energyPercent() { const s = getStore(); return s?.resource?.getStatPercent?.(s, 'energy') ?? 0; },
+  get magicPercent() { const s = getStore(); return s?.resource?.getStatPercent?.(s, 'magic') ?? 0; },
+  get satiationPercent() { const s = getStore(); return s?.resource?.getStatPercent?.(s, 'satiation') ?? 0; },
+  get maxEnergy() { const s = getStore(); return s?.resource?.getMaxStat?.(s, 'energy') ?? 0; },
+  get maxMagic() { const s = getStore(); return s?.resource?.getMaxStat?.(s, 'magic') ?? 0; },
+  get maxSatiation() { const s = getStore(); return s?.resource?.getMaxStat?.(s, 'satiation') ?? 0; },
+  getMaxStat(id: string) { const s = getStore(); return s?.resource?.getMaxStat?.(s, id as 'energy' | 'magic' | 'satiation') ?? 0; },
+  getLimit(id: string) { const s = getStore(); return s?.resource?.getLimit?.(s, id as any) ?? 0; },
+  get canAccessTreeOfLife() { const s = getStore(); return s?.npc?.canAccessTreeOfLife?.(s) ?? false; },
+  get groupedHistory() { const s = getStore(); return s?.story?.getGroupedHistory?.(s) ?? []; },
+  get availableFurniture() { const s = getStore(); return s?.housing?.getAvailableFurniture?.(s) ?? []; },
+  get placedFurnitureList() { const s = getStore(); return s?.housing?.getPlacedFurnitureList?.(s) ?? []; },
   toggleSidebar() {
     const store = getStore();
     store.sidebarCollapsed = !store.sidebarCollapsed;
@@ -203,33 +208,22 @@ autoRegisterSystems(gameStoreObject, systemInstances);
 const game = Alpine.store('game', gameStoreObject as GameState);
 Alpine.store('ui', game);
 
-// Phase 2 Stage 2 cutover (May 2026): services.gameState is now a SEPARATE
-// shallow-clone of the Alpine store. Primitive fields (view, playerName, …)
-// are independent — engine writes don't fire Alpine reactivity. Object/array
-// fields (resources, flags, …) start as shared references; UISync.sync()
-// re-clones them every tick (engine→Alpine pass) so reactivity fires once
-// per tick instead of per-mutation.
+// Phase 2 Stage 2 cutover REVERTED (May 2026, post-demo audit).
+// The clone-based cutover broke several flows because HTML view templates
+// call `$store.game.X(...)` directly — those writes land on Alpine, but
+// engine state (the cutover clone) never sees them. confirmModal not
+// closing, stale tooltips on view change, settings undefined during early
+// boot, save-load round-trip false-corruption, etc.
 //
-// Writers that get `store` via getStore() (main.ts:21) automatically mutate
-// the engine clone. HTML templates still write directly to Alpine for a few
-// UI-owned fields (settingsOpen, sidebarCollapsed, selectedStoryNpc, saveCode);
-// UISync's UI_WRITEBACK_KEYS pre-pass copies those Alpine→engine each tick.
-//
-// Service/system method references (audio, persistence, t, addLog, …) are
-// copied by reference into the clone so `store.X()` keeps working regardless
-// of which side you came from.
+// All supporting infrastructure stays: getStore() routes through
+// services.gameState (which is identity-equal to Alpine here), the RAF
+// UISync.sync loop still runs each frame, UI_WRITEBACK_KEYS is still
+// honoured. So when we ARE ready to re-cut over (for replays / multiplayer
+// where the separation actually pays off), it's a one-line change here
+// plus a migration of UI-template writes through getStore-aware methods.
 const liveStore = Alpine.store('game') as GameState;
-const engineState = Object.assign({}, liveStore) as GameState;
-// Self-reference: engine.init() is called via execBoot with the engine
-// state as its argument, then names that argument `services` and reads
-// `services.gameState`. So engineState.gameState must point back at
-// engineState itself for the tick loop to find any state to operate on.
-// Pre-cutover this worked accidentally because liveStore was Alpine's
-// self-referencing proxy; after the cutover we have to re-establish the
-// self-ref on the plain-data clone.
-(engineState as unknown as Record<string, unknown>).gameState = engineState;
-services.gameState = engineState;
-(gameStoreObject as Record<string, unknown>).gameState = engineState;
+services.gameState = liveStore;
+(gameStoreObject as Record<string, unknown>).gameState = liveStore;
 
 // --- 5. DOM READY START ---
 // main.ts is loaded as a `<script type="module">` which is implicitly

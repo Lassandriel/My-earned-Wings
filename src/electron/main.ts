@@ -10,6 +10,7 @@ import { saveSlot, loadSlot, listSlots, deleteSlot, close as closeDb } from './d
 
 let mainWindow: BrowserWindow | null;
 let devtoolsWindow: BrowserWindow | null = null;
+let activeContentScript: ReturnType<typeof spawn> | null = null;
 
 // Resolve the compiled preload location.
 // In dev, main.ts runs from src/electron/ via tsx; preload.js is built into
@@ -44,7 +45,16 @@ function createWindow() {
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:5173');
   } else {
-    mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+    // __dirname in the packaged build is .../app.asar/dist_electron/.
+    // index.html lives at .../app.asar/dist/index.html — one level up.
+    mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  }
+
+  // Debug aid: open DevTools when the .exe is launched with --debug so the
+  // packaged build can be diagnosed without rebuilding. Pre-release public
+  // builds should drop this argv check.
+  if (process.argv.includes('--debug')) {
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
 
   // Once the main window is ready to show, show it
@@ -53,6 +63,16 @@ function createWindow() {
       mainWindow.show();
       mainWindow.center();
     }
+  });
+
+  mainWindow.on('close', () => {
+    if (devtoolsWindow && !devtoolsWindow.isDestroyed()) {
+      devtoolsWindow.close();
+    }
+  });
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 }
 
@@ -283,11 +303,18 @@ ipcMain.handle(IpcChannel.CONTENT_WRITE_ACTION, async (
 const runNpmScript = (script: string): Promise<{ ok: boolean; output: string }> =>
   new Promise((resolve) => {
     const child = spawn('npm.cmd', ['run', script], { cwd: projectRoot(), shell: false });
+    activeContentScript = child;
     let out = '';
     child.stdout.on('data', (d) => (out += d.toString()));
     child.stderr.on('data', (d) => (out += d.toString()));
-    child.on('close', (code) => resolve({ ok: code === 0, output: out }));
-    child.on('error', (err) => resolve({ ok: false, output: err.message }));
+    child.on('close', (code) => {
+      activeContentScript = null;
+      resolve({ ok: code === 0, output: out });
+    });
+    child.on('error', (err) => {
+      activeContentScript = null;
+      resolve({ ok: false, output: err.message });
+    });
   });
 
 ipcMain.handle(IpcChannel.CONTENT_BUILD, async (): Promise<{ ok: boolean; output: string }> => {
@@ -324,11 +351,22 @@ ipcMain.on(IpcChannel.OPEN_DEVTOOLS, () => {
   if (process.env.NODE_ENV === 'development') {
     devtoolsWindow.loadURL('http://localhost:5173/devtools.html');
   } else {
-    devtoolsWindow.loadFile(path.join(__dirname, 'dist/devtools.html'));
+    // Same one-level-up dance as the main window's loadFile above.
+    devtoolsWindow.loadFile(path.join(__dirname, '..', 'dist', 'devtools.html'));
   }
   devtoolsWindow.on('closed', () => {
     devtoolsWindow = null;
   });
+});
+
+app.on('before-quit', () => {
+  if (activeContentScript && !activeContentScript.killed) {
+    activeContentScript.kill();
+    activeContentScript = null;
+  }
+  if (devtoolsWindow && !devtoolsWindow.isDestroyed()) {
+    devtoolsWindow.close();
+  }
 });
 
 app.on('window-all-closed', () => {

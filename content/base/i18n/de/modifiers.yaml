@@ -19,6 +19,8 @@ modifier_garden_magic_cost_title: Garten-Magie
 modifier_garden_magic_cost_desc: Verringert die Magiekosten im Garten.
 modifier_magic_cost_title: Magie-Effizienz
 modifier_magic_cost_desc: Verringert die Magiekosten aller Aktionen.
+modifier_magic_regen_passive_title: Passive Magie-Regeneration
+modifier_magic_regen_passive_desc: Magie regeneriert sich passiv über die Zeit.
 modifier_ghostwood_yield_title: Geisterholz-Ertrag
 modifier_ghostwood_yield_desc: Erhöht die Ausbeute beim Sammeln im Hain.
 modifier_glowpollen_yield_title: Pollen-Ertrag

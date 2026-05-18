@@ -402,8 +402,11 @@ export const createUISystem = () => {
       );
 
       // View Validation & Reactive Cleanups
+      // Read through Alpine.store('game') — the 'ui' alias does NOT re-trigger
+      // Alpine.effect when game.view changes (Alpine tracks per-store-name,
+      // and aliasing two names to the same proxy doesn't dual-register).
       Alpine.effect(() => {
-        const uiStore = Alpine.store('ui') as { view?: string };
+        const uiStore = Alpine.store('game') as { view?: string };
         if (!uiStore) return;
         const VALID_VIEWS = [
           'menu',

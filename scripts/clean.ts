@@ -16,8 +16,12 @@ const clean = () => {
         const fullPath = path.join(rootDir, folder);
         if (fs.existsSync(fullPath)) {
             console.log(`   - Removing: ./${folder}`);
-            fs.rmSync(fullPath, { recursive: true, force: true });
-            count++;
+            try {
+                fs.rmSync(fullPath, { recursive: true, force: true });
+                count++;
+            } catch (err) {
+                console.warn(`   - Skipped ./${folder}: ${(err as Error).message}`);
+            }
         }
     });
 

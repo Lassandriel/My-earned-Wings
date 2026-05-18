@@ -128,9 +128,15 @@ export function createUISync() {
       }
 
       // Reference-sharing clone pattern — see OBJECT_KEYS comment above.
+      // Null/undefined still gets propagated so Alpine sees the clear (e.g.
+      // hoveredAction = null after a view switch); without that, stale
+      // tooltips and modal-closed states stick around in the UI.
       for (const key of OBJECT_KEYS) {
         const val = (state as any)[key];
-        if (val === undefined || val === null) continue;
+        if (val === undefined || val === null) {
+          (alpineStore as any)[key] = val;
+          continue;
+        }
         const clone: any = Array.isArray(val) ? [...val] : { ...val };
         (alpineStore as any)[key] = clone;
         (state as any)[key] = clone;

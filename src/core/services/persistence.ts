@@ -418,10 +418,16 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
           (store.engine as unknown as { services?: { gameState?: GameState } })?.services?.gameState;
         if (engineState && engineState !== store) {
           Object.keys(validatedData).forEach((key) => {
-            if (!CONFIG.EXCLUDE.includes(key)) {
-              (engineState as unknown as Record<string, unknown>)[key] =
-                (store as unknown as Record<string, unknown>)[key];
-            }
+            if (CONFIG.EXCLUDE.includes(key)) return;
+            // `settings` on engineState is defined as a live getter that
+            // resolves through Alpine.store('settings') (set up in main.ts).
+            // It has no setter on purpose — overwriting it would freeze the
+            // value and break reactivity. The store-level deepMerge above
+            // already updated Alpine.store('settings') via the getter, so
+            // skipping the copy here is safe.
+            if (key === 'settings') return;
+            (engineState as unknown as Record<string, unknown>)[key] =
+              (store as unknown as Record<string, unknown>)[key];
           });
         }
         

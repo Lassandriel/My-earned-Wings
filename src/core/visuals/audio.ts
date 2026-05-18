@@ -43,7 +43,11 @@ export const createAudioSystem = () => {
     volumeMusic: number;
     volumeSfx: number;
     mute: boolean;
-  }) => {
+  } | undefined | null) => {
+    // Guard: settings can be undefined during early boot if init() races
+    // with the Alpine settings-store registration. Defaults are safe and
+    // the next SETTINGS_UPDATED event will sync the real values in.
+    if (!settings) return;
     const { volumeGlobal, volumeMusic, volumeSfx, mute } = settings;
     const globalMult = mute ? 0 : volumeGlobal;
 
