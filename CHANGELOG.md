@@ -8,10 +8,79 @@ prototype).
 
 ---
 
+## [v1.5.1-demo] — May 2026
+
+**Bugfix pass on top of v1.5.0-demo, in response to runtime issues that
+only showed up once the packaged .exe was actually launched.** This is
+the first version that runs end-to-end cleanly.
+
+### Phase 2 Stage 2 cutover REVERTED
+
+The clone-based engineState/Alpine separation broke too many flows that
+the single-getStore-touchpoint plan didn't cover — HTML view templates
+call `$store.game.X(...)` directly, passing the Alpine proxy as the
+`store` argument, so writes from view-handlers landed on Alpine but the
+engine state never saw them. Symptoms: confirm modal not closing, stale
+tooltips on view switch, settings undefined during early boot, save-load
+false-corruption alarm.
+
+services.gameState is now identity-equal to Alpine.store('game') again,
+just like before the cutover. All the supporting infrastructure stays
+in place (RAF UISync.sync, UI_WRITEBACK_KEYS pre-pass, defensive
+getStore() fallback). Re-cutting over later is a one-line change plus
+the bigger UI-template-writes migration the original plan
+underestimated. Filed away for the day replays/multiplayer actually
+need the separation.
+
+### Packaged .exe fixes
+
+- **electron-builder bundling**: dist_electron/package.json now correctly
+  generated with `{"type": "commonjs"}` and listed in the build's files
+  array. Without this, the packaged main process crashed on first
+  launch with "exports is not defined in ES module scope" (the root
+  package.json has type:module for Vite).
+- **loadFile path**: production renderer path resolves
+  `dist/index.html` one level UP from `__dirname` (which is
+  `dist_electron/` in the packaged build). Pre-fix: window opened
+  blank because file:// path was wrong.
+- **--debug argv**: `My-earned-Wings 1.5.1.exe --debug` opens DevTools
+  for diagnosing packaged-build issues without rebuilding.
+
+### Other live-issue fixes
+
+- ui.ts Alpine.effect view-cleanup now reads `Alpine.store('game')`
+  instead of the `'ui'` alias. Alpine reactivity is per-store-name —
+  aliasing two names to the same proxy doesn't dual-register, so the
+  'ui' read never re-triggered and tooltips stayed stale on view
+  change.
+- UISync.sync now propagates null/undefined for OBJECT_KEYS too (was
+  silently skipping). Engine clearing `hoveredAction = null` is now
+  visible to the UI.
+- audio.ts updateVolumes guards against undefined settings.
+- main.ts defensive getters on gameStoreObject — Alpine's eager
+  property enumeration during store registration no longer crashes
+  if a subsystem hasn't been attached yet.
+- Modifier `magic_regen_passive` actually added to YAML this time
+  (the previous commit's edit silently dropped). regen.ts pipeline
+  probe no longer spams `[CONTENT] Missing ID` every tick.
+- Several `content.get()` and `store.t()` calls on hot
+  probe-and-fallback paths now go silent (pipeline modifier lookup,
+  flag-to-item/action lookup, applyCostModifiers `<resource>_cost`
+  check, tooltip ui_<flag> lookup). Real misses still warn from
+  non-hot call sites.
+
+### Cleanup
+
+- Removed accidentally-committed public/CREDIT.txt (local notes).
+
+---
+
 ## [v1.5.0-demo] — May 2026
 
 **First demo milestone after the engine-hardening + addon-infrastructure
-sprint.** Snapshot-tagged for personal reference; not yet a public
+sprint.** ⚠️ Superseded by v1.5.1-demo — runtime testing turned up
+several Phase-2-Stage-2-related bugs not caught by tsc/tests/check-all.
+Snapshot-tagged for personal reference; not yet a public
 release (music/SFX attribution + Impressum need to land first — see
 TODO.md "Should-do before sharing more widely").
 
