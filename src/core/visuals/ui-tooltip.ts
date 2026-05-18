@@ -159,8 +159,18 @@ export const TooltipManager = {
           // Only check registry if it's likely a content ID (has prefix or known as action/item)
           const isContentId = flagKey.includes('-') || flagKey.includes('_');
 
-          // Try better translation fallback
-          const uiTrans = store.t('ui_' + flagKey);
+          // Try better translation fallback. Inspect the translations bundle
+          // first instead of calling store.t() blindly — t() warns once per
+          // missing key, and most flag names DON'T have a dedicated ui_<flag>
+          // entry (they fall through to the content lookup below). Without
+          // this peek the tooltip pollutes the console with `[I18N] Missing
+          // key 'ui.ui_build-campfire'` style warnings.
+          const lang = store.language || 'de';
+          const tr = (window as any).TRANSLATIONS as
+            | Record<string, Record<string, Record<string, string>>>
+            | undefined;
+          const uiTransExists = !!tr?.[lang]?.['ui']?.['ui_' + flagKey];
+          const uiTrans = uiTransExists ? store.t('ui_' + flagKey) : null;
           if (uiTrans && uiTrans !== `[ui_${flagKey}]`) {
             label = uiTrans;
           } else {

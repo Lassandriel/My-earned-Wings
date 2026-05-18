@@ -46,7 +46,12 @@ export const createPipelineSystem = () => {
      *  still tolerated on GameModifier for forward compat but ignored here.)
      */
     calculate(store: GameState, key: string, baseValue: number = 1): number {
-      const modDef = store.content.get<ModifierDefinition>(key, 'modifiers');
+      // silent: the engine pipeline probes for modifiers at every tick for
+      // many keys that legitimately have no entry (passive regen, per-resource
+      // cost overrides like wood_cost, …). Surfacing those as console warnings
+      // would drown the log. Real misses still surface anywhere else that
+      // calls content.get without `silent=true`.
+      const modDef = store.content.get<ModifierDefinition>(key, 'modifiers', true);
       const base = modDef?.baseValue ?? baseValue;
 
       const modifiers = this.getModifiers(store, key);
@@ -80,7 +85,10 @@ export const createPipelineSystem = () => {
         // 1.1 Items & Buildings (via Flags)
         const activeFlags = Object.keys(store.flags).filter(f => store.flags[f as FlagId]);
         for (const flagId of activeFlags) {
-          const item = store.content.get<ItemDefinition>(flagId, 'items');
+          // silent: flagId often isn't an item/action id (e.g. school_graduate,
+          // unlocked-library, etc.) and the not-found result is the expected
+          // signal to "this flag isn't from an item/action contribution".
+          const item = store.content.get<ItemDefinition>(flagId, 'items', true);
           if (item?.modifiers) {
             if (item.category !== 'furniture' || store.placedItems.includes(item.id)) {
               for (const m of item.modifiers) {
@@ -88,7 +96,7 @@ export const createPipelineSystem = () => {
               }
             }
           }
-          const action = store.content.get<ActionDefinition>(flagId, 'actions');
+          const action = store.content.get<ActionDefinition>(flagId, 'actions', true);
           if (action?.modifiers) {
             // Stack modifiers based on how many times this building was built
             const count = action.maxCount ? (store.counters[flagId] || 0) : 1;

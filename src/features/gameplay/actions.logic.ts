@@ -62,7 +62,9 @@ export function createActionSystem() {
     const out: Record<string, number> = {};
     for (const [res, amt] of Object.entries(costs)) {
       const key = `${res}_cost`;
-      const def = (content as any).get?.(key, 'modifiers');
+      // silent: existence check — most resources don't have a *_cost modifier
+      // and that's intentional. Only the ones that do get a discount applied.
+      const def = (content as any).get?.(key, 'modifiers', true);
       if (def) {
         const delta = pipeline.calculate(game, key, 0);
         out[res] = Math.max(0, amt + delta);

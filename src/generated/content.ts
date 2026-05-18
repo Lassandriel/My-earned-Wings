@@ -339,6 +339,12 @@ export const MODIFIER_REGISTRY_GENERATED: Record<string, any> = {
     "desc": "limit_desc_generic",
     "baseValue": 0
   },
+  "magic_regen_passive": {
+    "id": "magic_regen_passive",
+    "title": "modifier_magic_regen_passive_title",
+    "desc": "modifier_magic_regen_passive_desc",
+    "baseValue": 0
+  },
   "garden_magic_cost": {
     "id": "garden_magic_cost",
     "title": "modifier_garden_magic_cost_title",
