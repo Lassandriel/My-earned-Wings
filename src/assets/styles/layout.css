@@ -363,9 +363,16 @@ main {
     inset: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: var(--header-h) 1fr 320px;
+    /* Bottom row shrunk from 320px to 260px so the 60-px-ish fixed-position
+       sidebar doesn't physically overlap the log/status panels. Before,
+       grid placed log/right at 320px height and sidebar sat ON TOP of
+       their bottom ~47px — covering content and looking broken. */
+    grid-template-rows: var(--header-h) 1fr 260px;
     gap: var(--gap);
     padding: var(--gap);
+    /* Leave room for the bottom-mounted sidebar so the grid itself ends
+       above it instead of extending under it. */
+    padding-bottom: calc(var(--gap) + 60px);
     overflow: hidden;
     height: 100vh;
   }
@@ -386,14 +393,14 @@ main {
     grid-column: 1;
     grid-row: 3;
     height: 100% !important;
-    margin-bottom: 60px !important; /* Space for bottom nav */
+    margin-bottom: 0 !important;
   }
 
   .right-panel {
     grid-column: 2;
     grid-row: 3;
     height: 100% !important;
-    margin-bottom: 60px !important; /* Space for bottom nav */
+    margin-bottom: 0 !important;
   }
 
   .sidebar {
@@ -445,8 +452,14 @@ main {
     display: none;
   }
 
+  /* Toggle is a compact icon-button at the LEFT edge of the horizontal
+     sidebar. The previous `width: 100%` consumed the entire row in the
+     flex-row layout — pushing all nav items off the right edge of the
+     viewport (invisible + unclickable on iPad-Mini-class tablets). */
   .sidebar-toggle-btn {
-    width: 100%;
+    width: 48px !important;
+    min-width: 48px !important;
+    flex: 0 0 48px !important;
     justify-content: center !important;
     padding: 8px 0 !important;
   }
