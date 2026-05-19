@@ -90,7 +90,12 @@ describe('UISync', () => {
     expect(alpineStore.playerName).toBe('Lass');
   });
 
-  it('skips undefined / null object keys', () => {
+  it('propagates undefined / null object keys to alpineStore', () => {
+    // The pre-demo-fix behavior was to SKIP null/undefined values entirely
+    // and leave the Alpine store at whatever it had. That caused stale-UI
+    // bugs: engine clearing `hoveredAction = null` after a view switch was
+    // invisible to the tooltip's x-show condition, so the leftover tooltip
+    // stuck around. The fix (commit 088ac91) propagates the clear too.
     const alpineStore: any = { resources: { wood: 0 } };
     (globalThis as any).window.Alpine = fakeAlpine(alpineStore);
 
@@ -99,8 +104,8 @@ describe('UISync', () => {
     const sync = createUISync();
     sync.sync(engineState, {} as any);
 
-    // Untouched
-    expect(alpineStore.resources).toEqual({ wood: 0 });
+    // Cleared on the Alpine side as well
+    expect(alpineStore.resources).toBeUndefined();
   });
 
   it('copies UI_WRITEBACK_KEYS Alpine→engine before the engine→Alpine pass', () => {

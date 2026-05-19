@@ -382,11 +382,19 @@ main {
     grid-row: 1;
   }
 
+  /* Touch-scrollable scroll containers. The desktop overflow:auto rule
+     above is inside a min-width:1201px query so it doesn't reach the
+     tablet — without these explicit copies, content longer than the
+     grid cell is just clipped with no way to reach it. Crafting/Village
+     lists were unreachable on iPad-Mini-class viewports before. */
   main {
     grid-column: 1 / 3;
     grid-row: 2;
     height: 100%;
     margin-bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .global-log-container {
@@ -394,6 +402,9 @@ main {
     grid-row: 3;
     height: 100% !important;
     margin-bottom: 0 !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .right-panel {
@@ -401,6 +412,9 @@ main {
     grid-row: 3;
     height: 100% !important;
     margin-bottom: 0 !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .sidebar {
