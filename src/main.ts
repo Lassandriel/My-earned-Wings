@@ -84,7 +84,10 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     store.content.validate(store);
     store.persistence.loadSettings(store);
     if (store.audio) store.audio.init(store.settings);
-    if (store.juice) store.juice.boot(store);
+    // juice.boot is already called by bootSystems above (it's in the
+    // contentSystems list in boot.ts). Calling it again here registered
+    // a second PARTICLE_TRIGGERED bus listener, so every action spawned
+    // two stacked "+ Water" particles instead of one.
 
     // Alpine.effect tracks reads through Alpine's reactive proxy, not via
     // the engine state (which is a plain object after Phase 2 Stage 2).
