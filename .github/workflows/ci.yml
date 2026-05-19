@@ -8,6 +8,12 @@ on:
   pull_request:
     branches: ["main"]
 
+# Least-privilege token scope — CI only reads the checkout, never pushes
+# or comments. Closes the CodeQL "workflow does not contain permissions"
+# alert (default would grant write to contents/issues/PRs/etc).
+permissions:
+  contents: read
+
 # Cancel a previous run on the same branch if a new push lands —
 # saves Actions minutes when you push twice in a row.
 concurrency:
