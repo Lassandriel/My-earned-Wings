@@ -8,6 +8,60 @@ prototype).
 
 ---
 
+## [v1.6.0-demo] — May 2026
+
+**First demo release with the addon system actually complete.** v1.5.x
+shipped the content-merging side of addons; v1.6.0 closes the missing
+piece: addons can now ship their own UI tabs.
+
+### Addon system — view fragments (NEW)
+
+Addons drop HTML files at `content/addons/<addon>/views/<name>.html`.
+The build script wraps each in a `<section class="view-section"
+x-show="...">` and emits `src/generated/addon-views.html` (one new EJS
+include in index.html pulls everything in). Navigation YAML entries
+with matching `id: <addon>/<name>` make the tab clickable. Optional
+`image:` field overrides the base icon convention so addons can ship
+their own sidebar icons.
+
+What this unlocks: addons aren't just "drop data into existing
+screens" — they can introduce brand-new top-level tabs with their own
+layout, their own Alpine logic, their own customExecute handlers. See
+`docs/ADDON_AUTHORING.md` §10 for the full walkthrough and the
+skeleton at `content/addons/_example/views/main.html`.
+
+### Tablet layout fixes
+
+- Bottom-mounted sidebar's toggle button was eating the whole row in
+  the 641-1200 px tablet layout, pushing all nav items off the right
+  edge of the viewport. Toggle now sized at 48 px so nav items get
+  the rest of the row.
+- Bottom grid row (320 px) overlapped the fixed-position 60 px
+  sidebar by ~47 px — sidebar physically sat on top of log/status
+  panel content. Grid row shrunk to 260 px and #game-wrapper gets
+  60 px bottom padding so the grid ends above the sidebar.
+- `main` / `.global-log-container` / `.right-panel` now have
+  `overflow-y: auto` + touch-scroll support in the tablet media query
+  (the desktop rule was inside a `min-width: 1201 px` block and
+  didn't reach tablets, so content longer than the cell was just
+  clipped with no way to reach it).
+
+### Other fixes
+
+- Double-boot in `main.ts` registered the juice PARTICLE_TRIGGERED
+  listener twice — every action emit fired both and produced two
+  stacked particles. Removed the redundant explicit boot.
+- `menu_version` no longer in i18n — derived from package.json at
+  build time and exposed as `$store.game.version`. Bumping
+  package.json now moves the footer label automatically.
+- CI workflow declares least-privilege permissions
+  (`contents: read`) — closes CodeQL alert #4.
+- Test contract updated for the UISync null-propagation change that
+  landed in v1.5.1's demo-fix sweep (was still encoding the old
+  "skip and leave Alpine untouched" behavior).
+
+---
+
 ## [v1.5.1-demo] — May 2026
 
 **Bugfix pass on top of v1.5.0-demo, in response to runtime issues that
