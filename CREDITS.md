@@ -42,11 +42,20 @@ swapped for CC0 equivalents at any time:
 
 ## 🖼️ Visual assets
 
+### Sky / cloud backgrounds
+
+The pixel-art sky and cloud backgrounds under `public/img/background/` are
+from [Craftpix — Free 1-bit Sky and Clouds Pixel Backgrounds](https://craftpix.net/freebies/free-1-bit-sky-and-clouds-pixel-backgrounds/),
+distributed under the Craftpix free-license terms (free for commercial
+and non-commercial use, no attribution required — credited here anyway).
+
+### Character / NPC / scene art
+
 Character portraits, NPC art, and background paintings under `public/img/`
-were generated with AI image tools (Google Imagen, occasional other
-generators) by the project author for placeholder use. They are NOT
-commissioned art and not licensed for redistribution outside this
-project.
+were generated with Google's AI tools (Gemini / Nano Banana, NotebookLM,
+Antigravity) by the project author, then often refined in Google Flow or
+Canva. Many backgrounds were removed by hand. They are NOT commissioned
+art and not licensed for redistribution outside this project.
 
 Long-term plan (see `TODO.md` "Long-term"): replace with commissioned art
 when budget allows, NPC portraits first.
