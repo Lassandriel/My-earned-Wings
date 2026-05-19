@@ -420,4 +420,53 @@ const handlerSummary =
     : `${addonsWithHandlers.length} addon(s) ship handlers: ${addonsWithHandlers.map((a) => a.manifest.name).join(', ')}`;
 console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_HANDLERS_FILE)} (${handlerSummary})`);
 
+// ─── Generate addon-views.html ──────────────────────────────────────────────
+// For every addon that ships HTML files under views/, wrap each in a
+// <section x-show="$store.game.view === '<addon>/<viewname>'"> and write
+// them all to src/generated/addon-views.html. index.html includes that
+// single file via EJS, so addons can introduce brand-new view tabs
+// without touching base templates.
+//
+// Naming convention: `content/addons/<addon>/views/<viewname>.html` ⇒
+// the view is selectable as `$store.game.view === '<addon>/<viewname>'`,
+// and the corresponding navigation YAML entry should use the same id
+// (matches the same '<addon>/<name>' namespacing rule as handlers).
+const ADDON_VIEWS_FILE = path.join(ROOT, 'src', 'generated', 'addon-views.html');
+const viewSections: string[] = [];
+for (const a of addons) {
+  const viewsDir = path.join(a.dir, 'views');
+  if (!fs.existsSync(viewsDir) || !fs.statSync(viewsDir).isDirectory()) continue;
+  const files = fs
+    .readdirSync(viewsDir)
+    .filter((f) => f.endsWith('.html'))
+    .sort();
+  for (const file of files) {
+    const viewName = file.replace(/\.html$/, '');
+    const viewId = `${a.manifest.name}/${viewName}`;
+    const body = fs.readFileSync(path.join(viewsDir, file), 'utf-8');
+    // Single quotes inside the double-quoted HTML attribute (avoid nested
+    // double-quote attribute breakage). The view id is restricted to
+    // [a-z0-9_/-] by the manifest pattern + file naming, so it never needs
+    // to contain a literal single quote.
+    viewSections.push(
+      `<!-- ${viewId} (from content/addons/${a.manifest.name}/views/${file}) -->\n` +
+        `<section class="view-section" x-show="$store.game.view === '${viewId}'" x-transition:enter="view-enter">\n` +
+        body.trim() +
+        `\n</section>`,
+    );
+  }
+}
+const viewsHeader =
+  '<!-- THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY -->\n' +
+  '<!-- Source: content/addons/*/views/*.html -->\n' +
+  '<!-- Regenerate: npm run build:content -->\n\n';
+fs.writeFileSync(
+  ADDON_VIEWS_FILE,
+  viewsHeader + (viewSections.length === 0 ? '<!-- no addon views -->\n' : viewSections.join('\n\n') + '\n'),
+  'utf-8',
+);
+console.log(
+  `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_VIEWS_FILE)} (${viewSections.length} addon view(s))`,
+);
+
 console.log('   Run "npm run dev" to use the new content.\n');

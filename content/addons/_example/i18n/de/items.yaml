@@ -4,3 +4,7 @@
 # time so accidental overrides are visible.
 item_example_trinket_title: Beispiel-Talisman
 item_example_trinket_desc: Ein kleiner Glücksbringer aus der Beispielwelt.
+
+# Strings for the addon's navigation tab + view (see ../../navigation/nav.yaml
+# and ../../views/main.html).
+nav_example_main: Beispiel

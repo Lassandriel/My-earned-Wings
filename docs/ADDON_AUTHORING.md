@@ -21,6 +21,7 @@ content/addons/<your-addon>/
   npcs/     *.yaml                # optional
   buffs/ modifiers/ homes/ milestones/ navigation/ titles/ resources/   *.yaml
   i18n/<lang>/<context>.yaml      # optional, e.g. i18n/de/items.yaml
+  views/<name>.html               # optional — addon-shipped UI tabs (see §10)
   handlers.ts                     # optional — TS for customExecute logic
 ```
 
@@ -174,6 +175,91 @@ add/change/remove an addon. The build fails loudly on:
 - duplicate ID across base + addons
 
 Translation overrides only log warnings — they don't fail the build.
+
+---
+
+## 10 · Adding a brand-new tab (view fragment)
+
+If your addon needs more than just dropping items/NPCs into existing
+tabs — i.e. it ships its own page with its own layout — you author
+**view fragments** alongside the rest of the addon.
+
+### Step 1: write the view HTML
+
+Drop a file at `content/addons/<your-addon>/views/<viewname>.html`.
+It's a regular Alpine view fragment — `$store.game` is in scope, all
+the same directives work as in the base templates:
+
+```html
+<!-- content/addons/myaddon/views/lab.html -->
+<div class="game-view-content">
+  <div class="category-header">
+    <h3 x-text="$store.game.t('myaddon_lab_title')"></h3>
+  </div>
+  <div class="panel-premium">
+    <p>Wood: <strong x-text="$store.game.resources.wood ?? 0"></strong></p>
+    <button @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: 'act-myaddon-experiment' })">
+      Run experiment
+    </button>
+  </div>
+</div>
+```
+
+The build script wraps this in `<section class="view-section"
+x-show="$store.game.view === 'myaddon/lab'" x-transition:enter="view-enter">`
+automatically — you don't write the wrapper.
+
+### Step 2: register the tab in the sidebar
+
+In `content/addons/<your-addon>/navigation/<file>.yaml`, add an entry
+whose `id` matches the view path `<addon>/<viewname>`:
+
+```yaml
+- id: myaddon/lab
+  label: nav_myaddon_lab     # translation key — define it in i18n/<lang>/ui.yaml
+  icon: crafting             # base icon name; resolves to img/menu/menu_crafting.webp
+  # OPTIONAL: ship your own icon, overrides the base convention
+  # image: img/addons/myaddon/menu_lab.webp
+  # OPTIONAL: gate behind a flag
+  # requiredFlag: myaddon_unlocked
+```
+
+### Step 3: provide the translation
+
+In `content/addons/<your-addon>/i18n/<lang>/ui.yaml`:
+
+```yaml
+nav_myaddon_lab: Laboratory
+myaddon_lab_title: Arcane Laboratory
+```
+
+### How it wires together
+
+| Step | What happens |
+|---|---|
+| Build | Scans `content/addons/*/views/*.html`, wraps each, writes a single `src/generated/addon-views.html` |
+| Boot | `index.html` includes that generated file once. Alpine sees all sections at start-up. |
+| Runtime | User clicks tab → `store.view = 'myaddon/lab'` → only matching `<section>` shows. |
+
+No engine code touched. New tabs are pure content.
+
+### Naming rules
+
+- `views/<file>.html` → view id `<addon>/<file>` (the `.html` is stripped).
+- Addon name `myaddon` → view id `myaddon/lab` for `views/lab.html`.
+- Use the SAME id in the navigation entry's `id` field.
+- View ids match `[a-z0-9_/-]+` (constrained by manifest name regex +
+  file naming). Don't use spaces or capital letters.
+
+### Limitations / known gaps
+
+- **No view-specific lifecycle hooks** — view fragments are static HTML,
+  no `boot()` per view. If you need imperative setup, wire it via
+  `customExecute` handlers (handlers.ts) triggered by an action the
+  view's button enqueues.
+- **No view-fragment hot-reload** — editing a view file mid-`dev` server
+  requires re-running `npm run build:content` to regenerate
+  `addon-views.html`, then Vite picks it up via HMR.
 
 ---
 

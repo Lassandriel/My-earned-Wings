@@ -31,7 +31,7 @@
         @mouseenter="if ($store.game.sidebarCollapsed) $store.game.setHovered(item.id, { isHelp: true, title: $store.game.t(item.label), desc: '' })"
         @mouseleave="if ($store.game.sidebarCollapsed) $store.game.setHovered(null)"
       >
-        <img :src="'img/menu/menu_' + item.icon + '.webp'" :alt="$store.game.t(item.label)" class="menu-icon-img" loading="lazy" />
+        <img :src="item.image || ('img/menu/menu_' + item.icon + '.webp')" :alt="$store.game.t(item.label)" class="menu-icon-img" loading="lazy" />
         <span x-text="$store.game.t(item.label)"></span>
       </li>
     </template>

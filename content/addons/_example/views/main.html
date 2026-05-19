@@ -1,0 +1,28 @@
+<!-- Example addon view.
+     Wraps in <section x-show="$store.game.view === '_example/main'"> at
+     build time (scripts/build-content.ts). All Alpine directives + the
+     $store.game store are available exactly as in base views.
+
+     Naming: the file's basename (`main` here) becomes the second half of
+     the view id (`_example/main`). The corresponding navigation entry
+     in ../navigation/nav.yaml uses the same id. -->
+<div class="game-view-content">
+  <div class="category-header">
+    <h3 x-text="$store.game.t('nav_example_main')"></h3>
+  </div>
+  <div class="panel-premium">
+    <p>
+      Hello from the example addon!
+      <br />
+      Player: <strong x-text="$store.game.playerName"></strong>
+      <br />
+      Wood: <strong x-text="$store.game.resources.wood ?? 0"></strong>
+    </p>
+    <button
+      class="game-btn primary-button"
+      @click="$store.game.actions.effectHandlers.unlockItem($store.game, { type: 'unlockItem', id: 'item-example-trinket' })"
+    >
+      Grant example trinket
+    </button>
+  </div>
+</div>

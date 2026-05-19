@@ -1,2 +1,5 @@
 item_example_trinket_title: Example trinket
 item_example_trinket_desc: A small good-luck charm from the example world.
+
+# Strings for the addon's navigation tab + view.
+nav_example_main: Example

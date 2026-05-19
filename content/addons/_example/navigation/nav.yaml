@@ -1,0 +1,20 @@
+# Navigation entries the addon adds to the sidebar. Same schema as
+# content/base/navigation/navigation.yaml.
+#
+# IMPORTANT: the `id` must match the addon's view-file path. If your view
+# lives at views/main.html, the nav id is `<addon>/main` — that's the
+# value the engine sets on $store.game.view when the user clicks the tab,
+# and the same string the addon-views.html generated wrapper uses for
+# x-show. (Same `<addon>/<name>` namespacing rule as handlers.)
+#
+# `image` is optional — overrides the base convention `img/menu/menu_<icon>.webp`
+# so addons can ship their own tab icon under public/img/addons/<addon>/.
+# Falls back to the base convention if omitted.
+#
+# `requiredFlag` is optional — hide the tab until the flag becomes true.
+
+- id: _example/main
+  label: nav_example_main
+  icon: story                              # uses base img/menu/menu_story.webp
+  # image: img/addons/_example/menu.webp   # uncomment to ship your own icon
+  # requiredFlag: example_unlocked
