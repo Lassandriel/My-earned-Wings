@@ -86,7 +86,8 @@ ui_continue_desc: Continue your adventure.
 ui_settings_desc: Customize your gaming experience.
 ui_quit_desc: Exit the world of Draconia.
 menu_subtitle: The ground is just the beginning
-menu_version: v1.5.1
+# menu_version intentionally removed — the version is read from
+# package.json at build time and exposed as $store.game.version.
 menu_report_bug: Report a bug or wish →
 prologue_alt_islands: Floating islands above a sea of lava
 prologue_alt_luxana: The city of Luxana at the foot of the volcano

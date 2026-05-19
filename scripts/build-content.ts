@@ -297,12 +297,25 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
+// Read the version once from package.json so the in-game footer label,
+// CHANGELOG, and tag never drift apart. Substituted into the generated
+// content as a top-level export. Single source of truth = package.json.
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'),
+) as { version?: string };
+const GAME_VERSION = packageJson.version ?? '0.0.0';
+console.log(`📦 Embedded GAME_VERSION = ${GAME_VERSION} (from package.json)`);
+
 // Header is deterministic on purpose — no timestamp — so re-running
 // build:content with unchanged YAML produces a byte-identical output.
 // That keeps git status clean across dev sessions and CI runs.
 const output = `// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Source: content/**/*.yaml  (the */ in the glob cannot be in a block comment)
 // Regenerate: npm run build:content
+
+// === Game Version (from package.json at build time) ===
+
+export const GAME_VERSION = ${JSON.stringify(GAME_VERSION)};
 
 // === Resource Registry ===
 

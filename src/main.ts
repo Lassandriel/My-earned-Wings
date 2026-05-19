@@ -14,6 +14,7 @@ import { createSettingsStore } from './stores/settings.store';
 
 import './assets/styles/main.css';
 import { makeLogger } from './core/log';
+import { GAME_VERSION } from './generated/content';
 
 const log = makeLogger('MAIN');
 
@@ -50,6 +51,11 @@ const { services, systems: systemInstances } = createGameServices({
 const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   ...dynamicInitialState,
   saveInfoText: '',
+
+  // Build-time version label (read from package.json). HTML templates
+  // bind `$store.game.version` directly — no i18n key, no risk of
+  // forgetting to bump it when package.json moves.
+  version: GAME_VERSION,
 
   // UI State
   view: 'menu',
