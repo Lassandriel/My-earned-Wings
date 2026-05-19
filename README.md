@@ -53,13 +53,13 @@ tools, because I think people deserve to know what they're playing.
 
 | Part | How |
 |---|---|
-| **Story, lore, world-building** | All hand-written by me. The world of Draconia, the imperial family, the village NPCs, every dialogue — that's mine. |
+| **Story, lore, world-building** | All hand-written by me. The world of Draconia, the imperial family, the village NPCs, every dialogue - that's mine. My baby. ❤ |
 | **Game design & balance** | All my decisions. |
-| **Code** | Written with help from an AI coding assistant (Claude Code). Every change goes through my review and the test suite, but I'm not pretending I typed every line solo. |
+| **Code** | Written with help from an AI coding assistant (Claude Code). Every change goes through my review and the test suite, but I'm not pretending I typed every line solo. Not with my disabled hands, lol. |
 | **Music & sound** | Free-use / royalty-free assets I tracked down. No AI. |
 | **Character art & images** | Generated with Google's AI tools (Gemini / Nano Banana, NotebookLM, Antigravity), then often refined in Google Flow or Canva. Many backgrounds are removed by hand. So the pipeline is AI-assisted but not "click and accept" — there's manual work behind every picture. I'd still love to work with real artists when the budget for it exists; commissioned art is the first thing I'd put money toward if this ever finds support. |
 
-If the AI art is a deal-breaker for you, I get it — please don't feel obliged
+If the AI art is a deal-breaker for you, I get it; please don't feel obliged
 to play. If you're OK with placeholders made by a solo dev who couldn't
 afford otherwise, you're more than welcome.
 
@@ -69,6 +69,7 @@ afford otherwise, you're more than welcome.
 
 - Atmospheric, story-led incremental loop — no idle automation, no XP grind
 - Resource gathering, building, NPC bonds, lore books
+- Own up to 3 houses, build them from the ground up! But first you need your paperwork done!
 - 11 NPCs to befriend across the village
 - Save & continue (browser uses localStorage, desktop uses local SQLite)
 - Full English + German localisation
