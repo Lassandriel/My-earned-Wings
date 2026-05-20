@@ -8,6 +8,65 @@ prototype).
 
 ---
 
+## [v1.7.0-demo] — May 2026
+
+**Runtime addon loading + .exe packaging fixes.** End users of the
+packaged .exe can now drop YAML-only addons into an `addons/` folder
+next to the executable — no rebuild required. Same trip also cleans
+up several latent build-script bugs that the v1.6.0 packaging hid.
+
+### Runtime addon system (NEW)
+
+- `addons/<name>/` next to the .exe is scanned at boot via a new IPC
+  channel (`ADDONS_DISCOVER_RUNTIME`). The main process validates each
+  manifest, parses YAML for all 10 content categories, loads
+  translations + view fragments, and returns the payload.
+- Renderer (`src/core/services/runtime-addons.ts`) merges entries into
+  the same `*_REGISTRY_GENERATED` objects the build pipeline writes,
+  mutates `TRANSLATIONS_GENERATED` in place, and injects view sections
+  into a `#addon-views-runtime` host before `Alpine.start()`.
+- Conflict policy: runtime addons ALWAYS lose duplicate-id contests
+  against base and build-time addons — runtime is advisory. Each
+  collision logs a warning.
+- Limitations (documented in `docs/ADDON_AUTHORING.md` §11):
+  - No `handlers.ts` — TS handlers require the build-time addon path.
+  - Brand-new resources/stats only appear in `initialState` from a
+    "New Game" onward (existing items/actions/NPCs/translations/views
+    work immediately in any save).
+- Packaged builds now ship an `addons/` folder with a README + an
+  `_example/` skeleton (underscore-prefixed = ignored by the loader,
+  so it acts as a copy-me template).
+
+### Packaging fixes (latent v1.6.0 bugs)
+
+- `finalize-electron-build.cjs` now writes a complete
+  `dist_electron/package.json` (`main: "main.js"`, `type: "commonjs"`,
+  full `dependencies`). The old script wrote only `{type:'commonjs'}`,
+  which the build-exe powershell step then overwrote with the root
+  `package.json` — which had `main: "dist_electron/main.js"` and
+  electron-packager dutifully looked for
+  `dist_electron/dist_electron/main.js`. Now a single authoritative
+  file and the Copy-Item-overwrite is gone.
+- `build-exe` now copies `node_modules` into `dist_electron` before
+  electron-packager runs. Without it the packaged main process
+  crashed at first launch with `Cannot find module 'js-yaml'` — the
+  runtime deps simply weren't in the asar.
+- `loadFile()` in `src/electron/main.ts` had a `..` segment that
+  assumed `main.js` lived at `app.asar/dist_electron/`. With the
+  corrected layout `main.js` sits at the asar root, so the previous
+  path resolved one level above `dist/`. Flat-layout path is tried
+  first, legacy as fallback.
+
+### Misc
+
+- `--debug` renamed to `--devtools` (Electron 42 reserves `--debug`
+  and emits a deprecation warning). `--debug` still accepted.
+- Main-side `console.log` on every runtime-addon discovery so a
+  packaged build reports what it scanned + what it loaded without
+  needing DevTools open.
+
+---
+
 ## [v1.6.0-demo] — May 2026
 
 **First demo release with the addon system actually complete.** v1.5.x
