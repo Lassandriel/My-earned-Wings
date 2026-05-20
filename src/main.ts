@@ -15,6 +15,7 @@ import { createSettingsStore } from './stores/settings.store';
 import './assets/styles/main.css';
 import { makeLogger } from './core/log';
 import { GAME_VERSION } from './generated/content';
+import { loadRuntimeAddons } from './core/services/runtime-addons';
 
 const log = makeLogger('MAIN');
 
@@ -242,9 +243,19 @@ services.gameState = liveStore;
 // listener can be attached after DOMContentLoaded has already fired,
 // leaving the app stuck at view='menu' with Alpine never started. Run the
 // boot inline if the document is already past 'loading'.
-const startBoot = () => {
+const startBoot = async () => {
   if (window.ALPINE_STARTED) return;
   window.ALPINE_STARTED = true;
+
+  // Phase 16: merge any user-installed runtime addons into the
+  // registries + translations + DOM before Alpine starts. In the
+  // browser build this resolves to a no-op summary immediately.
+  // We don't fail boot on errors — runtime addons are advisory.
+  try {
+    await loadRuntimeAddons();
+  } catch (err) {
+    log.warn('runtime addon load failed:', err);
+  }
 
   // Register secondary stores
   Alpine.store('logs', createLogStore());

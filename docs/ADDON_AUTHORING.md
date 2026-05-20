@@ -263,6 +263,71 @@ No engine code touched. New tabs are pure content.
 
 ---
 
+## 11 · Runtime addons (no rebuild needed)
+
+If you're an **end user of the packaged .exe** and just want to drop in
+a community addon — or you're an author who wants to ship a pure-data
+addon without forcing players to rebuild from source — this is the path.
+
+### Where they live
+
+The packaged build ships an `addons/` folder right next to the .exe:
+
+```
+My-earned-Wings-win32-x64/
+  My-earned-Wings.exe
+  addons/
+    README.txt
+    _example/                 ← skeleton; underscore = ignored
+    your-addon/                ← drop yours here
+      manifest.yaml
+      items/*.yaml
+      i18n/<lang>/<ctx>.yaml
+      …
+```
+
+The loader also looks at `<packaged>/resources/addons/` as a fallback
+for build-shipped addons.
+
+### What works at runtime
+
+- Everything **data**: `manifest.yaml` + all 10 category folders
+  (`actions`, `items`, `npcs`, `buffs`, `homes`, `milestones`,
+  `navigation`, `titles`, `modifiers`, `resources`)
+- **Translations** under `i18n/<lang>/<ctx>.yaml`
+- **View fragments** under `views/<name>.html` (same `<addon>/<view>`
+  convention as §10) — they get wrapped and injected into the DOM at
+  boot, navigation entries with the matching `id` make them clickable
+
+### What does NOT work at runtime
+
+- **No `handlers.ts`** — TypeScript needs a build step. Custom
+  `customExecute` logic still requires the build-time addon path
+  (`content/addons/<name>/handlers.ts` + `npm run build:content`).
+- **No new resources/stats in existing saves** — runtime-only
+  resources and stats only appear in `initialState` from a "New Game"
+  onward. New items/actions/NPCs/translations/views work immediately
+  in any save.
+
+### Conflict policy
+
+Runtime addons **always lose** duplicate-id contests against base
+content and against build-time addons (the ones compiled into
+`src/generated/content.ts`). The loader logs a warning per skipped
+duplicate. Translation keys behave the same way — base / build-time
+keys are never overwritten by a runtime addon.
+
+To diagnose, launch the .exe with `--debug`:
+
+```
+My-earned-Wings.exe --debug
+```
+
+DevTools opens; the `[RUNTIME-ADDONS]` log block reports what loaded
+and what got skipped.
+
+---
+
 ## 8 · What doesn't exist yet
 
 These are documented in `docs/ADDON_SYSTEM_PLAN.md` and intentionally

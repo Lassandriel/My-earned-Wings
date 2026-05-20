@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { IpcChannel, SaveSlotPayload, SaveSlotMeta, LoadResult } from './ipc.js';
+import { IpcChannel, SaveSlotPayload, SaveSlotMeta, LoadResult, RuntimeAddonDiscoveryResult } from './ipc.js';
 
 contextBridge.exposeInMainWorld('electronAPI', {
   // Window controls (existing)
@@ -33,4 +33,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke(IpcChannel.CONTENT_BUILD),
   contentValidate: (): Promise<{ ok: boolean; output: string }> =>
     ipcRenderer.invoke(IpcChannel.CONTENT_VALIDATE),
+
+  // Phase 16: Runtime addon discovery (user-installable addons)
+  addonsDiscoverRuntime: (): Promise<RuntimeAddonDiscoveryResult> =>
+    ipcRenderer.invoke(IpcChannel.ADDONS_DISCOVER_RUNTIME),
 });

@@ -47,6 +47,22 @@ declare global {
       contentWriteTranslation: (lang: string, context: string, key: string, value: string | null) => Promise<{ ok: boolean; error?: string }>;
       contentBuild: () => Promise<{ ok: boolean; output: string }>;
       contentValidate: () => Promise<{ ok: boolean; output: string }>;
+
+      // Phase 16: Runtime addon discovery (user-installable addons)
+      addonsDiscoverRuntime: () => Promise<{
+        scannedDirs: string[];
+        addons: Array<{
+          name: string;
+          version: string;
+          description?: string;
+          author?: string;
+          sourceDir: string;
+          data: Record<string, any[]>;
+          translations: Record<string, Record<string, Record<string, string>>>;
+          views: Record<string, string>;
+        }>;
+        warnings: string[];
+      }>;
     };
     Alpine: AlpineType;
     TRANSLATIONS: import('./types/i18n').Translations;
