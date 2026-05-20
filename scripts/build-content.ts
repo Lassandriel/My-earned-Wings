@@ -241,6 +241,39 @@ function loadTranslations(): Record<string, Record<string, Record<string, string
 }
 const translations = loadTranslations();
 
+// ─── Patches ────────────────────────────────────────────────────────────────
+// Addons can ship patches under content/addons/<name>/patches/*.yaml that
+// MODIFY existing base-game entries. v1 supports `appendSteps` for
+// multi-step actions. See src/core/addons/patches.ts for the engine.
+// Loaded HERE (before taggedToRecord) so the resulting registries reflect
+// the patched state; everything downstream sees post-patch data.
+
+import { applyPatches, validatePatchEntry, type PatchEntry } from '../src/core/addons/patches.js';
+
+function loadAddonPatches(): Array<{ entry: PatchEntry; origin: string }> {
+  const all: Array<{ entry: PatchEntry; origin: string }> = [];
+  for (const { manifest, dir } of addons) {
+    const patchesDir = path.join(dir, 'patches');
+    if (!fs.existsSync(patchesDir) || !fs.statSync(patchesDir).isDirectory()) continue;
+    const files = fs.readdirSync(patchesDir).filter((f) => /\.ya?ml$/.test(f)).sort();
+    for (const file of files) {
+      const sourceLabel = `addons/${manifest.name}/patches/${file}`;
+      const raw = yaml.load(fs.readFileSync(path.join(patchesDir, file), 'utf-8'));
+      if (!Array.isArray(raw)) {
+        throw new Error(`[build-content] Expected array in ${sourceLabel}, got ${typeof raw}`);
+      }
+      for (let i = 0; i < raw.length; i++) {
+        const err = validatePatchEntry(raw[i], `${sourceLabel}[${i}]`);
+        if (err) throw new Error(`[build-content] ${err}`);
+        all.push({ entry: raw[i] as PatchEntry, origin: sourceLabel });
+      }
+    }
+  }
+  return all;
+}
+
+const addonPatches = loadAddonPatches();
+
 // ─── Build registries ───────────────────────────────────────────────────────
 
 const resourceRegistry = taggedToRecord(resources);
@@ -253,6 +286,13 @@ const homeRegistry = taggedToRecord(homes);
 const milestoneRegistry = taggedToRecord(milestones);
 const navigationRegistry = taggedToRecord(navigation);
 const titleRegistry = taggedToRecord(titles);
+
+// Apply addon patches. Fatal on missing targets (build-time addons are
+// shipped with the build — a missing reference is an addon bug).
+if (addonPatches.length > 0) {
+  const patchResult = applyPatches(addonPatches, { action: actionRegistry, npc: npcRegistry }, { missingTarget: 'throw' });
+  console.log(`🩹 Applied ${patchResult.applied} addon patch(es)`);
+}
 
 // ─── Derive the efficiency keys for the pipeline automatically ───────────────
 // Any resource or modifier with scalesWithSatiation: true gets added.

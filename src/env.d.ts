@@ -60,6 +60,7 @@ declare global {
           data: Record<string, any[]>;
           translations: Record<string, Record<string, Record<string, string>>>;
           views: Record<string, string>;
+          patches: any[];
         }>;
         warnings: string[];
       }>;

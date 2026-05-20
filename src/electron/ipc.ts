@@ -59,6 +59,15 @@ export interface RuntimeAddonPayload {
    * the addon-views host node). Empty if the addon ships no views.
    */
   views: Record<string, string>;
+  /**
+   * Patches the addon wants applied against base / earlier-loaded
+   * addons. Loaded from `patches/*.yaml` and passed straight through
+   * to the renderer's patch engine. Empty if the addon ships none.
+   * Each entry is a raw patch object (validated by the renderer,
+   * not the main process — keeps the main process free of patch
+   * schema knowledge).
+   */
+  patches: any[];
 }
 
 export interface RuntimeAddonDiscoveryResult {

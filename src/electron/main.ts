@@ -508,6 +508,34 @@ const loadAddonViews = (
   return out;
 };
 
+const loadAddonPatchesDir = (
+  dir: string,
+  warnings: string[],
+  addonName: string,
+): any[] => {
+  if (!fs.existsSync(dir)) return [];
+  const out: any[] = [];
+  for (const file of fs.readdirSync(dir)) {
+    if (!file.endsWith('.yaml') && !file.endsWith('.yml')) continue;
+    const full = path.join(dir, file);
+    try {
+      const parsed = yaml.load(fs.readFileSync(full, 'utf8'));
+      if (!Array.isArray(parsed)) {
+        warnings.push(`[${addonName}/patches/${file}] expected an array, skipped`);
+        continue;
+      }
+      // Don't validate patch shape here — the renderer's patch engine
+      // owns the schema. Main process just hands raw objects through.
+      for (const entry of parsed) {
+        if (entry && typeof entry === 'object') out.push(entry);
+      }
+    } catch (err) {
+      warnings.push(`[${addonName}/patches/${file}] parse error: ${(err as Error).message}`);
+    }
+  }
+  return out;
+};
+
 const loadOneRuntimeAddon = (
   dir: string,
   folderName: string,
@@ -551,6 +579,7 @@ const loadOneRuntimeAddon = (
   }
   const translations = loadAddonTranslations(path.join(dir, 'i18n'), warnings, name);
   const views = loadAddonViews(path.join(dir, 'views'), warnings, name);
+  const patches = loadAddonPatchesDir(path.join(dir, 'patches'), warnings, name);
 
   return {
     name,
@@ -561,6 +590,7 @@ const loadOneRuntimeAddon = (
     data,
     translations,
     views,
+    patches,
   };
 };
 

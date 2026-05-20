@@ -54,6 +54,7 @@ import {
   TRANSLATIONS_GENERATED,
 } from '../../generated/content';
 import { makeLogger } from '../log';
+import { applyPatches, validatePatchEntry, type PatchEntry } from '../addons/patches';
 
 const log = makeLogger('RUNTIME-ADDONS');
 
@@ -77,6 +78,8 @@ export interface RuntimeAddonLoadSummary {
   entryCount: number;
   /** Number of view fragments injected into the DOM. */
   viewCount: number;
+  /** Number of patches successfully applied. */
+  patchCount: number;
   /** Warnings — duplicate ids, parse failures bubbled up from the main process, etc. */
   warnings: string[];
   /** Names of the loaded addons, sorted. */
@@ -87,6 +90,7 @@ const EMPTY_SUMMARY: RuntimeAddonLoadSummary = {
   addonCount: 0,
   entryCount: 0,
   viewCount: 0,
+  patchCount: 0,
   warnings: [],
   addonNames: [],
 };
@@ -113,6 +117,13 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   const warnings: string[] = [...(result.warnings ?? [])];
   let entryCount = 0;
   let viewCount = 0;
+  // Patches from ALL addons are collected first, then applied once
+  // against the current registry state. This makes load order
+  // deterministic: addons sorted by name, then each addon's patches
+  // in YAML order. Errors are warnings here (vs throw at build time)
+  // because a user dropping in an addon shouldn't crash the game if
+  // it targets something that has moved in a newer base version.
+  const collectedPatches: Array<{ entry: PatchEntry; origin: string }> = [];
 
   for (const addon of result.addons) {
     // 1. Merge each category's YAML entries by id. Skip duplicates so
@@ -160,6 +171,21 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
       }
     }
 
+    // 2b. Collect patches. Validate each entry's shape; bad ones drop
+    //     out with a warning, valid ones are applied below.
+    if (Array.isArray((addon as any).patches)) {
+      for (let i = 0; i < (addon as any).patches.length; i++) {
+        const raw = (addon as any).patches[i];
+        const label = `${addon.name}/patches[${i}]`;
+        const err = validatePatchEntry(raw, label);
+        if (err) {
+          warnings.push(err);
+          continue;
+        }
+        collectedPatches.push({ entry: raw as PatchEntry, origin: `addons/${addon.name}` });
+      }
+    }
+
     // 3. Inject view fragments into the live DOM. The page has a host
     //    container (#addon-views-runtime, created on demand) where we
     //    append each section. Alpine processes new x-show nodes the
@@ -190,10 +216,25 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     }
   }
 
+  // Apply collected patches against the (already-merged) registries.
+  // Runtime patches use missingTarget='warn' so a bad addon doesn't
+  // break gameplay — the addon's other content can still load.
+  let patchCount = 0;
+  if (collectedPatches.length > 0) {
+    const patchResult = applyPatches(
+      collectedPatches,
+      { action: ACTION_REGISTRY_GENERATED, npc: NPC_REGISTRY_GENERATED },
+      { missingTarget: 'warn' },
+    );
+    patchCount = patchResult.applied;
+    warnings.push(...patchResult.warnings);
+  }
+
   const summary: RuntimeAddonLoadSummary = {
     addonCount: result.addons.length,
     entryCount,
     viewCount,
+    patchCount,
     warnings,
     addonNames: result.addons.map((a) => a.name).sort(),
   };
@@ -201,7 +242,7 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   if (summary.addonCount > 0) {
     log.info(
       `loaded ${summary.addonCount} runtime addon(s): ${summary.addonNames.join(', ')} ` +
-        `(${summary.entryCount} entries, ${summary.viewCount} views)`,
+        `(${summary.entryCount} entries, ${summary.viewCount} views, ${summary.patchCount} patches)`,
     );
   }
   if (result.scannedDirs?.length) {

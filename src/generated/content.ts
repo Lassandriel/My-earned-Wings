@@ -4,7 +4,7 @@
 
 // === Game Version (from package.json at build time) ===
 
-export const GAME_VERSION = "1.6.0";
+export const GAME_VERSION = "1.7.0";
 
 // === Resource Registry ===
 
@@ -2453,7 +2453,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_village_life",
     "progKey": "teacher",
-    "maxProgress": 3,
+    "maxProgress": 4,
     "journalIcon": "📖",
     "icon": "🎓",
     "journalColor": "#3b82f6",
@@ -2530,6 +2530,30 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_teacher_6"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.school_graduate": true
+        },
+        "onSuccess": [
+          {
+            "type": "unlockItem",
+            "id": "item-vandara-letter"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-invited",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "receive_vandara_letter",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_teacher_vandara_letter"
       }
     ],
     "customExecute": "npc_execute"
@@ -3537,6 +3561,14 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
         "add": 1
       }
     ]
+  },
+  "item-vandara-letter": {
+    "id": "item-vandara-letter",
+    "title": "item_vandara_letter_title",
+    "desc": "item_vandara_letter_desc",
+    "image": "img/items/scroll.webp",
+    "consumable": false,
+    "category": "lore"
   }
 };
 
@@ -3593,7 +3625,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "color": "#3b82f6",
     "image": "img/npcs/teacher_aria.webp",
     "progKey": "teacher",
-    "maxProgress": 4,
+    "maxProgress": 5,
     "chapter": "Village Life",
     "unlockedAtStart": true
   },
@@ -4288,7 +4320,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_book_lore_2_title": "Buch: Die schwebenden Lande",
       "item_book_lore_2_desc": "Eine detaillierte Abhandlung über die Geographie und Wunder der Welt.",
       "item_crystal_apple_title": "Kristallapfel",
-      "item_crystal_apple_desc": "Ein gläsern glänzender Apfel, der magisch nährt (+30 Sättigung, +20 Energie)."
+      "item_crystal_apple_desc": "Ein gläsern glänzender Apfel, der magisch nährt (+30 Sättigung, +20 Energie).",
+      "item_vandara_letter_title": "Einladung der Roségold-Akademie",
+      "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei."
     },
     "logs": {
       "save_success": "Spiel erfolgreich gespeichert.",
@@ -4443,7 +4477,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "school_graduate_log": "Du hast deinen Schulabschluss erhalten. Aria lächelt stolz.",
       "npc_teacher_2_no_house": "\"Es ist schön dich zu sehen, {player}. Aber ohne ein festes Dach über dem Kopf wird das mit dem Lernen schwierig. Komm doch wieder, wenn du ein eigenes Haus hast.\"",
       "npc_teacher_2_with_house": "\"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!\"",
-      "focus_broken_magic": "Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen."
+      "focus_broken_magic": "Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.",
+      "receive_vandara_letter": "Aria überreicht dir einen Brief mit roségoldenem Siegel. Eine Einladung zur Akademie in Vandara."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -4577,7 +4612,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_7": "<i>Vandara ist die Stadt der Gelehrten. In der berühmten Roségold-Akademie studieren Drachen aus dem ganzen Reich die Geheimnisse des Äthers.</i>",
       "lore_2_step_8": "<i>Es regnet fast täglich in Draconia, was die schwebenden Inseln extrem fruchtbar und grün macht.</i>",
       "lore_2_step_9": "<i>Legenden besagen, dass der Planet einst eine ganze Kugel war, bis ein unbekanntes Ereignis ihn in tausend Stücke zerschmetterte.</i>",
-      "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>"
+      "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>",
+      "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\""
     },
     "resources": {
       "energy": "Energie",
@@ -5357,7 +5393,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_book_lore_2_title": "Book: The Floating Lands",
       "item_book_lore_2_desc": "A detailed treatise on the geography and wonders of the world.",
       "item_crystal_apple_title": "Crystal Apple",
-      "item_crystal_apple_desc": "A glass-like shimmering apple that nourishes magically (+30 Satiation, +20 Energy)."
+      "item_crystal_apple_desc": "A glass-like shimmering apple that nourishes magically (+30 Satiation, +20 Energy).",
+      "item_vandara_letter_title": "Rose Gold Academy Invitation",
+      "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed."
     },
     "logs": {
       "save_success": "Game saved successfully.",
@@ -5512,7 +5550,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "school_graduate_log": "You have received your school diploma. Aria smiles proudly.",
       "npc_teacher_2_no_house": "\"It is nice to see you, {player}. But without a solid roof over your head, learning will be difficult. Come back once you have a house of your own.\"",
       "npc_teacher_2_with_house": "\"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!\"",
-      "focus_broken_magic": "Your magic energy is depleted. The arcane focus has been interrupted."
+      "focus_broken_magic": "Your magic energy is depleted. The arcane focus has been interrupted.",
+      "receive_vandara_letter": "Aria hands you a letter sealed in rose gold wax. An invitation to the Academy in Vandara."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5646,7 +5685,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_8": "<i>It rains almost daily in Draconia, making the floating islands extremely fertile and green.</i>",
       "lore_2_step_9": "<i>Legends say the planet was once a whole sphere until an unknown event shattered it into a thousand pieces.</i>",
       "npc_teacher_4_not_read": "\"Have you read the books I gave you? Please study them thoroughly first.\"",
-      "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>"
+      "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>",
+      "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\""
     },
     "resources": {
       "energy": "Energy",

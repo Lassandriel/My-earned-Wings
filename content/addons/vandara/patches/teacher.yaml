@@ -1,0 +1,38 @@
+# Vandara — patches against base game content.
+#
+# This patch hangs a 4th step onto Aria's existing act-npc-teacher
+# action. Triggered once the player has completed her school-graduate
+# quest. She hands them a letter from the Roségold-Akademie in
+# Vandara, sets the `vandara-invited` flag, and Vandara content
+# downstream keys off that flag to open the city.
+#
+# Without this addon Aria's quest ends at the graduation. With it she
+# has one more conversation — no overwrite, no fork. The addon system's
+# `appendSteps` operation auto-bumps the action's maxProgress so the
+# new step is reachable.
+
+- targetType: action
+  targetId: act-npc-teacher
+  appendSteps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.school_graduate: true
+      onSuccess:
+        - type: unlockItem
+          id: item-vandara-letter
+        - type: setFlag
+          flag: vandara-invited
+          value: true
+        - type: log
+          logKey: receive_vandara_letter
+          color: var(--gold)
+      dialogueKey: npc_teacher_vandara_letter
+
+# Lift Aria's overall progress bar so the new Vandara step fits.
+# Without this the action would patch correctly but the NPC card
+# would still display her as "done" at the old max, hiding that there
+# is one more thing to do with her.
+- targetType: npc
+  targetId: npc-teacher
+  bumpMaxProgress: 5

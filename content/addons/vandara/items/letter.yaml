@@ -1,0 +1,6 @@
+- id: item-vandara-letter
+  title: item_vandara_letter_title
+  desc: item_vandara_letter_desc
+  image: img/items/scroll.webp # placeholder — replace with a real letter image later
+  consumable: false
+  category: lore
