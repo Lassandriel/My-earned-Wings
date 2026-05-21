@@ -190,6 +190,12 @@ const homes = loadCategoryFromAllSources('homes');
 const milestones = loadCategoryFromAllSources('milestones');
 const navigation = loadCategoryFromAllSources('navigation');
 const titles = loadCategoryFromAllSources('titles');
+// `sections` is a UI-layout primitive: each entry tells the Main view
+// to render a card-list for a given action-category, in a given
+// sub-tab, gated by an optional flag. Addons add new production
+// stations / lore corners / etc. without ever touching the base view
+// markup. See src/features/gameplay/main.view.html for the renderer.
+const sections = loadCategoryFromAllSources('sections');
 
 // ─── Translations (special: nested map, not array) ──────────────────────────
 //
@@ -286,6 +292,7 @@ const homeRegistry = taggedToRecord(homes);
 const milestoneRegistry = taggedToRecord(milestones);
 const navigationRegistry = taggedToRecord(navigation);
 const titleRegistry = taggedToRecord(titles);
+const sectionRegistry = taggedToRecord(sections);
 
 // Apply addon patches. Fatal on missing targets (build-time addons are
 // shipped with the build — a missing reference is an addon bug).
@@ -323,6 +330,7 @@ console.log(`✅ Homes:     ${Object.keys(homeRegistry).length}`);
 console.log(`✅ Milestones:${Object.keys(milestoneRegistry).length}`);
 console.log(`✅ Navigation:${Object.keys(navigationRegistry).length}`);
 console.log(`✅ Titles:    ${Object.keys(titleRegistry).length}`);
+console.log(`✅ Sections:  ${Object.keys(sectionRegistry).length}`);
 const trKeyCount = Object.values(translations).reduce(
   (acc, ctxMap) => acc + Object.values(ctxMap).reduce((a, m) => a + Object.keys(m).length, 0),
   0
@@ -396,6 +404,10 @@ export const NAVIGATION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringi
 // === Title Registry ===
 
 export const TITLE_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(titleRegistry, null, 2)};
+
+// === Section Registry (UI layout primitive — see Main view) ===
+
+export const SECTION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(sectionRegistry, null, 2)};
 
 // === Translations (lang -> context -> key -> string) ===
 

@@ -4719,6 +4719,27 @@ export const NAVIGATION_REGISTRY_GENERATED: Record<string, any> = {
 
 export const TITLE_REGISTRY_GENERATED: Record<string, any> = {};
 
+// === Section Registry (UI layout primitive — see Main view) ===
+
+export const SECTION_REGISTRY_GENERATED: Record<string, any> = {
+  "section-kitchen": {
+    "id": "section-kitchen",
+    "subTab": "herstellen",
+    "headerLabel": "ui_tab_kitchen",
+    "actionCategory": "kitchen",
+    "requiresFlag": "build-kitchen",
+    "helpTitleKey": "ui_tab_kitchen",
+    "helpDescKey": "help_kitchen_desc"
+  },
+  "section-vandara-workshop": {
+    "id": "section-vandara-workshop",
+    "subTab": "herstellen",
+    "headerLabel": "ui_tab_vandara_workshop",
+    "actionCategory": "vandara_workshop",
+    "requiresFlag": "vandara-workshop-built"
+  }
+};
+
 // === Translations (lang -> context -> key -> string) ===
 
 // Translation values can be flat strings or nested objects ({title, desc, ...}).

@@ -386,6 +386,7 @@ ipcMain.on(IpcChannel.OPEN_DEVTOOLS, () => {
 const RUNTIME_ADDON_CATEGORIES = [
   'resources', 'modifiers', 'actions', 'items', 'npcs',
   'buffs', 'homes', 'milestones', 'navigation', 'titles',
+  'sections',
 ] as const;
 
 const ADDON_NAME_PATTERN = /^[a-z][a-z0-9_-]*$/;

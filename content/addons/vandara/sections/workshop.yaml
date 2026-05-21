@@ -1,0 +1,10 @@
+# Vandara's Workshop section — appears in Main's Herstellen sub-tab
+# once Kal're's blueprint is built (`vandara-workshop-built` flag).
+# Pure data: no HTML, no base-game touch. The Main view iterates the
+# section registry and renders this automatically.
+
+- id: section-vandara-workshop
+  subTab: herstellen
+  headerLabel: ui_tab_vandara_workshop
+  actionCategory: vandara_workshop
+  requiresFlag: vandara-workshop-built

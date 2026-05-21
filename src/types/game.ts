@@ -413,4 +413,13 @@ export interface Registries {
   homes: Record<HomeId, HomeDefinition>;
   modifiers: Record<ModifierId, import('./core/base').ModifierDefinition>;
   titles: Record<TitleId, import('./core/base').TitleDefinition>;
+  /**
+   * UI layout primitive — see Main view. Each entry tells the Main
+   * view to render a card-list for a given action-category, in a
+   * given sub-tab, optionally gated by a flag. Lets addons add
+   * production stations / lore corners / etc. without touching base
+   * view markup. Schema:
+   *   { id, subTab, headerLabel, actionCategory, requiresFlag? }
+   */
+  sections: Record<string, any>;
 }

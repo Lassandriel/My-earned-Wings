@@ -16,6 +16,7 @@ import {
   MILESTONE_REGISTRY_GENERATED,
   NAVIGATION_REGISTRY_GENERATED,
   TITLE_REGISTRY_GENERATED,
+  SECTION_REGISTRY_GENERATED,
 } from '../generated/content';
 
 /**
@@ -35,6 +36,7 @@ export const registries: Registries = {
   homes: HOME_REGISTRY_GENERATED,
   titles: TITLE_REGISTRY_GENERATED,
   actions: ACTION_REGISTRY_GENERATED,
+  sections: SECTION_REGISTRY_GENERATED,
 };
 
 // Legacy re-exports — kept until callers stop reading from this module directly.

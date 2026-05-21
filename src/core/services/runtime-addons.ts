@@ -51,6 +51,7 @@ import {
   MILESTONE_REGISTRY_GENERATED,
   NAVIGATION_REGISTRY_GENERATED,
   TITLE_REGISTRY_GENERATED,
+  SECTION_REGISTRY_GENERATED,
   TRANSLATIONS_GENERATED,
 } from '../../generated/content';
 import { makeLogger } from '../log';
@@ -69,6 +70,7 @@ const CATEGORY_TO_REGISTRY: Record<string, Record<string, any>> = {
   milestones: MILESTONE_REGISTRY_GENERATED,
   navigation: NAVIGATION_REGISTRY_GENERATED,
   titles: TITLE_REGISTRY_GENERATED,
+  sections: SECTION_REGISTRY_GENERATED,
 };
 
 export interface RuntimeAddonLoadSummary {

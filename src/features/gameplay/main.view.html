@@ -18,15 +18,27 @@
           return customFilter ? customFilter(act, id) : true;
         });
     },
-    // ─── Sub-tab logic ─────────────────────────────────────────
-    // 'Herstellen' surfaces production stations (kitchen, workshop)
-    // in a dedicated sub-tab. Show the sub-tab strip only when the
-    // herstellen pane has at least one active station — otherwise
-    // we stay on the original layout, just like the Orte sub-tabs.
-    get hasHerstellenContent() {
-      const f = $store.game.flags;
-      return !!(f['build-kitchen'] || f['vandara-workshop-built']);
+    // ─── Sub-tab + section logic ───────────────────────────────
+    // The Main view ships an 'Allgemein' sub-tab (everything that
+    // existed before) plus dynamic sub-tabs driven by the `sections`
+    // registry. Base game's only dynamic sub-tab right now is
+    // 'herstellen' (Kitchen lives there); addons add their own
+    // sections to existing sub-tabs without touching this file.
+    /** All section defs that target a given sub-tab. */
+    getSectionsForSubTab(subTab) {
+      const reg = $store.game.content?.registries?.sections || {};
+      return Object.values(reg).filter((sec) => sec && sec.subTab === subTab);
     },
+    /** Section is 'visible' if its requiresFlag isn't set or is currently true. */
+    sectionIsActive(sec) {
+      return !sec.requiresFlag || !!$store.game.flags[sec.requiresFlag];
+    },
+    /** Sub-tab has content right now? Drives the sub-tab strip's
+     *  visibility (mirrors the Orte hide-when-only-one pattern). */
+    subTabHasContent(subTab) {
+      return this.getSectionsForSubTab(subTab).some((sec) => this.sectionIsActive(sec));
+    },
+    get hasHerstellenContent() { return this.subTabHasContent('herstellen'); },
     get showMainSubTabs() { return this.hasHerstellenContent; },
     // Keep currentMainSubTab pointing at something visible. If
     // 'herstellen' is the active tab but its content goes away
@@ -79,57 +91,41 @@
     ></button>
   </nav>
 
-  <!-- ─── HERSTELLEN sub-tab: production stations ────────────── -->
+  <!-- ─── HERSTELLEN sub-tab: production stations ──────────────
+       Sections are pure data: each entry in the `sections` registry
+       with `subTab: herstellen` becomes a card-list. Base ships
+       Kitchen; addons (Vandara) ship Workshop. Base never references
+       a specific addon — just iterates whatever sections are loaded. -->
   <div x-show="$store.game.currentMainSubTab === 'herstellen'" class="action-container">
     <div class="action-column">
-
-      <!-- KITCHEN (moved out of the general view's right column) -->
-      <section class="action-group" x-show="$store.game.flags['build-kitchen']" x-collapse>
-        <header class="category-header">
-          <h3 x-text="$store.game.t('ui_tab_kitchen')"></h3>
-          <div class="nav-help-icon" @mouseenter="$store.game.helpHover('ui_tab_kitchen', 'help_kitchen_desc')" @mouseleave="$store.game.setHovered(null)">?</div>
-        </header>
-        <div class="btn-list">
-          <template x-for="actionId in getActions('kitchen')" :key="actionId">
-            <button
-              class="game-btn action-btn-modular"
-              :class="$store.game.isTaskActive(actionId) && 'is-working'"
-              @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
-              @mouseover="$store.game.setHovered(actionId)"
-              @mouseout="$store.game.setHovered(null)"
-            >
-              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
-              <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
-                <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
-              </div>
-            </button>
-          </template>
-        </div>
-      </section>
-
-      <!-- VANDARA WORKSHOP (shown once Kal're's blueprint is built) -->
-      <section class="action-group" x-show="$store.game.flags['vandara-workshop-built']" x-collapse>
-        <header class="category-header">
-          <h3 x-text="$store.game.t('ui_tab_vandara_workshop')"></h3>
-        </header>
-        <div class="btn-list">
-          <template x-for="actionId in getActions('vandara_workshop')" :key="actionId">
-            <button
-              class="game-btn action-btn-modular"
-              :class="$store.game.isTaskActive(actionId) && 'is-working'"
-              @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
-              @mouseover="$store.game.setHovered(actionId)"
-              @mouseout="$store.game.setHovered(null)"
-            >
-              <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
-              <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
-                <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
-              </div>
-            </button>
-          </template>
-        </div>
-      </section>
-
+      <template x-for="sec in getSectionsForSubTab('herstellen')" :key="sec.id">
+        <section class="action-group"
+          x-show="!sec.requiresFlag || $store.game.flags[sec.requiresFlag]" x-collapse>
+          <header class="category-header">
+            <h3 x-text="$store.game.t(sec.headerLabel)"></h3>
+            <div class="nav-help-icon"
+              x-show="sec.helpTitleKey"
+              @mouseenter="sec.helpTitleKey && $store.game.helpHover(sec.helpTitleKey, sec.helpDescKey || sec.helpTitleKey)"
+              @mouseleave="$store.game.setHovered(null)">?</div>
+          </header>
+          <div class="btn-list">
+            <template x-for="actionId in getActions(sec.actionCategory)" :key="actionId">
+              <button
+                class="game-btn action-btn-modular"
+                :class="$store.game.isTaskActive(actionId) && 'is-working'"
+                @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
+                @mouseover="$store.game.setHovered(actionId)"
+                @mouseout="$store.game.setHovered(null)"
+              >
+                <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
+                <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
+                  <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
+                </div>
+              </button>
+            </template>
+          </div>
+        </section>
+      </template>
     </div>
   </div>
 

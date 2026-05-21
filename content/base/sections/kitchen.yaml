@@ -1,0 +1,18 @@
+# UI sections shipped by base game. The Main view's sub-tab renderer
+# iterates this registry and produces a card-list section per entry.
+# Schema:
+#   id              — registry key (must be unique across base + addons)
+#   subTab          — which Main sub-tab to mount in (general / herstellen)
+#   headerLabel     — i18n key for the section's <h3> heading
+#   actionCategory  — which action.category to pull rows from
+#   requiresFlag    — optional; section hidden until this flag is set
+#   helpTitleKey    — optional; i18n key for the help-icon tooltip title
+#   helpDescKey     — optional; i18n key for the help-icon tooltip body
+
+- id: section-kitchen
+  subTab: herstellen
+  headerLabel: ui_tab_kitchen
+  actionCategory: kitchen
+  requiresFlag: build-kitchen
+  helpTitleKey: ui_tab_kitchen
+  helpDescKey: help_kitchen_desc
