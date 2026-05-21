@@ -39,3 +39,15 @@ vandara_katakomben_entered: >-
 vandara_shadow_trained: >-
   Sariel hat dich durch die Grundlagen geführt. Du bist
   aufgewacht — der Rest kommt mit der Übung.
+vandara_pamle_intro_done: >-
+  Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank
+  und Magietrank.
+vandara_pamle_tier2_done: >-
+  Pamle nimmt deine drei Energietränke und lehrt dich Tier-2 —
+  Wachpollen-Tee und Funkenlicht-Phiole.
+vandara_pamle_tier3_done: >-
+  Pamle nimmt drei Funkenlicht-Phiolen und unterrichtet dich in
+  Arkanwasser und Aschebrand-Tinktur.
+vandara_alchemy_mastered: >-
+  Du beherrschst Pamles komplettes Grundkurs-Repertoire.
+  Komplexere Rezepte kommen später.

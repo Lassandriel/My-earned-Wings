@@ -1,0 +1,14 @@
+# Pamle — Magma-Drachenwandlerin, Alchemie-Mentorin. Unlocked
+# automatically when the player is enrolled (vandara-enrolled);
+# she sits at the academy waiting whether or not the player has
+# the workshop yet. Her quest leans on the brew counters so it
+# only advances after the player has actually practiced.
+
+- id: npc-vandara-pamle
+  nameKey: npc_vandara_pamle_name
+  icon: 🌋
+  color: '#dc2626'
+  progKey: vandaraPamle
+  maxProgress: 4
+  chapter: Vandara
+  location: vandara

@@ -52,3 +52,30 @@ act-vandara-try-light:
 
 act-npc-vandara-sariel:
   title: Sariel
+
+act-npc-vandara-pamle:
+  title: Magistra Pamle
+
+act-vandara-brew-energy-potion-small:
+  title: "Kleinen Energietrank brauen"
+  effect: energy
+
+act-vandara-brew-magic-potion-small:
+  title: "Kleinen Magietrank brauen"
+  effect: magic
+
+act-vandara-brew-pollen-tea:
+  title: "Wachpollen-Tee brauen"
+  effect: buff_vandara_wakeful_pollen_title
+
+act-vandara-brew-spark-vial:
+  title: "Funkenlicht-Phiole brauen"
+  effect: buff_vandara_spark_light_title
+
+act-vandara-brew-arcane-water:
+  title: "Arkanwasser brauen"
+  effect: magic
+
+act-vandara-brew-ash-tincture:
+  title: "Aschebrand-Tinktur brauen"
+  effect: buff_vandara_ash_burn_title

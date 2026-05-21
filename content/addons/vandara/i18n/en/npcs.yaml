@@ -233,6 +233,55 @@ npc_vandara_sariel_3: >-
   just one way of many. Took me until I had to before I
   believed it."
 
+# ─── Pamle — alchemy mentor (magma-dragon-shifter) ────────
+npc_vandara_pamle_1: >-
+  Pamle is a compact magma-dragon-shifter, in humanoid form just
+  shoulder-height to you, with scales like crusted lava across
+  her forearms. She stands at an improvised table piled with
+  empty vials and crushed plant remains. "{player}, right? Sit.
+  I'll make this quick: I'm Pamle, I teach alchemy. We start
+  with two very simple recipes — energy potion and magic potion.
+  They need nothing more than herbs, water, and a bit of heat."
+  She taps her temple. "Go home, build the workshop from Kal're's
+  blueprint, place the alchemy table in your room. Then you can
+  brew them. Come back when you've made three energy potions —
+  THREE, not two, not 'almost three'. Then I'll show you
+  something better."
+
+npc_vandara_pamle_2: >-
+  Pamle waits with her hand already out. "Three energy potions,
+  yes? Good." She takes them without comment and stores them on
+  a shelf behind her. "I sell them to the first-years for decent
+  money, by the way, in case you were wondering. Education isn't
+  free." A sharp grin. "Now tier two: Wakeful Pollen Tea —
+  regen over time. And Spark Light Vial — you'll learn to
+  appreciate that one, trust me. Sariel down in the catacombs
+  used to order them by the crate." She coughs as if she'd said
+  too much. "Practice. Bring me three Spark Light Vials when
+  you're ready."
+
+npc_vandara_pamle_3: >-
+  "Spark Light Vials. Three. Nice." Pamle weighs them in her
+  hand, checks the brightness. "Cleanly done. You understand
+  the dosing." She racks them. "Last round. Arcane Water is
+  standard for any student who casts magic. And Ash Burn
+  Tincture — that's my own invention. Made from Ash Willow
+  pollen. Turns you into a logging machine for two minutes.
+  You wouldn't believe how many orders the academy gets from
+  construction firms for it." She nods to the door. "Come back
+  once more. Then I'll have taught you everything I currently
+  offer."
+
+npc_vandara_pamle_4: >-
+  "So." Pamle wipes her hands on an apron that's seen far too
+  much. "That's the basics. You handle the six base recipes.
+  What's next gets harder — Star Berries are rare, Ember Lotus
+  rarer still, and some recipes demand reagents only Storm
+  Seraphs can gather. But until then you've got plenty to do."
+  She offers her hand. "Go and brew. If I ever teach anything
+  new, you know where to find me. Oh — and Pamle isn't my full
+  name, I never had one. Save the question."
+
 npc_vandara_sariel_4: >-
   "You're not trained now. You're awake — that's something
   else." Sariel goes back to sorting notes. "What you need from

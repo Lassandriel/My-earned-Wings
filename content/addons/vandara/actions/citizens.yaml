@@ -45,6 +45,8 @@
           id: npc-vandara-ormias
         - type: unlockNPC
           id: npc-vandara-quinell
+        - type: unlockNPC
+          id: npc-vandara-pamle
         - type: log
           logKey: vandara_enrolled
           color: var(--gold)
@@ -127,9 +129,14 @@
       color: var(--gold)
   sfx: click
 
-# Stub recipe for the workshop. Placeholder — actual cost / cost-
-# types will be tuned when alchemy mechanics land. For now it
-# exists so unlockRecipe above has something to point at.
+# Workshop build recipe. Costs ingredients, produces the
+# `item-alchemy-table` furniture item the player can then place
+# in a home. The `vandara-workshop-built` flag is still set so
+# downstream content that only cares about "they completed the
+# build" (without caring whether they've placed the table yet)
+# can key off it. Recipe gating uses the placed-item check —
+# section logic in main.view.html greys recipes out until the
+# table is actually in a home.
 - id: act-build-workshop
   category: crafting
   icon: "🏗️"
@@ -138,6 +145,8 @@
   requirements:
     flags.vandara-workshop-unlocked: true
   onSuccess:
+    - type: unlockItem
+      id: item-alchemy-table
     - type: setFlag
       flag: vandara-workshop-built
       value: true

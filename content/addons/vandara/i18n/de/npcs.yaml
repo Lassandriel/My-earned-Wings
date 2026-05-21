@@ -244,6 +244,58 @@ npc_vandara_sariel_3: >-
   blind, wie ich jetzt. Sie hat damals gemeint, Augen seien nur
   ein Weg von vielen. Ich hab's erst geglaubt als ich es musste."
 
+# ─── Pamle — Alchemie-Mentorin (Magma-Drachenwandlerin) ───
+npc_vandara_pamle_1: >-
+  Pamle ist ein kompakter Magma-Drachenwandler, in humanoider
+  Form gerade so groß wie deine Schulter, mit Schuppen wie
+  verkrusteter Lava über den Unterarmen. Sie steht vor einem
+  improvisierten Tisch voller leerer Phiolen und zerstoßener
+  Pflanzenreste. "{player}, oder? Setz dich. Ich mach das schnell:
+  ich bin Pamle, ich unterrichte Alchemie. Wir fangen mit zwei
+  ganz simplen Rezepten an — Energietrank und Magietrank. Mehr
+  als Kräuter, Wasser und ein bisschen Hitze brauchen die nicht."
+  Sie tippt sich gegen die Schläfe. "Geh nach Hause, bau dir die
+  Werkstatt von Kal'res Bauplan, stell den Alchemietisch in dein
+  Zimmer. Dann kannst du das brauen. Komm wieder wenn du drei
+  Energietränke gemacht hast — DREI, nicht zwei, nicht 'fast
+  drei'. Dann zeige ich dir was Besseres."
+
+npc_vandara_pamle_2: >-
+  Pamle wartet schon mit ausgestreckter Hand. "Drei Energietränke,
+  ja? Gut." Sie nimmt sie kommentarlos entgegen und stellt sie in
+  ein Regal hinter sich. "Ich verkaufe die übrigens an die
+  Erstsemester für gutes Geld, falls du dich gefragt hast. Bildung
+  ist nicht umsonst." Ein scharfes Grinsen. "Jetzt zu Tier zwei:
+  Wachpollen-Tee — Regeneration über Zeit. Und Funkenlicht-Phiole
+  — die wirst du noch zu schätzen wissen, glaub mir. Sariel
+  unten in den Katakomben hat sie früher kistenweise bestellt." Sie
+  hustet, als hätte sie zu viel gesagt. "Üb. Bring mir drei
+  Funkenlicht-Phiolen wenn du soweit bist."
+
+npc_vandara_pamle_3: >-
+  "Funkenlicht-Phiolen. Drei. Schön." Pamle wiegt sie in der Hand,
+  prüft die Helligkeit. "Sauber gearbeitet. Du verstehst die
+  Dosierung." Sie räumt sie ins Regal. "Letzte Runde. Arkanwasser
+  ist Standard für jeden Studenten, der Magie betreibt. Und
+  Aschebrand-Tinktur — die ist meine eigene Erfindung. Aus den
+  Pollen einer Asche-Weide. Macht dich für zwei Minuten zur
+  Holzfäll-Maschine. Du wirst nicht glauben, wie viele Aufträge
+  die Akademie dafür von den Bauunternehmen bekommt." Sie nickt
+  zur Tür. "Komm einmal noch wieder. Dann hab ich dir alles
+  beigebracht was ich grad anbieten kann."
+
+npc_vandara_pamle_4: >-
+  "So." Pamle wischt sich die Hände an einer Schürze ab, die
+  schon viel zu viel gesehen hat. "Das war's mit den Grundlagen.
+  Du beherrscht jetzt die sechs Basis-Rezepte. Was kommt, wird
+  schwerer — Sternenfrüchte sind selten, Glut-Lotos noch
+  seltener, und einige Rezepte verlangen Reagenzien die nur
+  Gewitter-Seraphe einsammeln können. Aber bis dahin hast du noch
+  was zu tun." Sie reicht dir die Hand. "Geh und braue. Wenn ich
+  je was Neues unterrichte, weißt du wo du mich findest. Ach —
+  und Pamle ist nicht mein voller Name, ich hab nie einen
+  bekommen. Spar dir die Frage."
+
 npc_vandara_sariel_4: >-
   "Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist
   was anderes." Sariel sortiert wieder ihre Notizen. "Was du

@@ -13,6 +13,7 @@ npc_vandara_veyra_name: Magistra Veyra
 npc_vandara_ormias_name: Lektor Ormias
 npc_vandara_quinell_name: Doktor Quinell
 npc_vandara_sariel_name: Sariel
+npc_vandara_pamle_name: Magistra Pamle
 
 # Flag display labels — the tooltip's requirements renderer looks
 # up `ui_<flagkey>` for any `flags.<key>` requirement. Without these
@@ -35,6 +36,7 @@ ui_vandara-light-resonance-found: Lichtresonanz festgestellt
 ui_vandara-shadow-revealed: Schattenelement entdeckt
 ui_vandara-katakomben-entered: Sariel kennengelernt
 ui_vandara-shadow-trained: Schatten-Grundlagen erlernt
+ui_vandara-alchemy-mastered: Alchemie-Grundkurs absolviert
 
 # Resource display labels (the UI uses ui_<resource> in some places).
 ui_ash_flower: Ascheblume

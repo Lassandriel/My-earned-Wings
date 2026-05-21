@@ -138,6 +138,7 @@ export type GameEffect =
   | { type: 'playSound'; id: string }
   | { type: 'log'; logKey: string; color?: string; params?: LogParams }
   | { type: 'modifyResource'; resource: ResourceId; amount: number }
+  | { type: 'modifyCounter'; counter: string; amount: number }
   | { type: 'setHome'; id: HomeId }
   | { type: 'unlockTitle'; id: TitleId };
 

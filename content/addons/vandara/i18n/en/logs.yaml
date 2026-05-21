@@ -39,3 +39,15 @@ vandara_katakomben_entered: >-
 vandara_shadow_trained: >-
   Sariel has walked you through the basics. You're awake — the
   rest comes with practice.
+vandara_pamle_intro_done: >-
+  Pamle showed you the two basic recipes — energy potion and
+  magic potion.
+vandara_pamle_tier2_done: >-
+  Pamle takes your three energy potions and teaches you tier-2 —
+  Wakeful Pollen Tea and Spark Light Vial.
+vandara_pamle_tier3_done: >-
+  Pamle takes three Spark Light Vials and teaches you Arcane
+  Water and Ash Burn Tincture.
+vandara_alchemy_mastered: >-
+  You've mastered Pamle's full basics. More complex recipes will
+  come later.

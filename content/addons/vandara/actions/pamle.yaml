@@ -1,0 +1,81 @@
+# Pamle's class loop: each stage teaches recipes, every advance
+# after the first costs the player a tribute of brewed potions.
+# The brew counters are the auto-incremented counters[<actionId>]
+# the base engine bumps on each successful action; modifyCounter
+# in onSuccess actually spends them. So tribute = "you've brewed
+# enough AND I'm taking three of them right now."
+
+- id: act-npc-vandara-pamle
+  npcId: npc-vandara-pamle
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraPamle
+  maxProgress: 4
+  journalIcon: 🌋
+  icon: 🌋
+  journalColor: '#dc2626'
+  steps:
+    # 1. Free intro — teaches the two basic recipes.
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.vandara-enrolled: true
+      onSuccess:
+        - type: unlockRecipe
+          id: act-vandara-brew-energy-potion-small
+        - type: unlockRecipe
+          id: act-vandara-brew-magic-potion-small
+        - type: log
+          logKey: vandara_pamle_intro_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_pamle_1
+
+    # 2. Tribute 3× Kleiner Energietrank → tier 2 recipes.
+    - cost: 5
+      costType: energy
+      requirements:
+        counters.act-vandara-brew-energy-potion-small: { op: '>=', val: 3 }
+      onSuccess:
+        - type: modifyCounter
+          counter: act-vandara-brew-energy-potion-small
+          amount: -3
+        - type: unlockRecipe
+          id: act-vandara-brew-pollen-tea
+        - type: unlockRecipe
+          id: act-vandara-brew-spark-vial
+        - type: log
+          logKey: vandara_pamle_tier2_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_pamle_2
+
+    # 3. Tribute 3× Funkenlicht-Phiole → tier 3 recipes.
+    - cost: 5
+      costType: energy
+      requirements:
+        counters.act-vandara-brew-spark-vial: { op: '>=', val: 3 }
+      onSuccess:
+        - type: modifyCounter
+          counter: act-vandara-brew-spark-vial
+          amount: -3
+        - type: unlockRecipe
+          id: act-vandara-brew-arcane-water
+        - type: unlockRecipe
+          id: act-vandara-brew-ash-tincture
+        - type: log
+          logKey: vandara_pamle_tier3_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_pamle_3
+
+    # 4. Final — no tribute, just the goodbye + mastery flag.
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-alchemy-mastered
+          value: true
+        - type: log
+          logKey: vandara_alchemy_mastered
+          color: var(--gold)
+      dialogueKey: npc_vandara_pamle_4
+  customExecute: npc_execute

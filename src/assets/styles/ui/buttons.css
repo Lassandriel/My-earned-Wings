@@ -145,6 +145,24 @@
   transform: scale(1.15);
 }
 
+/* ─── Locked / "visible but unusable" action button ─────────────
+   Greyed-out + desaturated, ignores pointer except for the tooltip
+   hover (we explicitly keep pointer-events on so the player can
+   still mouseover to learn what's missing). Used for workshop
+   recipes when the Alchemy Table hasn't been placed yet. */
+.game-btn.is-locked {
+  opacity: 0.4;
+  filter: grayscale(0.7);
+  cursor: not-allowed;
+}
+
+.game-btn.is-locked:hover {
+  /* Override base hover lift/glow — keep it flat to signal "no". */
+  opacity: 0.55;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Keyboard Shortcut Tags */
 .key-tag {
   position: absolute;

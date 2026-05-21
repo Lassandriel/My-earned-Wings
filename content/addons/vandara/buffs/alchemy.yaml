@@ -1,0 +1,33 @@
+# Buffs applied by Pamle's alchemy recipes. Only the over-time
+# effects need entries here; the instant +X/-X potions use
+# modifyResource in their action's onSuccess and skip the buff
+# system entirely.
+
+# Wachpollen-Tee — gentle energy regen for one minute.
+- id: buff-vandara-wakeful-pollen
+  title: buff_vandara_wakeful_pollen_title
+  desc: buff_vandara_wakeful_pollen_desc
+  duration: 60
+  modifiers:
+    - { key: energy_reg_bonus, add: 1 }
+
+# Funkenlicht-Phiole — portable light: reduces arcane focus cost
+# (because the player has their own glow source to "spend"). Plot
+# hook for Sariel's shadow mechanic later — when shadow-helpers
+# need light, this is the light.
+- id: buff-vandara-spark-light
+  title: buff_vandara_spark_light_title
+  desc: buff_vandara_spark_light_desc
+  duration: 90
+  modifiers:
+    - { key: arcane_focus_cost, add: -1 }
+
+# Aschebrand-Tinktur — short labour boost. Wood+stone yield up,
+# 2 minutes, classic "I drank my coffee and now I'm felling trees".
+- id: buff-vandara-ash-burn
+  title: buff_vandara_ash_burn_title
+  desc: buff_vandara_ash_burn_desc
+  duration: 120
+  modifiers:
+    - { key: wood_yield, add: 1 }
+    - { key: stone_yield, add: 1 }

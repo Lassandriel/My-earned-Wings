@@ -3132,6 +3132,118 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     },
     "logKey": "buy_iron_parts_log"
   },
+  "act-vandara-brew-energy-potion-small": {
+    "id": "act-vandara-brew-energy-potion-small",
+    "category": "vandara_workshop",
+    "icon": "🧪",
+    "costs": {
+      "herbs": 2,
+      "water": 1
+    },
+    "onSuccess": [
+      {
+        "type": "modifyResource",
+        "resource": "energy",
+        "amount": 20
+      }
+    ],
+    "maxCount": 99,
+    "sfx": "craft",
+    "particleType": "knowledge"
+  },
+  "act-vandara-brew-magic-potion-small": {
+    "id": "act-vandara-brew-magic-potion-small",
+    "category": "vandara_workshop",
+    "icon": "🧪",
+    "costs": {
+      "flowers": 1,
+      "water": 2
+    },
+    "onSuccess": [
+      {
+        "type": "modifyResource",
+        "resource": "magic",
+        "amount": 10
+      }
+    ],
+    "maxCount": 99,
+    "sfx": "craft",
+    "particleType": "knowledge"
+  },
+  "act-vandara-brew-pollen-tea": {
+    "id": "act-vandara-brew-pollen-tea",
+    "category": "vandara_workshop",
+    "icon": "🍵",
+    "costs": {
+      "glowpollen": 2,
+      "flowers": 1
+    },
+    "onSuccess": [
+      {
+        "type": "addBuff",
+        "buffId": "buff-vandara-wakeful-pollen"
+      }
+    ],
+    "maxCount": 99,
+    "sfx": "craft",
+    "particleType": "knowledge"
+  },
+  "act-vandara-brew-spark-vial": {
+    "id": "act-vandara-brew-spark-vial",
+    "category": "vandara_workshop",
+    "icon": "✨",
+    "costs": {
+      "ash_flower": 1,
+      "glitter_dust": 2
+    },
+    "onSuccess": [
+      {
+        "type": "addBuff",
+        "buffId": "buff-vandara-spark-light"
+      }
+    ],
+    "maxCount": 99,
+    "sfx": "craft",
+    "particleType": "shards"
+  },
+  "act-vandara-brew-arcane-water": {
+    "id": "act-vandara-brew-arcane-water",
+    "category": "vandara_workshop",
+    "icon": "💧",
+    "costs": {
+      "arcane_dust": 1,
+      "water": 2,
+      "glitter_dust": 1
+    },
+    "onSuccess": [
+      {
+        "type": "modifyResource",
+        "resource": "magic",
+        "amount": 30
+      }
+    ],
+    "maxCount": 99,
+    "sfx": "craft",
+    "particleType": "shards"
+  },
+  "act-vandara-brew-ash-tincture": {
+    "id": "act-vandara-brew-ash-tincture",
+    "category": "vandara_workshop",
+    "icon": "🔥",
+    "costs": {
+      "ash_flower": 3,
+      "resin": 1
+    },
+    "onSuccess": [
+      {
+        "type": "addBuff",
+        "buffId": "buff-vandara-ash-burn"
+      }
+    ],
+    "maxCount": 99,
+    "sfx": "craft",
+    "particleType": "shards"
+  },
   "act-npc-vandara-olie": {
     "id": "act-npc-vandara-olie",
     "npcId": "npc-vandara-olie",
@@ -3181,6 +3293,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           {
             "type": "unlockNPC",
             "id": "npc-vandara-quinell"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-pamle"
           },
           {
             "type": "log",
@@ -3296,6 +3412,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       "flags.vandara-workshop-unlocked": true
     },
     "onSuccess": [
+      {
+        "type": "unlockItem",
+        "id": "item-alchemy-table"
+      },
       {
         "type": "setFlag",
         "flag": "vandara-workshop-built",
@@ -3766,6 +3886,123 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_quinell_4"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-pamle": {
+    "id": "act-npc-vandara-pamle",
+    "npcId": "npc-vandara-pamle",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraPamle",
+    "maxProgress": 4,
+    "journalIcon": "🌋",
+    "icon": "🌋",
+    "journalColor": "#dc2626",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-enrolled": true
+        },
+        "onSuccess": [
+          {
+            "type": "unlockRecipe",
+            "id": "act-vandara-brew-energy-potion-small"
+          },
+          {
+            "type": "unlockRecipe",
+            "id": "act-vandara-brew-magic-potion-small"
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_pamle_intro_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_pamle_1"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "counters.act-vandara-brew-energy-potion-small": {
+            "op": ">=",
+            "val": 3
+          }
+        },
+        "onSuccess": [
+          {
+            "type": "modifyCounter",
+            "counter": "act-vandara-brew-energy-potion-small",
+            "amount": -3
+          },
+          {
+            "type": "unlockRecipe",
+            "id": "act-vandara-brew-pollen-tea"
+          },
+          {
+            "type": "unlockRecipe",
+            "id": "act-vandara-brew-spark-vial"
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_pamle_tier2_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_pamle_2"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "counters.act-vandara-brew-spark-vial": {
+            "op": ">=",
+            "val": 3
+          }
+        },
+        "onSuccess": [
+          {
+            "type": "modifyCounter",
+            "counter": "act-vandara-brew-spark-vial",
+            "amount": -3
+          },
+          {
+            "type": "unlockRecipe",
+            "id": "act-vandara-brew-arcane-water"
+          },
+          {
+            "type": "unlockRecipe",
+            "id": "act-vandara-brew-ash-tincture"
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_pamle_tier3_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_pamle_3"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-alchemy-mastered",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_alchemy_mastered",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_pamle_4"
       }
     ],
     "customExecute": "npc_execute"
@@ -4272,6 +4509,15 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
       }
     ]
   },
+  "item-alchemy-table": {
+    "id": "item-alchemy-table",
+    "title": "item_alchemy_table_title",
+    "desc": "item_alchemy_table_desc",
+    "image": "img/furniture/stove.webp",
+    "consumable": false,
+    "category": "furniture",
+    "spaceCost": 2
+  },
   "item-vandara-letter": {
     "id": "item-vandara-letter",
     "title": "item_vandara_letter_title",
@@ -4540,6 +4786,16 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "chapter": "Vandara",
     "location": "vandara"
   },
+  "npc-vandara-pamle": {
+    "id": "npc-vandara-pamle",
+    "nameKey": "npc_vandara_pamle_name",
+    "icon": "🌋",
+    "color": "#dc2626",
+    "progKey": "vandaraPamle",
+    "maxProgress": 4,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
   "npc-vandara-sariel": {
     "id": "npc-vandara-sariel",
     "nameKey": "npc_vandara_sariel_name",
@@ -4572,6 +4828,46 @@ export const BUFF_REGISTRY_GENERATED: Record<string, any> = {
     "title": "buff_harvest_title",
     "desc": "buff_harvest_desc",
     "duration": 60,
+    "modifiers": [
+      {
+        "key": "wood_yield",
+        "add": 1
+      },
+      {
+        "key": "stone_yield",
+        "add": 1
+      }
+    ]
+  },
+  "buff-vandara-wakeful-pollen": {
+    "id": "buff-vandara-wakeful-pollen",
+    "title": "buff_vandara_wakeful_pollen_title",
+    "desc": "buff_vandara_wakeful_pollen_desc",
+    "duration": 60,
+    "modifiers": [
+      {
+        "key": "energy_reg_bonus",
+        "add": 1
+      }
+    ]
+  },
+  "buff-vandara-spark-light": {
+    "id": "buff-vandara-spark-light",
+    "title": "buff_vandara_spark_light_title",
+    "desc": "buff_vandara_spark_light_desc",
+    "duration": 90,
+    "modifiers": [
+      {
+        "key": "arcane_focus_cost",
+        "add": -1
+      }
+    ]
+  },
+  "buff-vandara-ash-burn": {
+    "id": "buff-vandara-ash-burn",
+    "title": "buff_vandara_ash_burn_title",
+    "desc": "buff_vandara_ash_burn_desc",
+    "duration": 120,
     "modifiers": [
       {
         "key": "wood_yield",
@@ -4736,7 +5032,8 @@ export const SECTION_REGISTRY_GENERATED: Record<string, any> = {
     "subTab": "herstellen",
     "headerLabel": "ui_tab_vandara_workshop",
     "actionCategory": "vandara_workshop",
-    "requiresFlag": "vandara-workshop-built"
+    "requiresFlag": "vandara-workshop-unlocked",
+    "recipeLockedUnlessPlaced": "item-alchemy-table"
   }
 };
 
@@ -5148,13 +5445,46 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-vandara-sariel": {
         "title": "Sariel"
+      },
+      "act-npc-vandara-pamle": {
+        "title": "Magistra Pamle"
+      },
+      "act-vandara-brew-energy-potion-small": {
+        "title": "Kleinen Energietrank brauen",
+        "effect": "energy"
+      },
+      "act-vandara-brew-magic-potion-small": {
+        "title": "Kleinen Magietrank brauen",
+        "effect": "magic"
+      },
+      "act-vandara-brew-pollen-tea": {
+        "title": "Wachpollen-Tee brauen",
+        "effect": "buff_vandara_wakeful_pollen_title"
+      },
+      "act-vandara-brew-spark-vial": {
+        "title": "Funkenlicht-Phiole brauen",
+        "effect": "buff_vandara_spark_light_title"
+      },
+      "act-vandara-brew-arcane-water": {
+        "title": "Arkanwasser brauen",
+        "effect": "magic"
+      },
+      "act-vandara-brew-ash-tincture": {
+        "title": "Aschebrand-Tinktur brauen",
+        "effect": "buff_vandara_ash_burn_title"
       }
     },
     "buffs": {
       "item_gourmet_meal_title": "Gourmet-Mahlzeit",
       "buff_gourmet_desc": "Nährt den Körper nachhaltig.",
       "buff_harvest_title": "Segen der Ahnen",
-      "buff_harvest_desc": "Die Natur antwortet auf deinen Ruf (+1 auf alle Sammelerträge)."
+      "buff_harvest_desc": "Die Natur antwortet auf deinen Ruf (+1 auf alle Sammelerträge).",
+      "buff_vandara_wakeful_pollen_title": "Wachpollen-Tee",
+      "buff_vandara_wakeful_pollen_desc": "Sanfter Energieschub. +1 Energie-Regen pro Tick, 60 Sekunden.",
+      "buff_vandara_spark_light_title": "Funkenlicht",
+      "buff_vandara_spark_light_desc": "Tragbare Lichtquelle. Senkt die Kosten für Arkanen Fokus spürbar. 90 Sekunden.",
+      "buff_vandara_ash_burn_title": "Aschebrand",
+      "buff_vandara_ash_burn_desc": "Heißer, durchpulsender Energierausch. Holz- und Stein-Ausbeute +1 pro Aktion, 2 Minuten."
     },
     "items": {
       "item_wanderstock_title": "Wanderstock",
@@ -5235,7 +5565,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_vandara_letter_title": "Einladung der Roségold-Akademie",
       "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei.",
       "item_vandara_student_id_title": "Studentenausweis der Roségold-Akademie",
-      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\""
+      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\"",
+      "item_alchemy_table_title": "Alchemietisch",
+      "item_alchemy_table_desc": "Solider, hitzefester Tisch mit Halterungen für Phiolen, einem kleinen Brenner und einer Mörserablage. Aus Kal'res Bauplan. Stelle ihn in einem deiner Häuser auf — Pamles Rezepte werden dann brauarbeitsbereit."
     },
     "logs": {
       "save_success": "Spiel erfolgreich gespeichert.",
@@ -5407,7 +5739,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_trial_light": "Lichtprobe — etwas zuckt. Aber kein klares Licht. Veyra ist beunruhigt-fasziniert.",
       "vandara_shadow_revealed": "Veyra hat es bestätigt: du bist ein Schattenwandler. Eine Sub-Variante des Lichts, extrem selten. Sie verweist dich auf jemanden, der dir wirklich helfen kann — Fafa wisse, wo.",
       "vandara_katakomben_entered": "Fafa führt dich in die Katakomben. In einer kleinen Kammer wartet jemand namens Sariel — kerzenbeleuchtet, blind, und scheinbar nicht überrascht.",
-      "vandara_shadow_trained": "Sariel hat dich durch die Grundlagen geführt. Du bist aufgewacht — der Rest kommt mit der Übung."
+      "vandara_shadow_trained": "Sariel hat dich durch die Grundlagen geführt. Du bist aufgewacht — der Rest kommt mit der Übung.",
+      "vandara_pamle_intro_done": "Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank und Magietrank.",
+      "vandara_pamle_tier2_done": "Pamle nimmt deine drei Energietränke und lehrt dich Tier-2 — Wachpollen-Tee und Funkenlicht-Phiole.",
+      "vandara_pamle_tier3_done": "Pamle nimmt drei Funkenlicht-Phiolen und unterrichtet dich in Arkanwasser und Aschebrand-Tinktur.",
+      "vandara_alchemy_mastered": "Du beherrschst Pamles komplettes Grundkurs-Repertoire. Komplexere Rezepte kommen später."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5570,6 +5906,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_sariel_1": "Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige Kerze brennt auf einem niedrigen Tisch. Die Person dahinter dreht sich nicht um — sie sortiert weiter Notizen auf dem Tisch mit den Fingerspitzen. \"Du bist viel zu groß für deine Schritte, {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst du nicht, wenn jemand vor dir steht.\" Ihre Schuppen — wenn man sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine Richtung, aber nicht in deine Augen. \"Ah. Setz dich. Ich bin Sariel. Mach es dir bequem — die Kerze reicht für uns beide, ich brauche kein Licht.\"",
       "npc_vandara_sariel_2": "\"Du willst wissen, was Schatten ist.\" Sariel schiebt ein altes Buch in deine Richtung, ohne hinzusehen. \"Hier. Magietheorie Kapitel sechs. Quinell hat es dir empfohlen, oder? Er hat es vor vierzig Jahren in meiner Klasse abgeschrieben. Lies.\" Sie pausiert. \"Oder lass es. Ich kenne es auswendig. Schatten ist Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt. Wenn ein Licht in einen Raum fällt, machst du als Lichtwandler Helligkeit. Du machst Hohlräume. Die Hohlräume HÖREN dir zu. Verstanden? Nein? Gut. Das war eine Lüge, weil ich es kurz machen wollte. Lies das Kapitel.\"",
       "npc_vandara_sariel_3": "\"Steh in das Licht.\" Sariel deutet auf die Kerze. \"Jetzt streck die Hand aus. Nicht zur Kerze. Zum Schatten den du wirfst.\" Du zögerst. Sariel grinst, das erste Mal heute. \"Ja, das geht. Fühl, nicht denk. Schatten sind dichter als normales Licht — spürbar, wenn man weiß wo.\" Lange Stille. Dann: \"Ah. Da. Du hast ihn gegriffen. Spürst du das Gewicht? Sehr gut. So habe ich das auch gelernt, mit zwölf, von einer Wandlerin im Smaragd-Wald. Auch blind, wie ich jetzt. Sie hat damals gemeint, Augen seien nur ein Weg von vielen. Ich hab's erst geglaubt als ich es musste.\"",
+      "npc_vandara_pamle_1": "Pamle ist ein kompakter Magma-Drachenwandler, in humanoider Form gerade so groß wie deine Schulter, mit Schuppen wie verkrusteter Lava über den Unterarmen. Sie steht vor einem improvisierten Tisch voller leerer Phiolen und zerstoßener Pflanzenreste. \"{player}, oder? Setz dich. Ich mach das schnell: ich bin Pamle, ich unterrichte Alchemie. Wir fangen mit zwei ganz simplen Rezepten an — Energietrank und Magietrank. Mehr als Kräuter, Wasser und ein bisschen Hitze brauchen die nicht.\" Sie tippt sich gegen die Schläfe. \"Geh nach Hause, bau dir die Werkstatt von Kal'res Bauplan, stell den Alchemietisch in dein Zimmer. Dann kannst du das brauen. Komm wieder wenn du drei Energietränke gemacht hast — DREI, nicht zwei, nicht 'fast drei'. Dann zeige ich dir was Besseres.\"",
+      "npc_vandara_pamle_2": "Pamle wartet schon mit ausgestreckter Hand. \"Drei Energietränke, ja? Gut.\" Sie nimmt sie kommentarlos entgegen und stellt sie in ein Regal hinter sich. \"Ich verkaufe die übrigens an die Erstsemester für gutes Geld, falls du dich gefragt hast. Bildung ist nicht umsonst.\" Ein scharfes Grinsen. \"Jetzt zu Tier zwei: Wachpollen-Tee — Regeneration über Zeit. Und Funkenlicht-Phiole — die wirst du noch zu schätzen wissen, glaub mir. Sariel unten in den Katakomben hat sie früher kistenweise bestellt.\" Sie hustet, als hätte sie zu viel gesagt. \"Üb. Bring mir drei Funkenlicht-Phiolen wenn du soweit bist.\"",
+      "npc_vandara_pamle_3": "\"Funkenlicht-Phiolen. Drei. Schön.\" Pamle wiegt sie in der Hand, prüft die Helligkeit. \"Sauber gearbeitet. Du verstehst die Dosierung.\" Sie räumt sie ins Regal. \"Letzte Runde. Arkanwasser ist Standard für jeden Studenten, der Magie betreibt. Und Aschebrand-Tinktur — die ist meine eigene Erfindung. Aus den Pollen einer Asche-Weide. Macht dich für zwei Minuten zur Holzfäll-Maschine. Du wirst nicht glauben, wie viele Aufträge die Akademie dafür von den Bauunternehmen bekommt.\" Sie nickt zur Tür. \"Komm einmal noch wieder. Dann hab ich dir alles beigebracht was ich grad anbieten kann.\"",
+      "npc_vandara_pamle_4": "\"So.\" Pamle wischt sich die Hände an einer Schürze ab, die schon viel zu viel gesehen hat. \"Das war's mit den Grundlagen. Du beherrscht jetzt die sechs Basis-Rezepte. Was kommt, wird schwerer — Sternenfrüchte sind selten, Glut-Lotos noch seltener, und einige Rezepte verlangen Reagenzien die nur Gewitter-Seraphe einsammeln können. Aber bis dahin hast du noch was zu tun.\" Sie reicht dir die Hand. \"Geh und braue. Wenn ich je was Neues unterrichte, weißt du wo du mich findest. Ach — und Pamle ist nicht mein voller Name, ich hab nie einen bekommen. Spar dir die Frage.\"",
       "npc_vandara_sariel_4": "\"Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist was anderes.\" Sariel sortiert wieder ihre Notizen. \"Was du brauchst, lernst du jetzt von selbst. Komm wieder, wenn du etwas Komplizierteres versuchen willst. Beim nächsten Mal bring mir eine Schale Wasser mit — zeig ich dir, wie du einen Schatten holen lässt, der sie hält, während du andere Sachen machst. Das ist eigentlich der praktische Teil.\" Sie lacht trocken. \"Vierzig Jahre Lehrerin und ich verspreche immer noch das Spannende für die nächste Stunde.\"",
       "npc_vandara_ormias_1": "Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille, die ihm wirklich nicht passt. \"Setz dich, Studierende. Sechs Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die schlangenartigen mit Federn. Leviathane, Wasser oder Magma. Seraphe, hoch oben über den Wolken. Und Fae, die kleinen Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht.\"",
       "npc_vandara_ormias_2": "\"Heute zur Drachenform.\" Ormias zeichnet schematisch auf die Tafel — und seine Kreide bricht alle zwei Sekunden. \"Großdrachen sind massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine, langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große Federflügel. Leviathane je nach Variante hydrodynamisch oder gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae surren mit Libellenflügeln rum.\" Er hustet. \"Alle. Diese. Arten. Haben. Flügel.\"",
@@ -5941,6 +6281,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_ormias_name": "Lektor Ormias",
       "npc_vandara_quinell_name": "Doktor Quinell",
       "npc_vandara_sariel_name": "Sariel",
+      "npc_vandara_pamle_name": "Magistra Pamle",
       "ui_vandara-invited": "Einladungsschreiben",
       "ui_vandara-admitted": "In Vandara aufgenommen",
       "ui_vandara-enrolled": "An der Akademie eingeschrieben",
@@ -5959,6 +6300,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-shadow-revealed": "Schattenelement entdeckt",
       "ui_vandara-katakomben-entered": "Sariel kennengelernt",
       "ui_vandara-shadow-trained": "Schatten-Grundlagen erlernt",
+      "ui_vandara-alchemy-mastered": "Alchemie-Grundkurs absolviert",
       "ui_ash_flower": "Ascheblume",
       "ui_glitter_dust": "Glitzerstaub",
       "ui_tab_vandara_workshop": "Werkstatt"
@@ -6368,13 +6710,46 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-vandara-sariel": {
         "title": "Sariel"
+      },
+      "act-npc-vandara-pamle": {
+        "title": "Magistra Pamle"
+      },
+      "act-vandara-brew-energy-potion-small": {
+        "title": "Brew Small Energy Potion",
+        "effect": "energy"
+      },
+      "act-vandara-brew-magic-potion-small": {
+        "title": "Brew Small Magic Potion",
+        "effect": "magic"
+      },
+      "act-vandara-brew-pollen-tea": {
+        "title": "Brew Wakeful Pollen Tea",
+        "effect": "buff_vandara_wakeful_pollen_title"
+      },
+      "act-vandara-brew-spark-vial": {
+        "title": "Brew Spark Light Vial",
+        "effect": "buff_vandara_spark_light_title"
+      },
+      "act-vandara-brew-arcane-water": {
+        "title": "Brew Arcane Water",
+        "effect": "magic"
+      },
+      "act-vandara-brew-ash-tincture": {
+        "title": "Brew Ash Burn Tincture",
+        "effect": "buff_vandara_ash_burn_title"
       }
     },
     "buffs": {
       "item_gourmet_meal_title": "Gourmet Meal",
       "buff_gourmet_desc": "Nourishes the body sustainably.",
       "buff_harvest_title": "Ancestral Blessing",
-      "buff_harvest_desc": "Nature responds to your call (+1 to all gathering yields)."
+      "buff_harvest_desc": "Nature responds to your call (+1 to all gathering yields).",
+      "buff_vandara_wakeful_pollen_title": "Wakeful Pollen Tea",
+      "buff_vandara_wakeful_pollen_desc": "Gentle energy boost. +1 energy regen per tick, 60 seconds.",
+      "buff_vandara_spark_light_title": "Spark Light",
+      "buff_vandara_spark_light_desc": "Portable light source. Cuts arcane focus cost noticeably. 90 seconds.",
+      "buff_vandara_ash_burn_title": "Ash Burn",
+      "buff_vandara_ash_burn_desc": "Hot, pulsing energy rush. Wood and stone yield +1 per action, 2 minutes."
     },
     "items": {
       "item_wanderstock_title": "Walking Stick",
@@ -6455,7 +6830,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_vandara_letter_title": "Rose Gold Academy Invitation",
       "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed.",
       "item_vandara_student_id_title": "Rose Gold Academy Student ID",
-      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\""
+      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\"",
+      "item_alchemy_table_title": "Alchemy Table",
+      "item_alchemy_table_desc": "Solid, heat-resistant table with vial holders, a small burner and a mortar shelf. From Kal're's blueprint. Place it in one of your homes — Pamle's recipes will then be ready to brew."
     },
     "logs": {
       "save_success": "Game saved successfully.",
@@ -6627,7 +7004,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_trial_light": "Light trial — something flickered. But not clean light. Veyra is unsettled-fascinated.",
       "vandara_shadow_revealed": "Veyra has confirmed it: you are a shadow-shifter. A sub-variant of Light, extremely rare. She points you to someone who can actually help — Fafa knows where.",
       "vandara_katakomben_entered": "Fafa leads you into the catacombs. In a small chamber waits someone named Sariel — candlelit, blind, and apparently not surprised.",
-      "vandara_shadow_trained": "Sariel has walked you through the basics. You're awake — the rest comes with practice."
+      "vandara_shadow_trained": "Sariel has walked you through the basics. You're awake — the rest comes with practice.",
+      "vandara_pamle_intro_done": "Pamle showed you the two basic recipes — energy potion and magic potion.",
+      "vandara_pamle_tier2_done": "Pamle takes your three energy potions and teaches you tier-2 — Wakeful Pollen Tea and Spark Light Vial.",
+      "vandara_pamle_tier3_done": "Pamle takes three Spark Light Vials and teaches you Arcane Water and Ash Burn Tincture.",
+      "vandara_alchemy_mastered": "You've mastered Pamle's full basics. More complex recipes will come later."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -6790,6 +7171,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_sariel_1": "The tunnel opens into a small chamber. A single candle burns on a low table. The person behind it doesn't turn around — they keep sorting notes on the table with their fingertips. \"You're far too loud for your size, {player}. Walk softer when you're in a tunnel. Otherwise you don't hear when someone's standing in front of you.\" Their scales — if you can even call them that, sharp black crystals along the neck — clink faintly. Sariel raises their head, looks in your direction but not into your eyes. \"Ah. Sit down. I'm Sariel. Make yourself comfortable — the candle is plenty for both of us, I don't need any light.\"",
       "npc_vandara_sariel_2": "\"You want to know what shadow is.\" Sariel pushes an old book in your direction without looking. \"Here. Magic Theory chapter six. Quinell recommended it to you, didn't he? He copied it out of my class forty years ago. Read.\" A pause. \"Or don't. I know it by heart. Shadow is light that has enough depth to develop a will of its own. When light falls into a room, a light-shifter makes brightness. You make hollows. The hollows LISTEN. Got it? No? Good. That was a lie because I wanted to keep it short. Read the chapter.\"",
       "npc_vandara_sariel_3": "\"Stand in the light.\" Sariel gestures at the candle. \"Now reach out. Not toward the candle. Toward the shadow you cast.\" You hesitate. Sariel grins, the first time today. \"Yes, that works. Feel, don't think. Shadows are denser than ordinary light — palpable, when you know where.\" Long silence. Then: \"Ah. There. You grabbed it. Feel the weight? Very good. Same way I learned it, at twelve, from a shifter in the Emerald Forest. Blind too, like me now. She said back then, eyes are just one way of many. Took me until I had to before I believed it.\"",
+      "npc_vandara_pamle_1": "Pamle is a compact magma-dragon-shifter, in humanoid form just shoulder-height to you, with scales like crusted lava across her forearms. She stands at an improvised table piled with empty vials and crushed plant remains. \"{player}, right? Sit. I'll make this quick: I'm Pamle, I teach alchemy. We start with two very simple recipes — energy potion and magic potion. They need nothing more than herbs, water, and a bit of heat.\" She taps her temple. \"Go home, build the workshop from Kal're's blueprint, place the alchemy table in your room. Then you can brew them. Come back when you've made three energy potions — THREE, not two, not 'almost three'. Then I'll show you something better.\"",
+      "npc_vandara_pamle_2": "Pamle waits with her hand already out. \"Three energy potions, yes? Good.\" She takes them without comment and stores them on a shelf behind her. \"I sell them to the first-years for decent money, by the way, in case you were wondering. Education isn't free.\" A sharp grin. \"Now tier two: Wakeful Pollen Tea — regen over time. And Spark Light Vial — you'll learn to appreciate that one, trust me. Sariel down in the catacombs used to order them by the crate.\" She coughs as if she'd said too much. \"Practice. Bring me three Spark Light Vials when you're ready.\"",
+      "npc_vandara_pamle_3": "\"Spark Light Vials. Three. Nice.\" Pamle weighs them in her hand, checks the brightness. \"Cleanly done. You understand the dosing.\" She racks them. \"Last round. Arcane Water is standard for any student who casts magic. And Ash Burn Tincture — that's my own invention. Made from Ash Willow pollen. Turns you into a logging machine for two minutes. You wouldn't believe how many orders the academy gets from construction firms for it.\" She nods to the door. \"Come back once more. Then I'll have taught you everything I currently offer.\"",
+      "npc_vandara_pamle_4": "\"So.\" Pamle wipes her hands on an apron that's seen far too much. \"That's the basics. You handle the six base recipes. What's next gets harder — Star Berries are rare, Ember Lotus rarer still, and some recipes demand reagents only Storm Seraphs can gather. But until then you've got plenty to do.\" She offers her hand. \"Go and brew. If I ever teach anything new, you know where to find me. Oh — and Pamle isn't my full name, I never had one. Save the question.\"",
       "npc_vandara_sariel_4": "\"You're not trained now. You're awake — that's something else.\" Sariel goes back to sorting notes. \"What you need from here, you'll learn yourself. Come back if you want to try something more complicated. Next time bring me a bowl of water — I'll show you how to fetch a shadow that holds it while you do other things. That's actually the practical part.\" They laugh drily. \"Forty years teaching and I still promise the interesting stuff for next session.\"",
       "npc_vandara_ormias_1": "Lector Ormias is old. Very old. His dragon-form skull shimmers when he speaks — Magma Lindwurm line, scales like hardened lava. He wears rumpled robes and a pair of glasses that really don't fit. \"Sit, student. We know six main types. Great Dragons from the Crystal Realm, that's the bread-and- butter people. Wyverns, who fused their forelimbs into wings. Lindwurms — my kind. Amphitheres, the serpentine ones with feathers. Leviathans, water or magma. Seraphs, high above the clouds. And Fae, the little dragonflies from the Emerald Forest. That's it. Nothing else.\"",
       "npc_vandara_ormias_2": "\"Today the dragon form.\" Ormias sketches on the board — and his chalk breaks every two seconds. \"Great Dragons: massive, many horns, two strong wings. Wyverns: two hindlegs plus wing- forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres: no legs, just one pair of large feathered wings. Leviathans hydrodynamic or armoured depending on variant. Seraphs have several thin wings stacked. Fae buzz around on dragonfly wings.\" He coughs. \"All. Of. These. Types. Have. Wings.\"",
@@ -7161,6 +7546,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_ormias_name": "Lector Ormias",
       "npc_vandara_quinell_name": "Doctor Quinell",
       "npc_vandara_sariel_name": "Sariel",
+      "npc_vandara_pamle_name": "Magistra Pamle",
       "ui_vandara-invited": "Invitation letter",
       "ui_vandara-admitted": "Admitted to Vandara",
       "ui_vandara-enrolled": "Enrolled at the Academy",
@@ -7179,6 +7565,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-shadow-revealed": "Shadow element discovered",
       "ui_vandara-katakomben-entered": "Met Sariel",
       "ui_vandara-shadow-trained": "Shadow basics learned",
+      "ui_vandara-alchemy-mastered": "Alchemy basics mastered",
       "ui_ash_flower": "Ash Flower",
       "ui_glitter_dust": "Glitter Dust",
       "ui_tab_vandara_workshop": "Workshop"

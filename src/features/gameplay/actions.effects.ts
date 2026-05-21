@@ -142,6 +142,17 @@ export function registerBuiltinEffects(
     svc().resource.add(game, resource, amount);
   });
 
+  // Counters tally per-action usage automatically (actions.logic.ts
+  // bumps counters[actionId] on success). This effect lets a step
+  // consume those tallies — used by tribute-style quest steps that
+  // demand "you've brewed N of these AND they're spent on me now".
+  // Floors at 0 so negative tally can't accidentally happen.
+  registerEffect('modifyCounter', (game, { counter, amount }) => {
+    if (!game.counters) (game as any).counters = {};
+    const next = ((game.counters as Record<string, number>)[counter] || 0) + (amount as number);
+    (game.counters as Record<string, number>)[counter] = Math.max(0, next);
+  });
+
   registerEffect('setHome', (game, { id }) => {
     game.activeHome = id;
     invalidateCaches(svc());

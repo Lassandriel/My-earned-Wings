@@ -1,0 +1,115 @@
+# Vandara workshop recipes — the six MVP alchemy actions.
+#
+# All have category: vandara_workshop so the Main view's Workshop
+# section (see content/addons/vandara/sections/workshop.yaml)
+# auto-picks them up. The section's recipeLockedUnlessPlaced check
+# greys the buttons out until the Alchemy Table is placed in a
+# home. Pamle's quest controls which recipes are actually unlocked
+# (act-npc-vandara-pamle steps fire unlockRecipe on success).
+#
+# Cost convention: every recipe needs at least 2 different
+# ingredients per Lassandriel's spec. Sofort-Effekte use
+# modifyResource onSuccess; Über-Zeit-Effekte use addBuff.
+#
+# Counters: every brew automatically bumps counters[<actionId>]
+# (base game's actions.logic.ts handles that for any successful
+# action). Pamle's tribute steps check those counters via
+# requirements + spend them via modifyCounter.
+
+# ─── Tier 1 — taught by Pamle stage 1 ────────────────────────────
+
+# Kleiner Energietrank — instant +20 energy. Two ingredient slots
+# (herbs ×2 + water ×1) means we need a `costs` map instead of the
+# single-cost shorthand.
+- id: act-vandara-brew-energy-potion-small
+  category: vandara_workshop
+  icon: "🧪"
+  costs:
+    herbs: 2
+    water: 1
+  onSuccess:
+    - type: modifyResource
+      resource: energy
+      amount: 20
+  maxCount: 99
+  sfx: craft
+  particleType: knowledge
+
+# Kleiner Magietrank — instant +10 magic.
+- id: act-vandara-brew-magic-potion-small
+  category: vandara_workshop
+  icon: "🧪"
+  costs:
+    flowers: 1
+    water: 2
+  onSuccess:
+    - type: modifyResource
+      resource: magic
+      amount: 10
+  maxCount: 99
+  sfx: craft
+  particleType: knowledge
+
+# ─── Tier 2 — taught by Pamle stage 2 ────────────────────────────
+
+# Wachpollen-Tee — passive energy regen, 60s buff.
+- id: act-vandara-brew-pollen-tea
+  category: vandara_workshop
+  icon: "🍵"
+  costs:
+    glowpollen: 2
+    flowers: 1
+  onSuccess:
+    - type: addBuff
+      buffId: buff-vandara-wakeful-pollen
+  maxCount: 99
+  sfx: craft
+  particleType: knowledge
+
+# Funkenlicht-Phiole — portable light: cuts arcane focus cost
+# for 90s. Vandara-flavoured recipe (uses Kal're's reagents).
+- id: act-vandara-brew-spark-vial
+  category: vandara_workshop
+  icon: "✨"
+  costs:
+    ash_flower: 1
+    glitter_dust: 2
+  onSuccess:
+    - type: addBuff
+      buffId: buff-vandara-spark-light
+  maxCount: 99
+  sfx: craft
+  particleType: shards
+
+# ─── Tier 3 — taught by Pamle stage 3 ────────────────────────────
+
+# Arkanwasser — student staple: chunky magic kick + tiny regen.
+# Tier-3 because the regen needs more reagents (3 inputs).
+- id: act-vandara-brew-arcane-water
+  category: vandara_workshop
+  icon: "💧"
+  costs:
+    arcane_dust: 1
+    water: 2
+    glitter_dust: 1
+  onSuccess:
+    - type: modifyResource
+      resource: magic
+      amount: 30
+  maxCount: 99
+  sfx: craft
+  particleType: shards
+
+# Aschebrand-Tinktur — wood+stone yield buff, 2min.
+- id: act-vandara-brew-ash-tincture
+  category: vandara_workshop
+  icon: "🔥"
+  costs:
+    ash_flower: 3
+    resin: 1
+  onSuccess:
+    - type: addBuff
+      buffId: buff-vandara-ash-burn
+  maxCount: 99
+  sfx: craft
+  particleType: shards

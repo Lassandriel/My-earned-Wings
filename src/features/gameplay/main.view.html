@@ -33,6 +33,32 @@
     sectionIsActive(sec) {
       return !sec.requiresFlag || !!$store.game.flags[sec.requiresFlag];
     },
+    /** True if the player has been taught this recipe (or it's
+     *  category content that doesn't require explicit teaching —
+     *  base kitchen recipes show as soon as the kitchen is built,
+     *  no unlockedRecipes gate). Workshop recipes go through Pamle. */
+    recipeAvailable(sec, actionId) {
+      // Workshop pattern: hide recipes the player hasn't been taught
+      // yet, even though the section is visible. Detect by whether
+      // the recipe is on the unlockedRecipes list at all — if not
+      // and the action is a category that gates by teaching
+      // (vandara_workshop), hide. Other categories show unconditionally.
+      if (sec.actionCategory === 'vandara_workshop') {
+        return $store.game.unlockedRecipes && $store.game.unlockedRecipes.includes(actionId);
+      }
+      return true;
+    },
+    /** Recipe is greyed (visible but unclickable) when the section
+     *  declares a placement requirement and the item isn't placed.
+     *  Keeps the cost tooltip working so the player can still see
+     *  what they'd need — they just can't fire the brew. */
+    recipeIsLocked(sec, actionId) {
+      if (sec.recipeLockedUnlessPlaced) {
+        const placed = $store.game.placedItems || [];
+        if (!placed.includes(sec.recipeLockedUnlessPlaced)) return true;
+      }
+      return false;
+    },
     /** Sub-tab has content right now? Drives the sub-tab strip's
      *  visibility (mirrors the Orte hide-when-only-one pattern). */
     subTabHasContent(subTab) {
@@ -95,7 +121,14 @@
        Sections are pure data: each entry in the `sections` registry
        with `subTab: herstellen` becomes a card-list. Base ships
        Kitchen; addons (Vandara) ship Workshop. Base never references
-       a specific addon — just iterates whatever sections are loaded. -->
+       a specific addon — just iterates whatever sections are loaded.
+
+       Sections may carry `recipeLockedUnlessPlaced: <itemId>`. When
+       set, recipe buttons stay visible but `is-locked` (greyed,
+       unclickable) until the referenced furniture is placed in a
+       home. Recipes the player hasn't been taught (recipe id not in
+       unlockedRecipes) are hidden, not greyed — keeps the discovery
+       moment intact when an NPC teaches them. -->
   <div x-show="$store.game.currentMainSubTab === 'herstellen'" class="action-container">
     <div class="action-column">
       <template x-for="sec in getSectionsForSubTab('herstellen')" :key="sec.id">
@@ -111,9 +144,14 @@
           <div class="btn-list">
             <template x-for="actionId in getActions(sec.actionCategory)" :key="actionId">
               <button
+                x-show="recipeAvailable(sec, actionId)"
                 class="game-btn action-btn-modular"
-                :class="$store.game.isTaskActive(actionId) && 'is-working'"
-                @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
+                :class="{
+                  'is-working': $store.game.isTaskActive(actionId),
+                  'is-locked': recipeIsLocked(sec, actionId)
+                }"
+                :disabled="recipeIsLocked(sec, actionId)"
+                @click="!recipeIsLocked(sec, actionId) && $store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
                 @mouseover="$store.game.setHovered(actionId)"
                 @mouseout="$store.game.setHovered(null)"
               >
