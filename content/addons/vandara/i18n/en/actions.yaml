@@ -3,3 +3,28 @@ act-npc-vandara-gate-guard:
   # Shown as the "Effect:" bullet in the tooltip. The action only sets
   # a flag; this is the player-facing copy of what the flag means.
   unlocks: "Access to Vandara"
+
+act-npc-vandara-olie:
+  title: Secretary Olié
+
+act-npc-vandara-kalre:
+  title: Trader Kal're
+
+act-npc-vandara-fafa:
+  title: Beggar Fafa
+  unlocks: "Access to the Catacombs"
+
+act-vandara-buy-ash-flower:
+  title: "Buy Ash Flower"
+  effect: ash_flower
+
+act-vandara-buy-glitter-dust:
+  title: "Buy Glitter Dust"
+  effect: glitter_dust
+
+act-vandara-buy-workshop-blueprint:
+  title: "Buy Workshop Blueprint"
+  unlocks: "Recipe: Build Workshop"
+
+act-build-workshop:
+  title: "Build Workshop"

@@ -8,6 +8,101 @@ npc_teacher_vandara_letter: >-
 
 # ─── Gate guard at the Vandara city walls ──────────────────
 # (his name lives in ui.yaml — base game convention.)
+# Olié — secretariat / enrollment
+npc_vandara_olie_1: >-
+  Secretary Olié looks up from his stack of files — an elegantly
+  feathered serpent with iridescent scales like wet pebbles. "Ah.
+  A new enrolment." He smiles, polite but distant. "Please have a
+  seat. We'll go through the necessary in order. Name, origin,
+  element if known." His feathered crest twitches when you hesitate
+  on the last. "Unknown is also an answer, don't worry."
+
+npc_vandara_olie_2: >-
+  "Now, the enrolment fee." Olié slides a tiny bronze dish across
+  the desk. "Twenty-five shards, one-off. The academy itself is
+  free — we are not the Crystal Realm. The fee just covers
+  paperwork and a sip of tea should you have to wait."
+
+npc_vandara_olie_3: >-
+  "Here is your ID." Olié hands you a thin, weighty plaque of
+  polished rose gold. "It gets you anywhere you're allowed — and a
+  few places you're not, but nobody checks. Ask around on the
+  streets if you get lost. Kal're at the market talks to everyone.
+  And... old Fafa at the fountain — give her a few shards, she's
+  seen more of this city than all our files combined."
+
+# Kal're — trader in the streets of Vandara
+npc_vandara_kalre_1: >-
+  A young dragon-shifter with silver-blue hair and a stall full of
+  glass jars calls out to you. "You're new, yeah? Easy to tell."
+  She grins wide. "Kal're, from the Crystal Realm. Wind line. Did
+  I already mention I'm from the Crystal Realm? I like saying it
+  — then nobody asks why my scales are like glass." She nudges a
+  small dish of ash flowers towards you. "Sniff. Smells like
+  volcanic dust and one other thing you can't quite name. If you
+  ever set foot in an alchemy lab, you'll need these."
+
+npc_vandara_kalre_2: >-
+  "You're back! Good, good." Kal're sorts glitter dust into tiny
+  pouches. "You'll see — in Vandara everyone talks to everyone and
+  everyone knows everything. Except the things they shouldn't, on
+  those they're surprisingly disciplined."
+
+npc_vandara_kalre_3: >-
+  "Wondering if I trust you yet, eh?" She laughs. "Enough. Listen,
+  I've got something else to sell you — a blueprint. A workshop,
+  small, doable. With one of those you can turn reagents into
+  something useful. Hundred shards. A bargain."
+
+npc_vandara_kalre_4: >-
+  Kal're waves you closer. "Know what's funny about Vandara? The
+  academy acts like it's the heart of the city. But the real
+  things happen in the back rooms. The streets. The catacombs
+  below." She winks. "Don't repeat that."
+
+npc_vandara_kalre_5: >-
+  "You're a regular now." Kal're taps her forehead. "If you ever
+  need anything rare — really rare — come to me before you ask
+  anyone else. I'll find it. Or I'll know someone who'll find it."
+
+# Fafa — beggar at the fountain
+npc_vandara_fafa_1: >-
+  An old dragon-shifter sits hunched at the edge of the fountain,
+  wrapped in a dusty grey cloak. Scales like cracked granite peek
+  from under the cloth. She doesn't raise her head, but a bony
+  hand stretches towards you. "A few shards for an old earth-
+  dragon?" When you give, she finally looks up — grey eyes,
+  sharp as freshly honed blades. "Thank you, child. You're new.
+  This city has names, you know. Not just the one above the gate.
+  Come back — I'll tell you one."
+
+npc_vandara_fafa_2: >-
+  Fafa pockets the shards without looking. "Vandara means 'change'.
+  But they never tell you who wants the change and who fears it."
+  She gestures at the academy behind you. "King Archivaris, the
+  old keeper of bones, wants everything kept as it was. King-
+  Rectoress Novia wants everything made new. They've been arguing
+  before the imperial court for years. While they argue, no one
+  truly rules. That makes Vandara... interesting. Come back."
+
+npc_vandara_fafa_3: >-
+  "You keep coming back. That's rare." Fafa smiles, and for a
+  moment she doesn't look old, just tired. "Listen, child. The
+  students in the upper halls learn what the mentors are allowed
+  to teach. What they really want to know they learn elsewhere.
+  Beneath the city. Come back one more time, and I'll show you
+  where."
+
+npc_vandara_fafa_4: >-
+  This time Fafa takes no shards. She stands — and is suddenly
+  taller than you thought. "Come." She leads you to an
+  unremarkable storm drain behind the fountain, slides the iron
+  aside as if it were a curtain. "The catacombs. The old tunnels
+  from before the Unspeakable. Down here you'll find the ones who
+  can really help you — if you have the courage to descend." She
+  looks at you for a long moment. "Don't go alone until you know
+  someone there you can trust. But go."
+
 npc_vandara_gate_guard_admit: >-
   The gate warden — a massive earth-dragon shifter with scales like
   polished stone — looks you over slowly as you produce the letter.

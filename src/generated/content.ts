@@ -205,6 +205,24 @@ export const RESOURCE_REGISTRY_GENERATED: Record<string, any> = {
     "isEssential": true,
     "wingSlot": "head",
     "scalesWithSatiation": false
+  },
+  "ash_flower": {
+    "id": "ash_flower",
+    "type": "resource",
+    "category": "materials",
+    "color": "var(--accent-teal)",
+    "initial": 0,
+    "initialLimit": 30,
+    "scalesWithSatiation": false
+  },
+  "glitter_dust": {
+    "id": "glitter_dust",
+    "type": "resource",
+    "category": "materials",
+    "color": "var(--accent-teal)",
+    "initial": 0,
+    "initialLimit": 30,
+    "scalesWithSatiation": false
   }
 };
 
@@ -3114,6 +3132,221 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     },
     "logKey": "buy_iron_parts_log"
   },
+  "act-npc-vandara-olie": {
+    "id": "act-npc-vandara-olie",
+    "npcId": "npc-vandara-olie",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraOlie",
+    "maxProgress": 3,
+    "journalIcon": "📋",
+    "icon": "📋",
+    "journalColor": "#0ea5e9",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-admitted": true
+        },
+        "dialogueKey": "npc_vandara_olie_1"
+      },
+      {
+        "cost": 25,
+        "costType": "shards",
+        "dialogueKey": "npc_vandara_olie_2"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "unlockItem",
+            "id": "item-vandara-student-id"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-enrolled",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_enrolled",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_olie_3"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-kalre": {
+    "id": "act-npc-vandara-kalre",
+    "npcId": "npc-vandara-kalre",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraKalre",
+    "maxProgress": 5,
+    "journalIcon": "🌬️",
+    "icon": "🌬️",
+    "journalColor": "#a5b4fc",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-admitted": true
+        },
+        "dialogueKey": "npc_vandara_kalre_1"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_kalre_2"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_kalre_3"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_kalre_4"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_kalre_5"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-vandara-buy-ash-flower": {
+    "id": "act-vandara-buy-ash-flower",
+    "category": "village",
+    "icon": "🌸",
+    "cost": 5,
+    "costType": "shards",
+    "yieldType": "ash_flower",
+    "rewards": {
+      "ash_flower": 1
+    },
+    "sfx": "click",
+    "particleType": "shards"
+  },
+  "act-vandara-buy-glitter-dust": {
+    "id": "act-vandara-buy-glitter-dust",
+    "category": "village",
+    "icon": "✨",
+    "cost": 10,
+    "costType": "shards",
+    "yieldType": "glitter_dust",
+    "rewards": {
+      "glitter_dust": 1
+    },
+    "sfx": "click",
+    "particleType": "shards"
+  },
+  "act-vandara-buy-workshop-blueprint": {
+    "id": "act-vandara-buy-workshop-blueprint",
+    "category": "village",
+    "icon": "📐",
+    "cost": 100,
+    "costType": "shards",
+    "onSuccess": [
+      {
+        "type": "unlockRecipe",
+        "id": "act-build-workshop"
+      },
+      {
+        "type": "setFlag",
+        "flag": "vandara-workshop-unlocked",
+        "value": true
+      },
+      {
+        "type": "log",
+        "logKey": "vandara_workshop_blueprint",
+        "color": "var(--gold)"
+      }
+    ],
+    "sfx": "click"
+  },
+  "act-build-workshop": {
+    "id": "act-build-workshop",
+    "category": "crafting",
+    "icon": "🏗️",
+    "cost": 50,
+    "costType": "wood",
+    "requirements": {
+      "flags.vandara-workshop-unlocked": true
+    },
+    "onSuccess": [
+      {
+        "type": "setFlag",
+        "flag": "vandara-workshop-built",
+        "value": true
+      },
+      {
+        "type": "log",
+        "logKey": "vandara_workshop_built",
+        "color": "var(--gold)"
+      }
+    ],
+    "sfx": "build"
+  },
+  "act-npc-vandara-fafa": {
+    "id": "act-npc-vandara-fafa",
+    "npcId": "npc-vandara-fafa",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraFafa",
+    "maxProgress": 4,
+    "journalIcon": "🪨",
+    "icon": "🪙",
+    "journalColor": "#a8a29e",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "shards",
+        "requirements": {
+          "flags.vandara-admitted": true
+        },
+        "dialogueKey": "npc_vandara_fafa_1"
+      },
+      {
+        "cost": 10,
+        "costType": "shards",
+        "dialogueKey": "npc_vandara_fafa_2"
+      },
+      {
+        "cost": 10,
+        "costType": "shards",
+        "dialogueKey": "npc_vandara_fafa_3"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-katakomben-unlocked",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_katakomben_unlocked",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_fafa_4"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
   "act-npc-vandara-gate-guard": {
     "id": "act-npc-vandara-gate-guard",
     "npcId": "npc-vandara-gate-guard",
@@ -3137,6 +3370,18 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "setFlag",
             "flag": "vandara-admitted",
             "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-olie"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-kalre"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-fafa"
           },
           {
             "type": "log",
@@ -3608,6 +3853,14 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/items/scroll.webp",
     "consumable": false,
     "category": "lore"
+  },
+  "item-vandara-student-id": {
+    "id": "item-vandara-student-id",
+    "title": "item_vandara_student_id_title",
+    "desc": "item_vandara_student_id_desc",
+    "image": "img/items/scroll.webp",
+    "consumable": false,
+    "category": "lore"
   }
 };
 
@@ -3754,6 +4007,50 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "progKey": "aris",
     "maxProgress": 6,
     "chapter": "The Dream"
+  },
+  "npc-vandara-olie": {
+    "id": "npc-vandara-olie",
+    "nameKey": "npc_vandara_olie_name",
+    "icon": "📋",
+    "color": "#0ea5e9",
+    "progKey": "vandaraOlie",
+    "maxProgress": 3,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
+  "npc-vandara-kalre": {
+    "id": "npc-vandara-kalre",
+    "nameKey": "npc_vandara_kalre_name",
+    "icon": "🌬️",
+    "color": "#a5b4fc",
+    "progKey": "vandaraKalre",
+    "maxProgress": 5,
+    "chapter": "Vandara",
+    "location": "vandara",
+    "tradeActions": [
+      {
+        "id": "act-vandara-buy-ash-flower",
+        "minProgress": 1
+      },
+      {
+        "id": "act-vandara-buy-glitter-dust",
+        "minProgress": 1
+      },
+      {
+        "id": "act-vandara-buy-workshop-blueprint",
+        "minProgress": 3
+      }
+    ]
+  },
+  "npc-vandara-fafa": {
+    "id": "npc-vandara-fafa",
+    "nameKey": "npc_vandara_fafa_name",
+    "icon": "🪨",
+    "color": "#a8a29e",
+    "progKey": "vandaraFafa",
+    "maxProgress": 4,
+    "chapter": "Vandara",
+    "location": "vandara"
   },
   "npc-vandara-gate-guard": {
     "id": "npc-vandara-gate-guard",
@@ -4290,6 +4587,31 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-vandara-gate-guard": {
         "title": "Torwächter",
         "unlocks": "Zugang zu Vandara"
+      },
+      "act-npc-vandara-olie": {
+        "title": "Sekretär Olié"
+      },
+      "act-npc-vandara-kalre": {
+        "title": "Händlerin Kal're"
+      },
+      "act-npc-vandara-fafa": {
+        "title": "Bettlerin Fafa",
+        "unlocks": "Zugang zu den Katakomben"
+      },
+      "act-vandara-buy-ash-flower": {
+        "title": "Ascheblume kaufen",
+        "effect": "ash_flower"
+      },
+      "act-vandara-buy-glitter-dust": {
+        "title": "Glitzerstaub kaufen",
+        "effect": "glitter_dust"
+      },
+      "act-vandara-buy-workshop-blueprint": {
+        "title": "Werkstatt-Bauplan kaufen",
+        "unlocks": "Rezept: Werkstatt bauen"
+      },
+      "act-build-workshop": {
+        "title": "Werkstatt bauen"
       }
     },
     "buffs": {
@@ -4375,7 +4697,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_crystal_apple_title": "Kristallapfel",
       "item_crystal_apple_desc": "Ein gläsern glänzender Apfel, der magisch nährt (+30 Sättigung, +20 Energie).",
       "item_vandara_letter_title": "Einladung der Roségold-Akademie",
-      "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei."
+      "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei.",
+      "item_vandara_student_id_title": "Studentenausweis der Roségold-Akademie",
+      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\""
     },
     "logs": {
       "save_success": "Spiel erfolgreich gespeichert.",
@@ -4532,7 +4856,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_with_house": "\"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!\"",
       "focus_broken_magic": "Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.",
       "receive_vandara_letter": "Aria überreicht dir einen Brief mit roségoldenem Siegel. Eine Einladung zur Akademie in Vandara.",
-      "vandara_admitted": "Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir."
+      "vandara_admitted": "Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir.",
+      "vandara_enrolled": "Olié reicht dir den Studentenausweis. Du bist offiziell Studentin/Student der Roségold-Akademie.",
+      "vandara_workshop_blueprint": "Kal're rollt einen kleinen, präzise gezeichneten Bauplan auf — ein Werkstatt-Entwurf.",
+      "vandara_workshop_built": "Deine kleine Werkstatt steht. Jetzt fehlt nur noch jemand, der dir zeigt, was du damit anfangen kannst.",
+      "vandara_katakomben_unlocked": "Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter Vandara. Eine andere Stadt liegt unten."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -4668,6 +4996,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_9": "<i>Legenden besagen, dass der Planet einst eine ganze Kugel war, bis ein unbekanntes Ereignis ihn in tausend Stücke zerschmetterte.</i>",
       "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>",
       "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\"",
+      "npc_vandara_olie_1": "Sekretär Olié sieht von seinem Stapel Akten auf — eine elegant gefiederte Schlange mit irisierenden Schuppen, die wie nasse Kieselsteine glänzen. \"Ah. Eine Neueinschreibung.\" Er lächelt höflich, aber distanziert. \"Bitte nehmen Sie Platz. Wir gehen das Notwendige der Reihe nach durch. Name, Herkunft, Element wenn bekannt.\" Sein Federkamm zuckt leicht, als du beim letzten Punkt zögerst. \"Unbekannt ist auch eine Antwort, keine Sorge.\"",
+      "npc_vandara_olie_2": "\"So, die Einschreibegebühr.\" Olié schiebt dir ein winziges Bronzeschälchen über den Tisch. \"Fünfundzwanzig Splitter, einmalig. Die Akademie selbst ist kostenfrei — wir sind nicht das Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und einen Schluck Tee, falls Sie länger warten müssen.\"",
+      "npc_vandara_olie_3": "\"Hier ist Ihr Ausweis.\" Olié reicht dir ein dünnes, schweres Plättchen aus poliertem Roségold. \"Damit kommen Sie überall hin, wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht hindürften, aber die niemand kontrolliert. Erkundigen Sie sich auf den Straßen, falls Sie sich verlaufen. Kal're am Markt redet mit jedem. Und... mit der alten Fafa am Brunnen — geben Sie ihr ein paar Splitter, sie hat mehr in dieser Stadt gesehen als alle Akten zusammen.\"",
+      "npc_vandara_kalre_1": "Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand voller Glasgefäße ruft dir zu. \"Du bist neu, ja? Sieht man.\" Sie grinst breit. \"Kal're, aus dem Kristallreich. Windlinie. Habe ich schon gesagt, dass ich aus dem Kristallreich bin? Das tu ich gern, dann fragt niemand, warum ich Schuppen wie Glas habe.\" Sie schiebt dir ein Schälchen Ascheblumen zu. \"Schnupper mal. Riecht nach Vulkanstaub und nach einer Sache, die du nicht benennen kannst. Wenn du jemals in ein Alchemielabor kommst, wirst du sie brauchen.\"",
+      "npc_vandara_kalre_2": "\"Du bist wieder da! Gut, gut.\" Kal're sortiert Glitzerstaub in winzige Tütchen. \"Wirst sehen, in Vandara redet jeder mit jedem und alle wissen alles. Außer das, was sie nicht wissen sollen — da sind sie erstaunlich diszipliniert.\"",
+      "npc_vandara_kalre_3": "\"Du fragst dich, ob ich dir traue, ja?\" Sie lacht. \"Genug. Hör mal, ich verkaufe dir gleich noch was anderes — einen Bauplan. Ein Workshop, klein, machbar. Mit dem kannst du Reagenzien zu was Nützlichem verarbeiten. Hundert Splitter. Ein Schnäppchen.\"",
+      "npc_vandara_kalre_4": "Kal're winkt dich näher. \"Weißt du, was das Lustige an Vandara ist? Die Akademie tut so, als wäre sie das Herz der Stadt. Aber die echten Sachen passieren in den Hinterzimmern. Auf den Straßen. In den Katakomben unten.\" Sie blinzelt. \"Sag's nicht weiter.\"",
+      "npc_vandara_kalre_5": "\"Du bist jetzt einer von meinen Stammkunden.\" Kal're tippt sich gegen die Stirn. \"Wenn du je was Seltenes brauchst — was wirklich Seltenes — komm zu mir, bevor du irgendwen anders fragst. Ich finde es. Oder kenne jemanden, der's findet.\"",
+      "npc_vandara_fafa_1": "Eine alte Drachenwandlerin sitzt zusammengesunken am Rand des Brunnens, in einen verstaubten grauen Umhang gehüllt. Schuppen wie geborstener Granit lugen unter dem Stoff hervor. Sie hebt nicht den Kopf, aber eine knochige Hand streckt sich dir entgegen. \"Ein paar Splitter für eine alte Erddrachin?\" Als du gibst, blickt sie endlich auf — graue Augen, scharf wie frisch geschliffene Klingen. \"Danke, Kind. Du bist neu. Diese Stadt hat Namen, weißt du? Nicht nur den, der oben am Tor steht. Komm wieder — ich erzähle dir einen.\"",
+      "npc_vandara_fafa_2": "Fafa nimmt die Splitter, ohne hinzusehen. \"Vandara heißt 'Wandel'. Aber sie sagen dir nie, wer den Wandel will und wer ihn fürchtet.\" Sie deutet auf die Akademie hinter dir. \"König Archivaris, der alte Knochenhalter, will alles so behalten wie's war. König- Rektorin Novia will alles neu. Die beiden streiten sich seit Jahren vor dem Kaiserhof. Solange sie streiten, regiert in Wahrheit niemand. Das macht Vandara... interessant. Komm wieder.\"",
+      "npc_vandara_fafa_3": "\"Du kommst immer wieder. Das ist selten.\" Fafa lächelt, und für einen Moment sieht sie nicht alt aus, sondern müde. \"Hör zu, Kind. Die Studenten in den oberen Hörsälen lernen, was die Mentoren beibringen dürfen. Was sie wirklich wissen wollen, lernen sie woanders. Unter der Stadt. Komm noch einmal wieder, und ich zeige dir, wo.\"",
+      "npc_vandara_fafa_4": "Diesmal nimmt Fafa keine Splitter. Sie steht auf — und ist auf einmal größer, als du gedacht hast. \"Komm.\" Sie führt dich zu einem unscheinbaren Gully hinter dem Brunnen, schiebt das Eisen beiseite, als wäre es ein Vorhang. \"Die Katakomben. Die alten Tunnel aus der Zeit vor dem Unaussprechlichen. Hier unten findest du die, die dir wirklich helfen können — wenn du den Mut hast herunterzukommen.\" Sie blickt dich lange an. \"Geh nicht alleine hin, bis du jemanden kennst, dem du dort vertraust. Aber geh.\"",
       "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\""
     },
     "resources": {
@@ -4692,7 +5032,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "water": "Wasser",
       "gourmet-meal": "Gourmet-Mahlzeit",
       "focus": "Arkaner Fokus",
-      "knowledge": "Wissen"
+      "knowledge": "Wissen",
+      "ash_flower": "Ascheblume",
+      "glitter_dust": "Glitzerstaub"
     },
     "titles": {},
     "ui": {
@@ -5019,8 +5361,17 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Torwächter",
+      "npc_vandara_olie_name": "Sekretär Olié",
+      "npc_vandara_kalre_name": "Händlerin Kal're",
+      "npc_vandara_fafa_name": "Bettlerin Fafa",
       "ui_vandara-invited": "Einladungsschreiben",
-      "ui_vandara-admitted": "In Vandara aufgenommen"
+      "ui_vandara-admitted": "In Vandara aufgenommen",
+      "ui_vandara-enrolled": "An der Akademie eingeschrieben",
+      "ui_vandara-workshop-unlocked": "Werkstatt-Bauplan",
+      "ui_vandara-workshop-built": "Werkstatt gebaut",
+      "ui_vandara-katakomben-unlocked": "Zugang zu den Katakomben",
+      "ui_ash_flower": "Ascheblume",
+      "ui_glitter_dust": "Glitzerstaub"
     }
   },
   "en": {
@@ -5375,6 +5726,31 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-vandara-gate-guard": {
         "title": "Gate Warden",
         "unlocks": "Access to Vandara"
+      },
+      "act-npc-vandara-olie": {
+        "title": "Secretary Olié"
+      },
+      "act-npc-vandara-kalre": {
+        "title": "Trader Kal're"
+      },
+      "act-npc-vandara-fafa": {
+        "title": "Beggar Fafa",
+        "unlocks": "Access to the Catacombs"
+      },
+      "act-vandara-buy-ash-flower": {
+        "title": "Buy Ash Flower",
+        "effect": "ash_flower"
+      },
+      "act-vandara-buy-glitter-dust": {
+        "title": "Buy Glitter Dust",
+        "effect": "glitter_dust"
+      },
+      "act-vandara-buy-workshop-blueprint": {
+        "title": "Buy Workshop Blueprint",
+        "unlocks": "Recipe: Build Workshop"
+      },
+      "act-build-workshop": {
+        "title": "Build Workshop"
       }
     },
     "buffs": {
@@ -5460,7 +5836,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_crystal_apple_title": "Crystal Apple",
       "item_crystal_apple_desc": "A glass-like shimmering apple that nourishes magically (+30 Satiation, +20 Energy).",
       "item_vandara_letter_title": "Rose Gold Academy Invitation",
-      "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed."
+      "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed.",
+      "item_vandara_student_id_title": "Rose Gold Academy Student ID",
+      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\""
     },
     "logs": {
       "save_success": "Game saved successfully.",
@@ -5617,7 +5995,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_with_house": "\"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!\"",
       "focus_broken_magic": "Your magic energy is depleted. The arcane focus has been interrupted.",
       "receive_vandara_letter": "Aria hands you a letter sealed in rose gold wax. An invitation to the Academy in Vandara.",
-      "vandara_admitted": "You've been admitted to Vandara. The academy lies before you."
+      "vandara_admitted": "You've been admitted to Vandara. The academy lies before you.",
+      "vandara_enrolled": "Olié hands you the student ID. You are officially a student of the Rose Gold Academy.",
+      "vandara_workshop_blueprint": "Kal're unrolls a small, precisely drawn blueprint — a workshop design.",
+      "vandara_workshop_built": "Your small workshop is up. Now you just need someone to show you what to do with it.",
+      "vandara_katakomben_unlocked": "Fafa shows you the hidden entrance to the catacombs beneath Vandara. Another city lies below."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5753,6 +6135,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_4_not_read": "\"Have you read the books I gave you? Please study them thoroughly first.\"",
       "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>",
       "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\"",
+      "npc_vandara_olie_1": "Secretary Olié looks up from his stack of files — an elegantly feathered serpent with iridescent scales like wet pebbles. \"Ah. A new enrolment.\" He smiles, polite but distant. \"Please have a seat. We'll go through the necessary in order. Name, origin, element if known.\" His feathered crest twitches when you hesitate on the last. \"Unknown is also an answer, don't worry.\"",
+      "npc_vandara_olie_2": "\"Now, the enrolment fee.\" Olié slides a tiny bronze dish across the desk. \"Twenty-five shards, one-off. The academy itself is free — we are not the Crystal Realm. The fee just covers paperwork and a sip of tea should you have to wait.\"",
+      "npc_vandara_olie_3": "\"Here is your ID.\" Olié hands you a thin, weighty plaque of polished rose gold. \"It gets you anywhere you're allowed — and a few places you're not, but nobody checks. Ask around on the streets if you get lost. Kal're at the market talks to everyone. And... old Fafa at the fountain — give her a few shards, she's seen more of this city than all our files combined.\"",
+      "npc_vandara_kalre_1": "A young dragon-shifter with silver-blue hair and a stall full of glass jars calls out to you. \"You're new, yeah? Easy to tell.\" She grins wide. \"Kal're, from the Crystal Realm. Wind line. Did I already mention I'm from the Crystal Realm? I like saying it — then nobody asks why my scales are like glass.\" She nudges a small dish of ash flowers towards you. \"Sniff. Smells like volcanic dust and one other thing you can't quite name. If you ever set foot in an alchemy lab, you'll need these.\"",
+      "npc_vandara_kalre_2": "\"You're back! Good, good.\" Kal're sorts glitter dust into tiny pouches. \"You'll see — in Vandara everyone talks to everyone and everyone knows everything. Except the things they shouldn't, on those they're surprisingly disciplined.\"",
+      "npc_vandara_kalre_3": "\"Wondering if I trust you yet, eh?\" She laughs. \"Enough. Listen, I've got something else to sell you — a blueprint. A workshop, small, doable. With one of those you can turn reagents into something useful. Hundred shards. A bargain.\"",
+      "npc_vandara_kalre_4": "Kal're waves you closer. \"Know what's funny about Vandara? The academy acts like it's the heart of the city. But the real things happen in the back rooms. The streets. The catacombs below.\" She winks. \"Don't repeat that.\"",
+      "npc_vandara_kalre_5": "\"You're a regular now.\" Kal're taps her forehead. \"If you ever need anything rare — really rare — come to me before you ask anyone else. I'll find it. Or I'll know someone who'll find it.\"",
+      "npc_vandara_fafa_1": "An old dragon-shifter sits hunched at the edge of the fountain, wrapped in a dusty grey cloak. Scales like cracked granite peek from under the cloth. She doesn't raise her head, but a bony hand stretches towards you. \"A few shards for an old earth- dragon?\" When you give, she finally looks up — grey eyes, sharp as freshly honed blades. \"Thank you, child. You're new. This city has names, you know. Not just the one above the gate. Come back — I'll tell you one.\"",
+      "npc_vandara_fafa_2": "Fafa pockets the shards without looking. \"Vandara means 'change'. But they never tell you who wants the change and who fears it.\" She gestures at the academy behind you. \"King Archivaris, the old keeper of bones, wants everything kept as it was. King- Rectoress Novia wants everything made new. They've been arguing before the imperial court for years. While they argue, no one truly rules. That makes Vandara... interesting. Come back.\"",
+      "npc_vandara_fafa_3": "\"You keep coming back. That's rare.\" Fafa smiles, and for a moment she doesn't look old, just tired. \"Listen, child. The students in the upper halls learn what the mentors are allowed to teach. What they really want to know they learn elsewhere. Beneath the city. Come back one more time, and I'll show you where.\"",
+      "npc_vandara_fafa_4": "This time Fafa takes no shards. She stands — and is suddenly taller than you thought. \"Come.\" She leads you to an unremarkable storm drain behind the fountain, slides the iron aside as if it were a curtain. \"The catacombs. The old tunnels from before the Unspeakable. Down here you'll find the ones who can really help you — if you have the courage to descend.\" She looks at you for a long moment. \"Don't go alone until you know someone there you can trust. But go.\"",
       "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\""
     },
     "resources": {
@@ -5777,7 +6171,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "water": "Water",
       "gourmet-meal": "Gourmet Meal",
       "focus": "Arcane Focus",
-      "knowledge": "Knowledge"
+      "knowledge": "Knowledge",
+      "ash_flower": "Ash Flower",
+      "glitter_dust": "Glitter Dust"
     },
     "titles": {},
     "ui": {
@@ -6104,8 +6500,17 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Gate Warden",
+      "npc_vandara_olie_name": "Secretary Olié",
+      "npc_vandara_kalre_name": "Trader Kal're",
+      "npc_vandara_fafa_name": "Beggar Fafa",
       "ui_vandara-invited": "Invitation letter",
-      "ui_vandara-admitted": "Admitted to Vandara"
+      "ui_vandara-admitted": "Admitted to Vandara",
+      "ui_vandara-enrolled": "Enrolled at the Academy",
+      "ui_vandara-workshop-unlocked": "Workshop blueprint",
+      "ui_vandara-workshop-built": "Workshop built",
+      "ui_vandara-katakomben-unlocked": "Catacombs access",
+      "ui_ash_flower": "Ash Flower",
+      "ui_glitter_dust": "Glitter Dust"
     }
   }
 };

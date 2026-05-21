@@ -6,9 +6,20 @@ chapter_vandara: Vandara
 
 # NPC name keys (convention: nameKey is read from the `ui` context).
 npc_vandara_gate_guard_name: Torwächter
+npc_vandara_olie_name: Sekretär Olié
+npc_vandara_kalre_name: Händlerin Kal're
+npc_vandara_fafa_name: Bettlerin Fafa
 
 # Flag display labels — the tooltip's requirements renderer looks
 # up `ui_<flagkey>` for any `flags.<key>` requirement. Without these
 # the raw key (e.g. "vandara-invited") would appear in the tooltip.
 ui_vandara-invited: Einladungsschreiben
 ui_vandara-admitted: In Vandara aufgenommen
+ui_vandara-enrolled: An der Akademie eingeschrieben
+ui_vandara-workshop-unlocked: Werkstatt-Bauplan
+ui_vandara-workshop-built: Werkstatt gebaut
+ui_vandara-katakomben-unlocked: Zugang zu den Katakomben
+
+# Resource display labels (the UI uses ui_<resource> in some places).
+ui_ash_flower: Ascheblume
+ui_glitter_dust: Glitzerstaub

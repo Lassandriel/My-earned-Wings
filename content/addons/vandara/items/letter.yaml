@@ -4,3 +4,12 @@
   image: img/items/scroll.webp # placeholder — replace with a real letter image later
   consumable: false
   category: lore
+
+# Issued by Olié at the secretariat (step 3 of his action). The gate
+# guard only checks the letter; the actual ID is paperwork-side.
+- id: item-vandara-student-id
+  title: item_vandara_student_id_title
+  desc: item_vandara_student_id_desc
+  image: img/items/scroll.webp # placeholder — replace with a real ID image later
+  consumable: false
+  category: lore

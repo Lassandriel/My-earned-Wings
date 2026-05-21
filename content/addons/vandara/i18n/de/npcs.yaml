@@ -10,6 +10,107 @@ npc_teacher_vandara_letter: >-
 # ─── Gate guard at the Vandara city walls ──────────────────
 # (his name lives in ui.yaml — base game convention puts NPC name
 # keys there, npcs.yaml is just for dialogue strings.)
+# Olié — Sekretariat / Einschreibung
+npc_vandara_olie_1: >-
+  Sekretär Olié sieht von seinem Stapel Akten auf — eine elegant
+  gefiederte Schlange mit irisierenden Schuppen, die wie nasse
+  Kieselsteine glänzen. "Ah. Eine Neueinschreibung." Er lächelt
+  höflich, aber distanziert. "Bitte nehmen Sie Platz. Wir gehen das
+  Notwendige der Reihe nach durch. Name, Herkunft, Element wenn
+  bekannt." Sein Federkamm zuckt leicht, als du beim letzten Punkt
+  zögerst. "Unbekannt ist auch eine Antwort, keine Sorge."
+
+npc_vandara_olie_2: >-
+  "So, die Einschreibegebühr." Olié schiebt dir ein winziges
+  Bronzeschälchen über den Tisch. "Fünfundzwanzig Splitter, einmalig.
+  Die Akademie selbst ist kostenfrei — wir sind nicht das
+  Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und
+  einen Schluck Tee, falls Sie länger warten müssen."
+
+npc_vandara_olie_3: >-
+  "Hier ist Ihr Ausweis." Olié reicht dir ein dünnes, schweres
+  Plättchen aus poliertem Roségold. "Damit kommen Sie überall hin,
+  wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht
+  hindürften, aber die niemand kontrolliert. Erkundigen Sie sich auf
+  den Straßen, falls Sie sich verlaufen. Kal're am Markt redet mit
+  jedem. Und... mit der alten Fafa am Brunnen — geben Sie ihr ein
+  paar Splitter, sie hat mehr in dieser Stadt gesehen als alle
+  Akten zusammen."
+
+# Kal're — Händlerin auf den Straßen Vandaras
+npc_vandara_kalre_1: >-
+  Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand
+  voller Glasgefäße ruft dir zu. "Du bist neu, ja? Sieht man." Sie
+  grinst breit. "Kal're, aus dem Kristallreich. Windlinie. Habe ich
+  schon gesagt, dass ich aus dem Kristallreich bin? Das tu ich gern,
+  dann fragt niemand, warum ich Schuppen wie Glas habe." Sie schiebt
+  dir ein Schälchen Ascheblumen zu. "Schnupper mal. Riecht nach
+  Vulkanstaub und nach einer Sache, die du nicht benennen kannst.
+  Wenn du jemals in ein Alchemielabor kommst, wirst du sie brauchen."
+
+npc_vandara_kalre_2: >-
+  "Du bist wieder da! Gut, gut." Kal're sortiert Glitzerstaub in
+  winzige Tütchen. "Wirst sehen, in Vandara redet jeder mit jedem
+  und alle wissen alles. Außer das, was sie nicht wissen sollen —
+  da sind sie erstaunlich diszipliniert."
+
+npc_vandara_kalre_3: >-
+  "Du fragst dich, ob ich dir traue, ja?" Sie lacht. "Genug. Hör mal,
+  ich verkaufe dir gleich noch was anderes — einen Bauplan. Ein
+  Workshop, klein, machbar. Mit dem kannst du Reagenzien zu was
+  Nützlichem verarbeiten. Hundert Splitter. Ein Schnäppchen."
+
+npc_vandara_kalre_4: >-
+  Kal're winkt dich näher. "Weißt du, was das Lustige an Vandara
+  ist? Die Akademie tut so, als wäre sie das Herz der Stadt. Aber
+  die echten Sachen passieren in den Hinterzimmern. Auf den Straßen.
+  In den Katakomben unten." Sie blinzelt. "Sag's nicht weiter."
+
+npc_vandara_kalre_5: >-
+  "Du bist jetzt einer von meinen Stammkunden." Kal're tippt sich
+  gegen die Stirn. "Wenn du je was Seltenes brauchst — was wirklich
+  Seltenes — komm zu mir, bevor du irgendwen anders fragst. Ich
+  finde es. Oder kenne jemanden, der's findet."
+
+# Fafa — Bettlerin am Brunnen
+npc_vandara_fafa_1: >-
+  Eine alte Drachenwandlerin sitzt zusammengesunken am Rand des
+  Brunnens, in einen verstaubten grauen Umhang gehüllt. Schuppen wie
+  geborstener Granit lugen unter dem Stoff hervor. Sie hebt nicht
+  den Kopf, aber eine knochige Hand streckt sich dir entgegen. "Ein
+  paar Splitter für eine alte Erddrachin?" Als du gibst, blickt sie
+  endlich auf — graue Augen, scharf wie frisch geschliffene Klingen.
+  "Danke, Kind. Du bist neu. Diese Stadt hat Namen, weißt du? Nicht
+  nur den, der oben am Tor steht. Komm wieder — ich erzähle dir
+  einen."
+
+npc_vandara_fafa_2: >-
+  Fafa nimmt die Splitter, ohne hinzusehen. "Vandara heißt 'Wandel'.
+  Aber sie sagen dir nie, wer den Wandel will und wer ihn fürchtet."
+  Sie deutet auf die Akademie hinter dir. "König Archivaris, der
+  alte Knochenhalter, will alles so behalten wie's war. König-
+  Rektorin Novia will alles neu. Die beiden streiten sich seit
+  Jahren vor dem Kaiserhof. Solange sie streiten, regiert in
+  Wahrheit niemand. Das macht Vandara... interessant. Komm wieder."
+
+npc_vandara_fafa_3: >-
+  "Du kommst immer wieder. Das ist selten." Fafa lächelt, und für
+  einen Moment sieht sie nicht alt aus, sondern müde. "Hör zu, Kind.
+  Die Studenten in den oberen Hörsälen lernen, was die Mentoren
+  beibringen dürfen. Was sie wirklich wissen wollen, lernen sie
+  woanders. Unter der Stadt. Komm noch einmal wieder, und ich zeige
+  dir, wo."
+
+npc_vandara_fafa_4: >-
+  Diesmal nimmt Fafa keine Splitter. Sie steht auf — und ist auf
+  einmal größer, als du gedacht hast. "Komm." Sie führt dich zu
+  einem unscheinbaren Gully hinter dem Brunnen, schiebt das Eisen
+  beiseite, als wäre es ein Vorhang. "Die Katakomben. Die alten
+  Tunnel aus der Zeit vor dem Unaussprechlichen. Hier unten findest
+  du die, die dir wirklich helfen können — wenn du den Mut hast
+  herunterzukommen." Sie blickt dich lange an. "Geh nicht alleine
+  hin, bis du jemanden kennst, dem du dort vertraust. Aber geh."
+
 npc_vandara_gate_guard_admit: >-
   Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie
   geschliffenem Stein, betrachtet dich gemessen, als du den Brief

@@ -3,3 +3,15 @@ receive_vandara_letter: >-
   Einladung zur Akademie in Vandara.
 vandara_admitted: >-
   Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir.
+vandara_enrolled: >-
+  Olié reicht dir den Studentenausweis. Du bist offiziell
+  Studentin/Student der Roségold-Akademie.
+vandara_workshop_blueprint: >-
+  Kal're rollt einen kleinen, präzise gezeichneten Bauplan auf — ein
+  Werkstatt-Entwurf.
+vandara_workshop_built: >-
+  Deine kleine Werkstatt steht. Jetzt fehlt nur noch jemand, der dir
+  zeigt, was du damit anfangen kannst.
+vandara_katakomben_unlocked: >-
+  Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter
+  Vandara. Eine andere Stadt liegt unten.

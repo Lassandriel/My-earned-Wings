@@ -1,0 +1,39 @@
+# Vandara — first batch of city NPCs. All gated behind
+# `vandara-admitted` (set by the gate guard) so they appear in the
+# Vandara sub-tab the moment the player gets through the gates.
+#
+# Lore types (per RP_Draconia.md):
+#   - Olié: Gezeiten-Amphithere (feathered serpent, tide-aligned)
+#   - Kal're: Wind-dragon from the crystal realm (so cool-toned)
+#   - Fafa: Earth-dragon (Großdrache), westliche Linie
+
+- id: npc-vandara-olie
+  nameKey: npc_vandara_olie_name
+  icon: 📋
+  color: '#0ea5e9'
+  progKey: vandaraOlie
+  maxProgress: 3
+  chapter: Vandara
+  location: vandara
+
+- id: npc-vandara-kalre
+  nameKey: npc_vandara_kalre_name
+  icon: 🌬️
+  color: '#a5b4fc'
+  progKey: vandaraKalre
+  maxProgress: 5
+  chapter: Vandara
+  location: vandara
+  tradeActions:
+    - { id: act-vandara-buy-ash-flower, minProgress: 1 }
+    - { id: act-vandara-buy-glitter-dust, minProgress: 1 }
+    - { id: act-vandara-buy-workshop-blueprint, minProgress: 3 }
+
+- id: npc-vandara-fafa
+  nameKey: npc_vandara_fafa_name
+  icon: 🪨
+  color: '#a8a29e'
+  progKey: vandaraFafa
+  maxProgress: 4
+  chapter: Vandara
+  location: vandara

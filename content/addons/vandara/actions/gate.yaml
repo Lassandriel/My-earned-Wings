@@ -25,6 +25,17 @@
         - type: setFlag
           flag: vandara-admitted
           value: true
+        # Admission also opens up the rest of the city. Without these
+        # unlocks the NPCs stay in the registry but are invisible
+        # (requirements gate executability, not visibility — unlocked
+        # status controls whether they appear in the village view's
+        # NPC grid).
+        - type: unlockNPC
+          id: npc-vandara-olie
+        - type: unlockNPC
+          id: npc-vandara-kalre
+        - type: unlockNPC
+          id: npc-vandara-fafa
         - type: log
           logKey: vandara_admitted
           color: var(--gold)

@@ -4,3 +4,28 @@ act-npc-vandara-gate-guard:
   # only sets a flag; this is the player-facing copy of what the flag
   # means narratively.
   unlocks: "Zugang zu Vandara"
+
+act-npc-vandara-olie:
+  title: Sekretär Olié
+
+act-npc-vandara-kalre:
+  title: Händlerin Kal're
+
+act-npc-vandara-fafa:
+  title: Bettlerin Fafa
+  unlocks: "Zugang zu den Katakomben"
+
+act-vandara-buy-ash-flower:
+  title: "Ascheblume kaufen"
+  effect: ash_flower
+
+act-vandara-buy-glitter-dust:
+  title: "Glitzerstaub kaufen"
+  effect: glitter_dust
+
+act-vandara-buy-workshop-blueprint:
+  title: "Werkstatt-Bauplan kaufen"
+  unlocks: "Rezept: Werkstatt bauen"
+
+act-build-workshop:
+  title: "Werkstatt bauen"

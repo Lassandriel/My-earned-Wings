@@ -1,0 +1,179 @@
+# Vandara citizens — Olié the secretary, Kal're the street trader,
+# Fafa the beggar. Each has a multi-step story action; Kal're also
+# carries the trade-actions her tradeActions[] field references.
+#
+# Splitter / shards is the city's coin (already defined in base
+# resources as `shards`). Players earn shards in the village by
+# selling wood to the baker / stone to the artisan — see
+# content/base/actions/village.yaml.
+
+# ─── Olié — Sekretariat / enrollment ───────────────────────────
+- id: act-npc-vandara-olie
+  npcId: npc-vandara-olie
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraOlie
+  maxProgress: 3
+  journalIcon: 📋
+  icon: 📋
+  journalColor: '#0ea5e9'
+  steps:
+    # 1. Greeting — free intro.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-admitted: true
+      dialogueKey: npc_vandara_olie_1
+    # 2. Pay enrollment fee — costs shards.
+    - cost: 25
+      costType: shards
+      dialogueKey: npc_vandara_olie_2
+    # 3. Explanation + hand over student ID.
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: unlockItem
+          id: item-vandara-student-id
+        - type: setFlag
+          flag: vandara-enrolled
+          value: true
+        - type: log
+          logKey: vandara_enrolled
+          color: var(--gold)
+      dialogueKey: npc_vandara_olie_3
+  customExecute: npc_execute
+
+# ─── Kal're — street trader ────────────────────────────────────
+# Standard "5 trust steps, free intro, trade actions unlock as
+# progress builds" pattern (mirrors the village baker / blacksmith).
+- id: act-npc-vandara-kalre
+  npcId: npc-vandara-kalre
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraKalre
+  maxProgress: 5
+  journalIcon: 🌬️
+  icon: 🌬️
+  journalColor: '#a5b4fc'
+  steps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-admitted: true
+      dialogueKey: npc_vandara_kalre_1
+    - cost: 5
+      costType: energy
+      dialogueKey: npc_vandara_kalre_2
+    - cost: 5
+      costType: energy
+      dialogueKey: npc_vandara_kalre_3
+    - cost: 5
+      costType: energy
+      dialogueKey: npc_vandara_kalre_4
+    - cost: 5
+      costType: energy
+      dialogueKey: npc_vandara_kalre_5
+  customExecute: npc_execute
+
+# Kal're's wares.
+- id: act-vandara-buy-ash-flower
+  category: village
+  icon: "🌸"
+  cost: 5
+  costType: shards
+  yieldType: ash_flower
+  rewards:
+    ash_flower: 1
+  sfx: click
+  particleType: shards
+
+- id: act-vandara-buy-glitter-dust
+  category: village
+  icon: "✨"
+  cost: 10
+  costType: shards
+  yieldType: glitter_dust
+  rewards:
+    glitter_dust: 1
+  sfx: click
+  particleType: shards
+
+# Workshop blueprint — one-time purchase. Unlocks the workshop
+# recipe; the recipe itself is a stub today (no real alchemy
+# mechanic yet) but the player can already buy reagents that the
+# workshop will eventually consume.
+- id: act-vandara-buy-workshop-blueprint
+  category: village
+  icon: "📐"
+  cost: 100
+  costType: shards
+  onSuccess:
+    - type: unlockRecipe
+      id: act-build-workshop
+    - type: setFlag
+      flag: vandara-workshop-unlocked
+      value: true
+    - type: log
+      logKey: vandara_workshop_blueprint
+      color: var(--gold)
+  sfx: click
+
+# Stub recipe for the workshop. Placeholder — actual cost / cost-
+# types will be tuned when alchemy mechanics land. For now it
+# exists so unlockRecipe above has something to point at.
+- id: act-build-workshop
+  category: crafting
+  icon: "🏗️"
+  cost: 50
+  costType: wood
+  requirements:
+    flags.vandara-workshop-unlocked: true
+  onSuccess:
+    - type: setFlag
+      flag: vandara-workshop-built
+      value: true
+    - type: log
+      logKey: vandara_workshop_built
+      color: var(--gold)
+  sfx: build
+
+# ─── Fafa — beggar ────────────────────────────────────────────
+# Four-step interaction. First three cost a token donation; she
+# repays each in city lore. Step 4 is free and opens the
+# catacombs path (placeholder flag — catacomb content lands later).
+- id: act-npc-vandara-fafa
+  npcId: npc-vandara-fafa
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraFafa
+  maxProgress: 4
+  journalIcon: 🪨
+  icon: 🪙
+  journalColor: '#a8a29e'
+  steps:
+    - cost: 10
+      costType: shards
+      requirements:
+        flags.vandara-admitted: true
+      dialogueKey: npc_vandara_fafa_1
+    - cost: 10
+      costType: shards
+      dialogueKey: npc_vandara_fafa_2
+    - cost: 10
+      costType: shards
+      dialogueKey: npc_vandara_fafa_3
+    # Step 4 — Fafa drops the act, points the player at the catacombs.
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-katakomben-unlocked
+          value: true
+        - type: log
+          logKey: vandara_katakomben_unlocked
+          color: var(--gold)
+      dialogueKey: npc_vandara_fafa_4
+  customExecute: npc_execute

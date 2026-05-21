@@ -1,0 +1,21 @@
+# Magic reagents sold by Kal're in the Vandara streets.
+# Both are inert until the player has built the workshop (recipe
+# unlock via Kal're's trade). For now they just accumulate as
+# inventory; a later milestone will add the alchemy actions that
+# consume them.
+
+- id: ash_flower
+  type: resource
+  category: materials
+  color: "var(--accent-teal)"
+  initial: 0
+  initialLimit: 30
+  scalesWithSatiation: false
+
+- id: glitter_dust
+  type: resource
+  category: materials
+  color: "var(--accent-teal)"
+  initial: 0
+  initialLimit: 30
+  scalesWithSatiation: false
