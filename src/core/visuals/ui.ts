@@ -206,7 +206,12 @@ export const createUISystem = () => {
 
       // 3. Success Bonuses
       action.onSuccess?.forEach((eff) => {
-        if (eff.type === 'modifyLimit') {
+        if (eff.type === 'modifyResource') {
+          // Instant resource change (e.g. potions: "+20 Energie").
+          // Sign prefix on the number so negative amounts read naturally.
+          const sign = eff.amount > 0 ? '+' : '';
+          effects.push(`${sign}${eff.amount} ${getResLabel(store, eff.resource)}`);
+        } else if (eff.type === 'modifyLimit') {
           effects.push(
             store
               .t('ui_limit_increase')

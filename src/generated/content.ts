@@ -5486,27 +5486,27 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-vandara-brew-energy-potion-small": {
         "title": "Kleinen Energietrank brauen",
-        "effect": "energy"
+        "desc": "Pamles erstes Rezept. Kräuter im Mörser zerstampft, mit lauwarmem Wasser aufgegossen, einmal kräftig umgerührt. Schmeckt nach Wiese und schlechtem Tee — wirkt aber sofort."
       },
       "act-vandara-brew-magic-potion-small": {
         "title": "Kleinen Magietrank brauen",
-        "effect": "magic"
+        "desc": "Blüten in Wasser destilliert. Färbt sich blass-lila wenn er fertig ist. Hilft beim Konzentrieren, schmeckt wie der erste Schluck von etwas Verbotenem."
       },
       "act-vandara-brew-pollen-tea": {
         "title": "Wachpollen-Tee brauen",
-        "effect": "buff_vandara_wakeful_pollen_title"
+        "desc": "Leuchtpollen über Blüten gepudert, eine Minute ziehen lassen. Heller Aufguss, der dich für eine Weile durchgehend regeneriert statt einmal kurz aufzuwecken."
       },
       "act-vandara-brew-spark-vial": {
         "title": "Funkenlicht-Phiole brauen",
-        "effect": "buff_vandara_spark_light_title"
+        "desc": "Glitzerstaub in einer Ascheblume gebunden. Die Phiole leuchtet von selbst — ein tragbares Licht, das du an deinen Gürtel hängen kannst. Senkt die Magiekosten deines Arkanen Fokus."
       },
       "act-vandara-brew-arcane-water": {
         "title": "Arkanwasser brauen",
-        "effect": "magic"
+        "desc": "Studentenstandard: Arkanstaub in Wasser gelöst, mit einer Prise Glitzerstaub stabilisiert. Knackiger Magieschub jetzt, sanfte Nachwirkung danach."
       },
       "act-vandara-brew-ash-tincture": {
         "title": "Aschebrand-Tinktur brauen",
-        "effect": "buff_vandara_ash_burn_title"
+        "desc": "Pamles eigene Erfindung. Ascheblumen-Pollen mit Harz konzentriert. Macht für zwei Minuten zu einer Holzfäll-Maschine — mehr Ausbeute aus jedem Schlag."
       }
     },
     "buffs": {
@@ -6752,27 +6752,27 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-vandara-brew-energy-potion-small": {
         "title": "Brew Small Energy Potion",
-        "effect": "energy"
+        "desc": "Pamle's first recipe. Herbs crushed in a mortar, hot water poured over, stirred once. Tastes of meadow and bad tea — but it works immediately."
       },
       "act-vandara-brew-magic-potion-small": {
         "title": "Brew Small Magic Potion",
-        "effect": "magic"
+        "desc": "Blossoms distilled in water. Turns pale purple when ready. Helps you focus, tastes like the first sip of something you shouldn't drink."
       },
       "act-vandara-brew-pollen-tea": {
         "title": "Brew Wakeful Pollen Tea",
-        "effect": "buff_vandara_wakeful_pollen_title"
+        "desc": "Glow pollen dusted over blossoms, steeped for a minute. Bright infusion that regenerates you steadily for a while instead of one short jolt."
       },
       "act-vandara-brew-spark-vial": {
         "title": "Brew Spark Light Vial",
-        "effect": "buff_vandara_spark_light_title"
+        "desc": "Glitter dust bound inside an ash flower. The vial glows on its own — a portable light you can hang from your belt. Lowers the magic cost of your arcane focus."
       },
       "act-vandara-brew-arcane-water": {
         "title": "Brew Arcane Water",
-        "effect": "magic"
+        "desc": "Student standard: arcane dust dissolved in water, stabilised with a pinch of glitter dust. Crisp magic boost now, gentle aftereffect."
       },
       "act-vandara-brew-ash-tincture": {
         "title": "Brew Ash Burn Tincture",
-        "effect": "buff_vandara_ash_burn_title"
+        "desc": "Pamle's own invention. Ash-flower pollen concentrated with resin. Turns you into a logging machine for two minutes — more yield from every strike."
       }
     },
     "buffs": {
