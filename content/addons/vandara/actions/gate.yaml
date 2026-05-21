@@ -1,0 +1,36 @@
+# Gate guard interaction. One step, fires once. The vandara-invited
+# flag (set by Aria's letter-step in patches/teacher.yaml) gates it
+# so the guard ignores anyone without an invitation. The letter item
+# stays in inventory as a memento — the base game has no removeItem
+# effect, and narratively it's fine for the player to keep the
+# letter; what matters mechanically is the `vandara-admitted` flag
+# that the academy content downstream watches.
+
+- id: act-npc-vandara-gate-guard
+  npcId: npc-vandara-gate-guard
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraGateGuard
+  maxProgress: 1
+  journalIcon: 🛡️
+  icon: ✉️
+  journalColor: '#a8a29e'
+  steps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-invited: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-admitted
+          value: true
+        - type: log
+          logKey: vandara_admitted
+          color: var(--gold)
+      # The visible "Zugang zu Vandara" line in the Effekt section
+      # comes from the action translation's `unlocks` field — see
+      # i18n/<lang>/actions.yaml. setFlag itself doesn't render in
+      # the tooltip; the unlocks string covers the player-facing copy.
+      dialogueKey: npc_vandara_gate_guard_admit
+  customExecute: npc_execute

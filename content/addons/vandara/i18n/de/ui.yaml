@@ -1,0 +1,14 @@
+# Sub-tab label for the Vandara location (shown in Orte view).
+location_vandara_name: Vandara
+
+# Chapter label used by journal grouping.
+chapter_vandara: Vandara
+
+# NPC name keys (convention: nameKey is read from the `ui` context).
+npc_vandara_gate_guard_name: Torwächter
+
+# Flag display labels — the tooltip's requirements renderer looks
+# up `ui_<flagkey>` for any `flags.<key>` requirement. Without these
+# the raw key (e.g. "vandara-invited") would appear in the tooltip.
+ui_vandara-invited: Einladungsschreiben
+ui_vandara-admitted: In Vandara aufgenommen

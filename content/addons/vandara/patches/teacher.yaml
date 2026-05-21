@@ -24,6 +24,11 @@
         - type: setFlag
           flag: vandara-invited
           value: true
+        # Surfaces the gate guard NPC in the Orte > Vandara sub-tab.
+        # Without this the player would have the letter but nowhere
+        # visible to take it — the guard is their first contact.
+        - type: unlockNPC
+          id: npc-vandara-gate-guard
         - type: log
           logKey: receive_vandara_letter
           color: var(--gold)

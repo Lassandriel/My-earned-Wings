@@ -1,0 +1,6 @@
+act-npc-vandara-gate-guard:
+  title: Torwächter
+  # Shown as the "Effekt:" bullet in the tooltip. The action itself
+  # only sets a flag; this is the player-facing copy of what the flag
+  # means narratively.
+  unlocks: "Zugang zu Vandara"

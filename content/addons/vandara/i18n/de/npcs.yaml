@@ -6,3 +6,16 @@ npc_teacher_vandara_letter: >-
   habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung —
   keine Verpflichtung. Aber wenn du wissen willst, was du wirklich
   bist, ist das vielleicht der richtige Weg."
+
+# ─── Gate guard at the Vandara city walls ──────────────────
+# (his name lives in ui.yaml — base game convention puts NPC name
+# keys there, npcs.yaml is just for dialogue strings.)
+npc_vandara_gate_guard_admit: >-
+  Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie
+  geschliffenem Stein, betrachtet dich gemessen, als du den Brief
+  hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann
+  nickt er knapp. "Erstes Mal in Vandara, ja? Akademie-Einladungen
+  sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß
+  diese Stadt unter der Oberfläche ist." Mit einer Handbewegung
+  öffnet sich das große Tor hinter ihm. "Willkommen, {player}. Geh
+  ruhig — die Mentoren werden dir den Rest erklären."

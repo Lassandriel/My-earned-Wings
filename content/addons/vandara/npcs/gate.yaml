@@ -1,0 +1,20 @@
+# Vandara — gate scene. The gate guard is the player's first contact
+# with the city. Unlocked when Aria's letter step fires (see
+# patches/teacher.yaml), so the moment the letter is in inventory
+# the Vandara sub-tab appears in "Orte" with this NPC waiting.
+# Handing the guard the letter consumes it and admits the player
+# (flag `vandara-admitted`), which downstream content keys off to
+# unlock the academy NPCs.
+
+- id: npc-vandara-gate-guard
+  nameKey: npc_vandara_gate_guard_name
+  icon: 🛡️
+  color: '#a8a29e'
+  # No image yet — uses the icon placeholder. Replace with a real
+  # portrait when art lands. Lore note: probably an earth-dragon
+  # type (stoic, gate-keeping role), so something stone-grey would
+  # fit the colour theme.
+  progKey: vandaraGateGuard
+  maxProgress: 1
+  chapter: Vandara
+  location: vandara

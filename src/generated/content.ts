@@ -2548,6 +2548,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "value": true
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-vandara-gate-guard"
+          },
+          {
             "type": "log",
             "logKey": "receive_vandara_letter",
             "color": "var(--gold)"
@@ -3109,6 +3113,41 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       "iron_parts": 1
     },
     "logKey": "buy_iron_parts_log"
+  },
+  "act-npc-vandara-gate-guard": {
+    "id": "act-npc-vandara-gate-guard",
+    "npcId": "npc-vandara-gate-guard",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraGateGuard",
+    "maxProgress": 1,
+    "journalIcon": "🛡️",
+    "icon": "✉️",
+    "journalColor": "#a8a29e",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-invited": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-admitted",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_admitted",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_gate_guard_admit"
+      }
+    ],
+    "customExecute": "npc_execute"
   }
 };
 
@@ -3715,6 +3754,16 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "progKey": "aris",
     "maxProgress": 6,
     "chapter": "The Dream"
+  },
+  "npc-vandara-gate-guard": {
+    "id": "npc-vandara-gate-guard",
+    "nameKey": "npc_vandara_gate_guard_name",
+    "icon": "🛡️",
+    "color": "#a8a29e",
+    "progKey": "vandaraGateGuard",
+    "maxProgress": 1,
+    "chapter": "Vandara",
+    "location": "vandara"
   }
 };
 
@@ -4237,6 +4286,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-read-lore-2": {
         "title": "Lesen: Die schwebenden Lande",
         "desc": "Studiere die Geographie von Draconia."
+      },
+      "act-npc-vandara-gate-guard": {
+        "title": "Torwächter",
+        "unlocks": "Zugang zu Vandara"
       }
     },
     "buffs": {
@@ -4478,7 +4531,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_no_house": "\"Es ist schön dich zu sehen, {player}. Aber ohne ein festes Dach über dem Kopf wird das mit dem Lernen schwierig. Komm doch wieder, wenn du ein eigenes Haus hast.\"",
       "npc_teacher_2_with_house": "\"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!\"",
       "focus_broken_magic": "Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.",
-      "receive_vandara_letter": "Aria überreicht dir einen Brief mit roségoldenem Siegel. Eine Einladung zur Akademie in Vandara."
+      "receive_vandara_letter": "Aria überreicht dir einen Brief mit roségoldenem Siegel. Eine Einladung zur Akademie in Vandara.",
+      "vandara_admitted": "Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -4613,7 +4667,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_8": "<i>Es regnet fast täglich in Draconia, was die schwebenden Inseln extrem fruchtbar und grün macht.</i>",
       "lore_2_step_9": "<i>Legenden besagen, dass der Planet einst eine ganze Kugel war, bis ein unbekanntes Ereignis ihn in tausend Stücke zerschmetterte.</i>",
       "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>",
-      "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\""
+      "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\"",
+      "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\""
     },
     "resources": {
       "energy": "Energie",
@@ -4960,7 +5015,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "resource_efficiency_title": "Ressourcen-Effizienz",
       "arcane_focus_cost_title": "Arkaner Fokus-Kosten",
       "arcane_focus_cost_desc": "Verringert die Kosten für den arkanen Fokus.",
-      "location_village_name": "Dorf"
+      "location_village_name": "Dorf",
+      "location_vandara_name": "Vandara",
+      "chapter_vandara": "Vandara",
+      "npc_vandara_gate_guard_name": "Torwächter",
+      "ui_vandara-invited": "Einladungsschreiben",
+      "ui_vandara-admitted": "In Vandara aufgenommen"
     }
   },
   "en": {
@@ -5311,6 +5371,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-read-lore-2": {
         "title": "Read: The Floating Lands",
         "desc": "Study the geography of Draconia."
+      },
+      "act-npc-vandara-gate-guard": {
+        "title": "Gate Warden",
+        "unlocks": "Access to Vandara"
       }
     },
     "buffs": {
@@ -5552,7 +5616,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_no_house": "\"It is nice to see you, {player}. But without a solid roof over your head, learning will be difficult. Come back once you have a house of your own.\"",
       "npc_teacher_2_with_house": "\"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!\"",
       "focus_broken_magic": "Your magic energy is depleted. The arcane focus has been interrupted.",
-      "receive_vandara_letter": "Aria hands you a letter sealed in rose gold wax. An invitation to the Academy in Vandara."
+      "receive_vandara_letter": "Aria hands you a letter sealed in rose gold wax. An invitation to the Academy in Vandara.",
+      "vandara_admitted": "You've been admitted to Vandara. The academy lies before you."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5687,7 +5752,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_9": "<i>Legends say the planet was once a whole sphere until an unknown event shattered it into a thousand pieces.</i>",
       "npc_teacher_4_not_read": "\"Have you read the books I gave you? Please study them thoroughly first.\"",
       "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>",
-      "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\""
+      "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\"",
+      "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\""
     },
     "resources": {
       "energy": "Energy",
@@ -6034,7 +6100,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "resource_efficiency_title": "Resource Efficiency",
       "arcane_focus_cost_title": "Arcane Focus Cost",
       "arcane_focus_cost_desc": "Reduces the cost of arcane focus.",
-      "location_village_name": "Village"
+      "location_village_name": "Village",
+      "location_vandara_name": "Vandara",
+      "chapter_vandara": "Vandara",
+      "npc_vandara_gate_guard_name": "Gate Warden",
+      "ui_vandara-invited": "Invitation letter",
+      "ui_vandara-admitted": "Admitted to Vandara"
     }
   }
 };

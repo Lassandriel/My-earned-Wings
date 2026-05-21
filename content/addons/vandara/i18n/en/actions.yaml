@@ -1,0 +1,5 @@
+act-npc-vandara-gate-guard:
+  title: Gate Warden
+  # Shown as the "Effect:" bullet in the tooltip. The action only sets
+  # a flag; this is the player-facing copy of what the flag means.
+  unlocks: "Access to Vandara"

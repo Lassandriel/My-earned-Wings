@@ -5,3 +5,15 @@ npc_teacher_vandara_letter: >-
   seeing how seriously you studied. It's just an invitation — not an
   obligation. But if you want to find out what you really are, this
   might be the way."
+
+# ─── Gate guard at the Vandara city walls ──────────────────
+# (his name lives in ui.yaml — base game convention.)
+npc_vandara_gate_guard_admit: >-
+  The gate warden — a massive earth-dragon shifter with scales like
+  polished stone — looks you over slowly as you produce the letter.
+  His gaze drifts across the rose-gold seal, then he gives a short
+  nod. "First time in Vandara, eh? We see academy invitations every
+  few weeks. You'll be surprised how big this city is below the
+  surface." A wave of his hand and the great gate swings open behind
+  him. "Welcome, {player}. Go on through — the mentors will explain
+  the rest."
