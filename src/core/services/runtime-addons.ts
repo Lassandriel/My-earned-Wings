@@ -56,6 +56,7 @@ import {
 } from '../../generated/content';
 import { makeLogger } from '../log';
 import { applyPatches, validatePatchEntry, type PatchEntry } from '../addons/patches';
+import { registerRuntimeAddons } from '../addons/active';
 
 const log = makeLogger('RUNTIME-ADDONS');
 
@@ -240,6 +241,12 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     warnings,
     addonNames: result.addons.map((a) => a.name).sort(),
   };
+
+  // Tell the active-addons registry which runtime addons are now live.
+  // The save system reads this to embed a compatibility snapshot in
+  // every save. Build-time addons are already in the registry via the
+  // generated content; we just contribute the runtime side here.
+  registerRuntimeAddons(result.addons.map((a) => ({ name: a.name, version: a.version })));
 
   if (summary.addonCount > 0) {
     log.info(

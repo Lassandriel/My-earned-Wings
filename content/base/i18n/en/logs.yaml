@@ -2,6 +2,15 @@
 save_success: Game saved successfully.
 save_corrupted_msg: Your save was corrupted and has been set aside for safety. Starting fresh.
 save_failed_msg: Save failed — storage may be full. Progress since the last save is not preserved.
+
+# Addon-compatibility warnings shown when loading a save whose
+# active addons differ from what's currently loaded.
+save_warn_missing_addons: >-
+  Warning — save needs addon(s) that aren't loaded: {addons}.
+  The save will load anyway, but some content may be missing
+  or quests may get stuck.
+save_info_addon_version_changes: >-
+  Addon version(s) changed since the last save: {deltas}.
 intro_welcome: Welcome back to solid ground, {player}.
 reward_unlock_npc: "New acquaintance: {name}"
 reward_unlock_recipe: "New recipe unlocked: {title}"

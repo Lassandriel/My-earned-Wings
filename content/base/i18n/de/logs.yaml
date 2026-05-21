@@ -2,6 +2,15 @@
 save_success: Spiel erfolgreich gespeichert.
 save_corrupted_msg: Spielstand war beschädigt und wurde zur Sicherheit beiseitegelegt. Wir starten neu.
 save_failed_msg: Speichern fehlgeschlagen — vielleicht ist der Speicher voll? Fortschritt seit dem letzten Save ist nicht gesichert.
+
+# Addon-compatibility warnings shown when loading a save whose
+# active addons differ from what's currently loaded.
+save_warn_missing_addons: >-
+  Achtung — Spielstand braucht Addon(s) die nicht geladen sind:
+  {addons}. Der Spielstand wird trotzdem geladen, aber einige
+  Inhalte könnten fehlen oder Quests könnten festhängen.
+save_info_addon_version_changes: >-
+  Addon-Version(en) seit dem letzten Speichern geändert: {deltas}.
 intro_welcome: Willkommen zurück am festen Boden, {player}.
 reward_unlock_npc: "Neue Bekanntschaft: {name}"
 reward_unlock_recipe: "Neues Rezept freigeschaltet: {title}"

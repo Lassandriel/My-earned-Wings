@@ -5072,6 +5072,21 @@ export const SECTION_REGISTRY_GENERATED: Record<string, any> = {
   }
 };
 
+// === Loaded Addons (build-time) ===
+// List of every build-time addon that contributed to this bundle.
+// Used by the save system to track which addons were active when a
+// save was written, so the load path can warn when a save needs an
+// addon that isn't compiled in. Runtime addons (drop-in folders)
+// are tracked separately at boot — the save's full activeAddons
+// list is the union of both.
+
+export const BUILD_TIME_ADDONS: Array<{ name: string; version: string }> = [
+  {
+    "name": "vandara",
+    "version": "0.1.0"
+  }
+];
+
 // === Translations (lang -> context -> key -> string) ===
 
 // Translation values can be flat strings or nested objects ({title, desc, ...}).
@@ -5608,6 +5623,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "save_success": "Spiel erfolgreich gespeichert.",
       "save_corrupted_msg": "Spielstand war beschädigt und wurde zur Sicherheit beiseitegelegt. Wir starten neu.",
       "save_failed_msg": "Speichern fehlgeschlagen — vielleicht ist der Speicher voll? Fortschritt seit dem letzten Save ist nicht gesichert.",
+      "save_warn_missing_addons": "Achtung — Spielstand braucht Addon(s) die nicht geladen sind: {addons}. Der Spielstand wird trotzdem geladen, aber einige Inhalte könnten fehlen oder Quests könnten festhängen.",
+      "save_info_addon_version_changes": "Addon-Version(en) seit dem letzten Speichern geändert: {deltas}.",
       "intro_welcome": "Willkommen zurück am festen Boden, {player}.",
       "reward_unlock_npc": "Neue Bekanntschaft: {name}",
       "reward_unlock_recipe": "Neues Rezept freigeschaltet: {title}",
@@ -6874,6 +6891,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "save_success": "Game saved successfully.",
       "save_corrupted_msg": "Your save was corrupted and has been set aside for safety. Starting fresh.",
       "save_failed_msg": "Save failed — storage may be full. Progress since the last save is not preserved.",
+      "save_warn_missing_addons": "Warning — save needs addon(s) that aren't loaded: {addons}. The save will load anyway, but some content may be missing or quests may get stuck.",
+      "save_info_addon_version_changes": "Addon version(s) changed since the last save: {deltas}.",
       "intro_welcome": "Welcome back to solid ground, {player}.",
       "reward_unlock_npc": "New acquaintance: {name}",
       "reward_unlock_recipe": "New recipe unlocked: {title}",

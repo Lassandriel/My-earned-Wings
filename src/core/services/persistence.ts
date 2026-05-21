@@ -2,6 +2,11 @@ import { LOG_COLOR, invalidateCaches } from '../constants';
 import { GameState, ResourceId } from '../../types/game';
 import { SAVE_SCHEMA_VERSION, runMigrations } from './save-migrations';
 import { makeLogger } from '../log';
+import {
+  snapshotActiveAddonsForSave,
+  compareAddonsAgainstSave,
+  type SavedAddonRef,
+} from '../addons/active';
 
 const log = makeLogger('PERSISTENCE');
 
@@ -292,6 +297,11 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         saveObj.schemaVersion = SAVE_SCHEMA_VERSION;
         saveObj.version = SAVE_SCHEMA_VERSION; // legacy alias, kept for older code paths
         saveObj.timestamp = now;
+        // Addon compatibility snapshot. Read by loadGame() to detect
+        // when a save references content from an addon that's no
+        // longer present (the player removed the folder, or the .exe
+        // was rebuilt without it). See src/core/addons/active.ts.
+        saveObj.activeAddons = snapshotActiveAddonsForSave();
 
         const json = JSON.stringify(saveObj);
 
@@ -403,6 +413,33 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
 
       try {
         const data = decoded.data;
+
+        // Addon compatibility check — before we apply anything, see if
+        // the save references addons that aren't loaded. We still apply
+        // the save (the player chose to load); we just toast a warning
+        // so they know why their inventory might have unknown items or
+        // their quest might be stuck on a missing NPC.
+        const addonReport = compareAddonsAgainstSave(data.activeAddons as SavedAddonRef[] | undefined);
+        if (!addonReport.ok) {
+          if (addonReport.missing.length > 0) {
+            const names = addonReport.missing.map((a) => `${a.name}@${a.version}`).join(', ');
+            log.warn(`Save references missing addon(s): ${names}`);
+            store.ui?.showToast?.(
+              (store.t('save_warn_missing_addons', 'logs') as string).replace('{addons}', names),
+              'error',
+            );
+          }
+          if (addonReport.versionDelta.length > 0) {
+            const deltas = addonReport.versionDelta
+              .map((d) => `${d.name}: ${d.saved} → ${d.loaded}`)
+              .join(', ');
+            log.info(`Addon version changes since save: ${deltas}`);
+            store.ui?.showToast?.(
+              (store.t('save_info_addon_version_changes', 'logs') as string).replace('{deltas}', deltas),
+              'info',
+            );
+          }
+        }
 
         // Validation & Migration logic — wrapped so a throwing migration
         // doesn't leave the caller without a return value.

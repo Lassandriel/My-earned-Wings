@@ -409,6 +409,20 @@ export const TITLE_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(ti
 
 export const SECTION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(sectionRegistry, null, 2)};
 
+// === Loaded Addons (build-time) ===
+// List of every build-time addon that contributed to this bundle.
+// Used by the save system to track which addons were active when a
+// save was written, so the load path can warn when a save needs an
+// addon that isn't compiled in. Runtime addons (drop-in folders)
+// are tracked separately at boot — the save's full activeAddons
+// list is the union of both.
+
+export const BUILD_TIME_ADDONS: Array<{ name: string; version: string }> = ${JSON.stringify(
+  addons.map((a) => ({ name: a.manifest.name, version: a.manifest.version })),
+  null,
+  2,
+)};
+
 // === Translations (lang -> context -> key -> string) ===
 
 // Translation values can be flat strings or nested objects ({title, desc, ...}).
