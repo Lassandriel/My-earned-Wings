@@ -341,3 +341,6 @@ location_village_name: Village
 # hides when only 'general' is active.
 main_subtab_general_name: General
 main_subtab_herstellen_name: Crafting
+
+# Suffix for "placedItems" requirements in tooltips.
+ui_placed_suffix: (placed)

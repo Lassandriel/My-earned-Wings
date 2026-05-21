@@ -344,3 +344,9 @@ location_village_name: Dorf
 # key matching `main_subtab_<id>_name`.
 main_subtab_general_name: Allgemein
 main_subtab_herstellen_name: Herstellen
+
+# Suffix for "placedItems" requirements in tooltips. E.g. the
+# alchemy recipes show "Alchemietisch (platziert)" — the suffix
+# clarifies that the requirement is "this furniture is set up
+# in a home", not just "you own it".
+ui_placed_suffix: (platziert)

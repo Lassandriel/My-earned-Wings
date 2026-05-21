@@ -3136,6 +3136,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "id": "act-vandara-brew-energy-potion-small",
     "category": "vandara_workshop",
     "icon": "🧪",
+    "requirements": {
+      "placedItems": {
+        "op": "includes",
+        "val": "item-alchemy-table"
+      }
+    },
     "costs": {
       "herbs": 2,
       "water": 1
@@ -3155,6 +3161,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "id": "act-vandara-brew-magic-potion-small",
     "category": "vandara_workshop",
     "icon": "🧪",
+    "requirements": {
+      "placedItems": {
+        "op": "includes",
+        "val": "item-alchemy-table"
+      }
+    },
     "costs": {
       "flowers": 1,
       "water": 2
@@ -3174,6 +3186,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "id": "act-vandara-brew-pollen-tea",
     "category": "vandara_workshop",
     "icon": "🍵",
+    "requirements": {
+      "placedItems": {
+        "op": "includes",
+        "val": "item-alchemy-table"
+      }
+    },
     "costs": {
       "glowpollen": 2,
       "flowers": 1
@@ -3192,6 +3210,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "id": "act-vandara-brew-spark-vial",
     "category": "vandara_workshop",
     "icon": "✨",
+    "requirements": {
+      "placedItems": {
+        "op": "includes",
+        "val": "item-alchemy-table"
+      }
+    },
     "costs": {
       "ash_flower": 1,
       "glitter_dust": 2
@@ -3210,6 +3234,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "id": "act-vandara-brew-arcane-water",
     "category": "vandara_workshop",
     "icon": "💧",
+    "requirements": {
+      "placedItems": {
+        "op": "includes",
+        "val": "item-alchemy-table"
+      }
+    },
     "costs": {
       "arcane_dust": 1,
       "water": 2,
@@ -3230,6 +3260,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "id": "act-vandara-brew-ash-tincture",
     "category": "vandara_workshop",
     "icon": "🔥",
+    "requirements": {
+      "placedItems": {
+        "op": "includes",
+        "val": "item-alchemy-table"
+      }
+    },
     "costs": {
       "ash_flower": 3,
       "resin": 1
@@ -5032,8 +5068,7 @@ export const SECTION_REGISTRY_GENERATED: Record<string, any> = {
     "subTab": "herstellen",
     "headerLabel": "ui_tab_vandara_workshop",
     "actionCategory": "vandara_workshop",
-    "requiresFlag": "vandara-workshop-unlocked",
-    "recipeLockedUnlessPlaced": "item-alchemy-table"
+    "requiresFlag": "vandara-workshop-unlocked"
   }
 };
 
@@ -6271,6 +6306,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "location_village_name": "Dorf",
       "main_subtab_general_name": "Allgemein",
       "main_subtab_herstellen_name": "Herstellen",
+      "ui_placed_suffix": "(platziert)",
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Torwächter",
@@ -7536,6 +7572,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "location_village_name": "Village",
       "main_subtab_general_name": "General",
       "main_subtab_herstellen_name": "Crafting",
+      "ui_placed_suffix": "(placed)",
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Gate Warden",

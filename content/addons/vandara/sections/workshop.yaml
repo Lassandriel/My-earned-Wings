@@ -5,12 +5,13 @@
 
 # Section visible as soon as the workshop blueprint is bought from
 # Kal're, so players see the section coming and have a reason to
-# build + place the alchemy table. Recipe buttons inside are still
-# rendered, but greyed out (`is-locked`) until item-alchemy-table
-# is actually placed via the housing system.
+# build + place the alchemy table. Each recipe carries its own
+# `requirements: { placedItems: ... }` so the tooltip shows the
+# missing item explicitly; the greying logic in main.view.html
+# reads "is any requirement unmet" from the action directly, no
+# duplicated section-level config needed.
 - id: section-vandara-workshop
   subTab: herstellen
   headerLabel: ui_tab_vandara_workshop
   actionCategory: vandara_workshop
   requiresFlag: vandara-workshop-unlocked
-  recipeLockedUnlessPlaced: item-alchemy-table

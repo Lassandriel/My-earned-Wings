@@ -24,6 +24,8 @@
 - id: act-vandara-brew-energy-potion-small
   category: vandara_workshop
   icon: "🧪"
+  requirements:
+    placedItems: { op: 'includes', val: 'item-alchemy-table' }
   costs:
     herbs: 2
     water: 1
@@ -39,6 +41,8 @@
 - id: act-vandara-brew-magic-potion-small
   category: vandara_workshop
   icon: "🧪"
+  requirements:
+    placedItems: { op: 'includes', val: 'item-alchemy-table' }
   costs:
     flowers: 1
     water: 2
@@ -56,6 +60,8 @@
 - id: act-vandara-brew-pollen-tea
   category: vandara_workshop
   icon: "🍵"
+  requirements:
+    placedItems: { op: 'includes', val: 'item-alchemy-table' }
   costs:
     glowpollen: 2
     flowers: 1
@@ -71,6 +77,8 @@
 - id: act-vandara-brew-spark-vial
   category: vandara_workshop
   icon: "✨"
+  requirements:
+    placedItems: { op: 'includes', val: 'item-alchemy-table' }
   costs:
     ash_flower: 1
     glitter_dust: 2
@@ -88,6 +96,8 @@
 - id: act-vandara-brew-arcane-water
   category: vandara_workshop
   icon: "💧"
+  requirements:
+    placedItems: { op: 'includes', val: 'item-alchemy-table' }
   costs:
     arcane_dust: 1
     water: 2
@@ -104,6 +114,8 @@
 - id: act-vandara-brew-ash-tincture
   category: vandara_workshop
   icon: "🔥"
+  requirements:
+    placedItems: { op: 'includes', val: 'item-alchemy-table' }
   costs:
     ash_flower: 3
     resin: 1

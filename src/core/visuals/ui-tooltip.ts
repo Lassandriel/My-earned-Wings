@@ -146,7 +146,22 @@ export const TooltipManager = {
         let label = path;
         let value = rule === true ? '✓' : rule.toString();
 
-        if (path === 'flags.build-house') label = store.t('ui_house');
+        // `placedItems` requirement (e.g. alchemy table for brewing
+        // recipes) — render as the item's display name with a
+        // "placed" suffix so the player sees "Alchemietisch (platziert)"
+        // instead of the raw path. The leading marker (✓ when met,
+        // empty when blocked) gets assembled at the bottom of this
+        // map based on the actual met check, so don't hardcode it
+        // here.
+        if (path === 'placedItems' && rule && typeof rule === 'object' && (rule as any).op === 'includes') {
+          const itemId = (rule as any).val as string;
+          const item = store.content.get(itemId, 'items', true) as any;
+          const itemName = item ? store.t(item.title, 'items') : itemId;
+          const placedLabel = store.t('ui_placed_suffix') || '(platziert)';
+          label = `${itemName} ${placedLabel}`;
+          value = '';
+        }
+        else if (path === 'flags.build-house') label = store.t('ui_house');
         else if (path === 'flags.unlocked-library') label = store.t('ui_library');
         else if (path === 'flags.read_book_1_complete')
           label = store.t('item_book_lore_1_title', 'items');
@@ -201,7 +216,13 @@ export const TooltipManager = {
         }
 
         const met = store.actions.checkRequirement(store, path, rule);
-        const display = (value === '✓' ? '✓ ' : value + ' ') + label;
+        // Empty value (set by special-case paths like placedItems)
+        // gets a met-aware prefix so the player can tell met from
+        // not-met even when there's no numeric value to show.
+        let display: string;
+        if (value === '') display = (met ? '✓ ' : '✗ ') + label;
+        else if (value === '✓') display = '✓ ' + label;
+        else display = value + ' ' + label;
 
         return { label, value, met, display };
       });

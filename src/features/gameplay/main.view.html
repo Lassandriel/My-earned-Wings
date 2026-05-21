@@ -48,14 +48,17 @@
       }
       return true;
     },
-    /** Recipe is greyed (visible but unclickable) when the section
-     *  declares a placement requirement and the item isn't placed.
-     *  Keeps the cost tooltip working so the player can still see
-     *  what they'd need — they just can't fire the brew. */
+    /** Recipe is greyed (visible but unclickable) when any of its
+     *  action.requirements isn't met yet. Costs are checked
+     *  separately by the action engine on click and don't grey
+     *  the button — they just stop the brew with a fail log. The
+     *  tooltip's Requires section already shows the missing
+     *  requirement, so this just adds the visual cue. */
     recipeIsLocked(sec, actionId) {
-      if (sec.recipeLockedUnlessPlaced) {
-        const placed = $store.game.placedItems || [];
-        if (!placed.includes(sec.recipeLockedUnlessPlaced)) return true;
+      const act = $store.game.content.get(actionId, 'actions');
+      if (!act || !act.requirements) return false;
+      for (const [path, rule] of Object.entries(act.requirements)) {
+        if (!$store.game.actions.checkRequirement($store.game, path, rule)) return true;
       }
       return false;
     },
