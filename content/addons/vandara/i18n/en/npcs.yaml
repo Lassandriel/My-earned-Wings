@@ -103,6 +103,120 @@ npc_vandara_fafa_4: >-
   looks at you for a long moment. "Don't go alone until you know
   someone there you can trust. But go."
 
+# ─── Veyra — Elemental Resonance ──────────────────────
+npc_vandara_veyra_1: >-
+  Magistra Veyra welcomes you in a bright, almost too-bright hall.
+  She is a Sun Amphithere — feathered serpent in gold and soft
+  orange, her feathers catching the light from the tall windows
+  and scattering it everywhere. "Welcome, {player}. I'm Veyra. My
+  course is called Elemental Resonance — sounds fancy, isn't. We
+  find out what you are." She laughs gently. "Don't stress.
+  Most students already know from home. The few who don't —
+  often the most interesting ones."
+
+npc_vandara_veyra_2: >-
+  "First, the basics." Veyra coils around a pillar and looks down
+  at you. "Magic is bound. To your element. You can't 'switch' —
+  you can only discover. Some feel fire in their hands, others
+  water in their breath. Others need exercises to notice: 'oh,
+  this one pulls at me.' We do it slowly. Today only theory.
+  Next time we try something."
+
+npc_vandara_veyra_3: >-
+  "Close your eyes." Veyra dims the lights with a wing-stroke.
+  "Breathe. Don't try to do anything. Just feel what's there.
+  Hands lightly open, let magic find you, not the other way."
+  She waits. Long. Then her voice, quiet: "Mhm. There's
+  something. But I can't quite grasp it. Come back. We'll test
+  more carefully."
+
+npc_vandara_veyra_4: >-
+  "Today I need more from you." Veyra has small objects laid
+  out: a stone, a bowl of water, a candle, a feather, a mirror.
+  "We try them in turn. You touch each, I observe. No pressure
+  — if nothing happens, nothing happens." She pauses. "But be
+  prepared: resonance never feels like you expect."
+
+# ─── Ormias — Dragon Studies ──────────────────────────
+npc_vandara_ormias_1: >-
+  Lector Ormias is old. Very old. His dragon-form skull
+  shimmers when he speaks — Magma Lindwurm line, scales like
+  hardened lava. He wears rumpled robes and a pair of glasses
+  that really don't fit. "Sit, student. We know six main types.
+  Great Dragons from the Crystal Realm, that's the bread-and-
+  butter people. Wyverns, who fused their forelimbs into wings.
+  Lindwurms — my kind. Amphitheres, the serpentine ones with
+  feathers. Leviathans, water or magma. Seraphs, high above the
+  clouds. And Fae, the little dragonflies from the Emerald
+  Forest. That's it. Nothing else."
+
+npc_vandara_ormias_2: >-
+  "Today the dragon form." Ormias sketches on the board — and
+  his chalk breaks every two seconds. "Great Dragons: massive,
+  many horns, two strong wings. Wyverns: two hindlegs plus wing-
+  forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres:
+  no legs, just one pair of large feathered wings. Leviathans
+  hydrodynamic or armoured depending on variant. Seraphs have
+  several thin wings stacked. Fae buzz around on dragonfly wings."
+  He coughs. "All. Of. These. Types. Have. Wings."
+
+npc_vandara_ormias_3: >-
+  Ormias peers at you over his slipping glasses. "Speaking of
+  wings — you have none. Hm. Let me think." He scratches his
+  chin. "There is a wingless sub-type, the Lung-Drachen. Long-
+  bodied, flying purely through magic. But..." He waves it off.
+  "They're so rare they only ever appear in the imperial family.
+  In my seventy years as lector I've never seen one outside the
+  court line, and I never will. You are most likely a late-
+  blooming Great Dragon. Some don't manifest their wings until
+  twenty or thirty. Patience."
+
+npc_vandara_ormias_4: >-
+  "Last hour of the basic course." Ormias pushes a thick book
+  towards you. "'Classification of the Dragon Types of Draconia',
+  third edition. Read it if you want more. What I can't cram
+  into one hour is in there. And remember: when someone says
+  'there are only six types', that's true. Probably." He clears
+  his throat. "In eighty percent of cases."
+
+# ─── Quinell — Magic Theory ───────────────────────────
+npc_vandara_quinell_1: >-
+  Doctor Quinell is a crystal-dragon-shifter — scales like cut
+  rock crystal that refract the hall's light into every colour
+  of the spectrum. He stands behind a lectern, motionless.
+  "Welcome. Magic Theory is the most boring lecture you will
+  hear at this academy. And the most important. If you don't
+  understand what magic IS, you will never apply it precisely.
+  You will cast like a dog swims — functional, ugly, inefficient.
+  We start with definitions."
+
+npc_vandara_quinell_2: >-
+  "Magic is the manipulation of the aether through a draconic
+  mind. Three components: Element, Will, Substrate." Quinell
+  draws three circles on the board, perfectly symmetrical.
+  "Element is innate. Will is practice. Substrate is the
+  physical material through which magic acts — sometimes one's
+  own dragon form, sometimes a tool, sometimes the air itself.
+  Whoever cannot separate these three in their mind will fail
+  every advanced course."
+
+npc_vandara_quinell_3: >-
+  "Today, effect theory." Quinell has a heavy quartz staff
+  before him. "Magic does not work 'just so'. It follows
+  conservation laws. What you send into the world comes from
+  you. Exhaustion is not failure, it is the measure of your
+  effect. Whoever casts without exhaustion has done nothing."
+  He pauses. "There are exceptions. Very few. If you discover
+  one, write a doctoral thesis on it."
+
+npc_vandara_quinell_4: >-
+  Quinell sets a thin booklet before you. "Notes for the basic
+  course. Chapter six may interest you — Shadow as a theoretical
+  sub-variant of Light. Pure theory; no one has ever met a
+  shadow-shifter willing to be examined. Maybe because they
+  don't exist. Maybe because they hide well. Both interesting."
+  His expression doesn't change. "Study it."
+
 npc_vandara_gate_guard_admit: >-
   The gate warden — a massive earth-dragon shifter with scales like
   polished stone — looks you over slowly as you produce the letter.

@@ -29,7 +29,8 @@
     - cost: 25
       costType: shards
       dialogueKey: npc_vandara_olie_2
-    # 3. Explanation + hand over student ID.
+    # 3. Explanation + hand over student ID + unlock the three
+    # academy mentors so the player can actually start classes.
     - cost: 5
       costType: energy
       onSuccess:
@@ -38,6 +39,12 @@
         - type: setFlag
           flag: vandara-enrolled
           value: true
+        - type: unlockNPC
+          id: npc-vandara-veyra
+        - type: unlockNPC
+          id: npc-vandara-ormias
+        - type: unlockNPC
+          id: npc-vandara-quinell
         - type: log
           logKey: vandara_enrolled
           color: var(--gold)

@@ -180,6 +180,42 @@ Diese seltenen Wesen besitzen keine Gliedmaßen, sondern nur ein Paar riesige Fl
   * **Traum-Amphithere:** Ähnlich wie Prinzessin Lunara können sie durch Flügelschlag Nebel erzeugen, der Illusionen oder Träume hervorruft.  
   * **Sonnen-Amphithere:** Ihre Federn glühen in goldenem Licht und können bei Gefahr eine blendende Licht-Explosion auslösen.
 
+**Leviathane (Die Herrscher der Extreme)**
+
+Diese Art hat sich an die extremsten Lebensräume Draconias angepasst und bewohnt sowohl die gigantischen, schwebenden Wasserinseln als auch die tiefsten, kargsten Schwebeinseln direkt über dem lebensfeindlichen Lavameer.
+
+* **Körperbau:** Je nach Unterart hydrodynamisch angepasst oder mit dicken Schuppen extrem stark gepanzert. Sie besitzen alle physische Flügel und ordnen sich damit in die regulären Flugdrachen ein.  
+* **Besonderheit zur Atmung:** Leviathane besitzen eine hochspezialisierte Anatomie, die es ihnen erlaubt, in ihrem jeweiligen Lebenselement problemlos und dauerhaft zu atmen.  
+* **Kultur & Handel:** Da die Magma-Leviathane auf den untersten Ebenen leben, wo es extrem heiß ist und es kaum Wasser oder Pflanzen gibt, sind die beiden Unterarten wirtschaftlich stark voneinander abhängig. Einmal im Jahr treffen sie sich an den gigantischen Wasserfällen, die ins Lavameer stürzen, zu einem überlebenswichtigen Handelsfest. Dort tauschen sie seltene Erze und geschmiedete Waffen gegen Trinkwasser, Heilpflanzen und Nahrung.
+
+**Elementare Ausprägungen:**
+
+* **Gezeiten-Leviathane (Die Wasser-Nomaden):** Sie sind die absoluten Herrscher der Wasserinseln und Wasserwege. Sie besitzen gewaltige, sehnige Schwingen mit glatter, wasserabweisender Haut, die sie unter Wasser wie die Flossen eines Mantarochens nutzen, sowie feine Kiemenschlitze. In ihrer humanoiden Form sind sie begnadete Schwimmer und arbeiten in Draconia hochgeschätzt als Wasser-Architekten und Strömungs-Navigatoren (z. B. bei der Wartung der Fluttore in Luxana).  
+* **Magma-Leviathane (Die Tiefen-Schmiede):** Sie leben isoliert auf den untersten, wärmsten Inseln über dem Lavameer, an einem Ort, den andere Drachen meiden. Ihre Flügel sind massiv, breit und mit dicken, obsidianartigen Schuppen gepanzert. Da ihre speziellen Lungen die extrem heißen Gase der Lava filtern können, tauchen sie in ihrer Drachenform problemlos auf den Grund des Magmameers. In ihrer humanoiden Form arbeiten sie als Draconias unangefochtene Meisterschmiede und Erz-Taucher.
+
+**Seraph-Drachen (Die Himmelsstürmer)**
+
+Diese Drachenart bewohnt die extremsten und unzugänglichsten Höhen Draconias, primär rund um das Sonnenplateau und weit über den normalen Wolkendecken. Sie sind wohl das isolierteste und stolzeste Volk der Welt.
+
+**Körperbau & Flügel:** Sie sind schlank und extrem aerodynamisch gebaut. Anstatt eines einzelnen Flügelpaares besitzen sie vier bis sechs schmale, pfeilschnelle Flügel, die oft übereinander angeordnet sind. Diese erlauben es ihnen, selbst den gewaltigsten magischen Orkanen zu trotzen oder in extrem dünner Luft zu manövrieren, wo westliche Großdrachen längst die Kontrolle oder das Bewusstsein verlieren würden.
+
+**Elementare Ausprägungen & Kultur:**
+
+* **Gewitter-Seraphe (Die Sturmreiter):** **Elemente:** Blitz und Donner (Wetter-Magie). **Lebensraum:** Die dichten, tosenden Gewitterfronten und Orkangebiete an den äußeren Rändern des Sonnenplateaus. **Gesellschaft:** Sie sind wild, dynamisch und nutzen das extreme Wetter beruflich. In ihrer Gesellschaft gibt es *Blitz-Fänger* (die magische Blitzenergie für Städte wie Vandara sammeln), *Orkan-Kuriere* (der unangefochtene Express-Dienst Draconias) und *Regen-Weber* (die Niederschläge für die Landwirtschaft lenken). Die elitärste und gefährlichste Position bekleiden jedoch die **Kartografen und Prospektoren**. Nur sie wagen sich in die wildesten, unerforschten Stürme an den Rändern der Inselwelt, um neue, verborgene Schwebinseln zu vermessen oder nach seltenen, sturmgepeitschten Ressourcen zu suchen.  
+* **Äther-Seraphe (Die Sternen-Hüter):** **Elemente:** Dünne Luft und atmosphärisches Licht. **Lebensraum:** Die allerhöchsten, stillsten Spitzen des Sonnenplateaus, beinahe an der Grenze zum Weltraum. **Gesellschaft:** Sie leben nach einem strengen und ungerechten Kastensystem. An der Spitze stehen die **Astrologen**, eine Magie-Elite, die ihre Höhen nie verlässt. Sie verbringen ihr Leben mit Philosophie und dem Deuten der Sterne. Die Basis der Gesellschaft bilden die **Sternenpflücker** (die "Bauern" oder Arbeiter-Kaste). Da sie mit weniger Magie geboren werden, müssen sie die physisch gefährliche Ernte der unbezahlbaren *Sternenfrüchte* übernehmen, die das ungefilterte Licht der Sterne benötigen. Die Elite besitzt die Macht, doch es sind die Arbeiter, die durch den Handel der Früchte mit den tieferen Ebenen das Überleben dieses stolzen Volkes sichern.Da Worte in der extrem dünnen Luft schwer zu hören sind, kommunizieren Äther-Seraphe fast ausschließlich über Telepathie. 
+
+**Fae-Drachen (Die Smaragd-Weber)**
+
+Diese Art stammt ursprünglich tief aus dem gewaltigen *Urwald von Smaragd* und hat sich perfekt an das Überleben zwischen riesigen Pflanzen angepasst. Im Laufe der Zeit hat ein kultureller Wandel das Volk jedoch in zwei völlig unterschiedliche Lebensweisen gespalten.
+
+* **Körperbau & das Größen-Paradoxon:** Die Fae-Drachen besitzen eine absolute biologische Einzigartigkeit in Draconia: Sie sind die einzigen Wandler, die in ihrer humanoiden Gestalt größer sind als in ihrer eigentlichen Drachenform. In Drachenform erreichen sie nur die Größe eines gewöhnlichen Humanoiden (ca. 1,80 m bis 2,00 m), was sie einst vor Raubtieren schützte. In ihrer humanoiden Form ragen sie jedoch fast zwei Köpfe über normale Wandler hinaus und werden bis zu 2,10 m groß.  
+* **Flügel:** Anstelle von großen Lederschwingen besitzen sie durchscheinende, surrende Doppel-Flügel (ähnlich wie Libellen oder Schmetterlinge), die es ihnen erlauben, wie Kolibris in der Luft zu schweben und extrem präzise zu manövrieren.
+
+**Kultur & Aufteilung:**
+
+* **Stadt-Fae (Die Angepassten):** Viele Fae-Drachen hat es im Laufe der Zeit in die großen Städte Draconias gezogen, wo sie sich perfekt an das urbane Leben angepasst haben. Obwohl sie nach wie vor die chamäleonartige Fähigkeit besitzen, sich zu tarnen, haben sich ihre Schuppen durch das sichere städtische Umfeld verändert: Sie besitzen nun viel buntere, kräftigere und auffälligere Schuppenfarben als ihre wilden Verwandten und nutzen diese oft stolz zur Schau.  
+* **Wald-Fae (Die Eremiten):** Diese extrem naturverbundenen Fae-Drachen sind mittlerweile selten geworden. Sie leben bevorzugt als Einzelgänger oder Eremiten tief im Dschungel. Da der Boden gefährlich ist, leben sie ganz oben auf den Kronen der gigantischen Bäume, um das kostbare Sonnenlicht zu genießen. Dort oben haben sie eine essenzielle Aufgabe: Sie sammeln ein ganz besonderes Regenwasser, das auf seinem Weg durch die gigantischen Baumkronen natürlich und magisch gereinigt wurde. Die Wald-Fae bringen dieses hochwirksame Heilwasser gelegentlich in die Dörfer der unteren Ebenen, um es dort zu verkaufen.
+
 # 🪄 Wandler
 
 ## Erscheinung in Humanoiden Form

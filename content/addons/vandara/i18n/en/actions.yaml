@@ -28,3 +28,12 @@ act-vandara-buy-workshop-blueprint:
 
 act-build-workshop:
   title: "Build Workshop"
+
+act-npc-vandara-veyra:
+  title: Magistra Veyra
+
+act-npc-vandara-ormias:
+  title: Lector Ormias
+
+act-npc-vandara-quinell:
+  title: Doctor Quinell

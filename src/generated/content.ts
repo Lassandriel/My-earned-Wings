@@ -3171,6 +3171,18 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "value": true
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-vandara-veyra"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-ormias"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-quinell"
+          },
+          {
             "type": "log",
             "logKey": "vandara_enrolled",
             "color": "var(--gold)"
@@ -3390,6 +3402,156 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_gate_guard_admit"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-veyra": {
+    "id": "act-npc-vandara-veyra",
+    "npcId": "npc-vandara-veyra",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraVeyra",
+    "maxProgress": 4,
+    "journalIcon": "☀️",
+    "icon": "☀️",
+    "journalColor": "#fbbf24",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-enrolled": true
+        },
+        "dialogueKey": "npc_vandara_veyra_1"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_veyra_2"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_veyra_3"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-veyra-intro-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_veyra_intro_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_veyra_4"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-ormias": {
+    "id": "act-npc-vandara-ormias",
+    "npcId": "npc-vandara-ormias",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraOrmias",
+    "maxProgress": 4,
+    "journalIcon": "🐲",
+    "icon": "🐲",
+    "journalColor": "#7c2d12",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-enrolled": true
+        },
+        "dialogueKey": "npc_vandara_ormias_1"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_2"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_3"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-ormias-intro-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_ormias_intro_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_ormias_4"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-quinell": {
+    "id": "act-npc-vandara-quinell",
+    "npcId": "npc-vandara-quinell",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraQuinell",
+    "maxProgress": 4,
+    "journalIcon": "💎",
+    "icon": "💎",
+    "journalColor": "#c084fc",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-enrolled": true
+        },
+        "dialogueKey": "npc_vandara_quinell_1"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_quinell_2"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_quinell_3"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-quinell-intro-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_quinell_intro_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_quinell_4"
       }
     ],
     "customExecute": "npc_execute"
@@ -4061,6 +4223,36 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "maxProgress": 1,
     "chapter": "Vandara",
     "location": "vandara"
+  },
+  "npc-vandara-veyra": {
+    "id": "npc-vandara-veyra",
+    "nameKey": "npc_vandara_veyra_name",
+    "icon": "☀️",
+    "color": "#fbbf24",
+    "progKey": "vandaraVeyra",
+    "maxProgress": 4,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
+  "npc-vandara-ormias": {
+    "id": "npc-vandara-ormias",
+    "nameKey": "npc_vandara_ormias_name",
+    "icon": "🐲",
+    "color": "#7c2d12",
+    "progKey": "vandaraOrmias",
+    "maxProgress": 4,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
+  "npc-vandara-quinell": {
+    "id": "npc-vandara-quinell",
+    "nameKey": "npc_vandara_quinell_name",
+    "icon": "💎",
+    "color": "#c084fc",
+    "progKey": "vandaraQuinell",
+    "maxProgress": 4,
+    "chapter": "Vandara",
+    "location": "vandara"
   }
 };
 
@@ -4612,6 +4804,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-build-workshop": {
         "title": "Werkstatt bauen"
+      },
+      "act-npc-vandara-veyra": {
+        "title": "Magistra Veyra"
+      },
+      "act-npc-vandara-ormias": {
+        "title": "Lektor Ormias"
+      },
+      "act-npc-vandara-quinell": {
+        "title": "Doktor Quinell"
       }
     },
     "buffs": {
@@ -4860,7 +5061,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_enrolled": "Olié reicht dir den Studentenausweis. Du bist offiziell Studentin/Student der Roségold-Akademie.",
       "vandara_workshop_blueprint": "Kal're rollt einen kleinen, präzise gezeichneten Bauplan auf — ein Werkstatt-Entwurf.",
       "vandara_workshop_built": "Deine kleine Werkstatt steht. Jetzt fehlt nur noch jemand, der dir zeigt, was du damit anfangen kannst.",
-      "vandara_katakomben_unlocked": "Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter Vandara. Eine andere Stadt liegt unten."
+      "vandara_katakomben_unlocked": "Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter Vandara. Eine andere Stadt liegt unten.",
+      "vandara_veyra_intro_done": "Du hast Veyras Grundkurs Elementare Resonanz abgeschlossen.",
+      "vandara_ormias_intro_done": "Du hast Ormias' Grundkurs Drachenkunde abgeschlossen.",
+      "vandara_quinell_intro_done": "Du hast Quinells Grundkurs Magietheorie abgeschlossen."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5008,6 +5212,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_fafa_2": "Fafa nimmt die Splitter, ohne hinzusehen. \"Vandara heißt 'Wandel'. Aber sie sagen dir nie, wer den Wandel will und wer ihn fürchtet.\" Sie deutet auf die Akademie hinter dir. \"König Archivaris, der alte Knochenhalter, will alles so behalten wie's war. König- Rektorin Novia will alles neu. Die beiden streiten sich seit Jahren vor dem Kaiserhof. Solange sie streiten, regiert in Wahrheit niemand. Das macht Vandara... interessant. Komm wieder.\"",
       "npc_vandara_fafa_3": "\"Du kommst immer wieder. Das ist selten.\" Fafa lächelt, und für einen Moment sieht sie nicht alt aus, sondern müde. \"Hör zu, Kind. Die Studenten in den oberen Hörsälen lernen, was die Mentoren beibringen dürfen. Was sie wirklich wissen wollen, lernen sie woanders. Unter der Stadt. Komm noch einmal wieder, und ich zeige dir, wo.\"",
       "npc_vandara_fafa_4": "Diesmal nimmt Fafa keine Splitter. Sie steht auf — und ist auf einmal größer, als du gedacht hast. \"Komm.\" Sie führt dich zu einem unscheinbaren Gully hinter dem Brunnen, schiebt das Eisen beiseite, als wäre es ein Vorhang. \"Die Katakomben. Die alten Tunnel aus der Zeit vor dem Unaussprechlichen. Hier unten findest du die, die dir wirklich helfen können — wenn du den Mut hast herunterzukommen.\" Sie blickt dich lange an. \"Geh nicht alleine hin, bis du jemanden kennst, dem du dort vertraust. Aber geh.\"",
+      "npc_vandara_veyra_1": "Magistra Veyra empfängt dich in einem hellen, fast überhellen Hörsaal. Sie ist eine Sonnen-Amphithere — gefiederte Schlange in Gold und sanftem Orange, ihre Federn fangen das Licht der hohen Fenster und werfen es in alle Richtungen zurück. \"Willkommen, {player}. Ich bin Veyra. Mein Kurs heißt Elementare Resonanz — klingt fancy, ist es nicht. Wir finden raus, was du bist.\" Sie lacht weich. \"Mach dir keinen Stress. Die meisten wissen es schon von zuhause. Die paar, die nicht — sind oft die interessantesten.\"",
+      "npc_vandara_veyra_2": "\"Erstmal die Grundlagen.\" Veyra wickelt sich um einen Pfeiler und blickt zu dir herab. \"Magie ist gebunden. An dein Element. Du kannst nicht 'wechseln' — du kannst nur entdecken. Manche spüren Feuer in den Händen, manche Wasser im Atem. Andere brauchen Übungen, um zu merken: 'oh, das hier zieht mich.' Wir machen das langsam. Heute nur Theorie. Beim nächsten Mal probieren wir was.\"",
+      "npc_vandara_veyra_3": "\"Schließ die Augen.\" Veyra dimmt die Lichter mit einem Flügelschlag. \"Atme. Nicht versuchen, was zu tun. Nur spüren, was da ist. Hände leicht offen, Magie soll dich finden, nicht umgekehrt.\" Sie wartet. Lange. Dann ihre Stimme, ruhig: \"Mhm. Da ist was. Aber ich krieg's noch nicht zu fassen. Komm wieder. Wir testen genauer.\"",
+      "npc_vandara_veyra_4": "\"Heute brauche ich mehr von dir.\" Veyra hat verschiedene kleine Objekte vor sich ausgebreitet: ein Stein, eine Schale Wasser, eine Kerze, eine Feder, ein Spiegel. \"Wir probieren der Reihe nach. Du legst die Hand drauf, ich beobachte. Kein Druck — wenn nichts passiert, passiert nichts.\" Sie macht eine Pause. \"Aber sei vorbereitet: Resonanz fühlt sich nie an wie erwartet.\"",
+      "npc_vandara_ormias_1": "Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille, die ihm wirklich nicht passt. \"Setz dich, Studierende. Sechs Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die schlangenartigen mit Federn. Leviathane, Wasser oder Magma. Seraphe, hoch oben über den Wolken. Und Fae, die kleinen Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht.\"",
+      "npc_vandara_ormias_2": "\"Heute zur Drachenform.\" Ormias zeichnet schematisch auf die Tafel — und seine Kreide bricht alle zwei Sekunden. \"Großdrachen sind massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine, langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große Federflügel. Leviathane je nach Variante hydrodynamisch oder gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae surren mit Libellenflügeln rum.\" Er hustet. \"Alle. Diese. Arten. Haben. Flügel.\"",
+      "npc_vandara_ormias_3": "Ormias schaut dich über die rutschende Brille hinweg an. \"Apropos Flügel — du hast keine. Hm. Lass mich überlegen.\" Er kratzt sich am Kinn. \"Es gibt eine flügellose Sub-Art, die Lung-Drachen. Langgestreckt, fliegen rein durch Magie. Aber...\" Er winkt ab. \"Die sind so selten, dass sie quasi ausschließlich in der Kaiserfamilie vorkommen. Ich habe in meinen siebzig Jahren als Lektor noch nie einen außerhalb der Hof-Linie gesehen, und ich werde auch keinen mehr sehen. Du bist mit hoher Wahrscheinlichkeit ein verspäteter Großdrache. Manche manifestieren ihre Flügel erst mit zwanzig oder dreißig. Geduld.\"",
+      "npc_vandara_ormias_4": "\"Letzte Stunde des Grundkurses.\" Ormias schiebt dir ein dickes Buch zu. \"'Klassifikation der Drachenarten Draconias', dritte Auflage. Lies das, wenn du mehr willst. Was ich dir nicht in einer Stunde reindrücken kann, steht da drin. Und denk dran: wenn jemand sagt 'es gibt nur sechs Arten', dann ist das wahr. Wahrscheinlich.\" Er räuspert sich. \"In achtzig Prozent der Fälle.\"",
+      "npc_vandara_quinell_1": "Doktor Quinell ist Kristalldrachenwandler — Schuppen wie geschliffener Bergkristall, die das Hörsaallicht in alle Spektrum-Farben brechen. Er steht hinter einem Stehpult, ohne jede Bewegung. \"Willkommen. Magietheorie ist die langweiligste Vorlesung, die Sie an dieser Akademie hören werden. Und die wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie sie niemals präzise anwenden. Sie werden zaubern wie ein Hund schwimmt — funktional, hässlich, ineffizient. Wir beginnen mit Definitionen.\"",
+      "npc_vandara_quinell_2": "\"Magie ist die Manipulation des Äthers durch einen drachischen Geist. Drei Komponenten: Element, Wille, Substrat.\" Quinell zeichnet drei Kreise an die Tafel, perfekt symmetrisch. \"Element ist angeboren. Wille ist Übungssache. Substrat ist das physische Material durch das die Magie wirkt — manchmal die eigene Drachenform, manchmal ein Werkzeug, manchmal die Luft. Wer diese drei nicht im Kopf trennen kann, wird in jedem höheren Kurs scheitern.\"",
+      "npc_vandara_quinell_3": "\"Heute Wirkungstheorie.\" Quinell hat einen schweren Quarzstab vor sich liegen. \"Magie wirkt nicht 'einfach so'. Sie folgt Erhaltungsregeln. Was du in die Welt schickst, kommt aus dir. Erschöpfung ist kein Versagen, sie ist das Maß deiner Wirkung. Wer ohne Erschöpfung zaubert, hat nichts getan.\" Er pausiert. \"Es gibt Ausnahmen. Sehr wenige. Wenn Sie eine entdecken, schreiben Sie eine Doktorarbeit darüber.\"",
+      "npc_vandara_quinell_4": "Quinell legt dir ein dünnes Heft hin. \"Skript zum Grundkurs. Kapitel sechs interessiert Sie vielleicht — Schatten als theoretische Sub-Variante des Lichts. Reine Theorie, niemand hat je einen Schatten-Wandler kennengelernt der bereit war, sich untersuchen zu lassen. Vielleicht weil es sie nicht gibt. Vielleicht weil sie sich gut verstecken. Beides interessant.\" Sein Ausdruck verändert sich nicht. \"Studieren Sie es.\"",
       "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\""
     },
     "resources": {
@@ -5364,12 +5580,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_olie_name": "Sekretär Olié",
       "npc_vandara_kalre_name": "Händlerin Kal're",
       "npc_vandara_fafa_name": "Bettlerin Fafa",
+      "npc_vandara_veyra_name": "Magistra Veyra",
+      "npc_vandara_ormias_name": "Lektor Ormias",
+      "npc_vandara_quinell_name": "Doktor Quinell",
       "ui_vandara-invited": "Einladungsschreiben",
       "ui_vandara-admitted": "In Vandara aufgenommen",
       "ui_vandara-enrolled": "An der Akademie eingeschrieben",
       "ui_vandara-workshop-unlocked": "Werkstatt-Bauplan",
       "ui_vandara-workshop-built": "Werkstatt gebaut",
       "ui_vandara-katakomben-unlocked": "Zugang zu den Katakomben",
+      "ui_vandara-veyra-intro-done": "Veyras Grundkurs absolviert",
+      "ui_vandara-ormias-intro-done": "Ormias' Grundkurs absolviert",
+      "ui_vandara-quinell-intro-done": "Quinells Grundkurs absolviert",
       "ui_ash_flower": "Ascheblume",
       "ui_glitter_dust": "Glitzerstaub"
     }
@@ -5751,6 +5973,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-build-workshop": {
         "title": "Build Workshop"
+      },
+      "act-npc-vandara-veyra": {
+        "title": "Magistra Veyra"
+      },
+      "act-npc-vandara-ormias": {
+        "title": "Lector Ormias"
+      },
+      "act-npc-vandara-quinell": {
+        "title": "Doctor Quinell"
       }
     },
     "buffs": {
@@ -5999,7 +6230,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_enrolled": "Olié hands you the student ID. You are officially a student of the Rose Gold Academy.",
       "vandara_workshop_blueprint": "Kal're unrolls a small, precisely drawn blueprint — a workshop design.",
       "vandara_workshop_built": "Your small workshop is up. Now you just need someone to show you what to do with it.",
-      "vandara_katakomben_unlocked": "Fafa shows you the hidden entrance to the catacombs beneath Vandara. Another city lies below."
+      "vandara_katakomben_unlocked": "Fafa shows you the hidden entrance to the catacombs beneath Vandara. Another city lies below.",
+      "vandara_veyra_intro_done": "You've completed Veyra's basic course on Elemental Resonance.",
+      "vandara_ormias_intro_done": "You've completed Ormias's basic course on Dragon Studies.",
+      "vandara_quinell_intro_done": "You've completed Quinell's basic course on Magic Theory."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -6147,6 +6381,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_fafa_2": "Fafa pockets the shards without looking. \"Vandara means 'change'. But they never tell you who wants the change and who fears it.\" She gestures at the academy behind you. \"King Archivaris, the old keeper of bones, wants everything kept as it was. King- Rectoress Novia wants everything made new. They've been arguing before the imperial court for years. While they argue, no one truly rules. That makes Vandara... interesting. Come back.\"",
       "npc_vandara_fafa_3": "\"You keep coming back. That's rare.\" Fafa smiles, and for a moment she doesn't look old, just tired. \"Listen, child. The students in the upper halls learn what the mentors are allowed to teach. What they really want to know they learn elsewhere. Beneath the city. Come back one more time, and I'll show you where.\"",
       "npc_vandara_fafa_4": "This time Fafa takes no shards. She stands — and is suddenly taller than you thought. \"Come.\" She leads you to an unremarkable storm drain behind the fountain, slides the iron aside as if it were a curtain. \"The catacombs. The old tunnels from before the Unspeakable. Down here you'll find the ones who can really help you — if you have the courage to descend.\" She looks at you for a long moment. \"Don't go alone until you know someone there you can trust. But go.\"",
+      "npc_vandara_veyra_1": "Magistra Veyra welcomes you in a bright, almost too-bright hall. She is a Sun Amphithere — feathered serpent in gold and soft orange, her feathers catching the light from the tall windows and scattering it everywhere. \"Welcome, {player}. I'm Veyra. My course is called Elemental Resonance — sounds fancy, isn't. We find out what you are.\" She laughs gently. \"Don't stress. Most students already know from home. The few who don't — often the most interesting ones.\"",
+      "npc_vandara_veyra_2": "\"First, the basics.\" Veyra coils around a pillar and looks down at you. \"Magic is bound. To your element. You can't 'switch' — you can only discover. Some feel fire in their hands, others water in their breath. Others need exercises to notice: 'oh, this one pulls at me.' We do it slowly. Today only theory. Next time we try something.\"",
+      "npc_vandara_veyra_3": "\"Close your eyes.\" Veyra dims the lights with a wing-stroke. \"Breathe. Don't try to do anything. Just feel what's there. Hands lightly open, let magic find you, not the other way.\" She waits. Long. Then her voice, quiet: \"Mhm. There's something. But I can't quite grasp it. Come back. We'll test more carefully.\"",
+      "npc_vandara_veyra_4": "\"Today I need more from you.\" Veyra has small objects laid out: a stone, a bowl of water, a candle, a feather, a mirror. \"We try them in turn. You touch each, I observe. No pressure — if nothing happens, nothing happens.\" She pauses. \"But be prepared: resonance never feels like you expect.\"",
+      "npc_vandara_ormias_1": "Lector Ormias is old. Very old. His dragon-form skull shimmers when he speaks — Magma Lindwurm line, scales like hardened lava. He wears rumpled robes and a pair of glasses that really don't fit. \"Sit, student. We know six main types. Great Dragons from the Crystal Realm, that's the bread-and- butter people. Wyverns, who fused their forelimbs into wings. Lindwurms — my kind. Amphitheres, the serpentine ones with feathers. Leviathans, water or magma. Seraphs, high above the clouds. And Fae, the little dragonflies from the Emerald Forest. That's it. Nothing else.\"",
+      "npc_vandara_ormias_2": "\"Today the dragon form.\" Ormias sketches on the board — and his chalk breaks every two seconds. \"Great Dragons: massive, many horns, two strong wings. Wyverns: two hindlegs plus wing- forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres: no legs, just one pair of large feathered wings. Leviathans hydrodynamic or armoured depending on variant. Seraphs have several thin wings stacked. Fae buzz around on dragonfly wings.\" He coughs. \"All. Of. These. Types. Have. Wings.\"",
+      "npc_vandara_ormias_3": "Ormias peers at you over his slipping glasses. \"Speaking of wings — you have none. Hm. Let me think.\" He scratches his chin. \"There is a wingless sub-type, the Lung-Drachen. Long- bodied, flying purely through magic. But...\" He waves it off. \"They're so rare they only ever appear in the imperial family. In my seventy years as lector I've never seen one outside the court line, and I never will. You are most likely a late- blooming Great Dragon. Some don't manifest their wings until twenty or thirty. Patience.\"",
+      "npc_vandara_ormias_4": "\"Last hour of the basic course.\" Ormias pushes a thick book towards you. \"'Classification of the Dragon Types of Draconia', third edition. Read it if you want more. What I can't cram into one hour is in there. And remember: when someone says 'there are only six types', that's true. Probably.\" He clears his throat. \"In eighty percent of cases.\"",
+      "npc_vandara_quinell_1": "Doctor Quinell is a crystal-dragon-shifter — scales like cut rock crystal that refract the hall's light into every colour of the spectrum. He stands behind a lectern, motionless. \"Welcome. Magic Theory is the most boring lecture you will hear at this academy. And the most important. If you don't understand what magic IS, you will never apply it precisely. You will cast like a dog swims — functional, ugly, inefficient. We start with definitions.\"",
+      "npc_vandara_quinell_2": "\"Magic is the manipulation of the aether through a draconic mind. Three components: Element, Will, Substrate.\" Quinell draws three circles on the board, perfectly symmetrical. \"Element is innate. Will is practice. Substrate is the physical material through which magic acts — sometimes one's own dragon form, sometimes a tool, sometimes the air itself. Whoever cannot separate these three in their mind will fail every advanced course.\"",
+      "npc_vandara_quinell_3": "\"Today, effect theory.\" Quinell has a heavy quartz staff before him. \"Magic does not work 'just so'. It follows conservation laws. What you send into the world comes from you. Exhaustion is not failure, it is the measure of your effect. Whoever casts without exhaustion has done nothing.\" He pauses. \"There are exceptions. Very few. If you discover one, write a doctoral thesis on it.\"",
+      "npc_vandara_quinell_4": "Quinell sets a thin booklet before you. \"Notes for the basic course. Chapter six may interest you — Shadow as a theoretical sub-variant of Light. Pure theory; no one has ever met a shadow-shifter willing to be examined. Maybe because they don't exist. Maybe because they hide well. Both interesting.\" His expression doesn't change. \"Study it.\"",
       "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\""
     },
     "resources": {
@@ -6503,12 +6749,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_olie_name": "Secretary Olié",
       "npc_vandara_kalre_name": "Trader Kal're",
       "npc_vandara_fafa_name": "Beggar Fafa",
+      "npc_vandara_veyra_name": "Magistra Veyra",
+      "npc_vandara_ormias_name": "Lector Ormias",
+      "npc_vandara_quinell_name": "Doctor Quinell",
       "ui_vandara-invited": "Invitation letter",
       "ui_vandara-admitted": "Admitted to Vandara",
       "ui_vandara-enrolled": "Enrolled at the Academy",
       "ui_vandara-workshop-unlocked": "Workshop blueprint",
       "ui_vandara-workshop-built": "Workshop built",
       "ui_vandara-katakomben-unlocked": "Catacombs access",
+      "ui_vandara-veyra-intro-done": "Veyra's basic course completed",
+      "ui_vandara-ormias-intro-done": "Ormias's basic course completed",
+      "ui_vandara-quinell-intro-done": "Quinell's basic course completed",
       "ui_ash_flower": "Ash Flower",
       "ui_glitter_dust": "Glitter Dust"
     }

@@ -1,0 +1,33 @@
+# Akademie-Mentoren — drei Lehrkräfte für das Grund-Curriculum. Alle
+# gegated auf `vandara-enrolled` (gesetzt von Olié's Schritt 3), also
+# tauchen sie auf sobald der Spieler offiziell eingeschrieben ist.
+#
+# Convention: Drachenwandler tragen keine Nachnamen (nur Titel +
+# Vorname). Gilt für alle Akademie-NPCs.
+
+- id: npc-vandara-veyra
+  nameKey: npc_vandara_veyra_name
+  icon: ☀️
+  color: '#fbbf24'
+  progKey: vandaraVeyra
+  maxProgress: 4
+  chapter: Vandara
+  location: vandara
+
+- id: npc-vandara-ormias
+  nameKey: npc_vandara_ormias_name
+  icon: 🐲
+  color: '#7c2d12'
+  progKey: vandaraOrmias
+  maxProgress: 4
+  chapter: Vandara
+  location: vandara
+
+- id: npc-vandara-quinell
+  nameKey: npc_vandara_quinell_name
+  icon: 💎
+  color: '#c084fc'
+  progKey: vandaraQuinell
+  maxProgress: 4
+  chapter: Vandara
+  location: vandara

@@ -111,6 +111,126 @@ npc_vandara_fafa_4: >-
   herunterzukommen." Sie blickt dich lange an. "Geh nicht alleine
   hin, bis du jemanden kennst, dem du dort vertraust. Aber geh."
 
+# ─── Veyra — Elementare Resonanz ──────────────────────
+npc_vandara_veyra_1: >-
+  Magistra Veyra empfängt dich in einem hellen, fast überhellen
+  Hörsaal. Sie ist eine Sonnen-Amphithere — gefiederte Schlange in
+  Gold und sanftem Orange, ihre Federn fangen das Licht der hohen
+  Fenster und werfen es in alle Richtungen zurück. "Willkommen,
+  {player}. Ich bin Veyra. Mein Kurs heißt Elementare Resonanz —
+  klingt fancy, ist es nicht. Wir finden raus, was du bist." Sie
+  lacht weich. "Mach dir keinen Stress. Die meisten wissen es schon
+  von zuhause. Die paar, die nicht — sind oft die interessantesten."
+
+npc_vandara_veyra_2: >-
+  "Erstmal die Grundlagen." Veyra wickelt sich um einen Pfeiler und
+  blickt zu dir herab. "Magie ist gebunden. An dein Element. Du
+  kannst nicht 'wechseln' — du kannst nur entdecken. Manche spüren
+  Feuer in den Händen, manche Wasser im Atem. Andere brauchen
+  Übungen, um zu merken: 'oh, das hier zieht mich.' Wir machen das
+  langsam. Heute nur Theorie. Beim nächsten Mal probieren wir was."
+
+npc_vandara_veyra_3: >-
+  "Schließ die Augen." Veyra dimmt die Lichter mit einem
+  Flügelschlag. "Atme. Nicht versuchen, was zu tun. Nur spüren, was
+  da ist. Hände leicht offen, Magie soll dich finden, nicht
+  umgekehrt." Sie wartet. Lange. Dann ihre Stimme, ruhig: "Mhm. Da
+  ist was. Aber ich krieg's noch nicht zu fassen. Komm wieder. Wir
+  testen genauer."
+
+npc_vandara_veyra_4: >-
+  "Heute brauche ich mehr von dir." Veyra hat verschiedene kleine
+  Objekte vor sich ausgebreitet: ein Stein, eine Schale Wasser, eine
+  Kerze, eine Feder, ein Spiegel. "Wir probieren der Reihe nach. Du
+  legst die Hand drauf, ich beobachte. Kein Druck — wenn nichts
+  passiert, passiert nichts." Sie macht eine Pause. "Aber sei
+  vorbereitet: Resonanz fühlt sich nie an wie erwartet."
+
+# ─── Ormias — Drachenkunde ────────────────────────────
+npc_vandara_ormias_1: >-
+  Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel
+  schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen
+  wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille,
+  die ihm wirklich nicht passt. "Setz dich, Studierende. Sechs
+  Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist
+  das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln
+  fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die
+  schlangenartigen mit Federn. Leviathane, Wasser oder Magma.
+  Seraphe, hoch oben über den Wolken. Und Fae, die kleinen
+  Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht."
+
+npc_vandara_ormias_2: >-
+  "Heute zur Drachenform." Ormias zeichnet schematisch auf die Tafel
+  — und seine Kreide bricht alle zwei Sekunden. "Großdrachen sind
+  massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei
+  Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine,
+  langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große
+  Federflügel. Leviathane je nach Variante hydrodynamisch oder
+  gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae
+  surren mit Libellenflügeln rum." Er hustet. "Alle. Diese. Arten.
+  Haben. Flügel."
+
+npc_vandara_ormias_3: >-
+  Ormias schaut dich über die rutschende Brille hinweg an. "Apropos
+  Flügel — du hast keine. Hm. Lass mich überlegen." Er kratzt sich
+  am Kinn. "Es gibt eine flügellose Sub-Art, die Lung-Drachen.
+  Langgestreckt, fliegen rein durch Magie. Aber..." Er winkt ab.
+  "Die sind so selten, dass sie quasi ausschließlich in der
+  Kaiserfamilie vorkommen. Ich habe in meinen siebzig Jahren als
+  Lektor noch nie einen außerhalb der Hof-Linie gesehen, und ich
+  werde auch keinen mehr sehen. Du bist mit hoher
+  Wahrscheinlichkeit ein verspäteter Großdrache. Manche
+  manifestieren ihre Flügel erst mit zwanzig oder dreißig.
+  Geduld."
+
+npc_vandara_ormias_4: >-
+  "Letzte Stunde des Grundkurses." Ormias schiebt dir ein dickes
+  Buch zu. "'Klassifikation der Drachenarten Draconias', dritte
+  Auflage. Lies das, wenn du mehr willst. Was ich dir nicht in
+  einer Stunde reindrücken kann, steht da drin. Und denk dran: wenn
+  jemand sagt 'es gibt nur sechs Arten', dann ist das wahr.
+  Wahrscheinlich." Er räuspert sich. "In achtzig Prozent der Fälle."
+
+# ─── Quinell — Magietheorie ───────────────────────────
+npc_vandara_quinell_1: >-
+  Doktor Quinell ist Kristalldrachenwandler — Schuppen wie
+  geschliffener Bergkristall, die das Hörsaallicht in alle
+  Spektrum-Farben brechen. Er steht hinter einem Stehpult, ohne
+  jede Bewegung. "Willkommen. Magietheorie ist die langweiligste
+  Vorlesung, die Sie an dieser Akademie hören werden. Und die
+  wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie
+  sie niemals präzise anwenden. Sie werden zaubern wie ein Hund
+  schwimmt — funktional, hässlich, ineffizient. Wir beginnen mit
+  Definitionen."
+
+npc_vandara_quinell_2: >-
+  "Magie ist die Manipulation des Äthers durch einen drachischen
+  Geist. Drei Komponenten: Element, Wille, Substrat." Quinell
+  zeichnet drei Kreise an die Tafel, perfekt symmetrisch. "Element
+  ist angeboren. Wille ist Übungssache. Substrat ist das physische
+  Material durch das die Magie wirkt — manchmal die eigene
+  Drachenform, manchmal ein Werkzeug, manchmal die Luft. Wer diese
+  drei nicht im Kopf trennen kann, wird in jedem höheren Kurs
+  scheitern."
+
+npc_vandara_quinell_3: >-
+  "Heute Wirkungstheorie." Quinell hat einen schweren Quarzstab vor
+  sich liegen. "Magie wirkt nicht 'einfach so'. Sie folgt
+  Erhaltungsregeln. Was du in die Welt schickst, kommt aus dir.
+  Erschöpfung ist kein Versagen, sie ist das Maß deiner Wirkung.
+  Wer ohne Erschöpfung zaubert, hat nichts getan." Er pausiert. "Es
+  gibt Ausnahmen. Sehr wenige. Wenn Sie eine entdecken, schreiben
+  Sie eine Doktorarbeit darüber."
+
+npc_vandara_quinell_4: >-
+  Quinell legt dir ein dünnes Heft hin. "Skript zum Grundkurs.
+  Kapitel sechs interessiert Sie vielleicht — Schatten als
+  theoretische Sub-Variante des Lichts. Reine Theorie, niemand hat
+  je einen Schatten-Wandler kennengelernt der bereit war, sich
+  untersuchen zu lassen. Vielleicht weil es sie nicht gibt.
+  Vielleicht weil sie sich gut verstecken. Beides interessant."
+  Sein Ausdruck verändert sich nicht. "Studieren Sie es."
+
 npc_vandara_gate_guard_admit: >-
   Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie
   geschliffenem Stein, betrachtet dich gemessen, als du den Brief

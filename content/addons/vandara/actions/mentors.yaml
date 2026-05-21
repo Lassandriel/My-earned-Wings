@@ -1,0 +1,114 @@
+# Mentor-Aktionen für das Akademie-Grundstudium. Jede Klasse hat
+# 4 Vorlesungs-Stufen — Intro + Theorie + Praxis + Abschluss. Die
+# konkreten Lehrinhalte (Element-Übungen für Veyra, Drachen-Bestimmung
+# für Ormias, Zauberformel-Lab für Quinell) kommen in eigenen
+# Iterationen als zusätzliche Actions je Mentor.
+
+# ─── Veyra — Elementare Resonanz ──────────────────────────────
+- id: act-npc-vandara-veyra
+  npcId: npc-vandara-veyra
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraVeyra
+  maxProgress: 4
+  journalIcon: ☀️
+  icon: ☀️
+  journalColor: '#fbbf24'
+  steps:
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.vandara-enrolled: true
+      dialogueKey: npc_vandara_veyra_1
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_veyra_2
+    - cost: 15
+      costType: magic
+      dialogueKey: npc_vandara_veyra_3
+    - cost: 15
+      costType: magic
+      onSuccess:
+        - type: setFlag
+          flag: vandara-veyra-intro-done
+          value: true
+        - type: log
+          logKey: vandara_veyra_intro_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_veyra_4
+  customExecute: npc_execute
+
+# ─── Ormias — Drachenkunde ────────────────────────────────────
+- id: act-npc-vandara-ormias
+  npcId: npc-vandara-ormias
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraOrmias
+  maxProgress: 4
+  journalIcon: 🐲
+  icon: 🐲
+  journalColor: '#7c2d12'
+  steps:
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.vandara-enrolled: true
+      dialogueKey: npc_vandara_ormias_1
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_2
+    # Step 3 is the famous one — he lists the rare types,
+    # explicitly rules out Lung-Drachen because "they only exist
+    # in the imperial family", and concludes the player must be
+    # a late-blooming Großdrache. Dramatic irony for the ages.
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_3
+    - cost: 10
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-ormias-intro-done
+          value: true
+        - type: log
+          logKey: vandara_ormias_intro_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_ormias_4
+  customExecute: npc_execute
+
+# ─── Quinell — Magietheorie ────────────────────────────────────
+- id: act-npc-vandara-quinell
+  npcId: npc-vandara-quinell
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraQuinell
+  maxProgress: 4
+  journalIcon: 💎
+  icon: 💎
+  journalColor: '#c084fc'
+  steps:
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.vandara-enrolled: true
+      dialogueKey: npc_vandara_quinell_1
+    - cost: 15
+      costType: magic
+      dialogueKey: npc_vandara_quinell_2
+    - cost: 15
+      costType: magic
+      dialogueKey: npc_vandara_quinell_3
+    - cost: 15
+      costType: magic
+      onSuccess:
+        - type: setFlag
+          flag: vandara-quinell-intro-done
+          value: true
+        - type: log
+          logKey: vandara_quinell_intro_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_quinell_4
+  customExecute: npc_execute
