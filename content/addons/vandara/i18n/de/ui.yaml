@@ -25,6 +25,13 @@ ui_vandara-katakomben-unlocked: Zugang zu den Katakomben
 ui_vandara-veyra-intro-done: Veyras Grundkurs absolviert
 ui_vandara-ormias-intro-done: Ormias' Grundkurs absolviert
 ui_vandara-quinell-intro-done: Quinells Grundkurs absolviert
+ui_vandara-tested-fire: Feuerprobe versucht
+ui_vandara-tested-earth: Erdprobe versucht
+ui_vandara-tested-wind: Windprobe versucht
+ui_vandara-tested-tide: Gezeitenprobe versucht
+ui_vandara-tested-light: Lichtprobe versucht
+ui_vandara-light-resonance-found: Lichtresonanz festgestellt
+ui_vandara-shadow-revealed: Schattenelement entdeckt
 
 # Resource display labels (the UI uses ui_<resource> in some places).
 ui_ash_flower: Ascheblume

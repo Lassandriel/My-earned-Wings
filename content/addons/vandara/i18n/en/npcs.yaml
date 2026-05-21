@@ -137,6 +137,54 @@ npc_vandara_veyra_4: >-
   — if nothing happens, nothing happens." She pauses. "But be
   prepared: resonance never feels like you expect."
 
+npc_vandara_veyra_5: >-
+  "You're back. Good." Veyra seems tense today. "The light flicker
+  during the trial — that wasn't nothing. And it wasn't normal
+  either. Sit down, I want to run a deeper test." She extinguishes
+  every light in the hall except a small candle behind you.
+  "Reach towards the candle. Don't touch. Just... feel what
+  happens between you and the flame." Long silence. Then her
+  voice, suddenly different: "Oh. Oh, {player}. You're not
+  casting a shadow. You're PULLING the shadow towards you. From
+  the wall, from the ceiling, from me." She laughs breathlessly.
+  "You're not a light-shifter. You're a shadow-shifter. I've...
+  I've never seen one."
+
+npc_vandara_veyra_6: >-
+  Veyra is markedly more thoughtful today. "Shadow is a sub-
+  variant of Light. Like Dream is a variant of Tide. But it's
+  rare. Very rare. In my forty years of teaching I've never had
+  one." She looks at you seriously. "I can give you the theory.
+  But the practice — I'm out of my depth. You need someone who's
+  actually lived it. There's..." She hesitates. "There's someone.
+  But they're not at the academy any more. Ask Fafa at the
+  fountain. She knows where. And be careful — shadow sounds
+  cool, but not everyone in this city sees it that way."
+
+# Element trials — short reaction blurbs (used as each trial's
+# dialogueKey in the step).
+vandara_trial_fire_dialog: >-
+  You hold your hand over the small flame. Warmth, of course —
+  but no resonance. Veyra shakes her head. "No fire."
+
+vandara_trial_earth_dialog: >-
+  The stone sits heavy in your hand. You wait. Nothing. Veyra
+  notes something down. "No earth."
+
+vandara_trial_wind_dialog: >-
+  You hold the feather up. It floats a moment, then falls.
+  Normal — no magical lift. Veyra: "No wind."
+
+vandara_trial_tide_dialog: >-
+  Hand over the water bowl. The surface ripples faintly — from
+  your breath, not from you. Veyra: "No tide."
+
+vandara_trial_light_dialog: >-
+  You look into the small mirror. Something flickers. Not in the
+  mirror — IN the room behind you. Veyra snaps her head up.
+  "There. That was something. But not clean light. Come back
+  as soon as you can — I want to look at this more closely."
+
 # ─── Ormias — Dragon Studies ──────────────────────────
 npc_vandara_ormias_1: >-
   Lector Ormias is old. Very old. His dragon-form skull

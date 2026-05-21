@@ -11,7 +11,7 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraVeyra
-  maxProgress: 4
+  maxProgress: 6
   journalIcon: ☀️
   icon: ☀️
   journalColor: '#fbbf24'
@@ -37,6 +37,27 @@
           logKey: vandara_veyra_intro_done
           color: var(--gold)
       dialogueKey: npc_vandara_veyra_4
+    # Stufe 5 — Spieler kehrt zurück nachdem die Lichtprobe gezuckt
+    # hat. Veyra macht den tiefen Test und entdeckt: das war kein
+    # Licht. Das war Schatten.
+    - cost: 20
+      costType: magic
+      requirements:
+        flags.vandara-light-resonance-found: true
+      dialogueKey: npc_vandara_veyra_5
+    # Stufe 6 — Nachwirkung. Veyra erklärt was Schatten als Licht-
+    # Sub bedeutet, gesteht ihre Grenzen ein, deutet auf jemanden
+    # in den Katakomben (Sariel im nächsten Drop).
+    - cost: 10
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-shadow-revealed
+          value: true
+        - type: log
+          logKey: vandara_shadow_revealed
+          color: var(--gold)
+      dialogueKey: npc_vandara_veyra_6
   customExecute: npc_execute
 
 # ─── Ormias — Drachenkunde ────────────────────────────────────

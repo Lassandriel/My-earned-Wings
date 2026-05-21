@@ -10,9 +10,20 @@
   icon: ☀️
   color: '#fbbf24'
   progKey: vandaraVeyra
-  maxProgress: 4
+  # 4 intro-Stufen + 2 reveal-Stufen (gated auf light-resonance-found).
+  # Die 6. Stufe setzt vandara-shadow-revealed, was im nächsten Drop
+  # Sariel in den Katakomben freischaltet.
+  maxProgress: 6
   chapter: Vandara
   location: vandara
+  # Element-Trial-Buttons erscheinen sobald die Intro-Klasse durch ist
+  # (minProgress: 4 = nach Stufe 4 von Veyra's Hauptaktion).
+  tradeActions:
+    - { id: act-vandara-try-fire, minProgress: 4 }
+    - { id: act-vandara-try-earth, minProgress: 4 }
+    - { id: act-vandara-try-wind, minProgress: 4 }
+    - { id: act-vandara-try-tide, minProgress: 4 }
+    - { id: act-vandara-try-light, minProgress: 4 }
 
 - id: npc-vandara-ormias
   nameKey: npc_vandara_ormias_name

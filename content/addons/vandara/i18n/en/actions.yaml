@@ -37,3 +37,14 @@ act-npc-vandara-ormias:
 
 act-npc-vandara-quinell:
   title: Doctor Quinell
+
+act-vandara-try-fire:
+  title: "Fire Trial"
+act-vandara-try-earth:
+  title: "Earth Trial"
+act-vandara-try-wind:
+  title: "Wind Trial"
+act-vandara-try-tide:
+  title: "Tide Trial"
+act-vandara-try-light:
+  title: "Light Trial"

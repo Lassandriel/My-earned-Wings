@@ -3359,6 +3359,171 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     ],
     "customExecute": "npc_execute"
   },
+  "act-vandara-try-fire": {
+    "id": "act-vandara-try-fire",
+    "category": "vandara_trial",
+    "icon": "🔥",
+    "cost": 5,
+    "costType": "energy",
+    "requirements": {
+      "flags.vandara-veyra-intro-done": true
+    },
+    "progKey": "vandaraTrialFire",
+    "maxProgress": 1,
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-tested-fire",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_trial_fire",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "vandara_trial_fire_dialog"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-vandara-try-earth": {
+    "id": "act-vandara-try-earth",
+    "category": "vandara_trial",
+    "icon": "🪨",
+    "cost": 5,
+    "costType": "energy",
+    "requirements": {
+      "flags.vandara-veyra-intro-done": true
+    },
+    "progKey": "vandaraTrialEarth",
+    "maxProgress": 1,
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-tested-earth",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_trial_earth",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "vandara_trial_earth_dialog"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-vandara-try-wind": {
+    "id": "act-vandara-try-wind",
+    "category": "vandara_trial",
+    "icon": "🌬️",
+    "cost": 5,
+    "costType": "energy",
+    "requirements": {
+      "flags.vandara-veyra-intro-done": true
+    },
+    "progKey": "vandaraTrialWind",
+    "maxProgress": 1,
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-tested-wind",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_trial_wind",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "vandara_trial_wind_dialog"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-vandara-try-tide": {
+    "id": "act-vandara-try-tide",
+    "category": "vandara_trial",
+    "icon": "🌊",
+    "cost": 5,
+    "costType": "energy",
+    "requirements": {
+      "flags.vandara-veyra-intro-done": true
+    },
+    "progKey": "vandaraTrialTide",
+    "maxProgress": 1,
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-tested-tide",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_trial_tide",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "vandara_trial_tide_dialog"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-vandara-try-light": {
+    "id": "act-vandara-try-light",
+    "category": "vandara_trial",
+    "icon": "☀️",
+    "cost": 5,
+    "costType": "magic",
+    "requirements": {
+      "flags.vandara-veyra-intro-done": true
+    },
+    "progKey": "vandaraTrialLight",
+    "maxProgress": 1,
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "magic",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-tested-light",
+            "value": true
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-light-resonance-found",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_trial_light",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "vandara_trial_light_dialog"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
   "act-npc-vandara-gate-guard": {
     "id": "act-npc-vandara-gate-guard",
     "npcId": "npc-vandara-gate-guard",
@@ -3413,7 +3578,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraVeyra",
-    "maxProgress": 4,
+    "maxProgress": 6,
     "journalIcon": "☀️",
     "icon": "☀️",
     "journalColor": "#fbbf24",
@@ -3452,6 +3617,31 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_veyra_4"
+      },
+      {
+        "cost": 20,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-light-resonance-found": true
+        },
+        "dialogueKey": "npc_vandara_veyra_5"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-shadow-revealed",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_shadow_revealed",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_veyra_6"
       }
     ],
     "customExecute": "npc_execute"
@@ -4230,9 +4420,31 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "icon": "☀️",
     "color": "#fbbf24",
     "progKey": "vandaraVeyra",
-    "maxProgress": 4,
+    "maxProgress": 6,
     "chapter": "Vandara",
-    "location": "vandara"
+    "location": "vandara",
+    "tradeActions": [
+      {
+        "id": "act-vandara-try-fire",
+        "minProgress": 4
+      },
+      {
+        "id": "act-vandara-try-earth",
+        "minProgress": 4
+      },
+      {
+        "id": "act-vandara-try-wind",
+        "minProgress": 4
+      },
+      {
+        "id": "act-vandara-try-tide",
+        "minProgress": 4
+      },
+      {
+        "id": "act-vandara-try-light",
+        "minProgress": 4
+      }
+    ]
   },
   "npc-vandara-ormias": {
     "id": "npc-vandara-ormias",
@@ -4813,6 +5025,21 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-vandara-quinell": {
         "title": "Doktor Quinell"
+      },
+      "act-vandara-try-fire": {
+        "title": "Feuerprobe"
+      },
+      "act-vandara-try-earth": {
+        "title": "Erdprobe"
+      },
+      "act-vandara-try-wind": {
+        "title": "Windprobe"
+      },
+      "act-vandara-try-tide": {
+        "title": "Gezeitenprobe"
+      },
+      "act-vandara-try-light": {
+        "title": "Lichtprobe"
       }
     },
     "buffs": {
@@ -5064,7 +5291,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_katakomben_unlocked": "Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter Vandara. Eine andere Stadt liegt unten.",
       "vandara_veyra_intro_done": "Du hast Veyras Grundkurs Elementare Resonanz abgeschlossen.",
       "vandara_ormias_intro_done": "Du hast Ormias' Grundkurs Drachenkunde abgeschlossen.",
-      "vandara_quinell_intro_done": "Du hast Quinells Grundkurs Magietheorie abgeschlossen."
+      "vandara_quinell_intro_done": "Du hast Quinells Grundkurs Magietheorie abgeschlossen.",
+      "vandara_trial_fire": "Feuerprobe — keine Resonanz.",
+      "vandara_trial_earth": "Erdprobe — keine Resonanz.",
+      "vandara_trial_wind": "Windprobe — keine Resonanz.",
+      "vandara_trial_tide": "Gezeitenprobe — keine Resonanz.",
+      "vandara_trial_light": "Lichtprobe — etwas zuckt. Aber kein klares Licht. Veyra ist beunruhigt-fasziniert.",
+      "vandara_shadow_revealed": "Veyra hat es bestätigt: du bist ein Schattenwandler. Eine Sub-Variante des Lichts, extrem selten. Sie verweist dich auf jemanden, der dir wirklich helfen kann — Fafa wisse, wo."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5216,6 +5449,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_2": "\"Erstmal die Grundlagen.\" Veyra wickelt sich um einen Pfeiler und blickt zu dir herab. \"Magie ist gebunden. An dein Element. Du kannst nicht 'wechseln' — du kannst nur entdecken. Manche spüren Feuer in den Händen, manche Wasser im Atem. Andere brauchen Übungen, um zu merken: 'oh, das hier zieht mich.' Wir machen das langsam. Heute nur Theorie. Beim nächsten Mal probieren wir was.\"",
       "npc_vandara_veyra_3": "\"Schließ die Augen.\" Veyra dimmt die Lichter mit einem Flügelschlag. \"Atme. Nicht versuchen, was zu tun. Nur spüren, was da ist. Hände leicht offen, Magie soll dich finden, nicht umgekehrt.\" Sie wartet. Lange. Dann ihre Stimme, ruhig: \"Mhm. Da ist was. Aber ich krieg's noch nicht zu fassen. Komm wieder. Wir testen genauer.\"",
       "npc_vandara_veyra_4": "\"Heute brauche ich mehr von dir.\" Veyra hat verschiedene kleine Objekte vor sich ausgebreitet: ein Stein, eine Schale Wasser, eine Kerze, eine Feder, ein Spiegel. \"Wir probieren der Reihe nach. Du legst die Hand drauf, ich beobachte. Kein Druck — wenn nichts passiert, passiert nichts.\" Sie macht eine Pause. \"Aber sei vorbereitet: Resonanz fühlt sich nie an wie erwartet.\"",
+      "npc_vandara_veyra_5": "\"Du bist wieder da. Gut.\" Veyra wirkt heute angespannt. \"Das Lichtzucken bei der Probe — das war nicht nichts. Das war auch nicht normal. Setz dich, ich will einen tieferen Test machen.\" Sie löscht jedes einzelne Licht im Hörsaal bis auf eine kleine Kerze hinter dir. \"Streck deine Hand zur Kerze. Nicht reinfassen. Nur... fühlen, was zwischen dir und der Flamme passiert.\" Lange Stille. Dann ihre Stimme, plötzlich anders: \"Oh. Oh, {player}. Du machst keinen Schatten. Du... ZIEHST den Schatten an. Aus der Wand, aus der Decke, aus mir.\" Sie lacht atemlos. \"Du bist kein Lichtwandler. Du bist ein Schattenwandler. Das ist... ich hab noch nie einen gesehen.\"",
+      "npc_vandara_veyra_6": "Veyra ist deutlich nachdenklicher heute. \"Schatten ist eine Sub-Variante von Licht. So wie Traum eine Variante von Gezeiten ist. Aber sie ist selten. Sehr selten. In meinen vierzig Jahren als Lehrkraft habe ich noch nie einen gehabt.\" Sie schaut dich ernst an. \"Ich kann dir die Theorie geben. Aber die Praxis — da bin ich raus. Du brauchst jemanden, der das wirklich gelebt hat. Es gibt...\" Sie zögert. \"Es gibt jemanden. Aber die Person ist nicht mehr an der Akademie. Frag Fafa am Brunnen. Sie weiß wo. Und sei vorsichtig — Schatten klingt cool, aber nicht alle in dieser Stadt sehen das so.\"",
+      "vandara_trial_fire_dialog": "Du legst die Hand über die kleine Flamme. Wärme, klar — aber keine Resonanz. Veyra schüttelt den Kopf. \"Kein Feuer.\"",
+      "vandara_trial_earth_dialog": "Der Stein liegt schwer in deiner Hand. Du wartest. Nichts. Veyra notiert sich etwas. \"Kein Erde.\"",
+      "vandara_trial_wind_dialog": "Du hältst die Feder hoch. Sie schwebt einen Moment, fällt dann. Normal — kein magisches Heben. Veyra: \"Kein Wind.\"",
+      "vandara_trial_tide_dialog": "Die Hand über der Wasserschale. Die Oberfläche kräuselt sich leicht — von deinem Atem, nicht von dir. Veyra: \"Kein Gezeiten.\"",
+      "vandara_trial_light_dialog": "Du blickst in den kleinen Spiegel. Etwas zuckt. Nicht im Spiegel — IM Raum hinter dir. Veyra hebt scharf den Kopf. \"Da. Da war was. Aber kein klares Licht. Komm zurück, sobald du kannst — ich will das genauer untersuchen.\"",
       "npc_vandara_ormias_1": "Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille, die ihm wirklich nicht passt. \"Setz dich, Studierende. Sechs Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die schlangenartigen mit Federn. Leviathane, Wasser oder Magma. Seraphe, hoch oben über den Wolken. Und Fae, die kleinen Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht.\"",
       "npc_vandara_ormias_2": "\"Heute zur Drachenform.\" Ormias zeichnet schematisch auf die Tafel — und seine Kreide bricht alle zwei Sekunden. \"Großdrachen sind massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine, langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große Federflügel. Leviathane je nach Variante hydrodynamisch oder gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae surren mit Libellenflügeln rum.\" Er hustet. \"Alle. Diese. Arten. Haben. Flügel.\"",
       "npc_vandara_ormias_3": "Ormias schaut dich über die rutschende Brille hinweg an. \"Apropos Flügel — du hast keine. Hm. Lass mich überlegen.\" Er kratzt sich am Kinn. \"Es gibt eine flügellose Sub-Art, die Lung-Drachen. Langgestreckt, fliegen rein durch Magie. Aber...\" Er winkt ab. \"Die sind so selten, dass sie quasi ausschließlich in der Kaiserfamilie vorkommen. Ich habe in meinen siebzig Jahren als Lektor noch nie einen außerhalb der Hof-Linie gesehen, und ich werde auch keinen mehr sehen. Du bist mit hoher Wahrscheinlichkeit ein verspäteter Großdrache. Manche manifestieren ihre Flügel erst mit zwanzig oder dreißig. Geduld.\"",
@@ -5592,6 +5832,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-veyra-intro-done": "Veyras Grundkurs absolviert",
       "ui_vandara-ormias-intro-done": "Ormias' Grundkurs absolviert",
       "ui_vandara-quinell-intro-done": "Quinells Grundkurs absolviert",
+      "ui_vandara-tested-fire": "Feuerprobe versucht",
+      "ui_vandara-tested-earth": "Erdprobe versucht",
+      "ui_vandara-tested-wind": "Windprobe versucht",
+      "ui_vandara-tested-tide": "Gezeitenprobe versucht",
+      "ui_vandara-tested-light": "Lichtprobe versucht",
+      "ui_vandara-light-resonance-found": "Lichtresonanz festgestellt",
+      "ui_vandara-shadow-revealed": "Schattenelement entdeckt",
       "ui_ash_flower": "Ascheblume",
       "ui_glitter_dust": "Glitzerstaub"
     }
@@ -5982,6 +6229,21 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-vandara-quinell": {
         "title": "Doctor Quinell"
+      },
+      "act-vandara-try-fire": {
+        "title": "Fire Trial"
+      },
+      "act-vandara-try-earth": {
+        "title": "Earth Trial"
+      },
+      "act-vandara-try-wind": {
+        "title": "Wind Trial"
+      },
+      "act-vandara-try-tide": {
+        "title": "Tide Trial"
+      },
+      "act-vandara-try-light": {
+        "title": "Light Trial"
       }
     },
     "buffs": {
@@ -6233,7 +6495,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_katakomben_unlocked": "Fafa shows you the hidden entrance to the catacombs beneath Vandara. Another city lies below.",
       "vandara_veyra_intro_done": "You've completed Veyra's basic course on Elemental Resonance.",
       "vandara_ormias_intro_done": "You've completed Ormias's basic course on Dragon Studies.",
-      "vandara_quinell_intro_done": "You've completed Quinell's basic course on Magic Theory."
+      "vandara_quinell_intro_done": "You've completed Quinell's basic course on Magic Theory.",
+      "vandara_trial_fire": "Fire trial — no resonance.",
+      "vandara_trial_earth": "Earth trial — no resonance.",
+      "vandara_trial_wind": "Wind trial — no resonance.",
+      "vandara_trial_tide": "Tide trial — no resonance.",
+      "vandara_trial_light": "Light trial — something flickered. But not clean light. Veyra is unsettled-fascinated.",
+      "vandara_shadow_revealed": "Veyra has confirmed it: you are a shadow-shifter. A sub-variant of Light, extremely rare. She points you to someone who can actually help — Fafa knows where."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -6385,6 +6653,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_2": "\"First, the basics.\" Veyra coils around a pillar and looks down at you. \"Magic is bound. To your element. You can't 'switch' — you can only discover. Some feel fire in their hands, others water in their breath. Others need exercises to notice: 'oh, this one pulls at me.' We do it slowly. Today only theory. Next time we try something.\"",
       "npc_vandara_veyra_3": "\"Close your eyes.\" Veyra dims the lights with a wing-stroke. \"Breathe. Don't try to do anything. Just feel what's there. Hands lightly open, let magic find you, not the other way.\" She waits. Long. Then her voice, quiet: \"Mhm. There's something. But I can't quite grasp it. Come back. We'll test more carefully.\"",
       "npc_vandara_veyra_4": "\"Today I need more from you.\" Veyra has small objects laid out: a stone, a bowl of water, a candle, a feather, a mirror. \"We try them in turn. You touch each, I observe. No pressure — if nothing happens, nothing happens.\" She pauses. \"But be prepared: resonance never feels like you expect.\"",
+      "npc_vandara_veyra_5": "\"You're back. Good.\" Veyra seems tense today. \"The light flicker during the trial — that wasn't nothing. And it wasn't normal either. Sit down, I want to run a deeper test.\" She extinguishes every light in the hall except a small candle behind you. \"Reach towards the candle. Don't touch. Just... feel what happens between you and the flame.\" Long silence. Then her voice, suddenly different: \"Oh. Oh, {player}. You're not casting a shadow. You're PULLING the shadow towards you. From the wall, from the ceiling, from me.\" She laughs breathlessly. \"You're not a light-shifter. You're a shadow-shifter. I've... I've never seen one.\"",
+      "npc_vandara_veyra_6": "Veyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a variant of Tide. But it's rare. Very rare. In my forty years of teaching I've never had one.\" She looks at you seriously. \"I can give you the theory. But the practice — I'm out of my depth. You need someone who's actually lived it. There's...\" She hesitates. \"There's someone. But they're not at the academy any more. Ask Fafa at the fountain. She knows where. And be careful — shadow sounds cool, but not everyone in this city sees it that way.\"",
+      "vandara_trial_fire_dialog": "You hold your hand over the small flame. Warmth, of course — but no resonance. Veyra shakes her head. \"No fire.\"",
+      "vandara_trial_earth_dialog": "The stone sits heavy in your hand. You wait. Nothing. Veyra notes something down. \"No earth.\"",
+      "vandara_trial_wind_dialog": "You hold the feather up. It floats a moment, then falls. Normal — no magical lift. Veyra: \"No wind.\"",
+      "vandara_trial_tide_dialog": "Hand over the water bowl. The surface ripples faintly — from your breath, not from you. Veyra: \"No tide.\"",
+      "vandara_trial_light_dialog": "You look into the small mirror. Something flickers. Not in the mirror — IN the room behind you. Veyra snaps her head up. \"There. That was something. But not clean light. Come back as soon as you can — I want to look at this more closely.\"",
       "npc_vandara_ormias_1": "Lector Ormias is old. Very old. His dragon-form skull shimmers when he speaks — Magma Lindwurm line, scales like hardened lava. He wears rumpled robes and a pair of glasses that really don't fit. \"Sit, student. We know six main types. Great Dragons from the Crystal Realm, that's the bread-and- butter people. Wyverns, who fused their forelimbs into wings. Lindwurms — my kind. Amphitheres, the serpentine ones with feathers. Leviathans, water or magma. Seraphs, high above the clouds. And Fae, the little dragonflies from the Emerald Forest. That's it. Nothing else.\"",
       "npc_vandara_ormias_2": "\"Today the dragon form.\" Ormias sketches on the board — and his chalk breaks every two seconds. \"Great Dragons: massive, many horns, two strong wings. Wyverns: two hindlegs plus wing- forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres: no legs, just one pair of large feathered wings. Leviathans hydrodynamic or armoured depending on variant. Seraphs have several thin wings stacked. Fae buzz around on dragonfly wings.\" He coughs. \"All. Of. These. Types. Have. Wings.\"",
       "npc_vandara_ormias_3": "Ormias peers at you over his slipping glasses. \"Speaking of wings — you have none. Hm. Let me think.\" He scratches his chin. \"There is a wingless sub-type, the Lung-Drachen. Long- bodied, flying purely through magic. But...\" He waves it off. \"They're so rare they only ever appear in the imperial family. In my seventy years as lector I've never seen one outside the court line, and I never will. You are most likely a late- blooming Great Dragon. Some don't manifest their wings until twenty or thirty. Patience.\"",
@@ -6761,6 +7036,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-veyra-intro-done": "Veyra's basic course completed",
       "ui_vandara-ormias-intro-done": "Ormias's basic course completed",
       "ui_vandara-quinell-intro-done": "Quinell's basic course completed",
+      "ui_vandara-tested-fire": "Fire trial attempted",
+      "ui_vandara-tested-earth": "Earth trial attempted",
+      "ui_vandara-tested-wind": "Wind trial attempted",
+      "ui_vandara-tested-tide": "Tide trial attempted",
+      "ui_vandara-tested-light": "Light trial attempted",
+      "ui_vandara-light-resonance-found": "Light resonance detected",
+      "ui_vandara-shadow-revealed": "Shadow element discovered",
       "ui_ash_flower": "Ash Flower",
       "ui_glitter_dust": "Glitter Dust"
     }

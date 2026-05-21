@@ -38,3 +38,14 @@ act-npc-vandara-ormias:
 
 act-npc-vandara-quinell:
   title: Doktor Quinell
+
+act-vandara-try-fire:
+  title: "Feuerprobe"
+act-vandara-try-earth:
+  title: "Erdprobe"
+act-vandara-try-wind:
+  title: "Windprobe"
+act-vandara-try-tide:
+  title: "Gezeitenprobe"
+act-vandara-try-light:
+  title: "Lichtprobe"

@@ -146,6 +146,55 @@ npc_vandara_veyra_4: >-
   passiert, passiert nichts." Sie macht eine Pause. "Aber sei
   vorbereitet: Resonanz fühlt sich nie an wie erwartet."
 
+npc_vandara_veyra_5: >-
+  "Du bist wieder da. Gut." Veyra wirkt heute angespannt. "Das
+  Lichtzucken bei der Probe — das war nicht nichts. Das war auch
+  nicht normal. Setz dich, ich will einen tieferen Test machen."
+  Sie löscht jedes einzelne Licht im Hörsaal bis auf eine kleine
+  Kerze hinter dir. "Streck deine Hand zur Kerze. Nicht reinfassen.
+  Nur... fühlen, was zwischen dir und der Flamme passiert."
+  Lange Stille. Dann ihre Stimme, plötzlich anders: "Oh. Oh,
+  {player}. Du machst keinen Schatten. Du... ZIEHST den Schatten
+  an. Aus der Wand, aus der Decke, aus mir." Sie lacht atemlos. "Du
+  bist kein Lichtwandler. Du bist ein Schattenwandler. Das ist...
+  ich hab noch nie einen gesehen."
+
+npc_vandara_veyra_6: >-
+  Veyra ist deutlich nachdenklicher heute. "Schatten ist eine
+  Sub-Variante von Licht. So wie Traum eine Variante von Gezeiten
+  ist. Aber sie ist selten. Sehr selten. In meinen vierzig Jahren
+  als Lehrkraft habe ich noch nie einen gehabt." Sie schaut dich
+  ernst an. "Ich kann dir die Theorie geben. Aber die Praxis —
+  da bin ich raus. Du brauchst jemanden, der das wirklich gelebt
+  hat. Es gibt..." Sie zögert. "Es gibt jemanden. Aber die Person
+  ist nicht mehr an der Akademie. Frag Fafa am Brunnen. Sie weiß
+  wo. Und sei vorsichtig — Schatten klingt cool, aber nicht alle
+  in dieser Stadt sehen das so."
+
+# Element-Übungen — knappe Reaktionsbeschreibungen, die jede Trial
+# als Tooltip-Text mitliefert (dialogueKey im step).
+vandara_trial_fire_dialog: >-
+  Du legst die Hand über die kleine Flamme. Wärme, klar — aber
+  keine Resonanz. Veyra schüttelt den Kopf. "Kein Feuer."
+
+vandara_trial_earth_dialog: >-
+  Der Stein liegt schwer in deiner Hand. Du wartest. Nichts. Veyra
+  notiert sich etwas. "Kein Erde."
+
+vandara_trial_wind_dialog: >-
+  Du hältst die Feder hoch. Sie schwebt einen Moment, fällt dann.
+  Normal — kein magisches Heben. Veyra: "Kein Wind."
+
+vandara_trial_tide_dialog: >-
+  Die Hand über der Wasserschale. Die Oberfläche kräuselt sich
+  leicht — von deinem Atem, nicht von dir. Veyra: "Kein Gezeiten."
+
+vandara_trial_light_dialog: >-
+  Du blickst in den kleinen Spiegel. Etwas zuckt. Nicht im Spiegel —
+  IM Raum hinter dir. Veyra hebt scharf den Kopf. "Da. Da war was.
+  Aber kein klares Licht. Komm zurück, sobald du kannst — ich will
+  das genauer untersuchen."
+
 # ─── Ormias — Drachenkunde ────────────────────────────
 npc_vandara_ormias_1: >-
   Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel

@@ -1,0 +1,123 @@
+# Element-Übungen für Veyra's Klasse. Erscheinen als Trade-Buttons
+# auf Veyra's NPC-Card sobald `vandara-veyra-intro-done` gesetzt ist.
+#
+# Jede Übung ist einmalig (maxProgress: 1). Vier Elemente reagieren
+# nicht — Feuer / Erde / Wind / Gezeiten. Nur Licht zuckt schwach,
+# was Veyra ein "wir testen genauer" entlockt und ihre Stufe 5
+# (Schatten-Reveal) freischaltet. Der Spieler kann die fünf in
+# beliebiger Reihenfolge probieren; das Licht-Test ist der Schlüssel.
+
+- id: act-vandara-try-fire
+  category: vandara_trial
+  icon: "🔥"
+  cost: 5
+  costType: energy
+  requirements:
+    flags.vandara-veyra-intro-done: true
+  progKey: vandaraTrialFire
+  maxProgress: 1
+  steps:
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-tested-fire
+          value: true
+        - type: log
+          logKey: vandara_trial_fire
+          color: var(--text-dim)
+      dialogueKey: vandara_trial_fire_dialog
+  customExecute: npc_execute
+
+- id: act-vandara-try-earth
+  category: vandara_trial
+  icon: "🪨"
+  cost: 5
+  costType: energy
+  requirements:
+    flags.vandara-veyra-intro-done: true
+  progKey: vandaraTrialEarth
+  maxProgress: 1
+  steps:
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-tested-earth
+          value: true
+        - type: log
+          logKey: vandara_trial_earth
+          color: var(--text-dim)
+      dialogueKey: vandara_trial_earth_dialog
+  customExecute: npc_execute
+
+- id: act-vandara-try-wind
+  category: vandara_trial
+  icon: "🌬️"
+  cost: 5
+  costType: energy
+  requirements:
+    flags.vandara-veyra-intro-done: true
+  progKey: vandaraTrialWind
+  maxProgress: 1
+  steps:
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-tested-wind
+          value: true
+        - type: log
+          logKey: vandara_trial_wind
+          color: var(--text-dim)
+      dialogueKey: vandara_trial_wind_dialog
+  customExecute: npc_execute
+
+- id: act-vandara-try-tide
+  category: vandara_trial
+  icon: "🌊"
+  cost: 5
+  costType: energy
+  requirements:
+    flags.vandara-veyra-intro-done: true
+  progKey: vandaraTrialTide
+  maxProgress: 1
+  steps:
+    - cost: 5
+      costType: energy
+      onSuccess:
+        - type: setFlag
+          flag: vandara-tested-tide
+          value: true
+        - type: log
+          logKey: vandara_trial_tide
+          color: var(--text-dim)
+      dialogueKey: vandara_trial_tide_dialog
+  customExecute: npc_execute
+
+# Das eine Element, das (schwach) reagiert. Setzt zusätzlich den
+# Schlüssel-Flag, den Veyra's Stufe 5 braucht.
+- id: act-vandara-try-light
+  category: vandara_trial
+  icon: "☀️"
+  cost: 5
+  costType: magic
+  requirements:
+    flags.vandara-veyra-intro-done: true
+  progKey: vandaraTrialLight
+  maxProgress: 1
+  steps:
+    - cost: 5
+      costType: magic
+      onSuccess:
+        - type: setFlag
+          flag: vandara-tested-light
+          value: true
+        - type: setFlag
+          flag: vandara-light-resonance-found
+          value: true
+        - type: log
+          logKey: vandara_trial_light
+          color: var(--gold)
+      dialogueKey: vandara_trial_light_dialog
+  customExecute: npc_execute
