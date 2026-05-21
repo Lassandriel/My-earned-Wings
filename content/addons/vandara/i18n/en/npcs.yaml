@@ -185,6 +185,64 @@ vandara_trial_light_dialog: >-
   "There. That was something. But not clean light. Come back
   as soon as you can — I want to look at this more closely."
 
+# ─── Fafa stage 5 — patch, leads to Sariel ───────────
+npc_vandara_fafa_5: >-
+  Fafa has been waiting for you. Today she stands, doesn't
+  crouch. "You went to Veyra. She told you." Not a question.
+  "I knew the day you first put shards in my hand — you made
+  the wall behind me shorter. A little. Nobody else can see
+  it." She takes your hand and leads you down the steps into
+  the drain. "Come. There's someone who's waited fifty years
+  for somebody like you. Don't be polite. Don't be careful.
+  Just be there."
+
+# ─── Sariel — shadow mentor in the catacombs ──────────
+npc_vandara_sariel_1: >-
+  The tunnel opens into a small chamber. A single candle burns
+  on a low table. The person behind it doesn't turn around —
+  they keep sorting notes on the table with their fingertips.
+  "You're far too loud for your size, {player}. Walk softer when
+  you're in a tunnel. Otherwise you don't hear when someone's
+  standing in front of you." Their scales — if you can even
+  call them that, sharp black crystals along the neck — clink
+  faintly. Sariel raises their head, looks in your direction
+  but not into your eyes. "Ah. Sit down. I'm Sariel. Make
+  yourself comfortable — the candle is plenty for both of us,
+  I don't need any light."
+
+npc_vandara_sariel_2: >-
+  "You want to know what shadow is." Sariel pushes an old book
+  in your direction without looking. "Here. Magic Theory chapter
+  six. Quinell recommended it to you, didn't he? He copied it
+  out of my class forty years ago. Read." A pause. "Or don't. I
+  know it by heart. Shadow is light that has enough depth to
+  develop a will of its own. When light falls into a room, a
+  light-shifter makes brightness. You make hollows. The hollows
+  LISTEN. Got it? No? Good. That was a lie because I wanted to
+  keep it short. Read the chapter."
+
+npc_vandara_sariel_3: >-
+  "Stand in the light." Sariel gestures at the candle. "Now
+  reach out. Not toward the candle. Toward the shadow you cast."
+  You hesitate. Sariel grins, the first time today. "Yes, that
+  works. Feel, don't think. Shadows are denser than ordinary
+  light — palpable, when you know where." Long silence. Then:
+  "Ah. There. You grabbed it. Feel the weight? Very good. Same
+  way I learned it, at twelve, from a shifter in the Emerald
+  Forest. Blind too, like me now. She said back then, eyes are
+  just one way of many. Took me until I had to before I
+  believed it."
+
+npc_vandara_sariel_4: >-
+  "You're not trained now. You're awake — that's something
+  else." Sariel goes back to sorting notes. "What you need from
+  here, you'll learn yourself. Come back if you want to try
+  something more complicated. Next time bring me a bowl of
+  water — I'll show you how to fetch a shadow that holds it
+  while you do other things. That's actually the practical
+  part." They laugh drily. "Forty years teaching and I still
+  promise the interesting stuff for next session."
+
 # ─── Ormias — Dragon Studies ──────────────────────────
 npc_vandara_ormias_1: >-
   Lector Ormias is old. Very old. His dragon-form skull

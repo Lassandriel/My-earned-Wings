@@ -1,0 +1,15 @@
+# Sariel — Schatten-Mentor:in, lebt in den Katakomben unter Vandara.
+# Wird über Fafa freigeschaltet (siehe patches/fafa.yaml). Bleibt in
+# location: vandara — die Katakomben sind narrativ "unten drunter",
+# rechtfertigen aber keinen eigenen Sub-Tab bei einem einzigen NPC.
+# Charakterzüge (blind, they/them, Kristall-Schatten-Wandler, ehemals
+# Akademie-Lehrkraft) werden im Dialog sichtbar, nicht im Profil.
+
+- id: npc-vandara-sariel
+  nameKey: npc_vandara_sariel_name
+  icon: 🕯️
+  color: '#1e1b4b'
+  progKey: vandaraSariel
+  maxProgress: 4
+  chapter: Vandara
+  location: vandara

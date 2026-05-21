@@ -1,0 +1,38 @@
+# Sariels Schatten-Schulung. 4 Stufen — Begegnung, Theorie, erste
+# Übung, Abschluss. Die finale Stufe setzt `vandara-shadow-trained`,
+# der Anker für die echte Schatten-Mechanik (Drop 3): Schatten als
+# Helfer, die Aktionen ausführen solange eine Lichtquelle existiert.
+
+- id: act-npc-vandara-sariel
+  npcId: npc-vandara-sariel
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraSariel
+  maxProgress: 4
+  journalIcon: 🕯️
+  icon: 🕯️
+  journalColor: '#1e1b4b'
+  steps:
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.vandara-katakomben-entered: true
+      dialogueKey: npc_vandara_sariel_1
+    - cost: 10
+      costType: magic
+      dialogueKey: npc_vandara_sariel_2
+    - cost: 15
+      costType: magic
+      dialogueKey: npc_vandara_sariel_3
+    - cost: 15
+      costType: magic
+      onSuccess:
+        - type: setFlag
+          flag: vandara-shadow-trained
+          value: true
+        - type: log
+          logKey: vandara_shadow_trained
+          color: var(--gold)
+      dialogueKey: npc_vandara_sariel_4
+  customExecute: npc_execute

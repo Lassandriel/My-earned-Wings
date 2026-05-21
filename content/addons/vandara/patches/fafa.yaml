@@ -1,0 +1,27 @@
+# Nach Veyras Schatten-Reveal kehrt der Spieler zu Fafa zurück. Die
+# alte Frau hat schon gewartet — sie wusste längst, wer Sariel ist
+# und warum sie der Spielfigur Sariels Versteck zeigen würde.
+#
+# Bumpt Fafa von 4 auf 5 Stufen. Stufe 5 schaltet Sariel als NPC frei.
+
+- targetType: action
+  targetId: act-npc-vandara-fafa
+  appendSteps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: unlockNPC
+          id: npc-vandara-sariel
+        - type: setFlag
+          flag: vandara-katakomben-entered
+          value: true
+        - type: log
+          logKey: vandara_katakomben_entered
+          color: var(--gold)
+      dialogueKey: npc_vandara_fafa_5
+
+- targetType: npc
+  targetId: npc-vandara-fafa
+  bumpMaxProgress: 5

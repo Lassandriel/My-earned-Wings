@@ -3316,7 +3316,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraFafa",
-    "maxProgress": 4,
+    "maxProgress": 5,
     "journalIcon": "🪨",
     "icon": "🪙",
     "journalColor": "#a8a29e",
@@ -3355,6 +3355,30 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_fafa_4"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-sariel"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-katakomben-entered",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_katakomben_entered",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_fafa_5"
       }
     ],
     "customExecute": "npc_execute"
@@ -3742,6 +3766,56 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_quinell_4"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-sariel": {
+    "id": "act-npc-vandara-sariel",
+    "npcId": "npc-vandara-sariel",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraSariel",
+    "maxProgress": 4,
+    "journalIcon": "🕯️",
+    "icon": "🕯️",
+    "journalColor": "#1e1b4b",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-katakomben-entered": true
+        },
+        "dialogueKey": "npc_vandara_sariel_1"
+      },
+      {
+        "cost": 10,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_sariel_2"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_sariel_3"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-shadow-trained",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_shadow_trained",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_sariel_4"
       }
     ],
     "customExecute": "npc_execute"
@@ -4400,7 +4474,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "icon": "🪨",
     "color": "#a8a29e",
     "progKey": "vandaraFafa",
-    "maxProgress": 4,
+    "maxProgress": 5,
     "chapter": "Vandara",
     "location": "vandara"
   },
@@ -4462,6 +4536,16 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "icon": "💎",
     "color": "#c084fc",
     "progKey": "vandaraQuinell",
+    "maxProgress": 4,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
+  "npc-vandara-sariel": {
+    "id": "npc-vandara-sariel",
+    "nameKey": "npc_vandara_sariel_name",
+    "icon": "🕯️",
+    "color": "#1e1b4b",
+    "progKey": "vandaraSariel",
     "maxProgress": 4,
     "chapter": "Vandara",
     "location": "vandara"
@@ -5040,6 +5124,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-vandara-try-light": {
         "title": "Lichtprobe"
+      },
+      "act-npc-vandara-sariel": {
+        "title": "Sariel"
       }
     },
     "buffs": {
@@ -5297,7 +5384,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_trial_wind": "Windprobe — keine Resonanz.",
       "vandara_trial_tide": "Gezeitenprobe — keine Resonanz.",
       "vandara_trial_light": "Lichtprobe — etwas zuckt. Aber kein klares Licht. Veyra ist beunruhigt-fasziniert.",
-      "vandara_shadow_revealed": "Veyra hat es bestätigt: du bist ein Schattenwandler. Eine Sub-Variante des Lichts, extrem selten. Sie verweist dich auf jemanden, der dir wirklich helfen kann — Fafa wisse, wo."
+      "vandara_shadow_revealed": "Veyra hat es bestätigt: du bist ein Schattenwandler. Eine Sub-Variante des Lichts, extrem selten. Sie verweist dich auf jemanden, der dir wirklich helfen kann — Fafa wisse, wo.",
+      "vandara_katakomben_entered": "Fafa führt dich in die Katakomben. In einer kleinen Kammer wartet jemand namens Sariel — kerzenbeleuchtet, blind, und scheinbar nicht überrascht.",
+      "vandara_shadow_trained": "Sariel hat dich durch die Grundlagen geführt. Du bist aufgewacht — der Rest kommt mit der Übung."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -5456,6 +5545,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_trial_wind_dialog": "Du hältst die Feder hoch. Sie schwebt einen Moment, fällt dann. Normal — kein magisches Heben. Veyra: \"Kein Wind.\"",
       "vandara_trial_tide_dialog": "Die Hand über der Wasserschale. Die Oberfläche kräuselt sich leicht — von deinem Atem, nicht von dir. Veyra: \"Kein Gezeiten.\"",
       "vandara_trial_light_dialog": "Du blickst in den kleinen Spiegel. Etwas zuckt. Nicht im Spiegel — IM Raum hinter dir. Veyra hebt scharf den Kopf. \"Da. Da war was. Aber kein klares Licht. Komm zurück, sobald du kannst — ich will das genauer untersuchen.\"",
+      "npc_vandara_fafa_5": "Fafa hat schon gewartet, als du herankommst. Sie steht heute, nicht hocken. \"Du warst bei Veyra. Sie hat es dir gesagt.\" Es ist keine Frage. \"Ich wusste, an dem Tag wo du das erste Mal Splitter in meine Hand gelegt hast — du hast die Wand hinter mir kürzer gemacht. Ein bisschen. Sieht keiner außer mir.\" Sie greift nach deiner Hand und führt dich die Stufen in den Gully hinunter. \"Komm. Es gibt jemanden, der wartet seit fünfzig Jahren auf jemanden wie dich. Sei nicht unhöflich, sei nicht vorsichtig, sei einfach da.\"",
+      "npc_vandara_sariel_1": "Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige Kerze brennt auf einem niedrigen Tisch. Die Person dahinter dreht sich nicht um — sie sortiert weiter Notizen auf dem Tisch mit den Fingerspitzen. \"Du bist viel zu groß für deine Schritte, {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst du nicht, wenn jemand vor dir steht.\" Ihre Schuppen — wenn man sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine Richtung, aber nicht in deine Augen. \"Ah. Setz dich. Ich bin Sariel. Mach es dir bequem — die Kerze reicht für uns beide, ich brauche kein Licht.\"",
+      "npc_vandara_sariel_2": "\"Du willst wissen, was Schatten ist.\" Sariel schiebt ein altes Buch in deine Richtung, ohne hinzusehen. \"Hier. Magietheorie Kapitel sechs. Quinell hat es dir empfohlen, oder? Er hat es vor vierzig Jahren in meiner Klasse abgeschrieben. Lies.\" Sie pausiert. \"Oder lass es. Ich kenne es auswendig. Schatten ist Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt. Wenn ein Licht in einen Raum fällt, machst du als Lichtwandler Helligkeit. Du machst Hohlräume. Die Hohlräume HÖREN dir zu. Verstanden? Nein? Gut. Das war eine Lüge, weil ich es kurz machen wollte. Lies das Kapitel.\"",
+      "npc_vandara_sariel_3": "\"Steh in das Licht.\" Sariel deutet auf die Kerze. \"Jetzt streck die Hand aus. Nicht zur Kerze. Zum Schatten den du wirfst.\" Du zögerst. Sariel grinst, das erste Mal heute. \"Ja, das geht. Fühl, nicht denk. Schatten sind dichter als normales Licht — spürbar, wenn man weiß wo.\" Lange Stille. Dann: \"Ah. Da. Du hast ihn gegriffen. Spürst du das Gewicht? Sehr gut. So habe ich das auch gelernt, mit zwölf, von einer Wandlerin im Smaragd-Wald. Auch blind, wie ich jetzt. Sie hat damals gemeint, Augen seien nur ein Weg von vielen. Ich hab's erst geglaubt als ich es musste.\"",
+      "npc_vandara_sariel_4": "\"Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist was anderes.\" Sariel sortiert wieder ihre Notizen. \"Was du brauchst, lernst du jetzt von selbst. Komm wieder, wenn du etwas Komplizierteres versuchen willst. Beim nächsten Mal bring mir eine Schale Wasser mit — zeig ich dir, wie du einen Schatten holen lässt, der sie hält, während du andere Sachen machst. Das ist eigentlich der praktische Teil.\" Sie lacht trocken. \"Vierzig Jahre Lehrerin und ich verspreche immer noch das Spannende für die nächste Stunde.\"",
       "npc_vandara_ormias_1": "Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille, die ihm wirklich nicht passt. \"Setz dich, Studierende. Sechs Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die schlangenartigen mit Federn. Leviathane, Wasser oder Magma. Seraphe, hoch oben über den Wolken. Und Fae, die kleinen Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht.\"",
       "npc_vandara_ormias_2": "\"Heute zur Drachenform.\" Ormias zeichnet schematisch auf die Tafel — und seine Kreide bricht alle zwei Sekunden. \"Großdrachen sind massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine, langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große Federflügel. Leviathane je nach Variante hydrodynamisch oder gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae surren mit Libellenflügeln rum.\" Er hustet. \"Alle. Diese. Arten. Haben. Flügel.\"",
       "npc_vandara_ormias_3": "Ormias schaut dich über die rutschende Brille hinweg an. \"Apropos Flügel — du hast keine. Hm. Lass mich überlegen.\" Er kratzt sich am Kinn. \"Es gibt eine flügellose Sub-Art, die Lung-Drachen. Langgestreckt, fliegen rein durch Magie. Aber...\" Er winkt ab. \"Die sind so selten, dass sie quasi ausschließlich in der Kaiserfamilie vorkommen. Ich habe in meinen siebzig Jahren als Lektor noch nie einen außerhalb der Hof-Linie gesehen, und ich werde auch keinen mehr sehen. Du bist mit hoher Wahrscheinlichkeit ein verspäteter Großdrache. Manche manifestieren ihre Flügel erst mit zwanzig oder dreißig. Geduld.\"",
@@ -5823,6 +5917,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_name": "Magistra Veyra",
       "npc_vandara_ormias_name": "Lektor Ormias",
       "npc_vandara_quinell_name": "Doktor Quinell",
+      "npc_vandara_sariel_name": "Sariel",
       "ui_vandara-invited": "Einladungsschreiben",
       "ui_vandara-admitted": "In Vandara aufgenommen",
       "ui_vandara-enrolled": "An der Akademie eingeschrieben",
@@ -5839,6 +5934,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-tested-light": "Lichtprobe versucht",
       "ui_vandara-light-resonance-found": "Lichtresonanz festgestellt",
       "ui_vandara-shadow-revealed": "Schattenelement entdeckt",
+      "ui_vandara-katakomben-entered": "Sariel kennengelernt",
+      "ui_vandara-shadow-trained": "Schatten-Grundlagen erlernt",
       "ui_ash_flower": "Ascheblume",
       "ui_glitter_dust": "Glitzerstaub"
     }
@@ -6244,6 +6341,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-vandara-try-light": {
         "title": "Light Trial"
+      },
+      "act-npc-vandara-sariel": {
+        "title": "Sariel"
       }
     },
     "buffs": {
@@ -6501,7 +6601,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_trial_wind": "Wind trial — no resonance.",
       "vandara_trial_tide": "Tide trial — no resonance.",
       "vandara_trial_light": "Light trial — something flickered. But not clean light. Veyra is unsettled-fascinated.",
-      "vandara_shadow_revealed": "Veyra has confirmed it: you are a shadow-shifter. A sub-variant of Light, extremely rare. She points you to someone who can actually help — Fafa knows where."
+      "vandara_shadow_revealed": "Veyra has confirmed it: you are a shadow-shifter. A sub-variant of Light, extremely rare. She points you to someone who can actually help — Fafa knows where.",
+      "vandara_katakomben_entered": "Fafa leads you into the catacombs. In a small chamber waits someone named Sariel — candlelit, blind, and apparently not surprised.",
+      "vandara_shadow_trained": "Sariel has walked you through the basics. You're awake — the rest comes with practice."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -6660,6 +6762,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_trial_wind_dialog": "You hold the feather up. It floats a moment, then falls. Normal — no magical lift. Veyra: \"No wind.\"",
       "vandara_trial_tide_dialog": "Hand over the water bowl. The surface ripples faintly — from your breath, not from you. Veyra: \"No tide.\"",
       "vandara_trial_light_dialog": "You look into the small mirror. Something flickers. Not in the mirror — IN the room behind you. Veyra snaps her head up. \"There. That was something. But not clean light. Come back as soon as you can — I want to look at this more closely.\"",
+      "npc_vandara_fafa_5": "Fafa has been waiting for you. Today she stands, doesn't crouch. \"You went to Veyra. She told you.\" Not a question. \"I knew the day you first put shards in my hand — you made the wall behind me shorter. A little. Nobody else can see it.\" She takes your hand and leads you down the steps into the drain. \"Come. There's someone who's waited fifty years for somebody like you. Don't be polite. Don't be careful. Just be there.\"",
+      "npc_vandara_sariel_1": "The tunnel opens into a small chamber. A single candle burns on a low table. The person behind it doesn't turn around — they keep sorting notes on the table with their fingertips. \"You're far too loud for your size, {player}. Walk softer when you're in a tunnel. Otherwise you don't hear when someone's standing in front of you.\" Their scales — if you can even call them that, sharp black crystals along the neck — clink faintly. Sariel raises their head, looks in your direction but not into your eyes. \"Ah. Sit down. I'm Sariel. Make yourself comfortable — the candle is plenty for both of us, I don't need any light.\"",
+      "npc_vandara_sariel_2": "\"You want to know what shadow is.\" Sariel pushes an old book in your direction without looking. \"Here. Magic Theory chapter six. Quinell recommended it to you, didn't he? He copied it out of my class forty years ago. Read.\" A pause. \"Or don't. I know it by heart. Shadow is light that has enough depth to develop a will of its own. When light falls into a room, a light-shifter makes brightness. You make hollows. The hollows LISTEN. Got it? No? Good. That was a lie because I wanted to keep it short. Read the chapter.\"",
+      "npc_vandara_sariel_3": "\"Stand in the light.\" Sariel gestures at the candle. \"Now reach out. Not toward the candle. Toward the shadow you cast.\" You hesitate. Sariel grins, the first time today. \"Yes, that works. Feel, don't think. Shadows are denser than ordinary light — palpable, when you know where.\" Long silence. Then: \"Ah. There. You grabbed it. Feel the weight? Very good. Same way I learned it, at twelve, from a shifter in the Emerald Forest. Blind too, like me now. She said back then, eyes are just one way of many. Took me until I had to before I believed it.\"",
+      "npc_vandara_sariel_4": "\"You're not trained now. You're awake — that's something else.\" Sariel goes back to sorting notes. \"What you need from here, you'll learn yourself. Come back if you want to try something more complicated. Next time bring me a bowl of water — I'll show you how to fetch a shadow that holds it while you do other things. That's actually the practical part.\" They laugh drily. \"Forty years teaching and I still promise the interesting stuff for next session.\"",
       "npc_vandara_ormias_1": "Lector Ormias is old. Very old. His dragon-form skull shimmers when he speaks — Magma Lindwurm line, scales like hardened lava. He wears rumpled robes and a pair of glasses that really don't fit. \"Sit, student. We know six main types. Great Dragons from the Crystal Realm, that's the bread-and- butter people. Wyverns, who fused their forelimbs into wings. Lindwurms — my kind. Amphitheres, the serpentine ones with feathers. Leviathans, water or magma. Seraphs, high above the clouds. And Fae, the little dragonflies from the Emerald Forest. That's it. Nothing else.\"",
       "npc_vandara_ormias_2": "\"Today the dragon form.\" Ormias sketches on the board — and his chalk breaks every two seconds. \"Great Dragons: massive, many horns, two strong wings. Wyverns: two hindlegs plus wing- forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres: no legs, just one pair of large feathered wings. Leviathans hydrodynamic or armoured depending on variant. Seraphs have several thin wings stacked. Fae buzz around on dragonfly wings.\" He coughs. \"All. Of. These. Types. Have. Wings.\"",
       "npc_vandara_ormias_3": "Ormias peers at you over his slipping glasses. \"Speaking of wings — you have none. Hm. Let me think.\" He scratches his chin. \"There is a wingless sub-type, the Lung-Drachen. Long- bodied, flying purely through magic. But...\" He waves it off. \"They're so rare they only ever appear in the imperial family. In my seventy years as lector I've never seen one outside the court line, and I never will. You are most likely a late- blooming Great Dragon. Some don't manifest their wings until twenty or thirty. Patience.\"",
@@ -7027,6 +7134,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_name": "Magistra Veyra",
       "npc_vandara_ormias_name": "Lector Ormias",
       "npc_vandara_quinell_name": "Doctor Quinell",
+      "npc_vandara_sariel_name": "Sariel",
       "ui_vandara-invited": "Invitation letter",
       "ui_vandara-admitted": "Admitted to Vandara",
       "ui_vandara-enrolled": "Enrolled at the Academy",
@@ -7043,6 +7151,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-tested-light": "Light trial attempted",
       "ui_vandara-light-resonance-found": "Light resonance detected",
       "ui_vandara-shadow-revealed": "Shadow element discovered",
+      "ui_vandara-katakomben-entered": "Met Sariel",
+      "ui_vandara-shadow-trained": "Shadow basics learned",
       "ui_ash_flower": "Ash Flower",
       "ui_glitter_dust": "Glitter Dust"
     }

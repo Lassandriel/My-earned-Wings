@@ -195,6 +195,66 @@ vandara_trial_light_dialog: >-
   Aber kein klares Licht. Komm zurück, sobald du kannst — ich will
   das genauer untersuchen."
 
+# ─── Fafa Stufe 5 — Patch, führt zu Sariel ────────────
+npc_vandara_fafa_5: >-
+  Fafa hat schon gewartet, als du herankommst. Sie steht heute,
+  nicht hocken. "Du warst bei Veyra. Sie hat es dir gesagt." Es
+  ist keine Frage. "Ich wusste, an dem Tag wo du das erste Mal
+  Splitter in meine Hand gelegt hast — du hast die Wand hinter
+  mir kürzer gemacht. Ein bisschen. Sieht keiner außer mir." Sie
+  greift nach deiner Hand und führt dich die Stufen in den Gully
+  hinunter. "Komm. Es gibt jemanden, der wartet seit fünfzig
+  Jahren auf jemanden wie dich. Sei nicht unhöflich, sei nicht
+  vorsichtig, sei einfach da."
+
+# ─── Sariel — Schatten-Mentor:in in den Katakomben ────────
+npc_vandara_sariel_1: >-
+  Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige
+  Kerze brennt auf einem niedrigen Tisch. Die Person dahinter
+  dreht sich nicht um — sie sortiert weiter Notizen auf dem Tisch
+  mit den Fingerspitzen. "Du bist viel zu groß für deine Schritte,
+  {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst
+  du nicht, wenn jemand vor dir steht." Ihre Schuppen — wenn man
+  sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang
+  des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine
+  Richtung, aber nicht in deine Augen. "Ah. Setz dich. Ich bin
+  Sariel. Mach es dir bequem — die Kerze reicht für uns beide,
+  ich brauche kein Licht."
+
+npc_vandara_sariel_2: >-
+  "Du willst wissen, was Schatten ist." Sariel schiebt ein altes
+  Buch in deine Richtung, ohne hinzusehen. "Hier. Magietheorie
+  Kapitel sechs. Quinell hat es dir empfohlen, oder? Er hat es vor
+  vierzig Jahren in meiner Klasse abgeschrieben. Lies." Sie
+  pausiert. "Oder lass es. Ich kenne es auswendig. Schatten ist
+  Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt.
+  Wenn ein Licht in einen Raum fällt, machst du als Lichtwandler
+  Helligkeit. Du machst Hohlräume. Die Hohlräume HÖREN dir zu.
+  Verstanden? Nein? Gut. Das war eine Lüge, weil ich es kurz
+  machen wollte. Lies das Kapitel."
+
+npc_vandara_sariel_3: >-
+  "Steh in das Licht." Sariel deutet auf die Kerze. "Jetzt streck
+  die Hand aus. Nicht zur Kerze. Zum Schatten den du wirfst." Du
+  zögerst. Sariel grinst, das erste Mal heute. "Ja, das geht. Fühl,
+  nicht denk. Schatten sind dichter als normales Licht — spürbar,
+  wenn man weiß wo." Lange Stille. Dann: "Ah. Da. Du hast ihn
+  gegriffen. Spürst du das Gewicht? Sehr gut. So habe ich das auch
+  gelernt, mit zwölf, von einer Wandlerin im Smaragd-Wald. Auch
+  blind, wie ich jetzt. Sie hat damals gemeint, Augen seien nur
+  ein Weg von vielen. Ich hab's erst geglaubt als ich es musste."
+
+npc_vandara_sariel_4: >-
+  "Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist
+  was anderes." Sariel sortiert wieder ihre Notizen. "Was du
+  brauchst, lernst du jetzt von selbst. Komm wieder, wenn du
+  etwas Komplizierteres versuchen willst. Beim nächsten Mal
+  bring mir eine Schale Wasser mit — zeig ich dir, wie du einen
+  Schatten holen lässt, der sie hält, während du andere Sachen
+  machst. Das ist eigentlich der praktische Teil." Sie lacht
+  trocken. "Vierzig Jahre Lehrerin und ich verspreche immer noch
+  das Spannende für die nächste Stunde."
+
 # ─── Ormias — Drachenkunde ────────────────────────────
 npc_vandara_ormias_1: >-
   Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel
