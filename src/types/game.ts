@@ -111,6 +111,13 @@ export interface GameState {
   commands: CommandQueue;
   content: ContentService;
   currentLocation: string;
+  /**
+   * Active sub-tab for the Main view. 'general' = default (the
+   * pre-existing Main content). 'herstellen' = kitchen + workshop
+   * + future production stations. Mirrors the Orte view's
+   * currentLocation pattern.
+   */
+  currentMainSubTab: string;
   RESOURCE_REGISTRY: Record<ResourceId, ResourceDefinition>;
   resource: {
     canAfford: (

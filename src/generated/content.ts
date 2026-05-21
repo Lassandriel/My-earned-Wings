@@ -5908,6 +5908,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "arcane_focus_cost_title": "Arkaner Fokus-Kosten",
       "arcane_focus_cost_desc": "Verringert die Kosten für den arkanen Fokus.",
       "location_village_name": "Dorf",
+      "main_subtab_general_name": "Allgemein",
+      "main_subtab_herstellen_name": "Herstellen",
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Torwächter",
@@ -5937,7 +5939,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-katakomben-entered": "Sariel kennengelernt",
       "ui_vandara-shadow-trained": "Schatten-Grundlagen erlernt",
       "ui_ash_flower": "Ascheblume",
-      "ui_glitter_dust": "Glitzerstaub"
+      "ui_glitter_dust": "Glitzerstaub",
+      "ui_tab_vandara_workshop": "Werkstatt"
     }
   },
   "en": {
@@ -7125,6 +7128,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "arcane_focus_cost_title": "Arcane Focus Cost",
       "arcane_focus_cost_desc": "Reduces the cost of arcane focus.",
       "location_village_name": "Village",
+      "main_subtab_general_name": "General",
+      "main_subtab_herstellen_name": "Crafting",
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Gate Warden",
@@ -7154,7 +7159,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-katakomben-entered": "Met Sariel",
       "ui_vandara-shadow-trained": "Shadow basics learned",
       "ui_ash_flower": "Ash Flower",
-      "ui_glitter_dust": "Glitter Dust"
+      "ui_glitter_dust": "Glitter Dust",
+      "ui_tab_vandara_workshop": "Workshop"
     }
   }
 };

@@ -336,3 +336,11 @@ arcane_focus_cost_desc: Verringert die Kosten für den arkanen Fokus.
 # Sub-tab labels for the "Orte" view. New locations (added by addons)
 # need their own location_<id>_name key in the addon's i18n.
 location_village_name: Dorf
+
+# Main view sub-tabs. Default is 'general' (the original Main
+# content); 'herstellen' surfaces production stations (Kitchen,
+# Vandara Workshop, future sawmill/etc.). Strip is hidden when
+# only 'general' has content. New sub-tabs need a translation
+# key matching `main_subtab_<id>_name`.
+main_subtab_general_name: Allgemein
+main_subtab_herstellen_name: Herstellen

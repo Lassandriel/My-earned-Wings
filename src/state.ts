@@ -15,6 +15,7 @@ export const initialState: Partial<GameState> = {
   language: 'de',
   view: 'menu',
   currentLocation: 'village',
+  currentMainSubTab: 'general',
   hasSave: false,
   prologueStep: 1,
   currentScale: 1,

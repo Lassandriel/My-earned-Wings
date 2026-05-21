@@ -48,6 +48,7 @@ const PRIMITIVE_KEYS = [
   'activeHome',
   'activeTitle',
   'currentLocation',
+  'currentMainSubTab',
   'dialogueActive',
   'dialogueText',
   'dialogueTitle',

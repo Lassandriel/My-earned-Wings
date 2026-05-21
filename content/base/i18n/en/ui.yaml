@@ -335,3 +335,9 @@ arcane_focus_cost_desc: Reduces the cost of arcane focus.
 # Sub-tab labels for the "Places" view. New locations (added by
 # addons) need their own location_<id>_name key in the addon's i18n.
 location_village_name: Village
+
+# Main view sub-tabs. Default is 'general'; 'herstellen' surfaces
+# production stations (Kitchen, Vandara Workshop, …). Strip
+# hides when only 'general' is active.
+main_subtab_general_name: General
+main_subtab_herstellen_name: Crafting

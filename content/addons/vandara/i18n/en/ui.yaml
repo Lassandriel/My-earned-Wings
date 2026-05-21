@@ -39,3 +39,6 @@ ui_vandara-shadow-trained: Shadow basics learned
 # Resource display labels (the UI uses ui_<resource> in some places).
 ui_ash_flower: Ash Flower
 ui_glitter_dust: Glitter Dust
+
+# Sub-tab section header for the Workshop in Main's Herstellen pane.
+ui_tab_vandara_workshop: Workshop
