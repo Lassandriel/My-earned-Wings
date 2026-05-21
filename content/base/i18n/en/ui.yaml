@@ -330,3 +330,8 @@ iron_parts_limit_desc: Increases iron parts capacity.
 resource_efficiency_title: Resource Efficiency
 arcane_focus_cost_title: Arcane Focus Cost
 arcane_focus_cost_desc: Reduces the cost of arcane focus.
+
+# ─── Location sub-tabs ───────────────────────────────────────────
+# Sub-tab labels for the "Places" view. New locations (added by
+# addons) need their own location_<id>_name key in the addon's i18n.
+location_village_name: Village

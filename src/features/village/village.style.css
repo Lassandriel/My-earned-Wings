@@ -323,3 +323,39 @@
   color: #fff;
   font-size: 0.95rem;
 }
+
+/* ─── Location sub-tab strip ──────────────────────────────────────
+   Used on the "Orte" view when 2+ locations are unlocked. One button
+   per location, active one highlighted with the accent gold the rest
+   of the UI uses for selection state. */
+.location-tabs-bar {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.75rem;
+  flex-wrap: wrap;
+}
+
+.location-tab-btn {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-dim);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.location-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.location-tab-btn.is-active {
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--gold, #f59e0b);
+  border-color: var(--gold, #f59e0b);
+}

@@ -331,3 +331,8 @@ iron_parts_limit_desc: Erhöht die Kapazität für Eisenbeschläge.
 resource_efficiency_title: Ressourcen-Effizienz
 arcane_focus_cost_title: Arkaner Fokus-Kosten
 arcane_focus_cost_desc: Verringert die Kosten für den arkanen Fokus.
+
+# ─── Location sub-tabs ───────────────────────────────────────────
+# Sub-tab labels for the "Orte" view. New locations (added by addons)
+# need their own location_<id>_name key in the addon's i18n.
+location_village_name: Dorf

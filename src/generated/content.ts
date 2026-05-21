@@ -4959,7 +4959,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "iron_parts_limit_desc": "Erhöht die Kapazität für Eisenbeschläge.",
       "resource_efficiency_title": "Ressourcen-Effizienz",
       "arcane_focus_cost_title": "Arkaner Fokus-Kosten",
-      "arcane_focus_cost_desc": "Verringert die Kosten für den arkanen Fokus."
+      "arcane_focus_cost_desc": "Verringert die Kosten für den arkanen Fokus.",
+      "location_village_name": "Dorf"
     }
   },
   "en": {
@@ -6032,7 +6033,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "iron_parts_limit_desc": "Increases iron parts capacity.",
       "resource_efficiency_title": "Resource Efficiency",
       "arcane_focus_cost_title": "Arcane Focus Cost",
-      "arcane_focus_cost_desc": "Reduces the cost of arcane focus."
+      "arcane_focus_cost_desc": "Reduces the cost of arcane focus.",
+      "location_village_name": "Village"
     }
   }
 };

@@ -1,15 +1,42 @@
 <!-- VILLAGE VIEW -->
 <!--
-  Demo-only village layout: a grid of NPC cards. Each card shows the NPC
-  portrait, name, dialogue/quest progress, and any trade actions.
-
-  The Vandara/Academy tab and the standalone School section were removed
-  for the demo release (May 2026). When Vandara comes back as an addon
-  (Phase 13.5), the addon will ship its own view fragment.
+  "Orte" tab — shows NPCs grouped by physical location with a sub-tab
+  strip across the top. Locations come from each NPC's `location` field
+  (defaults to 'village' when missing). Addons add new values by
+  shipping NPCs with `location: <id>` plus a translation
+  `location_<id>_name`. Sub-tab bar hides itself automatically when
+  only one location is active so the demo flow stays unchanged for
+  players who never install an addon.
 -->
 <div
   x-show="$store.game.view === 'village'"
   class="game-view-content"
+  x-data="{
+    /** location-id for an NPC, defaulting to 'village' when unset. */
+    locOf(npcId) {
+      const npc = $store.game.content.get(npcId, 'npcs');
+      return (npc && npc.location) || 'village';
+    },
+    /** distinct active locations across unlocked NPCs, village first. */
+    get activeLocations() {
+      const seen = new Set();
+      for (const id of $store.game.unlockedNPCs) seen.add(this.locOf(id));
+      const out = Array.from(seen);
+      out.sort((a, b) => (a === 'village' ? -1 : b === 'village' ? 1 : a.localeCompare(b)));
+      return out;
+    },
+    /** show sub-tab strip only when there are at least two locations. */
+    get showLocationTabs() { return this.activeLocations.length > 1; },
+    /** make sure currentLocation always points at a location the player can see. */
+    syncCurrentLocation() {
+      const locs = this.activeLocations;
+      if (locs.length === 0) return;
+      if (!locs.includes($store.game.currentLocation)) {
+        $store.game.currentLocation = locs[0];
+      }
+    },
+  }"
+  x-effect="syncCurrentLocation()"
 >
   <div class="category-header">
     <h3 x-text="$store.game.t('cat_locations')"></h3>
@@ -22,9 +49,21 @@
     </div>
   </div>
 
+  <!-- Location sub-tab strip (only when 2+ locations are active). -->
+  <nav class="location-tabs-bar" x-show="showLocationTabs">
+    <template x-for="loc in activeLocations" :key="loc">
+      <button
+        class="location-tab-btn"
+        :class="{ 'is-active': $store.game.currentLocation === loc }"
+        @click="$store.game.currentLocation = loc; $store.game.playSound('click')"
+        x-text="$store.game.t('location_' + loc + '_name')"
+      ></button>
+    </template>
+  </nav>
+
   <div class="game-grid centered-grid">
-    <!-- NPC CARDS -->
-    <template x-for="npcId in $store.game.unlockedNPCs" :key="npcId">
+    <!-- NPC CARDS — filtered to the active location -->
+    <template x-for="npcId in $store.game.unlockedNPCs.filter(id => locOf(id) === $store.game.currentLocation)" :key="npcId">
       <div
         :id="npcId + '-card'"
         class="game-card npc-card"

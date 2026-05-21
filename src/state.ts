@@ -14,7 +14,7 @@ export const initialState: Partial<GameState> = {
   playerName: '',
   language: 'de',
   view: 'menu',
-  currentLocation: 'forest',
+  currentLocation: 'village',
   hasSave: false,
   prologueStep: 1,
   currentScale: 1,
