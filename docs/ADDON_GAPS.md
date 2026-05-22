@@ -46,7 +46,8 @@ dazugekommen ist.)
 - **Andere Kategorien**: bisher null Patch-Ops für resources,
   modifiers, buffs, homes, milestones, navigation, sections
   - ✅ Resources: `setInitial`, `setInitialLimit`, `setColor`
-  - ❌ Modifiers (bewusst übersprungen — sind reine Translation-Metadata)
+  - ✅ Modifiers: `setBaseValue` — rebalanciert die Default-Werte
+    (limits, focus-cost, regen-rates, etc.)
   - ✅ Buffs: `setDuration`, `addModifiers`
   - ✅ Homes: `setCapacity`, `setImage`
   - ✅ Milestones: `addRequirement`, `addOnUnlock`
@@ -112,7 +113,7 @@ dazugekommen ist.)
    - ✅ MVP fertig
    - ❌ Tiefe (Migration, Modal-Dialog) offen
 2. **Mehr Patch-Ops** — viele kleine Änderungen brauchen das
-   - ✅ Fertig (außer `modifier`-Patches, bewusst übersprungen — sind reine Translation-Metadata)
+   - ✅ Fertig — alle 10 Kategorien patchbar
 3. **Custom Effect-Types als data-driven Mechanik** — würde
    Schatten-Helfer, alte Vandara-Vorhaben, Mods generell ermöglichen
    - ❌ noch nicht angefangen

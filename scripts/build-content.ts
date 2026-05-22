@@ -305,6 +305,7 @@ if (addonPatches.length > 0) {
       item: itemRegistry,
       buff: buffRegistry,
       resource: resourceRegistry,
+      modifier: modifierRegistry,
       home: homeRegistry,
       navigation: navigationRegistry,
       milestone: milestoneRegistry,

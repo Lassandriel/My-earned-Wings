@@ -232,6 +232,7 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
         item: ITEM_REGISTRY_GENERATED,
         buff: BUFF_REGISTRY_GENERATED,
         resource: RESOURCE_REGISTRY_GENERATED,
+        modifier: MODIFIER_REGISTRY_GENERATED,
         home: HOME_REGISTRY_GENERATED,
         navigation: NAVIGATION_REGISTRY_GENERATED,
         milestone: MILESTONE_REGISTRY_GENERATED,

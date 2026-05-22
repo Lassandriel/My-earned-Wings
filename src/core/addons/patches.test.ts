@@ -471,6 +471,36 @@ describe('patch engine — additional entity types', () => {
     });
   });
 
+  describe('modifier', () => {
+    const mkReg = (): Record<string, any> => ({
+      arcane_focus_cost: {
+        id: 'arcane_focus_cost',
+        title: 'arcane_focus_cost_title',
+        baseValue: 3,
+      },
+    });
+
+    it('setBaseValue rebalances the modifier', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), modifier: mkReg() };
+      applyPatches(
+        patch({ targetType: 'modifier', targetId: 'arcane_focus_cost', setBaseValue: 5 }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.modifier['arcane_focus_cost'].baseValue).toBe(5);
+    });
+
+    it('accepts zero and negative values (some modifiers are deltas)', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), modifier: mkReg() };
+      applyPatches(
+        patch({ targetType: 'modifier', targetId: 'arcane_focus_cost', setBaseValue: -1 }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.modifier['arcane_focus_cost'].baseValue).toBe(-1);
+    });
+  });
+
   describe('home', () => {
     const mkReg = (): Record<string, any> => ({
       'home-house': { id: 'home-house', capacity: 12, image: 'old.webp' },

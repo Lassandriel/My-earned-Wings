@@ -52,6 +52,7 @@ export type PatchTargetType =
   | 'item'
   | 'buff'
   | 'resource'
+  | 'modifier'
   | 'home'
   | 'navigation'
   | 'milestone'
@@ -191,6 +192,29 @@ export interface BuffPatchEntry extends BasePatchEntry {
   addModifiers?: Array<{ key: string; add?: number; mult?: number }>;
 }
 
+export interface ModifierPatchEntry extends BasePatchEntry {
+  targetType: 'modifier';
+  /**
+   * The modifier's `baseValue` — the actual gameplay number the
+   * pipeline reads as the starting point before items / buffs /
+   * other modifiers add their own deltas. Patching this is how an
+   * addon rebalances base mechanics:
+   *
+   *   - `arcane_focus_cost.baseValue: 3 → 5` makes the focus
+   *     mechanic more expensive across the board
+   *   - `wood_limit.baseValue: 0 → 50` gives the player 50 wood
+   *     capacity from the start instead of needing storage
+   *   - `magic_regen_passive.baseValue: 0 → 1` enables passive
+   *     magic regeneration (the demo defaults to 0)
+   *
+   * Effectively a single op covers the whole "rebalance" use-case;
+   * title/desc patches don't need a dedicated op because both
+   * fields are translation keys and the i18n system already lets
+   * addons override them.
+   */
+  setBaseValue?: number;
+}
+
 export interface ResourcePatchEntry extends BasePatchEntry {
   targetType: 'resource';
   /** Override starting stockpile (defaults to 0). */
@@ -248,6 +272,7 @@ export type PatchEntry =
   | ItemPatchEntry
   | BuffPatchEntry
   | ResourcePatchEntry
+  | ModifierPatchEntry
   | HomePatchEntry
   | NavigationPatchEntry
   | MilestonePatchEntry
@@ -294,6 +319,7 @@ export interface PatchRegistries {
   item?: Record<string, any>;
   buff?: Record<string, any>;
   resource?: Record<string, any>;
+  modifier?: Record<string, any>;
   home?: Record<string, any>;
   navigation?: Record<string, any>;
   milestone?: Record<string, any>;
@@ -309,6 +335,7 @@ const PATCH_DISPATCH: Record<
   item: { registryKey: 'item', apply: (e, r, c, x) => applyItemPatch(e, r, c, x) },
   buff: { registryKey: 'buff', apply: (e, r, c, x) => applyBuffPatch(e, r, c, x) },
   resource: { registryKey: 'resource', apply: (e, r, c, x) => applyResourcePatch(e, r, c, x) },
+  modifier: { registryKey: 'modifier', apply: (e, r, c, x) => applyModifierPatch(e, r, c, x) },
   home: { registryKey: 'home', apply: (e, r, c, x) => applyHomePatch(e, r, c, x) },
   navigation: { registryKey: 'navigation', apply: (e, r, c, x) => applyNavigationPatch(e, r, c, x) },
   milestone: { registryKey: 'milestone', apply: (e, r, c, x) => applyMilestonePatch(e, r, c, x) },
@@ -733,6 +760,29 @@ const applyResourcePatch = (
   return true;
 };
 
+const applyModifierPatch = (
+  entry: ModifierPatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `modifier "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (typeof entry.setBaseValue === 'number') {
+    recognized = true;
+    target.baseValue = entry.setBaseValue;
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for modifier "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
 const applyHomePatch = (
   entry: HomePatchEntry,
   registry: Record<string, any>,
@@ -891,7 +941,8 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
     return `${sourceLabel}: patch entry must be an object`;
   }
   const VALID_TARGETS = new Set([
-    'action', 'npc', 'item', 'buff', 'resource', 'home', 'navigation', 'milestone', 'section',
+    'action', 'npc', 'item', 'buff', 'resource', 'modifier',
+    'home', 'navigation', 'milestone', 'section',
   ]);
   if (!VALID_TARGETS.has(raw.targetType)) {
     return `${sourceLabel}: targetType "${raw.targetType}" not supported (v2 handles ${[...VALID_TARGETS].join(', ')})`;
@@ -1039,6 +1090,10 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
     }
     if (raw.setColor !== undefined && (typeof raw.setColor !== 'string' || raw.setColor.length === 0)) {
       return `${sourceLabel}: setColor must be a non-empty string when present`;
+    }
+  } else if (raw.targetType === 'modifier') {
+    if (raw.setBaseValue !== undefined && typeof raw.setBaseValue !== 'number') {
+      return `${sourceLabel}: setBaseValue must be a number when present`;
     }
   } else if (raw.targetType === 'home') {
     if (raw.setCapacity !== undefined && (typeof raw.setCapacity !== 'number' || raw.setCapacity < 0)) {
