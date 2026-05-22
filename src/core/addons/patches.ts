@@ -46,7 +46,7 @@
  * step is never reachable).
  */
 
-export type PatchTargetType = 'action' | 'npc';
+export type PatchTargetType = 'action' | 'npc' | 'item';
 
 export interface BasePatchEntry {
   targetType: PatchTargetType;
@@ -146,7 +146,21 @@ export interface NpcPatchEntry extends BasePatchEntry {
   mergeDialogues?: Record<string, string>;
 }
 
-export type PatchEntry = ActionPatchEntry | NpcPatchEntry;
+export interface ItemPatchEntry extends BasePatchEntry {
+  targetType: 'item';
+  /**
+   * Append modifiers to the item. Collisions on `.key` are
+   * skipped with a warning — two addons stacking on the same
+   * resource limit should declare different keys or coordinate.
+   */
+  addModifiers?: Array<{ key: string; add?: number; mult?: number }>;
+  /** Replace the item's spaceCost (housing slot consumption). */
+  setSpaceCost?: number;
+  /** Replace the item's image path. */
+  setImage?: string;
+}
+
+export type PatchEntry = ActionPatchEntry | NpcPatchEntry | ItemPatchEntry;
 
 export interface PatchApplyContext {
   /** Where the patch came from — included in error messages. */
@@ -178,7 +192,7 @@ export interface PatchApplyResult {
  */
 export const applyPatches = (
   patches: ReadonlyArray<{ entry: PatchEntry; origin: string }>,
-  registries: { action: Record<string, any>; npc: Record<string, any> },
+  registries: { action: Record<string, any>; npc: Record<string, any>; item?: Record<string, any> },
   options: { missingTarget: 'throw' | 'warn' },
 ): PatchApplyResult => {
   const result: PatchApplyResult = { applied: 0, warnings: [] };
@@ -191,6 +205,14 @@ export const applyPatches = (
       }
     } else if (entry.targetType === 'npc') {
       if (applyNpcPatch(entry, registries.npc, ctx, result)) {
+        result.applied++;
+      }
+    } else if (entry.targetType === 'item') {
+      if (!registries.item) {
+        reportMissing(ctx, `item patches need an item registry, none supplied`, result);
+        continue;
+      }
+      if (applyItemPatch(entry, registries.item, ctx, result)) {
         result.applied++;
       }
     } else {
@@ -442,6 +464,55 @@ const applyActionPatch = (
   return true;
 };
 
+const applyItemPatch = (
+  entry: ItemPatchEntry,
+  itemRegistry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = itemRegistry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `item "${entry.targetId}" not found`, result);
+    return false;
+  }
+
+  let recognized = false;
+
+  if (entry.addModifiers && entry.addModifiers.length > 0) {
+    recognized = true;
+    const existing: any[] = Array.isArray(target.modifiers) ? target.modifiers : [];
+    const seenKeys = new Set(existing.map((m) => m?.key).filter(Boolean));
+    const additions = entry.addModifiers.filter((m) => {
+      if (!m || typeof m.key !== 'string') return false;
+      if (seenKeys.has(m.key)) {
+        result.warnings.push(`[${ctx.origin}] addModifiers on item "${entry.targetId}": key "${m.key}" already present, skipped`);
+        return false;
+      }
+      seenKeys.add(m.key);
+      return true;
+    });
+    if (additions.length > 0) {
+      target.modifiers = [...existing, ...additions];
+    }
+  }
+
+  if (typeof entry.setSpaceCost === 'number' && entry.setSpaceCost >= 0) {
+    recognized = true;
+    target.spaceCost = entry.setSpaceCost;
+  }
+
+  if (typeof entry.setImage === 'string' && entry.setImage.length > 0) {
+    recognized = true;
+    target.image = entry.setImage;
+  }
+
+  if (!recognized) {
+    reportMissing(ctx, `patch for item "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
 const reportMissing = (
   ctx: PatchApplyContext,
   message: string,
@@ -464,8 +535,8 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
   if (!raw || typeof raw !== 'object') {
     return `${sourceLabel}: patch entry must be an object`;
   }
-  if (raw.targetType !== 'action' && raw.targetType !== 'npc') {
-    return `${sourceLabel}: targetType "${raw.targetType}" not supported (v1 handles "action" and "npc")`;
+  if (raw.targetType !== 'action' && raw.targetType !== 'npc' && raw.targetType !== 'item') {
+    return `${sourceLabel}: targetType "${raw.targetType}" not supported (v2 handles "action", "npc", "item")`;
   }
   if (typeof raw.targetId !== 'string' || raw.targetId.length === 0) {
     return `${sourceLabel}: targetId missing or empty`;
@@ -564,6 +635,24 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
           return `${sourceLabel}: mergeDialogues["${k}"] must be a string value`;
         }
       }
+    }
+  } else if (raw.targetType === 'item') {
+    if (raw.addModifiers !== undefined) {
+      if (!Array.isArray(raw.addModifiers) || raw.addModifiers.length === 0) {
+        return `${sourceLabel}: addModifiers must be a non-empty array when present`;
+      }
+      for (let i = 0; i < raw.addModifiers.length; i++) {
+        const m = raw.addModifiers[i];
+        if (!m || typeof m !== 'object' || typeof m.key !== 'string') {
+          return `${sourceLabel}: addModifiers[${i}] must be an object with a string "key"`;
+        }
+      }
+    }
+    if (raw.setSpaceCost !== undefined && (typeof raw.setSpaceCost !== 'number' || raw.setSpaceCost < 0)) {
+      return `${sourceLabel}: setSpaceCost must be a non-negative number when present`;
+    }
+    if (raw.setImage !== undefined && (typeof raw.setImage !== 'string' || raw.setImage.length === 0)) {
+      return `${sourceLabel}: setImage must be a non-empty string when present`;
     }
   }
   // Allow other ops to land later without bumping a version number.

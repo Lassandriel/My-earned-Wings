@@ -226,7 +226,11 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   if (collectedPatches.length > 0) {
     const patchResult = applyPatches(
       collectedPatches,
-      { action: ACTION_REGISTRY_GENERATED, npc: NPC_REGISTRY_GENERATED },
+      {
+        action: ACTION_REGISTRY_GENERATED,
+        npc: NPC_REGISTRY_GENERATED,
+        item: ITEM_REGISTRY_GENERATED,
+      },
       { missingTarget: 'warn' },
     );
     patchCount = patchResult.applied;

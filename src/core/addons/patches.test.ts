@@ -306,6 +306,95 @@ describe('patch engine — npc ops', () => {
   });
 });
 
+describe('patch engine — item ops', () => {
+  const makeItemRegistry = (): Record<string, any> => ({
+    'item-bed': {
+      id: 'item-bed',
+      title: 'item_bed_title',
+      image: 'old.webp',
+      category: 'furniture',
+      spaceCost: 2,
+      modifiers: [{ key: 'rest_energy_gain', add: 30 }],
+    },
+  });
+
+  describe('addModifiers', () => {
+    it('appends new modifiers', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), item: makeItemRegistry() };
+      applyPatches(
+        patch({
+          targetType: 'item',
+          targetId: 'item-bed',
+          addModifiers: [{ key: 'magic_limit', add: 10 }],
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.item['item-bed'].modifiers).toHaveLength(2);
+      expect(reg.item['item-bed'].modifiers[1]).toMatchObject({ key: 'magic_limit', add: 10 });
+    });
+
+    it('warns + skips when modifier key already present', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), item: makeItemRegistry() };
+      const result = applyPatches(
+        patch({
+          targetType: 'item',
+          targetId: 'item-bed',
+          addModifiers: [{ key: 'rest_energy_gain', add: 50 }],
+        }),
+        reg,
+        { missingTarget: 'warn' },
+      );
+      expect(reg.item['item-bed'].modifiers).toHaveLength(1); // unchanged
+      expect(result.warnings.some((w) => w.includes('rest_energy_gain'))).toBe(true);
+    });
+  });
+
+  describe('setSpaceCost / setImage', () => {
+    it('overrides both fields independently', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), item: makeItemRegistry() };
+      applyPatches(
+        patch({
+          targetType: 'item',
+          targetId: 'item-bed',
+          setSpaceCost: 3,
+          setImage: 'fancier-bed.webp',
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.item['item-bed'].spaceCost).toBe(3);
+      expect(reg.item['item-bed'].image).toBe('fancier-bed.webp');
+    });
+  });
+
+  describe('missing item', () => {
+    it('warns at runtime when item id does not exist', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), item: makeItemRegistry() };
+      const result = applyPatches(
+        patch({ targetType: 'item', targetId: 'item-ghost', setSpaceCost: 5 }),
+        reg,
+        { missingTarget: 'warn' },
+      );
+      expect(result.applied).toBe(0);
+      expect(result.warnings.some((w) => w.includes('item-ghost'))).toBe(true);
+    });
+  });
+
+  describe('missing item registry', () => {
+    it('warns when applyPatches is called without an item registry', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      const result = applyPatches(
+        patch({ targetType: 'item', targetId: 'item-bed', setSpaceCost: 5 }),
+        reg,
+        { missingTarget: 'warn' },
+      );
+      expect(result.applied).toBe(0);
+      expect(result.warnings.some((w) => w.includes('item registry'))).toBe(true);
+    });
+  });
+});
+
 describe('validatePatchEntry', () => {
   it('accepts a well-formed action patch with multiple ops', () => {
     expect(

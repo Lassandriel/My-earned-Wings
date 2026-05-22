@@ -297,7 +297,11 @@ const sectionRegistry = taggedToRecord(sections);
 // Apply addon patches. Fatal on missing targets (build-time addons are
 // shipped with the build — a missing reference is an addon bug).
 if (addonPatches.length > 0) {
-  const patchResult = applyPatches(addonPatches, { action: actionRegistry, npc: npcRegistry }, { missingTarget: 'throw' });
+  const patchResult = applyPatches(
+    addonPatches,
+    { action: actionRegistry, npc: npcRegistry, item: itemRegistry },
+    { missingTarget: 'throw' },
+  );
   console.log(`🩹 Applied ${patchResult.applied} addon patch(es)`);
 }
 
