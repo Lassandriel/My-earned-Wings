@@ -129,6 +129,128 @@ describe('patch engine — action ops', () => {
   });
 });
 
+describe('patch engine — action ops (v2.1: hooks + cost + cosmetics)', () => {
+  describe('addOnSuccess', () => {
+    it('appends to existing onSuccess array', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.action['act-test'].onSuccess = [{ type: 'log', logKey: 'orig' }];
+      applyPatches(
+        patch({
+          targetType: 'action',
+          targetId: 'act-test',
+          addOnSuccess: [{ type: 'setFlag', flag: 'extra', value: true }],
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].onSuccess).toHaveLength(2);
+      expect(reg.action['act-test'].onSuccess[1]).toMatchObject({ type: 'setFlag', flag: 'extra' });
+    });
+
+    it('creates onSuccess from nothing when target had none', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      applyPatches(
+        patch({
+          targetType: 'action',
+          targetId: 'act-test',
+          addOnSuccess: [{ type: 'log', logKey: 'first' }],
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].onSuccess).toHaveLength(1);
+    });
+  });
+
+  describe('addRequirement', () => {
+    it('merges new keys into requirements', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      applyPatches(
+        patch({
+          targetType: 'action',
+          targetId: 'act-test',
+          addRequirement: { 'flags.my-addon-active': true },
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].requirements).toMatchObject({ 'flags.my-addon-active': true });
+    });
+
+    it('warns + skips on key collision', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.action['act-test'].requirements = { 'flags.X': true };
+      const result = applyPatches(
+        patch({
+          targetType: 'action',
+          targetId: 'act-test',
+          addRequirement: { 'flags.X': false },
+        }),
+        reg,
+        { missingTarget: 'warn' },
+      );
+      expect(reg.action['act-test'].requirements['flags.X']).toBe(true); // unchanged
+      expect(result.warnings.some((w) => w.includes('flags.X'))).toBe(true);
+    });
+  });
+
+  describe('modifyCost', () => {
+    it('converts shorthand cost+costType to a costs map and applies the delta', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.action['act-test'].cost = 10;
+      reg.action['act-test'].costType = 'wood';
+      applyPatches(
+        patch({ targetType: 'action', targetId: 'act-test', modifyCost: { wood: -3 } }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].costs).toEqual({ wood: 7 });
+      expect(reg.action['act-test'].cost).toBeUndefined();
+      expect(reg.action['act-test'].costType).toBeUndefined();
+    });
+
+    it('removes a cost line that goes to zero or below', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.action['act-test'].costs = { wood: 5, stone: 3 };
+      applyPatches(
+        patch({ targetType: 'action', targetId: 'act-test', modifyCost: { wood: -5 } }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].costs).toEqual({ stone: 3 });
+    });
+
+    it('adds a new cost line for a resource the action didn\'t use', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.action['act-test'].costs = { wood: 5 };
+      applyPatches(
+        patch({ targetType: 'action', targetId: 'act-test', modifyCost: { magic: 2 } }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].costs).toEqual({ wood: 5, magic: 2 });
+    });
+  });
+
+  describe('setIcon / setImage on actions', () => {
+    it('overrides both fields', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      applyPatches(
+        patch({
+          targetType: 'action',
+          targetId: 'act-test',
+          setIcon: '🎯',
+          setImage: 'patched.webp',
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.action['act-test'].icon).toBe('🎯');
+      expect(reg.action['act-test'].image).toBe('patched.webp');
+    });
+  });
+});
+
 describe('patch engine — npc ops', () => {
   describe('setIcon / setColor / setImage', () => {
     it('overrides each field independently', () => {
@@ -220,6 +342,22 @@ describe('validatePatchEntry', () => {
       const err = validatePatchEntry({ targetType: 'npc', targetId: 'npc-x', [k]: 42 }, 'test');
       expect(err).toMatch(new RegExp(k));
     }
+  });
+
+  it('rejects modifyCost with non-numeric value', () => {
+    const err = validatePatchEntry(
+      { targetType: 'action', targetId: 'act-x', modifyCost: { wood: '5' as any } },
+      'test',
+    );
+    expect(err).toMatch(/modifyCost/);
+  });
+
+  it('rejects addOnSuccess entries without a type field', () => {
+    const err = validatePatchEntry(
+      { targetType: 'action', targetId: 'act-x', addOnSuccess: [{ flag: 'x' }] },
+      'test',
+    );
+    expect(err).toMatch(/addOnSuccess/);
   });
 
   it('rejects mergeDialogues with non-string values', () => {

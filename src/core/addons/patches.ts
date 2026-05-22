@@ -77,6 +77,38 @@ export interface ActionPatchEntry extends BasePatchEntry {
    * count when it had been pinned.
    */
   removeStep?: { index: number };
+  /**
+   * Append entries to the action's TOP-LEVEL `onSuccess` array.
+   * (Steps have their own onSuccess; patch those via replaceStep.)
+   * Lets addons hook into existing flows — e.g. "when the player
+   * builds a kitchen, ALSO set my flag." Each entry is a raw
+   * effect object validated by the engine at run time.
+   */
+  addOnSuccess?: any[];
+  /**
+   * Merge entries into the action's `requirements` map. Existing
+   * keys are NOT overwritten — collision logs a warning and skips
+   * that key (multiple addons might want to gate the same action;
+   * they need to coordinate, not silently stomp each other).
+   */
+  addRequirement?: Record<string, any>;
+  /**
+   * Adjust the action's cost. Delta-based: positive amounts add
+   * to the existing cost for that resource, negative reduce
+   * (floored at 0). Targets that use the legacy `cost`+`costType`
+   * shorthand are converted to a `costs` map on first patch.
+   *
+   *   modifyCost: { wood: -5, magic: +2 }
+   *
+   * means "5 wood cheaper, 2 magic more expensive". Resources that
+   * weren't on the action become a new cost line when the delta is
+   * positive.
+   */
+  modifyCost?: Record<string, number>;
+  /** Replace the action's emoji icon. */
+  setIcon?: string;
+  /** Replace the action's image path. */
+  setImage?: string;
 }
 
 export interface NpcPatchEntry extends BasePatchEntry {
@@ -338,6 +370,70 @@ const applyActionPatch = (
     mutated = true;
   }
 
+  if (entry.addOnSuccess && entry.addOnSuccess.length > 0) {
+    const existing = Array.isArray(target.onSuccess) ? target.onSuccess : [];
+    target.onSuccess = [...existing, ...entry.addOnSuccess];
+    mutated = true;
+  }
+
+  if (entry.addRequirement && typeof entry.addRequirement === 'object') {
+    const existing: Record<string, any> = target.requirements && typeof target.requirements === 'object'
+      ? { ...target.requirements }
+      : {};
+    let anyAdded = false;
+    for (const [k, v] of Object.entries(entry.addRequirement)) {
+      if (k in existing) {
+        result.warnings.push(`[${ctx.origin}] addRequirement on "${entry.targetId}": key "${k}" already exists, skipped`);
+        continue;
+      }
+      existing[k] = v;
+      anyAdded = true;
+    }
+    if (anyAdded) {
+      target.requirements = existing;
+      mutated = true;
+    }
+  }
+
+  if (entry.modifyCost && typeof entry.modifyCost === 'object') {
+    // Normalise to a costs-map even if the action used the
+    // single-cost shorthand, so the delta math is uniform.
+    let costs: Record<string, number> = {};
+    if (target.costs && typeof target.costs === 'object') {
+      costs = { ...target.costs };
+    } else if (typeof target.cost === 'number' && typeof target.costType === 'string') {
+      costs[target.costType] = target.cost;
+    }
+    for (const [res, delta] of Object.entries(entry.modifyCost)) {
+      if (typeof delta !== 'number') continue;
+      const next = (costs[res] || 0) + delta;
+      if (next <= 0) {
+        // Cost went to zero or below — remove the line entirely so
+        // the engine doesn't keep a 0-cost entry around (which
+        // confuses cost-rendering and resource consumption).
+        delete costs[res];
+      } else {
+        costs[res] = next;
+      }
+    }
+    target.costs = costs;
+    // Wipe the legacy shorthand fields now that costs is canonical
+    // — keeping both around could let the engine double-count.
+    if (target.cost !== undefined) delete target.cost;
+    if (target.costType !== undefined) delete target.costType;
+    mutated = true;
+  }
+
+  if (typeof entry.setIcon === 'string' && entry.setIcon.length > 0) {
+    target.icon = entry.setIcon;
+    mutated = true;
+  }
+
+  if (typeof entry.setImage === 'string' && entry.setImage.length > 0) {
+    target.image = entry.setImage;
+    mutated = true;
+  }
+
   if (!mutated) {
     reportMissing(ctx, `patch for "${entry.targetId}" had no recognized operations`, result);
     return false;
@@ -406,6 +502,37 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
       }
       if (typeof raw.removeStep.index !== 'number' || raw.removeStep.index < 0) {
         return `${sourceLabel}: removeStep.index must be a non-negative number`;
+      }
+    }
+    if (raw.addOnSuccess !== undefined) {
+      if (!Array.isArray(raw.addOnSuccess) || raw.addOnSuccess.length === 0) {
+        return `${sourceLabel}: addOnSuccess must be a non-empty array when present`;
+      }
+      for (let i = 0; i < raw.addOnSuccess.length; i++) {
+        const e = raw.addOnSuccess[i];
+        if (!e || typeof e !== 'object' || typeof e.type !== 'string') {
+          return `${sourceLabel}: addOnSuccess[${i}] must be an object with a string "type"`;
+        }
+      }
+    }
+    if (raw.addRequirement !== undefined) {
+      if (!raw.addRequirement || typeof raw.addRequirement !== 'object' || Array.isArray(raw.addRequirement)) {
+        return `${sourceLabel}: addRequirement must be a map of path → rule`;
+      }
+    }
+    if (raw.modifyCost !== undefined) {
+      if (!raw.modifyCost || typeof raw.modifyCost !== 'object' || Array.isArray(raw.modifyCost)) {
+        return `${sourceLabel}: modifyCost must be a map of resource → number delta`;
+      }
+      for (const [res, delta] of Object.entries(raw.modifyCost)) {
+        if (typeof delta !== 'number') {
+          return `${sourceLabel}: modifyCost["${res}"] must be a number`;
+        }
+      }
+    }
+    for (const k of ['setIcon', 'setImage'] as const) {
+      if (raw[k] !== undefined && (typeof raw[k] !== 'string' || raw[k].length === 0)) {
+        return `${sourceLabel}: ${k} must be a non-empty string when present`;
       }
     }
   } else if (raw.targetType === 'npc') {
