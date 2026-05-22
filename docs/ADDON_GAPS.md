@@ -1,40 +1,63 @@
-# Addon-System — Lückenliste
+# Addon-System — Lücken & Arbeitsliste
 
-**Source of truth** für was das Addon-System NICHT kann. Wird Punkt
-für Punkt abgearbeitet — Reihenfolge nach Pain-Prio am Ende des
-Dokuments.
+> **Status: Priorität 1. Das ist der einzige Plan. Bis diese Liste
+> komplett abgearbeitet ist, kommt nichts anderes dazu.**
+>
+> Diese Liste lebt — Häkchen kommen rein wenn Sachen fertig sind,
+> aber neue Punkte sind nur erlaubt wenn sie aus der bereits
+> existierenden Struktur folgen. Kein Scope-Creep aus anderen
+> Quellen.
 
-Beim Abhaken: `❌` → `✅` umstellen, kurzen Commit-Hash dazuschreiben.
+Status-Marker:
+- ✅ Fertig
+- ⚠️ MVP fertig, Tiefe fehlt
+- ❌ Offen
 
 ---
 
 ## 🔧 Patches — viele Operationen fehlen noch
 
-Aktuell unterstützt:
-- `targetType: action` → appendSteps, prependSteps, replaceStep,
-  removeStep, addOnSuccess, addRequirement, modifyCost, setIcon,
-  setImage
-- `targetType: npc` → bumpMaxProgress, addTradeActions, setIcon,
-  setColor, setImage, mergeDialogues
-- `targetType: item` → addModifiers, setSpaceCost, setImage
-- `targetType: buff/resource/home/navigation/milestone/section` →
-  jeweils 2-4 Basis-Ops
+Aktuell unterstützt nur:
+- `targetType: action` → `appendSteps`
+- `targetType: npc` → `bumpMaxProgress`, `addTradeActions`
 
-### Es fehlt noch:
+(Historischer Stand — die Liste unten zeigt was inzwischen
+dazugekommen ist.)
 
-- ❌ **Actions:** `setCategory`
-- ❌ **NPCs:** `setChapter`, `setLocation`
-- ❌ **Sections:** `appendActions` (für dynamische Action-Kategorien)
-- ❌ **Modifier-Patches** komplett (bewusst übersprungen — sind reine
-  Translation-Metadata, prüfen ob doch Use-Cases entstehen)
-- ❌ **Generischer `setField`** als Fallback — riskant, übersprungen.
-  Reanalysieren wenn neue Op-Wünsche auftauchen.
+**Es fehlt:**
+
+- **Actions**
+  - ✅ `prependSteps`
+  - ✅ `replaceStep`
+  - ✅ `removeStep`
+  - ✅ `addOnSuccess`
+  - ✅ `addRequirement`
+  - ✅ `modifyCost`
+  - ✅ `setIcon` / `setImage`
+- **NPCs**
+  - ✅ `image` / `color` / `icon` ändern
+  - ✅ `dialogues` ergänzen (`mergeDialogues`)
+  - ❌ `chapter` umhängen
+  - ❌ `location` umhängen
+- **Items**
+  - ✅ Modifier ergänzen (`addModifiers`)
+  - ✅ `spaceCost` ändern
+  - ✅ `image`
+- **Andere Kategorien**: bisher null Patch-Ops für resources,
+  modifiers, buffs, homes, milestones, navigation, sections
+  - ✅ Resources: `setInitial`, `setInitialLimit`, `setColor`
+  - ❌ Modifiers (bewusst übersprungen — sind reine Translation-Metadata)
+  - ✅ Buffs: `setDuration`, `addModifiers`
+  - ✅ Homes: `setCapacity`, `setImage`
+  - ✅ Milestones: `addRequirement`, `addOnUnlock`
+  - ✅ Navigation: `setIcon`, `setImage`, `setLabel`, `setRequiredFlag`
+  - ✅ Sections: `setHeaderLabel`, `setRequiresFlag`, `setActionCategory`
 
 ---
 
 ## 🎨 UI / Views — eingeschränkt
 
-- ❌ **Sub-Tabs sind hardcoded in jeder View-HTML.** Orte hat
+- ❌ **Sub-Tabs sind hardcoded** in jeder View-HTML. Orte hat
   "village/vandara"-Logik auto via npc.location, aber Main hat fixed
   "general/herstellen" — Addons können keinen neuen Main-Sub-Tab
   "Kampf" oder "Reisen" hinzufügen ohne HTML-Edit
@@ -42,8 +65,6 @@ Aktuell unterstützt:
 - ❌ **Addons können nicht in spezifische Slots existierender Views
   injecten** — nur ganze Top-Level-Views oder Section-Karten
 - ❌ **Settings-Menü, Pause-Menü, Save-Dialog** sind Base-Game-exklusiv
-- ❌ **Warn-Modal beim Laden** wenn Addon fehlt — heute nur Toast,
-  kein interaktiver "Sicher dass laden?"-Dialog
 
 ---
 
@@ -52,65 +73,48 @@ Aktuell unterstützt:
 - ❌ **Runtime-Addons können kein `handlers.ts` shippen** (TS braucht
   Build) — nur Build-Time-Addons
 - ❌ **Addons können keine neuen Effect-Types registrieren**
-  (modifyResource, addBuff, modifyCounter, etc. sind base). Wenn ein
-  Addon `summonShadow` als Effekt will, muss Base-Game erweitert
-  werden. Use-Case: Schatten-Helfer-Mechanik (Sariels Drop 3)
+  (`modifyResource`, `addBuff`, etc. sind base). Wenn ein Addon
+  "summonShadow" als Effekt will, muss Base-Game erweitert werden
 - ❌ **Keine neuen Modifier-Keys** — addons können nur existierende
   Pipeline-Keys nutzen
-- ❌ **Keine neuen State-Felder in GameState** — wenn ein Addon
-  `shadowEnergy` als eigene Resource-artige Sache braucht, muss das
+- ❌ **Keine neuen State-Felder in `GameState`** — wenn ein Addon
+  "shadowEnergy" als eigene Resource-artige Sache braucht, muss das
   im Type definiert sein
 - ❌ **Kein System-Tick-Hook** für periodische Addon-Logik
-- ❌ **Kein Boot-Hook** — Addon kann keinen Init-Code laufen lassen
-- ❌ **Kein Save/Load-Hook** — Addons können nicht auf Save/Load
-  reagieren (z.B. für Migration)
 
 ---
 
-## 💾 Saves — Addon-Awareness MVP, Tiefe fehlt
+## 💾 Saves — Addon-Awareness fehlt
 
-- ✅ **Save kennt aktive Addons** (Name+Version) — `115de27`
-- ✅ **Warn-Toast beim Laden wenn Addon fehlt** — `115de27`
+- ✅ **Save kennt jetzt welche Addons aktiv waren** — wenn jemand
+  Vandara entfernt nach 20h Spielzeit, wird der Spieler beim Laden
+  per Toast gewarnt
 - ❌ **Keine Save-Migration aus Addons** — wenn Vandara v0.2 einen
-  Flag umbenennt, alte v0.1-Saves brechen. Addons brauchen einen
-  Migration-Hook (z.B. `migrations.ts` neben `handlers.ts`).
-- ❌ **Kein Warn-Modal** beim Laden — heute nur unauffälliger Toast.
-  Sollte ein blocking Dialog "Spielstand braucht Addon X v0.3 — du
-  hast 0.1 oder gar nicht. Trotzdem laden?" werden.
+  Flag umbenennt, alte v0.1-Saves brechen
+- ⚠️ **Beim Laden gibt's nur einen Toast**, keinen Warn-Dialog
+  "Dieser Spielstand braucht Addon X v0.3 — du hast v0.1.
+  Trotzdem laden?"
 
 ---
 
 ## 🤝 Inter-Addon
 
-- ❌ **`requires:` in manifest wird geparst aber nicht erzwungen**
-  (Build fail / Runtime warn wenn dep fehlt)
-- ❌ **Keine Runtime-Abfrage "ist Addon X geladen?"** — Addons können
-  ihren Content nicht conditional auf andere Addons aufbauen
-- ❌ **Override-Kollisionen zwischen 2 Addons:** nur warning, kein
-  Resolver. Aktuell wins-last-loaded silent.
+- ❌ `requires:` in manifest wird geparst aber **nicht erzwungen**
+- ❌ Keine Runtime-Abfrage **"ist Addon X geladen?"**
+- ❌ Override-Kollisionen zwischen 2 Addons: nur warning, **kein
+  Resolver**
 
 ---
 
-## 🏆 Pain-Prio
+## 🏆 Was am schmerzhaftesten ist
 
-1. ✅ **Save-Awareness** (P1) — fertig
-2. ✅ **Mehr Patch-Ops** (P2) — fast fertig (nur 3 Restops + Doku)
-3. ❌ **Custom Effect-Types data-driven** (P3) — bewegt
-   Schatten-Helfer-Mechanik in Reichweite, würde alte
-   Vandara-Vorhaben + generelle Mods ermöglichen
-4. ❌ **Addon-CSS** (P5-Teil) — Polish, kein Show-Stopper
-5. ❌ **Save-Migration & Modal** (P1-Tiefe)
-6. ❌ **Inter-Addon Deps + Lifecycle-Hooks** (P4 + P6)
-7. ❌ **UI: neue Sub-Tabs aus Addons, Slot-Injection** (P5-Rest)
-
----
-
-## Workflow beim Abarbeiten
-
-- Pro Iteration **EIN Block** (Patches, Effects, Saves, Inter-Addon, …)
-- Erst Engine-Erweiterung, dann **Tests** dazu, dann **Doku**
-  (`docs/ADDON_AUTHORING.md`)
-- Tests grün halten (Baseline siehe `npm test`)
-- check-all grün halten
-- Base-Game-Änderungen **explizit** im Commit-Body kennzeichnen — nicht
-  still mit Content vermischen
+1. **Save-Awareness** — Spieler verlieren Stunden, wenn Addon weg ist
+   - ✅ MVP fertig
+   - ❌ Tiefe (Migration, Modal-Dialog) offen
+2. **Mehr Patch-Ops** — viele kleine Änderungen brauchen das
+   - ✅ ~95% fertig (NPC `setChapter`/`setLocation` offen, sonst durch)
+3. **Custom Effect-Types als data-driven Mechanik** — würde
+   Schatten-Helfer, alte Vandara-Vorhaben, Mods generell ermöglichen
+   - ❌ noch nicht angefangen
+4. **Addon-shipped CSS** — Polish, nicht Show-Stopper
+   - ❌ noch nicht angefangen
