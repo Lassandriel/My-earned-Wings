@@ -15,16 +15,13 @@ Status-Marker:
 
 ---
 
-## 🔧 Patches — viele Operationen fehlen noch
+## 🔧 Patches — ✅ **Sektion komplett**
 
-Aktuell unterstützt nur:
-- `targetType: action` → `appendSteps`
-- `targetType: npc` → `bumpMaxProgress`, `addTradeActions`
+> Alle 10 Inhalts-Kategorien sind patchbar. Patches funktionieren
+> identisch in build-time + runtime, fail-fast im Build (`throw`),
+> nachsichtig im Runtime (`warn`).
 
-(Historischer Stand — die Liste unten zeigt was inzwischen
-dazugekommen ist.)
-
-**Es fehlt:**
+**Was geht (alphabetisch):**
 
 - **Actions**
   - ✅ `prependSteps`
@@ -56,16 +53,25 @@ dazugekommen ist.)
 
 ---
 
-## 🎨 UI / Views — eingeschränkt
+## 🎨 UI / Views — 🚧 **aktuelle Arbeitssektion**
 
-- ❌ **Sub-Tabs sind hardcoded** in jeder View-HTML. Orte hat
-  "village/vandara"-Logik auto via npc.location, aber Main hat fixed
-  "general/herstellen" — Addons können keinen neuen Main-Sub-Tab
-  "Kampf" oder "Reisen" hinzufügen ohne HTML-Edit
-- ❌ **Addons können kein CSS shippen.** Nur HTML-View-Fragments
-- ❌ **Addons können nicht in spezifische Slots existierender Views
-  injecten** — nur ganze Top-Level-Views oder Section-Karten
-- ❌ **Settings-Menü, Pause-Menü, Save-Dialog** sind Base-Game-exklusiv
+**Reihenfolge nach Hebelwirkung:**
+
+1. ❌ **Sub-Tabs sind hardcoded** in jeder View-HTML. Orte hat
+   "village/vandara"-Logik auto via npc.location, aber Main hat fixed
+   "general/herstellen" — Addons können keinen neuen Main-Sub-Tab
+   "Kampf" oder "Reisen" hinzufügen ohne HTML-Edit. **Biggest win
+   when fixed — viele Addon-Konzepte brauchen das.**
+2. ❌ **Addons können kein CSS shippen.** Nur HTML-View-Fragments.
+   Polish, kein Show-Stopper, aber wenn ein Addon einen neuen Tab
+   hat, will man ihn auch stylen können.
+3. ❌ **Addons können nicht in spezifische Slots existierender Views
+   injecten** — nur ganze Top-Level-Views oder Section-Karten.
+   Section-System reicht für "card-list mit Filter-Pattern", aber
+   nicht für custom Layouts in z.B. NPC-Detail-Views.
+4. ❌ **Settings-Menü, Pause-Menü, Save-Dialog** sind Base-Game-exklusiv.
+   Niedrigster Bedarf (Addons sollten sich aus diesen Kern-UIs eher
+   raushalten), letzter Punkt.
 
 ---
 
@@ -109,13 +115,12 @@ dazugekommen ist.)
 
 ## 🏆 Was am schmerzhaftesten ist
 
-1. **Save-Awareness** — Spieler verlieren Stunden, wenn Addon weg ist
+1. **Mehr Patch-Ops** — ✅ **fertig**, alle 10 Kategorien patchbar
+2. **Save-Awareness** — Spieler verlieren Stunden, wenn Addon weg ist
    - ✅ MVP fertig
-   - ❌ Tiefe (Migration, Modal-Dialog) offen
-2. **Mehr Patch-Ops** — viele kleine Änderungen brauchen das
-   - ✅ Fertig — alle 10 Kategorien patchbar
-3. **Custom Effect-Types als data-driven Mechanik** — würde
+   - ❌ Tiefe (Migration aus Addons, Modal-Dialog) offen
+3. **🎨 UI/Views — Sub-Tabs / CSS / Slots** — größter Hebel für
+   Addon-Sichtbarkeit ⬅️ **als nächstes dran**
+4. **Custom Effect-Types als data-driven Mechanik** — würde
    Schatten-Helfer, alte Vandara-Vorhaben, Mods generell ermöglichen
-   - ❌ noch nicht angefangen
-4. **Addon-shipped CSS** — Polish, nicht Show-Stopper
-   - ❌ noch nicht angefangen
+5. **Inter-Addon** — requires erzwingen, runtime-Check
