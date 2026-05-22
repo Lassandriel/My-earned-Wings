@@ -37,8 +37,8 @@ dazugekommen ist.)
 - **NPCs**
   - ✅ `image` / `color` / `icon` ändern
   - ✅ `dialogues` ergänzen (`mergeDialogues`)
-  - ❌ `chapter` umhängen
-  - ❌ `location` umhängen
+  - ✅ `chapter` umhängen (`setChapter`)
+  - ✅ `location` umhängen (`setLocation`, leerer String = renderer default)
 - **Items**
   - ✅ Modifier ergänzen (`addModifiers`)
   - ✅ `spaceCost` ändern
@@ -112,7 +112,7 @@ dazugekommen ist.)
    - ✅ MVP fertig
    - ❌ Tiefe (Migration, Modal-Dialog) offen
 2. **Mehr Patch-Ops** — viele kleine Änderungen brauchen das
-   - ✅ ~95% fertig (NPC `setChapter`/`setLocation` offen, sonst durch)
+   - ✅ Fertig (außer `modifier`-Patches, bewusst übersprungen — sind reine Translation-Metadata)
 3. **Custom Effect-Types als data-driven Mechanik** — würde
    Schatten-Helfer, alte Vandara-Vorhaben, Mods generell ermöglichen
    - ❌ noch nicht angefangen

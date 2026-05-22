@@ -272,6 +272,37 @@ describe('patch engine — npc ops', () => {
     });
   });
 
+  describe('setChapter / setLocation', () => {
+    it('overrides chapter and location fields', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.npc['npc-test'].chapter = 'Old Chapter';
+      reg.npc['npc-test'].location = 'village';
+      applyPatches(
+        patch({
+          targetType: 'npc',
+          targetId: 'npc-test',
+          setChapter: 'Vandara',
+          setLocation: 'vandara',
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.npc['npc-test'].chapter).toBe('Vandara');
+      expect(reg.npc['npc-test'].location).toBe('vandara');
+    });
+
+    it('empty setLocation falls back to renderer default', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      reg.npc['npc-test'].location = 'vandara';
+      applyPatches(
+        patch({ targetType: 'npc', targetId: 'npc-test', setLocation: '' }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.npc['npc-test'].location).toBeUndefined();
+    });
+  });
+
   describe('mergeDialogues', () => {
     it('adds new keys but warns on collisions and skips them', () => {
       const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };

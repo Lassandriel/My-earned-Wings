@@ -153,6 +153,20 @@ export interface NpcPatchEntry extends BasePatchEntry {
    * key in your own namespace.
    */
   mergeDialogues?: Record<string, string>;
+  /**
+   * Re-tag the NPC's chapter (journal grouping). Useful when an
+   * addon pulls a base-game NPC into its own story arc — e.g.
+   * Vandara re-grouping Aria's late-game appearances under
+   * "Chapter Vandara" instead of "Village Life".
+   */
+  setChapter?: string;
+  /**
+   * Re-tag the NPC's location (Orte sub-tab). Lets an addon move
+   * an NPC into a new physical area it ships (e.g. relocate a
+   * villager into Vandara's market). Empty string falls back to
+   * the default `village` location at render time.
+   */
+  setLocation?: string;
 }
 
 export interface ItemPatchEntry extends BasePatchEntry {
@@ -389,6 +403,18 @@ const applyNpcPatch = (
   if (typeof entry.setImage === 'string' && entry.setImage.length > 0) {
     recognized = true;
     target.image = entry.setImage;
+  }
+
+  if (typeof entry.setChapter === 'string' && entry.setChapter.length > 0) {
+    recognized = true;
+    target.chapter = entry.setChapter;
+  }
+
+  if (typeof entry.setLocation === 'string') {
+    recognized = true;
+    // Empty string falls back to the renderer's 'village' default.
+    if (entry.setLocation.length === 0) delete target.location;
+    else target.location = entry.setLocation;
   }
 
   if (entry.mergeDialogues && typeof entry.mergeDialogues === 'object') {
@@ -953,10 +979,14 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
         }
       }
     }
-    for (const k of ['setIcon', 'setColor', 'setImage'] as const) {
+    for (const k of ['setIcon', 'setColor', 'setImage', 'setChapter'] as const) {
       if (raw[k] !== undefined && (typeof raw[k] !== 'string' || raw[k].length === 0)) {
         return `${sourceLabel}: ${k} must be a non-empty string when present`;
       }
+    }
+    // setLocation allows empty string (= use renderer's default).
+    if (raw.setLocation !== undefined && typeof raw.setLocation !== 'string') {
+      return `${sourceLabel}: setLocation must be a string when present`;
     }
     if (raw.mergeDialogues !== undefined) {
       if (!raw.mergeDialogues || typeof raw.mergeDialogues !== 'object' || Array.isArray(raw.mergeDialogues)) {
