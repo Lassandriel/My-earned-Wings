@@ -395,6 +395,175 @@ describe('patch engine — item ops', () => {
   });
 });
 
+describe('patch engine — additional entity types', () => {
+  describe('buff', () => {
+    const mkReg = (): Record<string, any> => ({
+      'buff-x': { id: 'buff-x', duration: 60, modifiers: [{ key: 'wood_yield', add: 1 }] },
+    });
+
+    it('setDuration + addModifiers work together', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), buff: mkReg() };
+      applyPatches(
+        patch({
+          targetType: 'buff',
+          targetId: 'buff-x',
+          setDuration: 120,
+          addModifiers: [{ key: 'stone_yield', add: 1 }],
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.buff['buff-x'].duration).toBe(120);
+      expect(reg.buff['buff-x'].modifiers).toHaveLength(2);
+    });
+  });
+
+  describe('resource', () => {
+    const mkReg = (): Record<string, any> => ({
+      energy: { id: 'energy', type: 'stat', initial: 50, initialLimit: 50, color: '#fff' },
+    });
+
+    it('overrides initial / initialLimit / color', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), resource: mkReg() };
+      applyPatches(
+        patch({
+          targetType: 'resource',
+          targetId: 'energy',
+          setInitial: 100,
+          setInitialLimit: 200,
+          setColor: '#0ff',
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.resource['energy']).toMatchObject({ initial: 100, initialLimit: 200, color: '#0ff' });
+    });
+  });
+
+  describe('home', () => {
+    const mkReg = (): Record<string, any> => ({
+      'home-house': { id: 'home-house', capacity: 12, image: 'old.webp' },
+    });
+
+    it('sets capacity and image', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), home: mkReg() };
+      applyPatches(
+        patch({ targetType: 'home', targetId: 'home-house', setCapacity: 20, setImage: 'new.webp' }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.home['home-house']).toMatchObject({ capacity: 20, image: 'new.webp' });
+    });
+  });
+
+  describe('navigation', () => {
+    const mkReg = (): Record<string, any> => ({
+      crafting: { id: 'crafting', icon: 'crafting', label: 'nav_crafting', requiredFlag: 'some-flag' },
+    });
+
+    it('setIcon/setLabel/setRequiredFlag work', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), navigation: mkReg() };
+      applyPatches(
+        patch({
+          targetType: 'navigation',
+          targetId: 'crafting',
+          setIcon: 'magic',
+          setLabel: 'nav_new_label',
+          setRequiredFlag: 'other-flag',
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.navigation['crafting']).toMatchObject({
+        icon: 'magic',
+        label: 'nav_new_label',
+        requiredFlag: 'other-flag',
+      });
+    });
+
+    it('empty setRequiredFlag ungates the tab', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), navigation: mkReg() };
+      applyPatches(
+        patch({ targetType: 'navigation', targetId: 'crafting', setRequiredFlag: '' }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.navigation['crafting'].requiredFlag).toBeUndefined();
+    });
+  });
+
+  describe('milestone', () => {
+    const mkReg = (): Record<string, any> => ({
+      'm-x': {
+        id: 'm-x',
+        requirements: { 'flags.alpha': true },
+        onUnlock: [{ type: 'log', logKey: 'orig' }],
+      },
+    });
+
+    it('addRequirement + addOnUnlock both extend their target arrays/maps', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), milestone: mkReg() };
+      applyPatches(
+        patch({
+          targetType: 'milestone',
+          targetId: 'm-x',
+          addRequirement: { 'flags.beta': true },
+          addOnUnlock: [{ type: 'setFlag', flag: 'extra', value: true }],
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.milestone['m-x'].requirements).toMatchObject({ 'flags.alpha': true, 'flags.beta': true });
+      expect(reg.milestone['m-x'].onUnlock).toHaveLength(2);
+    });
+  });
+
+  describe('section', () => {
+    const mkReg = (): Record<string, any> => ({
+      'sec-x': {
+        id: 'sec-x',
+        subTab: 'herstellen',
+        headerLabel: 'ui_old',
+        actionCategory: 'cat_old',
+        requiresFlag: 'flag-old',
+      },
+    });
+
+    it('overrides headerLabel / actionCategory / requiresFlag', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), section: mkReg() };
+      applyPatches(
+        patch({
+          targetType: 'section',
+          targetId: 'sec-x',
+          setHeaderLabel: 'ui_new',
+          setActionCategory: 'cat_new',
+          setRequiresFlag: 'flag-new',
+        }),
+        reg,
+        { missingTarget: 'throw' },
+      );
+      expect(reg.section['sec-x']).toMatchObject({
+        headerLabel: 'ui_new',
+        actionCategory: 'cat_new',
+        requiresFlag: 'flag-new',
+      });
+    });
+  });
+
+  describe('missing-registry guard', () => {
+    it('warns when the target category has no registry in the bag', () => {
+      const reg = { action: makeActionRegistry(), npc: makeNpcRegistry() };
+      const result = applyPatches(
+        patch({ targetType: 'buff', targetId: 'buff-x', setDuration: 30 }),
+        reg,
+        { missingTarget: 'warn' },
+      );
+      expect(result.applied).toBe(0);
+      expect(result.warnings.some((w) => w.includes('buff registry'))).toBe(true);
+    });
+  });
+});
+
 describe('validatePatchEntry', () => {
   it('accepts a well-formed action patch with multiple ops', () => {
     expect(

@@ -46,7 +46,16 @@
  * step is never reachable).
  */
 
-export type PatchTargetType = 'action' | 'npc' | 'item';
+export type PatchTargetType =
+  | 'action'
+  | 'npc'
+  | 'item'
+  | 'buff'
+  | 'resource'
+  | 'home'
+  | 'navigation'
+  | 'milestone'
+  | 'section';
 
 export interface BasePatchEntry {
   targetType: PatchTargetType;
@@ -160,7 +169,75 @@ export interface ItemPatchEntry extends BasePatchEntry {
   setImage?: string;
 }
 
-export type PatchEntry = ActionPatchEntry | NpcPatchEntry | ItemPatchEntry;
+export interface BuffPatchEntry extends BasePatchEntry {
+  targetType: 'buff';
+  /** Replace the buff's duration (seconds). */
+  setDuration?: number;
+  /** Append modifier entries; collision on key warns + skips. */
+  addModifiers?: Array<{ key: string; add?: number; mult?: number }>;
+}
+
+export interface ResourcePatchEntry extends BasePatchEntry {
+  targetType: 'resource';
+  /** Override starting stockpile (defaults to 0). */
+  setInitial?: number;
+  /** Override starting cap (the unmodified base limit). */
+  setInitialLimit?: number;
+  /** CSS color used by the UI for this resource. */
+  setColor?: string;
+}
+
+export interface HomePatchEntry extends BasePatchEntry {
+  targetType: 'home';
+  /** Furniture slot capacity. */
+  setCapacity?: number;
+  /** Override the home's preview image. */
+  setImage?: string;
+}
+
+export interface NavigationPatchEntry extends BasePatchEntry {
+  targetType: 'navigation';
+  /** Base-icon key (e.g. 'crafting' → menu_crafting.webp). */
+  setIcon?: string;
+  /** Custom image path that overrides the icon-name convention. */
+  setImage?: string;
+  /** i18n key for the tab label. */
+  setLabel?: string;
+  /** Flag the tab is gated behind. Pass empty string to ungate. */
+  setRequiredFlag?: string;
+}
+
+export interface MilestonePatchEntry extends BasePatchEntry {
+  targetType: 'milestone';
+  /**
+   * Add new requirement entries. Collision on key warns + skips
+   * (same convention as action.addRequirement).
+   */
+  addRequirement?: Record<string, any>;
+  /** Append entries to the milestone's `onUnlock` effects array. */
+  addOnUnlock?: any[];
+}
+
+export interface SectionPatchEntry extends BasePatchEntry {
+  targetType: 'section';
+  /** Override the i18n key for the section header. */
+  setHeaderLabel?: string;
+  /** Change the gating flag (empty string = always show). */
+  setRequiresFlag?: string;
+  /** Change which action.category the section lists. */
+  setActionCategory?: string;
+}
+
+export type PatchEntry =
+  | ActionPatchEntry
+  | NpcPatchEntry
+  | ItemPatchEntry
+  | BuffPatchEntry
+  | ResourcePatchEntry
+  | HomePatchEntry
+  | NavigationPatchEntry
+  | MilestonePatchEntry
+  | SectionPatchEntry;
 
 export interface PatchApplyContext {
   /** Where the patch came from — included in error messages. */
@@ -190,33 +267,65 @@ export interface PatchApplyResult {
  *   { action: Record<id, ActionDef>, … }
  * Use category names matching the patch.targetType values.
  */
+/**
+ * The registry bag passed into applyPatches. Only `action` and `npc`
+ * are required (they're the most common targets and the earliest in
+ * the patch system's history); everything else is optional. When an
+ * entry targets a category whose registry isn't in the bag, the
+ * patch is reported as a missing-target rather than crashing.
+ */
+export interface PatchRegistries {
+  action: Record<string, any>;
+  npc: Record<string, any>;
+  item?: Record<string, any>;
+  buff?: Record<string, any>;
+  resource?: Record<string, any>;
+  home?: Record<string, any>;
+  navigation?: Record<string, any>;
+  milestone?: Record<string, any>;
+  section?: Record<string, any>;
+}
+
+const PATCH_DISPATCH: Record<
+  PatchTargetType,
+  { registryKey: keyof PatchRegistries; apply: (entry: any, reg: Record<string, any>, ctx: PatchApplyContext, result: PatchApplyResult) => boolean }
+> = {
+  action: { registryKey: 'action', apply: (e, r, c, x) => applyActionPatch(e, r, c, x) },
+  npc: { registryKey: 'npc', apply: (e, r, c, x) => applyNpcPatch(e, r, c, x) },
+  item: { registryKey: 'item', apply: (e, r, c, x) => applyItemPatch(e, r, c, x) },
+  buff: { registryKey: 'buff', apply: (e, r, c, x) => applyBuffPatch(e, r, c, x) },
+  resource: { registryKey: 'resource', apply: (e, r, c, x) => applyResourcePatch(e, r, c, x) },
+  home: { registryKey: 'home', apply: (e, r, c, x) => applyHomePatch(e, r, c, x) },
+  navigation: { registryKey: 'navigation', apply: (e, r, c, x) => applyNavigationPatch(e, r, c, x) },
+  milestone: { registryKey: 'milestone', apply: (e, r, c, x) => applyMilestonePatch(e, r, c, x) },
+  section: { registryKey: 'section', apply: (e, r, c, x) => applySectionPatch(e, r, c, x) },
+};
+
 export const applyPatches = (
   patches: ReadonlyArray<{ entry: PatchEntry; origin: string }>,
-  registries: { action: Record<string, any>; npc: Record<string, any>; item?: Record<string, any> },
+  registries: PatchRegistries,
   options: { missingTarget: 'throw' | 'warn' },
 ): PatchApplyResult => {
   const result: PatchApplyResult = { applied: 0, warnings: [] };
 
   for (const { entry, origin } of patches) {
     const ctx: PatchApplyContext = { origin, missingTarget: options.missingTarget };
-    if (entry.targetType === 'action') {
-      if (applyActionPatch(entry, registries.action, ctx, result)) {
-        result.applied++;
-      }
-    } else if (entry.targetType === 'npc') {
-      if (applyNpcPatch(entry, registries.npc, ctx, result)) {
-        result.applied++;
-      }
-    } else if (entry.targetType === 'item') {
-      if (!registries.item) {
-        reportMissing(ctx, `item patches need an item registry, none supplied`, result);
-        continue;
-      }
-      if (applyItemPatch(entry, registries.item, ctx, result)) {
-        result.applied++;
-      }
-    } else {
+    const dispatch = PATCH_DISPATCH[entry.targetType];
+    if (!dispatch) {
       reportMissing(ctx, `unknown targetType "${(entry as any).targetType}"`, result);
+      continue;
+    }
+    const reg = registries[dispatch.registryKey];
+    if (!reg) {
+      reportMissing(
+        ctx,
+        `${entry.targetType} patches need a ${entry.targetType} registry, none supplied`,
+        result,
+      );
+      continue;
+    }
+    if (dispatch.apply(entry, reg, ctx, result)) {
+      result.applied++;
     }
   }
 
@@ -513,6 +622,226 @@ const applyItemPatch = (
   return true;
 };
 
+/**
+ * Shared helper for the "merge modifiers, skip on key collision"
+ * pattern used by both items and buffs. Mutates target.modifiers.
+ */
+const mergeModifiers = (
+  target: any,
+  additions: Array<{ key: string; add?: number; mult?: number }>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+  entityLabel: string,
+): void => {
+  const existing: any[] = Array.isArray(target.modifiers) ? target.modifiers : [];
+  const seenKeys = new Set(existing.map((m) => m?.key).filter(Boolean));
+  const accepted = additions.filter((m) => {
+    if (!m || typeof m.key !== 'string') return false;
+    if (seenKeys.has(m.key)) {
+      result.warnings.push(`[${ctx.origin}] addModifiers on ${entityLabel}: key "${m.key}" already present, skipped`);
+      return false;
+    }
+    seenKeys.add(m.key);
+    return true;
+  });
+  if (accepted.length > 0) {
+    target.modifiers = [...existing, ...accepted];
+  }
+};
+
+const applyBuffPatch = (
+  entry: BuffPatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `buff "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (typeof entry.setDuration === 'number' && entry.setDuration >= 0) {
+    recognized = true;
+    target.duration = entry.setDuration;
+  }
+  if (entry.addModifiers && entry.addModifiers.length > 0) {
+    recognized = true;
+    mergeModifiers(target, entry.addModifiers, ctx, result, `buff "${entry.targetId}"`);
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for buff "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
+const applyResourcePatch = (
+  entry: ResourcePatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `resource "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (typeof entry.setInitial === 'number' && entry.setInitial >= 0) {
+    recognized = true;
+    target.initial = entry.setInitial;
+  }
+  if (typeof entry.setInitialLimit === 'number' && entry.setInitialLimit >= 0) {
+    recognized = true;
+    target.initialLimit = entry.setInitialLimit;
+  }
+  if (typeof entry.setColor === 'string' && entry.setColor.length > 0) {
+    recognized = true;
+    target.color = entry.setColor;
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for resource "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
+const applyHomePatch = (
+  entry: HomePatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `home "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (typeof entry.setCapacity === 'number' && entry.setCapacity >= 0) {
+    recognized = true;
+    target.capacity = entry.setCapacity;
+  }
+  if (typeof entry.setImage === 'string' && entry.setImage.length > 0) {
+    recognized = true;
+    target.image = entry.setImage;
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for home "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
+const applyNavigationPatch = (
+  entry: NavigationPatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `navigation entry "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (typeof entry.setIcon === 'string' && entry.setIcon.length > 0) {
+    recognized = true;
+    target.icon = entry.setIcon;
+  }
+  if (typeof entry.setImage === 'string' && entry.setImage.length > 0) {
+    recognized = true;
+    target.image = entry.setImage;
+  }
+  if (typeof entry.setLabel === 'string' && entry.setLabel.length > 0) {
+    recognized = true;
+    target.label = entry.setLabel;
+  }
+  if (typeof entry.setRequiredFlag === 'string') {
+    recognized = true;
+    // Empty string means "ungate" — remove the field rather than
+    // store "" (which truthiness-checks would mishandle).
+    if (entry.setRequiredFlag.length === 0) delete target.requiredFlag;
+    else target.requiredFlag = entry.setRequiredFlag;
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for navigation "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
+const applyMilestonePatch = (
+  entry: MilestonePatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `milestone "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (entry.addRequirement && typeof entry.addRequirement === 'object') {
+    recognized = true;
+    const existing: Record<string, any> = target.requirements && typeof target.requirements === 'object'
+      ? { ...target.requirements }
+      : {};
+    for (const [k, v] of Object.entries(entry.addRequirement)) {
+      if (k in existing) {
+        result.warnings.push(`[${ctx.origin}] addRequirement on milestone "${entry.targetId}": key "${k}" already exists, skipped`);
+        continue;
+      }
+      existing[k] = v;
+    }
+    target.requirements = existing;
+  }
+  if (entry.addOnUnlock && entry.addOnUnlock.length > 0) {
+    recognized = true;
+    const existing = Array.isArray(target.onUnlock) ? target.onUnlock : [];
+    target.onUnlock = [...existing, ...entry.addOnUnlock];
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for milestone "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
+const applySectionPatch = (
+  entry: SectionPatchEntry,
+  registry: Record<string, any>,
+  ctx: PatchApplyContext,
+  result: PatchApplyResult,
+): boolean => {
+  const target = registry[entry.targetId];
+  if (!target) {
+    reportMissing(ctx, `section "${entry.targetId}" not found`, result);
+    return false;
+  }
+  let recognized = false;
+  if (typeof entry.setHeaderLabel === 'string' && entry.setHeaderLabel.length > 0) {
+    recognized = true;
+    target.headerLabel = entry.setHeaderLabel;
+  }
+  if (typeof entry.setRequiresFlag === 'string') {
+    recognized = true;
+    if (entry.setRequiresFlag.length === 0) delete target.requiresFlag;
+    else target.requiresFlag = entry.setRequiresFlag;
+  }
+  if (typeof entry.setActionCategory === 'string' && entry.setActionCategory.length > 0) {
+    recognized = true;
+    target.actionCategory = entry.setActionCategory;
+  }
+  if (!recognized) {
+    reportMissing(ctx, `patch for section "${entry.targetId}" had no recognized operations`, result);
+    return false;
+  }
+  return true;
+};
+
 const reportMissing = (
   ctx: PatchApplyContext,
   message: string,
@@ -535,8 +864,11 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
   if (!raw || typeof raw !== 'object') {
     return `${sourceLabel}: patch entry must be an object`;
   }
-  if (raw.targetType !== 'action' && raw.targetType !== 'npc' && raw.targetType !== 'item') {
-    return `${sourceLabel}: targetType "${raw.targetType}" not supported (v2 handles "action", "npc", "item")`;
+  const VALID_TARGETS = new Set([
+    'action', 'npc', 'item', 'buff', 'resource', 'home', 'navigation', 'milestone', 'section',
+  ]);
+  if (!VALID_TARGETS.has(raw.targetType)) {
+    return `${sourceLabel}: targetType "${raw.targetType}" not supported (v2 handles ${[...VALID_TARGETS].join(', ')})`;
   }
   if (typeof raw.targetId !== 'string' || raw.targetId.length === 0) {
     return `${sourceLabel}: targetId missing or empty`;
@@ -653,6 +985,73 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
     }
     if (raw.setImage !== undefined && (typeof raw.setImage !== 'string' || raw.setImage.length === 0)) {
       return `${sourceLabel}: setImage must be a non-empty string when present`;
+    }
+  } else if (raw.targetType === 'buff') {
+    if (raw.setDuration !== undefined && (typeof raw.setDuration !== 'number' || raw.setDuration < 0)) {
+      return `${sourceLabel}: setDuration must be a non-negative number when present`;
+    }
+    if (raw.addModifiers !== undefined) {
+      if (!Array.isArray(raw.addModifiers) || raw.addModifiers.length === 0) {
+        return `${sourceLabel}: addModifiers must be a non-empty array when present`;
+      }
+      for (let i = 0; i < raw.addModifiers.length; i++) {
+        const m = raw.addModifiers[i];
+        if (!m || typeof m !== 'object' || typeof m.key !== 'string') {
+          return `${sourceLabel}: addModifiers[${i}] must be an object with a string "key"`;
+        }
+      }
+    }
+  } else if (raw.targetType === 'resource') {
+    for (const k of ['setInitial', 'setInitialLimit'] as const) {
+      if (raw[k] !== undefined && (typeof raw[k] !== 'number' || raw[k] < 0)) {
+        return `${sourceLabel}: ${k} must be a non-negative number when present`;
+      }
+    }
+    if (raw.setColor !== undefined && (typeof raw.setColor !== 'string' || raw.setColor.length === 0)) {
+      return `${sourceLabel}: setColor must be a non-empty string when present`;
+    }
+  } else if (raw.targetType === 'home') {
+    if (raw.setCapacity !== undefined && (typeof raw.setCapacity !== 'number' || raw.setCapacity < 0)) {
+      return `${sourceLabel}: setCapacity must be a non-negative number when present`;
+    }
+    if (raw.setImage !== undefined && (typeof raw.setImage !== 'string' || raw.setImage.length === 0)) {
+      return `${sourceLabel}: setImage must be a non-empty string when present`;
+    }
+  } else if (raw.targetType === 'navigation') {
+    for (const k of ['setIcon', 'setImage', 'setLabel'] as const) {
+      if (raw[k] !== undefined && (typeof raw[k] !== 'string' || raw[k].length === 0)) {
+        return `${sourceLabel}: ${k} must be a non-empty string when present`;
+      }
+    }
+    // setRequiredFlag intentionally allows empty string (= ungate).
+    if (raw.setRequiredFlag !== undefined && typeof raw.setRequiredFlag !== 'string') {
+      return `${sourceLabel}: setRequiredFlag must be a string when present`;
+    }
+  } else if (raw.targetType === 'milestone') {
+    if (raw.addRequirement !== undefined) {
+      if (!raw.addRequirement || typeof raw.addRequirement !== 'object' || Array.isArray(raw.addRequirement)) {
+        return `${sourceLabel}: addRequirement must be a map of path → rule`;
+      }
+    }
+    if (raw.addOnUnlock !== undefined) {
+      if (!Array.isArray(raw.addOnUnlock) || raw.addOnUnlock.length === 0) {
+        return `${sourceLabel}: addOnUnlock must be a non-empty array when present`;
+      }
+      for (let i = 0; i < raw.addOnUnlock.length; i++) {
+        const e = raw.addOnUnlock[i];
+        if (!e || typeof e !== 'object' || typeof e.type !== 'string') {
+          return `${sourceLabel}: addOnUnlock[${i}] must be an object with a string "type"`;
+        }
+      }
+    }
+  } else if (raw.targetType === 'section') {
+    for (const k of ['setHeaderLabel', 'setActionCategory'] as const) {
+      if (raw[k] !== undefined && (typeof raw[k] !== 'string' || raw[k].length === 0)) {
+        return `${sourceLabel}: ${k} must be a non-empty string when present`;
+      }
+    }
+    if (raw.setRequiresFlag !== undefined && typeof raw.setRequiresFlag !== 'string') {
+      return `${sourceLabel}: setRequiresFlag must be a string when present`;
     }
   }
   // Allow other ops to land later without bumping a version number.

@@ -299,7 +299,17 @@ const sectionRegistry = taggedToRecord(sections);
 if (addonPatches.length > 0) {
   const patchResult = applyPatches(
     addonPatches,
-    { action: actionRegistry, npc: npcRegistry, item: itemRegistry },
+    {
+      action: actionRegistry,
+      npc: npcRegistry,
+      item: itemRegistry,
+      buff: buffRegistry,
+      resource: resourceRegistry,
+      home: homeRegistry,
+      navigation: navigationRegistry,
+      milestone: milestoneRegistry,
+      section: sectionRegistry,
+    },
     { missingTarget: 'throw' },
   );
   console.log(`🩹 Applied ${patchResult.applied} addon patch(es)`);

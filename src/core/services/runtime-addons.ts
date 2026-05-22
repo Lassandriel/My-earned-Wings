@@ -230,6 +230,12 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
         action: ACTION_REGISTRY_GENERATED,
         npc: NPC_REGISTRY_GENERATED,
         item: ITEM_REGISTRY_GENERATED,
+        buff: BUFF_REGISTRY_GENERATED,
+        resource: RESOURCE_REGISTRY_GENERATED,
+        home: HOME_REGISTRY_GENERATED,
+        navigation: NAVIGATION_REGISTRY_GENERATED,
+        milestone: MILESTONE_REGISTRY_GENERATED,
+        section: SECTION_REGISTRY_GENERATED,
       },
       { missingTarget: 'warn' },
     );
