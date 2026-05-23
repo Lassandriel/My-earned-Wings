@@ -663,6 +663,9 @@ const loadOneRuntimeAddon = (
     version,
     description: typeof manifest.description === 'string' ? manifest.description : undefined,
     author: typeof manifest.author === 'string' ? manifest.author : undefined,
+    requires: Array.isArray(manifest.requires)
+      ? (manifest.requires as unknown[]).filter((r): r is string => typeof r === 'string')
+      : undefined,
     sourceDir: dir,
     data,
     translations,

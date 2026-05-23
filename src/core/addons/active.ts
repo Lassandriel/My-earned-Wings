@@ -44,6 +44,27 @@ export const getActiveAddons = (): AddonRef[] => {
   return out;
 };
 
+/**
+ * Quick "is addon X active right now?" lookup for addon-vs-addon
+ * conditional logic. Mirrors what plugin systems typically expose
+ * so addons can light up extra integration paths only when the
+ * companion addon happens to be present.
+ *
+ *     if (isAddonLoaded('vandara')) {
+ *       // do extra Vandara-specific wiring
+ *     }
+ *
+ * Build-time + runtime both count. No version-comparison here on
+ * purpose; addons that need version gating can read `getActiveAddons()`
+ * directly. The shape of "compatible version" is too domain-specific
+ * to bake into this primitive.
+ */
+export const isAddonLoaded = (name: string): boolean => {
+  for (const a of BUILD_TIME_ADDONS) if (a.name === name) return true;
+  for (const a of runtimeAddons) if (a.name === name) return true;
+  return false;
+};
+
 /** Lightweight shape stored in saves — just name+version, no source. */
 export interface SavedAddonRef {
   name: string;

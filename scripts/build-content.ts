@@ -34,6 +34,13 @@ interface AddonManifest {
   author?: string;
   enabledByDefault?: boolean;
   requires?: string[];
+  /**
+   * Names of addons this one wants to override on collision. Affects
+   * load order: an addon listed here loads BEFORE this one, so the
+   * later (override) writes win deterministically. Soft: missing
+   * targets are warned, not fatal — overriding nothing is a no-op.
+   */
+  overrides?: string[];
 }
 const manifestSchema = {
   type: "object",
@@ -44,6 +51,7 @@ const manifestSchema = {
     author: { type: "string" },
     enabledByDefault: { type: "boolean" },
     requires: { type: "array", items: { type: "string" } },
+    overrides: { type: "array", items: { type: "string" } },
   },
   required: ["name", "version"],
   additionalProperties: false,
@@ -137,7 +145,54 @@ function discoverAddons(): Array<{ manifest: AddonManifest; dir: string }> {
     }
     out.push({ manifest, dir });
   }
-  return out;
+
+  // Topological sort using `overrides`: if A overrides B, A must come
+  // AFTER B in the load order so A's writes win deterministically.
+  // Base order is alphabetical (the readdirSync().sort() above) so the
+  // result is stable across machines.
+  const byName = new Map(out.map((e) => [e.manifest.name, e]));
+  const visited = new Set<string>();
+  const inProgress = new Set<string>();
+  const sorted: typeof out = [];
+  function visit(name: string, chain: string[]): void {
+    if (visited.has(name)) return;
+    if (inProgress.has(name)) {
+      throw new Error(
+        `[addon] override cycle detected: ${[...chain, name].join(' → ')}. ` +
+          `Two addons listing each other in overrides creates a contradiction — one of them needs to drop the edge.`,
+      );
+    }
+    const entry = byName.get(name);
+    if (!entry) return; // soft: missing override target warned later
+    inProgress.add(name);
+    for (const dep of entry.manifest.overrides ?? []) {
+      visit(dep, [...chain, name]);
+    }
+    inProgress.delete(name);
+    visited.add(name);
+    sorted.push(entry);
+  }
+  for (const e of out) visit(e.manifest.name, []);
+
+  // Soft warning for `overrides:` entries that don't exist. Doesn't
+  // abort the build because the override declaration may just be
+  // proactive (the addon planned ahead in case the other one is ever
+  // installed).
+  const allNames = new Set(out.map((e) => e.manifest.name));
+  for (const e of out) {
+    for (const target of e.manifest.overrides ?? []) {
+      if (target === e.manifest.name) {
+        throw new Error(`[addon] ${e.manifest.name}: cannot override itself`);
+      }
+      if (!allNames.has(target)) {
+        console.warn(
+          `⚠️  [addon] ${e.manifest.name} declares overrides: [${target}] but ${target} isn't installed — no effect`,
+        );
+      }
+    }
+  }
+
+  return sorted;
 }
 
 /**
@@ -171,6 +226,33 @@ function taggedToRecord(items: TaggedItem[], key = 'id'): Record<string, any> {
 console.log('📦 [build-content] Reading YAML files...');
 
 const addons = discoverAddons();
+
+// Enforce manifest.requires across the discovered addon set. Each
+// `requires` entry is the name of another addon that must be present
+// for this one to load — kept as a strict relationship because half-
+// loaded dependency chains lead to "I deleted addon X but addon Y's
+// content still references it" mysteries. Fatal here so the build
+// fails loud; runtime addons are checked separately in their loader.
+{
+  const have = new Set(addons.map((a) => a.manifest.name));
+  for (const { manifest } of addons) {
+    const reqs = manifest.requires ?? [];
+    for (const dep of reqs) {
+      if (!have.has(dep)) {
+        throw new Error(
+          `[addon] ${manifest.name}@${manifest.version} requires "${dep}" which isn't installed. ` +
+            `Drop the dependency folder into content/addons/, remove the requires entry, or rename it ` +
+            `to match an installed addon.`,
+        );
+      }
+      // Self-reference is harmless but obviously a typo; flag it.
+      if (dep === manifest.name) {
+        throw new Error(`[addon] ${manifest.name}: requires itself — drop the self-reference`);
+      }
+    }
+  }
+}
+
 if (addons.length > 0) {
   console.log(
     `🧩 Discovered ${addons.length} addon(s): ${addons.map((a) => `${a.manifest.name}@${a.manifest.version}`).join(', ')}`,

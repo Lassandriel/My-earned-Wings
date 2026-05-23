@@ -342,6 +342,14 @@ export interface GameState {
    * remember to initialise their slot.
    */
   addonStateFor: <T extends Record<string, unknown> = Record<string, unknown>>(addonName: string) => T;
+  /**
+   * True iff an addon with this exact name is currently active
+   * (build-time OR runtime). Lets addons gate inter-addon
+   * integrations without crashing when the companion is absent.
+   * Version-comparison is intentionally out of scope here — read
+   * the active-addons registry directly if you need it.
+   */
+  isAddonLoaded: (name: string) => boolean;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;

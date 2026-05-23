@@ -9,6 +9,7 @@ vi.mock('../../generated/content', () => ({
 import {
   registerRuntimeAddons,
   getActiveAddons,
+  isAddonLoaded,
   snapshotActiveAddonsForSave,
   compareAddonsAgainstSave,
 } from './active';
@@ -38,6 +39,33 @@ describe('active-addons registry', () => {
       registerRuntimeAddons([{ name: 'apricot', version: '0.0.1' }]);
       registerRuntimeAddons([]);
       expect(getActiveAddons()).toHaveLength(1); // only build-time vandara
+    });
+  });
+
+  describe('isAddonLoaded', () => {
+    it('returns true for the build-time addon from the mock', () => {
+      expect(isAddonLoaded('vandara')).toBe(true);
+    });
+
+    it('returns false for an addon that isn\'t installed', () => {
+      expect(isAddonLoaded('this-mod-does-not-exist')).toBe(false);
+    });
+
+    it('finds a runtime addon after registration', () => {
+      registerRuntimeAddons([{ name: 'apricot', version: '0.0.1' }]);
+      expect(isAddonLoaded('apricot')).toBe(true);
+    });
+
+    it('is case-sensitive (matches the registry exactly)', () => {
+      expect(isAddonLoaded('Vandara')).toBe(false);
+      expect(isAddonLoaded('vandara')).toBe(true);
+    });
+
+    it('reflects the latest registerRuntimeAddons call', () => {
+      registerRuntimeAddons([{ name: 'apricot', version: '0.0.1' }]);
+      registerRuntimeAddons([]); // unregister apricot
+      expect(isAddonLoaded('apricot')).toBe(false);
+      expect(isAddonLoaded('vandara')).toBe(true);
     });
   });
 

@@ -40,6 +40,12 @@ export interface RuntimeAddonPayload {
   version: string;
   description?: string;
   author?: string;
+  /**
+   * Names of other addons this one needs to function. The renderer
+   * enforces these at runtime — addons whose deps are missing get
+   * skipped with a warning rather than partially loaded.
+   */
+  requires?: string[];
   /** Folder this addon was loaded from (absolute path). */
   sourceDir: string;
   /**

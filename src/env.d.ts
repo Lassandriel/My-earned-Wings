@@ -56,6 +56,7 @@ declare global {
           version: string;
           description?: string;
           author?: string;
+          requires?: string[];
           sourceDir: string;
           data: Record<string, any[]>;
           translations: Record<string, Record<string, Record<string, string>>>;

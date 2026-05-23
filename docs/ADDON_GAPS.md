@@ -232,12 +232,23 @@ Status-Marker:
 
 ---
 
-## 🤝 Inter-Addon
+## 🤝 Inter-Addon — ✅ **Sektion komplett**
 
-- ❌ `requires:` in manifest wird geparst aber **nicht erzwungen**
-- ❌ Keine Runtime-Abfrage **"ist Addon X geladen?"**
-- ❌ Override-Kollisionen zwischen 2 Addons: nur warning, **kein
-  Resolver**
+- ✅ **`requires:` erzwungen.** Build-Skript wirft fatal wenn ein
+  Addon eine Dependency listet, die nicht installiert ist (oder
+  sich selbst referenziert). Runtime-Loader skippt Runtime-Addons
+  mit fehlenden Deps mit Warning statt teilweise zu laden.
+- ✅ **`isAddonLoaded(name)` Helper** in `src/core/addons/active.ts`
+  und auf dem Game-Store. Addons können in ihren effects.ts/
+  ticks.ts inter-addon Integrationen gaten ohne zu crashen wenn
+  die Companion fehlt. Build- + Runtime-Addons zählen beide.
+- ✅ **Override-Resolver.** Manifest kann optional `overrides: [name]`
+  deklarieren. Build-Skript topo-sortiert Addons sodass Overrider
+  NACH der Vorlage geladen werden — bei Patch/Translation-Kollisionen
+  gewinnt der spätere Write deterministisch. Override-Cycles
+  (A→B→A) werfen fatal. Soft auf fehlende Targets (nur Warning,
+  nicht Fehler), damit Overrides "proaktiv" deklariert werden
+  können.
 
 ---
 
@@ -272,7 +283,7 @@ Status-Marker:
 - System-Tick-Hook (⚙️ Engine)
 - Save-Migration aus Addons (💾 Saves)
 - Modal-Dialog beim Laden (💾 Saves)
-- `requires:` erzwingen + addonLoaded check + Override-Resolver (🤝 Inter-Addon)
+- ✅ `requires:` erzwingen + addonLoaded check + Override-Resolver (🤝 Inter-Addon)
 
 ### 🆕 NEU entdeckt durch das Audit
 
@@ -337,4 +348,5 @@ Engine, Saves-Tiefe, Inter-Addon) ALLE durch sind. Sonst Risiko
    — ✅ **fertig**, größter Hebel für Addon-Sichtbarkeit
 4. **Custom Effect-Types als data-driven Mechanik** — würde
    Schatten-Helfer, alte Vandara-Vorhaben, Mods generell ermöglichen
-5. **Inter-Addon** — requires erzwingen, runtime-Check
+5. **Inter-Addon** — ✅ **fertig**: requires erzwungen, runtime-Check,
+   Override-Resolver via Topo-Sort.

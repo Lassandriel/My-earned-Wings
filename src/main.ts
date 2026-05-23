@@ -21,6 +21,7 @@ import './generated/addon-styles.css';
 import { makeLogger } from './core/log';
 import { GAME_VERSION } from './generated/content';
 import { loadRuntimeAddons } from './core/services/runtime-addons';
+import { isAddonLoaded as isAddonLoadedImpl } from './core/addons/active';
 
 const log = makeLogger('MAIN');
 
@@ -149,6 +150,10 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     if (!store.addonState) store.addonState = {};
     if (!store.addonState[name]) store.addonState[name] = {};
     return store.addonState[name] as T;
+  },
+
+  isAddonLoaded(name: string): boolean {
+    return isAddonLoadedImpl(name);
   },
 
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {

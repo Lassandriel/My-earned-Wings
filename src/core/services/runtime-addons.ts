@@ -55,6 +55,7 @@ import {
   SUB_TAB_REGISTRY_GENERATED,
   SETTINGS_TAB_REGISTRY_GENERATED,
   TRANSLATIONS_GENERATED,
+  BUILD_TIME_ADDONS,
 } from '../../generated/content';
 import { makeLogger } from '../log';
 import { applyPatches, validatePatchEntry, type PatchEntry } from '../addons/patches';
@@ -156,7 +157,29 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   // it targets something that has moved in a newer base version.
   const collectedPatches: Array<{ entry: PatchEntry; origin: string }> = [];
 
+  // Enforce manifest.requires for runtime addons. We have to do it
+  // here (not in main) because main only knows about build-time names
+  // until the IPC payload arrives. Build-time addons satisfy each
+  // other's requires already (build-content.ts throws at build), so we
+  // only need to check runtime addons against the merged universe.
+  const buildNames = new Set<string>(BUILD_TIME_ADDONS.map((a) => a.name));
+  const runtimeByName = new Map(result.addons.map((a) => [a.name, a]));
+  const skipRuntime = new Set<string>();
   for (const addon of result.addons) {
+    const reqs = (addon as { requires?: string[] }).requires ?? [];
+    for (const dep of reqs) {
+      if (!buildNames.has(dep) && !runtimeByName.has(dep)) {
+        warnings.push(
+          `[${addon.name}] requires addon "${dep}" which isn't loaded — addon SKIPPED`,
+        );
+        skipRuntime.add(addon.name);
+        break;
+      }
+    }
+  }
+
+  for (const addon of result.addons) {
+    if (skipRuntime.has(addon.name)) continue;
     // 1. Merge each category's YAML entries by id. Skip duplicates so
     //    base + build-time addons always win — runtime addons are
     //    advisory content.
