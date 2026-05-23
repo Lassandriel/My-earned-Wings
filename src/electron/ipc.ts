@@ -60,6 +60,13 @@ export interface RuntimeAddonPayload {
    */
   views: Record<string, string>;
   /**
+   * <fileName> → raw CSS source. Renderer injects each as a
+   * <style data-addon-style="<addonName>/<fileName>"> tag so the
+   * styles are scoped/identifiable in DevTools. Empty if the
+   * addon ships no styles.
+   */
+  styles: Record<string, string>;
+  /**
    * Patches the addon wants applied against base / earlier-loaded
    * addons. Loaded from `patches/*.yaml` and passed straight through
    * to the renderer's patch engine. Empty if the addon ships none.

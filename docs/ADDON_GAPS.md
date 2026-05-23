@@ -64,9 +64,11 @@ Status-Marker:
    abgeleitet aus aktiven Sections (oder explizit über
    `alwaysShown` / `requiresFlag`). Patches für subTabs noch nicht
    im Patch-System (bei Bedarf nachrüstbar).
-2. ❌ **Addons können kein CSS shippen.** Nur HTML-View-Fragments.
-   Polish, kein Show-Stopper, aber wenn ein Addon einen neuen Tab
-   hat, will man ihn auch stylen können.
+2. ✅ **Addons können CSS shippen** über `styles/*.css`. Build-Time-
+   Addons werden zur Build-Zeit in `src/generated/addon-styles.css`
+   konkateniert und über main.ts importiert (Vite bundled mit).
+   Runtime-Addons liefern CSS-Strings per IPC mit; Renderer injiziert
+   sie als `<style data-addon-style="<addon>/<file>">` Tags am Boot.
 3. ❌ **Addons können nicht in spezifische Slots existierender Views
    injecten** — nur ganze Top-Level-Views oder Section-Karten.
    Section-System reicht für "card-list mit Filter-Pattern", aber

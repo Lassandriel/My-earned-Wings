@@ -83,6 +83,8 @@ export interface RuntimeAddonLoadSummary {
   entryCount: number;
   /** Number of view fragments injected into the DOM. */
   viewCount: number;
+  /** Number of CSS files injected into the DOM. */
+  styleCount: number;
   /** Number of patches successfully applied. */
   patchCount: number;
   /** Warnings — duplicate ids, parse failures bubbled up from the main process, etc. */
@@ -95,6 +97,7 @@ const EMPTY_SUMMARY: RuntimeAddonLoadSummary = {
   addonCount: 0,
   entryCount: 0,
   viewCount: 0,
+  styleCount: 0,
   patchCount: 0,
   warnings: [],
   addonNames: [],
@@ -122,6 +125,7 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   const warnings: string[] = [...(result.warnings ?? [])];
   let entryCount = 0;
   let viewCount = 0;
+  let styleCount = 0;
   // Patches from ALL addons are collected first, then applied once
   // against the current registry state. This makes load order
   // deterministic: addons sorted by name, then each addon's patches
@@ -191,6 +195,27 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
       }
     }
 
+    // 2c. Inject any CSS the addon ships under styles/*.css. Each
+    //     file becomes its own <style data-addon-style="..."> tag so
+    //     DevTools shows the source clearly and we can de-dup if a
+    //     reload accidentally tries to re-inject. Build-time addons
+    //     go through the bundled addon-styles.css instead and skip
+    //     this path.
+    if (typeof document !== 'undefined' && (addon as any).styles) {
+      for (const [fileName, css] of Object.entries((addon as any).styles as Record<string, string>)) {
+        const tagId = `${addon.name}/${fileName}`;
+        if (document.querySelector(`style[data-addon-style="${tagId}"]`)) {
+          warnings.push(`[${addon.name}/styles/${fileName}] style already injected — skipped`);
+          continue;
+        }
+        const styleEl = document.createElement('style');
+        styleEl.dataset.addonStyle = tagId;
+        styleEl.textContent = css;
+        document.head.appendChild(styleEl);
+        styleCount++;
+      }
+    }
+
     // 3. Inject view fragments into the live DOM. The page has a host
     //    container (#addon-views-runtime, created on demand) where we
     //    append each section. Alpine processes new x-show nodes the
@@ -250,6 +275,7 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     addonCount: result.addons.length,
     entryCount,
     viewCount,
+    styleCount,
     patchCount,
     warnings,
     addonNames: result.addons.map((a) => a.name).sort(),
@@ -264,7 +290,8 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   if (summary.addonCount > 0) {
     log.info(
       `loaded ${summary.addonCount} runtime addon(s): ${summary.addonNames.join(', ')} ` +
-        `(${summary.entryCount} entries, ${summary.viewCount} views, ${summary.patchCount} patches)`,
+        `(${summary.entryCount} entries, ${summary.viewCount} views, ` +
+        `${summary.styleCount} stylesheets, ${summary.patchCount} patches)`,
     );
   }
   if (result.scannedDirs?.length) {

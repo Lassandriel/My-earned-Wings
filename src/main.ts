@@ -13,6 +13,11 @@ import { createLogStore } from './stores/log.store';
 import { createSettingsStore } from './stores/settings.store';
 
 import './assets/styles/main.css';
+// Build-time addons can ship CSS at content/addons/<name>/styles/*.css.
+// The build script concatenates them into the generated file below;
+// importing it lets Vite bundle the styles with the rest of the app.
+// Runtime addons inject their CSS at boot via runtime-addons.ts.
+import './generated/addon-styles.css';
 import { makeLogger } from './core/log';
 import { GAME_VERSION } from './generated/content';
 import { loadRuntimeAddons } from './core/services/runtime-addons';

@@ -562,4 +562,41 @@ console.log(
   `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_VIEWS_FILE)} (${viewSections.length} addon view(s))`,
 );
 
+// ─── Generate addon-styles.css ──────────────────────────────────────
+// Every addon that ships `styles/*.css` contributes to a single
+// concatenated stylesheet, with each block prefixed by a comment
+// naming the addon + file so debugging in DevTools points at the
+// source clearly. main.ts imports the generated file so Vite bundles
+// it into the build output. Runtime addons ship CSS strings via the
+// IPC payload and the renderer injects them as <style> tags (see
+// src/core/services/runtime-addons.ts).
+const ADDON_STYLES_FILE = path.join(ROOT, 'src', 'generated', 'addon-styles.css');
+const styleBlocks: string[] = [];
+for (const a of addons) {
+  const stylesDir = path.join(a.dir, 'styles');
+  if (!fs.existsSync(stylesDir) || !fs.statSync(stylesDir).isDirectory()) continue;
+  const files = fs
+    .readdirSync(stylesDir)
+    .filter((f) => f.endsWith('.css'))
+    .sort();
+  for (const file of files) {
+    const css = fs.readFileSync(path.join(stylesDir, file), 'utf-8');
+    styleBlocks.push(
+      `/* --- ${a.manifest.name} / ${file} --- */\n` + css.trimEnd() + '\n',
+    );
+  }
+}
+const stylesHeader =
+  '/* THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY */\n' +
+  '/* Source: content/addons/<name>/styles/*.css */\n' +
+  '/* Regenerate: npm run build:content */\n\n';
+fs.writeFileSync(
+  ADDON_STYLES_FILE,
+  stylesHeader + (styleBlocks.length === 0 ? '/* no addon styles */\n' : styleBlocks.join('\n')),
+  'utf-8',
+);
+console.log(
+  `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_STYLES_FILE)} (${styleBlocks.length} addon style file(s))`,
+);
+
 console.log('   Run "npm run dev" to use the new content.\n');
