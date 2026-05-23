@@ -2498,6 +2498,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
         "requirements": {
           "flags.build-house": true
         },
+        "failLogKey": "npc_teacher_2_no_house",
         "onSuccess": [
           {
             "type": "unlockItem",
@@ -2535,6 +2536,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           "flags.read_book_1_complete": true,
           "flags.read_book_2_complete": true
         },
+        "failLogKey": "npc_teacher_4_not_read",
         "onSuccess": [
           {
             "type": "setFlag",
@@ -5676,8 +5678,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "save_success": "Spiel erfolgreich gespeichert.",
       "save_corrupted_msg": "Spielstand war beschädigt und wurde zur Sicherheit beiseitegelegt. Wir starten neu.",
       "save_failed_msg": "Speichern fehlgeschlagen — vielleicht ist der Speicher voll? Fortschritt seit dem letzten Save ist nicht gesichert.",
-      "save_warn_missing_addons": "Achtung — Spielstand braucht Addon(s) die nicht geladen sind: {addons}. Der Spielstand wird trotzdem geladen, aber einige Inhalte könnten fehlen oder Quests könnten festhängen.",
-      "save_info_addon_version_changes": "Addon-Version(en) seit dem letzten Speichern geändert: {deltas}.",
       "addon_compat_title": "Addon-Kompatibilität",
       "addon_compat_missing_heading": "Fehlende Addons",
       "addon_compat_missing_hint": "Inhalte aus diesen Addons sind im Spielstand referenziert, aber jetzt nicht geladen. Quests könnten festhängen, Gegenstände im Inventar unbenutzbar werden.",
@@ -6951,8 +6951,6 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "save_success": "Game saved successfully.",
       "save_corrupted_msg": "Your save was corrupted and has been set aside for safety. Starting fresh.",
       "save_failed_msg": "Save failed — storage may be full. Progress since the last save is not preserved.",
-      "save_warn_missing_addons": "Warning — save needs addon(s) that aren't loaded: {addons}. The save will load anyway, but some content may be missing or quests may get stuck.",
-      "save_info_addon_version_changes": "Addon version(s) changed since the last save: {deltas}.",
       "addon_compat_title": "Addon compatibility",
       "addon_compat_missing_heading": "Missing addons",
       "addon_compat_missing_hint": "Content from these addons is referenced by the save, but they aren't loaded right now. Quests may get stuck, inventory items may become unusable.",
