@@ -13,9 +13,10 @@ export const createViewManagerSystem = () => ({
   metadata: {
     id: 'viewManager',
     delegates: [
-      'continueGame', 'finishPrologue', 
-      'confirmName', 'resolveConfirm', 'hardReset', 
-      'returnToMenu', 'completeDemo'
+      'continueGame', 'finishPrologue',
+      'confirmName', 'resolveConfirm', 'hardReset',
+      'returnToMenu', 'completeDemo',
+      'requestAddonCompatConfirm', 'resolveAddonCompat'
     ]
   },
   /** Keys excluded from state reset so player preferences are preserved. */
@@ -26,6 +27,7 @@ export const createViewManagerSystem = () => ({
     'hasSave',
     'view',
     'confirmModal',
+    'addonCompatModal',
   ]),
 
   _doStartNewGame(store: GameState, buildInitialState: () => any) {
@@ -87,6 +89,51 @@ export const createViewManagerSystem = () => ({
     const cb = store.confirmModal.onConfirm;
     store.confirmModal = { open: false, message: '', onConfirm: null };
     if (confirmed && typeof cb === 'function') cb();
+  },
+
+  /**
+   * Open the addon-compatibility modal with a report and return a
+   * Promise that resolves to the player's choice. Used by the load
+   * path to block the load until the player decides. Multiple calls
+   * while the modal is open would clobber `_resolve`; we guard against
+   * that by only opening if not already open, returning a resolved
+   * `true` for nested calls so they don't deadlock the load flow.
+   */
+  requestAddonCompatConfirm(
+    store: GameState,
+    report: {
+      missing: Array<{ name: string; version: string }>;
+      added: Array<{ name: string; version: string; source: 'build' | 'runtime' }>;
+      versionDelta: Array<{ name: string; saved: string; loaded: string }>;
+    },
+  ): Promise<boolean> {
+    if (store.addonCompatModal.open) {
+      log.warn('addon-compat modal already open — auto-resolving nested request to "yes"');
+      return Promise.resolve(true);
+    }
+    return new Promise<boolean>((resolve) => {
+      store.addonCompatModal = {
+        open: true,
+        missing: report.missing.map((m) => ({ name: m.name, version: m.version })),
+        added: report.added.map((a) => ({ name: a.name, version: a.version, source: a.source })),
+        versionDelta: report.versionDelta.map((d) => ({ ...d })),
+        _resolve: resolve,
+      };
+    });
+  },
+
+  /** Resolve the addon-compat modal. Called from the modal's buttons. */
+  resolveAddonCompat(store: GameState, loadAnyway: boolean) {
+    store.playSound('click');
+    const resolve = store.addonCompatModal._resolve;
+    store.addonCompatModal = {
+      open: false,
+      missing: [],
+      added: [],
+      versionDelta: [],
+      _resolve: null,
+    };
+    if (typeof resolve === 'function') resolve(loadAnyway);
   },
 
   /** Triggers a styled confirm before performing a hard reset. */

@@ -101,6 +101,21 @@ export interface GameState {
     message: string;
     onConfirm: (() => void) | null;
   };
+  /**
+   * Specialised modal shown when a save's addon-compatibility check
+   * surfaces problems (missing addon, version mismatch, …). Replaces
+   * the silent toast that used to be the only signal. Player gets to
+   * choose "load anyway" or "cancel" with full visibility into what's
+   * different. The `_resolve` slot stores the promise resolver set by
+   * `requestAddonCompatConfirm` so the load path can await it.
+   */
+  addonCompatModal: {
+    open: boolean;
+    missing: Array<{ name: string; version: string }>;
+    added: Array<{ name: string; version: string; source: 'build' | 'runtime' }>;
+    versionDelta: Array<{ name: string; saved: string; loaded: string }>;
+    _resolve: ((loadAnyway: boolean) => void) | null;
+  };
   ellieIntroSeen: boolean;
   showEllieIntro: boolean;
   demoCompletedHintSeen: boolean;
@@ -267,6 +282,15 @@ export interface GameState {
     returnToMenu: (store: GameState) => void;
     completeDemo: (store: GameState) => void;
     showConfirm: (store: GameState, message: string, onConfirm: () => void) => void;
+    requestAddonCompatConfirm: (
+      store: GameState,
+      report: {
+        missing: Array<{ name: string; version: string }>;
+        added: Array<{ name: string; version: string; source: 'build' | 'runtime' }>;
+        versionDelta: Array<{ name: string; saved: string; loaded: string }>;
+      },
+    ) => Promise<boolean>;
+    resolveAddonCompat: (store: GameState, loadAnyway: boolean) => void;
   };
   settingsSystem: {
     calculateScale: (store: GameState) => void;
@@ -311,6 +335,12 @@ export interface GameState {
   finishPrologue: () => void;
   confirmName: (n: string) => void;
   resolveConfirm: (c: boolean) => void;
+  requestAddonCompatConfirm: (report: {
+    missing: Array<{ name: string; version: string }>;
+    added: Array<{ name: string; version: string; source: 'build' | 'runtime' }>;
+    versionDelta: Array<{ name: string; saved: string; loaded: string }>;
+  }) => Promise<boolean>;
+  resolveAddonCompat: (loadAnyway: boolean) => void;
   attemptAction: (el: HTMLElement, id: string) => boolean;
   toggleFocus: (id: string) => void;
   npcExecute: (id: string) => void;

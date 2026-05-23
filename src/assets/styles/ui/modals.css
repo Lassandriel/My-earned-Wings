@@ -268,6 +268,86 @@
   transform: translateY(-2px);
 }
 
+/* ---- ADDON COMPATIBILITY DIALOG ----
+   Inherits sizing/layout from .confirm-dialog, adds room for the
+   list sections (missing/added/version-delta). max-height + scroll
+   in case a player has dropped in many addons; we still want all
+   names visible without forcing the buttons off-screen. */
+.addon-compat-dialog {
+  max-width: 560px;
+  max-height: 80vh;
+  overflow-y: auto;
+  align-items: stretch;
+  padding-top: 28px;
+}
+
+.addon-compat-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin: 0;
+}
+
+.addon-compat-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.addon-compat-section h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.addon-compat-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.addon-compat-section li {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.addon-compat-section .ver {
+  font-family: 'Fira Code', monospace;
+  color: var(--text-dim);
+  opacity: 0.85;
+  font-size: 0.85rem;
+}
+
+/* Visual emphasis: missing > version > added. */
+.addon-compat-missing {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.06);
+}
+.addon-compat-version {
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(245, 158, 11, 0.04);
+}
+
+.addon-compat-hint {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.5;
+}
+
 /* Ellie Intro Modal */
 .ellie-intro-modal {
   position: fixed;

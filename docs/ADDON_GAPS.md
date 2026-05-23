@@ -139,9 +139,14 @@ Status-Marker:
   per Toast gewarnt
 - ❌ **Keine Save-Migration aus Addons** — wenn Vandara v0.2 einen
   Flag umbenennt, alte v0.1-Saves brechen
-- ⚠️ **Beim Laden gibt's nur einen Toast**, keinen Warn-Dialog
-  "Dieser Spielstand braucht Addon X v0.3 — du hast v0.1.
-  Trotzdem laden?"
+- ✅ **Modal-Dialog beim Laden inkompatibler Saves**. Beim Laden
+  öffnet sich jetzt ein eigener Modal (`addon-compat.view.html`) mit
+  drei Sektionen: fehlende Addons (rot hervorgehoben), Versions-
+  Änderungen, neu aktivierte Addons. Spieler kann "Trotzdem laden"
+  oder "Abbrechen" wählen — Promise-basiert, Load-Path wartet auf
+  die Entscheidung. Esc bricht ab, Enter lädt (focus auf "Trotzdem
+  laden"). Die alten Toast-Translation-Keys (`save_warn_missing_addons`,
+  `save_info_addon_version_changes`) sind weg.
 
 ---
 

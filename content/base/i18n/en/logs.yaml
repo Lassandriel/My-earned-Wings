@@ -3,14 +3,18 @@ save_success: Game saved successfully.
 save_corrupted_msg: Your save was corrupted and has been set aside for safety. Starting fresh.
 save_failed_msg: Save failed — storage may be full. Progress since the last save is not preserved.
 
-# Addon-compatibility warnings shown when loading a save whose
-# active addons differ from what's currently loaded.
-save_warn_missing_addons: >-
-  Warning — save needs addon(s) that aren't loaded: {addons}.
-  The save will load anyway, but some content may be missing
-  or quests may get stuck.
-save_info_addon_version_changes: >-
-  Addon version(s) changed since the last save: {deltas}.
+# Addon-compat dialog (replaces the old silent toast). Shown when the
+# load path detects missing addons or version drift in a save.
+addon_compat_title: Addon compatibility
+addon_compat_missing_heading: Missing addons
+addon_compat_missing_hint: >-
+  Content from these addons is referenced by the save, but they
+  aren't loaded right now. Quests may get stuck, inventory items
+  may become unusable.
+addon_compat_version_heading: Version changes
+addon_compat_added_heading: Newly active (weren't in the save)
+addon_compat_load_anyway: Load anyway
+addon_compat_cancel: Cancel
 intro_welcome: Welcome back to solid ground, {player}.
 reward_unlock_npc: "New acquaintance: {name}"
 reward_unlock_recipe: "New recipe unlocked: {title}"

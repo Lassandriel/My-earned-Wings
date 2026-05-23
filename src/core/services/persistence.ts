@@ -415,29 +415,37 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         const data = decoded.data;
 
         // Addon compatibility check — before we apply anything, see if
-        // the save references addons that aren't loaded. We still apply
-        // the save (the player chose to load); we just toast a warning
-        // so they know why their inventory might have unknown items or
-        // their quest might be stuck on a missing NPC.
+        // the save references addons that aren't loaded or changed
+        // version since the save was written. If anything is off, open
+        // the addon-compat modal and let the player decide whether to
+        // load anyway or cancel. The old behaviour (silent toast) hid
+        // missing addons in the log, where players never looked.
         const addonReport = compareAddonsAgainstSave(data.activeAddons as SavedAddonRef[] | undefined);
         if (!addonReport.ok) {
           if (addonReport.missing.length > 0) {
-            const names = addonReport.missing.map((a) => `${a.name}@${a.version}`).join(', ');
-            log.warn(`Save references missing addon(s): ${names}`);
-            store.ui?.showToast?.(
-              (store.t('save_warn_missing_addons', 'logs') as string).replace('{addons}', names),
-              'error',
+            log.warn(
+              'Save references missing addon(s): ' +
+                addonReport.missing.map((a) => `${a.name}@${a.version}`).join(', '),
             );
           }
           if (addonReport.versionDelta.length > 0) {
-            const deltas = addonReport.versionDelta
-              .map((d) => `${d.name}: ${d.saved} → ${d.loaded}`)
-              .join(', ');
-            log.info(`Addon version changes since save: ${deltas}`);
-            store.ui?.showToast?.(
-              (store.t('save_info_addon_version_changes', 'logs') as string).replace('{deltas}', deltas),
-              'info',
+            log.info(
+              'Addon version changes since save: ' +
+                addonReport.versionDelta
+                  .map((d) => `${d.name}: ${d.saved} → ${d.loaded}`)
+                  .join(', '),
             );
+          }
+          // Only block on the modal if we actually have a UI to show it
+          // on (renderer + viewManager wired up). In headless tests
+          // requestAddonCompatConfirm is absent — treat that as "yes,
+          // load anyway" so unit tests don't deadlock.
+          if (typeof store.requestAddonCompatConfirm === 'function') {
+            const proceed = await store.requestAddonCompatConfirm(addonReport);
+            if (!proceed) {
+              log.info('Load cancelled by player from addon-compat dialog');
+              return false;
+            }
           }
         }
 

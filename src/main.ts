@@ -67,6 +67,7 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   view: 'menu',
   hoveredAction: null,
   confirmModal: { open: false, message: '', onConfirm: null },
+  addonCompatModal: { open: false, missing: [], added: [], versionDelta: [], _resolve: null },
   settingsOpen: false,
   lastMouseX: 0,
   lastMouseY: 0,

@@ -29,6 +29,7 @@ const OBJECT_KEYS = [
   'dialogueChoices',
   'finalStats',
   'confirmModal',
+  'addonCompatModal',
   'hoveredAction',
 ] as const;
 

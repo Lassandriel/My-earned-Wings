@@ -1,0 +1,82 @@
+<!--
+  ADDON COMPATIBILITY DIALOG
+
+  Shown when a save references addons that are missing or have changed
+  version since the save was written. Replaces the old silent toast so
+  the player can make an informed choice: load anyway (data tied to
+  missing content might be inert or stuck) or cancel and fix the addon
+  set first.
+
+  The modal is opened by persistence.ts via requestAddonCompatConfirm()
+  which returns a Promise that resolves when the player clicks one of
+  the two buttons. State lives on $store.game.addonCompatModal; the
+  promise resolver is stashed in `_resolve` so this template only needs
+  to call the resolve helper.
+-->
+<div
+  id="addon-compat-modal"
+  class="modal-overlay confirm-overlay"
+  x-show="$store.game.addonCompatModal.open"
+  style="display: none"
+  x-transition.opacity
+  @keydown.escape.window="$store.game.resolveAddonCompat(false)"
+>
+  <div class="confirm-dialog addon-compat-dialog" @click.stop>
+    <div class="confirm-icon">⚠️</div>
+    <h3 class="addon-compat-title" x-text="$store.game.t('addon_compat_title', 'logs')"></h3>
+
+    <!-- Missing addons — the most serious mismatch. -->
+    <template x-if="$store.game.addonCompatModal.missing.length > 0">
+      <div class="addon-compat-section addon-compat-missing">
+        <h4 x-text="$store.game.t('addon_compat_missing_heading', 'logs')"></h4>
+        <ul>
+          <template x-for="a in $store.game.addonCompatModal.missing" :key="a.name">
+            <li><strong x-text="a.name"></strong>&nbsp;<span class="ver" x-text="'@' + a.version"></span></li>
+          </template>
+        </ul>
+        <p class="addon-compat-hint" x-text="$store.game.t('addon_compat_missing_hint', 'logs')"></p>
+      </div>
+    </template>
+
+    <!-- Version drift — usually benign but flagged so the player knows. -->
+    <template x-if="$store.game.addonCompatModal.versionDelta.length > 0">
+      <div class="addon-compat-section addon-compat-version">
+        <h4 x-text="$store.game.t('addon_compat_version_heading', 'logs')"></h4>
+        <ul>
+          <template x-for="d in $store.game.addonCompatModal.versionDelta" :key="d.name">
+            <li>
+              <strong x-text="d.name"></strong>:
+              <span class="ver" x-text="d.saved + ' → ' + d.loaded"></span>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </template>
+
+    <!-- Newly-active addons — informational, never a blocker. -->
+    <template x-if="$store.game.addonCompatModal.added.length > 0">
+      <div class="addon-compat-section addon-compat-added">
+        <h4 x-text="$store.game.t('addon_compat_added_heading', 'logs')"></h4>
+        <ul>
+          <template x-for="a in $store.game.addonCompatModal.added" :key="a.name">
+            <li><strong x-text="a.name"></strong>&nbsp;<span class="ver" x-text="'@' + a.version"></span></li>
+          </template>
+        </ul>
+      </div>
+    </template>
+
+    <div class="confirm-actions">
+      <button
+        class="confirm-btn confirm-btn-yes"
+        @click="$store.game.resolveAddonCompat(true)"
+        x-text="$store.game.t('addon_compat_load_anyway', 'logs')"
+        x-effect="if ($store.game.addonCompatModal.open) $nextTick(() => $el.focus())"
+      ></button>
+      <button
+        class="confirm-btn confirm-btn-no"
+        @click="$store.game.resolveAddonCompat(false)"
+        x-text="$store.game.t('addon_compat_cancel', 'logs')"
+      ></button>
+    </div>
+  </div>
+</div>
