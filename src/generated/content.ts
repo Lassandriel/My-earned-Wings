@@ -5072,6 +5072,24 @@ export const SECTION_REGISTRY_GENERATED: Record<string, any> = {
   }
 };
 
+// === Sub-Tab Registry (UI layout primitive — see Main view) ===
+
+export const SUB_TAB_REGISTRY_GENERATED: Record<string, any> = {
+  "general": {
+    "id": "general",
+    "parentView": "main",
+    "labelKey": "main_subtab_general_name",
+    "alwaysShown": true,
+    "order": 10
+  },
+  "herstellen": {
+    "id": "herstellen",
+    "parentView": "main",
+    "labelKey": "main_subtab_herstellen_name",
+    "order": 20
+  }
+};
+
 // === Loaded Addons (build-time) ===
 // List of every build-time addon that contributed to this bundle.
 // Used by the save system to track which addons were active when a

@@ -18,12 +18,19 @@
           return customFilter ? customFilter(act, id) : true;
         });
     },
-    // ─── Sub-tab + section logic ───────────────────────────────
-    // The Main view ships an 'Allgemein' sub-tab (everything that
-    // existed before) plus dynamic sub-tabs driven by the `sections`
-    // registry. Base game's only dynamic sub-tab right now is
-    // 'herstellen' (Kitchen lives there); addons add their own
-    // sections to existing sub-tabs without touching this file.
+    // --- Sub-tab + section logic ---
+    // The Main view's sub-tab options come from the `subTabs`
+    // content registry (base game ships 'general' + 'herstellen';
+    // addons can add more). Inside each sub-tab, the renderer
+    // iterates the `sections` registry to draw card-list groups.
+    // Both data-driven — no view markup edits to add new tabs.
+    /** All sub-tab defs targeting the Main view, sorted by order. */
+    getSubTabsForView(view) {
+      const reg = $store.game.content?.registries?.subTabs || {};
+      return Object.values(reg)
+        .filter((s) => s && s.parentView === view)
+        .sort((a, b) => (a.order ?? 100) - (b.order ?? 100));
+    },
     /** All section defs that target a given sub-tab. */
     getSectionsForSubTab(subTab) {
       const reg = $store.game.content?.registries?.sections || {};
@@ -32,6 +39,22 @@
     /** Section is 'visible' if its requiresFlag isn't set or is currently true. */
     sectionIsActive(sec) {
       return !sec.requiresFlag || !!$store.game.flags[sec.requiresFlag];
+    },
+    /**
+     * Sub-tab is shown in the strip when:
+     *   - alwaysShown is true, OR
+     *   - requiresFlag is set and met, OR
+     *   - it has at least one active section (the default
+     *     auto-derive-from-content rule)
+     */
+    subTabIsVisible(sub) {
+      if (sub.alwaysShown) return true;
+      if (sub.requiresFlag) return !!$store.game.flags[sub.requiresFlag];
+      return this.getSectionsForSubTab(sub.id).some((sec) => this.sectionIsActive(sec));
+    },
+    /** Visible sub-tabs for the Main view in display order. */
+    get visibleMainSubTabs() {
+      return this.getSubTabsForView('main').filter((s) => this.subTabIsVisible(s));
     },
     /** True if the player has been taught this recipe (or it's
      *  category content that doesn't require explicit teaching —
@@ -67,14 +90,27 @@
     subTabHasContent(subTab) {
       return this.getSectionsForSubTab(subTab).some((sec) => this.sectionIsActive(sec));
     },
-    get hasHerstellenContent() { return this.subTabHasContent('herstellen'); },
-    get showMainSubTabs() { return this.hasHerstellenContent; },
-    // Keep currentMainSubTab pointing at something visible. If
-    // 'herstellen' is the active tab but its content goes away
-    // (e.g. addon removed), fall back to 'general'.
+    /**
+     * Show the sub-tab strip whenever at least one non-default
+     * sub-tab is visible. (The 'general' default is always
+     * visible — without something else next to it, the strip
+     * would just show one button and waste vertical space.)
+     */
+    get showMainSubTabs() {
+      return this.visibleMainSubTabs.some((s) => !s.alwaysShown);
+    },
+    /**
+     * Keep currentMainSubTab pointing at a visible tab. If the
+     * player's chosen sub-tab disappears (e.g. addon removed,
+     * flag flipped), fall back to the first alwaysShown tab
+     * (typically 'general').
+     */
     syncMainSubTab() {
-      if ($store.game.currentMainSubTab === 'herstellen' && !this.hasHerstellenContent) {
-        $store.game.currentMainSubTab = 'general';
+      const visible = this.visibleMainSubTabs;
+      if (visible.length === 0) return;
+      if (!visible.some((s) => s.id === $store.game.currentMainSubTab)) {
+        const fallback = visible.find((s) => s.alwaysShown) || visible[0];
+        $store.game.currentMainSubTab = fallback.id;
       }
     },
   }"
@@ -102,73 +138,77 @@
     </template>
   </nav>
 
-  <!-- Sub-tab strip — hidden until a non-default sub-tab has any
-       content (no "Herstellen" before the kitchen is built etc.). -->
+  <!-- Sub-tab strip — hidden until a non-default sub-tab is
+       visible (no point in showing the strip when only
+       "Allgemein" exists). The strip + buttons are now data-
+       driven: every entry in the `subTabs` content registry
+       targeting parentView=main becomes a button when
+       subTabIsVisible() returns true. Addons add new tabs by
+       shipping a single YAML entry. -->
   <nav class="location-tabs-bar" x-show="showMainSubTabs">
-    <button
-      class="location-tab-btn"
-      :class="{ 'is-active': $store.game.currentMainSubTab === 'general' }"
-      @click="$store.game.currentMainSubTab = 'general'; $store.game.playSound('click')"
-      x-text="$store.game.t('main_subtab_general_name')"
-    ></button>
-    <button
-      class="location-tab-btn"
-      x-show="hasHerstellenContent"
-      :class="{ 'is-active': $store.game.currentMainSubTab === 'herstellen' }"
-      @click="$store.game.currentMainSubTab = 'herstellen'; $store.game.playSound('click')"
-      x-text="$store.game.t('main_subtab_herstellen_name')"
-    ></button>
+    <template x-for="sub in visibleMainSubTabs" :key="sub.id">
+      <button
+        class="location-tab-btn"
+        :class="{ 'is-active': $store.game.currentMainSubTab === sub.id }"
+        @click="$store.game.currentMainSubTab = sub.id; $store.game.playSound('click')"
+        x-text="$store.game.t(sub.labelKey)"
+      ></button>
+    </template>
   </nav>
 
-  <!-- ─── HERSTELLEN sub-tab: production stations ──────────────
-       Sections are pure data: each entry in the `sections` registry
-       with `subTab: herstellen` becomes a card-list. Base ships
-       Kitchen; addons (Vandara) ship Workshop. Base never references
-       a specific addon — just iterates whatever sections are loaded.
+  <!-- ─── Dynamic section-based sub-tab panes ──────────────────
+       Every visible sub-tab EXCEPT 'general' is rendered the same
+       way: iterate the `sections` registry for that sub-tab and
+       draw each as a card-list. Base ships Kitchen for 'herstellen';
+       addons add their own (Vandara → Workshop). Nothing here
+       references a specific sub-tab id — adding "Kampf" or
+       "Reisen" only needs a YAML subTab + sections entries.
 
-       Sections may carry `recipeLockedUnlessPlaced: <itemId>`. When
-       set, recipe buttons stay visible but `is-locked` (greyed,
-       unclickable) until the referenced furniture is placed in a
-       home. Recipes the player hasn't been taught (recipe id not in
+       Sections may carry `recipeLockedUnlessPlaced: <itemId>` —
+       buttons stay visible but `is-locked` (greyed, unclickable)
+       until the referenced furniture is placed in a home. Recipes
+       the player hasn't been taught (recipe id not in
        unlockedRecipes) are hidden, not greyed — keeps the discovery
        moment intact when an NPC teaches them. -->
-  <div x-show="$store.game.currentMainSubTab === 'herstellen'" class="action-container">
-    <div class="action-column">
-      <template x-for="sec in getSectionsForSubTab('herstellen')" :key="sec.id">
-        <section class="action-group"
-          x-show="!sec.requiresFlag || $store.game.flags[sec.requiresFlag]" x-collapse>
-          <header class="category-header">
-            <h3 x-text="$store.game.t(sec.headerLabel)"></h3>
-            <div class="nav-help-icon"
-              x-show="sec.helpTitleKey"
-              @mouseenter="sec.helpTitleKey && $store.game.helpHover(sec.helpTitleKey, sec.helpDescKey || sec.helpTitleKey)"
-              @mouseleave="$store.game.setHovered(null)">?</div>
-          </header>
-          <div class="btn-list">
-            <template x-for="actionId in getActions(sec.actionCategory)" :key="actionId">
-              <button
-                x-show="recipeAvailable(sec, actionId)"
-                class="game-btn action-btn-modular"
-                :class="{
-                  'is-working': $store.game.isTaskActive(actionId),
-                  'is-locked': recipeIsLocked(sec, actionId)
-                }"
-                :disabled="recipeIsLocked(sec, actionId)"
-                @click="!recipeIsLocked(sec, actionId) && $store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
-                @mouseover="$store.game.setHovered(actionId)"
-                @mouseout="$store.game.setHovered(null)"
-              >
-                <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
-                <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
-                  <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
-                </div>
-              </button>
-            </template>
-          </div>
-        </section>
-      </template>
+  <template x-for="sub in visibleMainSubTabs.filter(s => s.id !== 'general')" :key="'pane-' + sub.id">
+    <div x-show="$store.game.currentMainSubTab === sub.id" class="action-container">
+      <div class="action-column">
+        <template x-for="sec in getSectionsForSubTab(sub.id)" :key="sec.id">
+          <section class="action-group"
+            x-show="!sec.requiresFlag || $store.game.flags[sec.requiresFlag]" x-collapse>
+            <header class="category-header">
+              <h3 x-text="$store.game.t(sec.headerLabel)"></h3>
+              <div class="nav-help-icon"
+                x-show="sec.helpTitleKey"
+                @mouseenter="sec.helpTitleKey && $store.game.helpHover(sec.helpTitleKey, sec.helpDescKey || sec.helpTitleKey)"
+                @mouseleave="$store.game.setHovered(null)">?</div>
+            </header>
+            <div class="btn-list">
+              <template x-for="actionId in getActions(sec.actionCategory)" :key="actionId">
+                <button
+                  x-show="recipeAvailable(sec, actionId)"
+                  class="game-btn action-btn-modular"
+                  :class="{
+                    'is-working': $store.game.isTaskActive(actionId),
+                    'is-locked': recipeIsLocked(sec, actionId)
+                  }"
+                  :disabled="recipeIsLocked(sec, actionId)"
+                  @click="!recipeIsLocked(sec, actionId) && $store.game.commands.enqueue({ type: 'attemptAction', actionId: actionId, element: $el })"
+                  @mouseover="$store.game.setHovered(actionId)"
+                  @mouseout="$store.game.setHovered(null)"
+                >
+                  <span x-text="$store.game.ui.renderActionTitle($store.game, actionId)"></span>
+                  <div x-show="$store.game.activeTasks[actionId]" class="btn-progress-container">
+                    <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
+                  </div>
+                </button>
+              </template>
+            </div>
+          </section>
+        </template>
+      </div>
     </div>
-  </div>
+  </template>
 
   <!-- ─── ALLGEMEIN sub-tab (default): everything else ───────── -->
   <div x-show="$store.game.currentMainSubTab === 'general'" class="action-container">

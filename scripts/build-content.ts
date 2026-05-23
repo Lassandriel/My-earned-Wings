@@ -196,6 +196,12 @@ const titles = loadCategoryFromAllSources('titles');
 // stations / lore corners / etc. without ever touching the base view
 // markup. See src/features/gameplay/main.view.html for the renderer.
 const sections = loadCategoryFromAllSources('sections');
+// `subTabs` declare which sub-tab options a parent view (e.g. Main)
+// exposes. Each entry: { id, parentView, labelKey, alwaysShown?,
+// requiresFlag?, order? }. The Main view iterates this registry to
+// render its sub-tab strip, so addons can add new sub-tabs by
+// shipping a YAML entry — no view markup to edit. See main.view.html.
+const subTabs = loadCategoryFromAllSources('subTabs');
 
 // ─── Translations (special: nested map, not array) ──────────────────────────
 //
@@ -293,6 +299,7 @@ const milestoneRegistry = taggedToRecord(milestones);
 const navigationRegistry = taggedToRecord(navigation);
 const titleRegistry = taggedToRecord(titles);
 const sectionRegistry = taggedToRecord(sections);
+const subTabRegistry = taggedToRecord(subTabs);
 
 // Apply addon patches. Fatal on missing targets (build-time addons are
 // shipped with the build — a missing reference is an addon bug).
@@ -346,6 +353,7 @@ console.log(`✅ Milestones:${Object.keys(milestoneRegistry).length}`);
 console.log(`✅ Navigation:${Object.keys(navigationRegistry).length}`);
 console.log(`✅ Titles:    ${Object.keys(titleRegistry).length}`);
 console.log(`✅ Sections:  ${Object.keys(sectionRegistry).length}`);
+console.log(`✅ Sub-Tabs:  ${Object.keys(subTabRegistry).length}`);
 const trKeyCount = Object.values(translations).reduce(
   (acc, ctxMap) => acc + Object.values(ctxMap).reduce((a, m) => a + Object.keys(m).length, 0),
   0
@@ -423,6 +431,10 @@ export const TITLE_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(ti
 // === Section Registry (UI layout primitive — see Main view) ===
 
 export const SECTION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(sectionRegistry, null, 2)};
+
+// === Sub-Tab Registry (UI layout primitive — see Main view) ===
+
+export const SUB_TAB_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(subTabRegistry, null, 2)};
 
 // === Loaded Addons (build-time) ===
 // List of every build-time addon that contributed to this bundle.

@@ -422,4 +422,19 @@ export interface Registries {
    *   { id, subTab, headerLabel, actionCategory, requiresFlag? }
    */
   sections: Record<string, any>;
+  /**
+   * UI layout primitive — declares the sub-tab options available
+   * for a parent view (e.g. Main). The Main view iterates this
+   * registry to render its sub-tab strip, so addons can add new
+   * sub-tabs ("Kampf", "Reisen", …) by shipping a YAML entry.
+   * Schema:
+   *   { id, parentView, labelKey,
+   *     alwaysShown?, requiresFlag?, order? }
+   * - `alwaysShown` overrides all other gating
+   * - `requiresFlag` shows when that flag is true
+   * - otherwise: shown iff at least one section pointing at this
+   *   sub-tab (`section.subTab === this.id`) is currently active
+   * - `order` defaults to 100 (display order, ascending)
+   */
+  subTabs: Record<string, any>;
 }

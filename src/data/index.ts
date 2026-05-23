@@ -17,6 +17,7 @@ import {
   NAVIGATION_REGISTRY_GENERATED,
   TITLE_REGISTRY_GENERATED,
   SECTION_REGISTRY_GENERATED,
+  SUB_TAB_REGISTRY_GENERATED,
 } from '../generated/content';
 
 /**
@@ -37,6 +38,7 @@ export const registries: Registries = {
   titles: TITLE_REGISTRY_GENERATED,
   actions: ACTION_REGISTRY_GENERATED,
   sections: SECTION_REGISTRY_GENERATED,
+  subTabs: SUB_TAB_REGISTRY_GENERATED,
 };
 
 // Legacy re-exports — kept until callers stop reading from this module directly.

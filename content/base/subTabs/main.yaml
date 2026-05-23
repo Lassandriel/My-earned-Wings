@@ -1,0 +1,25 @@
+# Sub-tabs base game ships for the Main view. Order: ascending,
+# defaults to 100 if omitted.
+#
+# `general` is the original Main layout (Gather + Work + Magic +
+# Lore + Garden). It's `alwaysShown` because it's the player's
+# fallback when nothing else is unlocked yet — strip stays hidden
+# until at least one *other* sub-tab has content, then the strip
+# appears with `general` as the first option.
+#
+# `herstellen` (Crafting in EN) auto-shows once any section
+# registered for it has its requiresFlag met (Kitchen built,
+# Vandara Workshop blueprint bought, etc.). No explicit
+# requiresFlag here — the renderer derives visibility from the
+# `sections` registry.
+
+- id: general
+  parentView: main
+  labelKey: main_subtab_general_name
+  alwaysShown: true
+  order: 10
+
+- id: herstellen
+  parentView: main
+  labelKey: main_subtab_herstellen_name
+  order: 20

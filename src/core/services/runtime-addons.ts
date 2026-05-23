@@ -52,6 +52,7 @@ import {
   NAVIGATION_REGISTRY_GENERATED,
   TITLE_REGISTRY_GENERATED,
   SECTION_REGISTRY_GENERATED,
+  SUB_TAB_REGISTRY_GENERATED,
   TRANSLATIONS_GENERATED,
 } from '../../generated/content';
 import { makeLogger } from '../log';
@@ -72,6 +73,7 @@ const CATEGORY_TO_REGISTRY: Record<string, Record<string, any>> = {
   navigation: NAVIGATION_REGISTRY_GENERATED,
   titles: TITLE_REGISTRY_GENERATED,
   sections: SECTION_REGISTRY_GENERATED,
+  subTabs: SUB_TAB_REGISTRY_GENERATED,
 };
 
 export interface RuntimeAddonLoadSummary {
