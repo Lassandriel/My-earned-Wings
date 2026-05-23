@@ -36,6 +36,15 @@ export interface NPCStep {
   dialogueKey?: string;
   onSuccess?: GameEffect[];
   requirements?: Record<string, any | GameRequirement>;
+  /**
+   * Optional translation key to log when this step's requirements
+   * aren't met. Lets NPC YAML declare its own "you need a house first"
+   * style hint without TS code having to special-case the NPC id.
+   * Logged with LOG_COLOR.failure. If absent, the engine stays silent
+   * (the action just doesn't advance and the caller decides what to
+   * show — matches the pre-data-driven behaviour).
+   */
+  failLogKey?: string;
 }
 
 export interface ActionResult {

@@ -152,9 +152,12 @@ Status-Marker:
   für deterministische Reihenfolge. Wirft ein Hook, läuft die Schleife
   weiter (try/catch pro Hook). Runtime-Addons können keine Ticks
   shippen (TS-Code braucht Build).
-- ❌ **Hardcoded NPC-IDs in TS-Code** (z.B. `village.logic.ts`
-  hat npc-teacher-spezifische Fehlermeldungen) — kein Mechanismus
-  für Addon-NPCs sowas zu liefern ohne handlers.ts (build-time)
+- ✅ **NPC-spezifische Fehlermeldungen data-driven**. NPC-Step bekommt
+  ein optionales `failLogKey:` Feld; wenn Requirements nicht erfüllt
+  sind und der Player den Step trotzdem versucht, logged die Engine
+  generisch. Die zwei hartcodierten npc-teacher-Branches in
+  `village.logic.ts` sind jetzt weg — der Hint kommt aus der YAML.
+  Addon-NPCs können den gleichen Mechanismus benutzen.
 - ✅ **Particle-Types** sind CSS-driven (`particleType: shadow` → CSS-
   Klasse `p-shadow`). Addons shippen `styles/<file>.css` mit ihrer
   eigenen `.juice-particle.p-<type>` Regel über die existierende CSS-
@@ -258,10 +261,8 @@ Diese Lücken stehen so noch nicht in der Liste:
 
 **⚙️ Engine — vergessene Items:**
 
-- ❌ **Hardcoded NPC-IDs in TS-Code**: `src/features/village/village.logic.ts`
-  hat NPC-spezifische Sonderfälle (z.B. spezielle Fehlermeldung bei
-  `npc-teacher` ohne Haus). Ein Addon-NPC kann das nicht — nur via
-  customExecute-Handler, was Runtime-Addons gar nicht haben.
+- ✅ **Hardcoded NPC-IDs**: siehe ⚙️ Engine oben — jetzt
+  `step.failLogKey` data-driven.
 - ✅ **Particle-Types**: siehe ⚙️ Engine oben — CSS-driven, Fallback
   added.
 - ❌ **SFX-Convention für Addons**: actions haben `sfx: <key>`,

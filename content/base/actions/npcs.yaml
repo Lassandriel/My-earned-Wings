@@ -175,6 +175,10 @@
       costType: energy
       requirements:
         flags.build-house: true
+      # Logged when player tries this step without having built a house.
+      # Moved out of village.logic.ts (was a hardcoded npc-teacher branch)
+      # so addon NPCs can declare their own hints the same way.
+      failLogKey: npc_teacher_2_no_house
       onSuccess:
         - type: unlockItem
           id: item-book_lore_1
@@ -196,6 +200,9 @@
       requirements:
         flags.read_book_1_complete: true
         flags.read_book_2_complete: true
+      # Logged when player tries this step without finishing both books.
+      # Same data-driven approach as the previous step.
+      failLogKey: npc_teacher_4_not_read
       onSuccess:
         - type: setFlag
           flag: school_graduate

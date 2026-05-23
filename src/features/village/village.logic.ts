@@ -52,11 +52,14 @@ export const createNPCSystem = () => {
           return svc().actions.checkRequirement(game, path, rule as boolean | number | string | string[] | { op?: string; val: unknown });
         });
         if (!met) {
-          if (npcId === 'npc-teacher' && !game.flags['build-house'] && currentProg === 1) {
-            svc().addLog('npc_teacher_2_no_house', 'logs', LOG_COLOR.failure);
-          }
-          if (npcId === 'npc-teacher' && currentProg === 2 && (!game.flags['read_book_1_complete'] || !game.flags['read_book_2_complete'])) {
-            svc().addLog('npc_teacher_4_not_read', 'logs', LOG_COLOR.failure);
+          // Data-driven failure hint. Steps declare `failLogKey` in
+          // their YAML; the engine logs it generically so this code
+          // doesn't need to know about specific NPC ids. Removed the
+          // hardcoded npc-teacher branches that lived here — they
+          // moved into content/base/actions/npcs.yaml as failLogKey
+          // entries on the relevant steps.
+          if (step.failLogKey) {
+            svc().addLog(step.failLogKey, 'logs', LOG_COLOR.failure);
           }
           return false;
         }
