@@ -61,6 +61,7 @@ declare global {
           translations: Record<string, Record<string, Record<string, string>>>;
           views: Record<string, string>;
           styles: Record<string, string>;
+          slots: Record<string, string>;
           patches: any[];
         }>;
         warnings: string[];

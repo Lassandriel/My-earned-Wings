@@ -67,6 +67,12 @@ export interface RuntimeAddonPayload {
    */
   styles: Record<string, string>;
   /**
+   * <slot-id> → raw HTML source. Renderer appends each into the
+   * matching `<div data-slot="<slot-id>">` element at boot.
+   * Empty if the addon ships no slot fragments.
+   */
+  slots: Record<string, string>;
+  /**
    * Patches the addon wants applied against base / earlier-loaded
    * addons. Loaded from `patches/*.yaml` and passed straight through
    * to the renderer's patch engine. Empty if the addon ships none.

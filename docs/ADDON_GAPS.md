@@ -69,10 +69,16 @@ Status-Marker:
    konkateniert und über main.ts importiert (Vite bundled mit).
    Runtime-Addons liefern CSS-Strings per IPC mit; Renderer injiziert
    sie als `<style data-addon-style="<addon>/<file>">` Tags am Boot.
-3. ❌ **Addons können nicht in spezifische Slots existierender Views
-   injecten** — nur ganze Top-Level-Views oder Section-Karten.
-   Section-System reicht für "card-list mit Filter-Pattern", aber
-   nicht für custom Layouts in z.B. NPC-Detail-Views.
+3. ✅ **Slot-Injection in existierende Views.** Base-Views deklarieren
+   `<div data-slot="<id>">`-Marker, Addons shippen
+   `slots/<id>.html`. Build-Time-Slots werden zur Build-Zeit in
+   `src/generated/addon-slots.ts` als typed Map kompiliert, Runtime-
+   Slots kommen per IPC. Slot-Service injiziert beim Boot in matching
+   Container und ruft `Alpine.initTree` für die neuen Nodes, damit
+   x-show/x-text/etc. live wird. De-Dup via `data-addon-slot` Attr.
+   **Base-Views müssen ggf. Slot-Marker zugefügt werden** — heute
+   gibt's noch keine etablierten Slots, das ist Sache der jeweiligen
+   View-HTML wenn ein Addon Bedarf hat.
 4. ❌ **Settings-Menü, Pause-Menü, Save-Dialog** sind Base-Game-exklusiv.
    Niedrigster Bedarf (Addons sollten sich aus diesen Kern-UIs eher
    raushalten), letzter Punkt.

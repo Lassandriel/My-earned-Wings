@@ -498,6 +498,25 @@ const loadAddonStyles = (
   return out;
 };
 
+const loadAddonSlots = (
+  slotsDir: string,
+  warnings: string[],
+  addonName: string,
+): Record<string, string> => {
+  const out: Record<string, string> = {};
+  if (!fs.existsSync(slotsDir)) return out;
+  for (const file of fs.readdirSync(slotsDir)) {
+    if (!file.endsWith('.html')) continue;
+    const slotId = file.replace(/\.html$/, '');
+    try {
+      out[slotId] = fs.readFileSync(path.join(slotsDir, file), 'utf8').trim();
+    } catch (err) {
+      warnings.push(`[${addonName}/slots/${file}] read error: ${(err as Error).message}`);
+    }
+  }
+  return out;
+};
+
 const loadAddonViews = (
   viewsDir: string,
   warnings: string[],
@@ -599,6 +618,7 @@ const loadOneRuntimeAddon = (
   const translations = loadAddonTranslations(path.join(dir, 'i18n'), warnings, name);
   const views = loadAddonViews(path.join(dir, 'views'), warnings, name);
   const styles = loadAddonStyles(path.join(dir, 'styles'), warnings, name);
+  const slots = loadAddonSlots(path.join(dir, 'slots'), warnings, name);
   const patches = loadAddonPatchesDir(path.join(dir, 'patches'), warnings, name);
 
   return {
@@ -611,6 +631,7 @@ const loadOneRuntimeAddon = (
     translations,
     views,
     styles,
+    slots,
     patches,
   };
 };

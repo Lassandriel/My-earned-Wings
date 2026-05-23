@@ -562,6 +562,46 @@ console.log(
   `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_VIEWS_FILE)} (${viewSections.length} addon view(s))`,
 );
 
+// ─── Generate addon-slots.ts ────────────────────────────────────────
+// Addons can inject custom HTML at named slots in base views by
+// shipping `slots/<slot-id>.html`. Base views declare slots via
+// `<div data-slot="<id>">` markers — addon HTML is appended into
+// the matching marker at boot. Multiple addons can target the same
+// slot; their HTML blocks are appended in load order (base addons
+// alphabetically, then runtime drops). Renderer side lives in
+// src/core/services/addon-slots.ts.
+const ADDON_SLOTS_FILE = path.join(ROOT, 'src', 'generated', 'addon-slots.ts');
+const slotsBySlotId: Record<string, Array<{ addonName: string; fileName: string; html: string }>> = {};
+for (const a of addons) {
+  const slotsDir = path.join(a.dir, 'slots');
+  if (!fs.existsSync(slotsDir) || !fs.statSync(slotsDir).isDirectory()) continue;
+  const files = fs
+    .readdirSync(slotsDir)
+    .filter((f) => f.endsWith('.html'))
+    .sort();
+  for (const file of files) {
+    const slotId = file.replace(/\.html$/, '');
+    const html = fs.readFileSync(path.join(slotsDir, file), 'utf-8').trim();
+    (slotsBySlotId[slotId] ??= []).push({ addonName: a.manifest.name, fileName: file, html });
+  }
+}
+const slotsCount = Object.values(slotsBySlotId).reduce((acc, arr) => acc + arr.length, 0);
+const addonSlotsOutput =
+  '// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY\n' +
+  '// Source: content/addons/<name>/slots/<slot-id>.html\n' +
+  '// Regenerate: npm run build:content\n\n' +
+  '/**\n' +
+  ' * Build-time addon slot-injection payload. Keyed by slot id; each\n' +
+  ' * entry is an ordered list of HTML blocks contributed by addons.\n' +
+  ' * Consumed by src/core/services/addon-slots.ts at boot.\n' +
+  ' */\n' +
+  'export const ADDON_SLOTS_GENERATED: Record<string, Array<{ addonName: string; fileName: string; html: string }>> = ' +
+  JSON.stringify(slotsBySlotId, null, 2) + ';\n';
+fs.writeFileSync(ADDON_SLOTS_FILE, addonSlotsOutput, 'utf-8');
+console.log(
+  `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_SLOTS_FILE)} (${slotsCount} addon slot block(s) across ${Object.keys(slotsBySlotId).length} slot(s))`,
+);
+
 // ─── Generate addon-styles.css ──────────────────────────────────────
 // Every addon that ships `styles/*.css` contributes to a single
 // concatenated stylesheet, with each block prefixed by a comment

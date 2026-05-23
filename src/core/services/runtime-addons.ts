@@ -58,6 +58,7 @@ import {
 import { makeLogger } from '../log';
 import { applyPatches, validatePatchEntry, type PatchEntry } from '../addons/patches';
 import { registerRuntimeAddons } from '../addons/active';
+import { injectAddonSlots, type SlotBlock } from './addon-slots';
 
 const log = makeLogger('RUNTIME-ADDONS');
 
@@ -85,6 +86,8 @@ export interface RuntimeAddonLoadSummary {
   viewCount: number;
   /** Number of CSS files injected into the DOM. */
   styleCount: number;
+  /** Number of slot HTML blocks injected into the DOM. */
+  slotCount: number;
   /** Number of patches successfully applied. */
   patchCount: number;
   /** Warnings — duplicate ids, parse failures bubbled up from the main process, etc. */
@@ -98,6 +101,7 @@ const EMPTY_SUMMARY: RuntimeAddonLoadSummary = {
   entryCount: 0,
   viewCount: 0,
   styleCount: 0,
+  slotCount: 0,
   patchCount: 0,
   warnings: [],
   addonNames: [],
@@ -111,7 +115,11 @@ const EMPTY_SUMMARY: RuntimeAddonLoadSummary = {
 export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   const api = (typeof window !== 'undefined' ? window.electronAPI : undefined);
   if (!api || typeof api.addonsDiscoverRuntime !== 'function') {
-    return EMPTY_SUMMARY;
+    // No runtime addons available (browser build / dev server), but
+    // build-time addons may still ship slot HTML — inject them so the
+    // slot system isn't a no-op outside Electron.
+    const buildOnlySlots = injectAddonSlots({});
+    return { ...EMPTY_SUMMARY, slotCount: buildOnlySlots.injected };
   }
 
   let result: Awaited<ReturnType<typeof api.addonsDiscoverRuntime>>;
@@ -119,13 +127,17 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     result = await api.addonsDiscoverRuntime();
   } catch (err) {
     log.warn('discovery IPC failed:', err);
-    return EMPTY_SUMMARY;
+    const buildOnlySlots = injectAddonSlots({});
+    return { ...EMPTY_SUMMARY, slotCount: buildOnlySlots.injected };
   }
 
   const warnings: string[] = [...(result.warnings ?? [])];
   let entryCount = 0;
   let viewCount = 0;
   let styleCount = 0;
+  // Slot blocks collected from runtime addons; injected in one pass
+  // alongside the build-time slot blocks at the end of loadRuntimeAddons.
+  const runtimeSlotBlocks: Record<string, SlotBlock[]> = {};
   // Patches from ALL addons are collected first, then applied once
   // against the current registry state. This makes load order
   // deterministic: addons sorted by name, then each addon's patches
@@ -216,6 +228,20 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
       }
     }
 
+    // 2d. Collect slot blocks (HTML to inject into named markers in
+    //     base views). Multiple addons can target the same slot id;
+    //     the slot service handles ordering + Alpine init at boot.
+    if ((addon as any).slots) {
+      for (const [slotId, html] of Object.entries((addon as any).slots as Record<string, string>)) {
+        if (typeof html !== 'string' || html.length === 0) continue;
+        (runtimeSlotBlocks[slotId] ??= []).push({
+          addonName: addon.name,
+          fileName: `${slotId}.html`,
+          html,
+        });
+      }
+    }
+
     // 3. Inject view fragments into the live DOM. The page has a host
     //    container (#addon-views-runtime, created on demand) where we
     //    append each section. Alpine processes new x-show nodes the
@@ -271,27 +297,40 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     warnings.push(...patchResult.warnings);
   }
 
-  const summary: RuntimeAddonLoadSummary = {
-    addonCount: result.addons.length,
-    entryCount,
-    viewCount,
-    styleCount,
-    patchCount,
-    warnings,
-    addonNames: result.addons.map((a) => a.name).sort(),
-  };
-
   // Tell the active-addons registry which runtime addons are now live.
   // The save system reads this to embed a compatibility snapshot in
   // every save. Build-time addons are already in the registry via the
   // generated content; we just contribute the runtime side here.
   registerRuntimeAddons(result.addons.map((a) => ({ name: a.name, version: a.version })));
 
+  // Inject build-time + runtime slot blocks in one pass. Build-time
+  // payload is read from ADDON_SLOTS_GENERATED inside the service.
+  const slotResult = injectAddonSlots(runtimeSlotBlocks);
+  if (slotResult.missingSlots.length > 0) {
+    warnings.push(
+      ...slotResult.missingSlots.map(
+        (s) => `slot "${s}" has addon content but no <div data-slot> in the live DOM`,
+      ),
+    );
+  }
+
+  const summary: RuntimeAddonLoadSummary = {
+    addonCount: result.addons.length,
+    entryCount,
+    viewCount,
+    styleCount,
+    slotCount: slotResult.injected,
+    patchCount,
+    warnings,
+    addonNames: result.addons.map((a) => a.name).sort(),
+  };
+
   if (summary.addonCount > 0) {
     log.info(
       `loaded ${summary.addonCount} runtime addon(s): ${summary.addonNames.join(', ')} ` +
         `(${summary.entryCount} entries, ${summary.viewCount} views, ` +
-        `${summary.styleCount} stylesheets, ${summary.patchCount} patches)`,
+        `${summary.styleCount} stylesheets, ${summary.slotCount} slot blocks, ` +
+        `${summary.patchCount} patches)`,
     );
   }
   if (result.scannedDirs?.length) {
