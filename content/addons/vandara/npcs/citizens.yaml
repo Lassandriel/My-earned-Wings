@@ -10,6 +10,7 @@
 - id: npc-vandara-olie
   nameKey: npc_vandara_olie_name
   icon: 📋
+  image: img/addons/vandara/olie.webp
   color: '#0ea5e9'
   progKey: vandaraOlie
   maxProgress: 3
@@ -19,6 +20,7 @@
 - id: npc-vandara-kalre
   nameKey: npc_vandara_kalre_name
   icon: 🌬️
+  image: img/addons/vandara/kalre.webp
   color: '#a5b4fc'
   progKey: vandaraKalre
   maxProgress: 5
@@ -32,6 +34,7 @@
 - id: npc-vandara-fafa
   nameKey: npc_vandara_fafa_name
   icon: 🪨
+  image: img/addons/vandara/fafa.webp
   color: '#a8a29e'
   progKey: vandaraFafa
   maxProgress: 4

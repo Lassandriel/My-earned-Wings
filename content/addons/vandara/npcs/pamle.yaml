@@ -7,6 +7,7 @@
 - id: npc-vandara-pamle
   nameKey: npc_vandara_pamle_name
   icon: 🌋
+  image: img/addons/vandara/pamle.webp
   color: '#dc2626'
   progKey: vandaraPamle
   maxProgress: 4

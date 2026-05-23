@@ -9,11 +9,8 @@
 - id: npc-vandara-gate-guard
   nameKey: npc_vandara_gate_guard_name
   icon: 🛡️
+  image: img/addons/vandara/gate_guard.webp
   color: '#a8a29e'
-  # No image yet — uses the icon placeholder. Replace with a real
-  # portrait when art lands. Lore note: probably an earth-dragon
-  # type (stoic, gate-keeping role), so something stone-grey would
-  # fit the colour theme.
   progKey: vandaraGateGuard
   maxProgress: 1
   chapter: Vandara

@@ -8,6 +8,7 @@
 - id: npc-vandara-veyra
   nameKey: npc_vandara_veyra_name
   icon: ☀️
+  image: img/addons/vandara/veyra.webp
   color: '#fbbf24'
   progKey: vandaraVeyra
   # 4 intro-Stufen + 2 reveal-Stufen (gated auf light-resonance-found).
@@ -28,6 +29,7 @@
 - id: npc-vandara-ormias
   nameKey: npc_vandara_ormias_name
   icon: 🐲
+  image: img/addons/vandara/ormias.webp
   color: '#7c2d12'
   progKey: vandaraOrmias
   maxProgress: 4
@@ -37,6 +39,7 @@
 - id: npc-vandara-quinell
   nameKey: npc_vandara_quinell_name
   icon: 💎
+  image: img/addons/vandara/quinell.webp
   color: '#c084fc'
   progKey: vandaraQuinell
   maxProgress: 4

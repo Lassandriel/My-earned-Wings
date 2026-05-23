@@ -8,6 +8,7 @@
 - id: npc-vandara-sariel
   nameKey: npc_vandara_sariel_name
   icon: 🕯️
+  image: img/addons/vandara/sariel.webp
   color: '#1e1b4b'
   progKey: vandaraSariel
   maxProgress: 4
