@@ -132,13 +132,23 @@ Status-Marker:
 
 ---
 
-## 💾 Saves — Addon-Awareness fehlt
+## 💾 Saves — ✅ **Sektion komplett**
 
 - ✅ **Save kennt jetzt welche Addons aktiv waren** — wenn jemand
   Vandara entfernt nach 20h Spielzeit, wird der Spieler beim Laden
   per Toast gewarnt
-- ❌ **Keine Save-Migration aus Addons** — wenn Vandara v0.2 einen
-  Flag umbenennt, alte v0.1-Saves brechen
+- ✅ **Save-Migration aus Addons**. Addons shippen `migrations.ts` mit
+  `SCHEMA_VERSION` + `MIGRATIONS` (analog zu Base). Build-Skript
+  generiert `src/generated/addon-migrations.ts`, das die Module
+  sammelt. Save embed-et `addonSchemaVersions: { <name>: <version> }`
+  beim Schreiben; Load-Path ruft `runAddonMigrations` nach den Base-
+  Migrations auf — pro Addon werden alle Migrations von gespeicherter
+  Version +1 bis aktueller `SCHEMA_VERSION` ausgeführt. Ein Addon das
+  in den Save nicht enthalten war wird als v1 behandelt (alle
+  Migrations laufen). Eine fehlschlagende Migration kappt nur dieses
+  eine Addon, andere laufen weiter. Runtime-Addons können keine
+  Migrations shippen (TS-Code braucht Build). Tests in
+  `save-migrations.test.ts`.
 - ✅ **Modal-Dialog beim Laden inkompatibler Saves**. Beim Laden
   öffnet sich jetzt ein eigener Modal (`addon-compat.view.html`) mit
   drei Sektionen: fehlende Addons (rot hervorgehoben), Versions-
@@ -260,9 +270,8 @@ Engine, Saves-Tiefe, Inter-Addon) ALLE durch sind. Sonst Risiko
 ## 🏆 Was am schmerzhaftesten ist
 
 1. **Mehr Patch-Ops** — ✅ **fertig**, alle 10 Kategorien patchbar
-2. **Save-Awareness** — Spieler verlieren Stunden, wenn Addon weg ist
-   - ✅ MVP fertig
-   - ❌ Tiefe (Migration aus Addons, Modal-Dialog) offen
+2. **Save-Awareness** — ✅ **fertig**: Snapshot in Save, Migration-
+   Framework aus Addons, Modal-Dialog beim Laden inkompatibler Saves.
 3. **🎨 UI/Views — Sub-Tabs / CSS / Slots / Audio / Settings-Tabs**
    — ✅ **fertig**, größter Hebel für Addon-Sichtbarkeit
 4. **Custom Effect-Types als data-driven Mechanik** — würde

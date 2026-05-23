@@ -1,6 +1,7 @@
 import { LOG_COLOR, invalidateCaches } from '../constants';
 import { GameState, ResourceId } from '../../types/game';
-import { SAVE_SCHEMA_VERSION, runMigrations } from './save-migrations';
+import { SAVE_SCHEMA_VERSION, runMigrations, runAddonMigrations } from './save-migrations';
+import { ADDON_MIGRATIONS } from '../../generated/addon-migrations';
 import { makeLogger } from '../log';
 import {
   snapshotActiveAddonsForSave,
@@ -205,6 +206,37 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
     data.schemaVersion = SAVE_SCHEMA_VERSION;
     data.version = SAVE_SCHEMA_VERSION; // legacy alias
 
+    // 3. Addon migrations. Each currently-loaded addon that ships a
+    //    migrations.ts is given the chance to advance its slice of the
+    //    save (renamed flags, restructured items, …). Saves from before
+    //    the addonSchemaVersions field existed get `undefined` here,
+    //    which the runner treats as "everything at v1" → all migrations
+    //    run. After: refresh the field to the current versions so the
+    //    next save reflects what we ended up at.
+    const savedAddonVersions = data.addonSchemaVersions as
+      | Record<string, number>
+      | undefined;
+    const addonResults = runAddonMigrations(
+      data as Record<string, unknown>,
+      savedAddonVersions,
+      ADDON_MIGRATIONS,
+    );
+    if (addonResults.length > 0) {
+      log.info(
+        `Ran addon migrations: ` +
+          addonResults
+            .map((r) => `${r.addon} ${r.from}→${r.to}${r.ok ? '' : ' [FAILED]'}`)
+            .join(', '),
+      );
+    }
+    // Refresh the stamp regardless of whether anything ran — keeps the
+    // save in sync with the current build's versions.
+    const refreshedAddonVersions: Record<string, number> = { ...(savedAddonVersions ?? {}) };
+    for (const [name, mod] of Object.entries(ADDON_MIGRATIONS)) {
+      refreshedAddonVersions[name] = mod.SCHEMA_VERSION;
+    }
+    data.addonSchemaVersions = refreshedAddonVersions;
+
     return data;
   };
 
@@ -302,6 +334,21 @@ export const createPersistenceSystem = (initialState: Partial<GameState>) => {
         // longer present (the player removed the folder, or the .exe
         // was rebuilt without it). See src/core/addons/active.ts.
         saveObj.activeAddons = snapshotActiveAddonsForSave();
+        // Per-addon schema versions. Only addons that ship a
+        // migrations.ts contribute here; others are absent and treated
+        // as "no migrations needed" on load. Keys are addon names,
+        // values are the addon's current SCHEMA_VERSION at save time.
+        // The load path uses this to advance an old save's per-addon
+        // shape via runAddonMigrations(). See save-migrations.ts.
+        const addonVersions: Record<string, number> = {};
+        for (const [name, mod] of Object.entries(ADDON_MIGRATIONS)) {
+          addonVersions[name] = mod.SCHEMA_VERSION;
+        }
+        // Always emit the key, even if empty — distinguishes "save
+        // written by a build with no addon migrations" from "old save
+        // before this field existed" (both currently behave the same,
+        // but future code may treat them differently).
+        saveObj.addonSchemaVersions = addonVersions;
 
         const json = JSON.stringify(saveObj);
 

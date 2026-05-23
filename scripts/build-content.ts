@@ -526,6 +526,55 @@ const handlerSummary =
     : `${addonsWithHandlers.length} addon(s) ship handlers: ${addonsWithHandlers.map((a) => a.manifest.name).join(', ')}`;
 console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_HANDLERS_FILE)} (${handlerSummary})`);
 
+// ─── Generate addon-migrations.ts ───────────────────────────────────
+// Every addon that ships `migrations.ts` exports SCHEMA_VERSION +
+// MIGRATIONS. We collect them into ADDON_MIGRATIONS so the load path
+// can advance an old save's per-addon shape without forking
+// src/core/services/save-migrations.ts. Runtime addons can't do this
+// — TS source needs the build step.
+const ADDON_MIGRATIONS_FILE = path.join(ROOT, 'src', 'generated', 'addon-migrations.ts');
+const addonsWithMigrations = addons.filter((a) =>
+  fs.existsSync(path.join(a.dir, 'migrations.ts')),
+);
+let addonMigrationsOutput =
+  '// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY\n' +
+  '// Source: content/addons/<name>/migrations.ts\n' +
+  '// Regenerate: npm run build:content\n' +
+  '//\n' +
+  '// Each addon that ships migrations contributes one entry below. The\n' +
+  '// load path reads this map and calls runAddonMigrations() so addon\n' +
+  '// authors can upgrade their slice of an old save (renamed flags,\n' +
+  '// restructured items, etc.) without forking the base save-migrations\n' +
+  '// file. Runtime addons (drop-in folders) cannot ship migrations —\n' +
+  '// TS code requires the build step.\n\n' +
+  "import type { AddonMigrationModule } from '../core/services/save-migrations';\n";
+
+if (addonsWithMigrations.length === 0) {
+  addonMigrationsOutput +=
+    '\nexport const ADDON_MIGRATIONS: Record<string, AddonMigrationModule> = {};\n';
+} else {
+  for (const a of addonsWithMigrations) {
+    addonMigrationsOutput +=
+      `import * as mig_${a.manifest.name} from '../../content/addons/${a.manifest.name}/migrations';\n`;
+  }
+  addonMigrationsOutput +=
+    '\nexport const ADDON_MIGRATIONS: Record<string, AddonMigrationModule> = {\n';
+  for (const a of addonsWithMigrations) {
+    // Cast: each migrations module is statically validated by tsc
+    // (SCHEMA_VERSION + MIGRATIONS shape) — runtime check is the
+    // tsc build, not the build script.
+    addonMigrationsOutput +=
+      `  ${a.manifest.name}: mig_${a.manifest.name} as unknown as AddonMigrationModule,\n`;
+  }
+  addonMigrationsOutput += '};\n';
+}
+fs.writeFileSync(ADDON_MIGRATIONS_FILE, addonMigrationsOutput, 'utf-8');
+const migSummary =
+  addonsWithMigrations.length === 0
+    ? 'no addons ship migrations.ts'
+    : `${addonsWithMigrations.length} addon(s) ship migrations: ${addonsWithMigrations.map((a) => a.manifest.name).join(', ')}`;
+console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_MIGRATIONS_FILE)} (${migSummary})`);
+
 // ─── Generate addon-views.html ──────────────────────────────────────────────
 // For every addon that ships HTML files under views/, wrap each in a
 // <section x-show="$store.game.view === '<addon>/<viewname>'"> and write

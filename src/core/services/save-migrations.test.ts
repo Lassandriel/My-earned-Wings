@@ -1,8 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   SAVE_SCHEMA_VERSION,
   MIGRATIONS,
   runMigrations,
+  runAddonMigrations,
+  type AddonMigrationModule,
 } from './save-migrations';
 
 describe('save-migrations', () => {
@@ -113,6 +115,120 @@ describe('save-migrations', () => {
       runMigrations(state, 1);
       expect(state.unlockedRecipes).toEqual(['act-meditate']);
       expect(state.counters).toEqual({ 'act-eat': 3 });
+    });
+  });
+
+  // Addon migration framework: addons that ship a migrations.ts get their
+  // SCHEMA_VERSION + MIGRATIONS table picked up by the load path. We test
+  // the runner here with synthetic modules — real addon migrations live
+  // under content/addons/<name>/migrations.ts.
+  describe('runAddonMigrations', () => {
+    // Silence the logger during failure-path tests so the suite output
+    // stays clean. Restored after each test.
+    const consoleErrorSpy = vi.spyOn(console, 'error');
+    beforeEach(() => consoleErrorSpy.mockClear());
+    afterEach(() => consoleErrorSpy.mockReset());
+
+    it('returns empty list when no modules ship migrations', () => {
+      const state: Record<string, unknown> = { playerName: 'Lassi' };
+      const results = runAddonMigrations(state, {}, {});
+      expect(results).toEqual([]);
+    });
+
+    it('skips addons that are already up to date', () => {
+      const mod: AddonMigrationModule = {
+        SCHEMA_VERSION: 2,
+        MIGRATIONS: { 2: () => { throw new Error('should not run'); } },
+      };
+      const state: Record<string, unknown> = {};
+      const results = runAddonMigrations(state, { vandara: 2 }, { vandara: mod });
+      expect(results).toEqual([]);
+    });
+
+    it('runs all migrations from save version + 1 up to current', () => {
+      const calls: number[] = [];
+      const mod: AddonMigrationModule = {
+        SCHEMA_VERSION: 3,
+        MIGRATIONS: {
+          2: () => calls.push(2),
+          3: () => calls.push(3),
+        },
+      };
+      const state: Record<string, unknown> = {};
+      const results = runAddonMigrations(state, { vandara: 1 }, { vandara: mod });
+      expect(calls).toEqual([2, 3]);
+      expect(results).toEqual([{ addon: 'vandara', from: 1, to: 3, ok: true }]);
+    });
+
+    it('treats missing saved version as v1 (run everything)', () => {
+      const calls: number[] = [];
+      const mod: AddonMigrationModule = {
+        SCHEMA_VERSION: 2,
+        MIGRATIONS: { 2: () => calls.push(2) },
+      };
+      const state: Record<string, unknown> = {};
+      // No entry for 'newmod' in savedVersions ⇒ treated as v1.
+      const results = runAddonMigrations(state, {}, { newmod: mod });
+      expect(calls).toEqual([2]);
+      expect(results).toEqual([{ addon: 'newmod', from: 1, to: 2, ok: true }]);
+    });
+
+    it('migrations can mutate the save state', () => {
+      const mod: AddonMigrationModule = {
+        SCHEMA_VERSION: 2,
+        MIGRATIONS: {
+          2: (state) => {
+            const flags = (state.flags as Record<string, boolean>) ?? {};
+            if (flags.old_flag_name) {
+              flags.new_flag_name = true;
+              delete flags.old_flag_name;
+            }
+            state.flags = flags;
+          },
+        },
+      };
+      const state: Record<string, unknown> = { flags: { old_flag_name: true, unrelated: true } };
+      runAddonMigrations(state, { vandara: 1 }, { vandara: mod });
+      expect(state.flags).toEqual({ new_flag_name: true, unrelated: true });
+    });
+
+    it('logs failure and bails out of an addon, but continues with other addons', () => {
+      const broken: AddonMigrationModule = {
+        SCHEMA_VERSION: 2,
+        MIGRATIONS: { 2: () => { throw new Error('intentional'); } },
+      };
+      const calls: string[] = [];
+      const working: AddonMigrationModule = {
+        SCHEMA_VERSION: 2,
+        MIGRATIONS: { 2: () => calls.push('working ran') },
+      };
+      const state: Record<string, unknown> = {};
+      const results = runAddonMigrations(
+        state,
+        { addonA: 1, addonB: 1 },
+        { addonA: broken, addonB: working },
+      );
+      // Both modules processed; the broken one is marked ok=false.
+      const a = results.find((r) => r.addon === 'addonA');
+      const b = results.find((r) => r.addon === 'addonB');
+      expect(a?.ok).toBe(false);
+      expect(b?.ok).toBe(true);
+      expect(calls).toEqual(['working ran']);
+    });
+
+    it('handles invalid saved version values (negative, NaN, non-number)', () => {
+      const calls: number[] = [];
+      const mod: AddonMigrationModule = {
+        SCHEMA_VERSION: 2,
+        MIGRATIONS: { 2: () => calls.push(2) },
+      };
+      const state: Record<string, unknown> = {};
+      runAddonMigrations(state, { vandara: -1 as unknown as number }, { vandara: mod });
+      runAddonMigrations(state, { vandara: NaN }, { vandara: mod });
+      // 'as unknown as number' so TS accepts a wrong shape and we test
+      // the runtime guard. Both invalid versions fall back to v1.
+      runAddonMigrations(state, { vandara: 'two' as unknown as number }, { vandara: mod });
+      expect(calls.length).toBe(3);
     });
   });
 });

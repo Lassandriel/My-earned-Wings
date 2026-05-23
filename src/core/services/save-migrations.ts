@@ -114,3 +114,92 @@ export function runMigrations(
   }
   return true;
 }
+
+/**
+ * Per-addon migration module shape. An addon ships `migrations.ts` at
+ * `content/addons/<name>/migrations.ts` and exports the two fields
+ * below. The build script collects them into ADDON_MIGRATIONS in
+ * src/generated/addon-migrations.ts. Runtime addons cannot ship
+ * migrations (no TS at runtime) — they have to live with whatever
+ * shape they started with.
+ */
+export interface AddonMigrationModule {
+  /** Highest migration key in MIGRATIONS. Bumped per breaking change. */
+  SCHEMA_VERSION: number;
+  /**
+   * Migrations keyed by target version. Each takes the entire save
+   * state and mutates in place. Addons normally only touch their own
+   * flags/items/counters, but the full state is available because
+   * addons add to the top-level shape (no namespacing today).
+   */
+  MIGRATIONS: Record<number, Migration>;
+}
+
+/**
+ * Run per-addon migrations after the base migrations. For each loaded
+ * addon with a migration module, advance the saved version to current.
+ * Addons that didn't exist in the save (no entry in savedVersions) are
+ * treated as version 1 → all migrations run, which is exactly what an
+ * existing-game-meets-new-addon scenario needs.
+ *
+ * One addon's failure does NOT abort the others — each is wrapped in
+ * its own try/catch. The load path already warned the player via the
+ * addon-compat dialog; a broken migration is a separate problem the
+ * addon author needs to fix. We log loudly so it's visible.
+ *
+ * Returns: per-addon outcome list so the caller can surface failures
+ * if it wants. Empty list means "no addons had migrations to run".
+ */
+export interface AddonMigrationResult {
+  addon: string;
+  /** Version we started at (from save, or 1 if save didn't know). */
+  from: number;
+  /** Version we ended at (current SCHEMA_VERSION of the addon module). */
+  to: number;
+  /** True if every migration succeeded. False = one threw. */
+  ok: boolean;
+}
+
+export function runAddonMigrations(
+  state: Record<string, unknown>,
+  savedVersions: Record<string, number> | undefined,
+  addonModules: Record<string, AddonMigrationModule>,
+): AddonMigrationResult[] {
+  const out: AddonMigrationResult[] = [];
+  const versions = savedVersions ?? {};
+
+  // Stable ordering: iterate addons by name so debug output is
+  // reproducible across runs.
+  for (const addonName of Object.keys(addonModules).sort()) {
+    const mod = addonModules[addonName]!;
+    const current = mod.SCHEMA_VERSION;
+    const savedRaw = versions[addonName];
+    const saved =
+      typeof savedRaw === 'number' && Number.isFinite(savedRaw) && savedRaw > 0
+        ? savedRaw
+        : 1;
+    if (saved >= current) {
+      // Up-to-date or somehow ahead (e.g. addon downgraded). Either
+      // way, no work for us. We don't push to out — empty list later
+      // = "nothing migrated", easier to log around.
+      continue;
+    }
+
+    let ok = true;
+    for (let v = saved + 1; v <= current; v++) {
+      const migration = mod.MIGRATIONS[v];
+      if (!migration) continue;
+      try {
+        migration(state);
+        log.info(`Migrated [${addonName}] from v${v - 1} to v${v}`);
+      } catch (err) {
+        log.error(`[${addonName}] migration to v${v} failed:`, err);
+        ok = false;
+        break;
+      }
+    }
+    out.push({ addon: addonName, from: saved, to: current, ok });
+  }
+
+  return out;
+}
