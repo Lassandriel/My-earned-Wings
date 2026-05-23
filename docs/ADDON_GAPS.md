@@ -114,9 +114,13 @@ Status-Marker:
   "summonShadow" als Effekt will, muss Base-Game erweitert werden
 - ❌ **Keine neuen Modifier-Keys** — addons können nur existierende
   Pipeline-Keys nutzen
-- ❌ **Keine neuen State-Felder in `GameState`** — wenn ein Addon
-  "shadowEnergy" als eigene Resource-artige Sache braucht, muss das
-  im Type definiert sein
+- ✅ **`addonState` Namespace**. Jedes Addon hat einen eigenen
+  Slot in `GameState.addonState[<addonName>]` (Plain Object). Helper:
+  `store.addonStateFor<T>('vandara')` legt den Bucket bei erstem
+  Zugriff an und gibt ihn typisiert zurück. Saves carry den ganzen
+  `addonState` (normaler deepMerge); kein extra Migration-Pfad
+  nötig solange Addons innerhalb ihres Buckets bleiben. Damit
+  brauchen Addons keine neuen Top-Level-Felder mehr in `GameState`.
 - ✅ **System-Tick-Hook**. Build-Time-Addons shippen `ticks.ts` mit
   einem `onTick(state, services, deltaTime)` Export. Build-Skript
   generiert `src/generated/addon-ticks.ts`; Engine ruft alle Hooks

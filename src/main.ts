@@ -135,6 +135,22 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
   },
   
   isTaskActive(id: string) { return !!getStore().activeTasks[id]; },
+
+  /**
+   * Returns the addon's namespaced state bucket, creating it on first
+   * access. Idiomatic usage from addon code:
+   *   const s = store.addonStateFor<{shadowEnergy: number}>('vandara');
+   *   s.shadowEnergy = (s.shadowEnergy ?? 0) + 1;
+   * The cast at call-site documents the addon's own schema without
+   * polluting the GameState type.
+   */
+  addonStateFor<T extends Record<string, unknown>>(name: string): T {
+    const store = getStore() as unknown as { addonState: Record<string, Record<string, unknown>> };
+    if (!store.addonState) store.addonState = {};
+    if (!store.addonState[name]) store.addonState[name] = {};
+    return store.addonState[name] as T;
+  },
+
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {
     const store = getStore();
     store.bus.emit(store.EVENTS.LOG_ADDED, { id, context: c, color: col, params: p });

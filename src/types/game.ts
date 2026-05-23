@@ -116,6 +116,21 @@ export interface GameState {
     versionDelta: Array<{ name: string; saved: string; loaded: string }>;
     _resolve: ((loadAnyway: boolean) => void) | null;
   };
+  /**
+   * Namespaced scratch space for addon-owned data. Every addon that
+   * needs to persist state outside the existing top-level slots
+   * (resources, flags, counters, …) writes into its own bucket here
+   * instead of polluting the root. Reading happens through the
+   * `addonState()` helper on GameState so a missing bucket is
+   * auto-initialised — no special-casing in addon code.
+   *
+   * Example: a Vandara shadow-energy mechanic stores
+   *   state.addonState.vandara.shadowEnergy = 5
+   * Two addons can pick the same key without colliding because each
+   * has its own bucket. Saves carry this object whole; load merges it
+   * via the normal deepMerge, so persistence is free.
+   */
+  addonState: Record<string, Record<string, unknown>>;
   ellieIntroSeen: boolean;
   showEllieIntro: boolean;
   demoCompletedHintSeen: boolean;
@@ -320,6 +335,13 @@ export interface GameState {
 
   // Helper Methods
   t: (key: string, context?: string, params?: Record<string, any>) => any;
+  /**
+   * Returns the addon's namespaced state bucket, creating it on first
+   * access. Use this from addon code instead of writing directly to
+   * `state.addonState.<name>` so brand-new addons don't have to
+   * remember to initialise their slot.
+   */
+  addonStateFor: <T extends Record<string, unknown> = Record<string, unknown>>(addonName: string) => T;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;

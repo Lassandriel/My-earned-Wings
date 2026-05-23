@@ -73,6 +73,11 @@ export const initialState: Partial<GameState> = {
   },
 
   academy_path: null, // dead in demo; reintroduced with the Vandara addon
+  // Namespaced scratch space for addon-owned data. Each addon's bucket
+  // is created on first access via store.addonStateFor(name); the empty
+  // object here is just so load/save deepMerge doesn't have to wonder
+  // whether the field exists.
+  addonState: {},
   activeTasks: {},
   demoCompleted: false,
   demoCompletedHintSeen: false,
