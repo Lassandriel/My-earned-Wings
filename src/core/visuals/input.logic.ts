@@ -35,6 +35,12 @@ export const createInputSystem = () => {
         }
       });
 
+      // Lazily-built lookup for action hotkeys (e.g. addon-defined "F4",
+      // "KeyB"). Populated on first keydown after the action registry
+      // is fully loaded (runtime addons mutate the registry once at
+      // boot, before any key event can fire post-Alpine.start).
+      let hotkeyCache: Record<string, string> | null = null;
+
       addTracked(document, 'keydown', (e: KeyboardEvent) => {
         // Skip if typing in an input field
         if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
@@ -73,6 +79,30 @@ export const createInputSystem = () => {
             store.commands.enqueue({ type: 'executeAction', actionId });
             return;
           }
+        }
+
+        // Addon-defined hotkeys: any action YAML with a `hotkey` field
+        // (KeyboardEvent.key OR .code, e.g. "F4", "KeyB") gets dispatched
+        // here. The map is built lazily on first keydown after addon load
+        // so we don't pay for it at boot, and cached on the closure for
+        // O(1) lookups afterwards. Re-entry isn't expected; addons load
+        // before any keypress can happen post-Alpine-start.
+        let hotkeyMap = hotkeyCache;
+        if (!hotkeyMap) {
+          hotkeyMap = {};
+          const reg = (store.content as any)?.registries?.actions ?? {};
+          for (const a of Object.values(reg) as Array<{ id?: string; hotkey?: string }>) {
+            if (a && typeof a.hotkey === 'string' && typeof a.id === 'string') {
+              hotkeyMap[a.hotkey] = a.id;
+            }
+          }
+          hotkeyCache = hotkeyMap;
+        }
+        const hotkeyAction = hotkeyMap[e.key] ?? hotkeyMap[e.code];
+        if (hotkeyAction && store.commands) {
+          e.preventDefault();
+          store.commands.enqueue({ type: 'executeAction', actionId: hotkeyAction });
+          return;
         }
 
         // Tab switching: 1-6 select the Nth visible sidebar tab. Up/Down cycle

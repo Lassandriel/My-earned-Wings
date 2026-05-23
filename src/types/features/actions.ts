@@ -10,7 +10,16 @@ export interface ItemDefinition {
   desc: string;
   image?: string;
   consumable: boolean;
-  category: 'tools' | 'items' | 'furniture' | 'addon' | 'food' | 'lore';
+  /**
+   * Item bucket. Base ships 'tools' | 'items' | 'furniture' | 'addon' |
+   * 'food' | 'lore' (used for inventory grouping + a couple of
+   * `=== 'furniture'` placement checks). Loosened to `string` so
+   * addons can declare their own categories (e.g. 'reagent',
+   * 'scroll') without lying to the compiler. Renderers iterate by
+   * specific value; unknown categories just don't match any base
+   * grouping and quietly land in the inventory's default bucket.
+   */
+  category: string;
   effect?: Partial<Record<ResourceId, number>> | string;
   onSuccess?: GameEffect[];
   modifiers?: GameModifier[];
@@ -75,6 +84,17 @@ export interface ActionDefinition {
   journalIcon?: string;
   journalColor?: string;
   counter?: string;
+  /**
+   * Optional keyboard binding. Matches against KeyboardEvent.key OR
+   * KeyboardEvent.code so authors can pick whichever feels natural
+   * — examples: "F4", "KeyB", "Digit5", "ArrowUp". The input handler
+   * builds a single lookup table at first keydown so dispatch is
+   * O(1) per keypress. Addons add hotkeys by just dropping this
+   * field into their action YAML; base game's F1/F2/F3 stay on the
+   * PRIMARY_ACTIONS constant so the top action bar can render them
+   * from a known order.
+   */
+  hotkey?: string;
   execute?: (state: any) => any;
   passiveProduction?: {
     id: string;

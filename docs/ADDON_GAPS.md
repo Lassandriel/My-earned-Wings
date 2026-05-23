@@ -162,10 +162,21 @@ Status-Marker:
   (--text)` in `.juice-particle`, damit unbekannte Types nicht
   unsichtbar werden — sie rendern jetzt mit Default-Look, bis ein
   Addon-CSS sie überschreibt.
-- ❌ **`PRIMARY_ACTIONS` hardcoded** (F1/F2/F3 = act-rest/-meditate/-eat),
-  Addons können keine eigenen Hotkey-Bindings hinzufügen
-- ❌ **Fixed Item-Categories & Resource-Categories** in TS-Enums —
-  Addons können keine neue Category wie `'reagent'` deklarieren
+- ✅ **Action-Hotkeys aus YAML.** Action-Definitions akzeptieren jetzt
+  ein optionales `hotkey: 'F4'` (oder `KeyB`, `Digit5`, etc. — wird
+  gegen `KeyboardEvent.key` UND `.code` gematcht). Input-Handler
+  baut beim ersten Keydown eine Lookup-Map aus allen Action-Defs;
+  O(1) Dispatch danach. Base behält `PRIMARY_ACTIONS` (F1/F2/F3)
+  weil die Top-Action-Bar in main.view.html sie als geordnete
+  Gruppe braucht — der hotkey-Lookup läuft nach den PRIMARY-Keys
+  und kann beliebige weitere Actions binden.
+- ✅ **Item-/Resource-Categories aufgeweicht**. Resource-Categories
+  waren schon `string` (kein Enum). Item-Category war hartcodierte
+  Union — jetzt `string`. Renderer checken auf spezifische Werte
+  (`=== 'furniture'`); unbekannte Categories landen still im
+  Default-Bucket der Inventar-UI. Wenn ein Addon ihre Category
+  explizit gerendert haben will, kann es via Slot/Patches die UI
+  erweitern.
 - ❌ **Schema-Validierung ist fixed** — Addons können keine
   eigenen Pflichtfelder für ihre Entries definieren
 
@@ -257,17 +268,12 @@ Diese Lücken stehen so noch nicht in der Liste:
   base ships audio in `/public/sfx/`. Können Addons SFX-Dateien
   shippen? Pfad-Convention nicht etabliert / nicht dokumentiert,
   wahrscheinlich aber technisch möglich. **Audit-Aufgabe.**
-- ❌ **`PRIMARY_ACTIONS` hardcoded**: F1/F2/F3 Hotkeys binden
-  `act-rest`/`act-meditate`/`act-eat`. Addons können keine eigenen
-  Hotkey-Bindings hinzufügen.
+- ✅ **`PRIMARY_ACTIONS` Hotkeys**: siehe ⚙️ Engine oben — Actions
+  haben jetzt ein optionales `hotkey:` Feld.
 
 **🏗️ Schema/Type-System — vergessene Items:**
 
-- ❌ **Fixed Item-Categories**: `'tools' | 'items' | 'furniture' |
-  'addon' | 'food' | 'lore'` ist ein TS-Enum. Addons können keine
-  neue Category wie `'reagent'` definieren.
-- ❌ **Fixed Resource-Categories**: Renderer gruppiert nach festen
-  Category-Strings. Neue Categories vermutlich invisible.
+- ✅ **Fixed Item-/Resource-Categories**: siehe ⚙️ Engine oben.
 - ❌ **Schema-Validierung ist fixed**: Build-Skript validiert
   Standard-Schema. Addons können nicht eigene Pflichtfelder für
   ihre Entries deklarieren (z.B. ein Schatten-Addon will, dass
