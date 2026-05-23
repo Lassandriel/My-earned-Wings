@@ -46,10 +46,18 @@
         <span x-text="$store.game.t('settings_title')"></span>
       </button>
 
+      <!--
+        Slot for addon-provided menu buttons. Lives between the base
+        New-Game/Settings buttons and the Quit button so addons can add
+        non-quit actions (e.g. "Open Mod Manager", "Tutorial"). Addons
+        ship HTML at content/addons/<name>/slots/menu-actions-end.html.
+      -->
+      <div data-slot="menu-actions-end"></div>
+
       <!-- Quit Button -->
-      <button 
-        class="menu-btn quit" 
-        @click="$store.game.quit()" 
+      <button
+        class="menu-btn quit"
+        @click="$store.game.quit()"
         @mouseenter="$store.game.helpHover('btn_quit', 'ui_quit_desc', 'quit')"
         @mouseleave="$store.game.setHovered(null)"
         :aria-label="$store.game.t('btn_quit')"
@@ -66,5 +74,11 @@
       target="_blank"
       class="footer-repo-link"
       x-text="$store.game.t('menu_report_bug')"></a>
+    <!--
+      Slot for addon footer additions (credits, mod-version badges,
+      links to mod-specific bug reports). Addons ship HTML at
+      content/addons/<name>/slots/menu-footer-end.html.
+    -->
+    <div data-slot="menu-footer-end"></div>
   </div>
 </section>

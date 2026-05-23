@@ -1,0 +1,39 @@
+# Settings dialog tabs. Each entry adds a button to the sidebar nav
+# of the Settings modal. The base game's 5 tabs ship as YAML here so
+# addons can add their own tab simply by dropping an entry into
+# content/addons/<name>/settingsTabs/*.yaml + filling the
+# `settings-content` slot with a `<div x-show="settingsTab === '<id>'">`
+# block. Fields:
+#   id          — string used as the value of the modal's local
+#                 `settingsTab` state. Must be unique across base + all
+#                 addons.
+#   icon        — single emoji shown in the sidebar tab button.
+#   labelKey    — i18n key for the button label (resolved via store.t).
+#   order       — sort order; lower = higher up in the sidebar.
+#   requiresFlag (optional) — only show if the named GameState flag
+#                 is truthy. Lets addons gate their tab on progression.
+
+- id: general
+  icon: 👤
+  labelKey: settings_tab_general
+  order: 10
+
+- id: controls
+  icon: ⌨️
+  labelKey: settings_tab_controls
+  order: 20
+
+- id: audio
+  icon: 🔊
+  labelKey: settings_tab_audio
+  order: 30
+
+- id: graphics
+  icon: ✨
+  labelKey: settings_graphics
+  order: 40
+
+- id: system
+  icon: ⚙️
+  labelKey: settings_system
+  order: 50

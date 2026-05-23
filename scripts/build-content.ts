@@ -202,6 +202,13 @@ const sections = loadCategoryFromAllSources('sections');
 // render its sub-tab strip, so addons can add new sub-tabs by
 // shipping a YAML entry — no view markup to edit. See main.view.html.
 const subTabs = loadCategoryFromAllSources('subTabs');
+// `settingsTabs` declare which tabs appear in the Settings modal's
+// sidebar. Each entry: { id, icon, labelKey, order, requiresFlag? }.
+// Base ships its 5 tabs (general/controls/audio/graphics/system) here;
+// addons add their own by dropping a YAML entry and filling the
+// `settings-content` slot with a `<div x-show="settingsTab === '<id>'">`
+// block. See settings.view.html for the renderer.
+const settingsTabs = loadCategoryFromAllSources('settingsTabs');
 
 // ─── Translations (special: nested map, not array) ──────────────────────────
 //
@@ -300,6 +307,7 @@ const navigationRegistry = taggedToRecord(navigation);
 const titleRegistry = taggedToRecord(titles);
 const sectionRegistry = taggedToRecord(sections);
 const subTabRegistry = taggedToRecord(subTabs);
+const settingsTabRegistry = taggedToRecord(settingsTabs);
 
 // Apply addon patches. Fatal on missing targets (build-time addons are
 // shipped with the build — a missing reference is an addon bug).
@@ -354,6 +362,7 @@ console.log(`✅ Navigation:${Object.keys(navigationRegistry).length}`);
 console.log(`✅ Titles:    ${Object.keys(titleRegistry).length}`);
 console.log(`✅ Sections:  ${Object.keys(sectionRegistry).length}`);
 console.log(`✅ Sub-Tabs:  ${Object.keys(subTabRegistry).length}`);
+console.log(`✅ Settings-Tabs: ${Object.keys(settingsTabRegistry).length}`);
 const trKeyCount = Object.values(translations).reduce(
   (acc, ctxMap) => acc + Object.values(ctxMap).reduce((a, m) => a + Object.keys(m).length, 0),
   0
@@ -435,6 +444,10 @@ export const SECTION_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(
 // === Sub-Tab Registry (UI layout primitive — see Main view) ===
 
 export const SUB_TAB_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(subTabRegistry, null, 2)};
+
+// === Settings-Tab Registry (UI layout primitive — see Settings modal) ===
+
+export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = ${JSON.stringify(settingsTabRegistry, null, 2)};
 
 // === Loaded Addons (build-time) ===
 // List of every build-time addon that contributed to this bundle.

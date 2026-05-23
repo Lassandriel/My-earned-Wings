@@ -437,4 +437,17 @@ export interface Registries {
    * - `order` defaults to 100 (display order, ascending)
    */
   subTabs: Record<string, any>;
+  /**
+   * UI layout primitive — declares the tabs in the Settings modal's
+   * sidebar. Base ships its 5 tabs (general/controls/audio/graphics/
+   * system) as YAML; addons add their own by dropping a YAML entry
+   * and filling the `settings-content` slot with a wrapper
+   * `<div x-show="settingsTab === '<id>'">…</div>`. Schema:
+   *   { id, icon, labelKey, order, requiresFlag? }
+   * - `requiresFlag` (optional) — only shown when that GameState
+   *   flag is truthy. Lets addons gate their Settings tab on
+   *   progression / opt-in.
+   * - `order` (number, ascending) controls sidebar position.
+   */
+  settingsTabs: Record<string, any>;
 }

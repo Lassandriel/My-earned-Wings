@@ -1,10 +1,35 @@
+<!--
+  SETTINGS MODAL — extensible by addons.
+
+  Tabs come from the settingsTabs registry (content/base/settingsTabs/*.yaml
+  for base, content/addons/<name>/settingsTabs/*.yaml for addons). Addons
+  add a new tab by shipping a YAML entry + filling the `settings-content`
+  slot with a wrapper `<div x-show="settingsTab === '<your-id>'">…</div>`.
+
+  Base tab bodies stay inline below for now (large refactor not justified
+  for the existing 5 tabs). Renderer is hybrid: the sidebar nav + content
+  header are data-driven from the registry; tab bodies are either inline
+  (base) or slot-injected (addons).
+-->
 <div
   id="modal-settings"
   class="modal-overlay"
   x-show="$store.game.settingsOpen"
   style="display: none"
   x-transition.opacity
-  x-data="{ settingsTab: 'general' }"
+  x-data="{
+    settingsTab: 'general',
+    /* Sorted+filtered view of the settingsTabs registry. Cheap to recompute. */
+    get visibleSettingsTabs() {
+      const reg = $store.game.content?.registries?.settingsTabs || {};
+      return Object.values(reg)
+        .filter(t => !t.requiresFlag || !!$store.game.flags?.[t.requiresFlag])
+        .sort((a, b) => (a.order ?? 100) - (b.order ?? 100));
+    },
+    get currentSettingsTab() {
+      return this.visibleSettingsTabs.find(t => t.id === this.settingsTab) || null;
+    }
+  }"
   @click.self="$store.game.settingsOpen = false"
   role="dialog"
   aria-modal="true"
@@ -17,46 +42,21 @@
         <h2 id="settings-title" x-text="$store.game.t('settings_title')"></h2>
       </div>
       <nav class="settings-tabs">
-        <button
-          class="tab-btn"
-          :class="settingsTab === 'general' && 'active'"
-          @click="settingsTab = 'general'"
-        >
-          <span class="tab-icon">👤</span>
-          <span x-text="$store.game.t('settings_tab_general')"></span>
-        </button>
-        <button
-          class="tab-btn"
-          :class="settingsTab === 'controls' && 'active'"
-          @click="settingsTab = 'controls'"
-        >
-          <span class="tab-icon">⌨️</span>
-          <span x-text="$store.game.t('settings_tab_controls')"></span>
-        </button>
-        <button
-          class="tab-btn"
-          :class="settingsTab === 'audio' && 'active'"
-          @click="settingsTab = 'audio'"
-        >
-          <span class="tab-icon">🔊</span>
-          <span x-text="$store.game.t('settings_tab_audio')"></span>
-        </button>
-        <button
-          class="tab-btn"
-          :class="settingsTab === 'graphics' && 'active'"
-          @click="settingsTab = 'graphics'"
-        >
-          <span class="tab-icon">✨</span>
-          <span x-text="$store.game.t('settings_graphics')"></span>
-        </button>
-        <button
-          class="tab-btn"
-          :class="settingsTab === 'system' && 'active'"
-          @click="settingsTab = 'system'"
-        >
-          <span class="tab-icon">⚙️</span>
-          <span x-text="$store.game.t('settings_system')"></span>
-        </button>
+        <!--
+          Data-driven: iterates the settingsTabs registry. Base ships 5
+          tabs as YAML; addons add their own by dropping a settingsTabs
+          entry. See content/base/settingsTabs/main.yaml.
+        -->
+        <template x-for="tab in visibleSettingsTabs" :key="tab.id">
+          <button
+            class="tab-btn"
+            :class="settingsTab === tab.id && 'active'"
+            @click="settingsTab = tab.id"
+          >
+            <span class="tab-icon" x-text="tab.icon"></span>
+            <span x-text="$store.game.t(tab.labelKey)"></span>
+          </button>
+        </template>
       </nav>
       <div class="sidebar-footer">
         <button
@@ -71,26 +71,8 @@
     <!-- Main Content Area -->
     <div class="settings-content-wrapper">
       <header class="content-header">
-        <h3
-          x-show="settingsTab === 'general'"
-          x-text="$store.game.t('settings_tab_general')"
-        ></h3>
-        <h3
-          x-show="settingsTab === 'controls'"
-          x-text="$store.game.t('settings_tab_controls')"
-        ></h3>
-        <h3
-          x-show="settingsTab === 'audio'"
-          x-text="$store.game.t('settings_tab_audio')"
-        ></h3>
-        <h3
-          x-show="settingsTab === 'graphics'"
-          x-text="$store.game.t('settings_graphics')"
-        ></h3>
-        <h3
-          x-show="settingsTab === 'system'"
-          x-text="$store.game.t('settings_system')"
-        ></h3>
+        <!-- Title is data-driven from the active settingsTab entry. -->
+        <h3 x-text="currentSettingsTab ? $store.game.t(currentSettingsTab.labelKey) : ''"></h3>
         <button class="close-top-btn" @click="$store.game.settingsOpen = false">×</button>
       </header>
 
@@ -363,6 +345,20 @@
             </div>
           </section>
         </div>
+
+        <!--
+          Slot for addon-provided settings tab bodies. Addons that add
+          their own settingsTabs entry ship the matching body markup
+          via slots/settings-content.html as e.g.
+            <div x-show="settingsTab === 'shadows'" x-transition>
+              <section class="settings-card">…</section>
+            </div>
+          Multiple addons can append here; each gets its own
+          data-addon-slot wrapper. Hidden by default — only the active
+          tab body renders because of x-show. Lives inside the modal's
+          x-data scope so `settingsTab` resolves correctly.
+        -->
+        <div data-slot="settings-content"></div>
       </div>
     </div>
   </div>

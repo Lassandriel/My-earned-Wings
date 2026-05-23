@@ -5090,6 +5090,41 @@ export const SUB_TAB_REGISTRY_GENERATED: Record<string, any> = {
   }
 };
 
+// === Settings-Tab Registry (UI layout primitive — see Settings modal) ===
+
+export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
+  "general": {
+    "id": "general",
+    "icon": "👤",
+    "labelKey": "settings_tab_general",
+    "order": 10
+  },
+  "controls": {
+    "id": "controls",
+    "icon": "⌨️",
+    "labelKey": "settings_tab_controls",
+    "order": 20
+  },
+  "audio": {
+    "id": "audio",
+    "icon": "🔊",
+    "labelKey": "settings_tab_audio",
+    "order": 30
+  },
+  "graphics": {
+    "id": "graphics",
+    "icon": "✨",
+    "labelKey": "settings_graphics",
+    "order": 40
+  },
+  "system": {
+    "id": "system",
+    "icon": "⚙️",
+    "labelKey": "settings_system",
+    "order": 50
+  }
+};
+
 // === Loaded Addons (build-time) ===
 // List of every build-time addon that contributed to this bundle.
 // Used by the save system to track which addons were active when a

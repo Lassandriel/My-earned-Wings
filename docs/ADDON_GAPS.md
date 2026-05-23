@@ -53,7 +53,7 @@ Status-Marker:
 
 ---
 
-## 🎨 UI / Views — 4/5 ✅ (nur Settings/Pause/Save-Dialoge offen)
+## 🎨 UI / Views — ✅ **Sektion komplett**
 
 **Reihenfolge nach Hebelwirkung:**
 
@@ -79,9 +79,19 @@ Status-Marker:
    **Base-Views müssen ggf. Slot-Marker zugefügt werden** — heute
    gibt's noch keine etablierten Slots, das ist Sache der jeweiligen
    View-HTML wenn ein Addon Bedarf hat.
-4. ❌ **Settings-Menü, Pause-Menü, Save-Dialog** sind Base-Game-exklusiv.
-   Niedrigster Bedarf (Addons sollten sich aus diesen Kern-UIs eher
-   raushalten), letzter Punkt.
+4. ✅ **Settings-Menü / Menü-Erweiterungen für Addons.** Neue
+   Content-Kategorie `settingsTabs`: Base shippt seine 5 Tabs
+   (general/controls/audio/graphics/system) als YAML; Addons können
+   eigene Tabs hinzufügen mit Icon, labelKey, order, optionalem
+   requiresFlag. Sidebar-Nav + Content-Header sind data-driven
+   (x-for über `visibleSettingsTabs`). Tab-Bodies: base inline (kein
+   Mass-Refactor — die 5 existierenden Tabs lassen sich nicht sinnvoll
+   in YAML beschreiben), Addons über den Slot `settings-content` mit
+   `<div x-show="settingsTab === '<id>'">…</div>`. Zusätzlich Slots
+   `menu-actions-end` + `menu-footer-end` für Main-Menu-Erweiterungen.
+   **Anmerkung**: "Pause-Menü" und "Save-Dialog" existieren als
+   eigenständige UIs nicht — Settings ist das Pause-Menü (pausiert
+   beim Öffnen), Save/Load passieren inline im System-Tab + Main-Menü.
 5. ✅ **Audio-Pipeline für Addons** — Konvention etabliert: Addons
    legen Audio in `content/addons/<name>/sfx/*.{mp3,ogg,wav,m4a}`,
    YAML referenziert sie als `sfx: <addon>/<basename>`. Build-Time-
@@ -248,8 +258,8 @@ Engine, Saves-Tiefe, Inter-Addon) ALLE durch sind. Sonst Risiko
 2. **Save-Awareness** — Spieler verlieren Stunden, wenn Addon weg ist
    - ✅ MVP fertig
    - ❌ Tiefe (Migration aus Addons, Modal-Dialog) offen
-3. **🎨 UI/Views — Sub-Tabs / CSS / Slots** — größter Hebel für
-   Addon-Sichtbarkeit ⬅️ **als nächstes dran**
+3. **🎨 UI/Views — Sub-Tabs / CSS / Slots / Audio / Settings-Tabs**
+   — ✅ **fertig**, größter Hebel für Addon-Sichtbarkeit
 4. **Custom Effect-Types als data-driven Mechanik** — würde
    Schatten-Helfer, alte Vandara-Vorhaben, Mods generell ermöglichen
 5. **Inter-Addon** — requires erzwingen, runtime-Check
