@@ -55,6 +55,12 @@
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
   font-size: 1.2rem;
+  /* Fallback color so addon-introduced particle types ('p-shadow',
+     'p-frost', …) without a matching rule still render visibly.
+     Specific .p-<type> rules below override this. Addons that want
+     custom colors ship `styles/<file>.css` with their own
+     .juice-particle.p-<type> { color: ... } rule. */
+  color: var(--text);
   pointer-events: none;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   z-index: 100001;

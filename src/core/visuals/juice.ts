@@ -30,6 +30,16 @@ export const createJuiceSystem = () => {
       });
     },
 
+    /**
+     * Particles are CSS-driven: `type` becomes the class suffix
+     * `p-<type>` and the stylesheet decides how it looks. That makes
+     * the system trivially extensible — addons just ship their own
+     * `styles/<file>.css` with rules like:
+     *   .juice-particle.p-shadow { color: #6b21a8; }
+     * Unknown types still render via the base `.juice-particle` rule
+     * (font, animation, fallback color in feedback.css), so a typo or
+     * a stripped-out addon doesn't produce invisible effects.
+     */
     spawnParticle(x: number, y: number, text: string, type: string = 'normal') {
       const store = Alpine.store<GameState>('game');
       const settings = store.settings || {};

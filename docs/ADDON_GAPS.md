@@ -132,8 +132,13 @@ Status-Marker:
 - ❌ **Hardcoded NPC-IDs in TS-Code** (z.B. `village.logic.ts`
   hat npc-teacher-spezifische Fehlermeldungen) — kein Mechanismus
   für Addon-NPCs sowas zu liefern ohne handlers.ts (build-time)
-- ❌ **Particle-Types sind fixed** — Renderer kennt nur die
-  base-Types, unbekannte sind unsichtbar
+- ✅ **Particle-Types** sind CSS-driven (`particleType: shadow` → CSS-
+  Klasse `p-shadow`). Addons shippen `styles/<file>.css` mit ihrer
+  eigenen `.juice-particle.p-<type>` Regel über die existierende CSS-
+  Pipeline (UI/Views #2). Base hat jetzt einen Fallback-`color: var
+  (--text)` in `.juice-particle`, damit unbekannte Types nicht
+  unsichtbar werden — sie rendern jetzt mit Default-Look, bis ein
+  Addon-CSS sie überschreibt.
 - ❌ **`PRIMARY_ACTIONS` hardcoded** (F1/F2/F3 = act-rest/-meditate/-eat),
   Addons können keine eigenen Hotkey-Bindings hinzufügen
 - ❌ **Fixed Item-Categories & Resource-Categories** in TS-Enums —
@@ -223,10 +228,8 @@ Diese Lücken stehen so noch nicht in der Liste:
   hat NPC-spezifische Sonderfälle (z.B. spezielle Fehlermeldung bei
   `npc-teacher` ohne Haus). Ein Addon-NPC kann das nicht — nur via
   customExecute-Handler, was Runtime-Addons gar nicht haben.
-- ❌ **Particle-Types**: actions haben `particleType: <key>`,
-  Renderer hat hardcoded particle-shapes per Type. Addons können
-  eigene Strings nutzen, aber der Renderer ignoriert unbekannte
-  Types stillschweigend → unsichtbare Effekte.
+- ✅ **Particle-Types**: siehe ⚙️ Engine oben — CSS-driven, Fallback
+  added.
 - ❌ **SFX-Convention für Addons**: actions haben `sfx: <key>`,
   base ships audio in `/public/sfx/`. Können Addons SFX-Dateien
   shippen? Pfad-Convention nicht etabliert / nicht dokumentiert,
