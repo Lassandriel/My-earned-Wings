@@ -293,6 +293,64 @@ function loadAddonPatches(): Array<{ entry: PatchEntry; origin: string }> {
 
 const addonPatches = loadAddonPatches();
 
+// ─── Addon-defined schema validation ────────────────────────────────
+// Each addon may ship a `schema.yaml` declaring fields it wants
+// enforced on its own content. Shape:
+//
+//     items:
+//       required: [shadowAffinity]
+//     npcs:
+//       required: [vandaraType]
+//
+// We only validate entries that originated from THIS addon — we never
+// retroactively impose addon requirements on base content. Failures
+// throw with the offending file + entry id so the author can fix them.
+//
+// Why so minimal: most addons don't need this; the base schema +
+// tsc on handlers/ticks/effects already catches the meaty cases. But
+// some addons want to guarantee "every shadow item declares its
+// affinity"; that's the kind of self-enforcement this enables.
+function validateAddonSchemas(): void {
+  for (const { manifest, dir } of addons) {
+    const schemaPath = path.join(dir, 'schema.yaml');
+    if (!fs.existsSync(schemaPath)) continue;
+    let schema: unknown;
+    try {
+      schema = yaml.load(fs.readFileSync(schemaPath, 'utf-8'));
+    } catch (err) {
+      throw new Error(
+        `[addon] ${manifest.name}/schema.yaml parse error: ${(err as Error).message}`,
+      );
+    }
+    if (!schema || typeof schema !== 'object') continue;
+
+    for (const [category, rules] of Object.entries(schema as Record<string, unknown>)) {
+      const required =
+        rules && typeof rules === 'object' && Array.isArray((rules as { required?: unknown }).required)
+          ? ((rules as { required: unknown[] }).required as string[])
+          : [];
+      if (required.length === 0) continue;
+
+      // Load this addon's own content for the category (not the merged
+      // registry — we don't want to fail base entries that lack an
+      // addon-required field they were never supposed to have).
+      const addonCategoryDir = path.join(dir, category);
+      const entries = loadDir(addonCategoryDir);
+      for (const entry of entries) {
+        for (const field of required) {
+          if (entry[field] === undefined) {
+            throw new Error(
+              `[addon] ${manifest.name}/schema.yaml: entry "${entry.id}" in ${category}/ ` +
+                `is missing required field "${field}"`,
+            );
+          }
+        }
+      }
+    }
+  }
+}
+validateAddonSchemas();
+
 // ─── Build registries ───────────────────────────────────────────────────────
 
 const resourceRegistry = taggedToRecord(resources);

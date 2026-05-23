@@ -105,7 +105,14 @@ Status-Marker:
 
 ---
 
-## ⚙️ Engine / Code — Runtime-Addons stark eingeschränkt
+## ⚙️ Engine / Code — ✅ **Sektion komplett**
+
+> Alle 9 Engine-Items abgearbeitet (#1 runtime-handlers als
+> by-design "won't fix" dokumentiert). Build-Time-Addons können
+> jetzt: per-Sekunde-Ticks, eigene Effect-Types, eigenen State
+> (namespaced), Migrations, Schema-Validation, Hotkeys. Renderer
+> akzeptiert beliebige Particle-Types/Item-Categories. NPCs sind
+> nicht mehr hardcoded.
 
 - 🚫 **Runtime-Addons können kein `handlers.ts`/`effects.ts`/`ticks.ts`/
   `migrations.ts` shippen** — by-design: alles TS-basierte braucht
@@ -180,8 +187,20 @@ Status-Marker:
   Default-Bucket der Inventar-UI. Wenn ein Addon ihre Category
   explizit gerendert haben will, kann es via Slot/Patches die UI
   erweitern.
-- ❌ **Schema-Validierung ist fixed** — Addons können keine
-  eigenen Pflichtfelder für ihre Entries definieren
+- ✅ **Addon-Schema-Validierung**. Addons können optional `schema.yaml`
+  shippen mit Required-Field-Listen pro Kategorie:
+  ```yaml
+  items:
+    required: [shadowAffinity]
+  npcs:
+    required: [vandaraType]
+  ```
+  Build-Skript validiert NUR die eigenen Entries des Addons gegen
+  die Required-Liste — Base wird nicht retroaktiv mit Addon-
+  Pflichten belegt. Fehlende Felder lassen den Build fatal failen
+  mit Pfad + Entry-ID. Minimal-Scope absichtlich: für komplexere
+  Validierung können Addons ihre handlers.ts/ticks.ts/effects.ts
+  selbst Tests schreiben.
 
 ---
 
@@ -275,10 +294,8 @@ Diese Lücken stehen so noch nicht in der Liste:
 **🏗️ Schema/Type-System — vergessene Items:**
 
 - ✅ **Fixed Item-/Resource-Categories**: siehe ⚙️ Engine oben.
-- ❌ **Schema-Validierung ist fixed**: Build-Skript validiert
-  Standard-Schema. Addons können nicht eigene Pflichtfelder für
-  ihre Entries deklarieren (z.B. ein Schatten-Addon will, dass
-  alle seine Items ein `shadowAffinity` Feld haben).
+- ✅ **Schema-Validierung**: siehe ⚙️ Engine oben — Addon-`schema.yaml`
+  Required-Field Listen pro Kategorie.
 
 **📦 Distribution — vergessene Items:**
 
