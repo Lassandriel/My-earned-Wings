@@ -107,8 +107,14 @@ Status-Marker:
 
 ## ⚙️ Engine / Code — Runtime-Addons stark eingeschränkt
 
-- ❌ **Runtime-Addons können kein `handlers.ts` shippen** (TS braucht
-  Build) — nur Build-Time-Addons
+- 🚫 **Runtime-Addons können kein `handlers.ts`/`effects.ts`/`ticks.ts`/
+  `migrations.ts` shippen** — by-design: alles TS-basierte braucht
+  den Build-Step (Vite/tsc). Runtime-Addons sind YAML-only. Wer
+  Logik will, geht über `content/addons/<name>/` und baut das Spiel
+  selber neu. Workaround für ambitionierte Modder: ein sandboxiertes
+  JS-Subset (eval-Whitelist) wäre möglich, ist aber Security-
+  Risiko und gehört nicht in diese Liste. Markiert als "won't fix"
+  bis jemand konkret danach fragt.
 - ✅ **Custom Effect-Types**. Build-Time-Addons shippen `effects.ts`
   mit `registerEffects` Export, der `register(type, handler)` für
   jeden eigenen Effect-Type aufruft. Build-Skript generiert
@@ -122,8 +128,15 @@ Status-Marker:
   Effect-Types shippen (TS braucht Build). Override-Kollisionen
   (zwei Addons registrieren den gleichen Type) loggen Warning,
   letzter gewinnt.
-- ❌ **Keine neuen Modifier-Keys** — addons können nur existierende
-  Pipeline-Keys nutzen
+- ✅ **Neue Modifier-Keys** — Pipeline ist key-agnostisch: `m.key`
+  ist beliebiger String, `pipeline.calculate(store, '<your-key>')`
+  funktioniert für jeden String. Addons shippen YAML-Modifiers/
+  Items/Buffs mit eigenen `key:`-Werten und rufen `calculate` aus
+  ihrer effects.ts / ticks.ts auf. `PIPELINE_EFFICIENCY_KEYS` (für
+  Satiation-Scaling) wird zur Build-Zeit aus allen Resources/
+  Modifiers mit `scalesWithSatiation: true` abgeleitet — Addons sind
+  da automatisch mit drin. War nie wirklich blockiert, nur nicht
+  dokumentiert.
 - ✅ **`addonState` Namespace**. Jedes Addon hat einen eigenen
   Slot in `GameState.addonState[<addonName>]` (Plain Object). Helper:
   `store.addonStateFor<T>('vandara')` legt den Bucket bei erstem
