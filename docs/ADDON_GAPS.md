@@ -57,11 +57,13 @@ Status-Marker:
 
 **Reihenfolge nach Hebelwirkung:**
 
-1. ❌ **Sub-Tabs sind hardcoded** in jeder View-HTML. Orte hat
-   "village/vandara"-Logik auto via npc.location, aber Main hat fixed
-   "general/herstellen" — Addons können keinen neuen Main-Sub-Tab
-   "Kampf" oder "Reisen" hinzufügen ohne HTML-Edit. **Biggest win
-   when fixed — viele Addon-Konzepte brauchen das.**
+1. ✅ **Sub-Tabs sind data-driven** — neue Content-Kategorie
+   `subTabs` mit `parentView` Feld. Base shippt seine 2 Tabs als
+   YAML; Addons können beliebige Sub-Tabs für `parentView: main`
+   hinzufügen (oder spätere views). Visibility automatisch
+   abgeleitet aus aktiven Sections (oder explizit über
+   `alwaysShown` / `requiresFlag`). Patches für subTabs noch nicht
+   im Patch-System (bei Bedarf nachrüstbar).
 2. ❌ **Addons können kein CSS shippen.** Nur HTML-View-Fragments.
    Polish, kein Show-Stopper, aber wenn ein Addon einen neuen Tab
    hat, will man ihn auch stylen können.
