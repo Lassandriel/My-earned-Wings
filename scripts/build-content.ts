@@ -526,6 +526,48 @@ const handlerSummary =
     : `${addonsWithHandlers.length} addon(s) ship handlers: ${addonsWithHandlers.map((a) => a.manifest.name).join(', ')}`;
 console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_HANDLERS_FILE)} (${handlerSummary})`);
 
+// ─── Generate addon-effects.ts ──────────────────────────────────────
+// Addons that want their own effect types (e.g. `summonShadow`,
+// `applyCurse`) ship `effects.ts` exporting `registerEffects`. The
+// action engine calls each registrar once during initEffects() so
+// YAML can declare `onSuccess: [{ type: <custom>, ... }]` and the
+// runtime dispatch finds the handler. See src/core/addons/effects.ts.
+const ADDON_EFFECTS_FILE = path.join(ROOT, 'src', 'generated', 'addon-effects.ts');
+const addonsWithEffects = addons.filter((a) =>
+  fs.existsSync(path.join(a.dir, 'effects.ts')),
+);
+let addonEffectsOutput =
+  '// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY\n' +
+  '// Source: content/addons/<name>/effects.ts (each must export `registerEffects`)\n' +
+  '// Regenerate: npm run build:content\n' +
+  '//\n' +
+  '// One slot per addon. actions.logic.ts calls every registrar during\n' +
+  '// initEffects(), right after the built-in handlers. See\n' +
+  '// src/core/addons/effects.ts for the contract.\n\n' +
+  "import type { RegisterAddonEffects } from '../core/addons/effects';\n";
+
+if (addonsWithEffects.length === 0) {
+  addonEffectsOutput +=
+    '\nexport const ADDON_EFFECT_REGISTRARS: Record<string, RegisterAddonEffects> = {};\n';
+} else {
+  for (const a of addonsWithEffects) {
+    addonEffectsOutput +=
+      `import * as e_${a.manifest.name} from '../../content/addons/${a.manifest.name}/effects';\n`;
+  }
+  addonEffectsOutput +=
+    '\nexport const ADDON_EFFECT_REGISTRARS: Record<string, RegisterAddonEffects> = {\n';
+  for (const a of addonsWithEffects) {
+    addonEffectsOutput += `  ${a.manifest.name}: e_${a.manifest.name}.registerEffects,\n`;
+  }
+  addonEffectsOutput += '};\n';
+}
+fs.writeFileSync(ADDON_EFFECTS_FILE, addonEffectsOutput, 'utf-8');
+const effectsSummary =
+  addonsWithEffects.length === 0
+    ? 'no addons ship effects.ts'
+    : `${addonsWithEffects.length} addon(s) ship effects: ${addonsWithEffects.map((a) => a.manifest.name).join(', ')}`;
+console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_EFFECTS_FILE)} (${effectsSummary})`);
+
 // ─── Generate addon-ticks.ts ────────────────────────────────────────
 // Per the AddonTickHook contract in src/core/addons/ticks.ts, every
 // addon that wants per-second logic drops a `ticks.ts` exporting

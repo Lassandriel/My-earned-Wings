@@ -127,6 +127,17 @@ export interface LogParams extends Record<string, string | number | boolean | un
   npc?: string;
 }
 
+/**
+ * Built-in effect variants. Tightly typed so the base codebase gets
+ * exhaustive narrowing on `effect.type`. Addons add their own effect
+ * types at runtime via `content/addons/<name>/effects.ts` (see
+ * src/core/addons/effects.ts for the contract). Those effects exist
+ * as far as the dispatch table is concerned — they just don't appear
+ * in this union, so YAML loaders treat them as opaque and consumer
+ * code that pattern-matches on the known types ignores them
+ * gracefully (the dispatcher logs a warning for any truly-unknown
+ * type at runtime, surfacing typos).
+ */
 export type GameEffect =
   | { type: 'setFlag'; flag: FlagId; value: boolean }
   | { type: 'unlockNPC'; id: NPCId }

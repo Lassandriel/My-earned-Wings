@@ -14,6 +14,7 @@ import {
 import { checkRequirement } from '../../core/systems/logicUtils';
 import { CUSTOM_EXECUTE_HANDLERS } from '../../data/actions/custom-handlers';
 import { registerBuiltinEffects } from './actions.effects';
+import { ADDON_EFFECT_REGISTRARS } from '../../generated/addon-effects';
 
 
 /**
@@ -92,7 +93,33 @@ export function createActionSystem() {
 
   // Built-in handlers (setFlag / unlockNPC / unlockItem / addBuff / …) live
   // in actions.effects.ts so this file can focus on action execution flow.
-  const initEffects = () => registerBuiltinEffects(registerEffect, svc);
+  // Addon-defined effects come from src/generated/addon-effects.ts and run
+  // AFTER the built-ins so an addon can override a built-in by registering
+  // the same type (we warn on collision via the wrapped registerEffect).
+  const initEffects = () => {
+    registerBuiltinEffects(registerEffect, svc);
+    // Stable, name-sorted invocation so two addons that touch the same
+    // type get deterministic last-write-wins behaviour.
+    for (const addonName of Object.keys(ADDON_EFFECT_REGISTRARS).sort()) {
+      const registrar = ADDON_EFFECT_REGISTRARS[addonName];
+      try {
+        // Cast the wrapped registerEffect down — addon handlers use the
+        // open `{ type: string; ... }` GameEffect variant; the strictly
+        // typed built-in registerEffect accepts it via the union update.
+        registrar!((type: string, handler) => {
+          if (effectHandlers[type]) {
+            log.warn(
+              `[${addonName}] effect handler "${type}" overrides an earlier registration`,
+            );
+          }
+          effectHandlers[type] = handler as (g: GameState, e: GameEffect) => void;
+          log.debug(`[${addonName}] registered effect "${type}"`);
+        });
+      } catch (err) {
+        log.error(`[${addonName}] effects.ts registrar threw:`, err);
+      }
+    }
+  };
 
 
   const spawnParticles = (game: GameState, action: ActionDefinition, isAutomated: boolean = false) => {
@@ -305,7 +332,17 @@ export function createActionSystem() {
       if (action.onSuccess) {
         action.onSuccess.forEach((effect) => {
           const handler = effectHandlers[effect.type];
-          if (handler) handler(game, effect);
+          if (handler) {
+            handler(game, effect);
+          } else {
+            // Unknown effect type — most likely a typo, or an addon
+            // that ships YAML referring to an effect type whose
+            // effects.ts didn't get bundled. Loud-but-survivable:
+            // log once per dispatch, skip the effect, action still
+            // succeeds. Without this, addon authors used to silently
+            // see their effect do nothing.
+            log.warn(`Unknown effect type "${effect.type}" — skipped`);
+          }
         });
       }
     }

@@ -109,9 +109,19 @@ Status-Marker:
 
 - ❌ **Runtime-Addons können kein `handlers.ts` shippen** (TS braucht
   Build) — nur Build-Time-Addons
-- ❌ **Addons können keine neuen Effect-Types registrieren**
-  (`modifyResource`, `addBuff`, etc. sind base). Wenn ein Addon
-  "summonShadow" als Effekt will, muss Base-Game erweitert werden
+- ✅ **Custom Effect-Types**. Build-Time-Addons shippen `effects.ts`
+  mit `registerEffects` Export, der `register(type, handler)` für
+  jeden eigenen Effect-Type aufruft. Build-Skript generiert
+  `src/generated/addon-effects.ts`; `actions.logic.ts` ruft alle
+  Registrars nach den Built-Ins auf. YAML kann dann
+  `onSuccess: [{ type: summonShadow, ... }]` schreiben.
+  TS-Type `GameEffect` bleibt eine geschlossene Union (verhindert
+  Narrowing-Bruch in 20+ Konsumenten); addon-defined Types existieren
+  nur in der Runtime-Dispatch-Tabelle. Unbekannte Types loggen jetzt
+  einen Warn statt still zu schlucken. Runtime-Addons können keine
+  Effect-Types shippen (TS braucht Build). Override-Kollisionen
+  (zwei Addons registrieren den gleichen Type) loggen Warning,
+  letzter gewinnt.
 - ❌ **Keine neuen Modifier-Keys** — addons können nur existierende
   Pipeline-Keys nutzen
 - ✅ **`addonState` Namespace**. Jedes Addon hat einen eigenen
