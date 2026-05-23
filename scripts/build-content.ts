@@ -639,4 +639,85 @@ console.log(
   `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_STYLES_FILE)} (${styleBlocks.length} addon style file(s))`,
 );
 
+// ─── Generate addon-sfx.ts + copy audio files ───────────────────────
+// Addons drop SFX in `content/addons/<name>/sfx/*.{mp3,ogg,wav,m4a}`
+// and reference them in YAML as `sfx: <name>/<basename>` (no ext).
+// The build script copies each file into `public/sfx/addons/<name>/`
+// so Vite serves them at the same prefix as base SFX (`sfx/...`).
+// The generated registry below maps every key to its served URL; the
+// audio engine merges that into its sfxSources map at boot. Runtime
+// addons add their entries later via IPC + registerAddonSfx().
+const ADDON_SFX_FILE = path.join(ROOT, 'src', 'generated', 'addon-sfx.ts');
+const ADDON_SFX_PUBLIC_DIR = path.join(ROOT, 'public', 'sfx', 'addons');
+const SFX_EXT = /\.(mp3|ogg|wav|m4a)$/i;
+type SfxEntry = { key: string; addonName: string; fileName: string; url: string };
+const sfxEntries: Record<string, SfxEntry> = {};
+
+// Clear stale addon SFX from previous builds so renamed/removed files
+// don't keep getting served. Only touches the addons subtree, never
+// base `public/sfx/*.mp3`.
+if (fs.existsSync(ADDON_SFX_PUBLIC_DIR)) {
+  fs.rmSync(ADDON_SFX_PUBLIC_DIR, { recursive: true, force: true });
+}
+
+for (const a of addons) {
+  const sfxDir = path.join(a.dir, 'sfx');
+  if (!fs.existsSync(sfxDir) || !fs.statSync(sfxDir).isDirectory()) continue;
+  const files = fs.readdirSync(sfxDir).filter((f) => SFX_EXT.test(f)).sort();
+  if (files.length === 0) continue;
+  const destDir = path.join(ADDON_SFX_PUBLIC_DIR, a.manifest.name);
+  fs.mkdirSync(destDir, { recursive: true });
+  for (const file of files) {
+    const baseName = file.replace(SFX_EXT, '');
+    const key = `${a.manifest.name}/${baseName}`;
+    if (sfxEntries[key]) {
+      throw new Error(
+        `[build-content] Duplicate SFX key "${key}" — pick unique basenames per addon`,
+      );
+    }
+    fs.copyFileSync(path.join(sfxDir, file), path.join(destDir, file));
+    sfxEntries[key] = {
+      key,
+      addonName: a.manifest.name,
+      fileName: file,
+      // Served as /sfx/addons/<name>/<file> — same prefix Vite uses
+      // for everything under public/. Audio elements load it via
+      // `new Audio('sfx/addons/...')` (relative URL → site root).
+      url: `sfx/addons/${a.manifest.name}/${file}`,
+    };
+  }
+}
+
+const addonSfxOutput =
+  '// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY\n' +
+  '// Source: content/addons/<name>/sfx/*.{mp3,ogg,wav,m4a}\n' +
+  '// Regenerate: npm run build:content\n\n' +
+  '/**\n' +
+  ' * Build-time addon SFX registry. Each entry is keyed by the sfx key\n' +
+  ' * that YAML refers to (`<addon>/<basename-no-ext>`) and carries the\n' +
+  ' * physical url + provenance metadata for DevTools / debugging.\n' +
+  ' *\n' +
+  ' * The audio engine (src/core/visuals/audio.ts) reads this at boot and\n' +
+  ' * merges every url into its sfxSources map. Runtime addons add to the\n' +
+  ' * same map later via the IPC payload + registerAddonSfx().\n' +
+  ' *\n' +
+  ' * Audio files are copied into public/sfx/addons/<name>/ during build\n' +
+  ' * so Vite serves them at the same path as base SFX. The public/sfx/\n' +
+  ' * addons/ directory is .gitignored — re-running build:content\n' +
+  ' * recreates it from content/addons/<name>/sfx/.\n' +
+  ' */\n' +
+  'export interface AddonSfxEntry {\n' +
+  '  key: string;\n' +
+  '  addonName: string;\n' +
+  '  fileName: string;\n' +
+  '  url: string;\n' +
+  '}\n\n' +
+  'export const ADDON_SFX_GENERATED: Record<string, AddonSfxEntry> = ' +
+  JSON.stringify(sfxEntries, null, 2) + ';\n';
+fs.writeFileSync(ADDON_SFX_FILE, addonSfxOutput, 'utf-8');
+const sfxAddonCount = new Set(Object.values(sfxEntries).map((e) => e.addonName)).size;
+console.log(
+  `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_SFX_FILE)} (${Object.keys(sfxEntries).length} sfx file(s) across ${sfxAddonCount} addon(s))`,
+);
+
 console.log('   Run "npm run dev" to use the new content.\n');

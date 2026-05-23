@@ -73,6 +73,15 @@ export interface RuntimeAddonPayload {
    */
   slots: Record<string, string>;
   /**
+   * <fileName> → data: URL (base64-encoded audio). Used to register
+   * addon SFX without writing files to disk on the renderer side —
+   * the audio engine treats the data URL like any other src. The key
+   * the YAML uses is `<addonName>/<basename-no-ext>`; the renderer
+   * derives that from each fileName here. Empty if the addon ships
+   * no audio.
+   */
+  sfx: Record<string, string>;
+  /**
    * Patches the addon wants applied against base / earlier-loaded
    * addons. Loaded from `patches/*.yaml` and passed straight through
    * to the renderer's patch engine. Empty if the addon ships none.

@@ -88,6 +88,8 @@ export interface RuntimeAddonLoadSummary {
   styleCount: number;
   /** Number of slot HTML blocks injected into the DOM. */
   slotCount: number;
+  /** Number of addon SFX entries registered with the audio engine. */
+  sfxCount: number;
   /** Number of patches successfully applied. */
   patchCount: number;
   /** Warnings — duplicate ids, parse failures bubbled up from the main process, etc. */
@@ -102,6 +104,7 @@ const EMPTY_SUMMARY: RuntimeAddonLoadSummary = {
   viewCount: 0,
   styleCount: 0,
   slotCount: 0,
+  sfxCount: 0,
   patchCount: 0,
   warnings: [],
   addonNames: [],
@@ -135,6 +138,11 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   let entryCount = 0;
   let viewCount = 0;
   let styleCount = 0;
+  let sfxCount = 0;
+  // Collected addon SFX keyed by full sfx key (`<addon>/<basename>`).
+  // Applied in one shot after the addon loop so the audio engine only
+  // sees one batch and we can report a single count in the summary.
+  const collectedSfx: Record<string, string> = {};
   // Slot blocks collected from runtime addons; injected in one pass
   // alongside the build-time slot blocks at the end of loadRuntimeAddons.
   const runtimeSlotBlocks: Record<string, SlotBlock[]> = {};
@@ -228,6 +236,24 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
       }
     }
 
+    // 2c'. Collect addon SFX (filename → data: URL). The audio engine
+    //      keys by `<addon>/<basename-no-ext>` so YAML can reference
+    //      sounds without collision risk. We derive the key here from
+    //      the IPC payload's filename (extension stripped) so the
+    //      main process stays unaware of audio-engine conventions.
+    if ((addon as any).sfx) {
+      for (const [fileName, url] of Object.entries((addon as any).sfx as Record<string, string>)) {
+        if (typeof url !== 'string' || url.length === 0) continue;
+        const baseName = fileName.replace(/\.(mp3|ogg|wav|m4a)$/i, '');
+        const key = `${addon.name}/${baseName}`;
+        if (key in collectedSfx) {
+          warnings.push(`[${addon.name}/sfx/${fileName}] duplicate sfx key "${key}" — skipped`);
+          continue;
+        }
+        collectedSfx[key] = url;
+      }
+    }
+
     // 2d. Collect slot blocks (HTML to inject into named markers in
     //     base views). Multiple addons can target the same slot id;
     //     the slot service handles ordering + Alpine init at boot.
@@ -297,6 +323,22 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     warnings.push(...patchResult.warnings);
   }
 
+  // Hand collected SFX to the audio engine. We poke through Alpine.store
+  // because the audio system is constructed before runtime addons land
+  // and there's no service handle reachable from this module without
+  // tighter coupling. The store reference is set during main.ts boot
+  // (well before this loader runs), so the audio system exists.
+  if (Object.keys(collectedSfx).length > 0 && typeof window !== 'undefined') {
+    const w = window as unknown as { Alpine?: { store: (n: string) => any } };
+    const game = w.Alpine?.store('game');
+    if (game?.audio?.registerAddonSfx) {
+      game.audio.registerAddonSfx(collectedSfx);
+      sfxCount = Object.keys(collectedSfx).length;
+    } else {
+      warnings.push('audio system not yet ready — runtime addon SFX skipped');
+    }
+  }
+
   // Tell the active-addons registry which runtime addons are now live.
   // The save system reads this to embed a compatibility snapshot in
   // every save. Build-time addons are already in the registry via the
@@ -320,6 +362,7 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
     viewCount,
     styleCount,
     slotCount: slotResult.injected,
+    sfxCount,
     patchCount,
     warnings,
     addonNames: result.addons.map((a) => a.name).sort(),
@@ -330,7 +373,7 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
       `loaded ${summary.addonCount} runtime addon(s): ${summary.addonNames.join(', ')} ` +
         `(${summary.entryCount} entries, ${summary.viewCount} views, ` +
         `${summary.styleCount} stylesheets, ${summary.slotCount} slot blocks, ` +
-        `${summary.patchCount} patches)`,
+        `${summary.sfxCount} sfx, ${summary.patchCount} patches)`,
     );
   }
   if (result.scannedDirs?.length) {

@@ -1,5 +1,6 @@
 import { GameState } from '../../types/game';
 import { makeLogger } from '../log';
+import { ADDON_SFX_GENERATED } from '../../generated/addon-sfx';
 
 const log = makeLogger('AUDIO');
 
@@ -9,7 +10,9 @@ declare const Alpine: {
 };
 
 export const createAudioSystem = () => {
-  // SFX Source Registry
+  // SFX Source Registry. Keys are either bare names (base sfx) or
+  // `<addon>/<file>` (addon sfx, namespaced to prevent collisions).
+  // YAML refers to sfx by key; the audio engine resolves the URL here.
   const sfxSources: Record<string, string> = {
     click: 'sfx/click.mp3',
     gather: 'sfx/gather.mp3',
@@ -17,6 +20,15 @@ export const createAudioSystem = () => {
     eat: 'sfx/eat.mp3',
     fail: 'sfx/fail.mp3',
   };
+
+  // Build-time addon SFX. Scanned out of content/addons/<name>/sfx/
+  // by build-content.ts and copied into public/sfx/addons/<name>/.
+  // Each entry exposes { key, addonName, fileName, url } — we only
+  // need the key/url pair here. Runtime-addon SFX are added later via
+  // registerAddonSfx() once the IPC payload arrives.
+  for (const entry of Object.values(ADDON_SFX_GENERATED)) {
+    sfxSources[entry.key] = entry.url;
+  }
 
   // SFX Instance Cache
   const sfx: Record<string, HTMLAudioElement> = {};
@@ -79,6 +91,23 @@ export const createAudioSystem = () => {
     },
 
     updateVolumes,
+
+    /**
+     * Register addon SFX dynamically. Used by runtime-addons.ts after
+     * the IPC payload arrives. `entries` is keyed by full sfx key
+     * (`<addon>/<file>` minus extension) → resolvable URL (file path
+     * for build-time, data: URL for runtime). Existing keys are
+     * preserved with a warning so base + build-time addons always win.
+     */
+    registerAddonSfx(entries: Record<string, string>) {
+      for (const [key, url] of Object.entries(entries)) {
+        if (key in sfxSources) {
+          log.warn(`SFX key "${key}" already registered — skipping addon entry`);
+          continue;
+        }
+        sfxSources[key] = url;
+      }
+    },
 
     playSound(key: string) {
       // Resolve alias if needed

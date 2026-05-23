@@ -53,7 +53,7 @@ Status-Marker:
 
 ---
 
-## 🎨 UI / Views — 🚧 **aktuelle Arbeitssektion**
+## 🎨 UI / Views — 4/5 ✅ (nur Settings/Pause/Save-Dialoge offen)
 
 **Reihenfolge nach Hebelwirkung:**
 
@@ -82,10 +82,16 @@ Status-Marker:
 4. ❌ **Settings-Menü, Pause-Menü, Save-Dialog** sind Base-Game-exklusiv.
    Niedrigster Bedarf (Addons sollten sich aus diesen Kern-UIs eher
    raushalten), letzter Punkt.
-5. ❌ **Audio-Pipeline für Addons nicht etabliert** — actions haben
-   `sfx: <key>`, base ships sounds unter `/public/sfx/`. Pfad-
-   Convention für Addons (z.B. `/public/sfx/addons/<name>/`) noch
-   nicht festgelegt + nicht von `check-assets` validiert
+5. ✅ **Audio-Pipeline für Addons** — Konvention etabliert: Addons
+   legen Audio in `content/addons/<name>/sfx/*.{mp3,ogg,wav,m4a}`,
+   YAML referenziert sie als `sfx: <addon>/<basename>`. Build-Time-
+   Addons werden zur Build-Zeit nach `public/sfx/addons/<name>/`
+   kopiert (gitignored) und in `src/generated/addon-sfx.ts`
+   registriert; das audio-System merged das in seine sfxSources-Map.
+   Runtime-Addons liefern Audio per IPC als data:-URLs mit; der
+   Renderer ruft `audio.registerAddonSfx(...)` auf. `check-assets`
+   validiert jetzt `sfx:`-Felder auf Actions + Buffs gegen das
+   Set aus Base-Keys + Build-Time-Addon-Keys.
 
 ---
 
@@ -207,8 +213,7 @@ Diese Lücken stehen so noch nicht in der Liste:
 
 **📦 Distribution — vergessene Items:**
 
-- ❌ **Audio-Pipeline für Addons**: Pfad + Convention nicht
-  dokumentiert (siehe SFX oben).
+- ✅ **Audio-Pipeline für Addons**: siehe UI/Views #5.
 - ❌ **Asset-Validierung läuft nur über base**: `check-assets`
   script weiß nicht von Addon-Asset-Pfaden.
 

@@ -62,6 +62,7 @@ declare global {
           views: Record<string, string>;
           styles: Record<string, string>;
           slots: Record<string, string>;
+          sfx: Record<string, string>;
           patches: any[];
         }>;
         warnings: string[];

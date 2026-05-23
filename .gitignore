@@ -59,3 +59,7 @@ Desktop.ini
 # Other
 docs/RP_Draconia.md
 TODO.md
+
+# Build artifact: addon SFX gets copied from content/addons/<name>/sfx/
+# into here by `npm run build:content`. Recreated on every build.
+public/sfx/addons/

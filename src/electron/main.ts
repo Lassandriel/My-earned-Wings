@@ -517,6 +517,42 @@ const loadAddonSlots = (
   return out;
 };
 
+const SFX_EXT_RE = /\.(mp3|ogg|wav|m4a)$/i;
+const SFX_MIME: Record<string, string> = {
+  mp3: 'audio/mpeg',
+  ogg: 'audio/ogg',
+  wav: 'audio/wav',
+  m4a: 'audio/mp4',
+};
+
+const loadAddonSfx = (
+  sfxDir: string,
+  warnings: string[],
+  addonName: string,
+): Record<string, string> => {
+  const out: Record<string, string> = {};
+  if (!fs.existsSync(sfxDir)) return out;
+  for (const file of fs.readdirSync(sfxDir)) {
+    const m = file.match(SFX_EXT_RE);
+    if (!m) continue;
+    const ext = m[1]!.toLowerCase();
+    const mime = SFX_MIME[ext] ?? 'application/octet-stream';
+    try {
+      // Encode the audio bytes as a data: URL so the renderer can play
+      // them with a plain `new Audio(src)` — no extra file-protocol or
+      // session-handler glue needed. Cost: ~1.33x size vs raw file in
+      // memory while the addon is loaded. Acceptable for short SFX
+      // (a few hundred KB tops). If users start shipping music here,
+      // we'll switch to a session.protocol.handle() for streaming.
+      const bytes = fs.readFileSync(path.join(sfxDir, file));
+      out[file] = `data:${mime};base64,${bytes.toString('base64')}`;
+    } catch (err) {
+      warnings.push(`[${addonName}/sfx/${file}] read error: ${(err as Error).message}`);
+    }
+  }
+  return out;
+};
+
 const loadAddonViews = (
   viewsDir: string,
   warnings: string[],
@@ -619,6 +655,7 @@ const loadOneRuntimeAddon = (
   const views = loadAddonViews(path.join(dir, 'views'), warnings, name);
   const styles = loadAddonStyles(path.join(dir, 'styles'), warnings, name);
   const slots = loadAddonSlots(path.join(dir, 'slots'), warnings, name);
+  const sfx = loadAddonSfx(path.join(dir, 'sfx'), warnings, name);
   const patches = loadAddonPatchesDir(path.join(dir, 'patches'), warnings, name);
 
   return {
@@ -632,6 +669,7 @@ const loadOneRuntimeAddon = (
     views,
     styles,
     slots,
+    sfx,
     patches,
   };
 };

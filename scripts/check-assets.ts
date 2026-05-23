@@ -9,8 +9,36 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 
 // Import registries (pointing to src/data/index.ts)
 import { registries } from '../src/data/index';
+import { ADDON_SFX_GENERATED } from '../src/generated/addon-sfx';
 
 let errors = 0;
+
+// Base SFX physical files + logical aliases live in audio.ts. We
+// mirror the canonical key set here because that's what YAML refers
+// to via `sfx: <key>`. Keeping it in sync is cheap — there are five
+// of them — and avoids importing the audio module (which touches
+// Alpine globals not available in Node).
+const BASE_SFX_KEYS = new Set([
+  'click', 'gather', 'success', 'eat', 'fail',
+  // Aliases declared in audio.ts
+  'magic', 'water', 'craft', 'discovery',
+]);
+
+// Addon SFX keys are `<addon>/<basename>` (no ext). The registry only
+// has build-time addons — runtime addons aren't visible at check-asset
+// time, by design. Their references would only appear in YAML the
+// build script also doesn't know about, so we accept that gap.
+const ALL_SFX_KEYS = new Set<string>([
+  ...BASE_SFX_KEYS,
+  ...Object.keys(ADDON_SFX_GENERATED),
+]);
+
+const checkSfx = (context: string, key: unknown) => {
+  if (typeof key !== 'string' || key.length === 0) return;
+  if (ALL_SFX_KEYS.has(key)) return;
+  console.error(`[ERROR] ${context}\n   -> SFX key MISSING: '${key}'`);
+  errors++;
+};
 
 const checkImage = (context: string, imgPath: string) => {
     if (!imgPath) return;
@@ -40,6 +68,12 @@ const checkAll = () => {
     // 2. Actions (Some might have custom images override)
     Object.values(registries.actions).forEach((act: any) => {
         if (act.image) checkImage(`Action '${act.id}'`, act.image);
+        if (act.sfx) checkSfx(`Action '${act.id}' (sfx)`, act.sfx);
+    });
+
+    // 2b. Buffs (custom application sound)
+    Object.values(registries.buffs).forEach((buff: any) => {
+        if (buff.sfx) checkSfx(`Buff '${buff.id}' (sfx)`, buff.sfx);
     });
 
     // 3. NPCs (Complex: image, icons, and layers)
