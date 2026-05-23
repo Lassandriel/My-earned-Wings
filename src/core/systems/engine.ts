@@ -8,6 +8,8 @@ import { tickTasks } from '../../engine/systems/tasks';
 import { tickMilestones } from '../../engine/systems/milestones';
 import { createUISync } from '../../engine/systems/ui';
 import { makeLogger } from '../log';
+import { runAddonTicks } from '../addons/ticks';
+import { ADDON_TICKS } from '../../generated/addon-ticks';
 
 const log = makeLogger('ENGINE');
 
@@ -154,6 +156,12 @@ export function createEngineSystem(): Engine {
       tickFocus(state, services, deltaTime);
       this.magicAccumulator = tickRegen(state, services, deltaTime, this.magicAccumulator || 0);
       this.processPassiveProduction(state, services, deltaTime);
+      // Addon tick hooks run AFTER built-in ticks so they can read
+      // fresh resource/buff/regen values, but BEFORE uiSync so any
+      // mutations they make reach Alpine in the same simulation step.
+      // Each hook is wrapped in its own try/catch inside runAddonTicks;
+      // a buggy addon can't freeze the loop or affect other addons.
+      runAddonTicks(state, services, deltaTime, ADDON_TICKS);
       this.uiSync.sync(state, services);
     },
 

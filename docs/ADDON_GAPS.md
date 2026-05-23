@@ -117,7 +117,14 @@ Status-Marker:
 - ❌ **Keine neuen State-Felder in `GameState`** — wenn ein Addon
   "shadowEnergy" als eigene Resource-artige Sache braucht, muss das
   im Type definiert sein
-- ❌ **Kein System-Tick-Hook** für periodische Addon-Logik
+- ✅ **System-Tick-Hook**. Build-Time-Addons shippen `ticks.ts` mit
+  einem `onTick(state, services, deltaTime)` Export. Build-Skript
+  generiert `src/generated/addon-ticks.ts`; Engine ruft alle Hooks
+  in `processTick()` zwischen den eingebauten Ticks (Buffs/Focus/Regen/
+  Producers) und dem `uiSync.sync()` auf. Sortiert nach Addon-Name
+  für deterministische Reihenfolge. Wirft ein Hook, läuft die Schleife
+  weiter (try/catch pro Hook). Runtime-Addons können keine Ticks
+  shippen (TS-Code braucht Build).
 - ❌ **Hardcoded NPC-IDs in TS-Code** (z.B. `village.logic.ts`
   hat npc-teacher-spezifische Fehlermeldungen) — kein Mechanismus
   für Addon-NPCs sowas zu liefern ohne handlers.ts (build-time)

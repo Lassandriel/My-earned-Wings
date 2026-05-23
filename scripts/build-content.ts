@@ -526,6 +526,48 @@ const handlerSummary =
     : `${addonsWithHandlers.length} addon(s) ship handlers: ${addonsWithHandlers.map((a) => a.manifest.name).join(', ')}`;
 console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_HANDLERS_FILE)} (${handlerSummary})`);
 
+// ─── Generate addon-ticks.ts ────────────────────────────────────────
+// Per the AddonTickHook contract in src/core/addons/ticks.ts, every
+// addon that wants per-second logic drops a `ticks.ts` exporting
+// `onTick`. We collect them into a single registry the engine reads
+// from inside processTick(). Runtime addons can't ship ticks (TS
+// requires the build) — same limitation as handlers + migrations.
+const ADDON_TICKS_FILE = path.join(ROOT, 'src', 'generated', 'addon-ticks.ts');
+const addonsWithTicks = addons.filter((a) =>
+  fs.existsSync(path.join(a.dir, 'ticks.ts')),
+);
+let addonTicksOutput =
+  '// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY\n' +
+  '// Source: content/addons/<name>/ticks.ts (each must export `onTick`)\n' +
+  '// Regenerate: npm run build:content\n' +
+  '//\n' +
+  '// One slot per addon. The engine calls each hook from processTick()\n' +
+  '// once per simulation second after the built-in ticks. See\n' +
+  '// src/core/addons/ticks.ts for the contract.\n\n' +
+  "import type { AddonTickHook } from '../core/addons/ticks';\n";
+
+if (addonsWithTicks.length === 0) {
+  addonTicksOutput += '\nexport const ADDON_TICKS: Record<string, AddonTickHook> = {};\n';
+} else {
+  for (const a of addonsWithTicks) {
+    addonTicksOutput +=
+      `import * as t_${a.manifest.name} from '../../content/addons/${a.manifest.name}/ticks';\n`;
+  }
+  addonTicksOutput += '\nexport const ADDON_TICKS: Record<string, AddonTickHook> = {\n';
+  for (const a of addonsWithTicks) {
+    // The addon's module must export `onTick`. If it doesn't, tsc
+    // catches it at the next compile — no runtime guard needed.
+    addonTicksOutput += `  ${a.manifest.name}: t_${a.manifest.name}.onTick,\n`;
+  }
+  addonTicksOutput += '};\n';
+}
+fs.writeFileSync(ADDON_TICKS_FILE, addonTicksOutput, 'utf-8');
+const tickSummary =
+  addonsWithTicks.length === 0
+    ? 'no addons ship ticks.ts'
+    : `${addonsWithTicks.length} addon(s) ship ticks: ${addonsWithTicks.map((a) => a.manifest.name).join(', ')}`;
+console.log(`🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_TICKS_FILE)} (${tickSummary})`);
+
 // ─── Generate addon-migrations.ts ───────────────────────────────────
 // Every addon that ships `migrations.ts` exports SCHEMA_VERSION +
 // MIGRATIONS. We collect them into ADDON_MIGRATIONS so the load path
