@@ -925,6 +925,64 @@ console.log(
   `🎉 [build-content] Generated: ${path.relative(ROOT, ADDON_STYLES_FILE)} (${styleBlocks.length} addon style file(s))`,
 );
 
+// ─── Copy addon images to public/ ───────────────────────────────────
+// Addons drop images in `content/addons/<name>/resources/img/*.{webp,png,jpg,jpeg}`
+// — same "everything for the addon lives in one folder" principle as
+// SFX. Vite only serves files under `public/`, so build copies them
+// to `public/img/addons/<name>/` (the SUBDIRECTORY is gitignored —
+// rebuilt every time). YAML refers to them as
+// `image: img/addons/<name>/<file>` which matches the served URL.
+//
+// Important: base game already uses `public/img/addons/` (flat) for
+// "building add-on" upgrade tiles (wood_1.webp, garden.webp, etc.) —
+// totally unrelated to the addon SYSTEM, just shared dirname. We
+// only delete per-addon SUBDIRECTORIES here so base's flat files at
+// the root stay untouched. Naming collision is unfortunate but
+// renaming either side would be churn for no real gain.
+//
+// Lower-cases the filename on copy to dodge case-mismatch bugs on
+// case-sensitive filesystems (Linux CI, packaged builds) when the
+// author capitalised the source filename.
+const ADDON_IMG_PUBLIC_DIR = path.join(ROOT, 'public', 'img', 'addons');
+const IMG_EXT = /\.(webp|png|jpg|jpeg)$/i;
+
+// Clear stale per-addon subdirs from previous builds. Leave flat
+// base-game files (wood_1.webp, garden.webp, …) untouched — they're
+// versioned in git and aren't ours to wipe.
+if (fs.existsSync(ADDON_IMG_PUBLIC_DIR)) {
+  for (const entry of fs.readdirSync(ADDON_IMG_PUBLIC_DIR, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      fs.rmSync(path.join(ADDON_IMG_PUBLIC_DIR, entry.name), {
+        recursive: true,
+        force: true,
+      });
+    }
+  }
+}
+
+let imgCount = 0;
+let imgAddonCount = 0;
+for (const a of addons) {
+  const imgDir = path.join(a.dir, 'resources', 'img');
+  if (!fs.existsSync(imgDir) || !fs.statSync(imgDir).isDirectory()) continue;
+  const files = fs.readdirSync(imgDir).filter((f) => IMG_EXT.test(f)).sort();
+  if (files.length === 0) continue;
+  imgAddonCount++;
+  const destDir = path.join(ADDON_IMG_PUBLIC_DIR, a.manifest.name);
+  fs.mkdirSync(destDir, { recursive: true });
+  for (const file of files) {
+    // Always lowercase the destination filename. Authors occasionally
+    // capitalise (e.g. "Kalre.webp"); a YAML reference to the
+    // lowercase canonical form keeps working regardless.
+    const dest = file.toLowerCase();
+    fs.copyFileSync(path.join(imgDir, file), path.join(destDir, dest));
+    imgCount++;
+  }
+}
+console.log(
+  `🎉 [build-content] Copied ${imgCount} addon image(s) from ${imgAddonCount} addon(s) → public/img/addons/`,
+);
+
 // ─── Generate addon-sfx.ts + copy audio files ───────────────────────
 // Addons drop SFX in `content/addons/<name>/sfx/*.{mp3,ogg,wav,m4a}`
 // and reference them in YAML as `sfx: <name>/<basename>` (no ext).

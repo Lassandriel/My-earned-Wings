@@ -63,3 +63,8 @@ TODO.md
 # Build artifact: addon SFX gets copied from content/addons/<name>/sfx/
 # into here by `npm run build:content`. Recreated on every build.
 public/sfx/addons/
+# Same for addon images, from content/addons/<name>/resources/img/.
+# Subdirectories ONLY — `public/img/addons/` also contains base-game's
+# loose "building add-on" upgrade tiles (wood_1.webp etc.) that ARE
+# versioned. Pattern matches any subdir per addon name.
+public/img/addons/*/
