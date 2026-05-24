@@ -295,10 +295,10 @@ Diese Lücken stehen so noch nicht in der Liste:
   `step.failLogKey` data-driven.
 - ✅ **Particle-Types**: siehe ⚙️ Engine oben — CSS-driven, Fallback
   added.
-- ❌ **SFX-Convention für Addons**: actions haben `sfx: <key>`,
-  base ships audio in `/public/sfx/`. Können Addons SFX-Dateien
-  shippen? Pfad-Convention nicht etabliert / nicht dokumentiert,
-  wahrscheinlich aber technisch möglich. **Audit-Aufgabe.**
+- ✅ **SFX-Convention für Addons**: siehe UI/Views #5 — Pipeline
+  etabliert (`content/addons/<name>/sfx/*` → `public/sfx/addons/...`),
+  Build- + Runtime-Addons, check-assets validiert sfx-Keys.
+  Duplikat von "Audio-Pipeline" weiter unten in dieser Sektion.
 - ✅ **`PRIMARY_ACTIONS` Hotkeys**: siehe ⚙️ Engine oben — Actions
   haben jetzt ein optionales `hotkey:` Feld.
 
@@ -311,8 +311,13 @@ Diese Lücken stehen so noch nicht in der Liste:
 **📦 Distribution — vergessene Items:**
 
 - ✅ **Audio-Pipeline für Addons**: siehe UI/Views #5.
-- ❌ **Asset-Validierung läuft nur über base**: `check-assets`
-  script weiß nicht von Addon-Asset-Pfaden.
+- ✅ **Asset-Validierung deckt Addons mit ab**: `check-assets`
+  liest die merged Registries (inkl. Build-Time-Addon-Content) und
+  validiert jeden `image:`/`icon:`-Pfad — also auch
+  `img/addons/vandara/<file>.webp`. SFX-Validierung kennt explizit
+  Base- + Build-Time-Addon-Keys (`ADDON_SFX_GENERATED`). Runtime-
+  Addons sind by-design nicht abgedeckt (existieren erst zur
+  Laufzeit, der Build-Check kann sie nicht kennen).
 
 ## 🏗️ Zukunfts-Item — "Base als Core-Addon"
 
