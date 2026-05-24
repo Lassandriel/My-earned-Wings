@@ -21,7 +21,7 @@ import './generated/addon-styles.css';
 import { makeLogger } from './core/log';
 import { GAME_VERSION } from './generated/content';
 import { loadRuntimeAddons } from './core/services/runtime-addons';
-import { isAddonLoaded as isAddonLoadedImpl } from './core/addons/active';
+import { isAddonLoaded as isAddonLoadedImpl, getActiveAddons as getActiveAddonsImpl } from './core/addons/active';
 
 const log = makeLogger('MAIN');
 
@@ -154,6 +154,16 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
 
   isAddonLoaded(name: string): boolean {
     return isAddonLoadedImpl(name);
+  },
+
+  /**
+   * Snapshot of every active addon (core + build-time + runtime),
+   * sorted by name. Recomputed on each call so the Addons settings
+   * tab picks up runtime addons that arrived after Alpine boot.
+   * Cheap — the underlying lists are small (<10 entries in practice).
+   */
+  getActiveAddons() {
+    return getActiveAddonsImpl();
   },
 
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {

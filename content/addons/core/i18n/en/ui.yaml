@@ -232,6 +232,16 @@ controls_laptop_note: "Note: On some laptops the F-keys need the Fn key held."
 sidebar_help_title: Keyboard
 sidebar_help_desc: "Switch tabs: number keys 1-6 or Arrow Up / Down. Top primary actions: F1 Rest, F2 Meditate, F3 Eat Berries. Full reference in Settings under Controls."
 settings_tab_audio: Audio & Sounds
+settings_tab_addons: Addons
+settings_addons_intro: >-
+  These addons are active right now. "Build" means baked into the
+  game executable; "Runtime" means loaded from the `addons/` folder
+  next to the .exe — you can delete or rename those without rebuilding.
+settings_addons_source_build: Build
+settings_addons_source_runtime: Runtime
+settings_addons_note: >-
+  Saves remember which addons were active. On load, the game warns
+  if something is missing or has changed version.
 settings_vol_global: Global Volume
 settings_vol_music: Background Music
 settings_vol_sfx: Effects

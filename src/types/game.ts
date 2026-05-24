@@ -350,6 +350,8 @@ export interface GameState {
    * the active-addons registry directly if you need it.
    */
   isAddonLoaded: (name: string) => boolean;
+  /** Snapshot of every active addon for UI listing. See active.ts. */
+  getActiveAddons: () => Array<{ name: string; version: string; source: 'build' | 'runtime' }>;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;

@@ -37,3 +37,11 @@
   icon: ⚙️
   labelKey: settings_system
   order: 50
+
+# Addons-Listenansicht — zeigt alle geladenen Addons (core + build-time
+# + runtime). Liegt am Ende der Sidebar, weil es eher info als config
+# ist und die meisten Spieler es nicht regelmäßig brauchen.
+- id: addons
+  icon: 🧩
+  labelKey: settings_tab_addons
+  order: 60

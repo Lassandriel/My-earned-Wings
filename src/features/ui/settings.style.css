@@ -537,3 +537,70 @@ input:checked + .slider:before {
   color: rgba(255, 255, 255, 0.95);
   margin: 0 2px;
 }
+
+/* ---- Addons tab — list of loaded addons ---- */
+.addon-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.addon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.addon-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.addon-name {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.addon-version {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  opacity: 0.8;
+}
+
+.addon-source {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.addon-source-build {
+  color: var(--accent-teal);
+  border-color: rgba(45, 212, 191, 0.4);
+  background: rgba(45, 212, 191, 0.08);
+}
+
+.addon-source-runtime {
+  color: var(--gold);
+  border-color: rgba(250, 204, 21, 0.4);
+  background: rgba(250, 204, 21, 0.08);
+}
+
+.addon-list-note {
+  margin-top: 14px;
+  font-style: italic;
+  opacity: 0.7;
+}

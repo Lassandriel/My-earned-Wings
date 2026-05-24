@@ -5163,6 +5163,12 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
     "labelKey": "settings_system",
     "order": 50
   },
+  "addons": {
+    "id": "addons",
+    "icon": "🧩",
+    "labelKey": "settings_tab_addons",
+    "order": 60
+  },
   "smoke": {
     "id": "smoke",
     "icon": "🧪",
@@ -6340,6 +6346,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "sidebar_help_title": "Tastatur",
       "sidebar_help_desc": "Tabs wechseln: Zifferntasten 1-6 oder Pfeil hoch / runter. Hauptaktionen oben: F1 Ausruhen, F2 Meditieren, F3 Beeren essen. Volle Übersicht in den Einstellungen unter Steuerung.",
       "settings_tab_audio": "Audio & Klang",
+      "settings_tab_addons": "Addons",
+      "settings_addons_intro": "Diese Addons sind gerade aktiv. \"Build\" heißt direkt ins Spiel einkompiliert; \"Runtime\" heißt aus dem `addons/`-Ordner neben der .exe geladen — kannst du löschen/umbenennen ohne neu zu builden.",
+      "settings_addons_source_build": "Build",
+      "settings_addons_source_runtime": "Runtime",
+      "settings_addons_note": "Spielstände merken sich, welche Addons aktiv waren. Beim Laden warnt das Spiel wenn jetzt was fehlt oder die Version anders ist.",
       "settings_vol_global": "Gesamtlautstärke",
       "settings_vol_music": "Hintergrundmusik",
       "settings_vol_sfx": "Effekte",
@@ -7631,6 +7642,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "sidebar_help_title": "Keyboard",
       "sidebar_help_desc": "Switch tabs: number keys 1-6 or Arrow Up / Down. Top primary actions: F1 Rest, F2 Meditate, F3 Eat Berries. Full reference in Settings under Controls.",
       "settings_tab_audio": "Audio & Sounds",
+      "settings_tab_addons": "Addons",
+      "settings_addons_intro": "These addons are active right now. \"Build\" means baked into the game executable; \"Runtime\" means loaded from the `addons/` folder next to the .exe — you can delete or rename those without rebuilding.",
+      "settings_addons_source_build": "Build",
+      "settings_addons_source_runtime": "Runtime",
+      "settings_addons_note": "Saves remember which addons were active. On load, the game warns if something is missing or has changed version.",
       "settings_vol_global": "Global Volume",
       "settings_vol_music": "Background Music",
       "settings_vol_sfx": "Effects",

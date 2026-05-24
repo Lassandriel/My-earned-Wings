@@ -347,6 +347,36 @@
         </div>
 
         <!--
+          Addons tab — informational read-out of every loaded addon
+          (core + build-time + runtime). Pulls from getActiveAddons()
+          which walks BUILD_TIME_ADDONS + the runtime registry, so
+          drop-in addons that arrived after Alpine boot show up too.
+          Source badge tells the player whether each entry is baked
+          into the build or loaded from a folder next to the .exe.
+        -->
+        <div x-show="settingsTab === 'addons'" x-transition>
+          <section class="settings-card">
+            <p class="hint" x-text="$store.game.t('settings_addons_intro')"></p>
+            <ul class="addon-list">
+              <template x-for="a in $store.game.getActiveAddons()" :key="a.name">
+                <li class="addon-row">
+                  <div class="addon-row-main">
+                    <strong class="addon-name" x-text="a.name"></strong>
+                    <span class="addon-version" x-text="'v' + a.version"></span>
+                  </div>
+                  <span
+                    class="addon-source"
+                    :class="'addon-source-' + a.source"
+                    x-text="a.source === 'build' ? $store.game.t('settings_addons_source_build') : $store.game.t('settings_addons_source_runtime')"
+                  ></span>
+                </li>
+              </template>
+            </ul>
+            <p class="hint addon-list-note" x-text="$store.game.t('settings_addons_note')"></p>
+          </section>
+        </div>
+
+        <!--
           Slot for addon-provided settings tab bodies. Addons that add
           their own settingsTabs entry ship the matching body markup
           via slots/settings-content.html as e.g.
