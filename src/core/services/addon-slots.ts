@@ -48,7 +48,26 @@ const appendBlockToSlot = (slotEl: HTMLElement, slotId: string, block: SlotBlock
   const Alpine = (window as any).Alpine;
   if (Alpine && typeof Alpine.initTree === 'function') {
     try {
-      Alpine.initTree(wrap);
+      // Re-init from the NEAREST [x-data] ancestor (not the wrap),
+      // so x-show / x-text inside the injected HTML can subscribe to
+      // the ancestor's reactive scope (e.g. the settings modal's
+      // local `settingsTab`). Initializing only the wrap registers
+      // the directives but their effects don't track external signals
+      // — toggling `settingsTab` later wouldn't re-run them, and the
+      // tab body would stay hidden. Re-initializing the ancestor
+      // re-runs every directive in its subtree (cheap, idempotent for
+      // x-show/x-text/etc.) and wires our wrap into the same reactive
+      // graph as base content.
+      let scopeRoot: HTMLElement = wrap;
+      let parent: HTMLElement | null = slotEl;
+      while (parent) {
+        if (parent.hasAttribute('x-data')) {
+          scopeRoot = parent;
+          break;
+        }
+        parent = parent.parentElement;
+      }
+      Alpine.initTree(scopeRoot);
     } catch (err) {
       log.warn(`Alpine init on slot "${tagId}" failed:`, err);
     }

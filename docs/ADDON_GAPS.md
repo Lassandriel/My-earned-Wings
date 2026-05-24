@@ -74,11 +74,13 @@ Status-Marker:
    `slots/<id>.html`. Build-Time-Slots werden zur Build-Zeit in
    `src/generated/addon-slots.ts` als typed Map kompiliert, Runtime-
    Slots kommen per IPC. Slot-Service injiziert beim Boot in matching
-   Container und ruft `Alpine.initTree` für die neuen Nodes, damit
-   x-show/x-text/etc. live wird. De-Dup via `data-addon-slot` Attr.
-   **Base-Views müssen ggf. Slot-Marker zugefügt werden** — heute
-   gibt's noch keine etablierten Slots, das ist Sache der jeweiligen
-   View-HTML wenn ein Addon Bedarf hat.
+   Container und ruft `Alpine.initTree` vom nearest `[x-data]`-
+   Ancestor (NICHT vom wrap selbst — sonst tracken die Direktiven
+   nicht die reaktive Scope der Vorfahren-x-data, und `x-show`/`x-text`
+   gegen lokale Modal-Variablen wären statisch). De-Dup via
+   `data-addon-slot` Attr. **Base-Views müssen ggf. Slot-Marker
+   zugefügt werden** — heute existieren `settings-content`,
+   `menu-actions-end`, `menu-footer-end` und das ist erstmal genug.
 4. ✅ **Settings-Menü / Menü-Erweiterungen für Addons.** Neue
    Content-Kategorie `settingsTabs`: Base shippt seine 5 Tabs
    (general/controls/audio/graphics/system) als YAML; Addons können
