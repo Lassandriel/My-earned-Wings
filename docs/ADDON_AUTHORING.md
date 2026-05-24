@@ -16,7 +16,7 @@ Each addon lives in its own folder under `content/addons/`:
 ```
 content/addons/<your-addon>/
   manifest.yaml                  # required
-  actions/  *.yaml                # optional, same schema as content/base/actions/
+  actions/  *.yaml                # optional, same schema as content/addons/core/actions/
   items/    *.yaml                # optional
   npcs/     *.yaml                # optional
   buffs/ modifiers/ homes/ milestones/ navigation/ titles/ resources/   *.yaml

@@ -5181,6 +5181,10 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
 
 export const BUILD_TIME_ADDONS: Array<{ name: string; version: string }> = [
   {
+    "name": "core",
+    "version": "1.7.0"
+  },
+  {
     "name": "smoke_test",
     "version": "0.1.0"
   },

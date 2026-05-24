@@ -1,0 +1,27 @@
+# `core` is the base game shipped as an addon. It owns the resources,
+# stats, NPCs, actions, and translations that all other addons build
+# on. Removing or replacing this folder removes the demo entirely.
+#
+# Architecturally, treating base as an addon eliminates the "base vs
+# addon"-Sonderfälle the original code path had. Every other addon's
+# guarantees (requires:, overrides:, save snapshot) automatically
+# cover base too, and the build pipeline only has ONE content loader
+# instead of base-then-addons.
+#
+# Load order: `core` sorts alphabetically before vandara, smoke_test,
+# and any other realistic addon name — so it loads first by accident
+# of the topo sort. Addons that need to be safe against unusual names
+# can declare `requires: [core]` explicitly.
+#
+# Version matches the game's package.json so save migrations can
+# recognise a "core@1.7.0" entry the same way they recognise any
+# other addon's version drift.
+
+name: core
+version: 1.7.0
+description: >-
+  Base game content (resources, NPCs, actions, translations).
+  Required by every other addon — uninstalling would remove the
+  demo, the village, the production loop, everything.
+author: My earned Wings team
+enabledByDefault: true

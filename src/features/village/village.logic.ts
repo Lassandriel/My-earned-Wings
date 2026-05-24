@@ -56,7 +56,7 @@ export const createNPCSystem = () => {
           // their YAML; the engine logs it generically so this code
           // doesn't need to know about specific NPC ids. Removed the
           // hardcoded npc-teacher branches that lived here — they
-          // moved into content/base/actions/npcs.yaml as failLogKey
+          // moved into content/addons/core/actions/npcs.yaml as failLogKey
           // entries on the relevant steps.
           if (step.failLogKey) {
             svc().addLog(step.failLogKey, 'logs', LOG_COLOR.failure);

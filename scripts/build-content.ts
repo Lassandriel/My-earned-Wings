@@ -61,12 +61,13 @@ const validateManifest = ajv.compile(manifestSchema);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
-// Phase 15+ addon system: base content lives at content/base/, opt-in
-// addons at content/addons/<name>/. Step 1 moved base; step 2 (this
-// commit) discovers addons and validates their manifests but does NOT
-// yet merge addon content into the registries — that's step 3.
+// Phase 18+ unified loader: every content source — including the
+// base game — lives at content/addons/<name>/. The historical
+// `content/base/` folder was renamed to `content/addons/core/` so
+// the build pipeline has a single code path. Load order is the
+// topo-sorted addon list; `core` lands first by name and so still
+// runs before vandara / smoke_test / future addons.
 const CONTENT_DIR = path.join(ROOT, 'content');
-const BASE_DIR = path.join(CONTENT_DIR, 'base');
 const ADDONS_DIR = path.join(CONTENT_DIR, 'addons');
 const OUTPUT_FILE = path.join(ROOT, 'src', 'generated', 'content.ts');
 
@@ -92,15 +93,17 @@ function loadDir(dir: string): any[] {
 }
 
 /**
- * Loads a category from base + every addon, tagged with origin so the
- * registry builder can produce useful collision errors. Sort is by
- * source order (base first, then addons in name order) so the resulting
- * record's iteration order matches load order — deterministic.
+ * Loads a category from every addon (including `core`), tagged with
+ * origin so the registry builder can produce useful collision errors.
+ * Iteration follows the addon list's topo-sorted order so the
+ * resulting record's order is deterministic — `core` lands first by
+ * alphabetical name, addons that declare `overrides:` against
+ * something land after their target.
  */
 type TaggedItem = { item: any; origin: string };
 function loadCategoryFromAllSources(category: string): TaggedItem[] {
   const tag = (origin: string) => (item: any): TaggedItem => ({ item, origin });
-  const out: TaggedItem[] = loadDir(path.join(BASE_DIR, category)).map(tag(`base/${category}`));
+  const out: TaggedItem[] = [];
   for (const { manifest, dir } of addons) {
     const addonDir = path.join(dir, category);
     out.push(...loadDir(addonDir).map(tag(`addons/${manifest.name}/${category}`)));
@@ -327,7 +330,6 @@ function loadTranslationDir(
 function loadTranslations(): Record<string, Record<string, Record<string, string>>> {
   const out: Record<string, Record<string, Record<string, string>>> = {};
   const overrides: Array<{ lang: string; ctx: string; key: string; from: string; to: string }> = [];
-  loadTranslationDir(path.join(BASE_DIR, 'i18n'), 'base', out, overrides);
   for (const { manifest, dir } of addons) {
     loadTranslationDir(path.join(dir, 'i18n'), `addons/${manifest.name}`, out, overrides);
   }

@@ -321,28 +321,32 @@ Diese Lücken stehen so noch nicht in der Liste:
   Addons sind by-design nicht abgedeckt (existieren erst zur
   Laufzeit, der Build-Check kann sie nicht kennen).
 
-## 🏗️ Zukunfts-Item — "Base als Core-Addon"
+## 🏗️ Base als Core-Addon — ✅ **Sektion komplett**
 
-> **Nicht jetzt. Erst nachdem alle anderen Lücken hier durch sind.**
+> Verschoben am Ende, nachdem alle anderen Lücken durch waren —
+> wie ursprünglich geplant.
 
-Heute: `content/base/` ist explizit anders behandelt als
-`content/addons/*` (Build-Skript skippt es nicht weil's "base"
-heißt, aber es ist überall der "Standard" und Addons sind die
-"Erweiterungen").
+**Was passiert ist**: `content/base/` ist jetzt
+`content/addons/core/` mit eigenem `manifest.yaml`. Das
+Build-Skript hat keinen `BASE_DIR`-Sonderpfad mehr; sowohl
+`loadCategoryFromAllSources` als auch `loadTranslations` iterieren
+nur über die topo-sortierte `addons`-Liste. `core` landet
+alphabetisch zuerst und behält damit seine Lade-Priorität.
 
-Ziel: `content/base/` → `content/addons/_core/` (oder ähnlich)
-verschieben, marked `required: true` (kann nicht deaktiviert
-werden). Dadurch:
+**Dadurch:**
 
-- Keine "base vs addon"-Sonderfälle im Code mehr
-- Addon-System ist stress-getestet, weil base es nutzt
-- Modder können theoretisch ganze Kern-Bereiche durch andere
-  Addons ersetzen (z.B. "Anderes-Dorf"-Mod als
-  Core-Addon-Replacement)
+- ✅ Keine "base vs addon"-Sonderfälle im Code mehr
+- ✅ Addon-System ist stress-getestet — base benutzt es jeden Build
+- ✅ Modder können theoretisch ganze Kern-Bereiche durch andere
+  Addons ersetzen, indem sie `overrides: [core]` deklarieren und
+  die gleichen IDs überschreiben
+- ✅ `core` taucht jetzt in jedem Save's `activeAddons` Snapshot
+  auf — alte Saves ohne den Eintrag werden vom Compat-Modal als
+  "neu hinzugekommen" gemeldet, was harmlos ist und nicht blockiert
 
-**Wann angehen**: Nachdem die unten gelisteten Punkte (UI/Views,
-Engine, Saves-Tiefe, Inter-Addon) ALLE durch sind. Sonst Risiko
-"base bewegt, X nicht möglich, gestrandet."
+**Was bewusst NICHT gemacht wurde:** Ein `required: true` Manifest-
+Feld. Heute gibt's keine UI zum Deaktivieren von Addons — die Flag
+wäre erst sinnvoll wenn jemand so eine UI baut. Kommt dann mit.
 
 ---
 
