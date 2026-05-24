@@ -1,0 +1,9 @@
+# Action title + desc for act-smoke-ping. Lives in the `actions`
+# context so it's picked up by the action-card renderer the same
+# way base action labels are.
+
+act-smoke-ping:
+  title: Smoke-Ping senden
+  desc: >-
+    Schickt einen leisen Puls aus. Hebt die smoke_test-State-Zähler
+    und löst den smokeFlash-Effekt aus.

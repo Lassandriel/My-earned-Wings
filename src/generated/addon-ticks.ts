@@ -7,5 +7,8 @@
 // src/core/addons/ticks.ts for the contract.
 
 import type { AddonTickHook } from '../core/addons/ticks';
+import * as t_smoke_test from '../../content/addons/smoke_test/ticks';
 
-export const ADDON_TICKS: Record<string, AddonTickHook> = {};
+export const ADDON_TICKS: Record<string, AddonTickHook> = {
+  smoke_test: t_smoke_test.onTick,
+};

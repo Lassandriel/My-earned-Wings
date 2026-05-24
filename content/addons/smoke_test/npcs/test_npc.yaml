@@ -1,0 +1,14 @@
+# Smoke-test NPC — exists only to confirm that an addon can ship an
+# NPC entry with the schema fields the renderer expects, including
+# the smoke_test-only required field declared in ../schema.yaml.
+# The renderer ignores any field it doesn't know about, so the
+# `smokeAffinity` here is silently passed through by base code.
+
+- id: npc-smoke-witness
+  nameKey: smoke_witness_name
+  icon: 🧪
+  color: '#22d3ee'
+  progKey: smokeWitness
+  maxProgress: 1
+  chapter: SmokeTest
+  smokeAffinity: shadow # required by smoke_test's own schema.yaml

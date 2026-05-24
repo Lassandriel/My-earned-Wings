@@ -1,0 +1,17 @@
+name: smoke_test
+version: 0.1.0
+description: >-
+  Worked example that uses every addon capability the system ships:
+  YAML content, patches, handlers.ts, effects.ts, ticks.ts,
+  migrations.ts, schema.yaml, settingsTabs, slots, styles,
+  inter-addon helpers. Lives in the repo as a self-check + author
+  onboarding template; rename it to `_smoke_test` (underscore prefix)
+  to disable without deleting.
+author: addon-system audit
+enabledByDefault: true
+# Empty arrays here document the fields without enforcing anything.
+# `requires: [vandara]` would also work on this branch — vandara is
+# present — but we keep the smoke test self-contained so it can
+# survive being copied to a vandara-less branch.
+requires: []
+overrides: []

@@ -1,0 +1,11 @@
+# Smoke-test settings tab — adds a "Smoke" entry to the Settings
+# sidebar. The matching body lives at slots/settings-content.html
+# (an x-show wrapper keyed by `settingsTab === 'smoke'`), which the
+# slot system injects into base's <div data-slot="settings-content">.
+# Together they prove the settingsTabs registry, settings.view.html
+# data-binding, and the slot system all interoperate.
+
+- id: smoke
+  icon: 🧪
+  labelKey: smoke_settings_tab
+  order: 90 # near the end of the sidebar

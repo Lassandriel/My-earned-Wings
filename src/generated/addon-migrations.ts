@@ -10,5 +10,8 @@
 // TS code requires the build step.
 
 import type { AddonMigrationModule } from '../core/services/save-migrations';
+import * as mig_smoke_test from '../../content/addons/smoke_test/migrations';
 
-export const ADDON_MIGRATIONS: Record<string, AddonMigrationModule> = {};
+export const ADDON_MIGRATIONS: Record<string, AddonMigrationModule> = {
+  smoke_test: mig_smoke_test as unknown as AddonMigrationModule,
+};

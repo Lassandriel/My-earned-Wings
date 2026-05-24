@@ -1,0 +1,19 @@
+# Smoke-test action — exercises the action-side capabilities:
+# - addon-defined hotkey ('F8') routed through input.logic.ts
+# - custom effect type ('smokeFlash') registered in ../effects.ts
+# - addon-namespaced SFX would go here too (sfx: smoke_test/<name>)
+#   but we don't ship audio in this smoke test (avoid binary noise).
+
+- id: act-smoke-ping
+  category: addon-smoke
+  icon: 📡
+  hotkey: F8
+  costType: energy
+  cost: 1
+  onSuccess:
+    - type: log
+      logKey: smoke_ping_log
+      color: '#22d3ee'
+    # Custom effect type, registered by effects.ts at boot.
+    - type: smokeFlash
+      intensity: 3

@@ -1,0 +1,12 @@
+# Smoke-test schema validation — declares that every NPC this addon
+# ships must have a `smokeAffinity` field. The build script enforces
+# this only against THIS addon's content, so base NPCs (which never
+# heard of smokeAffinity) are untouched.
+#
+# npc-smoke-witness in npcs/test_npc.yaml has the field; if you
+# remove it the build dies with a precise pointer at the offender.
+# This is exactly the "lock down my own schema" guarantee the gap
+# doc promises.
+
+npcs:
+  required: [smokeAffinity]

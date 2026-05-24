@@ -7,5 +7,8 @@
 // src/core/addons/effects.ts for the contract.
 
 import type { RegisterAddonEffects } from '../core/addons/effects';
+import * as e_smoke_test from '../../content/addons/smoke_test/effects';
 
-export const ADDON_EFFECT_REGISTRARS: Record<string, RegisterAddonEffects> = {};
+export const ADDON_EFFECT_REGISTRARS: Record<string, RegisterAddonEffects> = {
+  smoke_test: e_smoke_test.registerEffects,
+};

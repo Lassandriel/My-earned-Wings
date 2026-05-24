@@ -1,0 +1,13 @@
+# English mirrors of the smoke-test strings — the base game ships
+# en + de side-by-side; check-i18n complains if an addon adds a key
+# to one language but not the other.
+
+smoke_ping_log: "A soft pulse rolls through the valley."
+smoke_panel_title: "Smoke test diagnostics"
+smoke_panel_hint: >-
+  These values update live from the `smoke_test` addonState slot.
+  If the tick count climbs, the hook is running; if Vandara shows ✔,
+  the isAddonLoaded check fired.
+smoke_stat_ticks: Ticks
+smoke_stat_flashes: Smoke flashes fired
+smoke_stat_vandara: Vandara loaded

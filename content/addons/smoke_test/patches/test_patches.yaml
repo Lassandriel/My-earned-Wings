@@ -1,0 +1,17 @@
+# Smoke-test patches — exercises the patch engine on a couple of
+# representative base entries. The build fails fast (throw) if any
+# target is missing, which is exactly the behaviour we want from a
+# build-time smoke test.
+
+# Action patch: nudge act-rest's icon. modifyCost is a no-op delta map
+# (no fields → no actual cost change) but the dispatch + validate
+# path runs, proving the patch engine reaches the action registry.
+- targetType: action
+  targetId: act-rest
+  setIcon: 💤 # base used 🌙 — confirms setIcon op runs without error
+
+# NPC patch: shift an existing NPC's chapter label. Same proof shape
+# as above for the npc patch dispatch.
+- targetType: npc
+  targetId: npc-teacher
+  setChapter: chapter_smoke_test

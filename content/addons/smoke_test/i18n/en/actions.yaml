@@ -1,0 +1,5 @@
+act-smoke-ping:
+  title: Send Smoke Ping
+  desc: >-
+    Emit a quiet pulse. Increments the smoke_test state counters and
+    fires the smokeFlash effect.

@@ -1,0 +1,13 @@
+# Translations the smoke test references. Lives in the `logs`
+# context (same one base uses for general game text) so the smoke
+# panel and the smoke action's log entry pull from one bag.
+
+smoke_ping_log: "Ein leiser Pulsschlag rollt durch das Tal."
+smoke_panel_title: "Smoke-Test Diagnose"
+smoke_panel_hint: >-
+  Diese Werte aktualisieren sich live aus dem `smoke_test`
+  addonState-Slot. Wenn die Tick-Zahl steigt, läuft der Hook;
+  wenn Vandara hier ✔ zeigt, hat isAddonLoaded angeschlagen.
+smoke_stat_ticks: Ticks
+smoke_stat_flashes: Smoke-Flashes ausgelöst
+smoke_stat_vandara: Vandara geladen

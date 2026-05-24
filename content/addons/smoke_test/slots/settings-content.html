@@ -1,0 +1,33 @@
+<!--
+  Smoke-test settings tab body. Injected into base's
+  `<div data-slot="settings-content">` at boot, inside the modal's
+  x-data scope so `settingsTab` resolves correctly.
+
+  Renders a small panel showing the addonState bucket so the user
+  can VISUALLY confirm that ticks.ts is running (the counter
+  increments live) and that effects.ts has fired if they triggered
+  act-smoke-ping. Pure-Alpine, no extra wiring.
+-->
+<div x-show="settingsTab === 'smoke'" x-transition>
+  <section class="settings-card">
+    <h4 x-text="$store.game.t('smoke_panel_title', 'logs')"></h4>
+    <p
+      class="hint"
+      x-text="$store.game.t('smoke_panel_hint', 'logs')"
+    ></p>
+    <ul class="smoke-stats">
+      <li>
+        <strong x-text="$store.game.t('smoke_stat_ticks', 'logs')"></strong>:
+        <span x-text="($store.game.addonState?.smoke_test?.ticks ?? 0)"></span>
+      </li>
+      <li>
+        <strong x-text="$store.game.t('smoke_stat_flashes', 'logs')"></strong>:
+        <span x-text="($store.game.addonState?.smoke_test?.smokeFlashCount ?? 0)"></span>
+      </li>
+      <li>
+        <strong x-text="$store.game.t('smoke_stat_vandara', 'logs')"></strong>:
+        <span x-text="($store.game.addonState?.smoke_test?.vandaraPresent ? '✔' : '—')"></span>
+      </li>
+    </ul>
+  </section>
+</div>

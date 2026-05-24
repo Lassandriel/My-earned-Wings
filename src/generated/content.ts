@@ -3134,6 +3134,25 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     },
     "logKey": "buy_iron_parts_log"
   },
+  "act-smoke-ping": {
+    "id": "act-smoke-ping",
+    "category": "addon-smoke",
+    "icon": "📡",
+    "hotkey": "F8",
+    "costType": "energy",
+    "cost": 1,
+    "onSuccess": [
+      {
+        "type": "log",
+        "logKey": "smoke_ping_log",
+        "color": "#22d3ee"
+      },
+      {
+        "type": "smokeFlash",
+        "intensity": 3
+      }
+    ]
+  },
   "act-vandara-brew-energy-potion-small": {
     "id": "act-vandara-brew-energy-potion-small",
     "category": "vandara_workshop",
@@ -4628,7 +4647,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/npcs/teacher_aria.webp",
     "progKey": "teacher",
     "maxProgress": 5,
-    "chapter": "Village Life",
+    "chapter": "chapter_smoke_test",
     "unlockedAtStart": true
   },
   "npc-townHall": {
@@ -4717,6 +4736,16 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "progKey": "aris",
     "maxProgress": 6,
     "chapter": "The Dream"
+  },
+  "npc-smoke-witness": {
+    "id": "npc-smoke-witness",
+    "nameKey": "smoke_witness_name",
+    "icon": "🧪",
+    "color": "#22d3ee",
+    "progKey": "smokeWitness",
+    "maxProgress": 1,
+    "chapter": "SmokeTest",
+    "smokeAffinity": "shadow"
   },
   "npc-vandara-olie": {
     "id": "npc-vandara-olie",
@@ -5133,6 +5162,12 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
     "icon": "⚙️",
     "labelKey": "settings_system",
     "order": 50
+  },
+  "smoke": {
+    "id": "smoke",
+    "icon": "🧪",
+    "labelKey": "smoke_settings_tab",
+    "order": 90
   }
 };
 
@@ -5145,6 +5180,10 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
 // list is the union of both.
 
 export const BUILD_TIME_ADDONS: Array<{ name: string; version: string }> = [
+  {
+    "name": "smoke_test",
+    "version": "0.1.0"
+  },
   {
     "name": "vandara",
     "version": "0.1.0"
@@ -5504,6 +5543,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Lesen: Die schwebenden Lande",
         "desc": "Studiere die Geographie von Draconia."
       },
+      "act-smoke-ping": {
+        "title": "Smoke-Ping senden",
+        "desc": "Schickt einen leisen Puls aus. Hebt die smoke_test-State-Zähler und löst den smokeFlash-Effekt aus."
+      },
       "act-npc-vandara-gate-guard": {
         "title": "Torwächter",
         "unlocks": "Zugang zu Vandara"
@@ -5844,6 +5887,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_no_house": "\"Es ist schön dich zu sehen, {player}. Aber ohne ein festes Dach über dem Kopf wird das mit dem Lernen schwierig. Komm doch wieder, wenn du ein eigenes Haus hast.\"",
       "npc_teacher_2_with_house": "\"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!\"",
       "focus_broken_magic": "Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.",
+      "smoke_ping_log": "Ein leiser Pulsschlag rollt durch das Tal.",
+      "smoke_panel_title": "Smoke-Test Diagnose",
+      "smoke_panel_hint": "Diese Werte aktualisieren sich live aus dem `smoke_test` addonState-Slot. Wenn die Tick-Zahl steigt, läuft der Hook; wenn Vandara hier ✔ zeigt, hat isAddonLoaded angeschlagen.",
+      "smoke_stat_ticks": "Ticks",
+      "smoke_stat_flashes": "Smoke-Flashes ausgelöst",
+      "smoke_stat_vandara": "Vandara geladen",
       "receive_vandara_letter": "Aria überreicht dir einen Brief mit roségoldenem Siegel. Eine Einladung zur Akademie in Vandara.",
       "vandara_admitted": "Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir.",
       "vandara_enrolled": "Olié reicht dir den Studentenausweis. Du bist offiziell Studentin/Student der Roségold-Akademie.",
@@ -6393,6 +6442,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "main_subtab_general_name": "Allgemein",
       "main_subtab_herstellen_name": "Herstellen",
       "ui_placed_suffix": "(platziert)",
+      "smoke_witness_name": "Rauchzeugin",
+      "smoke_settings_tab": "Rauch",
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Torwächter",
@@ -6777,6 +6828,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Read: The Floating Lands",
         "desc": "Study the geography of Draconia."
       },
+      "act-smoke-ping": {
+        "title": "Send Smoke Ping",
+        "desc": "Emit a quiet pulse. Increments the smoke_test state counters and fires the smokeFlash effect."
+      },
       "act-npc-vandara-gate-guard": {
         "title": "Gate Warden",
         "unlocks": "Access to Vandara"
@@ -7117,6 +7172,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_no_house": "\"It is nice to see you, {player}. But without a solid roof over your head, learning will be difficult. Come back once you have a house of your own.\"",
       "npc_teacher_2_with_house": "\"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!\"",
       "focus_broken_magic": "Your magic energy is depleted. The arcane focus has been interrupted.",
+      "smoke_ping_log": "A soft pulse rolls through the valley.",
+      "smoke_panel_title": "Smoke test diagnostics",
+      "smoke_panel_hint": "These values update live from the `smoke_test` addonState slot. If the tick count climbs, the hook is running; if Vandara shows ✔, the isAddonLoaded check fired.",
+      "smoke_stat_ticks": "Ticks",
+      "smoke_stat_flashes": "Smoke flashes fired",
+      "smoke_stat_vandara": "Vandara loaded",
       "receive_vandara_letter": "Aria hands you a letter sealed in rose gold wax. An invitation to the Academy in Vandara.",
       "vandara_admitted": "You've been admitted to Vandara. The academy lies before you.",
       "vandara_enrolled": "Olié hands you the student ID. You are officially a student of the Rose Gold Academy.",
@@ -7666,6 +7727,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "main_subtab_general_name": "General",
       "main_subtab_herstellen_name": "Crafting",
       "ui_placed_suffix": "(placed)",
+      "smoke_witness_name": "Smoke Witness",
+      "smoke_settings_tab": "Smoke",
       "location_vandara_name": "Vandara",
       "chapter_vandara": "Vandara",
       "npc_vandara_gate_guard_name": "Gate Warden",
