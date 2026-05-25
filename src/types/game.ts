@@ -357,6 +357,7 @@ export interface GameState {
     source: 'build' | 'runtime';
     description?: string;
     author?: string;
+    entries?: Record<string, number>;
   }>;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;

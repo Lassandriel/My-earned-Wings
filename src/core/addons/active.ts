@@ -28,6 +28,13 @@ export interface AddonRef {
   /** Optional manifest copy fields surfaced for UI listing. */
   description?: string;
   author?: string;
+  /**
+   * Per-category YAML entry counts ('npcs' → 9, 'actions' → 12, …).
+   * Build-time addons get these from build-content.ts; runtime addons
+   * get them tallied from their IPC payload at boot. Used by the
+   * Addons settings tab to show what each addon actually adds.
+   */
+  entries?: Record<string, number>;
 }
 
 const runtimeAddons: AddonRef[] = [];
@@ -39,6 +46,7 @@ export const registerRuntimeAddons = (
     version: string;
     description?: string;
     author?: string;
+    entries?: Record<string, number>;
   }>,
 ): void => {
   runtimeAddons.length = 0;
@@ -49,6 +57,7 @@ export const registerRuntimeAddons = (
       source: 'runtime',
       description: a.description,
       author: a.author,
+      entries: a.entries,
     });
   }
 };
@@ -63,6 +72,7 @@ export const getActiveAddons = (): AddonRef[] => {
       source: 'build',
       description: a.description,
       author: a.author,
+      entries: a.entries,
     });
   }
   for (const a of runtimeAddons) out.push(a);

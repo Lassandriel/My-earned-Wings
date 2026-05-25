@@ -287,6 +287,9 @@ const sections = loadCategoryFromAllSources('sections');
 // render its sub-tab strip, so addons can add new sub-tabs by
 // shipping a YAML entry — no view markup to edit. See main.view.html.
 const subTabs = loadCategoryFromAllSources('subTabs');
+// settingsTabs collected later in this file but tally entries the
+// same way — declared here so the Addons settings tab can list
+// "settingsTabs: 1" for any addon that ships one.
 // `settingsTabs` declare which tabs appear in the Settings modal's
 // sidebar. Each entry: { id, icon, labelKey, order, requiresFlag? }.
 // Base ships its 5 tabs (general/controls/audio/graphics/system) here;
@@ -294,6 +297,36 @@ const subTabs = loadCategoryFromAllSources('subTabs');
 // `settings-content` slot with a `<div x-show="settingsTab === '<id>'">`
 // block. See settings.view.html for the renderer.
 const settingsTabs = loadCategoryFromAllSources('settingsTabs');
+
+// ─── Per-addon entry counts ─────────────────────────────────────────
+// Walk the tagged-item lists we just loaded and tally how many entries
+// each addon contributed per category. Surfaced via BUILD_TIME_ADDONS
+// so the Settings → Addons tab can render "vandara: 9 npcs · 12 actions".
+// Origin tag shape from loadCategoryFromAllSources is
+// `addons/<addonName>/<category>`.
+const entryCounts: Record<string, Record<string, number>> = {};
+const tallyCategory = (category: string, taggedList: TaggedItem[]): void => {
+  for (const { origin } of taggedList) {
+    const m = origin.match(/^addons\/([^/]+)\//);
+    if (!m) continue;
+    const addonName = m[1]!;
+    (entryCounts[addonName] ??= {})[category] =
+      (entryCounts[addonName]?.[category] ?? 0) + 1;
+  }
+};
+tallyCategory('resources', resources);
+tallyCategory('modifiers', modifiers);
+tallyCategory('actions', actions);
+tallyCategory('items', items);
+tallyCategory('npcs', npcs);
+tallyCategory('buffs', buffs);
+tallyCategory('homes', homes);
+tallyCategory('milestones', milestones);
+tallyCategory('navigation', navigation);
+tallyCategory('titles', titles);
+tallyCategory('sections', sections);
+tallyCategory('subTabs', subTabs);
+tallyCategory('settingsTabs', settingsTabs);
 
 // ─── Translations (special: nested map, not array) ──────────────────────────
 //
@@ -599,12 +632,20 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = ${JSON.strin
 // are tracked separately at boot — the save's full activeAddons
 // list is the union of both.
 
-export const BUILD_TIME_ADDONS: Array<{ name: string; version: string; description?: string; author?: string }> = ${JSON.stringify(
+export const BUILD_TIME_ADDONS: Array<{
+  name: string;
+  version: string;
+  description?: string;
+  author?: string;
+  /** YAML entries per category — used by the Addons settings UI. */
+  entries?: Record<string, number>;
+}> = ${JSON.stringify(
   addons.map((a) => ({
     name: a.manifest.name,
     version: a.manifest.version,
     description: a.manifest.description,
     author: a.manifest.author,
+    entries: entryCounts[a.manifest.name] ?? {},
   })),
   null,
   2,

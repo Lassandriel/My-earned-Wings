@@ -369,12 +369,26 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   // every save. Build-time addons are already in the registry via the
   // generated content; we just contribute the runtime side here.
   registerRuntimeAddons(
-    result.addons.map((a) => ({
-      name: a.name,
-      version: a.version,
-      description: a.description,
-      author: a.author,
-    })),
+    result.addons.map((a) => {
+      // Tally per-category entry counts from the IPC payload's `data`
+      // map so the Addons settings tab can show what each runtime
+      // addon contributed (parallel to BUILD_TIME_ADDONS.entries for
+      // build-time addons). a.data is keyed by category, value is
+      // the array of YAML entries.
+      const entries: Record<string, number> = {};
+      for (const [category, items] of Object.entries(a.data ?? {})) {
+        if (Array.isArray(items) && items.length > 0) {
+          entries[category] = items.length;
+        }
+      }
+      return {
+        name: a.name,
+        version: a.version,
+        description: a.description,
+        author: a.author,
+        entries,
+      };
+    }),
   );
 
   // Inject build-time + runtime slot blocks in one pass. Build-time

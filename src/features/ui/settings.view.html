@@ -372,6 +372,24 @@
                     ></span>
                   </div>
                   <p class="addon-desc" x-show="a.description" x-text="a.description"></p>
+                  <!--
+                    Per-category entry chips. Object.entries gives us
+                    [category, count] pairs; filter zeros + sort by
+                    count descending so the most populous category
+                    sits first. Limit to 6 chips to avoid wrapping
+                    runaway when an addon ships a lot of categories.
+                  -->
+                  <div class="addon-entries" x-show="a.entries && Object.keys(a.entries).length > 0">
+                    <template
+                      x-for="[cat, n] in Object.entries(a.entries || {}).filter(([, n]) => n > 0).sort(([, a], [, b]) => b - a).slice(0, 6)"
+                      :key="cat"
+                    >
+                      <span class="addon-entry-chip">
+                        <span x-text="n"></span>
+                        <span x-text="cat"></span>
+                      </span>
+                    </template>
+                  </div>
                   <p class="addon-author" x-show="a.author">
                     <span x-text="$store.game.t('settings_addons_by')"></span>
                     <span x-text="a.author"></span>

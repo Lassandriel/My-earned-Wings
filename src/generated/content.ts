@@ -5185,24 +5185,58 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
 // are tracked separately at boot — the save's full activeAddons
 // list is the union of both.
 
-export const BUILD_TIME_ADDONS: Array<{ name: string; version: string; description?: string; author?: string }> = [
+export const BUILD_TIME_ADDONS: Array<{
+  name: string;
+  version: string;
+  description?: string;
+  author?: string;
+  /** YAML entries per category — used by the Addons settings UI. */
+  entries?: Record<string, number>;
+}> = [
   {
     "name": "core",
     "version": "1.7.0",
     "description": "Base game content (resources, NPCs, actions, translations). Required by every other addon — uninstalling would remove the demo, the village, the production loop, everything.",
-    "author": "My earned Wings team"
+    "author": "My earned Wings team",
+    "entries": {
+      "resources": 21,
+      "modifiers": 46,
+      "actions": 78,
+      "items": 36,
+      "npcs": 11,
+      "buffs": 2,
+      "homes": 4,
+      "milestones": 1,
+      "navigation": 6,
+      "sections": 1,
+      "subTabs": 2,
+      "settingsTabs": 6
+    }
   },
   {
     "name": "smoke_test",
     "version": "0.1.0",
     "description": "Worked example that uses every addon capability the system ships: YAML content, patches, handlers.ts, effects.ts, ticks.ts, migrations.ts, schema.yaml, settingsTabs, slots, styles, inter-addon helpers. Lives in the repo as a self-check + author onboarding template; rename it to `_smoke_test` (underscore prefix) to disable without deleting.",
-    "author": "addon-system audit"
+    "author": "addon-system audit",
+    "entries": {
+      "actions": 1,
+      "npcs": 1,
+      "settingsTabs": 1
+    }
   },
   {
     "name": "vandara",
     "version": "0.1.0",
     "description": "Vandara — die Roségold-Akademie. Erstes großes Story-Addon nach dem Dorf-Demo. Beginnt mit dem Einladungsbrief, den Aria der Lehrerin nach dem Schulabschluss überreicht.",
-    "author": "Lassandriel"
+    "author": "Lassandriel",
+    "entries": {
+      "resources": 2,
+      "actions": 24,
+      "items": 3,
+      "npcs": 9,
+      "buffs": 3,
+      "sections": 1
+    }
   }
 ];
 
