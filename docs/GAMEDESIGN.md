@@ -8,11 +8,11 @@
 
 * **Grounded simulation**: No offline progress. The world only advances while the application is running — the player is *present* with the world, not optimizing a spreadsheet that ran overnight.
 * **Look & Feel**: Vanilla CSS Glassmorphism with a Juice Feedback System (particles, micro-animations, SFX) on every meaningful action.
-* **Terminology Baseline** (German is canonical, English is the translation):
-    * Main Tab: "Haupt" (Main) — where the player's actions live, including cooking/alchemy
-    * Locations: "Werkstatt" (Workshop)
-    * Categories: "Handwerk" (Crafting)
-    * Resources: "Seelensplitter" (Soul Shards)
+* **Terminology Baseline** (English is canonical, German is the translation):
+    * Main Tab: "Main" (DE: "Haupt") — where the player's actions live, including cooking/alchemy
+    * Locations: "Workshop" (DE: "Werkstatt")
+    * Categories: "Crafting" (DE: "Handwerk")
+    * Resources: "Soul Shards" (DE: "Seelensplitter")
 
 ## 3\. Core Mechanics
 
