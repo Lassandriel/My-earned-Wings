@@ -269,6 +269,8 @@ export interface GameState {
     showJuice: boolean;
     uiScale: 'auto' | string;
     resolution: 'auto' | string;
+    /** Addons the player has disabled. Read at boot. See addons/disable.ts. */
+    disabledAddons?: string[];
     calculateScale?: (store: GameState) => void;
   };
   ui: {
@@ -357,8 +359,16 @@ export interface GameState {
     source: 'build' | 'runtime';
     description?: string;
     author?: string;
+    required?: boolean;
+    disabled?: boolean;
     entries?: Record<string, number>;
   }>;
+  /**
+   * Flip a non-required addon's disabled state. Returns the new
+   * boolean, or null if refused (unknown name / required). Persists
+   * via the settings save path; takes effect on next boot.
+   */
+  toggleAddonDisabled: (addonName: string) => boolean | null;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;

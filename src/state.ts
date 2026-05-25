@@ -66,6 +66,11 @@ export const initialState: Partial<GameState> = {
     showJuice: true,
     uiScale: 'auto',
     resolution: 'auto',
+    // Addons the player has disabled in Settings → Addons. Read at
+    // boot to prune their contributions from the registries. Stored
+    // here (rather than per-save) because addon-installed state is
+    // a per-installation choice, not a per-playthrough one.
+    disabledAddons: [] as string[],
   },
 
   counters: {

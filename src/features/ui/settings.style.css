@@ -617,6 +617,48 @@ input:checked + .slider:before {
   color: var(--text);
 }
 
+.addon-row-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addon-toggle {
+  /* The base .toggle-switch sizes itself for big controls; shrink
+     here so the toggle fits the addon-row layout. */
+  transform: scale(0.85);
+  transform-origin: center;
+}
+
+.addon-toggle.is-locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.addon-row.is-disabled .addon-name,
+.addon-row.is-disabled .addon-desc,
+.addon-row.is-disabled .addon-version,
+.addon-row.is-disabled .addon-entries,
+.addon-row.is-disabled .addon-author {
+  opacity: 0.45;
+}
+
+.addon-row.is-disabled {
+  border-style: dashed;
+}
+
+.addon-restart-needed {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold);
+  background: rgba(250, 204, 21, 0.08);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
 .addon-version {
   font-family: 'Fira Code', monospace;
   font-size: 0.8rem;

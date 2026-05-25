@@ -5190,6 +5190,8 @@ export const BUILD_TIME_ADDONS: Array<{
   version: string;
   description?: string;
   author?: string;
+  /** Manifest's "required: true" flag — locks the Disable toggle. */
+  required?: boolean;
   /** YAML entries per category — used by the Addons settings UI. */
   entries?: Record<string, number>;
 }> = [
@@ -5198,6 +5200,7 @@ export const BUILD_TIME_ADDONS: Array<{
     "version": "1.7.0",
     "description": "Base game content (resources, NPCs, actions, translations). Required by every other addon — uninstalling would remove the demo, the village, the production loop, everything.",
     "author": "My earned Wings team",
+    "required": true,
     "entries": {
       "resources": 21,
       "modifiers": 46,
@@ -5239,6 +5242,324 @@ export const BUILD_TIME_ADDONS: Array<{
     }
   }
 ];
+
+// === Addon Entry IDs (per category) ===
+// Build emits the IDs of every entry each addon contributed. The
+// Disable-toggle path uses this list at boot to remove an addon's
+// contributions from the merged registries when the user turned it
+// off in Settings → Addons. We don't ship this in BUILD_TIME_ADDONS
+// itself because it's a lot of data the Addons UI doesn't need —
+// it's purely the prune-step's input.
+
+export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
+  "core": {
+    "resources": [
+      "focus",
+      "wood",
+      "stone",
+      "shards",
+      "herbs",
+      "astral_shards",
+      "flowers",
+      "ghostwood",
+      "glowpollen",
+      "fibers",
+      "resin",
+      "iron_parts",
+      "clay",
+      "rune_fragment",
+      "arcane_dust",
+      "meat",
+      "water",
+      "gourmet-meal",
+      "energy",
+      "magic",
+      "satiation"
+    ],
+    "modifiers": [
+      "shards_limit",
+      "wood_limit",
+      "stone_limit",
+      "herbs_limit",
+      "meat_limit",
+      "water_limit",
+      "energy_limit",
+      "magic_limit",
+      "resin_limit",
+      "clay_limit",
+      "iron_parts_limit",
+      "satiation_limit",
+      "astral_shards_limit",
+      "flowers_limit",
+      "ghostwood_limit",
+      "glowpollen_limit",
+      "fibers_limit",
+      "rune_fragment_limit",
+      "arcane_dust_limit",
+      "gourmet-meal_limit",
+      "study_xp_limit",
+      "focus_limit",
+      "magic_regen_passive",
+      "garden_magic_cost",
+      "magic_cost",
+      "meditate_magic_gain",
+      "energy_reg_bonus",
+      "magic_limit_gain",
+      "resource_efficiency",
+      "arcane_focus_cost",
+      "satiation_drain_multiplier",
+      "wood_yield",
+      "stone_yield",
+      "meat_yield",
+      "flowers_yield",
+      "shards_yield",
+      "magic_yield",
+      "rest_energy_gain",
+      "eat_satiation_gain",
+      "garden_yield",
+      "ghostwood_yield",
+      "glowpollen_yield",
+      "fibers_yield",
+      "clay_yield",
+      "resin_yield",
+      "knowledge_yield"
+    ],
+    "actions": [
+      "build-campfire",
+      "build-tent",
+      "build-wood-storage",
+      "build-stone-storage",
+      "build-water-barrel",
+      "build-wood-storage-2",
+      "build-stone-storage-2",
+      "build-wood-storage-3",
+      "build-stone-storage-3",
+      "build-wood-storage-4",
+      "build-stone-storage-4",
+      "act-bed",
+      "act-chair",
+      "act-stove",
+      "act-bookshelf",
+      "act-cabinet",
+      "act-grand-table",
+      "act-bed-2",
+      "act-stove-2",
+      "build-loom",
+      "build-bookshelf-large",
+      "build-desk",
+      "build-garden",
+      "build-garden-upgrade",
+      "build-mana-basin",
+      "build-house",
+      "build-table",
+      "build-kitchen",
+      "build-arcane-sanctum",
+      "build-home-lake",
+      "build-home-tower",
+      "build-terrace",
+      "act-chisel",
+      "act-wanderstock",
+      "act-axe",
+      "act-pickaxe",
+      "act-bow",
+      "act-spice-rack",
+      "build-cart-reinforced",
+      "act-eat",
+      "act-rest",
+      "act-meditate",
+      "act-wood",
+      "act-stone",
+      "act-hunt",
+      "act-mine-quartz",
+      "act-collect-water",
+      "act-pick-flowers",
+      "act-whisper-wood",
+      "act-whisper-pollen",
+      "act-dig-clay",
+      "act-garden-plant",
+      "act-garden-plant-2",
+      "act-garden-water",
+      "act-cook-gourmet",
+      "act-read-lore-1",
+      "act-read-lore-2",
+      "act-dream-bloom",
+      "act-meditate-sanctum",
+      "act-spell-harvest",
+      "act-grind-dust",
+      "act-npc-baker",
+      "act-npc-flowerGirl",
+      "act-npc-artisan",
+      "act-npc-teacher",
+      "act-npc-townHall",
+      "act-npc-blacksmith",
+      "act-npc-sage",
+      "act-npc-hunter",
+      "act-npc-treeOfLife",
+      "act-npc-ellie",
+      "act-npc-aris",
+      "act-sell-wood",
+      "act-sell-stone",
+      "act-sell-meat",
+      "act-buy-meat",
+      "act-work",
+      "act-buy-iron-parts"
+    ],
+    "items": [
+      "item-deed",
+      "item-book_lore_1",
+      "item-book_lore_2",
+      "item-scroll",
+      "item-whetstone",
+      "item-arrowhead",
+      "item-astral-shards",
+      "item-dream-dust",
+      "item-wyvern-scale",
+      "item-arcane-dust",
+      "item-crystal-mana",
+      "item-bed",
+      "item-chair",
+      "item-stove",
+      "item-bookshelf",
+      "item-cabinet",
+      "item-grand-table",
+      "item-bed-2",
+      "item-stove-2",
+      "item-loom",
+      "item-bookshelf-large",
+      "item-desk",
+      "item-mana-basin",
+      "item-terrace",
+      "item-bread",
+      "item-cookie",
+      "item-dried-meat",
+      "item-gourmet-meal",
+      "item-crystal_apple",
+      "item-walking-stick",
+      "item-axe",
+      "item-pickaxe",
+      "item-bow",
+      "item-spice-rack",
+      "item-chisel",
+      "item-cart-reinforced"
+    ],
+    "npcs": [
+      "npc-baker",
+      "npc-flowerGirl",
+      "npc-artisan",
+      "npc-teacher",
+      "npc-townHall",
+      "npc-blacksmith",
+      "npc-sage",
+      "npc-hunter",
+      "npc-treeOfLife",
+      "npc-ellie",
+      "npc-aris"
+    ],
+    "buffs": [
+      "buff-gourmet",
+      "buff-harvest"
+    ],
+    "homes": [
+      "home-tent",
+      "home-house",
+      "home-lake",
+      "home-tower"
+    ],
+    "milestones": [
+      "milestone-treeOfLife"
+    ],
+    "navigation": [
+      "main",
+      "crafting",
+      "village",
+      "upgrades",
+      "housing",
+      "collection"
+    ],
+    "sections": [
+      "section-kitchen"
+    ],
+    "subTabs": [
+      "general",
+      "herstellen"
+    ],
+    "settingsTabs": [
+      "general",
+      "controls",
+      "audio",
+      "graphics",
+      "system",
+      "addons"
+    ]
+  },
+  "vandara": {
+    "resources": [
+      "ash_flower",
+      "glitter_dust"
+    ],
+    "actions": [
+      "act-vandara-brew-energy-potion-small",
+      "act-vandara-brew-magic-potion-small",
+      "act-vandara-brew-pollen-tea",
+      "act-vandara-brew-spark-vial",
+      "act-vandara-brew-arcane-water",
+      "act-vandara-brew-ash-tincture",
+      "act-npc-vandara-olie",
+      "act-npc-vandara-kalre",
+      "act-vandara-buy-ash-flower",
+      "act-vandara-buy-glitter-dust",
+      "act-vandara-buy-workshop-blueprint",
+      "act-build-workshop",
+      "act-npc-vandara-fafa",
+      "act-vandara-try-fire",
+      "act-vandara-try-earth",
+      "act-vandara-try-wind",
+      "act-vandara-try-tide",
+      "act-vandara-try-light",
+      "act-npc-vandara-gate-guard",
+      "act-npc-vandara-veyra",
+      "act-npc-vandara-ormias",
+      "act-npc-vandara-quinell",
+      "act-npc-vandara-pamle",
+      "act-npc-vandara-sariel"
+    ],
+    "items": [
+      "item-alchemy-table",
+      "item-vandara-letter",
+      "item-vandara-student-id"
+    ],
+    "npcs": [
+      "npc-vandara-olie",
+      "npc-vandara-kalre",
+      "npc-vandara-fafa",
+      "npc-vandara-gate-guard",
+      "npc-vandara-veyra",
+      "npc-vandara-ormias",
+      "npc-vandara-quinell",
+      "npc-vandara-pamle",
+      "npc-vandara-sariel"
+    ],
+    "buffs": [
+      "buff-vandara-wakeful-pollen",
+      "buff-vandara-spark-light",
+      "buff-vandara-ash-burn"
+    ],
+    "sections": [
+      "section-vandara-workshop"
+    ]
+  },
+  "smoke_test": {
+    "actions": [
+      "act-smoke-ping"
+    ],
+    "npcs": [
+      "npc-smoke-witness"
+    ],
+    "settingsTabs": [
+      "smoke"
+    ]
+  }
+};
 
 // === Translations (lang -> context -> key -> string) ===
 
@@ -6391,6 +6712,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "settings_addons_source_build": "Build",
       "settings_addons_source_runtime": "Runtime",
       "settings_addons_by": "von",
+      "settings_addons_required_tooltip": "Dieses Addon ist erforderlich — ohne es ist kein Spiel mehr da.",
+      "settings_addons_restart_required": "Wird beim Neustart angewendet.",
       "settings_addons_note": "Spielstände merken sich, welche Addons aktiv waren. Beim Laden warnt das Spiel wenn jetzt was fehlt oder die Version anders ist.",
       "settings_vol_global": "Gesamtlautstärke",
       "settings_vol_music": "Hintergrundmusik",
@@ -7688,6 +8011,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "settings_addons_source_build": "Build",
       "settings_addons_source_runtime": "Runtime",
       "settings_addons_by": "by",
+      "settings_addons_required_tooltip": "This addon is required — disabling it would remove the game.",
+      "settings_addons_restart_required": "Takes effect on restart.",
       "settings_addons_note": "Saves remember which addons were active. On load, the game warns if something is missing or has changed version.",
       "settings_vol_global": "Global Volume",
       "settings_vol_music": "Background Music",

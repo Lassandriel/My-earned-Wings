@@ -41,6 +41,13 @@ interface AddonManifest {
    * targets are warned, not fatal — overriding nothing is a no-op.
    */
   overrides?: string[];
+  /**
+   * If true, the player cannot disable this addon via the Addons
+   * settings tab. Used by `core` (deactivating core would remove
+   * the entire base game). The Addons UI shows a locked toggle.
+   * Default false — most addons are user-removable.
+   */
+  required?: boolean;
 }
 const manifestSchema = {
   type: "object",
@@ -52,6 +59,7 @@ const manifestSchema = {
     enabledByDefault: { type: "boolean" },
     requires: { type: "array", items: { type: "string" } },
     overrides: { type: "array", items: { type: "string" } },
+    required: { type: "boolean" },
   },
   required: ["name", "version"],
   additionalProperties: false,
@@ -305,13 +313,22 @@ const settingsTabs = loadCategoryFromAllSources('settingsTabs');
 // Origin tag shape from loadCategoryFromAllSources is
 // `addons/<addonName>/<category>`.
 const entryCounts: Record<string, Record<string, number>> = {};
+// Also remember the actual ID of every entry contributed by each
+// addon. The Disable-toggle path uses this at boot to prune entries
+// from the live registries when an addon is turned off — without
+// these lists we'd have no way to know which Record<id, ...> keys
+// came from which addon (taggedToRecord throws away origin info).
+const entryIds: Record<string, Record<string, string[]>> = {};
 const tallyCategory = (category: string, taggedList: TaggedItem[]): void => {
-  for (const { origin } of taggedList) {
+  for (const { item, origin } of taggedList) {
     const m = origin.match(/^addons\/([^/]+)\//);
     if (!m) continue;
     const addonName = m[1]!;
     (entryCounts[addonName] ??= {})[category] =
       (entryCounts[addonName]?.[category] ?? 0) + 1;
+    if (typeof item.id === 'string') {
+      ((entryIds[addonName] ??= {})[category] ??= []).push(item.id);
+    }
   }
 };
 tallyCategory('resources', resources);
@@ -637,6 +654,8 @@ export const BUILD_TIME_ADDONS: Array<{
   version: string;
   description?: string;
   author?: string;
+  /** Manifest's "required: true" flag — locks the Disable toggle. */
+  required?: boolean;
   /** YAML entries per category — used by the Addons settings UI. */
   entries?: Record<string, number>;
 }> = ${JSON.stringify(
@@ -645,8 +664,23 @@ export const BUILD_TIME_ADDONS: Array<{
     version: a.manifest.version,
     description: a.manifest.description,
     author: a.manifest.author,
+    required: a.manifest.required,
     entries: entryCounts[a.manifest.name] ?? {},
   })),
+  null,
+  2,
+)};
+
+// === Addon Entry IDs (per category) ===
+// Build emits the IDs of every entry each addon contributed. The
+// Disable-toggle path uses this list at boot to remove an addon's
+// contributions from the merged registries when the user turned it
+// off in Settings → Addons. We don't ship this in BUILD_TIME_ADDONS
+// itself because it's a lot of data the Addons UI doesn't need —
+// it's purely the prune-step's input.
+
+export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = ${JSON.stringify(
+  entryIds,
   null,
   2,
 )};

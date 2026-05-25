@@ -29,6 +29,18 @@ export interface AddonRef {
   description?: string;
   author?: string;
   /**
+   * From manifest `required: true`. Locks the Disable toggle in the
+   * Addons settings tab — used by `core` so the base game can't be
+   * disabled. Default false / undefined.
+   */
+  required?: boolean;
+  /**
+   * True iff the player has this addon in their disabled list. Set
+   * at boot from settings.disabledAddons; the UI uses it to grey out
+   * the row and to remind the player a restart is needed.
+   */
+  disabled?: boolean;
+  /**
    * Per-category YAML entry counts ('npcs' → 9, 'actions' → 12, …).
    * Build-time addons get these from build-content.ts; runtime addons
    * get them tallied from their IPC payload at boot. Used by the
@@ -62,6 +74,16 @@ export const registerRuntimeAddons = (
   }
 };
 
+/**
+ * Module-local cache of names the player has disabled. Set by main.ts
+ * at boot (after it reads localStorage) so getActiveAddons can stamp
+ * the `disabled` flag on each entry for the UI.
+ */
+let disabledNames: ReadonlySet<string> = new Set();
+export const setDisabledAddons = (names: ReadonlyArray<string>): void => {
+  disabledNames = new Set(names);
+};
+
 /** Every addon that's currently active in the running game. Sorted by name. */
 export const getActiveAddons = (): AddonRef[] => {
   const out: AddonRef[] = [];
@@ -72,10 +94,14 @@ export const getActiveAddons = (): AddonRef[] => {
       source: 'build',
       description: a.description,
       author: a.author,
+      required: a.required,
       entries: a.entries,
+      disabled: disabledNames.has(a.name),
     });
   }
-  for (const a of runtimeAddons) out.push(a);
+  for (const a of runtimeAddons) {
+    out.push({ ...a, disabled: disabledNames.has(a.name) });
+  }
   out.sort((a, b) => a.name.localeCompare(b.name));
   return out;
 };

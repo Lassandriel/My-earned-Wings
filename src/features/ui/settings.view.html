@@ -354,22 +354,73 @@
           Source badge tells the player whether each entry is baked
           into the build or loaded from a folder next to the .exe.
         -->
-        <div x-show="settingsTab === 'addons'" x-transition>
+        <div
+          x-show="settingsTab === 'addons'"
+          x-transition
+          x-data="{
+            /* Snapshot of disabled-at-page-load names so we can flag
+               in-session changes with a 'restart required' badge.
+               Captured lazily on first tab open. */
+            initialDisabled: null,
+            captureInitialDisabled() {
+              if (this.initialDisabled === null) {
+                const list = ($store.game.settings && Array.isArray($store.game.settings.disabledAddons))
+                  ? $store.game.settings.disabledAddons
+                  : [];
+                this.initialDisabled = new Set(list);
+              }
+            },
+            /* Current user choice — reflects toggle state live. */
+            isCurrentlyDisabled(name) {
+              const list = ($store.game.settings && Array.isArray($store.game.settings.disabledAddons))
+                ? $store.game.settings.disabledAddons
+                : [];
+              return list.includes(name);
+            },
+            isDirty(name) {
+              if (this.initialDisabled === null) return false;
+              return this.initialDisabled.has(name) !== this.isCurrentlyDisabled(name);
+            },
+          }"
+          x-effect="captureInitialDisabled()"
+        >
           <section class="settings-card">
             <p class="hint" x-text="$store.game.t('settings_addons_intro')"></p>
             <ul class="addon-list">
               <template x-for="a in $store.game.getActiveAddons()" :key="a.name">
-                <li class="addon-row">
+                <li class="addon-row" :class="isCurrentlyDisabled(a.name) && 'is-disabled'">
                   <div class="addon-row-head">
                     <div class="addon-row-main">
                       <strong class="addon-name" x-text="a.name"></strong>
                       <span class="addon-version" x-text="'v' + a.version"></span>
                     </div>
-                    <span
-                      class="addon-source"
-                      :class="'addon-source-' + a.source"
-                      x-text="a.source === 'build' ? $store.game.t('settings_addons_source_build') : $store.game.t('settings_addons_source_runtime')"
-                    ></span>
+                    <div class="addon-row-controls">
+                      <span
+                        class="addon-source"
+                        :class="'addon-source-' + a.source"
+                        x-text="a.source === 'build' ? $store.game.t('settings_addons_source_build') : $store.game.t('settings_addons_source_runtime')"
+                      ></span>
+                      <!--
+                        Enable/Disable toggle. Required addons (core)
+                        render the toggle as locked + grey. Toggling
+                        anyone else flips settings.disabledAddons and
+                        shows the restart-required badge until the
+                        player reloads.
+                      -->
+                      <label
+                        class="toggle-switch addon-toggle"
+                        :class="a.required && 'is-locked'"
+                        :title="a.required ? $store.game.t('settings_addons_required_tooltip') : ''"
+                      >
+                        <input
+                          type="checkbox"
+                          :checked="!isCurrentlyDisabled(a.name)"
+                          :disabled="a.required"
+                          @change="$store.game.toggleAddonDisabled(a.name)"
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
                   </div>
                   <p class="addon-desc" x-show="a.description" x-text="a.description"></p>
                   <!--
@@ -394,6 +445,11 @@
                     <span x-text="$store.game.t('settings_addons_by')"></span>
                     <span x-text="a.author"></span>
                   </p>
+                  <p
+                    class="addon-restart-needed"
+                    x-show="isDirty(a.name)"
+                    x-text="$store.game.t('settings_addons_restart_required')"
+                  ></p>
                 </li>
               </template>
             </ul>

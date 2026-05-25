@@ -235,6 +235,10 @@ settings_addons_intro: >-
 settings_addons_source_build: Build
 settings_addons_source_runtime: Runtime
 settings_addons_by: "von"
+settings_addons_required_tooltip: >-
+  Dieses Addon ist erforderlich — ohne es ist kein Spiel mehr da.
+settings_addons_restart_required: >-
+  Wird beim Neustart angewendet.
 settings_addons_note: >-
   Spielstände merken sich, welche Addons aktiv waren. Beim Laden
   warnt das Spiel wenn jetzt was fehlt oder die Version anders ist.

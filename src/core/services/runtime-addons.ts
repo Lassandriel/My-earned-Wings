@@ -157,6 +157,36 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   // it targets something that has moved in a newer base version.
   const collectedPatches: Array<{ entry: PatchEntry; origin: string }> = [];
 
+  // Skip runtime addons the player has disabled in Settings. We
+  // mutate result.addons in place so all the downstream tallying
+  // (requires, slots, sfx, …) sees a filtered list. Same source of
+  // truth as the build-time pruning in main.ts: localStorage settings.
+  const disabledList = (() => {
+    try {
+      const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('wings_settings') : null;
+      if (!raw) return new Set<string>();
+      const parsed = JSON.parse(raw) as { settings?: { disabledAddons?: unknown } };
+      const list = parsed?.settings?.disabledAddons;
+      return new Set<string>(Array.isArray(list) ? list.filter((n): n is string => typeof n === 'string') : []);
+    } catch {
+      return new Set<string>();
+    }
+  })();
+  if (disabledList.size > 0) {
+    const before = result.addons.length;
+    result.addons = result.addons.filter((a) => {
+      if (disabledList.has(a.name)) {
+        log.info(`runtime addon [${a.name}] disabled by player — skipped`);
+        return false;
+      }
+      return true;
+    });
+    if (before !== result.addons.length) {
+      // Don't push to warnings — disabling is an explicit choice, not
+      // a problem. The log line above is enough trace.
+    }
+  }
+
   // Enforce manifest.requires for runtime addons. We have to do it
   // here (not in main) because main only knows about build-time names
   // until the IPC payload arrives. Build-time addons satisfy each

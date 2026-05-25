@@ -25,3 +25,8 @@ description: >-
   demo, the village, the production loop, everything.
 author: My earned Wings team
 enabledByDefault: true
+# Locks the Disable toggle in the Addons settings tab. Without core
+# the entire base game disappears — there's nothing useful left to
+# play. Other addons leave this false (or omitted) so players stay
+# free to turn them off.
+required: true

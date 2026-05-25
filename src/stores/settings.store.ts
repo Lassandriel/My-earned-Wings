@@ -16,6 +16,8 @@ interface InitialSettings {
   showJuice: boolean;
   uiScale: 'auto' | string;
   resolution: 'auto' | string;
+  /** Names of addons the player has disabled in Settings → Addons. */
+  disabledAddons?: string[];
 }
 
 /**

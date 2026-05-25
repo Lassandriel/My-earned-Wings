@@ -21,7 +21,31 @@ import './generated/addon-styles.css';
 import { makeLogger } from './core/log';
 import { GAME_VERSION } from './generated/content';
 import { loadRuntimeAddons } from './core/services/runtime-addons';
-import { isAddonLoaded as isAddonLoadedImpl, getActiveAddons as getActiveAddonsImpl } from './core/addons/active';
+import {
+  isAddonLoaded as isAddonLoadedImpl,
+  getActiveAddons as getActiveAddonsImpl,
+  setDisabledAddons,
+} from './core/addons/active';
+import { pruneDisabledAddons, pruneDisabledHooks } from './core/addons/disable';
+import {
+  RESOURCE_REGISTRY_GENERATED,
+  MODIFIER_REGISTRY_GENERATED,
+  ACTION_REGISTRY_GENERATED,
+  ITEM_REGISTRY_GENERATED,
+  NPC_REGISTRY_GENERATED,
+  BUFF_REGISTRY_GENERATED,
+  HOME_REGISTRY_GENERATED,
+  MILESTONE_REGISTRY_GENERATED,
+  NAVIGATION_REGISTRY_GENERATED,
+  TITLE_REGISTRY_GENERATED,
+  SECTION_REGISTRY_GENERATED,
+  SUB_TAB_REGISTRY_GENERATED,
+  SETTINGS_TAB_REGISTRY_GENERATED,
+} from './generated/content';
+import { ADDON_TICKS } from './generated/addon-ticks';
+import { ADDON_EFFECT_REGISTRARS } from './generated/addon-effects';
+import { ADDON_MIGRATIONS } from './generated/addon-migrations';
+import { ADDON_HANDLERS } from './generated/addon-handlers';
 
 const log = makeLogger('MAIN');
 
@@ -166,6 +190,46 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     return getActiveAddonsImpl();
   },
 
+  /**
+   * Toggle whether a given addon is disabled. Persists to localStorage
+   * via the settings store + saveSettings. Required addons (manifest
+   * `required: true`) are refused — UI should already prevent the
+   * toggle from being clicked, but we guard here too in case the call
+   * came from an eval or future code path.
+   *
+   * Returns the new disabled state (true = now disabled, false = now
+   * enabled) or null if the call was refused.
+   *
+   * Does NOT mutate the live registries — the change takes effect on
+   * the next boot. The Addons settings view shows a "Restart required"
+   * notice next to any addon whose disabled flag changed in-session.
+   */
+  toggleAddonDisabled(addonName: string): boolean | null {
+    const store = getStore();
+    const allAddons = getActiveAddonsImpl();
+    const target = allAddons.find((a) => a.name === addonName);
+    if (!target) {
+      log.warn(`toggleAddonDisabled: unknown addon "${addonName}"`);
+      return null;
+    }
+    if (target.required) {
+      log.warn(`toggleAddonDisabled: "${addonName}" is required — refused`);
+      return null;
+    }
+    const settings = store.settings as unknown as { disabledAddons?: string[] };
+    const current = Array.isArray(settings.disabledAddons) ? settings.disabledAddons : [];
+    const isDisabled = current.includes(addonName);
+    settings.disabledAddons = isDisabled
+      ? current.filter((n) => n !== addonName)
+      : [...current, addonName];
+    // Trigger a settings save so the new list reaches localStorage.
+    store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
+    if (typeof store.persistence?.saveSettings === 'function') {
+      store.persistence.saveSettings(store);
+    }
+    return !isDisabled;
+  },
+
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {
     const store = getStore();
     store.bus.emit(store.EVENTS.LOG_ADDED, { id, context: c, color: col, params: p });
@@ -280,9 +344,72 @@ services.gameState = liveStore;
 // listener can be attached after DOMContentLoaded has already fired,
 // leaving the app stuck at view='menu' with Alpine never started. Run the
 // boot inline if the document is already past 'loading'.
+/**
+ * Read the player's disabled-addon list straight from localStorage —
+ * the settings store hasn't loaded yet at boot, but we need this BEFORE
+ * Alpine reads the registries so the pruning is invisible to the UI
+ * (no flash of about-to-be-removed content). The full settings load
+ * later in bootstrap() will overwrite settings.disabledAddons with
+ * the same value, which is fine — it's the same data.
+ */
+const readDisabledAddonsFromStorage = (): string[] => {
+  try {
+    const raw = localStorage.getItem('wings_settings');
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as { settings?: { disabledAddons?: unknown } };
+    const list = parsed?.settings?.disabledAddons;
+    if (!Array.isArray(list)) return [];
+    return list.filter((n): n is string => typeof n === 'string');
+  } catch {
+    return [];
+  }
+};
+
 const startBoot = async () => {
   if (window.ALPINE_STARTED) return;
   window.ALPINE_STARTED = true;
+
+  // Apply disabled-addon prune BEFORE runtime addons load (so a disabled
+  // addon can't accidentally re-appear via a runtime drop) and BEFORE
+  // Alpine starts (so the UI never sees the about-to-be-removed
+  // entries). Read straight from localStorage; the settings store will
+  // sync the same value later in bootstrap().
+  const disabledAddons = readDisabledAddonsFromStorage();
+  // Tell the active-addons module so getActiveAddons() can stamp the
+  // `disabled` flag on each entry, even when the registries have
+  // already been pruned (no content left to detect from).
+  setDisabledAddons(disabledAddons);
+  if (disabledAddons.length > 0) {
+    pruneDisabledAddons(disabledAddons, {
+      RESOURCE_REGISTRY_GENERATED,
+      MODIFIER_REGISTRY_GENERATED,
+      ACTION_REGISTRY_GENERATED,
+      ITEM_REGISTRY_GENERATED,
+      NPC_REGISTRY_GENERATED,
+      BUFF_REGISTRY_GENERATED,
+      HOME_REGISTRY_GENERATED,
+      MILESTONE_REGISTRY_GENERATED,
+      NAVIGATION_REGISTRY_GENERATED,
+      TITLE_REGISTRY_GENERATED,
+      SECTION_REGISTRY_GENERATED,
+      SUB_TAB_REGISTRY_GENERATED,
+      SETTINGS_TAB_REGISTRY_GENERATED,
+    });
+    // Drop the matching TS hooks too so disabled addons don't run
+    // any per-tick / per-effect / per-migration logic.
+    pruneDisabledHooks(disabledAddons, ADDON_TICKS);
+    pruneDisabledHooks(disabledAddons, ADDON_EFFECT_REGISTRARS);
+    pruneDisabledHooks(disabledAddons, ADDON_MIGRATIONS);
+    // Handler keys are namespaced as `<addon>/<name>`, so we filter
+    // by prefix rather than exact match. Doing it inline keeps the
+    // helper signature simple (it's the only namespaced map).
+    for (const key of Object.keys(ADDON_HANDLERS)) {
+      const addonName = key.split('/')[0];
+      if (addonName && disabledAddons.includes(addonName)) {
+        delete ADDON_HANDLERS[key];
+      }
+    }
+  }
 
   // Phase 16: merge any user-installed runtime addons into the
   // registries + translations + DOM before Alpine starts. In the
