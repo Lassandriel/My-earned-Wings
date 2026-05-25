@@ -39,8 +39,7 @@
 
 The engine has to feel rock-solid before bolting an addon system on top of
 it. The order matters — finish the existing tech-debt first, then turn
-content into modules. **TODO.md is the live working list** for these items;
-this section tracks the strategic outline.
+content into modules.
 
 * [x] **Engine Hardening Round 3 (May 2026)**: `actions.logic.ts` split —
   12 built-in effect handlers extracted into actions.effects.ts behind a
@@ -57,27 +56,55 @@ this section tracks the strategic outline.
   Alpine reactivity fires once per RAF tick instead of per-mutation.
 
 * [x] **Addon System — compile-time infrastructure (May 2026)**.
-  Content moved to `content/base/` + `content/addons/<name>/`. Build
-  script discovers addons via `manifest.yaml` (semver-validated),
+  Build script discovers addons via `manifest.yaml` (semver-validated),
   merges all 10 categories + i18n into the base registries with
   origin-tracked duplicate-ID errors, and generates
   `src/generated/addon-handlers.ts` for addon-shipped `handlers.ts`
   (auto-namespaced as `<addon>/<name>`). Translations override base
-  with dev-time warnings. Skeleton at `content/addons/_example/` and
-  full authoring docs at `docs/ADDON_AUTHORING.md`. See
-  `docs/ADDON_SYSTEM_PLAN.md` for the design decisions.
+  with dev-time warnings. Authoring docs at `docs/ADDON_AUTHORING.md`.
+
+* [x] **Addon System — capabilities expansion (May 2026)**. Closed the
+  full gap list: 10 patch categories, data-driven sub-tabs +
+  settings-tabs + sections, CSS pipeline, slot-injection, audio
+  pipeline, image pipeline, per-second tick hook (`ticks.ts`), custom
+  effect-types (`effects.ts`), addon save migrations (`migrations.ts`),
+  addon-defined required fields (`schema.yaml`), per-addon state
+  namespace (`addonState`), action hotkeys, NPC fail-log data-driven,
+  particle types CSS-extensible. Inter-addon: `requires:` enforced,
+  `isAddonLoaded()` helper, override-resolver via topo-sort. Saves
+  embed `activeAddons` snapshot + `addonSchemaVersions` + warn modal
+  on load if missing.
+
+* [x] **Addon System — Base als Core-Addon (May 2026)**. Folded the
+  base game into the addon system: `content/base/` is now
+  `content/addons/core/` with its own manifest. Build script lost the
+  `BASE_DIR` special-path; sole code path is the topo-sorted addon
+  list. Stress-tests the addon system every build; modders can
+  override core entries via `overrides: [core]` if they ship the
+  matching ids. `core` has `required: true` so it can't be disabled.
+
+* [x] **Runtime Addon Toggling (May 2026)**. Settings → Addons tab
+  lists every active addon (core + build-time + runtime) with
+  description, author, per-category entry chips, and an
+  enable/disable toggle. Disabled addons get pruned from registries +
+  hooks (ticks/effects/migrations/handlers) at boot. Required addons
+  (core) lock the toggle. Restart contract — no live re-apply,
+  surfaced inline as "takes effect on restart". Plus
+  "re-enable all" + "open addons folder" (Electron) helpers.
+
+* [x] **Worked example addon (May 2026)**.
+  `content/addons/smoke_test/` exercises every capability the system
+  ships — single end-to-end audit + future-author template. Lives in
+  the repo; rename to `_smoke_test` to disable.
 
 ***
 
-**Engine hardening + Addon infrastructure COMPLETE.** Vandara/Academy
-(Phase 13.5) and any future content drops can now ship as
-`content/addons/<name>/` without touching engine code.
-* [ ] **Runtime Addon Toggling (only if community grows)**: settings UI to
-  enable/disable addons without rebuild, save format tracks active addons,
-  conflict resolution UI. Day(s) of work — defer until 3rd-party modders
-  show real interest.
+**Addon system COMPLETE.** Vandara/Academy (Phase 13.5) and any
+future content drops ship as `content/addons/<name>/` without
+touching engine code.
 
 ***
 
 10. Mai 2026 · v2.0.0 (Architecture Phase 1 - YAML Content Pipeline)
 14. Mai 2026 · Architecture Phase 1.5 (Full Content YAML-isation) + Dev Tools Iter 7b (generic write-back) + Vandara rollback to roadmap
+23. Mai 2026 · Addon system gap-list complete (10 patch categories, UI/Views/Saves/Engine/Inter-Addon sections), smoke_test worked example, base→addons/core/, Settings → Addons tab with enable/disable
