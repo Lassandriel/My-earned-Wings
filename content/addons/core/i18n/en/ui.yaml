@@ -280,7 +280,6 @@ ui_remaining_prefix: Left
 ui_seconds: Seconds
 ui_focus_toggle: Toggle focus mode
 nav_inventory: Inventory and resources
-receive_books: Books received! You can now read them in your Chronicle.
 receive_apple: You received a Crystal Apple! A sweet refreshment for your journey.
 item_crystal_apple_title: Crystal Apple
 item_crystal_apple_desc: >-
@@ -327,7 +326,7 @@ ui_limit_increase: "{res} Limit +{val}"
 chapter_village_life: Village Life
 chapter_the_transformation: The Transformation
 chapter_the_dream: The Dream
-chapter_chronicles: Chronicles
+chapter_collection: Chronicles
 act_read_lore_2_title: "Study: The Floating Lands"
 act_read_lore_2_desc: Study the geography of Draconia.
 shards_limit_desc: Increases soul shard capacity.

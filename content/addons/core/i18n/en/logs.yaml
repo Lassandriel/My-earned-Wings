@@ -22,7 +22,7 @@ reward_unlock_item: "Item discovered: {title}"
 reward_blueprint_lake: Blueprint for the Lake House received.
 reward_blueprint_tower: Received blueprint for the Aura Tower.
 unlock_whisper_grove: "Mina leads you to a secret path: The Whisper Grove is now accessible."
-receive_books: Books received! You can now read them in your Chronicle.
+receive_books: Books received! You can read them in the Main tab — once finished, they'll be archived in your Collection.
 receive_apple: You received a Crystal Apple! A sweet refreshment for your journey.
 townhall_registered: Official Registration
 townhall_tax_paid: Taxes & Fees

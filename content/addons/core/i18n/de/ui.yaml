@@ -281,7 +281,6 @@ ui_remaining_prefix: Noch
 ui_seconds: Sekunden
 ui_focus_toggle: Fokus-Modus umschalten
 nav_inventory: Inventar und Ressourcen
-receive_books: Bücher erhalten! Du kannst sie jetzt in deiner Chronik lesen.
 receive_apple: Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.
 item_crystal_apple_title: Kristallapfel
 item_crystal_apple_desc: >-
@@ -328,7 +327,7 @@ ui_limit_increase: "{res}-Limit +{val}"
 chapter_village_life: Dorfleben
 chapter_the_transformation: Die Verwandlung
 chapter_the_dream: Der Traum
-chapter_chronicles: Chroniken
+chapter_collection: Chroniken
 act_read_lore_2_title: "Studium: Die Schwebenden Lande"
 act_read_lore_2_desc: Studiere die Geografie von Draconia.
 shards_limit_desc: Erhöht die Kapazität für Seelensplitter.

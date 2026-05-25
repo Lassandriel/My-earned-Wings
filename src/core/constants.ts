@@ -23,7 +23,7 @@ export const LOG_COLOR = {
   /** Same role as `muted` but reads slightly louder; used for some focus
    *  state messages. Kept as a separate slot until we decide it's the same. */
   dim:     'var(--text-dim)',
-  /** Story / dialogue accent (chronicle entries, narrative beats). */
+  /** Story / dialogue accent (collection entries, narrative beats). */
   story:   'var(--accent-ivory)',
   /** Plain default text colour — for non-themed neutral output. */
   default: 'var(--text-main)',

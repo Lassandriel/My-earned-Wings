@@ -13,7 +13,7 @@ const svc = ctx.get;
 
 /**
  * Collection System - TypeScript Edition
- * Handles long-term chronicle entries and milestones.
+ * Handles long-term collection entries and milestones.
  */
 export const createCollectionSystem = () => ({
   metadata: {
@@ -24,7 +24,7 @@ export const createCollectionSystem = () => ({
   setServices: ctx.set,
 
   /**
-   * Records a chronicle entry.
+   * Records a collection entry.
    */
   recordCollectionEntry(
     store: GameState,
@@ -37,7 +37,7 @@ export const createCollectionSystem = () => ({
       id: id,
       npcId: action?.npcId || null,
       timestamp: Date.now(),
-      chapter: action?.chapter || 'chapter_chronicles',
+      chapter: action?.chapter || 'chapter_collection',
       text: textKey || '',
       context: context,
     };
@@ -56,7 +56,7 @@ export const createCollectionSystem = () => ({
 
   /**
    * Groups the history by NPC (Person).
-   * Entries without an NPC go into a general "Chronicle" group.
+   * Entries without an NPC go into a general "Collection" group.
    */
   getGroupedHistory(store: GameState): Array<{ id: string; name: string; symbol: string; color: string; entries: StoryHistoryEntry[] }> {
     const collectionHistory = store.collectionHistory;

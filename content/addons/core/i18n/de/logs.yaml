@@ -22,7 +22,7 @@ reward_unlock_item: "Gegenstand entdeckt: {title}"
 reward_blueprint_lake: Bauplan für das Haus am See erhalten.
 reward_blueprint_tower: Bauplan für den Aura-Turm erhalten.
 unlock_whisper_grove: "Mina führt dich zu einem geheimen Pfad: Der Flüsterhain ist nun zugänglich."
-receive_books: Bücher erhalten! Du kannst sie jetzt in deiner Chronik lesen.
+receive_books: Bücher erhalten! Du kannst sie im Haupt-Bereich lesen — danach findest du sie archiviert in deiner Sammlung.
 receive_apple: Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.
 townhall_registered: Offizielle Registrierung
 townhall_tax_paid: Steuern & Gebühren
