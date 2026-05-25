@@ -1,5 +1,12 @@
 # Phase 2 Stage 2 — Audit: State Writers
 
+> 📦 **Historical.** Migration is complete. Kept so anyone who wonders
+> "why is engine state structured this way" can find the trail of
+> writers that were touched and why the cutover used Plan B (single
+> getStore() touchpoint) instead of the long path.
+
+---
+
 **Goal:** make `services.gameState` a separate plain-data object instead of
 identity-equal to `Alpine.store('game')`, and route every write through it
 so engine and UI state can diverge cleanly (with UISync.sync() copying

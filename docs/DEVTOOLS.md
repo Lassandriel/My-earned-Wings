@@ -222,4 +222,4 @@ Praktisch fürs Balancing: „warum ist mein Holz-Yield plötzlich so hoch?" →
 
 ***
 
-*Gehört zu Phase 4 von [`docs/ARCHITECTURE.md`](ARCHITECTURE.md).*
+*Gehört zu Phase 4 von [`docs/archive/ARCHITECTURE.md`](archive/ARCHITECTURE.md).*

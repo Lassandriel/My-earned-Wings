@@ -99,7 +99,9 @@ NPC, building or translation, edit a file under `content/` and run
 dev-tools panel (🛠️ button in the top bar) that can edit content live,
 including translations.
 
-See `docs/ARCHITECTURE.md` and `docs/ROADMAP.md` for the longer picture.
+See `docs/ROADMAP.md` for the current plan and
+`docs/archive/ARCHITECTURE.md` for the historical decision record
+behind the YAML pipeline + engine state split.
 
 ---
 

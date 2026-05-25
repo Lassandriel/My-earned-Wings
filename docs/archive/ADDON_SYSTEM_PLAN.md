@@ -1,5 +1,11 @@
 # Addon System — Planning Doc
 
+> 📦 **Historical.** Kept for the "why we made these decisions" context.
+> Implementation diverged in places. For current behaviour and the
+> author-facing guide, see [docs/ADDON_AUTHORING.md](../ADDON_AUTHORING.md).
+
+---
+
 Phase 15+ from ROADMAP.md. Engine hardening is done; this is the next
 real milestone. This doc captures the current state, the target
 structure, the open design decisions (with recommendations), and a

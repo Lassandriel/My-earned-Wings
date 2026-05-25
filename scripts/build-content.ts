@@ -26,7 +26,7 @@ const contentSchema = {
 const validateSchema = ajv.compile(contentSchema);
 
 // Addon manifest schema (v1). Required: name + version. Optional fields
-// are documented in docs/ADDON_SYSTEM_PLAN.md.
+// are documented in docs/ADDON_AUTHORING.md.
 interface AddonManifest {
   name: string;
   version: string;

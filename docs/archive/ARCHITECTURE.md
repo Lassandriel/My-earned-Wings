@@ -1,5 +1,18 @@
 # ARCHITECTURE — My-earned-Wings
 
+> 📦 **Historical.** This was the Decision Record + Migration Plan for
+> the YAML pipeline / ECS / SQLite move. That migration is complete:
+> all 10 content categories are YAML-driven, engine state is a
+> separate plain-data object (Phase 2 Stage 2), save persistence
+> uses both SQLite (Electron) and localStorage (browser). Kept here
+> so the "why we chose Option B" decision history isn't lost.
+>
+> Current systems are documented inline in their source files and in
+> the addon docs ([ADDON_AUTHORING.md](../ADDON_AUTHORING.md),
+> [ROADMAP.md](../ROADMAP.md)).
+
+---
+
 > Decision Record & Migration Plan · May 2026
 
 ---
