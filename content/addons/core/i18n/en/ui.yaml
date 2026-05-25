@@ -239,6 +239,7 @@ settings_addons_intro: >-
   next to the .exe — you can delete or rename those without rebuilding.
 settings_addons_source_build: Build
 settings_addons_source_runtime: Runtime
+settings_addons_by: "by"
 settings_addons_note: >-
   Saves remember which addons were active. On load, the game warns
   if something is missing or has changed version.

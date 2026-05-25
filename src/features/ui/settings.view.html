@@ -360,15 +360,22 @@
             <ul class="addon-list">
               <template x-for="a in $store.game.getActiveAddons()" :key="a.name">
                 <li class="addon-row">
-                  <div class="addon-row-main">
-                    <strong class="addon-name" x-text="a.name"></strong>
-                    <span class="addon-version" x-text="'v' + a.version"></span>
+                  <div class="addon-row-head">
+                    <div class="addon-row-main">
+                      <strong class="addon-name" x-text="a.name"></strong>
+                      <span class="addon-version" x-text="'v' + a.version"></span>
+                    </div>
+                    <span
+                      class="addon-source"
+                      :class="'addon-source-' + a.source"
+                      x-text="a.source === 'build' ? $store.game.t('settings_addons_source_build') : $store.game.t('settings_addons_source_runtime')"
+                    ></span>
                   </div>
-                  <span
-                    class="addon-source"
-                    :class="'addon-source-' + a.source"
-                    x-text="a.source === 'build' ? $store.game.t('settings_addons_source_build') : $store.game.t('settings_addons_source_runtime')"
-                  ></span>
+                  <p class="addon-desc" x-show="a.description" x-text="a.description"></p>
+                  <p class="addon-author" x-show="a.author">
+                    <span x-text="$store.game.t('settings_addons_by')"></span>
+                    <span x-text="a.author"></span>
+                  </p>
                 </li>
               </template>
             </ul>

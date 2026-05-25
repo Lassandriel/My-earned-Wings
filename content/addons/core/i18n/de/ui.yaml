@@ -234,6 +234,7 @@ settings_addons_intro: >-
   .exe geladen — kannst du löschen/umbenennen ohne neu zu builden.
 settings_addons_source_build: Build
 settings_addons_source_runtime: Runtime
+settings_addons_by: "von"
 settings_addons_note: >-
   Spielstände merken sich, welche Addons aktiv waren. Beim Laden
   warnt das Spiel wenn jetzt was fehlt oder die Version anders ist.

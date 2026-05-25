@@ -351,7 +351,13 @@ export interface GameState {
    */
   isAddonLoaded: (name: string) => boolean;
   /** Snapshot of every active addon for UI listing. See active.ts. */
-  getActiveAddons: () => Array<{ name: string; version: string; source: 'build' | 'runtime' }>;
+  getActiveAddons: () => Array<{
+    name: string;
+    version: string;
+    source: 'build' | 'runtime';
+    description?: string;
+    author?: string;
+  }>;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;

@@ -25,20 +25,46 @@ export interface AddonRef {
    * missing runtime addon means they removed a folder.
    */
   source: 'build' | 'runtime';
+  /** Optional manifest copy fields surfaced for UI listing. */
+  description?: string;
+  author?: string;
 }
 
 const runtimeAddons: AddonRef[] = [];
 
 /** Called by runtime-addons.ts once per boot after discovery completes. */
-export const registerRuntimeAddons = (addons: ReadonlyArray<{ name: string; version: string }>): void => {
+export const registerRuntimeAddons = (
+  addons: ReadonlyArray<{
+    name: string;
+    version: string;
+    description?: string;
+    author?: string;
+  }>,
+): void => {
   runtimeAddons.length = 0;
-  for (const a of addons) runtimeAddons.push({ name: a.name, version: a.version, source: 'runtime' });
+  for (const a of addons) {
+    runtimeAddons.push({
+      name: a.name,
+      version: a.version,
+      source: 'runtime',
+      description: a.description,
+      author: a.author,
+    });
+  }
 };
 
 /** Every addon that's currently active in the running game. Sorted by name. */
 export const getActiveAddons = (): AddonRef[] => {
   const out: AddonRef[] = [];
-  for (const a of BUILD_TIME_ADDONS) out.push({ name: a.name, version: a.version, source: 'build' });
+  for (const a of BUILD_TIME_ADDONS) {
+    out.push({
+      name: a.name,
+      version: a.version,
+      source: 'build',
+      description: a.description,
+      author: a.author,
+    });
+  }
   for (const a of runtimeAddons) out.push(a);
   out.sort((a, b) => a.name.localeCompare(b.name));
   return out;

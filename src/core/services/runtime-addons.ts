@@ -368,7 +368,14 @@ export const loadRuntimeAddons = async (): Promise<RuntimeAddonLoadSummary> => {
   // The save system reads this to embed a compatibility snapshot in
   // every save. Build-time addons are already in the registry via the
   // generated content; we just contribute the runtime side here.
-  registerRuntimeAddons(result.addons.map((a) => ({ name: a.name, version: a.version })));
+  registerRuntimeAddons(
+    result.addons.map((a) => ({
+      name: a.name,
+      version: a.version,
+      description: a.description,
+      author: a.author,
+    })),
+  );
 
   // Inject build-time + runtime slot blocks in one pass. Build-time
   // payload is read from ADDON_SLOTS_GENERATED inside the service.

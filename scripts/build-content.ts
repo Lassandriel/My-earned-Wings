@@ -599,8 +599,13 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = ${JSON.strin
 // are tracked separately at boot — the save's full activeAddons
 // list is the union of both.
 
-export const BUILD_TIME_ADDONS: Array<{ name: string; version: string }> = ${JSON.stringify(
-  addons.map((a) => ({ name: a.manifest.name, version: a.manifest.version })),
+export const BUILD_TIME_ADDONS: Array<{ name: string; version: string; description?: string; author?: string }> = ${JSON.stringify(
+  addons.map((a) => ({
+    name: a.manifest.name,
+    version: a.manifest.version,
+    description: a.manifest.description,
+    author: a.manifest.author,
+  })),
   null,
   2,
 )};

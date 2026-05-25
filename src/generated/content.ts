@@ -5185,18 +5185,24 @@ export const SETTINGS_TAB_REGISTRY_GENERATED: Record<string, any> = {
 // are tracked separately at boot — the save's full activeAddons
 // list is the union of both.
 
-export const BUILD_TIME_ADDONS: Array<{ name: string; version: string }> = [
+export const BUILD_TIME_ADDONS: Array<{ name: string; version: string; description?: string; author?: string }> = [
   {
     "name": "core",
-    "version": "1.7.0"
+    "version": "1.7.0",
+    "description": "Base game content (resources, NPCs, actions, translations). Required by every other addon — uninstalling would remove the demo, the village, the production loop, everything.",
+    "author": "My earned Wings team"
   },
   {
     "name": "smoke_test",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "description": "Worked example that uses every addon capability the system ships: YAML content, patches, handlers.ts, effects.ts, ticks.ts, migrations.ts, schema.yaml, settingsTabs, slots, styles, inter-addon helpers. Lives in the repo as a self-check + author onboarding template; rename it to `_smoke_test` (underscore prefix) to disable without deleting.",
+    "author": "addon-system audit"
   },
   {
     "name": "vandara",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "description": "Vandara — die Roségold-Akademie. Erstes großes Story-Addon nach dem Dorf-Demo. Beginnt mit dem Einladungsbrief, den Aria der Lehrerin nach dem Schulabschluss überreicht.",
+    "author": "Lassandriel"
   }
 ];
 
@@ -6350,6 +6356,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "settings_addons_intro": "Diese Addons sind gerade aktiv. \"Build\" heißt direkt ins Spiel einkompiliert; \"Runtime\" heißt aus dem `addons/`-Ordner neben der .exe geladen — kannst du löschen/umbenennen ohne neu zu builden.",
       "settings_addons_source_build": "Build",
       "settings_addons_source_runtime": "Runtime",
+      "settings_addons_by": "von",
       "settings_addons_note": "Spielstände merken sich, welche Addons aktiv waren. Beim Laden warnt das Spiel wenn jetzt was fehlt oder die Version anders ist.",
       "settings_vol_global": "Gesamtlautstärke",
       "settings_vol_music": "Hintergrundmusik",
@@ -7646,6 +7653,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "settings_addons_intro": "These addons are active right now. \"Build\" means baked into the game executable; \"Runtime\" means loaded from the `addons/` folder next to the .exe — you can delete or rename those without rebuilding.",
       "settings_addons_source_build": "Build",
       "settings_addons_source_runtime": "Runtime",
+      "settings_addons_by": "by",
       "settings_addons_note": "Saves remember which addons were active. On load, the game warns if something is missing or has changed version.",
       "settings_vol_global": "Global Volume",
       "settings_vol_music": "Background Music",

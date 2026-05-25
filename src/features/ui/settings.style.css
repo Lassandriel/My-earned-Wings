@@ -550,13 +550,20 @@ input:checked + .slider:before {
 
 .addon-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   font-family: 'Outfit', sans-serif;
+}
+
+.addon-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .addon-row-main {
@@ -568,6 +575,21 @@ input:checked + .slider:before {
 .addon-name {
   font-size: 0.95rem;
   color: var(--text);
+}
+
+.addon-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+
+.addon-author {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+  font-style: italic;
 }
 
 .addon-version {
