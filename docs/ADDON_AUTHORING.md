@@ -1,11 +1,13 @@
 # Authoring an Addon
 
 How to add modular content to My-earned-Wings without touching the base
-game. If you just want to copy a working skeleton, look at
-`content/addons/_example/` — every file in there is commented.
+game. Everything an addon can do — content, patches against base,
+custom code, UI extensions, save migrations — is covered here.
 
-This doc is the reference. Pair it with `docs/ADDON_SYSTEM_PLAN.md` for
-the design rationale behind the choices below.
+**Easiest start:** copy `content/addons/smoke_test/` and rename. That
+folder exists as the worked example — it uses every capability once,
+and every file in it is commented. Then come back here when you need
+the details.
 
 ---
 
@@ -16,113 +18,275 @@ Each addon lives in its own folder under `content/addons/`:
 ```
 content/addons/<your-addon>/
   manifest.yaml                  # required
-  actions/  *.yaml                # optional, same schema as content/addons/core/actions/
-  items/    *.yaml                # optional
-  npcs/     *.yaml                # optional
-  buffs/ modifiers/ homes/ milestones/ navigation/ titles/ resources/   *.yaml
-  i18n/<lang>/<context>.yaml      # optional, e.g. i18n/de/items.yaml
-  views/<name>.html               # optional — addon-shipped UI tabs (see §10)
-  handlers.ts                     # optional — TS for customExecute logic
+  schema.yaml                    # optional — own required-field rules
+
+  # ── YAML content (any subset of these) ──
+  resources/  *.yaml
+  modifiers/  *.yaml
+  actions/    *.yaml
+  items/      *.yaml
+  npcs/       *.yaml
+  buffs/      *.yaml
+  homes/      *.yaml
+  milestones/ *.yaml
+  navigation/ *.yaml
+  titles/     *.yaml
+  sections/   *.yaml             # action-category cards in a sub-tab
+  subTabs/    *.yaml             # tabs under Main / other parent views
+  settingsTabs/ *.yaml           # entries in the Settings sidebar
+  patches/    *.yaml             # modifications to base / other addons
+
+  # ── Translations ──
+  i18n/<lang>/<context>.yaml     # e.g. i18n/de/items.yaml
+
+  # ── Assets (copied to public/ at build time) ──
+  resources/img/  *.{webp,png,jpg,jpeg}
+  sfx/            *.{mp3,ogg,wav,m4a}
+
+  # ── UI extensions ──
+  views/<name>.html              # new top-level tabs
+  slots/<slot-id>.html           # inject HTML into base data-slot markers
+  styles/<name>.css              # custom CSS
+
+  # ── TypeScript modules (build-time only) ──
+  handlers.ts                    # customExecute bridges
+  effects.ts                     # new onSuccess effect types
+  ticks.ts                       # per-second engine hook
+  migrations.ts                  # save migrations for this addon
 ```
 
 **Skipping an addon**: rename the folder to start with `_` (e.g.
-`_my_addon/`). The build script skips underscore-prefixed dirs, so
-`_example/` is never loaded.
+`_my_addon/`). The build script skips underscore-prefixed dirs.
+
+The base game itself is an addon (`content/addons/core/`). It has the
+same shape as any other addon and ships every YAML category plus
+images + i18n. Read its files when you want to see how something is
+done in production.
 
 ---
 
 ## 2 · `manifest.yaml`
 
-Minimum:
+Every addon needs a `manifest.yaml` at its root. Minimum:
 
 ```yaml
-name: vandara              # MUST match the folder name. lowercase + digits +
-                           # underscore + hyphen, starts with a letter.
+name: vandara              # MUST match the folder name. lowercase + digits
+                           # + underscore + hyphen, starts with a letter.
 version: 0.1.0             # strict semver (MAJOR.MINOR.PATCH).
 ```
 
-Optional:
+All optional fields:
 
 ```yaml
 description: "What this addon adds."
 author: "Your name"
-enabledByDefault: true     # informational for now; runtime toggling is
-                           # a future milestone
-requires:                  # other addons this depends on (build-script
-  - weather                # dependency check is not implemented yet —
-  - moods >=0.2.0          # documented for future expansion)
+enabledByDefault: true     # informational; the player toggles addons
+                           # in Settings → Addons regardless of this.
+
+requires:                  # other addons this depends on. ENFORCED at
+  - core                   # build time (build dies if a required addon
+  - some-other-addon       # isn't installed) and at runtime (runtime
+                           # addons with missing deps are skipped).
+
+overrides:                 # names of addons whose entries this addon
+  - core                   # wants to overwrite on collision. Build script
+                           # topo-sorts the load order so this addon
+                           # loads AFTER its targets — last write wins.
+                           # Soft: missing override targets warn, don't
+                           # error.
+
+required: true             # locks the Disable toggle in Settings → Addons.
+                           # `core` uses it; most addons should leave it
+                           # unset so players stay free to turn them off.
 ```
 
-Validation is strict — unknown top-level fields fail the build. Open an
-issue / a PR before adding new manifest fields.
+Validation is strict — unknown top-level fields fail the build. The
+manifest schema lives in `scripts/build-content.ts`.
 
 ---
 
 ## 3 · IDs and namespacing
 
-The build script enforces unique IDs across base + every active addon
-per category. On a collision the build fails with both source paths:
+The build script enforces unique IDs across every loaded addon per
+category. On a collision the build fails with both source paths:
 
 ```
 Error: [build-content] Duplicate ID "item-axe": defined in BOTH
-  base/items AND addons/vandara/items. ...
+  addons/core/items AND addons/vandara/items. ...
 ```
 
 **Convention**: prefix every ID you ship with your addon name, e.g.
 `act-vandara-research`, `item-vandara-textbook`, `npc-vandara-solen`.
-This is convention only — the build will still accept a non-prefixed
-ID if it doesn't collide today, but you're one base addition away from
+This is convention only — the build accepts non-prefixed IDs as long
+as they don't collide today — but you're one base addition away from
 breaking. Just prefix.
+
+To *intentionally* override a base entry, declare `overrides: [core]`
+in your manifest and ship YAML with the same id as the base one. The
+topo-sort guarantees your write wins.
 
 ---
 
-## 4 · Translations
+## 4 · Content categories (YAML)
+
+All 13 categories use the same `<id>` + arbitrary fields shape; the
+specific field schema lives with each base example.
+
+| Category | What it defines | Base example to read |
+|---|---|---|
+| `resources` | Trackable numbers (energy, wood, magic, …) | `content/addons/core/resources/materials.yaml` |
+| `modifiers` | Stackable multipliers / flat-adds against pipeline keys | `content/addons/core/modifiers/yields.yaml` |
+| `actions` | Things the player clicks (gather, build, npc-step, …) | `content/addons/core/actions/core.yaml` |
+| `items` | Inventory items + furniture | `content/addons/core/items/tools.yaml` |
+| `npcs` | NPC descriptors (name, icon, image, progKey, …) | `content/addons/core/npcs/village.yaml` |
+| `buffs` | Time-limited modifier bundles | `content/addons/core/buffs/buffs.yaml` |
+| `homes` | The player's base options + capacity | `content/addons/core/homes/homes.yaml` |
+| `milestones` | One-shot unlock conditions | `content/addons/core/milestones/milestones.yaml` |
+| `navigation` | Sidebar tabs (top-level views) | `content/addons/core/navigation/navigation.yaml` |
+| `titles` | Display titles awarded to the player | `content/addons/core/titles/titles.yaml` |
+| `sections` | Action-category cards inside a sub-tab | `content/addons/core/sections/kitchen.yaml` |
+| `subTabs` | Tabs under a parent view (e.g. Main) | `content/addons/core/subTabs/main.yaml` |
+| `settingsTabs` | Entries in the Settings sidebar | `content/addons/core/settingsTabs/main.yaml` |
+
+YAML loaders are uniform: any file under each category gets parsed as
+an array of objects with `id: string` (other fields free-form, the
+build doesn't enforce shape unless `schema.yaml` adds requirements
+— see §12).
+
+---
+
+## 5 · Translations
 
 Place translation files at `i18n/<lang>/<context>.yaml`. Languages and
-contexts must match what base uses (`de`, `en` × `ui`, `items`, `npcs`,
-…). The build merges your keys onto the base bundle.
+contexts match what base uses (`de`, `en` × `ui`, `actions`, `items`,
+`npcs`, `buffs`, `milestones`, `modifiers`, `navigation`, `resources`,
+`titles`, `logs`). The build merges your keys onto the base bundle.
 
-- **New keys** (key didn't exist in base) — silently merged.
+- **New keys** (didn't exist in base) — silently merged.
 - **Overrides** (key existed in base, you gave it a different value) —
-  merged, plus a dev-time warning is logged at build time so accidental
-  overrides are visible:
+  merged, plus a dev-time warning at build:
 
 ```
 ⚠️  1 translation override(s) by addons:
    [de/ui] ui_house: "Eigenes Haus" → "Heim (Vandara)"
 ```
 
-If you genuinely want to re-word a base string for a total-conversion
-addon, this is the intended path. If you didn't mean to override, rename
-your key.
+If you genuinely want to rewrite a base string for a total-conversion
+addon, this is the intended path. If you didn't mean to override,
+rename your key (prefix it).
+
+**Where do specific keys live?** Mirror what base does:
+
+| Key references | Goes in context |
+|---|---|
+| NPC `nameKey`, navigation labels, settings strings, button text | `ui.yaml` |
+| Action titles + descriptions | `actions.yaml` |
+| NPC dialogue lines | `npcs.yaml` |
+| Item titles + descriptions | `items.yaml` |
+| Log messages, story beats | `logs.yaml` |
+
+`check-i18n` (part of `npm run check-all`) verifies that every referenced
+key resolves in both languages and warns about missing entries.
 
 ---
 
-## 5 · Assets
+## 6 · Images & SFX
 
-Convention: ship assets under `public/img/addons/<your-addon>/...`
-(or `public/sfx/addons/<your-addon>/...` for audio). Reference from
-YAML via the same path:
+Drop images at `content/addons/<name>/resources/img/*.{webp,png,jpg,jpeg}`
+and audio at `content/addons/<name>/sfx/*.{mp3,ogg,wav,m4a}`. The build
+copies them into the served public/ tree:
+
+- `content/addons/<name>/resources/img/<file>` → `public/img/addons/<name>/<file>`
+- `content/addons/<name>/sfx/<file>` → `public/sfx/addons/<name>/<file>`
+
+Filenames are **lowercased on copy** so case-sensitive filesystems
+(Linux CI, packaged builds) don't bite you. Reference assets from
+YAML using the served URL:
 
 ```yaml
-- id: npc-vandara-solen
-  image: img/addons/vandara/npcs/magistra_solen.webp
+# NPC portrait
+- id: npc-vandara-pamle
+  image: img/addons/vandara/pamle.webp
+
+# Action SFX — the key is "<addon>/<basename>" (no extension)
+- id: act-vandara-brew
+  sfx: vandara/brew
 ```
 
-Base assets at `public/img/<topic>/...` stay where they are — you can
-reference them from your addon's YAML too.
+Both `public/img/addons/<name>/` and `public/sfx/addons/<name>/` are
+gitignored — re-running `build:content` recreates them from your
+source files.
 
-There's no enforced validator for asset paths today; the existing CI
-"check-all" step that catches missing base assets will catch addon ones
-too once those assets are referenced.
+`check-assets` (part of `check-all`) validates every `image:` /
+`icon:` / `sfx:` reference at build time.
 
 ---
 
-## 6 · Custom handlers (`handlers.ts`)
+## 7 · Patches — modifying base or other addons
 
-When YAML data alone can't express what you need, ship a `handlers.ts`
-alongside your YAML. Export your handlers either as a default object or
-as named exports — the build picks one or the other.
+Sometimes you need to *change* something base ships, not add to it.
+That's what patches are for. Drop YAML files at
+`content/addons/<name>/patches/*.yaml`; each file is a list of patch
+entries. The patch engine validates and applies them after all content
+has loaded.
+
+Every patch has `targetType` + `targetId` + one or more operations.
+All ops supported today, grouped by target type:
+
+| Target | Ops |
+|---|---|
+| `action` | `prependSteps`, `appendSteps`, `replaceStep`, `removeStep`, `addOnSuccess`, `addRequirement`, `modifyCost`, `setIcon`, `setImage` |
+| `npc` | `setImage`, `setIcon`, `setColor`, `mergeDialogues`, `setChapter`, `setLocation` |
+| `item` | `addModifiers`, `setSpaceCost`, `setImage` |
+| `resource` | `setInitial`, `setInitialLimit`, `setColor` |
+| `modifier` | `setBaseValue` |
+| `buff` | `setDuration`, `addModifiers` |
+| `home` | `setCapacity`, `setImage` |
+| `milestone` | `addRequirement`, `addOnUnlock` |
+| `navigation` | `setIcon`, `setImage`, `setLabel`, `setRequiredFlag` |
+| `section` | `setHeaderLabel`, `setRequiresFlag`, `setActionCategory` |
+
+Example — extend an NPC's questline by appending a step:
+
+```yaml
+- targetType: action
+  targetId: act-npc-vandara-fafa
+  appendSteps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: unlockNPC
+          id: npc-vandara-sariel
+```
+
+Build-time patches **fail loud** on missing targets (the addon ships
+with the build — a missing reference is an addon bug). Runtime patches
+warn and skip instead (a missing target means the user's installed
+addons don't line up; warn, don't crash).
+
+If your addon wants to **deliberately override** something another
+addon patched, set `overrides: [other-addon]` in your manifest. The
+load order then guarantees your patch wins.
+
+For the exact validation rules of each op, see `src/core/addons/patches.ts`
+(`validatePatchEntry`).
+
+---
+
+## 8 · Custom code (`handlers.ts` / `effects.ts` / `ticks.ts` / `migrations.ts`)
+
+YAML can't always express what you need. Build-time addons get four
+TypeScript hooks to plug imperative logic into the engine. Each one
+is optional. None of them work at runtime — TS needs the build step.
+
+### 8.1 · `handlers.ts` — custom action execution
+
+When a YAML action's behaviour can't be expressed via `onSuccess`
+effects, declare `customExecute: <addon>/<handler>` on the action
+and ship the TS handler. Build auto-prefixes every handler with your
+addon name so collisions are impossible.
 
 ```ts
 // content/addons/<your-addon>/handlers.ts
@@ -137,58 +301,106 @@ export default { ping };
 // or: export { ping };
 ```
 
-The build script auto-prefixes every handler key with your addon name.
-A handler named `ping` in `content/addons/myaddon/handlers.ts` becomes
-addressable from YAML as:
+YAML side:
 
 ```yaml
 - id: act-myaddon-something
   customExecute: myaddon/ping
 ```
 
-Handlers receive `(state, actionId)`:
-- `state` — the live engine state (GameState shape). Mutate it directly
-  (`state.flags.foo = true`, `state.resource.add(state, 'wood', 5)`),
-  emit bus events, queue commands. UISync flushes to Alpine each RAF.
-- `actionId` — the YAML action's id, useful when the same handler serves
-  multiple actions.
-
 Return value: `true | false | void | { success, ... }`. Returning
 `false` (or `{ success: false }`) signals failure to the action
-pipeline (no rewards applied, fail SFX, etc.).
+pipeline (no rewards, fail SFX, etc.).
+
+### 8.2 · `effects.ts` — custom `onSuccess` effect types
+
+The action engine has a registry of effect-type handlers. Base ships
+`setFlag`, `unlockNPC`, `modifyResource`, `addBuff`, … An addon can
+register its own. Ship a file like this:
+
+```ts
+// content/addons/<your-addon>/effects.ts
+import type { RegisterAddonEffects } from '../../../src/core/addons/effects';
+
+export const registerEffects: RegisterAddonEffects = (register) => {
+  register('summonShadow', (game, effect) => {
+    // effect is the YAML payload, cast as needed
+    const npc = (effect as unknown as { npc?: string }).npc;
+    if (npc) game.flags[`shadow_present_${npc}`] = true;
+  });
+};
+```
+
+YAML side:
+
+```yaml
+- id: act-vandara-ritual
+  onSuccess:
+    - type: summonShadow
+      npc: shade-elder
+```
+
+Unknown effect types log a warning at runtime (used to silently
+no-op). Collisions between two addons registering the same type warn;
+last write wins via the topo-sort.
+
+### 8.3 · `ticks.ts` — per-second engine hook
+
+For periodic logic — mana regen, weather cycles, spawn timers — ship
+a tick hook. It runs once per simulation second, between built-in
+ticks (buffs/focus/regen/producers) and the UI sync, so reads see
+fresh values and writes propagate the same frame.
+
+```ts
+// content/addons/<your-addon>/ticks.ts
+import type { AddonTickHook } from '../../../src/core/addons/ticks';
+
+export const onTick: AddonTickHook = (state, _services, deltaTime) => {
+  // Mutate state.addonState directly — see §11 for the namespace.
+  const addonState = (state.addonState ??= {});
+  const s = (addonState.myaddon ??= {}) as { ticks?: number };
+  s.ticks = (s.ticks ?? 0) + 1;
+};
+```
+
+A throwing tick is caught — the rest of the addon ticks still run.
+
+### 8.4 · `migrations.ts` — addon save migrations
+
+If your addon's persisted state changes shape across versions, ship
+migrations the same way base does. Versions are tracked per-addon in
+the save's `addonSchemaVersions` field.
+
+```ts
+// content/addons/<your-addon>/migrations.ts
+import type { AddonMigrationModule } from '../../../src/core/services/save-migrations';
+
+export const SCHEMA_VERSION: AddonMigrationModule['SCHEMA_VERSION'] = 2;
+
+export const MIGRATIONS: AddonMigrationModule['MIGRATIONS'] = {
+  2: (state) => {
+    // Rename a flag your addon used to set.
+    const flags = state.flags as Record<string, boolean>;
+    if (flags && flags.old_flag_name) {
+      flags.new_flag_name = true;
+      delete flags.old_flag_name;
+    }
+  },
+};
+```
+
+A save without `addonSchemaVersions.<your-addon>` is treated as v1, so
+every migration from v2 upward runs. A migration that throws skips the
+rest of *this* addon's migrations; other addons keep going.
 
 ---
 
-## 7 · Running and testing
+## 9 · UI extensions
 
-```
-npm run build:content      # regenerates src/generated/content.ts +
-                           # src/generated/addon-handlers.ts
-npm run dev                # vite + electron, picks up changes via HMR
-```
+### 9.1 · Top-level views (`views/<name>.html`)
 
-`npm run build:content` is the source of truth. Re-run it any time you
-add/change/remove an addon. The build fails loudly on:
-- missing manifest.yaml
-- manifest schema violation (bad name pattern, non-semver version, …)
-- folder name ≠ manifest name
-- duplicate ID across base + addons
-
-Translation overrides only log warnings — they don't fail the build.
-
----
-
-## 10 · Adding a brand-new tab (view fragment)
-
-If your addon needs more than just dropping items/NPCs into existing
-tabs — i.e. it ships its own page with its own layout — you author
-**view fragments** alongside the rest of the addon.
-
-### Step 1: write the view HTML
-
-Drop a file at `content/addons/<your-addon>/views/<viewname>.html`.
-It's a regular Alpine view fragment — `$store.game` is in scope, all
-the same directives work as in the base templates:
+If your addon needs a whole new sidebar tab with its own layout, drop
+a view fragment:
 
 ```html
 <!-- content/addons/myaddon/views/lab.html -->
@@ -196,128 +408,343 @@ the same directives work as in the base templates:
   <div class="category-header">
     <h3 x-text="$store.game.t('myaddon_lab_title')"></h3>
   </div>
-  <div class="panel-premium">
-    <p>Wood: <strong x-text="$store.game.resources.wood ?? 0"></strong></p>
-    <button @click="$store.game.commands.enqueue({ type: 'attemptAction', actionId: 'act-myaddon-experiment' })">
-      Run experiment
-    </button>
-  </div>
+  <p>Wood: <strong x-text="$store.game.resources.wood ?? 0"></strong></p>
 </div>
 ```
 
-The build script wraps this in `<section class="view-section"
-x-show="$store.game.view === 'myaddon/lab'" x-transition:enter="view-enter">`
-automatically — you don't write the wrapper.
-
-### Step 2: register the tab in the sidebar
-
-In `content/addons/<your-addon>/navigation/<file>.yaml`, add an entry
-whose `id` matches the view path `<addon>/<viewname>`:
+The build wraps it in `<section class="view-section" x-show="$store.game.view === 'myaddon/lab'">`
+automatically. Add a `navigation` entry with the matching id:
 
 ```yaml
+# content/addons/myaddon/navigation/lab.yaml
 - id: myaddon/lab
-  label: nav_myaddon_lab     # translation key — define it in i18n/<lang>/ui.yaml
-  icon: crafting             # base icon name; resolves to img/menu/menu_crafting.webp
-  # OPTIONAL: ship your own icon, overrides the base convention
-  # image: img/addons/myaddon/menu_lab.webp
-  # OPTIONAL: gate behind a flag
-  # requiredFlag: myaddon_unlocked
+  label: nav_myaddon_lab
+  icon: crafting             # base icon name → img/menu/menu_crafting.webp
+  # OPTIONAL: image: img/addons/myaddon/menu_lab.webp
 ```
 
-### Step 3: provide the translation
+View ids must match `[a-z0-9_/-]+`. The file's basename becomes the
+last segment of the view id.
 
-In `content/addons/<your-addon>/i18n/<lang>/ui.yaml`:
+### 9.2 · Sub-tabs (`subTabs/*.yaml`)
+
+To add a sub-tab to an existing parent view (e.g. Main), drop a YAML
+entry:
 
 ```yaml
-nav_myaddon_lab: Laboratory
-myaddon_lab_title: Arcane Laboratory
+- id: myaddon-research
+  parentView: main           # which top-level view to attach to
+  labelKey: myaddon_subtab_research
+  order: 30                  # ascending. base ships: general=10, herstellen=20
+  # OPTIONAL: alwaysShown: true       — always visible
+  # OPTIONAL: requiresFlag: shadows   — only when flag is truthy
 ```
 
-### How it wires together
+By default a sub-tab shows iff at least one `section` points at it (so
+you don't see an empty sub-tab). `alwaysShown` and `requiresFlag` are
+explicit overrides.
 
-| Step | What happens |
-|---|---|
-| Build | Scans `content/addons/*/views/*.html`, wraps each, writes a single `src/generated/addon-views.html` |
-| Boot | `index.html` includes that generated file once. Alpine sees all sections at start-up. |
-| Runtime | User clicks tab → `store.view = 'myaddon/lab'` → only matching `<section>` shows. |
+### 9.3 · Settings tabs (`settingsTabs/*.yaml`)
 
-No engine code touched. New tabs are pure content.
+To add an entry to the Settings modal's sidebar:
 
-### Naming rules
+```yaml
+- id: myaddon
+  icon: 🧪
+  labelKey: myaddon_settings_tab
+  order: 60                  # after base's 50 (System), before 60 (Addons)
+  # OPTIONAL: requiresFlag: myaddon-unlocked
+```
 
-- `views/<file>.html` → view id `<addon>/<file>` (the `.html` is stripped).
-- Addon name `myaddon` → view id `myaddon/lab` for `views/lab.html`.
-- Use the SAME id in the navigation entry's `id` field.
-- View ids match `[a-z0-9_/-]+` (constrained by manifest name regex +
-  file naming). Don't use spaces or capital letters.
+The body comes via the `settings-content` slot — see §9.5.
 
-### Limitations / known gaps
+### 9.4 · Sections (`sections/*.yaml`)
 
-- **No view-specific lifecycle hooks** — view fragments are static HTML,
-  no `boot()` per view. If you need imperative setup, wire it via
-  `customExecute` handlers (handlers.ts) triggered by an action the
-  view's button enqueues.
-- **No view-fragment hot-reload** — editing a view file mid-`dev` server
-  requires re-running `npm run build:content` to regenerate
-  `addon-views.html`, then Vite picks it up via HMR.
+A section is a card-list of actions matching a category, placed in a
+specific sub-tab:
+
+```yaml
+- id: myaddon-bench
+  subTab: myaddon-research
+  headerLabel: myaddon_section_bench
+  actionCategory: vandara-alchemy
+  # OPTIONAL: requiresFlag: vandara-enrolled
+```
+
+Every action whose YAML has `category: vandara-alchemy` then auto-renders
+inside this section. No HTML to write.
+
+### 9.5 · Slots (`slots/<slot-id>.html`)
+
+Base views can declare `<div data-slot="<id>">` markers. Addons fill
+them by shipping HTML at `slots/<slot-id>.html`. Multiple addons can
+target the same slot — their blocks append in load order.
+
+Slots currently shipped by base:
+
+| Slot id | Where | Use for |
+|---|---|---|
+| `settings-content` | Bottom of the Settings modal body | Addon-defined settings tab bodies |
+| `menu-actions-end` | Main menu, between New Game/Settings and Quit | Extra menu buttons |
+| `menu-footer-end` | Main menu footer | Credits, mod badges, mod-specific links |
+
+Example — a Settings tab body. Pair this with a matching
+`settingsTabs/*.yaml` entry that has `id: myaddon`:
+
+```html
+<!-- content/addons/myaddon/slots/settings-content.html -->
+<div x-show="settingsTab === 'myaddon'" x-transition>
+  <section class="settings-card">
+    <h4 x-text="$store.game.t('myaddon_panel_title')"></h4>
+    <p x-text="'Tick count: ' + ($store.game.addonState?.myaddon?.ticks ?? 0)"></p>
+  </section>
+</div>
+```
+
+The slot service re-initialises from the nearest `[x-data]` ancestor
+after injection, so `x-show` against a modal-local variable
+(`settingsTab` here) does react to changes. Without that re-init the
+expression would evaluate once and freeze. Don't roll your own
+injection — use the slot system.
+
+### 9.6 · Styles (`styles/<name>.css`)
+
+Drop CSS files; they're concatenated into `src/generated/addon-styles.css`
+and bundled via Vite. Use this for custom particle types, settings-card
+extras, or anything you ship.
+
+```css
+/* content/addons/myaddon/styles/particles.css */
+.juice-particle.p-shadow {
+  color: #6b21a8;
+  text-shadow: 0 0 6px rgba(107, 33, 168, 0.7);
+}
+```
+
+YAML side — any action can reference your particle type:
+
+```yaml
+- id: act-myaddon-ritual
+  particleType: shadow       # CSS class becomes .p-shadow
+```
+
+Unknown particle types still render (they get the fallback color in
+base CSS); they just look generic until you ship the matching CSS.
 
 ---
 
-## 11 · Runtime addons (no rebuild needed)
+## 10 · Action hotkeys
 
-If you're an **end user of the packaged .exe** and just want to drop in
-a community addon — or you're an author who wants to ship a pure-data
-addon without forcing players to rebuild from source — this is the path.
+Actions accept an optional `hotkey` field — any `KeyboardEvent.key` OR
+`.code` value (whichever feels natural):
+
+```yaml
+- id: act-myaddon-cast
+  hotkey: F4                # also accepts KeyB / Digit5 / ArrowUp / ...
+```
+
+The input handler builds a lookup map on first keydown after addon
+load and dispatches O(1) per keypress. Base reserves F1/F2/F3 for the
+primary actions (rest / meditate / eat); pick anything else.
+
+---
+
+## 11 · State & inter-addon helpers
+
+### 11.1 · `addonState` namespace
+
+Every addon gets its own bucket in `GameState.addonState[<your-addon>]`.
+Use it for any persisted state your addon owns. Saves carry it
+automatically via the existing deepMerge; load + reset work too.
+
+From TS code (handlers, ticks, effects):
+
+```ts
+const addonState = (state.addonState ??= {}) as Record<string, Record<string, unknown>>;
+const myState = (addonState.myaddon ??= {}) as { shadowEnergy?: number };
+myState.shadowEnergy = (myState.shadowEnergy ?? 0) + 1;
+```
+
+From Alpine views:
+
+```html
+<span x-text="$store.game.addonStateFor('myaddon').shadowEnergy ?? 0"></span>
+```
+
+The store's `addonStateFor<T>(name)` helper auto-creates the bucket on
+first access.
+
+### 11.2 · `isAddonLoaded(name)`
+
+For inter-addon integrations that should light up only if the
+companion addon is installed:
+
+```ts
+if ((state as any).isAddonLoaded?.('vandara')) {
+  // light up the vandara-specific path
+}
+```
+
+Or from a view:
+
+```html
+<button x-show="$store.game.isAddonLoaded('vandara')" ...></button>
+```
+
+Build-time and runtime addons both count.
+
+### 11.3 · `manifest.requires`
+
+Lists other addons this one *needs* to function. The build script
+throws if a required addon isn't installed; the runtime loader skips
+runtime addons whose deps aren't loaded. Use this when your addon
+patches another addon's content or calls `isAddonLoaded` and treats a
+`false` as a bug rather than a missing-companion graceful degradation.
+
+### 11.4 · `manifest.overrides`
+
+Lists addons this one *wants to override* on collision. Affects load
+order — addons listed here load before this one, so your writes
+(patches, translations, …) win deterministically. Missing override
+targets warn but don't fail.
+
+### 11.5 · `manifest.required`
+
+`required: true` locks the Disable toggle in Settings → Addons. Use
+sparingly. `core` is the obvious case.
+
+---
+
+## 12 · Schema validation (`schema.yaml`)
+
+Optional. Use this to enforce field requirements on *your own* content
+— base entries are never retroactively constrained.
+
+```yaml
+# content/addons/myaddon/schema.yaml
+items:
+  required: [shadowAffinity]
+npcs:
+  required: [vandaraType]
+```
+
+The build dies with a precise pointer if any of your YAML entries in
+that category is missing the field:
+
+```
+[addon] myaddon/schema.yaml: entry "item-shadow-cup" in items/
+  is missing required field "shadowAffinity"
+```
+
+For richer validation (type checks, value ranges, cross-references),
+just write a unit test in your addon's TS files. The smoke_test addon's
+`migrations.ts` shows the pattern.
+
+---
+
+## 13 · Save compatibility
+
+The save file's `activeAddons` field is a snapshot of every addon that
+was loaded when the save was written. On load, the engine compares
+that list to what's currently active:
+
+- **Missing addon** (was in save, isn't loaded now) → the addon-compat
+  modal opens with the player's "Load anyway" / "Cancel" choice.
+- **Version mismatch** → same modal, version diff shown.
+- **New addon since save** → silent, treated as advisory.
+
+Your addon's `migrations.ts` (§8.4) runs automatically when loading a
+save where your version is older than the current one. No extra
+plumbing needed beyond the file.
+
+---
+
+## 14 · Running and testing
+
+```
+npm run build:content      # regenerates everything under src/generated/
+                           # + copies addon images/SFX to public/
+npm run dev                # vite + electron, picks up changes via HMR
+```
+
+`npm run build:content` is the source of truth. Re-run it after any
+addon change. It fails loud on:
+
+- missing `manifest.yaml`
+- manifest schema violation (bad name pattern, non-semver version,
+  unknown top-level field, …)
+- folder name ≠ manifest name
+- `requires:` not satisfied
+- override cycles (A overrides B, B overrides A)
+- duplicate IDs across addons
+- schema.yaml violations on your own content
+- missing patch targets
+
+`npm run check-all` is broader:
+
+- `check-i18n` — every referenced translation key resolves
+- `check-assets` — every referenced image/icon/sfx file exists
+- `check-logic` — game-state invariants hold
+- `check-unused` — no orphaned entries
+
+Translation overrides log warnings — they don't fail the build.
+
+---
+
+## 15 · Runtime addons (no rebuild)
+
+If you're an **end user of the packaged .exe** and just want to drop
+in a community addon — or you're an author shipping pure-data without
+forcing players to rebuild — this is the path.
 
 ### Where they live
 
-The packaged build ships an `addons/` folder right next to the .exe:
+The packaged build ships an `addons/` folder next to the .exe:
 
 ```
 My-earned-Wings-win32-x64/
   My-earned-Wings.exe
   addons/
     README.txt
-    _example/                 ← skeleton; underscore = ignored
-    your-addon/                ← drop yours here
+    _example/               ← skeleton; underscore = ignored
+    your-addon/             ← drop yours here
       manifest.yaml
       items/*.yaml
       i18n/<lang>/<ctx>.yaml
       …
 ```
 
-The loader also looks at `<packaged>/resources/addons/` as a fallback
-for build-shipped addons.
+Settings → Addons → "Open addons folder" opens that directory in the
+OS file manager (creates it on first use).
+
+The loader also looks at `<packaged>/resources/addons/` as a fallback.
 
 ### What works at runtime
 
-- Everything **data**: `manifest.yaml` + all 10 category folders
-  (`actions`, `items`, `npcs`, `buffs`, `homes`, `milestones`,
-  `navigation`, `titles`, `modifiers`, `resources`)
-- **Translations** under `i18n/<lang>/<ctx>.yaml`
-- **View fragments** under `views/<name>.html` (same `<addon>/<view>`
-  convention as §10) — they get wrapped and injected into the DOM at
-  boot, navigation entries with the matching `id` make them clickable
+- All YAML content (every category from §4)
+- Translations (`i18n/<lang>/<ctx>.yaml`)
+- View fragments (`views/<name>.html`)
+- Slot HTML (`slots/<slot-id>.html`)
+- CSS (`styles/*.css`)
+- SFX (`sfx/*.{mp3,ogg,wav,m4a}` — shipped as base64 data URLs via IPC)
+- Patches (`patches/*.yaml`)
 
 ### What does NOT work at runtime
 
-- **No `handlers.ts`** — TypeScript needs a build step. Custom
-  `customExecute` logic still requires the build-time addon path
-  (`content/addons/<name>/handlers.ts` + `npm run build:content`).
-- **No new resources/stats in existing saves** — runtime-only
-  resources and stats only appear in `initialState` from a "New Game"
-  onward. New items/actions/NPCs/translations/views work immediately
-  in any save.
+- **Any TS file** — `handlers.ts`, `effects.ts`, `ticks.ts`,
+  `migrations.ts`. TypeScript needs a build step. Use the build-time
+  addon path (`content/addons/<name>/`) and ship a custom build.
+- **`schema.yaml` violations** — validation only runs at build.
+- **New resources/stats in existing saves** — a runtime-introduced
+  resource only appears in `initialState` from "New Game" onward.
 
 ### Conflict policy
 
 Runtime addons **always lose** duplicate-id contests against base
-content and against build-time addons (the ones compiled into
-`src/generated/content.ts`). The loader logs a warning per skipped
-duplicate. Translation keys behave the same way — base / build-time
-keys are never overwritten by a runtime addon.
+content and build-time addons. The loader logs a warning per skipped
+duplicate. Same rule for translation keys.
 
-To diagnose, launch the .exe with `--debug`:
+To diagnose, launch with `--debug`:
 
 ```
 My-earned-Wings.exe --debug
@@ -328,31 +755,59 @@ and what got skipped.
 
 ---
 
-## 8 · What doesn't exist yet
+## 16 · Worked example: `smoke_test`
 
-These are documented in `docs/ADDON_SYSTEM_PLAN.md` and intentionally
-deferred for now:
+`content/addons/smoke_test/` lives in the repo as the canonical
+worked example. It uses every capability once:
 
-- **Dependency resolution**: `requires` is parsed but not enforced.
-- **Runtime toggling**: settings UI to enable/disable addons without
-  rebuild. Requires save-format work first (must record active addons
-  so old saves don't crash on missing references).
-- **Conflict resolution UI**: when two addons override the same
-  translation key, the second-loaded wins silently (after the warning).
-  No interactive merge.
-- **Devtools origin display**: the devtools entity browser doesn't yet
-  show which addon contributed an entry. Easy enhancement when it
-  matters.
+| Capability | File |
+|---|---|
+| Manifest with `requires` + `overrides` | `manifest.yaml` |
+| Own NPC + action + sub-tab | `npcs/`, `actions/`, `settingsTabs/` |
+| Patch against base | `patches/test_patches.yaml` |
+| Schema | `schema.yaml` |
+| Handler | `handlers.ts` (`noop`) |
+| Custom effect type | `effects.ts` (`smokeFlash`) |
+| Per-second tick | `ticks.ts` (writes to `addonState`) |
+| Migrations | `migrations.ts` (SCHEMA_VERSION = 2) |
+| Slot injection | `slots/settings-content.html` |
+| CSS | `styles/smoke.css` (custom particle type) |
+| Inter-addon helper | `ticks.ts` uses `isAddonLoaded('vandara')` |
+| i18n in three contexts | `i18n/<lang>/{ui,actions,logs}.yaml` |
+
+Open the game → Settings → Smoke tab to see the live counters proving
+ticks, effects, and `isAddonLoaded` are all working.
+
+To use it as a template: copy the folder, rename to your addon name,
+edit `manifest.yaml`, and start removing what you don't need.
 
 ---
 
-## 9 · Checklist before sharing
+## 17 · Checklist before sharing
 
 - [ ] `npm run build:content` succeeds with your addon enabled.
-- [ ] `npx tsc --noEmit` is clean (catches handler type errors).
-- [ ] `npm run check-all` passes — your addon's referenced assets and
-      translation keys all resolve.
+- [ ] `npx tsc --noEmit` is clean (catches handler/effect/tick type errors).
+- [ ] `npm run check-all` passes — assets and translation keys resolve.
 - [ ] `npm test` is green.
-- [ ] Manual smoke test: enable, load a save, trigger your addon's
+- [ ] Manual smoke test: enable, start a save, trigger your addon's
       actions, save+reload, all behaves correctly.
-- [ ] manifest.version bumped if you've shipped changes.
+- [ ] `manifest.version` bumped if shipping changes to an existing addon.
+- [ ] `manifest.description` accurate (it shows in Settings → Addons).
+
+---
+
+## 18 · Known limitations
+
+- **No runtime TypeScript** — by design. Runtime addons stay YAML-only.
+  Building a sandboxed JS subset (eval-allowlist) is technically possible
+  but a security risk; not in scope.
+- **No live addon refresh** — toggling an addon's enabled state in
+  Settings is persisted, but the restart contract holds (registries
+  + hooks are pruned at boot, not mid-session). Undoing patches /
+  unregistering SFX live would be brittle.
+- **`required: true` only locks the UI toggle** — it doesn't currently
+  prevent the build from running without the addon. If you depend on
+  another addon being there, use `requires:` (which IS enforced).
+- **DevTools origin display** — the entity browser doesn't yet show
+  which addon contributed a given entry. Settings → Addons surfaces
+  per-addon entry *counts*; finer-grained drill-down isn't there yet.
