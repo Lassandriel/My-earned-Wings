@@ -134,7 +134,6 @@ export interface GameState {
   ellieIntroSeen: boolean;
   showEllieIntro: boolean;
   demoCompletedHintSeen: boolean;
-  academy_path: string | null;
   translations: Translations;
 
   // Systems & Content

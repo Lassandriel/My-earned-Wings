@@ -106,7 +106,6 @@ const checkLogic = () => {
                 npcProgress: reachableFlags.get('npcProgress') || {},
                 discoveredItems: Array.from(unlockedItems),
                 unlockedRecipes: Array.from(unlockedActions),
-                academy_path: reachableFlags.get('academy_path')
             };
 
             let met = true;
