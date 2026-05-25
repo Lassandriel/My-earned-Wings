@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { spawn } from 'child_process';
@@ -717,6 +717,38 @@ const discoverRuntimeAddons = (): RuntimeAddonDiscoveryResult => {
   result.addons.sort((a, b) => a.name.localeCompare(b.name));
   return result;
 };
+
+/**
+ * Open the user-facing runtime-addons folder in the OS file manager.
+ * If it doesn't exist yet, create the primary one (next-to-exe path)
+ * before opening — saves the player a "folder doesn't exist" error
+ * the first time they install an addon.
+ *
+ * Returns the path that was opened so the renderer can show it in
+ * a toast / log line.
+ */
+ipcMain.handle(IpcChannel.ADDONS_OPEN_FOLDER, async (): Promise<{ ok: boolean; path?: string; error?: string }> => {
+  const dirs = runtimeAddonScanDirs();
+  if (dirs.length === 0) {
+    return { ok: false, error: 'No runtime addons path available (dev mode?)' };
+  }
+  // Prefer an existing dir; if none exist, create the first candidate.
+  let target = dirs.find((d) => fs.existsSync(d));
+  if (!target) {
+    target = dirs[0]!;
+    try {
+      fs.mkdirSync(target, { recursive: true });
+    } catch (err) {
+      return { ok: false, error: `mkdir failed: ${(err as Error).message}` };
+    }
+  }
+  try {
+    await shell.openPath(target);
+    return { ok: true, path: target };
+  } catch (err) {
+    return { ok: false, error: (err as Error).message };
+  }
+});
 
 ipcMain.handle(IpcChannel.ADDONS_DISCOVER_RUNTIME, async (): Promise<RuntimeAddonDiscoveryResult> => {
   const result = discoverRuntimeAddons();

@@ -48,6 +48,10 @@ declare global {
       contentBuild: () => Promise<{ ok: boolean; output: string }>;
       contentValidate: () => Promise<{ ok: boolean; output: string }>;
 
+      // Phase 16+: Open runtime-addons folder in the OS file manager.
+      // Creates it on first use, so the player always gets a window.
+      addonsOpenFolder: () => Promise<{ ok: boolean; path?: string; error?: string }>;
+
       // Phase 16: Runtime addon discovery (user-installable addons)
       addonsDiscoverRuntime: () => Promise<{
         scannedDirs: string[];

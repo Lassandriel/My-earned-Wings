@@ -386,6 +386,25 @@
         >
           <section class="settings-card">
             <p class="hint" x-text="$store.game.t('settings_addons_intro')"></p>
+            <!--
+              Action row: re-enable all (only when at least one addon
+              is disabled, to keep the row hidden in the common state),
+              + open-folder for the runtime drop location.
+            -->
+            <div class="addon-actions">
+              <button
+                class="action-btn-sm"
+                x-show="$store.game.settings && Array.isArray($store.game.settings.disabledAddons) && $store.game.settings.disabledAddons.length > 0"
+                @click="$store.game.reenableAllAddons()"
+                x-text="$store.game.t('settings_addons_reenable_all')"
+              ></button>
+              <button
+                class="action-btn-sm"
+                x-show="!!window.electronAPI && typeof window.electronAPI.addonsOpenFolder === 'function'"
+                @click="window.electronAPI.addonsOpenFolder()"
+                x-text="$store.game.t('settings_addons_open_folder')"
+              ></button>
+            </div>
             <ul class="addon-list">
               <template x-for="a in $store.game.getActiveAddons()" :key="a.name">
                 <li class="addon-row" :class="isCurrentlyDisabled(a.name) && 'is-disabled'">

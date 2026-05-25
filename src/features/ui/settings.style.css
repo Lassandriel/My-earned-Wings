@@ -659,6 +659,22 @@ input:checked + .slider:before {
   display: inline-block;
 }
 
+.addon-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 14px;
+}
+
+/* The base .action-btn-sm stretches to its grid cell by default
+   (legacy from System tab usage). In .addon-actions we want compact
+   pill buttons so the row doesn't sprawl across the full card. */
+.addon-actions .action-btn-sm {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
 .addon-version {
   font-family: 'Fira Code', monospace;
   font-size: 0.8rem;

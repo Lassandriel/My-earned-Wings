@@ -28,6 +28,8 @@ export const IpcChannel = {
   // and returns the merged payload to the renderer to apply onto the
   // (build-time generated) registries.
   ADDONS_DISCOVER_RUNTIME: 'addons:discoverRuntime',
+  /** Open the user-facing runtime addons folder in the OS file manager. */
+  ADDONS_OPEN_FOLDER: 'addons:openFolder',
 } as const;
 
 /**

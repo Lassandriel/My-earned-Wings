@@ -230,6 +230,25 @@ const gameStoreObject: Partial<GameState> & Record<string, unknown> = {
     return !isDisabled;
   },
 
+  /**
+   * Clear every disabled-addon entry — equivalent to flipping every
+   * non-required addon back to "on". Useful when the player wants to
+   * undo experimental toggles without restarting first. Persists via
+   * the settings save path; takes effect on next boot like a per-row
+   * toggle would. The Addons tab hides the button when no addons are
+   * disabled so it doesn't add clutter in the common case.
+   */
+  reenableAllAddons(): void {
+    const store = getStore();
+    const settings = store.settings as unknown as { disabledAddons?: string[] };
+    if (!settings.disabledAddons || settings.disabledAddons.length === 0) return;
+    settings.disabledAddons = [];
+    store.bus?.emit(store.EVENTS.SETTINGS_UPDATED);
+    if (typeof store.persistence?.saveSettings === 'function') {
+      store.persistence.saveSettings(store);
+    }
+  },
+
   addLog(id: string, c = 'logs', col: string | null = null, p = {}) {
     const store = getStore();
     store.bus.emit(store.EVENTS.LOG_ADDED, { id, context: c, color: col, params: p });

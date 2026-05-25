@@ -369,6 +369,8 @@ export interface GameState {
    * via the settings save path; takes effect on next boot.
    */
   toggleAddonDisabled: (addonName: string) => boolean | null;
+  /** Clear settings.disabledAddons. Persists; takes effect on next boot. */
+  reenableAllAddons: () => void;
   addLog: (id: string, context?: string, color?: string | null, params?: TranslationParams) => void;
   playSound: (id: string) => void;
   saveGame: (isManual?: boolean) => void;

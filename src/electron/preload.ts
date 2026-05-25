@@ -37,4 +37,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Phase 16: Runtime addon discovery (user-installable addons)
   addonsDiscoverRuntime: (): Promise<RuntimeAddonDiscoveryResult> =>
     ipcRenderer.invoke(IpcChannel.ADDONS_DISCOVER_RUNTIME),
+  // Open the runtime-addons folder in the OS file manager. Creates
+  // the folder if it doesn't exist yet so the first-time user gets a
+  // proper window instead of an error dialog.
+  addonsOpenFolder: (): Promise<{ ok: boolean; path?: string; error?: string }> =>
+    ipcRenderer.invoke(IpcChannel.ADDONS_OPEN_FOLDER),
 });

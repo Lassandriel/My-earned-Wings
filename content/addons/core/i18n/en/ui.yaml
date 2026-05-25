@@ -244,6 +244,8 @@ settings_addons_required_tooltip: >-
   This addon is required — disabling it would remove the game.
 settings_addons_restart_required: >-
   Takes effect on restart.
+settings_addons_reenable_all: Re-enable all
+settings_addons_open_folder: Open addons folder
 settings_addons_note: >-
   Saves remember which addons were active. On load, the game warns
   if something is missing or has changed version.
