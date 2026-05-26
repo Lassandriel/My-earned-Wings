@@ -1,15 +1,16 @@
 # Vandara — patches against base game content.
 #
-# This patch hangs a 4th step onto Aria's existing act-npc-teacher
-# action. Triggered once the player has completed her school-graduate
-# quest. She hands them a letter from the Roségold-Akademie in
-# Vandara, sets the `vandara-invited` flag, and Vandara content
-# downstream keys off that flag to open the city.
+# Hangs a 4th step (the Vandara invitation letter) onto Aria's
+# act-npc-teacher action, AND wires her graduation step (step 3, 0-based
+# index 2) to fire `extendNPCArc` on herself at exactly the moment the
+# player graduates. The NPC.maxProgress lift happens runtime, so the
+# player never sees a "3/4" spoiler before the achievement — Aria reads
+# as "3/3 done" through the entire base demo and only opens up to "3/4"
+# the instant graduation fires.
 #
-# Without this addon Aria's quest ends at the graduation. With it she
-# has one more conversation — no overwrite, no fork. The addon system's
-# `appendSteps` operation auto-bumps the action's maxProgress so the
-# new step is reachable.
+# This is the canonical pattern for "NPC X gets a new step after
+# achievement Y" — see also Veyras Shadow-Reveal → Wächter (Step 6
+# of act-npc-vandara-veyra).
 
 - targetType: action
   targetId: act-npc-teacher
@@ -33,11 +34,13 @@
           logKey: receive_vandara_letter
           color: var(--gold)
       dialogueKey: npc_teacher_vandara_letter
-
-# Lift Aria's overall progress bar so the new Vandara step fits.
-# Without this the action would patch correctly but the NPC card
-# would still display her as "done" at the old max, hiding that there
-# is one more thing to do with her.
-- targetType: npc
-  targetId: npc-teacher
-  bumpMaxProgress: 5
+  # Step 3 = index 2 in steps[] (Aria's "graduate" step, sets
+  # school_graduate). Adding extendNPCArc to its onSuccess bumps
+  # Aria's NPC.maxProgress from 3 → 4 right when she graduates,
+  # making the freshly-appended Vandara-letter step (index 3)
+  # reachable — without any build-time spoiler.
+  addStepOnSuccess:
+    step: 2
+    effects:
+      - type: extendNPCArc
+        npcId: npc-teacher

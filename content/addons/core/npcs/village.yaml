@@ -37,7 +37,12 @@
   color: '#3b82f6'
   image: img/npcs/teacher_aria.webp
   progKey: teacher
-  maxProgress: 4
+  # Statisch 3: deckt nur Aria's Base-Arc (Intro → Hütte → Graduation).
+  # Wenn Vandara installiert ist patcht es Aria's Graduate-Step (Step 3)
+  # mit einem extendNPCArc Effect, der maxProgress live auf 4 bumpt
+  # sobald der Spieler graduiert — der Vandara-Brief-Step erscheint
+  # dann ohne "3/4" Spoiler in der Progress-Anzeige.
+  maxProgress: 3
   chapter: Village Life
   unlockedAtStart: true
 

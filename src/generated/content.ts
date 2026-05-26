@@ -2547,6 +2547,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "log",
             "logKey": "school_graduate_log",
             "color": "var(--gold)"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-teacher"
           }
         ],
         "dialogueKey": "npc_teacher_6"
@@ -4665,7 +4669,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "color": "#3b82f6",
     "image": "img/npcs/teacher_aria.webp",
     "progKey": "teacher",
-    "maxProgress": 5,
+    "maxProgress": 3,
     "chapter": "chapter_smoke_test",
     "unlockedAtStart": true
   },
