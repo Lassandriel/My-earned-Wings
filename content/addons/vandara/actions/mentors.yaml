@@ -47,9 +47,12 @@
       dialogueKey: npc_vandara_veyra_5
     # Stufe 6 — Nachwirkung. Veyra erklärt was Schatten als Licht-
     # Sub bedeutet, gesteht ihre Grenzen ein, deutet auf jemanden
-    # in den Katakomben (Sariel im nächsten Drop). Gleichzeitig:
-    # andere Vandara-NPCs (Wächter, künftig auch Olié etc.) "merken"
-    # diese Veränderung am Spieler — Story-Bumps via extendNPCArc.
+    # in den Katakomben (Sariel — die der Spieler vermutlich schon
+    # kennt, mysteriös und Element-agnostisch). Gleichzeitig:
+    # andere Vandara-NPCs (Wächter, Fafa, Sariel) "merken" diese
+    # Veränderung am Spieler — Story-Bumps via extendNPCArc machen
+    # ihre nächsten Steps sichtbar OHNE Pre-Reveal-Spoiler in den
+    # Progress-Balken.
     - cost: 10
       costType: energy
       onSuccess:
@@ -59,11 +62,18 @@
         - type: log
           logKey: vandara_shadow_revealed
           color: var(--gold)
-        # Bumpt den Wächter von maxProgress 1 → 2: macht Step 2 (Wieder-
-        # Begegnung) freischaltbar. Andere NPCs können später hier
-        # ähnlich aufgehängt werden.
+        # Wächter 1 → 2: Wieder-Begegnung (Respekt) wird klickbar.
         - type: extendNPCArc
           npcId: npc-vandara-gate-guard
+        # Fafa 4 → 5: Bestätigungs-Beat (Step 5 Patch) wird klickbar.
+        - type: extendNPCArc
+          npcId: npc-vandara-fafa
+        # Sariel 1 → 4: echte Schatten-Schulung (Steps 2-4). by: 3
+        # weil Sariel total 4 Steps hat und vorher nur Step 1
+        # (Element-agnostische Erstbegegnung) erreichbar war.
+        - type: extendNPCArc
+          npcId: npc-vandara-sariel
+          by: 3
       dialogueKey: npc_vandara_veyra_6
   customExecute: npc_execute
 

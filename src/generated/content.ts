@@ -3530,6 +3530,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "value": true
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-vandara-sariel"
+          },
+          {
             "type": "log",
             "logKey": "vandara_katakomben_unlocked",
             "color": "var(--gold)"
@@ -3544,10 +3548,6 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           "flags.vandara-shadow-revealed": true
         },
         "onSuccess": [
-          {
-            "type": "unlockNPC",
-            "id": "npc-vandara-sariel"
-          },
           {
             "type": "setFlag",
             "flag": "vandara-katakomben-entered",
@@ -3863,6 +3863,15 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           {
             "type": "extendNPCArc",
             "npcId": "npc-vandara-gate-guard"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-fafa"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-sariel",
+            "by": 3
           }
         ],
         "dialogueKey": "npc_vandara_veyra_6"
@@ -4103,23 +4112,32 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
         "cost": 10,
         "costType": "energy",
         "requirements": {
-          "flags.vandara-katakomben-entered": true
+          "flags.vandara-katakomben-unlocked": true
         },
         "dialogueKey": "npc_vandara_sariel_1"
       },
       {
         "cost": 10,
         "costType": "magic",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
         "dialogueKey": "npc_vandara_sariel_2"
       },
       {
         "cost": 15,
         "costType": "magic",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
         "dialogueKey": "npc_vandara_sariel_3"
       },
       {
         "cost": 15,
         "costType": "magic",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
         "onSuccess": [
           {
             "type": "setFlag",
@@ -4813,7 +4831,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/addons/vandara/fafa.webp",
     "color": "#a8a29e",
     "progKey": "vandaraFafa",
-    "maxProgress": 5,
+    "maxProgress": 4,
     "chapter": "Vandara",
     "location": "vandara"
   },
@@ -4901,7 +4919,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/addons/vandara/sariel.webp",
     "color": "#1e1b4b",
     "progKey": "vandaraSariel",
-    "maxProgress": 4,
+    "maxProgress": 1,
     "chapter": "Vandara",
     "location": "vandara"
   }

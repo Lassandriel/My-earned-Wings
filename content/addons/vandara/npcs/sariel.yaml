@@ -11,6 +11,11 @@
   image: img/addons/vandara/sariel.webp
   color: '#1e1b4b'
   progKey: vandaraSariel
-  maxProgress: 4
+  # Startet mit 1 (Erstbegegnung als blinde Mentorin in den
+  # Katakomben — sichtbar sobald Fafa Step 4 den Eingang zeigt,
+  # noch BEVOR der Spieler sein Element kennt). Veyras Schatten-
+  # Reveal bumpt via extendNPCArc auf 4 → die eigentliche Schatten-
+  # Schulung (Steps 2-4) wird dann freigeschaltet.
+  maxProgress: 1
   chapter: Vandara
   location: vandara

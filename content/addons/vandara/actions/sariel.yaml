@@ -1,7 +1,15 @@
-# Sariels Schatten-Schulung. 4 Stufen — Begegnung, Theorie, erste
-# Übung, Abschluss. Die finale Stufe setzt `vandara-shadow-trained`,
-# der Anker für die echte Schatten-Mechanik (Drop 3): Schatten als
-# Helfer, die Aktionen ausführen solange eine Lichtquelle existiert.
+# Sariels Schatten-Schulung — 4 Stufen total.
+#
+# Step 1 ist die mysteriöse Erstbegegnung in den Katakomben (gegated
+# auf Fafa-Step-4 via `katakomben-unlocked`). Sariel weiß bereits,
+# dass der Spieler ein Schattenwandler ist, sagt aber nichts — kein
+# Spoiler. Die Steps 2-4 (echte Schatten-Schulung) sind hinter
+# `vandara-shadow-revealed` gegated und werden via extendNPCArc
+# (von Veyras Reveal-Step) auf der NPC-Karte sichtbar gemacht.
+#
+# Die finale Stufe setzt `vandara-shadow-trained`, der Anker für
+# die echte Schatten-Mechanik (Drop 3): Schatten als Helfer, die
+# Aktionen ausführen solange eine Lichtquelle existiert.
 
 - id: act-npc-vandara-sariel
   npcId: npc-vandara-sariel
@@ -14,19 +22,29 @@
   icon: 🕯️
   journalColor: '#1e1b4b'
   steps:
+    # ─── Step 1: Mysteriöse Erstbegegnung (pre-shadow-reveal) ───
     - cost: 10
       costType: energy
       requirements:
-        flags.vandara-katakomben-entered: true
+        flags.vandara-katakomben-unlocked: true
       dialogueKey: npc_vandara_sariel_1
+    # ─── Steps 2-4: Schatten-Schulung (post-shadow-reveal) ──────
+    # Werden via extendNPCArc von Veyras Step 6 freigeschaltet.
+    # Der `shadow-revealed` Requirement ist Belt-and-braces.
     - cost: 10
       costType: magic
+      requirements:
+        flags.vandara-shadow-revealed: true
       dialogueKey: npc_vandara_sariel_2
     - cost: 15
       costType: magic
+      requirements:
+        flags.vandara-shadow-revealed: true
       dialogueKey: npc_vandara_sariel_3
     - cost: 15
       costType: magic
+      requirements:
+        flags.vandara-shadow-revealed: true
       onSuccess:
         - type: setFlag
           flag: vandara-shadow-trained

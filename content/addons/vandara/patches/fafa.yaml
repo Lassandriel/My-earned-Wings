@@ -1,8 +1,16 @@
 # Nach Veyras Schatten-Reveal kehrt der Spieler zu Fafa zurück. Die
-# alte Frau hat schon gewartet — sie wusste längst, wer Sariel ist
-# und warum sie der Spielfigur Sariels Versteck zeigen würde.
+# alte Frau hat schon gewartet — sie wusste längst, dass Sariel den
+# Spieler erkennen würde, bevor der Spieler sich selbst erkennt.
 #
-# Bumpt Fafa von 4 auf 5 Stufen. Stufe 5 schaltet Sariel als NPC frei.
+# Sariel wurde bereits in Step 4 als NPC freigeschaltet — der Spieler
+# konnte vorher schon mit ihr reden (Sariels Step 1 ist Element-
+# agnostisch). Step 5 hier ist der Reflexions-Beat: Fafa bestätigt,
+# was Sariel pre-reveal nie ausgesprochen hat. Setzt
+# `vandara-katakomben-entered` als Story-State-Marker.
+#
+# Maximum-Bump läuft jetzt über extendNPCArc statt statischem
+# bumpMaxProgress: Fafas maxProgress wird live von Veyras Reveal-
+# Step 6 von 4 → 5 gebumpt — kein "4/5"-Spoiler vor dem Achievement.
 
 - targetType: action
   targetId: act-npc-vandara-fafa
@@ -12,8 +20,6 @@
       requirements:
         flags.vandara-shadow-revealed: true
       onSuccess:
-        - type: unlockNPC
-          id: npc-vandara-sariel
         - type: setFlag
           flag: vandara-katakomben-entered
           value: true
@@ -21,7 +27,3 @@
           logKey: vandara_katakomben_entered
           color: var(--gold)
       dialogueKey: npc_vandara_fafa_5
-
-- targetType: npc
-  targetId: npc-vandara-fafa
-  bumpMaxProgress: 5

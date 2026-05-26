@@ -182,12 +182,17 @@
       costType: shards
       dialogueKey: npc_vandara_fafa_3
     # Step 4 — Fafa drops the act, points the player at the catacombs.
+    # Schaltet auch Sariel als NPC frei: sie sitzt schon in der Kammer
+    # unten und wartet — der Spieler kann sie pre-shadow-reveal
+    # besuchen (Sariels Step 1 ist Element-agnostisch).
     - cost: 5
       costType: energy
       onSuccess:
         - type: setFlag
           flag: vandara-katakomben-unlocked
           value: true
+        - type: unlockNPC
+          id: npc-vandara-sariel
         - type: log
           logKey: vandara_katakomben_unlocked
           color: var(--gold)
