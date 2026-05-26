@@ -96,6 +96,24 @@ export interface ActionPatchEntry extends BasePatchEntry {
    */
   addOnSuccess?: any[];
   /**
+   * Append effects to the onSuccess array of a SPECIFIC step in a
+   * multi-step (NPC) action. The step's existing onSuccess entries
+   * are kept; new entries are appended in order. Use this when an
+   * addon needs an existing step to ALSO do something — typically
+   * pairing with `appendSteps` so the previous step both finishes
+   * its base behaviour and unlocks the next addon-shipped step
+   * (e.g. via `extendNPCArc`).
+   *
+   *   addStepOnSuccess:
+   *     step: 2
+   *     effects:
+   *       - type: extendNPCArc
+   *         npcId: npc-teacher
+   *
+   * Out-of-range step indices warn and skip.
+   */
+  addStepOnSuccess?: { step: number; effects: any[] };
+  /**
    * Merge entries into the action's `requirements` map. Existing
    * keys are NOT overwritten — collision logs a warning and skips
    * that key (multiple addons might want to gate the same action;
@@ -560,6 +578,31 @@ const applyActionPatch = (
     mutated = true;
   }
 
+  if (entry.addStepOnSuccess) {
+    if (!ensureSteps('addStepOnSuccess')) return false;
+    const { step, effects } = entry.addStepOnSuccess;
+    if (typeof step !== 'number' || step < 0 || step >= target.steps.length) {
+      reportMissing(
+        ctx,
+        `addStepOnSuccess step ${step} out of range for "${entry.targetId}" (steps length = ${target.steps.length})`,
+        result,
+      );
+      return false;
+    }
+    if (!Array.isArray(effects) || effects.length === 0) {
+      reportMissing(
+        ctx,
+        `addStepOnSuccess on "${entry.targetId}" step ${step} needs a non-empty "effects" array`,
+        result,
+      );
+      return false;
+    }
+    const targetStep = target.steps[step];
+    const existing = Array.isArray(targetStep.onSuccess) ? targetStep.onSuccess : [];
+    targetStep.onSuccess = [...existing, ...effects];
+    mutated = true;
+  }
+
   if (entry.addRequirement && typeof entry.addRequirement === 'object') {
     const existing: Record<string, any> = target.requirements && typeof target.requirements === 'object'
       ? { ...target.requirements }
@@ -992,6 +1035,23 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
         const e = raw.addOnSuccess[i];
         if (!e || typeof e !== 'object' || typeof e.type !== 'string') {
           return `${sourceLabel}: addOnSuccess[${i}] must be an object with a string "type"`;
+        }
+      }
+    }
+    if (raw.addStepOnSuccess !== undefined) {
+      if (!raw.addStepOnSuccess || typeof raw.addStepOnSuccess !== 'object') {
+        return `${sourceLabel}: addStepOnSuccess must be an object`;
+      }
+      if (typeof raw.addStepOnSuccess.step !== 'number' || raw.addStepOnSuccess.step < 0) {
+        return `${sourceLabel}: addStepOnSuccess.step must be a non-negative number`;
+      }
+      if (!Array.isArray(raw.addStepOnSuccess.effects) || raw.addStepOnSuccess.effects.length === 0) {
+        return `${sourceLabel}: addStepOnSuccess.effects must be a non-empty array`;
+      }
+      for (let i = 0; i < raw.addStepOnSuccess.effects.length; i++) {
+        const e = raw.addStepOnSuccess.effects[i];
+        if (!e || typeof e !== 'object' || typeof e.type !== 'string') {
+          return `${sourceLabel}: addStepOnSuccess.effects[${i}] must be an object with a string "type"`;
         }
       }
     }
