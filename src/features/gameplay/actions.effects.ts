@@ -162,4 +162,26 @@ export function registerBuiltinEffects(
     svc().titles.unlockTitle(game, id);
     invalidateCaches(svc());
   });
+
+  // Bumps an NPC's maxProgress so a later step that's been authored
+  // statically (but currently unreachable because npc.maxProgress <
+  // step count) becomes reachable. The pattern: NPC ships with
+  // maxProgress = N covering the initial arc. The action's `steps`
+  // array contains N + M entries where the last M are future beats.
+  // When the player achieves something elsewhere, the achieving
+  // action's onSuccess fires `extendNPCArc { npcId, by: 1 }`, which
+  // bumps the NPC's max from N to N+1, surfacing the next beat with
+  // no spoiler before the achievement.
+  //
+  // We mutate the registry entry directly because the engine reads
+  // `npc.maxProgress` live every render (no cache). Alpine reactivity
+  // picks the change up on the next render because the surrounding
+  // action click already triggers UI sync.
+  registerEffect('extendNPCArc', (_game, { npcId, by }) => {
+    const delta = typeof by === 'number' ? by : 1;
+    if (delta <= 0) return;
+    const npc = svc().content.get<NPCDefinition>(npcId, 'npcs');
+    if (!npc) return;
+    npc.maxProgress = (npc.maxProgress || 0) + delta;
+  });
 }

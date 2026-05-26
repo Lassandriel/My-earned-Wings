@@ -151,7 +151,14 @@ export type GameEffect =
   | { type: 'modifyResource'; resource: ResourceId; amount: number }
   | { type: 'modifyCounter'; counter: string; amount: number }
   | { type: 'setHome'; id: HomeId }
-  | { type: 'unlockTitle'; id: TitleId };
+  | { type: 'unlockTitle'; id: TitleId }
+  // Bumps an NPC's maxProgress at runtime so a previously-hidden later
+  // step on that NPC becomes reachable. Use when the player achieves
+  // something (graduation, shadow-reveal, etc.) and an NPC should
+  // suddenly "have something new to say". Without this effect the NPC
+  // would either be statically maxed (no new step possible) or show
+  // a "1/2 progress" spoiler from day 1. `by` defaults to +1.
+  | { type: 'extendNPCArc'; npcId: NPCId; by?: number };
 
 export type MilestoneRequirements = Record<string, GameRequirement | boolean | number | string | string[]>;
 
