@@ -235,8 +235,8 @@ All ops supported today, grouped by target type:
 
 | Target | Ops |
 |---|---|
-| `action` | `prependSteps`, `appendSteps`, `replaceStep`, `removeStep`, `addOnSuccess`, `addRequirement`, `modifyCost`, `setIcon`, `setImage` |
-| `npc` | `setImage`, `setIcon`, `setColor`, `mergeDialogues`, `setChapter`, `setLocation` |
+| `action` | `prependSteps`, `appendSteps`, `replaceStep`, `removeStep`, `addOnSuccess`, `addStepOnSuccess`, `addRequirement`, `modifyCost`, `setIcon`, `setImage` |
+| `npc` | `bumpMaxProgress`, `addTradeActions`, `setImage`, `setIcon`, `setColor`, `mergeDialogues`, `setChapter`, `setLocation` |
 | `item` | `addModifiers`, `setSpaceCost`, `setImage` |
 | `resource` | `setInitial`, `setInitialLimit`, `setColor` |
 | `modifier` | `setBaseValue` |
@@ -272,6 +272,39 @@ load order then guarantees your patch wins.
 
 For the exact validation rules of each op, see `src/core/addons/patches.ts`
 (`validatePatchEntry`).
+
+### 7.1 · Hidden-until-achieved NPC steps (`extendNPCArc`)
+
+For multi-step NPC arcs where a later step should NOT be visible until
+a player achievement happens, ship the NPC with the lower
+`maxProgress` (covering only what's currently reachable), put the
+hidden step in the action's `steps[]` anyway, and fire the built-in
+`extendNPCArc` effect from the achieving step's `onSuccess`:
+
+```yaml
+# Achieving step (e.g. the village teacher's graduation step)
+- ...
+  onSuccess:
+    - type: setFlag
+      flag: school_graduate
+      value: true
+    - type: extendNPCArc
+      npcId: npc-teacher    # bumps her own maxProgress by +1
+      # by: 2               # optional, defaults to +1
+```
+
+At the moment the step fires, the targeted NPC's `maxProgress` bumps
+live and the next step in its action becomes both visible and
+clickable in the same beat — no "X/N progress" spoiler before the
+achievement. The bump targets any NPC, not just the same one: use
+this to make Vandara's gate warden "remember" the player after a
+shadow reveal that happened with a different mentor.
+
+Pair with `addStepOnSuccess` (patch op) when the achieving step
+lives in base or another addon and you need to inject the bump
+without forking the whole step. See
+`content/addons/vandara/patches/teacher.yaml` for the canonical
+example.
 
 ---
 
