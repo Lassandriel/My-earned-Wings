@@ -34,13 +34,16 @@
           logKey: receive_vandara_letter
           color: var(--gold)
       dialogueKey: npc_teacher_vandara_letter
-  # Step 3 = index 2 in steps[] (Aria's "graduate" step, sets
-  # school_graduate). Adding extendNPCArc to its onSuccess bumps
-  # Aria's NPC.maxProgress from 3 → 4 right when she graduates,
-  # making the freshly-appended Vandara-letter step (index 3)
-  # reachable — without any build-time spoiler.
+  # Hook Aria's current LAST step (her graduate step, whatever its
+  # index is in base) to fire extendNPCArc on herself — bumps
+  # NPC.maxProgress from 3 → 4 the instant she graduates, surfacing
+  # the just-appended Vandara-letter step without any pre-graduation
+  # progress-bar spoiler. `step: last` resolves against the base
+  # steps array as loaded (BEFORE this patch's appendSteps runs), so
+  # the hook stays on the graduate step regardless of how many steps
+  # base adds in future updates.
   addStepOnSuccess:
-    step: 2
+    step: last
     effects:
       - type: extendNPCArc
         npcId: npc-teacher

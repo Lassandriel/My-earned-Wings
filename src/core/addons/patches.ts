@@ -97,22 +97,37 @@ export interface ActionPatchEntry extends BasePatchEntry {
   addOnSuccess?: any[];
   /**
    * Append effects to the onSuccess array of a SPECIFIC step in a
-   * multi-step (NPC) action. The step's existing onSuccess entries
-   * are kept; new entries are appended in order. Use this when an
-   * addon needs an existing step to ALSO do something — typically
-   * pairing with `appendSteps` so the previous step both finishes
-   * its base behaviour and unlocks the next addon-shipped step
-   * (e.g. via `extendNPCArc`).
+   * multi-step (NPC) action. Existing onSuccess entries are kept;
+   * new entries appended in order. Use this when an addon needs an
+   * existing step to ALSO do something — typically pairing with
+   * `appendSteps` so the previous step both finishes its base
+   * behaviour and unlocks the next addon-shipped step (e.g. via
+   * `extendNPCArc`).
+   *
+   * `step` accepts:
+   *   - a non-negative number — absolute index (0-based)
+   *   - a negative number — from-end (-1 = last, -2 = penultimate)
+   *   - the string 'last' — alias for -1, most common
+   *
+   * Examples:
    *
    *   addStepOnSuccess:
-   *     step: 2
-   *     effects:
+   *     step: last              # most common — addon doesn't need
+   *     effects:                # to know how many steps base ships
    *       - type: extendNPCArc
    *         npcId: npc-teacher
    *
-   * Out-of-range step indices warn and skip.
+   *   addStepOnSuccess:
+   *     step: 2                 # absolute, fragile if base inserts
+   *     effects: [...]
+   *
+   * Dispatch order: addStepOnSuccess runs BEFORE `appendSteps` and
+   * `prependSteps` so `last` / negative indices target the steps
+   * array as BASE loaded it — appending or prepending in the same
+   * entry doesn't shift the target. Out-of-range indices warn and
+   * skip.
    */
-  addStepOnSuccess?: { step: number; effects: any[] };
+  addStepOnSuccess?: { step: number | 'last'; effects: any[] };
   /**
    * Merge entries into the action's `requirements` map. Existing
    * keys are NOT overwritten — collision logs a warning and skips
@@ -522,6 +537,52 @@ const applyActionPatch = (
     }
   };
 
+  // addStepOnSuccess runs FIRST so `step: 'last'` and negative
+  // indices target the steps array as base loaded it. If we let
+  // appendSteps/prependSteps run first, "last" would refer to the
+  // patch's own appended step — which defeats the point of the field
+  // (you almost always want to hook the PREVIOUS step to unlock the
+  // appended one via extendNPCArc).
+  if (entry.addStepOnSuccess) {
+    if (!ensureSteps('addStepOnSuccess')) return false;
+    const { step: stepRaw, effects } = entry.addStepOnSuccess;
+    const len = target.steps.length;
+    // Resolve step spec to a concrete index.
+    let idx: number;
+    if (stepRaw === 'last') {
+      idx = len - 1;
+    } else if (typeof stepRaw === 'number') {
+      idx = stepRaw < 0 ? len + stepRaw : stepRaw;
+    } else {
+      reportMissing(
+        ctx,
+        `addStepOnSuccess on "${entry.targetId}" needs "step" as a number or 'last'`,
+        result,
+      );
+      return false;
+    }
+    if (idx < 0 || idx >= len) {
+      reportMissing(
+        ctx,
+        `addStepOnSuccess step "${String(stepRaw)}" resolved to index ${idx}, out of range for "${entry.targetId}" (steps length = ${len})`,
+        result,
+      );
+      return false;
+    }
+    if (!Array.isArray(effects) || effects.length === 0) {
+      reportMissing(
+        ctx,
+        `addStepOnSuccess on "${entry.targetId}" needs a non-empty "effects" array`,
+        result,
+      );
+      return false;
+    }
+    const targetStep = target.steps[idx];
+    const existing = Array.isArray(targetStep.onSuccess) ? targetStep.onSuccess : [];
+    targetStep.onSuccess = [...existing, ...effects];
+    mutated = true;
+  }
+
   if (entry.appendSteps && entry.appendSteps.length > 0) {
     if (!ensureSteps('appendSteps')) return false;
     target.steps = [...target.steps, ...entry.appendSteps];
@@ -578,30 +639,6 @@ const applyActionPatch = (
     mutated = true;
   }
 
-  if (entry.addStepOnSuccess) {
-    if (!ensureSteps('addStepOnSuccess')) return false;
-    const { step, effects } = entry.addStepOnSuccess;
-    if (typeof step !== 'number' || step < 0 || step >= target.steps.length) {
-      reportMissing(
-        ctx,
-        `addStepOnSuccess step ${step} out of range for "${entry.targetId}" (steps length = ${target.steps.length})`,
-        result,
-      );
-      return false;
-    }
-    if (!Array.isArray(effects) || effects.length === 0) {
-      reportMissing(
-        ctx,
-        `addStepOnSuccess on "${entry.targetId}" step ${step} needs a non-empty "effects" array`,
-        result,
-      );
-      return false;
-    }
-    const targetStep = target.steps[step];
-    const existing = Array.isArray(targetStep.onSuccess) ? targetStep.onSuccess : [];
-    targetStep.onSuccess = [...existing, ...effects];
-    mutated = true;
-  }
 
   if (entry.addRequirement && typeof entry.addRequirement === 'object') {
     const existing: Record<string, any> = target.requirements && typeof target.requirements === 'object'
@@ -1042,8 +1079,11 @@ export const validatePatchEntry = (raw: any, sourceLabel: string): string | null
       if (!raw.addStepOnSuccess || typeof raw.addStepOnSuccess !== 'object') {
         return `${sourceLabel}: addStepOnSuccess must be an object`;
       }
-      if (typeof raw.addStepOnSuccess.step !== 'number' || raw.addStepOnSuccess.step < 0) {
-        return `${sourceLabel}: addStepOnSuccess.step must be a non-negative number`;
+      const step = raw.addStepOnSuccess.step;
+      const stepIsNumber = typeof step === 'number';
+      const stepIsLast = step === 'last';
+      if (!stepIsNumber && !stepIsLast) {
+        return `${sourceLabel}: addStepOnSuccess.step must be a number or 'last'`;
       }
       if (!Array.isArray(raw.addStepOnSuccess.effects) || raw.addStepOnSuccess.effects.length === 0) {
         return `${sourceLabel}: addStepOnSuccess.effects must be a non-empty array`;

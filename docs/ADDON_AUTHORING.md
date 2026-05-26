@@ -302,9 +302,27 @@ shadow reveal that happened with a different mentor.
 
 Pair with `addStepOnSuccess` (patch op) when the achieving step
 lives in base or another addon and you need to inject the bump
-without forking the whole step. See
-`content/addons/vandara/patches/teacher.yaml` for the canonical
-example.
+without forking the whole step:
+
+```yaml
+- targetType: action
+  targetId: act-npc-teacher    # base game's village teacher
+  appendSteps:
+    - cost: 5                  # add your new step at the end
+      ...
+  addStepOnSuccess:
+    step: last                 # hook base's LAST step (whatever
+    effects:                   # the current count is — robust
+      - type: extendNPCArc     # against base adding more steps)
+        npcId: npc-teacher
+```
+
+`step: last` resolves against the steps array BEFORE this patch's
+own `appendSteps`/`prependSteps` run, so the hook always lands on
+the step base shipped as last. You can also use negative numbers
+(`-2` = second-to-last) or absolute indices when the position is
+stable. See `content/addons/vandara/patches/teacher.yaml` for the
+canonical example.
 
 ---
 
