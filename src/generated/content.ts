@@ -3732,7 +3732,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraGateGuard",
-    "maxProgress": 1,
+    "maxProgress": 2,
     "journalIcon": "🛡️",
     "icon": "✉️",
     "journalColor": "#a8a29e",
@@ -3768,6 +3768,21 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_gate_guard_admit"
+      },
+      {
+        "cost": 1,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-gate-guard-respected",
+            "value": true
+          }
+        ],
+        "dialogueKey": "npc_vandara_gate_guard_respect"
       }
     ],
     "customExecute": "npc_execute"
@@ -4801,7 +4816,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/addons/vandara/gate_guard.webp",
     "color": "#a8a29e",
     "progKey": "vandaraGateGuard",
-    "maxProgress": 1,
+    "maxProgress": 2,
     "chapter": "Vandara",
     "location": "vandara"
   },
@@ -6460,7 +6475,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_quinell_2": "\"Magie ist die Manipulation des Äthers durch einen drachischen Geist. Drei Komponenten: Element, Wille, Substrat.\" Quinell zeichnet drei Kreise an die Tafel, perfekt symmetrisch. \"Element ist angeboren. Wille ist Übungssache. Substrat ist das physische Material durch das die Magie wirkt — manchmal die eigene Drachenform, manchmal ein Werkzeug, manchmal die Luft. Wer diese drei nicht im Kopf trennen kann, wird in jedem höheren Kurs scheitern.\"",
       "npc_vandara_quinell_3": "\"Heute Wirkungstheorie.\" Quinell hat einen schweren Quarzstab vor sich liegen. \"Magie wirkt nicht 'einfach so'. Sie folgt Erhaltungsregeln. Was du in die Welt schickst, kommt aus dir. Erschöpfung ist kein Versagen, sie ist das Maß deiner Wirkung. Wer ohne Erschöpfung zaubert, hat nichts getan.\" Er pausiert. \"Es gibt Ausnahmen. Sehr wenige. Wenn Sie eine entdecken, schreiben Sie eine Doktorarbeit darüber.\"",
       "npc_vandara_quinell_4": "Quinell legt dir ein dünnes Heft hin. \"Skript zum Grundkurs. Kapitel sechs interessiert Sie vielleicht — Schatten als theoretische Sub-Variante des Lichts. Reine Theorie, niemand hat je einen Schatten-Wandler kennengelernt der bereit war, sich untersuchen zu lassen. Vielleicht weil es sie nicht gibt. Vielleicht weil sie sich gut verstecken. Beides interessant.\" Sein Ausdruck verändert sich nicht. \"Studieren Sie es.\"",
-      "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\""
+      "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\"",
+      "npc_vandara_gate_guard_respect": "Der Wächter erkennt dich, noch bevor du das Tor erreichst. Er richtet sich auf, die Hand kurz an der Brust — keine förmliche Geste, sondern eine, die Erddrachenwandler nutzen, wenn sie jemanden meinen. \"Du hast die Stadt unter der Stadt gesehen. Das ändert einen.\" Er lächelt knapp. \"Die meisten kommen mit dem Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt zu denen, die beide Hälften kennen. Pass auf dich auf, {player}.\""
     },
     "resources": {
       "energy": "Energie",
@@ -7754,7 +7770,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_quinell_2": "\"Magic is the manipulation of the aether through a draconic mind. Three components: Element, Will, Substrate.\" Quinell draws three circles on the board, perfectly symmetrical. \"Element is innate. Will is practice. Substrate is the physical material through which magic acts — sometimes one's own dragon form, sometimes a tool, sometimes the air itself. Whoever cannot separate these three in their mind will fail every advanced course.\"",
       "npc_vandara_quinell_3": "\"Today, effect theory.\" Quinell has a heavy quartz staff before him. \"Magic does not work 'just so'. It follows conservation laws. What you send into the world comes from you. Exhaustion is not failure, it is the measure of your effect. Whoever casts without exhaustion has done nothing.\" He pauses. \"There are exceptions. Very few. If you discover one, write a doctoral thesis on it.\"",
       "npc_vandara_quinell_4": "Quinell sets a thin booklet before you. \"Notes for the basic course. Chapter six may interest you — Shadow as a theoretical sub-variant of Light. Pure theory; no one has ever met a shadow-shifter willing to be examined. Maybe because they don't exist. Maybe because they hide well. Both interesting.\" His expression doesn't change. \"Study it.\"",
-      "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\""
+      "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\"",
+      "npc_vandara_gate_guard_respect": "The warden recognizes you before you've even reached the gate. He straightens up and brings a hand briefly to his chest — not a formal salute, more the gesture earth-dragon shifters use when they mean someone. \"You've seen the city beneath the city. That changes a person.\" A small smile. \"Most come with the letter, leave with the letter, see only half. You belong to those who know both halves now. Take care of yourself, {player}.\""
     },
     "resources": {
       "energy": "Energy",

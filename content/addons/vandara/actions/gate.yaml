@@ -12,11 +12,12 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraGateGuard
-  maxProgress: 1
+  maxProgress: 2
   journalIcon: 🛡️
   icon: ✉️
   journalColor: '#a8a29e'
   steps:
+    # ─── Step 1: Admission via Aria's Brief ─────────────────────
     - cost: 5
       costType: energy
       requirements:
@@ -44,4 +45,19 @@
       # i18n/<lang>/actions.yaml. setFlag itself doesn't render in
       # the tooltip; the unlocks string covers the player-facing copy.
       dialogueKey: npc_vandara_gate_guard_admit
+
+    # ─── Step 2: Wieder-Begegnung nach Schatten-Reveal ──────────
+    # Gegated auf `vandara-shadow-revealed` (gesetzt von Veyras
+    # Reveal-Step). Der Spieler hat bis dahin Akademie eingeschrieben,
+    # Element-Tests durch, Mentoren intro und Veyras Reveal hinter
+    # sich. Der Wächter erkennt das und ändert seinen Ton.
+    - cost: 1
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-gate-guard-respected
+          value: true
+      dialogueKey: npc_vandara_gate_guard_respect
   customExecute: npc_execute

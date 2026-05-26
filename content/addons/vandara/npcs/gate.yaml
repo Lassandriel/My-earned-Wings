@@ -12,6 +12,8 @@
   image: img/addons/vandara/gate_guard.webp
   color: '#a8a29e'
   progKey: vandaraGateGuard
-  maxProgress: 1
+  # 2 Schritte: Admission via Brief, dann Wieder-Begegnung nach dem
+  # Schatten-Reveal. Step 2 ist auf `vandara-shadow-revealed` gegated.
+  maxProgress: 2
   chapter: Vandara
   location: vandara

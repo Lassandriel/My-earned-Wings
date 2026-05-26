@@ -381,3 +381,16 @@ npc_vandara_gate_guard_admit: >-
   surface." A wave of his hand and the great gate swings open behind
   him. "Welcome, {player}. Go on through — the mentors will explain
   the rest."
+
+# Return after the shadow reveal. By this point the player has
+# enrolled at the academy, taken the element tests, met the mentors —
+# and discovered that shadow is their element. The warden notices
+# in his own terse way.
+npc_vandara_gate_guard_respect: >-
+  The warden recognizes you before you've even reached the gate. He
+  straightens up and brings a hand briefly to his chest — not a
+  formal salute, more the gesture earth-dragon shifters use when
+  they mean someone. "You've seen the city beneath the city. That
+  changes a person." A small smile. "Most come with the letter,
+  leave with the letter, see only half. You belong to those who
+  know both halves now. Take care of yourself, {player}."

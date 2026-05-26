@@ -401,3 +401,16 @@ npc_vandara_gate_guard_admit: >-
   diese Stadt unter der Oberfläche ist." Mit einer Handbewegung
   öffnet sich das große Tor hinter ihm. "Willkommen, {player}. Geh
   ruhig — die Mentoren werden dir den Rest erklären."
+
+# Wieder-Begegnung nach dem Schatten-Reveal. Spieler hat zu dem
+# Zeitpunkt Akademie eingeschrieben, Element-Tests durch, Mentoren
+# kennengelernt — und jetzt herausgefunden dass Schatten ihr/sein
+# Element ist. Der Wächter erkennt das auf seine eigene knappe Art.
+npc_vandara_gate_guard_respect: >-
+  Der Wächter erkennt dich, noch bevor du das Tor erreichst. Er
+  richtet sich auf, die Hand kurz an der Brust — keine förmliche
+  Geste, sondern eine, die Erddrachenwandler nutzen, wenn sie
+  jemanden meinen. "Du hast die Stadt unter der Stadt gesehen. Das
+  ändert einen." Er lächelt knapp. "Die meisten kommen mit dem
+  Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt
+  zu denen, die beide Hälften kennen. Pass auf dich auf, {player}."
