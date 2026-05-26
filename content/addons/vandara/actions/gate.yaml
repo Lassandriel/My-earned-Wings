@@ -12,6 +12,10 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraGateGuard
+  # maxProgress 2 dokumentiert die volle Länge des Arcs. Engine
+  # verwendet aber `npc.maxProgress` als das Gate (siehe gate.yaml in
+  # npcs/) — Step 2 unreachable bis Veyras Reveal-Step die NPC.maxProgress
+  # via `extendNPCArc` auf 2 bumpt.
   maxProgress: 2
   journalIcon: 🛡️
   icon: ✉️
@@ -47,10 +51,10 @@
       dialogueKey: npc_vandara_gate_guard_admit
 
     # ─── Step 2: Wieder-Begegnung nach Schatten-Reveal ──────────
-    # Gegated auf `vandara-shadow-revealed` (gesetzt von Veyras
-    # Reveal-Step). Der Spieler hat bis dahin Akademie eingeschrieben,
-    # Element-Tests durch, Mentoren intro und Veyras Reveal hinter
-    # sich. Der Wächter erkennt das und ändert seinen Ton.
+    # Wird sichtbar erst nachdem Veyras Reveal-Step `extendNPCArc` auf
+    # den Wächter-NPC ausgelöst hat (bumpt npc.maxProgress auf 2).
+    # Der `vandara-shadow-revealed` Flag-Check ist zusätzlicher
+    # Sicherheitsgurt — Engine-Bump UND Story-Flag sind beide nötig.
     - cost: 1
       costType: energy
       requirements:

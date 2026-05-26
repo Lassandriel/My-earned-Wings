@@ -12,8 +12,12 @@
   image: img/addons/vandara/gate_guard.webp
   color: '#a8a29e'
   progKey: vandaraGateGuard
-  # 2 Schritte: Admission via Brief, dann Wieder-Begegnung nach dem
-  # Schatten-Reveal. Step 2 ist auf `vandara-shadow-revealed` gegated.
-  maxProgress: 2
+  # Startet mit 1 (Admission via Brief). Die Action selbst trägt
+  # einen 2. Step, der erst sichtbar/klickbar wird wenn Veyras
+  # Schatten-Reveal-Step `extendNPCArc { npcId: npc-vandara-gate-guard }`
+  # auslöst — bumpt maxProgress auf 2. So sieht der Spieler vor
+  # dem Reveal eine "1/1 fertig" Karte (kein Spoiler), und erst
+  # danach wird die Wieder-Begegnung freigeschaltet.
+  maxProgress: 1
   chapter: Vandara
   location: vandara

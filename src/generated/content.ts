@@ -3855,6 +3855,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "log",
             "logKey": "vandara_shadow_revealed",
             "color": "var(--gold)"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-gate-guard"
           }
         ],
         "dialogueKey": "npc_vandara_veyra_6"
@@ -4816,7 +4820,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/addons/vandara/gate_guard.webp",
     "color": "#a8a29e",
     "progKey": "vandaraGateGuard",
-    "maxProgress": 2,
+    "maxProgress": 1,
     "chapter": "Vandara",
     "location": "vandara"
   },

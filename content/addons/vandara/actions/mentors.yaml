@@ -47,7 +47,9 @@
       dialogueKey: npc_vandara_veyra_5
     # Stufe 6 — Nachwirkung. Veyra erklärt was Schatten als Licht-
     # Sub bedeutet, gesteht ihre Grenzen ein, deutet auf jemanden
-    # in den Katakomben (Sariel im nächsten Drop).
+    # in den Katakomben (Sariel im nächsten Drop). Gleichzeitig:
+    # andere Vandara-NPCs (Wächter, künftig auch Olié etc.) "merken"
+    # diese Veränderung am Spieler — Story-Bumps via extendNPCArc.
     - cost: 10
       costType: energy
       onSuccess:
@@ -57,6 +59,11 @@
         - type: log
           logKey: vandara_shadow_revealed
           color: var(--gold)
+        # Bumpt den Wächter von maxProgress 1 → 2: macht Step 2 (Wieder-
+        # Begegnung) freischaltbar. Andere NPCs können später hier
+        # ähnlich aufgehängt werden.
+        - type: extendNPCArc
+          npcId: npc-vandara-gate-guard
       dialogueKey: npc_vandara_veyra_6
   customExecute: npc_execute
 
