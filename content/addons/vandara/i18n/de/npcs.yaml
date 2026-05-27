@@ -146,45 +146,55 @@ npc_vandara_veyra_2: >-
   Beim nächsten Mal beginnen wir mit den Resonanztests."
 
 npc_vandara_veyra_3: >-
-  "Schließ die Augen." Veyra dimmt die Lichter mit einem
-  Flügelschlag. "Atme. Nicht versuchen, was zu tun. Nur spüren, was
-  da ist. Hände leicht offen, Magie soll dich finden, nicht
-  umgekehrt." Sie wartet. Lange. Dann ihre Stimme, ruhig: "Mhm. Da
-  ist was. Aber ich krieg's noch nicht zu fassen. Komm wieder. Wir
-  testen genauer."
+  "Erster Resonanztest." Veyra zieht die Vorhänge halb zu, holt
+  einen niedrigen Hocker heran und setzt sich neben die Liege.
+  "Hände entspannt im Schoß, Handflächen nach oben. Nicht
+  drücken. Nicht greifen. Lassen Sie Ihren Äther von selbst zur
+  Ruhe kommen." Ihre Feder schwebt über der Schiefertafel. Sie
+  wartet — lang, länger als bequem ist. Dann, leise: "Hm. Da
+  ist etwas. Aber es liegt nicht sauber unter einer der
+  Standard-Signaturen. Ich würde gerne nächste Sitzung eine
+  ordentliche Batterie laufen lassen. Kommen Sie ausgeschlafen
+  — auf einem ruhigen Körper läuft das glatter."
 
 npc_vandara_veyra_4: >-
-  "Heute brauche ich mehr von dir." Veyra hat verschiedene kleine
-  Objekte vor sich ausgebreitet: ein Stein, eine Schale Wasser, eine
-  Kerze, eine Feder, ein Spiegel. "Wir probieren der Reihe nach. Du
-  legst die Hand drauf, ich beobachte. Kein Druck — wenn nichts
-  passiert, passiert nichts." Sie macht eine Pause. "Aber sei
-  vorbereitet: Resonanz fühlt sich nie an wie erwartet."
+  "Heute die Standard-Batterie." Veyra hat fünf Gegenstände auf
+  einem kleinen Tablett neben der Liege ausgelegt — einen Stein,
+  eine Schale Wasser, eine Kerze, eine Feder, einen Spiegel. "Ein
+  Material pro Element. Sie berühren jedes der Reihe nach. Ich
+  beobachte, was Ihr Äther tut. Es gibt keine richtige Antwort
+  und keine falsche — auch 'nichts passiert' ist ein sauberes
+  Ergebnis." Sie hebt einen Finger. "Eins nur: nicht drücken.
+  Der Äther lügt nicht, wenn man ihn ehrlich lässt. Lassen Sie
+  sich Zeit. Wann immer Sie bereit sind."
 
 npc_vandara_veyra_5: >-
-  "Du bist wieder da. Gut." Veyra wirkt heute angespannt. "Das
-  Lichtzucken bei der Probe — das war nicht nichts. Das war auch
-  nicht normal. Setz dich, ich will einen tieferen Test machen."
-  Sie löscht jedes einzelne Licht im Hörsaal bis auf eine kleine
-  Kerze hinter dir. "Streck deine Hand zur Kerze. Nicht reinfassen.
-  Nur... fühlen, was zwischen dir und der Flamme passiert."
-  Lange Stille. Dann ihre Stimme, plötzlich anders: "Oh. Oh,
-  {player}. Du machst keinen Schatten. Du... ZIEHST den Schatten
-  an. Aus der Wand, aus der Decke, aus mir." Sie lacht atemlos. "Du
-  bist kein Lichtwandler. Du bist ein Schattenwandler. Das ist...
-  ich hab noch nie einen gesehen."
+  "Sie sind wiedergekommen. Gut. Bitte setzen Sie sich." Veyra
+  hat die Vorhänge bereits ganz zugezogen — nur eine einzige
+  kleine Kerze brennt auf dem Beistelltisch. "Die Lichtreaktion
+  in Ihrer Batterie — das war kein Nullergebnis. Es war auch
+  keine saubere Licht-Signatur. Ich würde gerne einen
+  kontrollierten Isolations-Test laufen lassen. Hände offen,
+  nicht drücken, strecken Sie sich zur Kerze hin." Lange Stille.
+  Dann ihre Stimme, plötzlich anders — nicht mehr der gemessene
+  Ton der Diagnostikerin: "Oh. Oh, {player}. Sie machen keinen
+  Schatten. Sie ZIEHEN den Schatten an. Von der Wand. Von der
+  Decke. Von mir." Ein atemloses Halblachen. "Sie sind kein
+  Lichtwandler. Sie sind ein Schattenwandler. In vierzig Jahren
+  Diagnostik habe ich noch nie einen gesehen."
 
 npc_vandara_veyra_6: >-
   Veyra ist deutlich nachdenklicher heute. "Schatten ist eine
   Sub-Variante von Licht. So wie Traum eine Variante von Gezeiten
-  ist. Aber sie ist selten. Sehr selten. In meinen vierzig Jahren
-  als Lehrkraft habe ich noch nie einen gehabt." Sie schaut dich
-  ernst an. "Ich kann dir die Theorie geben. Aber die Praxis —
-  da bin ich raus. Du brauchst jemanden, der das wirklich gelebt
-  hat. Es gibt..." Sie zögert. "Es gibt jemanden. Aber die Person
-  ist nicht mehr an der Akademie. Frag Fafa am Brunnen. Sie weiß
-  wo. Und sei vorsichtig — Schatten klingt cool, aber nicht alle
-  in dieser Stadt sehen das so."
+  ist. Aber sie ist selten. Sehr selten. In vierzig Jahren
+  Diagnostik habe ich noch nie eine gesehen." Sie schaut Sie
+  ernst an. "Ich kann Ihnen die Theorie geben. Aber die Praxis
+  — da bin ich nicht zuhause. Sie brauchen jemanden, der das
+  tatsächlich gelebt hat. Es gibt..." Sie zögert. "Es gibt
+  jemanden. Aber dey ist nicht mehr an der Akademie. Fragen Sie
+  Fafa am Brunnen. Sie weiß, wo. Und seien Sie vorsichtig,
+  {player} — 'Schatten' klingt romantisch, aber nicht jeder in
+  dieser Stadt sieht es so."
 
 # Element-Übungen — knappe Reaktionsbeschreibungen, die jede Trial
 # als Tooltip-Text mitliefert (dialogueKey im step).
