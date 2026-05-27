@@ -222,14 +222,16 @@ npc_vandara_fafa_5: >-
   Jahren auf jemanden wie dich. Sei nicht unhöflich, sei nicht
   vorsichtig, sei einfach da."
 
-# ─── Sariel — Schatten-Mentor:in in den Katakomben ────────
+# ─── Sariel — Schatten-Lehrkraft in den Katakomben ────────
+# Sariel nutzt they/them im EN, im DE entsprechend dey/dem/deren
+# (eingedeutschtes they-Set). Verben passen sich an wie bei "er/sie".
 npc_vandara_sariel_1: >-
   Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige
   Kerze brennt auf einem niedrigen Tisch. Die Person dahinter
-  dreht sich nicht um — sie sortiert weiter Notizen auf dem Tisch
+  dreht sich nicht um — dey sortiert weiter Notizen auf dem Tisch
   mit den Fingerspitzen. "Du bist viel zu groß für deine Schritte,
   {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst
-  du nicht, wenn jemand vor dir steht." Ihre Schuppen — wenn man
+  du nicht, wenn jemand vor dir steht." Deren Schuppen — wenn man
   sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang
   des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine
   Richtung, aber nicht in deine Augen. "Ah. Setz dich. Ich bin
@@ -240,7 +242,7 @@ npc_vandara_sariel_2: >-
   "Du willst wissen, was Schatten ist." Sariel schiebt ein altes
   Buch in deine Richtung, ohne hinzusehen. "Hier. Arkane Grundlagen
   Kapitel sechs. Quinell hat es dir empfohlen, oder? Er hat es vor
-  vierzig Jahren in meiner Klasse abgeschrieben. Lies." Sie
+  vierzig Jahren in meiner Klasse abgeschrieben. Lies." Dey
   pausiert. "Oder lass es. Ich kenne es auswendig. Schatten ist
   Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt.
   Wenn ein Licht in einen Raum fällt, machst du als Lichtwandler
@@ -313,14 +315,14 @@ npc_vandara_pamle_4: >-
 
 npc_vandara_sariel_4: >-
   "Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist
-  was anderes." Sariel sortiert wieder ihre Notizen. "Was du
+  was anderes." Sariel sortiert wieder deren Notizen. "Was du
   brauchst, lernst du jetzt von selbst. Komm wieder, wenn du
   etwas Komplizierteres versuchen willst. Beim nächsten Mal
   bring mir eine Schale Wasser mit — zeig ich dir, wie du einen
   Schatten holen lässt, der sie hält, während du andere Sachen
-  machst. Das ist eigentlich der praktische Teil." Sie lacht
-  trocken. "Vierzig Jahre Lehrerin und ich verspreche immer noch
-  das Spannende für die nächste Stunde."
+  machst. Das ist eigentlich der praktische Teil." Dey lacht
+  trocken. "Vierzig Jahre Lehrkraft und ich verspreche immer
+  noch das Spannende für die nächste Stunde."
 
 # ─── Ormias — Drachenkunde ────────────────────────────
 # Eine Lehrstunde pro Hauptart: Intro, Großdrachen, Wyvern,
