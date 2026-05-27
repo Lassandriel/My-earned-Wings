@@ -87,32 +87,59 @@
   customExecute: npc_execute
 
 # ─── Ormias — Drachenkunde ────────────────────────────────────
+# Eine Lehrstunde pro Drachen-Hauptart, plus Intro vorne und
+# Lung-Drachen ganz hinten. Reihenfolge geht pädagogisch von
+# "alltäglich" (Großdrachen) zu "exotisch" (Fae). Lung als 9.
+# Step ist der Dramatic-Irony-Knipser: Ormias erklärt warum der
+# flügellose Spieler unmöglich ein Lung sein kann — Spieler weiß
+# (oder ahnt) zu dem Zeitpunkt vielleicht schon mehr.
 - id: act-npc-vandara-ormias
   npcId: npc-vandara-ormias
   category: npc
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraOrmias
-  maxProgress: 4
+  maxProgress: 9
   journalIcon: 🐲
   icon: 🐲
   journalColor: '#7c2d12'
   steps:
+    # 1 — Intro + Übersicht der sieben Hauptarten + "alle haben Flügel"-Punchline.
     - cost: 10
       costType: energy
       requirements:
         flags.vandara-enrolled: true
       dialogueKey: npc_vandara_ormias_1
+    # 2 — Großdrachen. Hier sagt er auch "du bist sicher Spätzünder-Großdrache".
     - cost: 10
       costType: energy
       dialogueKey: npc_vandara_ormias_2
-    # Step 3 is the famous one — he lists the rare types,
-    # explicitly rules out Lung-Drachen because "they only exist
-    # in the imperial family", and concludes the player must be
-    # a late-blooming Großdrache. Dramatic irony for the ages.
+    # 3 — Wyvern.
     - cost: 10
       costType: energy
       dialogueKey: npc_vandara_ormias_3
+    # 4 — Lindwürmer (meinesgleichen-Moment).
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_4
+    # 5 — Amphithere.
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_5
+    # 6 — Leviathane.
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_6
+    # 7 — Seraph-Drachen.
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_7
+    # 8 — Fae-Drachen.
+    - cost: 10
+      costType: energy
+      dialogueKey: npc_vandara_ormias_8
+    # 9 — Lung-Drachen. Setzt die intro-done-Flag, weil das jetzt
+    # der Kurs-Abschluss ist (nicht mehr Step 4).
     - cost: 10
       costType: energy
       onSuccess:
@@ -122,7 +149,7 @@
         - type: log
           logKey: vandara_ormias_intro_done
           color: var(--gold)
-      dialogueKey: npc_vandara_ormias_4
+      dialogueKey: npc_vandara_ormias_9
   customExecute: npc_execute
 
 # ─── Quinell — Arkane Grundlagen ───────────────────────────────

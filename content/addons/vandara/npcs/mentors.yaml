@@ -32,7 +32,10 @@
   image: img/addons/vandara/ormias.webp
   color: '#7c2d12'
   progKey: vandaraOrmias
-  maxProgress: 4
+  # 9 Stufen — Intro + sieben Hauptarten (Großdrachen, Wyvern,
+  # Lindwürmer, Amphithere, Leviathane, Seraphe, Fae) + Lung als
+  # Schlussbeat mit Dramatic Irony.
+  maxProgress: 9
   chapter: Vandara
   location: vandara
 

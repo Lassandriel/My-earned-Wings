@@ -323,49 +323,118 @@ npc_vandara_sariel_4: >-
   das Spannende für die nächste Stunde."
 
 # ─── Ormias — Drachenkunde ────────────────────────────
+# Eine Lehrstunde pro Hauptart: Intro, Großdrachen, Wyvern,
+# Lindwürmer, Amphithere, Leviathane, Seraphe, Fae, und zum
+# Schluss Lung-Drachen als Dramatic-Irony-Knipser.
 npc_vandara_ormias_1: >-
   Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel
-  schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen
-  wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille,
-  die ihm wirklich nicht passt. "Setz dich, Studierende. Sechs
-  Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist
-  das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln
-  fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die
-  schlangenartigen mit Federn. Leviathane, Wasser oder Magma.
-  Seraphe, hoch oben über den Wolken. Und Fae, die kleinen
-  Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht."
+  schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie,
+  Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und
+  eine Brille, die ihm wirklich nicht passt. "Setz dich,
+  Studierende. Drachenkunde, Grundkurs. Sieben Hauptarten kennen
+  wir: Großdrachen, Wyvern, Lindwürmer, Amphithere, Leviathane,
+  Seraphe, Fae. Dazu noch die kaiserlichen Lung-Drachen — eine
+  Ausnahme, die nehmen wir uns zuletzt vor." Er hustet. "Eine
+  pro Sitzung. Keine Abkürzungen. Und merk dir das absolut
+  Wichtigste über sie alle: sie haben alle Flügel." Eine Pause.
+  "Ja. Alle."
 
 npc_vandara_ormias_2: >-
-  "Heute zur Drachenform." Ormias zeichnet schematisch auf die Tafel
-  — und seine Kreide bricht alle zwei Sekunden. "Großdrachen sind
-  massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei
-  Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine,
-  langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große
-  Federflügel. Leviathane je nach Variante hydrodynamisch oder
-  gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae
-  surren mit Libellenflügeln rum." Er hustet. "Alle. Diese. Arten.
-  Haben. Flügel."
+  "Großdrachen. Die Hüter der Reiche. Das Brot-und-Butter-Volk
+  aus dem Kristallreich im Westen." Ormias skizziert eine
+  vierbeinige Silhouette an die Tafel — die Kreide bricht.
+  "Kräftiger Körperbau, vier Beine, ein Paar breite
+  Lederschwingen, oft eine gepanzerte Schwanzspitze und große
+  Hörner. Die häufigste Art mit Abstand. Viele Spätzünder —
+  Flügel kommen manchmal erst mit zwanzig oder dreißig." Er
+  schaut dich über seine Brille an. "Statistisch bist du
+  höchstwahrscheinlich einer von diesen. Geduld. Sie kommen."
 
 npc_vandara_ormias_3: >-
-  Ormias schaut dich über die rutschende Brille hinweg an. "Apropos
-  Flügel — du hast keine. Hm. Lass mich überlegen." Er kratzt sich
-  am Kinn. "Es gibt eine flügellose Sub-Art, die Lung-Drachen.
-  Langgestreckt, fliegen rein durch Magie. Aber..." Er winkt ab.
-  "Die sind so selten, dass sie quasi ausschließlich in der
-  Kaiserfamilie vorkommen. Ich habe in meinen siebzig Jahren als
-  Lektor noch nie einen außerhalb der Hof-Linie gesehen, und ich
-  werde auch keinen mehr sehen. Du bist mit hoher
-  Wahrscheinlichkeit ein verspäteter Großdrache. Manche
-  manifestieren ihre Flügel erst mit zwanzig oder dreißig.
-  Geduld."
+  "Wyvern. Die Jäger der Lüfte." Wieder eine Skizze — die
+  Kreide bricht erneut. "Nur zwei Hinterbeine. Die Vorderbeine
+  sind in der Evolution mit den Flügeln verschmolzen. Schnelle,
+  muskulöse Flieger, meist mit einem Giftstachel oder einer
+  schweren Keule am Schwanzende. Die Sturm-Wyvern haben
+  Flügelkanten so scharf, dass sie den Wind wie Klingen
+  schneiden." Er schiebt seine Brille hoch. Sie rutscht sofort
+  wieder runter. "Häufig im westlichen Tiefland. Du wüsstest,
+  wenn du einer wärst — die fliegen jung."
 
 npc_vandara_ormias_4: >-
-  "Letzte Stunde des Grundkurses." Ormias schiebt dir ein dickes
-  Buch zu. "'Klassifikation der Drachenarten Draconias', dritte
-  Auflage. Lies das, wenn du mehr willst. Was ich dir nicht in
-  einer Stunde reindrücken kann, steht da drin. Und denk dran: wenn
-  jemand sagt 'es gibt nur sechs Arten', dann ist das wahr.
-  Wahrscheinlich." Er räuspert sich. "In achtzig Prozent der Fälle."
+  "Lindwürmer. Die Erdgebundenen." Zum ersten Mal heute lächelt
+  Ormias kurz. "Meinesgleichen. Massiver Körper, nur zwei
+  Vorderbeine, die hintere Hälfte ist eine lange Schlange, die
+  wir hinter uns herziehen. Flügel haben wir auch, aber
+  schwerfällig — in der Luft sind wir nicht graziös. Wir graben,
+  wir klettern, wir sind langsam und stur. Zwei Hauptlinien:
+  Magma-Lindwürmer, Schuppen wie glühende Lava, leben nahe dem
+  Lavameer. Und Sumpf-Lindwürmer, Schuppen wie Algen und Rinde,
+  getarnt im Urwald von Smaragd." Er hustet. "Von Fremden manchmal
+  zu westlichen Drachen geworfen. Wir sind östlich. Bring das
+  nicht durcheinander."
+
+npc_vandara_ormias_5: >-
+  "Amphithere. Die gefiederten Schlangen." Ormias gestikuliert
+  breit mit beiden Armen. "Keine Gliedmaßen. Nur ein langer
+  Schlangenkörper und ein einziges Paar gewaltiger, prächtiger
+  Federschwingen — die übrigens magische Energie speichern
+  können. Selten. Schön — das gebe sogar ich zu. Zwei bekannte
+  Sub-Arten: Traum-Amphithere, deren Flügelschläge Illusionsnebel
+  erzeugen. Und Sonnen-Amphithere, goldene Federn, die bei
+  Bedrohung in eine blendende Licht-Explosion entladen können."
+  Er hebt eine Augenbraue. "Magistra Veyra ist eine. Sag ihr
+  nicht, dass ich gesagt habe, sie sei schön."
+
+npc_vandara_ormias_6: >-
+  "Leviathane. Die Herrscher der Extreme." Ormias' Stimme wird
+  tiefer — Respekt, kein Stolz. "Sie leben dort, wo sonst niemand
+  kann. Gezeiten-Leviathane beherrschen die schwebenden
+  Wasserinseln und Wasserwege; sehnige Schwingen, die unter
+  Wasser als Flossen dienen, feine Kiemenschlitze, absolute
+  Herrscher der Strömungen. Magma-Leviathane auf den untersten,
+  heißesten Inseln über dem Lavameer; massive gepanzerte Flügel,
+  obsidianbeschichtete Schuppen, Lungen die superheiße Gase
+  filtern. Einmal im Jahr treffen sie sich an den Lavafällen
+  und handeln." Eine kurze Pause. "Die angesehensten Handwerker
+  im Reich."
+
+npc_vandara_ormias_7: >-
+  "Seraph-Drachen. Die Himmelsstürmer." Ormias' Tonfall wird
+  trocken. "Schlank, aerodynamisch, vier bis sechs schmale
+  Flügel übereinander gestapelt. Sie leben dort, wo die Luft so
+  dünn ist, dass ein Großdrache das Bewusstsein verlieren würde,
+  und lachen über unsere Stürme, weil das, was wir Hurrikan
+  nennen, ihre Morgenbrise ist." Er winkt ab. "Erwarte nicht,
+  einen zu sehen — sie kommen fast nie runter. Wenn doch, sei
+  höflich."
+
+npc_vandara_ormias_8: >-
+  "Fae-Drachen. Die Smaragd-Weber." Ormias' Mund zuckt — fast
+  Zuneigung. "Die Kleinsten. Libellenflügel, Chamäleon-Tarnung,
+  ursprünglich aus dem tiefen Urwald von Smaragd. Heute zwei
+  Kulturen: die wilden Wald-Fae, die noch immer in der Rinde
+  verschwinden, und die Stadt-Fae, die sich an das urbane Leben
+  angepasst haben und prächtige, knallbunte Schuppen tragen,
+  weil sie in der Stadt nichts mehr fürchten müssen." Er
+  lächelt fast. "Wenn du jemals einen in einer Taverne triffst,
+  gib ihm einen Drink aus. Bester Klatsch in Draconia."
+
+npc_vandara_ormias_9: >-
+  "Und zum Schluss — die Lung-Drachen. Die Himmelsläufer."
+  Ormias klopft demonstrativ auf seinen Schreibtisch.
+  "Schlangenartig, flügellos, vier Beine mit scharfen Klauen,
+  charakteristische Bartfäden am Kopf. Sie fliegen rein durch
+  Magie — keine Flügel. Die einzige Ausnahme zu meiner
+  Eröffnungsregel." Seine Brille rutscht und er fängt sie
+  diesmal nicht auf. "Und bevor du fragst: ja, ich habe gesehen,
+  dass du keine Flügel hast. Komm nicht auf Ideen. Lung-Drachen
+  sind ein absoluter genetischer Sonderfall — sie kommen
+  ausschließlich in der kaiserlichen Blutlinie vor, und selbst
+  dort existieren aktuell nur zwei. Kaiser Ignis Aurum und Prinz
+  Ryuga. Das ist die Liste." Er räuspert sich. "Du bist
+  höchstwahrscheinlich ein Spätzünder-Großdrache. In achtzig
+  Prozent der Fälle. Geduld."
 
 # ─── Quinell — Arkane Grundlagen ───────────────────────────
 npc_vandara_quinell_1: >-

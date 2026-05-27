@@ -305,46 +305,110 @@ npc_vandara_sariel_4: >-
   promise the interesting stuff for next session."
 
 # ─── Ormias — Dragon Studies ──────────────────────────
+# One session per main type, in order: intro, Great Dragons,
+# Wyverns, Lindwurms, Amphitheres, Leviathans, Seraphs, Fae,
+# and Lungs as the dramatic-irony closer.
 npc_vandara_ormias_1: >-
   Lector Ormias is old. Very old. His dragon-form skull
   shimmers when he speaks — Magma Lindwurm line, scales like
   hardened lava. He wears rumpled robes and a pair of glasses
-  that really don't fit. "Sit, student. We know six main types.
-  Great Dragons from the Crystal Realm, that's the bread-and-
-  butter people. Wyverns, who fused their forelimbs into wings.
-  Lindwurms — my kind. Amphitheres, the serpentine ones with
-  feathers. Leviathans, water or magma. Seraphs, high above the
-  clouds. And Fae, the little dragonflies from the Emerald
-  Forest. That's it. Nothing else."
+  that really don't fit. "Sit, student. Dragon Studies, basic
+  course. We know seven main types: Great Dragons, Wyverns,
+  Lindwurms, Amphitheres, Leviathans, Seraphs, Fae. Plus the
+  imperial Lungs — an exception we'll get to last." He coughs.
+  "One per session. No shortcuts. And remember the single most
+  important thing about every one of them: they all have wings."
+  A pause. "Yes. All of them."
 
 npc_vandara_ormias_2: >-
-  "Today the dragon form." Ormias sketches on the board — and
-  his chalk breaks every two seconds. "Great Dragons: massive,
-  many horns, two strong wings. Wyverns: two hindlegs plus wing-
-  forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres:
-  no legs, just one pair of large feathered wings. Leviathans
-  hydrodynamic or armoured depending on variant. Seraphs have
-  several thin wings stacked. Fae buzz around on dragonfly wings."
-  He coughs. "All. Of. These. Types. Have. Wings."
+  "Great Dragons. Guardians of the Realms. The bread-and-butter
+  people from the Crystal Realm in the west." Ormias sketches a
+  four-legged silhouette on the board — chalk breaks. "Strong
+  build, four legs, a pair of broad leather wings, often an
+  armoured tail-tip and large horns. The most common type by
+  far. Many late bloomers — wings don't always come in until
+  twenty or thirty." He glances at you over his glasses.
+  "Statistically you are most likely one of these. Patience.
+  They'll come."
 
 npc_vandara_ormias_3: >-
-  Ormias peers at you over his slipping glasses. "Speaking of
-  wings — you have none. Hm. Let me think." He scratches his
-  chin. "There is a wingless sub-type, the Lung-Drachen. Long-
-  bodied, flying purely through magic. But..." He waves it off.
-  "They're so rare they only ever appear in the imperial family.
-  In my seventy years as lector I've never seen one outside the
-  court line, and I never will. You are most likely a late-
-  blooming Great Dragon. Some don't manifest their wings until
-  twenty or thirty. Patience."
+  "Wyverns. Hunters of the skies." Another sketch — the chalk
+  breaks again. "Two hindlegs only. Their front limbs fused
+  with the wings during evolution. Fast, muscular flyers,
+  usually with a venom-stinger or a heavy club at the tail.
+  The Storm-Wyverns have wing-edges so sharp they cut wind
+  like blades." He pushes his glasses up. They slide down
+  immediately. "Common in the western lowlands. You'd remember
+  if you were one — they fly young."
 
 npc_vandara_ormias_4: >-
-  "Last hour of the basic course." Ormias pushes a thick book
-  towards you. "'Classification of the Dragon Types of Draconia',
-  third edition. Read it if you want more. What I can't cram
-  into one hour is in there. And remember: when someone says
-  'there are only six types', that's true. Probably." He clears
-  his throat. "In eighty percent of cases."
+  "Lindwurms. The Earth-Bound." For the first time today,
+  Ormias smiles, briefly. "My kind. Massive body, only two
+  forelegs, the rear half a long serpent we drag behind us.
+  Wings we have, but heavy — we are not graceful in the air.
+  We dig, we climb, we are slow, and we are stubborn. Two main
+  lines: Magma Lindwurms, scales like glowing lava, living
+  near the magma sea. And Swamp Lindwurms, scales like algae
+  and bark, blending into the Emerald jungle." He coughs.
+  "Foreigners sometimes lump us in with western dragons. We
+  are eastern. Don't confuse us."
+
+npc_vandara_ormias_5: >-
+  "Amphitheres. The Feathered Serpents." Ormias gestures broadly
+  with both arms. "No limbs at all. Just a long serpentine
+  body and a single pair of enormous, magnificent feathered
+  wings — which, by the way, can store magical energy. Rare.
+  Beautiful — even I admit it. Two sub-types we know of:
+  Dream-Amphitheres, whose wing-strokes spin illusion-mist.
+  And Sun-Amphitheres, golden feathers that can detonate into
+  a blinding flash when threatened." He raises an eyebrow.
+  "Magistra Veyra is one. Don't tell her I said she's beautiful."
+
+npc_vandara_ormias_6: >-
+  "Leviathans. Rulers of the Extremes." Ormias's voice drops —
+  respect, not pride. "They live where no one else can. Tide-
+  Leviathans command the floating water islands and the sea
+  routes; sinewy wings doubling as fins underwater, fine gill-
+  slits, absolute lords of the currents. Magma-Leviathans on
+  the lowest, hottest islands above the lava sea; massive
+  armoured wings, obsidian-plated scales, lungs that filter
+  superheated gas. Once a year they meet at the lava-falls and
+  trade." A short pause. "The most prestigious craft-folk in
+  the empire."
+
+npc_vandara_ormias_7: >-
+  "Seraph Dragons. The Sky-Stormers." Ormias's tone goes dry.
+  "Slender, aerodynamic, four to six narrow wings stacked one
+  above the other. They live where the air is thin enough that
+  a Great Dragon would lose consciousness, and they laugh at
+  our storms because what we call a hurricane is their morning
+  breeze." He waves a hand. "Don't expect to see one — they
+  almost never come down. If you do, be polite."
+
+npc_vandara_ormias_8: >-
+  "Fae Dragons. The Emerald Weavers." Ormias's mouth twitches
+  — something like fondness. "The smallest. Dragonfly wings,
+  chameleon camouflage, originally from the deep Emerald
+  jungle. Two cultures now: the wild Forest-Fae who still
+  vanish into bark, and the City-Fae who've adapted to urban
+  life and grow brilliant, gaudy scales because nothing in
+  town wants to eat them anymore." He almost smiles. "If you
+  ever meet one in a tavern, buy them a drink. Best gossip in
+  Draconia."
+
+npc_vandara_ormias_9: >-
+  "And finally — the Lung Dragons. The Sky-Walkers." Ormias
+  taps his desk pointedly. "Serpentine, wingless, four legs
+  with sharp claws, characteristic beard-whiskers at the head.
+  They fly by pure magic — no wings at all. The single
+  exception to my opening rule." His glasses slip and he
+  doesn't catch them this time. "And before you ask: yes, I
+  noticed you have no wings. Don't get excited. Lung Dragons
+  are an absolute genetic outlier — they only appear in the
+  imperial bloodline, and even there currently only two exist.
+  Emperor Ignis Aurum and Prince Ryuga. That is the list." He
+  clears his throat. "You are most likely a late-blooming
+  Great Dragon. In eighty percent of cases. Patience."
 
 # ─── Quinell — Arcane Foundations ───────────────────────────
 npc_vandara_quinell_1: >-
