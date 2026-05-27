@@ -132,7 +132,7 @@ Diese Art ist am weitesten verbreitet und stammt ursprünglich aus dem Kristallr
 
 ### **Elementare Unterarten der westlichen Drachen:**
 
-* **Sonnendrachen (z.B. Amaterasu):** Groß gewachsen, mit Schuppen in Gold- und Rottönen, die das Sonnenlicht reflektieren.  
+* **Sonnendrachen (z.B. Amaterasu):** Groß gewachsen, mit Schuppen in Gold- und Rottönen, die das Sonnenlicht reflektieren. Sie sind, unter den Großdrachen, die seltensten. Jeder Sonnendrache gehört zum Element Licht. Sie sind nicht mit den Sonnen-Amphitheren direkt verwandt, sondern nur konvergente Evolution bedingt.  
 * **Erddrachen (z.B. Valerius):** Besonders robuste, panzerartige Schuppen, oft in dunklen Braun- oder Grautönen, die wie Stein wirken können.  
 * **Gezeiten- & Traumdrachen (z.B. Lunara):** Schimmernde Schuppen in Blau- oder Lila tönen; ihre Flügel wirken oft flüssig oder wie aus Nebel geformt.  
 * **Wind- & Luftdrachen (z.B. Zephyrion):** Leichtere Knochenstruktur und aerodynamisch geformte Hörner für hohe Geschwindigkeiten.  

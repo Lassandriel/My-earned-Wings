@@ -25,9 +25,9 @@
 
 ### Phase 13.5: Verzweigte Schicksale & Endings
 
-* [ ] **Akademie Vandara (re-introduction)**: Bring the academy back from the rollback as a real system — three paths (Solen / Bram / Lyra), exclusive late-game recipes, and proper integration with the new additive-modifier engine. Existing assets (`img/npcs/{magistra_solen,meister_bram,lyra}.webp`, `img/school/*`) and dormant code (`activeTitle`, `magic_regen_passive` modifier slot, `regen.ts`) are still in the repo.
-* [ ] **Pfad-spezifisches Gameplay**: Die gewählte Akademie-Fachrichtung beeinflusst das Late-Game (exklusive Rezepte & Mechaniken).
-* [ ] **Erweiterte Story**: Neue NPCs in Vandara, Schwarzmarkt-Interaktionen und individuelle Endsequenzen.
+* [x] **Akademie Vandara — Re-Introduktion als Addon (May 2026)**: Vandara läuft jetzt als content addon (`content/addons/vandara/`), nicht mehr im Engine-Code. Ersetzt das alte Solen/Bram/Lyra-Konzept durch die finale Mentoren-Riege (Veyra/Ormias/Quinell/Pamle) + Stadt-NPCs + Sariel-Schatten-Reveal. Alte Assets (`img/npcs/{magistra_solen,meister_bram,lyra}.webp`, `img/school/*`) und dormant code (`activeTitle`, `magic_regen_passive`, `regen.ts`) sind nicht mehr referenziert und können bei nächstem Cleanup raus.
+* [ ] **Pfad-spezifisches Gameplay**: Die Schatten-Reveal-Linie beeinflusst Late-Game-Interaktionen — Stadt-NPCs reagieren via `extendNPCArc`, Schatten-spezifische Rezepte und Items kommen als nächste Iteration.
+* [ ] **Erweiterte Story**: Katakomben-Studenten als Side-NPCs (siehe `content/addons/vandara/IDEAS.md`), Schwarzmarkt-Interaktionen und individuelle Endsequenzen.
 
 ### Phase 14: Der Zyklus der Inkarnation
 
