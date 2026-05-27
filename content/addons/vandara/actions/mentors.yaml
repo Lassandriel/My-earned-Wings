@@ -39,11 +39,15 @@
       dialogueKey: npc_vandara_veyra_4
     # Stufe 5 — Spieler kehrt zurück nachdem die Lichtprobe gezuckt
     # hat. Veyra macht den tiefen Test und entdeckt: das war kein
-    # Licht. Das war Schatten.
+    # Licht. Das war Schatten. Gegated auf alle drei Mentoren-Intros
+    # — Veyra will erst Rücksprache mit Ormias + Quinell halten,
+    # bevor sie den vertiefenden Test macht. Pamle bleibt optional.
     - cost: 20
       costType: magic
       requirements:
         flags.vandara-light-resonance-found: true
+        flags.vandara-ormias-intro-done: true
+        flags.vandara-quinell-intro-done: true
       dialogueKey: npc_vandara_veyra_5
     # Stufe 6 — Nachwirkung. Veyra erklärt was Schatten als Licht-
     # Sub bedeutet, gesteht ihre Grenzen ein, deutet auf jemanden
