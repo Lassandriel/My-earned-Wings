@@ -37,6 +37,22 @@ vandara_shadow_bind_learned: >-
   Sariel hat dir beigebracht, einen Schatten an eine Aufgabe zu
   binden. Magie läuft die ganze Zeit ab; vorerst nur ein
   Schatten gleichzeitig.
+
+# Reveal-Reaktions-Beats. Die Nachricht hat sich durch die
+# Akademie verbreitet und jeder dieser NPCs hatte etwas dazu
+# zu sagen.
+vandara_ormias_reveal_reaction: >-
+  Ormias frisst graziös seine "Spätzünder-Großdrache"-Prognose
+  und lädt dich zum Wiederkommen ein.
+vandara_quinell_reveal_reaction: >-
+  Quinell bestätigt leise, dass Sariel von Anfang an Recht hatte.
+vandara_olie_reveal_reaction: >-
+  Olié aktualisiert deine Studierenden-Akte. Element: Schatten,
+  Sub-Variante Licht, Vermerk: selten.
+vandara_pamle_reveal_reaction: >-
+  Pamle hat es gehört. Sagt, sie überlegt sich passende
+  Schatten-Reagenzien.
+
 vandara_pamle_intro_done: >-
   Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank
   und Magietrank.

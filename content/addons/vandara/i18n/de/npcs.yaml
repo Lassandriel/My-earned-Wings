@@ -42,6 +42,19 @@ npc_vandara_olie_3: >-
   der Stadt. Die Akademie hat Glück, sie zu halten." Ein höfliches
   Nicken. "Willkommen in Vandara, Studentin."
 
+# Step 4 — Reveal-Reaktion. Olié aktualisiert die Akte des
+# Spielers, jetzt da das Element offiziell bekannt ist.
+npc_vandara_olie_4: >-
+  Olié schaut von seinem Stapel auf, höflich wie immer. "Ah.
+  Das Element-Feld auf Ihrer Studierenden-Akte. Ich habe es
+  offengelassen, wie besprochen." Er zieht eine dünne Feder
+  hervor. "Ich trage es jetzt nach." Eine Pause, während er
+  schreibt. "Schatten. Sub-Variante Licht. Vermerk: selten." Er
+  pustet die Tinte trocken. "So. Ordnungsgemäß eingetragen. Die
+  Akademie-Archive schätzen Genauigkeit mehr als Neuheit, aber
+  in diesem Fall bekommen sie beides." Ein höfliches Nicken.
+  "Machen Sie weiter, Studierende."
+
 # Kal're — Händlerin auf den Straßen Vandaras
 npc_vandara_kalre_1: >-
   Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand
@@ -327,6 +340,19 @@ npc_vandara_pamle_4: >-
   und Pamle ist nicht mein voller Name, ich hab nie einen
   bekommen. Spar dir die Frage."
 
+# Step 5 — Reveal-Reaktion. Pamle hat die Geschichte gehört und
+# überlegt praktisch, welche Reagenzien für einen Schatten-Wandler
+# Sinn ergeben.
+npc_vandara_pamle_5: >-
+  Pamle mustert dich vom Werktisch aus. "Aha. Das hat sich
+  rumgesprochen. Du bist die Schatten-Person." Sie wirkt nicht
+  überrascht. "Heißt, ich sollte vielleicht überlegen, welche
+  Reagenzien für deine Sorte Sinn machen. Asche von erloschenen
+  Kerzen, Spiegelscherben-Staub, sowas. Ich sag Bescheid wenn
+  mir was einfällt." Ein scharfes Grinsen. "Und erwarte keinen
+  Rabatt. Seltenes Element heißt nicht pleite. Jetzt verzieh
+  dich, ich muss der nächsten Gruppe Tier-drei beibringen."
+
 npc_vandara_sariel_4: >-
   "Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist
   was anderes." Sariel sortiert wieder deren Notizen. "Was du
@@ -480,6 +506,24 @@ npc_vandara_ormias_9: >-
   höchstwahrscheinlich ein Spätzünder-Großdrache. In achtzig
   Prozent der Fälle. Geduld."
 
+# Step 10 — Reveal-Reaktion. Ormias frisst graziös seine
+# Spätzünder-Großdrachen-Prognose, lädt zum Wiederkommen ein.
+npc_vandara_ormias_10: >-
+  "Aha." Ormias rückt seine Brille zurecht, die sofort wieder
+  rutscht. "Ich hab's gehört. Gerüchte laufen schnell durch
+  die Akademie-Korridore, vor allem wenn's um das Unmögliche
+  geht." Er hustet. "Erlaub mir einen Moment professionelle
+  Verlegenheit. Ich hab dir mit einiger Sicherheit gesagt, du
+  seist höchstwahrscheinlich ein Spätzünder-Großdrache.
+  Anscheinend lag ich daneben — wobei, in aller Fairness, auch
+  nicht ganz daneben. Schatten ist eine Sub-Variante des
+  Lichts. Lichtwandler sind Großdrachen. Also technisch,
+  statistisch, halten die achtzig Prozent immer noch. Knapp."
+  Er gestikuliert vage. "Ich würde Kapitel Zwei meines Buches
+  sehr gerne aktualisieren. Komm gelegentlich wieder vorbei —
+  ich werde neue Fragen haben, und die Fragen sind meistens
+  interessanter als die Antworten."
+
 # ─── Quinell — Arkane Grundlagen ───────────────────────────
 npc_vandara_quinell_1: >-
   Doktor Quinell ist Kristalldrachenwandler — Schuppen wie
@@ -572,6 +616,24 @@ npc_vandara_quinell_7: >-
   dann nichts. "Lesen Sie das Kapitel. Wenn Sie je Belege für
   einen aktuellen Schatten-Wandler finden, schreiben Sie die
   Arbeit. Widmen Sie sie angemessen."
+
+# Step 8 — Reveal-Reaktion. Quinell, der über Sariel mit der
+# resignierten Stimme einer trauernden Kollegin gesprochen hat,
+# bekommt eine stille Vindikation. Er zeigt es nicht laut.
+npc_vandara_quinell_8: >-
+  Quinell bewegt sich nicht, als Sie eintreten — aber der
+  Winkel seines Kopfes verschiebt sich, ganz leicht. "Ich habe
+  gehört." Eine Pause. "Sariel hatte also Recht. Die Akten
+  waren falsch; das Vorlesungs-Kapitel war richtig. Ich werde
+  es im Archiv vermerken." Eine weitere, längere Pause. "Wenn
+  Sie jemals — wenn Sie wieder zu dey hinunter gehen — sagen
+  Sie Sariel, dass das Kapitel immer noch funktioniert. Vierzig
+  Jahre später bestehen die Studierenden es immer noch. Dey
+  erinnert sich vielleicht nicht an mich, aber ich habe mich
+  an dey erinnert." Seine Stimme verändert die Tonhöhe nicht,
+  aber etwas im Raum tut es. "Das ist alles. Gehen Sie.
+  Studieren Sie. Wenden Sie die Gesetze an. Sie werden jedes
+  einzelne brauchen."
 
 npc_vandara_gate_guard_admit: >-
   Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie

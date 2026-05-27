@@ -35,6 +35,19 @@ vandara_shadow_trained: >-
 vandara_shadow_bind_learned: >-
   Sariel has taught you to bind a shadow to a task. Magic drains
   while it works; one shadow at a time for now.
+
+# Reveal-reaction beats. The flag-revealed news has spread through
+# the academy and these NPCs each had something to say about it.
+vandara_ormias_reveal_reaction: >-
+  Ormias gracefully eats his "late-blooming Great Dragon"
+  prediction. He'd like you back for more questions.
+vandara_quinell_reveal_reaction: >-
+  Quinell quietly acknowledges Sariel was right all along.
+vandara_olie_reveal_reaction: >-
+  Olié updates your student record. Element: Shadow. Sub-Light. Rare.
+vandara_pamle_reveal_reaction: >-
+  Pamle has heard. Says she'll think about shadow-flavoured reagents.
+
 vandara_pamle_intro_done: >-
   Pamle showed you the two basic recipes — energy potion and
   magic potion.

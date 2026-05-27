@@ -83,6 +83,18 @@
         - type: extendNPCArc
           npcId: npc-vandara-sariel
           by: 4
+        # Reveal-Reaktionen der anderen Mentoren + Olié + Pamle.
+        # Je ein zusätzlicher Step pro NPC, in dem sie auf das
+        # Schatten-Reveal reagieren. Reine Story-Beats, kein neuer
+        # Mechanik-Unlock.
+        - type: extendNPCArc
+          npcId: npc-vandara-ormias
+        - type: extendNPCArc
+          npcId: npc-vandara-quinell
+        - type: extendNPCArc
+          npcId: npc-vandara-olie
+        - type: extendNPCArc
+          npcId: npc-vandara-pamle
       dialogueKey: npc_vandara_veyra_6
   customExecute: npc_execute
 
@@ -99,7 +111,11 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraOrmias
-  maxProgress: 9
+  # Base 9 (Intro + 7 Hauptarten + Lung-Schluss). Schritt 10 ist
+  # ein Reveal-Reaktions-Beat, freigeschaltet via extendNPCArc von
+  # Veyras Step 6 — Ormias gesteht ein, dass er den Spätzünder-
+  # Großdrachen-Tipp halb daneben hatte.
+  maxProgress: 10
   journalIcon: 🐲
   icon: 🐲
   journalColor: '#7c2d12'
@@ -150,6 +166,19 @@
           logKey: vandara_ormias_intro_done
           color: var(--gold)
       dialogueKey: npc_vandara_ormias_9
+    # 10 — Reveal-Reaktion. Wird durch Veyra Step 6 extendNPCArc
+    # erst klickbar. Ormias gibt zu, dass er den Spätzünder-
+    # Großdrachen-Tipp halb daneben hatte, lädt zum Wiederkommen
+    # ein. Reine Story, kein Mechanik-Unlock.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: log
+          logKey: vandara_ormias_reveal_reaction
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_ormias_10
   customExecute: npc_execute
 
 # ─── Quinell — Arkane Grundlagen ───────────────────────────────
@@ -164,7 +193,11 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraQuinell
-  maxProgress: 7
+  # Base 7 (Intro + Definition + vier Gesetze + Ausnahmen-Stunde
+  # mit Sariel-Erwähnung). Schritt 8 ist ein Reveal-Reaktions-Beat,
+  # freigeschaltet via extendNPCArc von Veyras Step 6 — leise
+  # Vindikation für Sariel.
+  maxProgress: 8
   journalIcon: 💎
   icon: 💎
   journalColor: '#c084fc'
@@ -206,4 +239,15 @@
           logKey: vandara_quinell_intro_done
           color: var(--gold)
       dialogueKey: npc_vandara_quinell_7
+    # 8 — Reveal-Reaktion. Wird durch Veyra Step 6 extendNPCArc
+    # klickbar. Leise Vindikation für Sariel: "dey hatte Recht."
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: log
+          logKey: vandara_quinell_reveal_reaction
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_quinell_8
   customExecute: npc_execute

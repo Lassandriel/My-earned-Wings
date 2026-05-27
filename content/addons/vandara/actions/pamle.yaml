@@ -11,7 +11,11 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraPamle
-  maxProgress: 4
+  # Base 4 (Intro + drei Tribut-Stufen). Schritt 5 ist ein Reveal-
+  # Reaktions-Beat — Pamle nimmt Notiz, dass der Spieler ein
+  # interessantes Reagenz-Sortiment brauchen könnte. Via Veyras
+  # Step 6 extendNPCArc freigeschaltet.
+  maxProgress: 5
   journalIcon: 🌋
   icon: 🌋
   journalColor: '#dc2626'
@@ -83,4 +87,17 @@
           logKey: vandara_alchemy_mastered
           color: var(--gold)
       dialogueKey: npc_vandara_pamle_4
+
+    # 5. Reveal-Reaktion: Pamle hat von der Schatten-Geschichte
+    # gehört und notiert sich, welche Reagenzien für die Sorte
+    # Sinn machen könnten. Story-Beat, kein neuer Mechanik-Unlock.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: log
+          logKey: vandara_pamle_reveal_reaction
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_pamle_5
   customExecute: npc_execute

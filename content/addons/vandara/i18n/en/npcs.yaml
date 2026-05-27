@@ -36,6 +36,18 @@ npc_vandara_olie_3: >-
   city. The academy is fortunate to keep her." A polite nod.
   "Welcome to Vandara, student."
 
+# Step 4 — post-reveal reaction. Olié updates the bureaucratic
+# record now that the player has a confirmed element.
+npc_vandara_olie_4: >-
+  Olié looks up from his stack, polite as ever. "Ah. The
+  element field on your student record. I left it blank, as we
+  discussed." He pulls out a thin pen. "I will fill it in now."
+  A pause as he writes. "Shadow. Sub-variant Light. Note:
+  rare." He blows on the ink. "There. Properly recorded. The
+  academy archives appreciate accuracy more than novelty, but
+  in this case they get both." A polite nod. "Carry on,
+  student."
+
 # Kal're — trader in the streets of Vandara
 npc_vandara_kalre_1: >-
   A young dragon-shifter with silver-blue hair and a stall full of
@@ -305,6 +317,18 @@ npc_vandara_pamle_4: >-
   new, you know where to find me. Oh — and Pamle isn't my full
   name, I never had one. Save the question."
 
+# Step 5 — post-reveal reaction. Pamle has heard the rumour
+# and starts thinking practically about shadow-flavoured reagents.
+npc_vandara_pamle_5: >-
+  Pamle eyes you from the workbench. "So. Word's around.
+  You're the shadow one." She doesn't seem surprised. "Means
+  I should probably think about what reagents make sense for
+  your sort. Ash from extinguished candles, mirror-shard dust,
+  that kind of thing. I'll let you know if I come up with
+  something." A sharp grin. "And don't expect a discount. Rare
+  element doesn't mean broke. Now scoot, I've got tier-three
+  brewing to teach the next batch."
+
 npc_vandara_sariel_4: >-
   "You're not trained now. You're awake — that's something
   else." Sariel goes back to sorting notes. "What you need from
@@ -446,6 +470,23 @@ npc_vandara_ormias_9: >-
   clears his throat. "You are most likely a late-blooming
   Great Dragon. In eighty percent of cases. Patience."
 
+# Step 10 — post-reveal reaction. Ormias gracefully eats his
+# words about the late-blooming Great Dragon prediction.
+npc_vandara_ormias_10: >-
+  "Ah." Ormias adjusts his glasses, which immediately slip
+  back down. "I heard. Word travels fast in academy
+  corridors, especially when it involves the impossible." He
+  coughs. "Allow me one moment of professional embarrassment.
+  I told you, with some confidence, that you were most likely
+  a late-blooming Great Dragon. I appear to have been
+  incorrect — though, in fairness, also not entirely wrong.
+  Shadow is a sub-variant of Light. Light-shifters are Great
+  Dragons. So technically, statistically, the eighty percent
+  still holds. Just." He gestures vaguely. "I would very much
+  like to update Chapter Two of my book. Come and visit again
+  sometime — I will have new questions for you, and the
+  questions are usually more interesting than the answers."
+
 # ─── Quinell — Arcane Foundations ───────────────────────────
 # One lecture per law, in order: intro, definition, three-component
 # law, element binding, conservation, exhaustion, exceptions —
@@ -532,6 +573,21 @@ npc_vandara_quinell_7: >-
   they still live, I do not know." A small breath, then nothing.
   "Read the chapter. If you ever find evidence of a current
   shadow-shifter, write the thesis. Dedicate it appropriately."
+
+# Step 8 — post-reveal reaction. Quinell, who'd lectured about
+# Sariel with the resigned tone of someone mourning a colleague,
+# gets a quiet vindication. He does not show it loudly.
+npc_vandara_quinell_8: >-
+  Quinell does not move when you enter — but the angle of his
+  head shifts, ever so slightly. "I heard." A pause. "Sariel
+  was correct, then. The records were wrong; the lecture chapter
+  was right. I will note it in the archives." Another pause,
+  longer. "If you ever — when you go back down to them — tell
+  Sariel that the chapter still works. Forty years on, students
+  still pass it. They may not remember me, but I have remembered
+  them." His voice does not change pitch, but something in the
+  room does. "That is all. Go. Study. Apply the laws. You will
+  need every one of them."
 
 npc_vandara_gate_guard_admit: >-
   The gate warden — a massive earth-dragon shifter with scales like

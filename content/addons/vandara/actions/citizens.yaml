@@ -14,7 +14,10 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraOlie
-  maxProgress: 3
+  # Base 3 (Greeting, Gebühr, Ausweis-Ausstellung). Schritt 4 ist
+  # ein Reveal-Reaktions-Beat (bürokratische Akten-Aktualisierung),
+  # via Veyras Step 6 extendNPCArc freigeschaltet.
+  maxProgress: 4
   journalIcon: 📋
   icon: 📋
   journalColor: '#0ea5e9'
@@ -51,6 +54,17 @@
           logKey: vandara_enrolled
           color: var(--gold)
       dialogueKey: npc_vandara_olie_3
+    # 4 — Reveal-Reaktion: Olié aktualisiert die Akte des Spielers.
+    # Bürokratisch-knapp, Element-Feld wird nachträglich ausgefüllt.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-shadow-revealed: true
+      onSuccess:
+        - type: log
+          logKey: vandara_olie_reveal_reaction
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_olie_4
   customExecute: npc_execute
 
 # ─── Kal're — street trader ────────────────────────────────────
