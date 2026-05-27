@@ -43,3 +43,7 @@ ui_glitter_dust: Glitzerstaub
 
 # Section header for Vandara's alchemy recipes in Main's Herstellen pane.
 ui_tab_vandara_alchemy: Alchemie
+
+# Passive identity sub-label rendered under the player name once
+# Veyra has run the deep test (vandara-shadow-revealed flag set).
+ui_vandara_shadow_shifter_label: Schatten-Drachenwandler

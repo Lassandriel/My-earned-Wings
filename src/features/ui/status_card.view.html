@@ -3,6 +3,11 @@
   <div class="status-header">
     <div class="player-name-wrapper">
       <div class="player-name" x-text="$store.game.playerName"></div>
+      <!-- Addon extension point — narrow textual sub-labels under
+           the player name (e.g. story-revealed identity tags).
+           Different from activeTitle below: this is a passive,
+           non-selectable label set by addon content. -->
+      <div data-slot="player-name-extra"></div>
       <template x-if="$store.game.activeTitle">
         <div 
           class="active-title-badge shadow-premium" 

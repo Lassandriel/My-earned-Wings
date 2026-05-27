@@ -185,16 +185,22 @@ npc_vandara_veyra_5: >-
 
 npc_vandara_veyra_6: >-
   Veyra ist deutlich nachdenklicher heute. "Schatten ist eine
-  Sub-Variante von Licht. So wie Traum eine Variante von Gezeiten
-  ist. Aber sie ist selten. Sehr selten. In vierzig Jahren
-  Diagnostik habe ich noch nie eine gesehen." Sie schaut Sie
-  ernst an. "Ich kann Ihnen die Theorie geben. Aber die Praxis
-  — da bin ich nicht zuhause. Sie brauchen jemanden, der das
-  tatsächlich gelebt hat. Es gibt..." Sie zögert. "Es gibt
-  jemanden. Aber dey ist nicht mehr an der Akademie. Fragen Sie
-  Fafa am Brunnen. Sie weiß, wo. Und seien Sie vorsichtig,
-  {player} — 'Schatten' klingt romantisch, aber nicht jeder in
-  dieser Stadt sieht es so."
+  Sub-Variante von Licht. So wie Traum eine Sub-Variante von
+  Gezeiten ist. Aber sie ist selten. Sehr selten. In vierzig
+  Jahren Diagnostik habe ich noch nie eine gesehen." Sie schaut
+  Sie ernst an. "Ich kann Ihnen die Theorie geben. Aber die
+  Praxis — da bin ich nicht zuhause. Ich kann Ihnen nicht
+  beibringen, was ich selbst nie gefühlt habe." Sie legt die
+  Feder ab, zögert, dann leiser: "Es gab vor langer Zeit eine
+  Kollegin hier. Sariel. Brillant. Auf dem Papier
+  element-agnostisch, bis dey das selbst widerlegt hat. Wir
+  haben uns aus den Augen verloren, als dey die Akademie
+  verließ — vor vierzig Jahren, ungefähr. Ich habe deren Namen
+  lange nicht mehr gehört, und ich weiß nicht, ob dey noch
+  lehrt. Aber wenn Ihnen jemand die Praxis des Schattens
+  beibringen kann, dann Sariel." Sie sucht Ihren Blick. "Seien
+  Sie vorsichtig, {player}. 'Schatten' klingt romantisch. Nicht
+  jeder in dieser Stadt sieht es so."
 
 # Element-Übungen — knappe Reaktionsbeschreibungen, die jede Trial
 # als Tooltip-Text mitliefert (dialogueKey im step).
@@ -220,18 +226,6 @@ vandara_trial_light_dialog: >-
   Aber kein klares Licht. Komm zurück, sobald du kannst — ich will
   das genauer untersuchen."
 
-# ─── Fafa Stufe 5 — Patch, führt zu Sariel ────────────
-npc_vandara_fafa_5: >-
-  Fafa hat schon gewartet, als du herankommst. Sie steht heute,
-  nicht hocken. "Du warst bei Veyra. Sie hat es dir gesagt." Es
-  ist keine Frage. "Ich wusste, an dem Tag wo du das erste Mal
-  Splitter in meine Hand gelegt hast — du hast die Wand hinter
-  mir kürzer gemacht. Ein bisschen. Sieht keiner außer mir." Sie
-  greift nach deiner Hand und führt dich die Stufen in den Gully
-  hinunter. "Komm. Es gibt jemanden, der wartet seit fünfzig
-  Jahren auf jemanden wie dich. Sei nicht unhöflich, sei nicht
-  vorsichtig, sei einfach da."
-
 # ─── Sariel — Schatten-Lehrkraft in den Katakomben ────────
 # Sariel nutzt they/them im EN, im DE entsprechend dey/dem/deren
 # (eingedeutschtes they-Set). Verben passen sich an wie bei "er/sie".
@@ -249,16 +243,26 @@ npc_vandara_sariel_1: >-
   ich brauche kein Licht."
 
 npc_vandara_sariel_2: >-
-  "Du willst wissen, was Schatten ist." Sariel schiebt ein altes
-  Buch in deine Richtung, ohne hinzusehen. "Hier. Arkane Grundlagen
-  Kapitel sechs. Quinell hat es dir empfohlen, oder? Er hat es vor
-  vierzig Jahren in meiner Klasse abgeschrieben. Lies." Dey
-  pausiert. "Oder lass es. Ich kenne es auswendig. Schatten ist
-  Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt.
-  Wenn ein Licht in einen Raum fällt, machst du als Lichtwandler
-  Helligkeit. Du machst Hohlräume. Die Hohlräume HÖREN dir zu.
-  Verstanden? Nein? Gut. Das war eine Lüge, weil ich es kurz
-  machen wollte. Lies das Kapitel."
+  "Du willst wissen, was Schatten ist." Sariel bewegt sich nicht
+  zum Tisch — hier liegt kein Buch, nichts zum Hinschieben.
+  "Quinell hat dich hergeschickt, oder? Oder dafür gesorgt, dass
+  du dich selbst herschickst. Er hat dir sein Kapitel mitgegeben
+  — Kapitel sechs." Ein kleines trockenes Geräusch, das fast,
+  aber nicht ganz ein Lachen ist. "Er hat zwei Jahre in meiner
+  Klasse gesessen und alles mitgeschrieben, was ich gesagt habe.
+  Das Kapitel ist seins. Ich habe in meinem ganzen Leben kein
+  einziges Wort geschrieben — ich bin blind, schon länger, als
+  ich je hinter einem Pult stand. Was du da hattest, war
+  Quinells Mitschrift von mir, keine Abschrift von irgendwas
+  Meinem. Es gab nichts abzuschreiben. Ob er es richtig getroffen
+  hat, ist eine Sache zwischen ihm und seiner Ehrlichkeit." Dey
+  pausiert. "Die Kurzfassung ist kurz. Schatten ist Licht, das
+  genug Tiefe hat, dass es einen Eigenwillen entwickelt. Ein
+  Lichtwandler macht Helligkeit. Du machst Hohlräume. Die
+  Hohlräume HÖREN dir zu. Verstanden? Nein? Gut — das war eine
+  Lüge, weil ich's kurz machen wollte. Lies sein Kapitel
+  trotzdem. Er hat's sauberer geschrieben, als ich's zweimal
+  sagen würde."
 
 npc_vandara_sariel_3: >-
   "Steh in das Licht." Sariel deutet auf die Kerze. "Jetzt streck
@@ -527,12 +531,16 @@ npc_vandara_quinell_7: >-
   zwanzig Prozent sind das, woraus Doktorarbeiten gemacht werden."
   Zum ersten Mal pausiert er merklich. "Es gab hier einmal eine
   Lehrkraft. Sariel. Element-agnostisch laut Akten, bis dey das
-  selbst widerlegt hat. Kapitel sechs dieses Skripts gehört dey
-  — eine Abhandlung über Schatten als Sub-Variante des Lichts.
-  Reine Theorie. Niemand hat je einen dokumentierten
-  Schatten-Wandler kennengelernt, der bereit war, sich
-  untersuchen zu lassen. Dey verließ die Akademie vor vierzig
-  Jahren. Ob dey noch lebt, weiß ich nicht." Ein kleiner Atemzug,
+  selbst widerlegt hat. Kapitel sechs dieses Skripts ist meines
+  — ich habe es aus deren Vorlesungen mitgeschrieben. Dey ist
+  blind, schon länger, als ich dey kenne; das Schreiben war
+  immer mein Teil der Abmachung. Dey las vor, ich notierte. Das
+  Kapitel ist die einzige Abhandlung, die ich über Schatten als
+  Sub-Variante des Lichts kenne. Niemand hat je einen
+  dokumentierten Schatten-Wandler kennengelernt, der bereit war,
+  sich untersuchen zu lassen. Dey verließ die Akademie vor
+  vierzig Jahren. Ob dey noch lebt, weiß ich nicht." Ein kleiner
+  Atemzug,
   dann nichts. "Lesen Sie das Kapitel. Wenn Sie je Belege für
   einen aktuellen Schatten-Wandler finden, schreiben Sie die
   Arbeit. Widmen Sie sie angemessen."

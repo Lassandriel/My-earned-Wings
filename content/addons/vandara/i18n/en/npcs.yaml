@@ -175,12 +175,17 @@ npc_vandara_veyra_6: >-
   variant of Light. Like Dream is a sub-variant of Tide. But it
   is rare. Very rare. In forty years of diagnostics I have
   never seen one." She looks at you seriously. "I can give you
-  the theory. But the practice — I am out of my depth. You
-  need someone who has actually lived it. There is..." She
-  hesitates. "There is someone. But they are not at the
-  academy any more. Ask Fafa at the fountain. She knows where.
-  And be careful, {player} — 'shadow' sounds romantic, but
-  not everyone in this city sees it that way."
+  the theory. But the practice — I am out of my depth. I cannot
+  teach you what I have never felt." She sets down her quill,
+  hesitates, then continues quieter. "There was a colleague
+  here, a long time ago. Sariel. Brilliant. Element-agnostic on
+  paper until they disproved it themselves. We lost touch when
+  they left the academy — forty years ago, give or take. I
+  haven't heard their name in a long time, and I don't know
+  whether they still lecture. But if anyone can teach you the
+  practice of shadow, it is Sariel." She meets your eyes.
+  "Be careful, {player}. 'Shadow' sounds romantic. Not everyone
+  in this city sees it that way."
 
 # Element trials — short reaction blurbs (used as each trial's
 # dialogueKey in the step).
@@ -206,17 +211,6 @@ vandara_trial_light_dialog: >-
   "There. That was something. But not clean light. Come back
   as soon as you can — I want to look at this more closely."
 
-# ─── Fafa stage 5 — patch, leads to Sariel ───────────
-npc_vandara_fafa_5: >-
-  Fafa has been waiting for you. Today she stands, doesn't
-  crouch. "You went to Veyra. She told you." Not a question.
-  "I knew the day you first put shards in my hand — you made
-  the wall behind me shorter. A little. Nobody else can see
-  it." She takes your hand and leads you down the steps into
-  the drain. "Come. There's someone who's waited fifty years
-  for somebody like you. Don't be polite. Don't be careful.
-  Just be there."
-
 # ─── Sariel — shadow mentor in the catacombs ──────────
 npc_vandara_sariel_1: >-
   The tunnel opens into a small chamber. A single candle burns
@@ -232,15 +226,23 @@ npc_vandara_sariel_1: >-
   I don't need any light."
 
 npc_vandara_sariel_2: >-
-  "You want to know what shadow is." Sariel pushes an old book
-  in your direction without looking. "Here. Arcane Foundations chapter
-  six. Quinell recommended it to you, didn't he? He copied it
-  out of my class forty years ago. Read." A pause. "Or don't. I
-  know it by heart. Shadow is light that has enough depth to
-  develop a will of its own. When light falls into a room, a
-  light-shifter makes brightness. You make hollows. The hollows
-  LISTEN. Got it? No? Good. That was a lie because I wanted to
-  keep it short. Read the chapter."
+  "You want to know what shadow is." Sariel doesn't move toward
+  the table — there's no book here, nothing to push. "Quinell
+  sent you, didn't he. Or made you send yourself. He gave you
+  that chapter of his — chapter six." A small dry sound that
+  isn't quite a laugh. "He sat in my class for two years
+  scratching down everything I said. The chapter is his. I have
+  never written a single word in my life — I have been blind
+  since before I ever stood at a lectern. So when he handed you
+  that book, what you held was Quinell's transcription of me,
+  not a copy of anything mine. There was nothing to copy.
+  Whether he got it right is between him and his own honesty."
+  A pause. "The gist is short. Shadow is light that has enough
+  depth to develop a will of its own. A light-shifter makes
+  brightness. You make hollows. The hollows LISTEN. Got it? No?
+  Good — that was a lie because I wanted to keep it short. Read
+  his chapter anyway. He wrote it cleaner than I'd speak it
+  twice."
 
 npc_vandara_sariel_3: >-
   "Stand in the light." Sariel gestures at the candle. "Now
@@ -494,12 +496,15 @@ npc_vandara_quinell_7: >-
   the laws hold without remainder. The remaining twenty are
   what doctoral theses are made of." For the first time, he
   pauses noticeably. "There was a colleague here once. Sariel.
-  Element-agnostic, the records say, until dey themselves
-  disproved that. Chapter six of these notes is theirs — a
-  treatise on Shadow as a sub-variant of Light. Pure theory.
+  Element-agnostic, the records said, until they themselves
+  disproved that. Chapter six of these notes is mine — I
+  transcribed it from their lectures. They are blind, have been
+  since before I knew them; the writing was always my part of
+  the arrangement. They lectured, I wrote. The chapter is the
+  only treatise I know on Shadow as a sub-variant of Light.
   No one has ever met a documented shadow-shifter willing to
-  be examined. Dey left the academy forty years ago. Whether
-  dey still lives, I do not know." A small breath, then nothing.
+  be examined. They left the academy forty years ago. Whether
+  they still live, I do not know." A small breath, then nothing.
   "Read the chapter. If you ever find evidence of a current
   shadow-shifter, write the thesis. Dedicate it appropriately."
 

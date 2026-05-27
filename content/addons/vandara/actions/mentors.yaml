@@ -54,14 +54,16 @@
         flags.vandara-ormias-intro-done: true
         flags.vandara-quinell-intro-done: true
       dialogueKey: npc_vandara_veyra_5
-    # Stufe 6 — Nachwirkung. Veyra erklärt was Schatten als Licht-
-    # Sub bedeutet, gesteht ihre Grenzen ein, deutet auf jemanden
-    # in den Katakomben (Sariel — die der Spieler vermutlich schon
-    # kennt, mysteriös und Element-agnostisch). Gleichzeitig:
-    # andere Vandara-NPCs (Wächter, Fafa, Sariel) "merken" diese
-    # Veränderung am Spieler — Story-Bumps via extendNPCArc machen
-    # ihre nächsten Steps sichtbar OHNE Pre-Reveal-Spoiler in den
-    # Progress-Balken.
+    # Stufe 6 — Nachwirkung. Veyra erklärt Schatten als Sub-
+    # Variante des Lichts, gesteht ihre Grenzen ein. Sie kennt
+    # Fafa NICHT (die ist Bettlerin, Veyra ist Akademie). Aber
+    # sie kannte Sariel als Kollegin vor 40 Jahren — den Namen
+    # gibt sie weiter. Das ist der Mechanik-Trigger für Sariels
+    # Schatten-Schulung (Steps 2-4). Wächter Step 2 wird via
+    # extendNPCArc ebenfalls klickbar — er erkennt den Spieler
+    # bei der nächsten Begegnung anders. Fafa hat hier nichts
+    # zu tun — ihr Stufe-4-Beat (Katakomben-Unlock) lief
+    # bereits vor dem Reveal über Sariels Step-1-Freischaltung.
     - cost: 10
       costType: energy
       onSuccess:
@@ -74,9 +76,6 @@
         # Wächter 1 → 2: Wieder-Begegnung (Respekt) wird klickbar.
         - type: extendNPCArc
           npcId: npc-vandara-gate-guard
-        # Fafa 4 → 5: Bestätigungs-Beat (Step 5 Patch) wird klickbar.
-        - type: extendNPCArc
-          npcId: npc-vandara-fafa
         # Sariel 1 → 4: echte Schatten-Schulung (Steps 2-4). by: 3
         # weil Sariel total 4 Steps hat und vorher nur Step 1
         # (Element-agnostische Erstbegegnung) erreichbar war.

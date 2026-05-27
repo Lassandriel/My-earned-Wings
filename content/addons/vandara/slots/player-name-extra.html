@@ -1,0 +1,9 @@
+<!--
+  Vandara — sub-label under the player name in the status card.
+  Appears once the shadow reveal has fired (Veyra step 6 sets
+  the flag). Pure passive text — there is no title system entry
+  for it, just a story-derived identity badge.
+-->
+<template x-if="$store.game.flags['vandara-shadow-revealed']">
+  <div class="vandara-identity-tag" x-text="$store.game.t('ui_vandara_shadow_shifter_label')"></div>
+</template>
