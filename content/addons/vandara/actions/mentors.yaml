@@ -4,7 +4,12 @@
 # für Ormias, Zauberformel-Lab für Quinell) kommen in eigenen
 # Iterationen als zusätzliche Actions je Mentor.
 
-# ─── Veyra — Elementare Resonanz ──────────────────────────────
+# ─── Veyra — Element-Diagnostik (Sprechstunde, kein Lehrfach) ──
+# Veyra ist keine Mentorin im klassischen Sinn — sie hat keine
+# Klasse. Olié schickt den Spieler nur zu ihr, weil das Element
+# unklar ist (Sprechstunde-Setting). Der Reveal-Arc läuft trotzdem
+# über sie, weil sie die Diagnose macht und damit am Ende auch das
+# Schatten-Element findet. Andere Studenten gehen nie zu ihr.
 - id: act-npc-vandara-veyra
   npcId: npc-vandara-veyra
   category: npc
@@ -120,7 +125,7 @@
       dialogueKey: npc_vandara_ormias_4
   customExecute: npc_execute
 
-# ─── Quinell — Magietheorie ────────────────────────────────────
+# ─── Quinell — Arkane Grundlagen ───────────────────────────────
 - id: act-npc-vandara-quinell
   npcId: npc-vandara-quinell
   category: npc

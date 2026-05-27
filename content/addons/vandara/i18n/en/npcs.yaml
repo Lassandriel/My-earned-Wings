@@ -27,12 +27,14 @@ npc_vandara_olie_3: >-
   "Here is your ID." Olié hands you a thin, weighty plaque of
   polished rose gold. "It gets you anywhere you're allowed — and a
   few places you're not, but nobody checks." He taps a list on his
-  desk. "Your mentors. Magistra Veyra teaches Elemental Resonance —
-  she'll determine your element. Lector Ormias holds Dragon
-  Studies. Doctor Quinell handles Magical Theory. And Practitioner
-  Pamle gives Alchemy, but her class needs a workshop — you'll
-  have to arrange that yourself before her lessons make any
-  sense." A polite nod. "Welcome to Vandara, student."
+  desk. "Your mentors. Lector Ormias holds Dragon Studies. Doctor
+  Quinell handles Arcane Foundations. And Practitioner Pamle gives
+  Alchemy, though her class only makes sense once you've arranged
+  a workshop yourself." A polite pause. "Since you couldn't state
+  your element, I'll also send you to Magistra Veyra. She handles
+  the diagnostics — not a class, a consultation. The best in the
+  city. The academy is fortunate to keep her." A polite nod.
+  "Welcome to Vandara, student."
 
 # Kal're — trader in the streets of Vandara
 npc_vandara_kalre_1: >-
@@ -110,22 +112,27 @@ npc_vandara_fafa_4: >-
 
 # ─── Veyra — Elemental Resonance ──────────────────────
 npc_vandara_veyra_1: >-
-  Magistra Veyra welcomes you in a bright, almost too-bright hall.
-  She is a Sun Amphithere — feathered serpent in gold and soft
-  orange, her feathers catching the light from the tall windows
-  and scattering it everywhere. "Welcome, {player}. I'm Veyra. My
-  course is called Elemental Resonance — sounds fancy, isn't. We
-  find out what you are." She laughs gently. "Don't stress.
-  Most students already know from home. The few who don't —
-  often the most interesting ones."
+  Magistra Veyra welcomes you into a sun-bright consultation room —
+  tall windows, a velvet examination couch, instruments arranged on
+  a side table beside a small carafe of cooled water. She is a Sun
+  Amphithere, gold and soft orange, her feathers scattering the
+  daylight across every surface. "Welcome, {player}. Olié sent you,
+  yes? Good. This isn't a class — it's a consultation. You
+  couldn't give him an element. That's quite alright." She gestures
+  at the couch. "We'll find out together. Most students already
+  know from home. The few who don't — often the most interesting
+  ones."
 
 npc_vandara_veyra_2: >-
-  "First, the basics." Veyra coils around a pillar and looks down
-  at you. "Magic is bound. To your element. You can't 'switch' —
-  you can only discover. Some feel fire in their hands, others
-  water in their breath. Others need exercises to notice: 'oh,
-  this one pulls at me.' We do it slowly. Today only theory.
-  Next time we try something."
+  "First, the anamnesis." Veyra makes notes on a small slate, her
+  feathered crest tilted with attention. "Tell me what you've felt
+  at home. Anything that pulled at you — warmth in your hands,
+  weight in your chest, dryness in your throat when angry, a sound
+  no one else heard. Even nothing is an answer." She listens
+  patiently. "Magic is bound to your element. You can't switch,
+  you can only find. Some recognise it from a single moment.
+  Others need exercises. We'll do both. Next time we begin the
+  resonance tests."
 
 npc_vandara_veyra_3: >-
   "Close your eyes." Veyra dims the lights with a wing-stroke.
@@ -217,7 +224,7 @@ npc_vandara_sariel_1: >-
 
 npc_vandara_sariel_2: >-
   "You want to know what shadow is." Sariel pushes an old book
-  in your direction without looking. "Here. Magic Theory chapter
+  in your direction without looking. "Here. Arcane Foundations chapter
   six. Quinell recommended it to you, didn't he? He copied it
   out of my class forty years ago. Read." A pause. "Or don't. I
   know it by heart. Shadow is light that has enough depth to
@@ -339,13 +346,13 @@ npc_vandara_ormias_4: >-
   'there are only six types', that's true. Probably." He clears
   his throat. "In eighty percent of cases."
 
-# ─── Quinell — Magic Theory ───────────────────────────
+# ─── Quinell — Arcane Foundations ───────────────────────────
 npc_vandara_quinell_1: >-
   Doctor Quinell is a crystal-dragon-shifter — scales like cut
   rock crystal that refract the hall's light into every colour
   of the spectrum. He stands behind a lectern, motionless.
-  "Welcome. Magic Theory is the most boring lecture you will
-  hear at this academy. And the most important. If you don't
+  "Welcome. Arcane Foundations is the most boring lecture you
+  will hear at this academy. And the most important. If you don't
   understand what magic IS, you will never apply it precisely.
   You will cast like a dog swims — functional, ugly, inefficient.
   We start with definitions."
