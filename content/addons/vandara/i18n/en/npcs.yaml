@@ -26,10 +26,13 @@ npc_vandara_olie_2: >-
 npc_vandara_olie_3: >-
   "Here is your ID." Olié hands you a thin, weighty plaque of
   polished rose gold. "It gets you anywhere you're allowed — and a
-  few places you're not, but nobody checks. Ask around on the
-  streets if you get lost. Kal're at the market talks to everyone.
-  And... old Fafa at the fountain — give her a few shards, she's
-  seen more of this city than all our files combined."
+  few places you're not, but nobody checks." He taps a list on his
+  desk. "Your mentors. Magistra Veyra teaches Elemental Resonance —
+  she'll determine your element. Lector Ormias holds Dragon
+  Studies. Doctor Quinell handles Magical Theory. And Practitioner
+  Pamle gives Alchemy, but her class needs a workshop — you'll
+  have to arrange that yourself before her lessons make any
+  sense." A polite nod. "Welcome to Vandara, student."
 
 # Kal're — trader in the streets of Vandara
 npc_vandara_kalre_1: >-
@@ -49,10 +52,12 @@ npc_vandara_kalre_2: >-
   those they're surprisingly disciplined."
 
 npc_vandara_kalre_3: >-
-  "Wondering if I trust you yet, eh?" She laughs. "Enough. Listen,
-  I've got something else to sell you — a blueprint. A workshop,
-  small, doable. With one of those you can turn reagents into
-  something useful. Hundred shards. A bargain."
+  "Wondering if I trust you yet, eh?" She laughs. "Enough. Listen —
+  you keep buying my reagents, but you've nowhere to use them. Most
+  academy students put a small alchemy laboratory in their home.
+  Two shelves, a copper basin, a flue." She sketches it on the
+  back of a wrapper. "Here. Bring the wood and stone, you'll know
+  how to put it together now."
 
 npc_vandara_kalre_4: >-
   Kal're waves you closer. "Know what's funny about Vandara? The

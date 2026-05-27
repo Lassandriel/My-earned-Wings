@@ -21,8 +21,7 @@ npc_vandara_pamle_name: Magistra Pamle
 ui_vandara-invited: Invitation letter
 ui_vandara-admitted: Admitted to Vandara
 ui_vandara-enrolled: Enrolled at the Academy
-ui_vandara-workshop-unlocked: Workshop blueprint
-ui_vandara-workshop-built: Workshop built
+ui_build-vandara-alchemy-laboratory: Alchemy Laboratory built
 ui_vandara-katakomben-unlocked: Catacombs access
 ui_vandara-veyra-intro-done: Veyra's basic course completed
 ui_vandara-ormias-intro-done: Ormias's basic course completed
@@ -42,5 +41,5 @@ ui_vandara-alchemy-mastered: Alchemy basics mastered
 ui_ash_flower: Ash Flower
 ui_glitter_dust: Glitter Dust
 
-# Sub-tab section header for the Workshop in Main's Herstellen pane.
-ui_tab_vandara_workshop: Workshop
+# Section header for Vandara's alchemy recipes in Main's Herstellen pane.
+ui_tab_vandara_alchemy: Alchemy

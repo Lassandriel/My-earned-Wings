@@ -1,11 +1,13 @@
-# Vandara workshop recipes — the six MVP alchemy actions.
+# Vandara alchemy recipes — the six MVP brew actions.
 #
-# All have category: vandara_workshop so the Main view's Workshop
-# section (see content/addons/vandara/sections/workshop.yaml)
-# auto-picks them up. The section's recipeLockedUnlessPlaced check
-# greys the buttons out until the Alchemy Table is placed in a
-# home. Pamle's quest controls which recipes are actually unlocked
-# (act-npc-vandara-pamle steps fire unlockRecipe on success).
+# All have category: vandara_workshop so the Main view's Vandara
+# alchemy section (see content/addons/vandara/sections/workshop.yaml)
+# auto-picks them up. Each recipe gates on
+# `flags.build-vandara-alchemy-laboratory: true`, so the buttons stay
+# locked until the player has built the Alchemy Laboratory as a
+# housing addon in the Workshop tab. Pamle's quest controls which
+# recipes are actually unlocked (act-npc-vandara-pamle steps fire
+# unlockRecipe on success).
 #
 # Cost convention: every recipe needs at least 2 different
 # ingredients per Lassandriel's spec. Sofort-Effekte use
@@ -25,7 +27,7 @@
   category: vandara_workshop
   icon: "🧪"
   requirements:
-    placedItems: { op: 'includes', val: 'item-alchemy-table' }
+    flags.build-vandara-alchemy-laboratory: true
   costs:
     herbs: 2
     water: 1
@@ -42,7 +44,7 @@
   category: vandara_workshop
   icon: "🧪"
   requirements:
-    placedItems: { op: 'includes', val: 'item-alchemy-table' }
+    flags.build-vandara-alchemy-laboratory: true
   costs:
     flowers: 1
     water: 2
@@ -61,7 +63,7 @@
   category: vandara_workshop
   icon: "🍵"
   requirements:
-    placedItems: { op: 'includes', val: 'item-alchemy-table' }
+    flags.build-vandara-alchemy-laboratory: true
   costs:
     glowpollen: 2
     flowers: 1
@@ -78,7 +80,7 @@
   category: vandara_workshop
   icon: "✨"
   requirements:
-    placedItems: { op: 'includes', val: 'item-alchemy-table' }
+    flags.build-vandara-alchemy-laboratory: true
   costs:
     ash_flower: 1
     glitter_dust: 2
@@ -97,7 +99,7 @@
   category: vandara_workshop
   icon: "💧"
   requirements:
-    placedItems: { op: 'includes', val: 'item-alchemy-table' }
+    flags.build-vandara-alchemy-laboratory: true
   costs:
     arcane_dust: 1
     water: 2
@@ -115,7 +117,7 @@
   category: vandara_workshop
   icon: "🔥"
   requirements:
-    placedItems: { op: 'includes', val: 'item-alchemy-table' }
+    flags.build-vandara-alchemy-laboratory: true
   costs:
     ash_flower: 3
     resin: 1

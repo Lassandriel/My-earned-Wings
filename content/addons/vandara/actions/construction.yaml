@@ -1,0 +1,27 @@
+# Vandara — Housing-Addon constructions. Follow the base game's
+# Kitchen / Arcane-Sanctum pattern: a single `category: housing`
+# build action that lives in the Workshop tab next to the base
+# constructions, costs raw materials, and on success sets a flag
+# that downstream content (recipes, NPCs) keys off.
+#
+# Locked at boot — Kal're step 3 fires `unlockRecipe` on this id,
+# the same way the village blacksmith unlocks tool recipes.
+
+- id: build-vandara-alchemy-laboratory
+  chapter: Refinement
+  category: housing
+  costs:
+    wood: 60
+    stone: 40
+  image: img/addons/kitchen.webp # placeholder — replace once a real lab sprite exists
+  requirements:
+    "flags.build-house": true
+    "flags.build-vandara-alchemy-laboratory": {op: "!=", val: true}
+  sfx: craft
+  onSuccess:
+    - type: setFlag
+      flag: build-vandara-alchemy-laboratory
+      value: true
+    - type: log
+      logKey: vandara_alchemy_laboratory_built
+      color: var(--gold)

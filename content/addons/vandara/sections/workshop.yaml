@@ -1,17 +1,15 @@
-# Vandara's Workshop section — appears in Main's Herstellen sub-tab
-# once Kal're's blueprint is built (`vandara-workshop-built` flag).
-# Pure data: no HTML, no base-game touch. The Main view iterates the
-# section registry and renders this automatically.
-
-# Section visible as soon as the workshop blueprint is bought from
-# Kal're, so players see the section coming and have a reason to
-# build + place the alchemy table. Each recipe carries its own
-# `requirements: { placedItems: ... }` so the tooltip shows the
-# missing item explicitly; the greying logic in main.view.html
-# reads "is any requirement unmet" from the action directly, no
-# duplicated section-level config needed.
-- id: section-vandara-workshop
+# Vandara's alchemy section — appears in Main's Herstellen sub-tab
+# once the player has built the Alchemy Laboratory as a housing
+# addon. Pure data: no HTML, no base-game touch. The Main view
+# iterates the section registry and renders this automatically.
+#
+# Each individual recipe carries its own
+# `requirements: { flags.build-vandara-alchemy-laboratory: true }`
+# so it stays locked until the lab is built. The section-level
+# requiresFlag here is the same — hides the section header until
+# the player actually has the laboratory, no greyed-out empty pane.
+- id: section-vandara-alchemy
   subTab: herstellen
-  headerLabel: ui_tab_vandara_workshop
+  headerLabel: ui_tab_vandara_alchemy
   actionCategory: vandara_workshop
-  requiresFlag: vandara-workshop-unlocked
+  requiresFlag: build-vandara-alchemy-laboratory

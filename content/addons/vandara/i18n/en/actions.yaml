@@ -34,12 +34,9 @@ act-vandara-buy-arcane-dust:
   title: "Buy Arcane Dust"
   effect: arcane_dust
 
-act-vandara-buy-workshop-blueprint:
-  title: "Buy Workshop Blueprint"
-  unlocks: "Recipe: Build Workshop"
-
-act-build-workshop:
-  title: "Build Workshop"
+build-vandara-alchemy-laboratory:
+  title: "Build Alchemy Laboratory"
+  unlocks: "Pamle's brew recipes (after teaching)"
 
 act-npc-vandara-veyra:
   title: Magistra Veyra

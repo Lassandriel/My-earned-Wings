@@ -16,11 +16,16 @@
   icon: 🌋
   journalColor: '#dc2626'
   steps:
-    # 1. Free intro — teaches the two basic recipes.
+    # 1. Free intro — teaches the two basic recipes. Gated on the
+    # Alchemy Laboratory being built at home, because Pamle's lessons
+    # are pointless without somewhere to brew. Olié points the player
+    # at the workshop arrangement; Kal're step 3 teaches the build
+    # recipe; the player then builds the lab in the Workshop tab.
     - cost: 10
       costType: energy
       requirements:
         flags.vandara-enrolled: true
+        flags.build-vandara-alchemy-laboratory: true
       onSuccess:
         - type: unlockRecipe
           id: act-vandara-brew-energy-potion-small

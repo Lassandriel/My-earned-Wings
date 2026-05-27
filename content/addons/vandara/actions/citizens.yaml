@@ -75,8 +75,15 @@
     - cost: 5
       costType: energy
       dialogueKey: npc_vandara_kalre_2
+    # Step 3 — teaches the player how academy students set up an
+    # alchemy laboratory at home. Mirrors the village blacksmith /
+    # sage pattern: dialogue step fires `unlockRecipe`, the player
+    # then crafts in the Workshop tab next to Kitchen / Sanctum.
     - cost: 5
       costType: energy
+      onSuccess:
+        - type: unlockRecipe
+          id: build-vandara-alchemy-laboratory
       dialogueKey: npc_vandara_kalre_3
     - cost: 5
       costType: energy
@@ -148,52 +155,6 @@
     arcane_dust: 1
   sfx: click
   particleType: shards
-
-# Workshop blueprint — one-time purchase. Unlocks the recipe that
-# builds the Alchemy Table furniture item; once that's placed in a
-# home, Pamle's six brew recipes (see actions/alchemy.yaml) become
-# craftable as she teaches them.
-- id: act-vandara-buy-workshop-blueprint
-  category: village
-  icon: "📐"
-  cost: 100
-  costType: shards
-  onSuccess:
-    - type: unlockRecipe
-      id: act-build-workshop
-    - type: setFlag
-      flag: vandara-workshop-unlocked
-      value: true
-    - type: log
-      logKey: vandara_workshop_blueprint
-      color: var(--gold)
-  sfx: click
-
-# Workshop build recipe. Costs ingredients, produces the
-# `item-alchemy-table` furniture item the player can then place
-# in a home. The `vandara-workshop-built` flag is still set so
-# downstream content that only cares about "they completed the
-# build" (without caring whether they've placed the table yet)
-# can key off it. Recipe gating uses the placed-item check —
-# section logic in main.view.html greys recipes out until the
-# table is actually in a home.
-- id: act-build-workshop
-  category: crafting
-  icon: "🏗️"
-  cost: 50
-  costType: wood
-  requirements:
-    flags.vandara-workshop-unlocked: true
-  onSuccess:
-    - type: unlockItem
-      id: item-alchemy-table
-    - type: setFlag
-      flag: vandara-workshop-built
-      value: true
-    - type: log
-      logKey: vandara_workshop_built
-      color: var(--gold)
-  sfx: build
 
 # ─── Fafa — beggar ────────────────────────────────────────────
 # Four-step interaction. First three cost a token donation; she

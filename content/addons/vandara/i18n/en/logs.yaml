@@ -6,12 +6,9 @@ vandara_admitted: >-
 vandara_enrolled: >-
   Olié hands you the student ID. You are officially a student of
   the Rose Gold Academy.
-vandara_workshop_blueprint: >-
-  Kal're unrolls a small, precisely drawn blueprint — a workshop
-  design.
-vandara_workshop_built: >-
-  Your small workshop is up. Now you just need someone to show you
-  what to do with it.
+vandara_alchemy_laboratory_built: >-
+  Your Alchemy Laboratory is up. Now you just need someone to show
+  you what to do with it.
 vandara_katakomben_unlocked: >-
   Fafa shows you the hidden entrance to the catacombs beneath
   Vandara. Another city lies below.

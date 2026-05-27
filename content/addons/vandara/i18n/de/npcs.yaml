@@ -31,11 +31,14 @@ npc_vandara_olie_3: >-
   "Hier ist Ihr Ausweis." Olié reicht dir ein dünnes, schweres
   Plättchen aus poliertem Roségold. "Damit kommen Sie überall hin,
   wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht
-  hindürften, aber die niemand kontrolliert. Erkundigen Sie sich auf
-  den Straßen, falls Sie sich verlaufen. Kal're am Markt redet mit
-  jedem. Und... mit der alten Fafa am Brunnen — geben Sie ihr ein
-  paar Splitter, sie hat mehr in dieser Stadt gesehen als alle
-  Akten zusammen."
+  hindürften, aber die niemand kontrolliert." Er tippt auf eine
+  Liste auf seinem Schreibtisch. "Ihre Mentoren. Magistra Veyra
+  unterrichtet Elementare Resonanz — sie wird Ihr Element
+  bestimmen. Lektor Ormias hält Drachenkunde. Doktor Quinell
+  betreut die Magietheorie. Und Praktikerin Pamle gibt Alchemie,
+  allerdings braucht ihr Unterricht eine Werkstatt — die müssen Sie
+  selbst organisieren, bevor ihre Stunden irgendeinen Sinn ergeben."
+  Ein höfliches Nicken. "Willkommen in Vandara, Studentin."
 
 # Kal're — Händlerin auf den Straßen Vandaras
 npc_vandara_kalre_1: >-
@@ -55,10 +58,13 @@ npc_vandara_kalre_2: >-
   da sind sie erstaunlich diszipliniert."
 
 npc_vandara_kalre_3: >-
-  "Du fragst dich, ob ich dir traue, ja?" Sie lacht. "Genug. Hör mal,
-  ich verkaufe dir gleich noch was anderes — einen Bauplan. Ein
-  Workshop, klein, machbar. Mit dem kannst du Reagenzien zu was
-  Nützlichem verarbeiten. Hundert Splitter. Ein Schnäppchen."
+  "Du fragst dich, ob ich dir traue, ja?" Sie lacht. "Genug. Hör mal
+  — du kaufst andauernd meine Reagenzien, aber du hast nichts, wo
+  du sie verarbeiten könntest. Die meisten Akademie-Studenten
+  stellen sich ein kleines Alchemielabor ins Haus. Zwei Regale,
+  ein Kupferbecken, ein Abzug." Sie skizziert es auf die
+  Rückseite einer Tüte. "Hier. Bring Holz und Stein mit, jetzt
+  weißt du, wie's zusammengeht."
 
 npc_vandara_kalre_4: >-
   Kal're winkt dich näher. "Weißt du, was das Lustige an Vandara
