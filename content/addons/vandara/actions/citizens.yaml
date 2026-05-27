@@ -109,10 +109,50 @@
   sfx: click
   particleType: shards
 
-# Workshop blueprint — one-time purchase. Unlocks the workshop
-# recipe; the recipe itself is a stub today (no real alchemy
-# mechanic yet) but the player can already buy reagents that the
-# workshop will eventually consume.
+# ─── Kal're's "rare goods" tier ────────────────────────────────
+# Unlocked at minProgress 5 — pays off her step 5 promise ("come to
+# me before you ask anyone else"). These are reagents the player
+# would normally gather in the village (or via base-game grinds);
+# Kal're sells them at a marked-up shard price as a shortcut. Tier-3
+# reagents (arcane_dust) are priciest, tier-2 (resin) middle,
+# tier-2-easier (glowpollen) cheapest of the three.
+- id: act-vandara-buy-glowpollen
+  category: village
+  icon: "🌼"
+  cost: 15
+  costType: shards
+  yieldType: glowpollen
+  rewards:
+    glowpollen: 1
+  sfx: click
+  particleType: shards
+
+- id: act-vandara-buy-resin
+  category: village
+  icon: "🟤"
+  cost: 20
+  costType: shards
+  yieldType: resin
+  rewards:
+    resin: 1
+  sfx: click
+  particleType: shards
+
+- id: act-vandara-buy-arcane-dust
+  category: village
+  icon: "🔮"
+  cost: 25
+  costType: shards
+  yieldType: arcane_dust
+  rewards:
+    arcane_dust: 1
+  sfx: click
+  particleType: shards
+
+# Workshop blueprint — one-time purchase. Unlocks the recipe that
+# builds the Alchemy Table furniture item; once that's placed in a
+# home, Pamle's six brew recipes (see actions/alchemy.yaml) become
+# craftable as she teaches them.
 - id: act-vandara-buy-workshop-blueprint
   category: village
   icon: "📐"

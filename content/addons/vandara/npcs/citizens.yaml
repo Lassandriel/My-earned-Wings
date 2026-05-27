@@ -30,6 +30,11 @@
     - { id: act-vandara-buy-ash-flower, minProgress: 1 }
     - { id: act-vandara-buy-glitter-dust, minProgress: 1 }
     - { id: act-vandara-buy-workshop-blueprint, minProgress: 3 }
+    # Rare-goods tier (her step 5 promise). Reagents the player could
+    # otherwise farm in the village — Kal're sells them at a markup.
+    - { id: act-vandara-buy-glowpollen, minProgress: 5 }
+    - { id: act-vandara-buy-resin, minProgress: 5 }
+    - { id: act-vandara-buy-arcane-dust, minProgress: 5 }
 
 - id: npc-vandara-fafa
   nameKey: npc_vandara_fafa_name

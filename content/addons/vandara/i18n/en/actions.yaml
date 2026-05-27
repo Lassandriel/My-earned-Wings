@@ -22,6 +22,18 @@ act-vandara-buy-glitter-dust:
   title: "Buy Glitter Dust"
   effect: glitter_dust
 
+act-vandara-buy-glowpollen:
+  title: "Buy Glowpollen"
+  effect: glowpollen
+
+act-vandara-buy-resin:
+  title: "Buy Resin"
+  effect: resin
+
+act-vandara-buy-arcane-dust:
+  title: "Buy Arcane Dust"
+  effect: arcane_dust
+
 act-vandara-buy-workshop-blueprint:
   title: "Buy Workshop Blueprint"
   unlocks: "Recipe: Build Workshop"

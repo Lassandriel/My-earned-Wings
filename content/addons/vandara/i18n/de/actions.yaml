@@ -23,6 +23,18 @@ act-vandara-buy-glitter-dust:
   title: "Glitzerstaub kaufen"
   effect: glitter_dust
 
+act-vandara-buy-glowpollen:
+  title: "Leuchtpollen kaufen"
+  effect: glowpollen
+
+act-vandara-buy-resin:
+  title: "Harz kaufen"
+  effect: resin
+
+act-vandara-buy-arcane-dust:
+  title: "Arkanstaub kaufen"
+  effect: arcane_dust
+
 act-vandara-buy-workshop-blueprint:
   title: "Werkstatt-Bauplan kaufen"
   unlocks: "Rezept: Werkstatt bauen"
