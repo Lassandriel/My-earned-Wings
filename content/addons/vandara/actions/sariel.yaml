@@ -17,7 +17,11 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraSariel
-  maxProgress: 4
+  # 5 Steps total. Step 1 ist die Erstbegegnung (vor Schatten-
+  # Reveal erreichbar). Steps 2-5 sind die echte Schatten-Schulung,
+  # gegated auf `shadow-revealed` und durch Veyras Reveal-Step via
+  # extendNPCArc by: 4 freigeschaltet.
+  maxProgress: 5
   journalIcon: 🕯️
   icon: 🕯️
   journalColor: '#1e1b4b'
@@ -28,7 +32,7 @@
       requirements:
         flags.vandara-katakomben-unlocked: true
       dialogueKey: npc_vandara_sariel_1
-    # ─── Steps 2-4: Schatten-Schulung (post-shadow-reveal) ──────
+    # ─── Steps 2-5: Schatten-Schulung (post-shadow-reveal) ──────
     # Werden via extendNPCArc von Veyras Step 6 freigeschaltet.
     # Der `shadow-revealed` Requirement ist Belt-and-braces.
     - cost: 10
@@ -53,4 +57,23 @@
           logKey: vandara_shadow_trained
           color: var(--gold)
       dialogueKey: npc_vandara_sariel_4
+    # ─── Step 5: Schatten-Bindung als Finale ────────────────────
+    # Schaltet die Auto-Wiederholungs-Mechanik frei (base game
+    # `ability-shadow-bind` Flag — taught hier statt bei Aris im
+    # Sanctum). Aus Lore-Sicht: dey zeigt dir, wie du einen
+    # Schatten an eine Aufgabe bindest, damit er sie wiederholt
+    # während du dich um anderes kümmerst. Magie-Verbrauch läuft
+    # über tickShadow im Engine.
+    - cost: 20
+      costType: magic
+      requirements:
+        flags.vandara-shadow-trained: true
+      onSuccess:
+        - type: setFlag
+          flag: ability-shadow-bind
+          value: true
+        - type: log
+          logKey: vandara_shadow_bind_learned
+          color: var(--gold)
+      dialogueKey: npc_vandara_sariel_5
   customExecute: npc_execute

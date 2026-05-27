@@ -27,15 +27,14 @@ vandara_trial_light: >-
   is unsettled-fascinated.
 vandara_shadow_revealed: >-
   Veyra has confirmed it: you are a shadow-shifter. A sub-variant
-  of Light, extremely rare. She points you to someone who can
-  actually help — Fafa knows where.
-vandara_katakomben_entered: >-
-  Fafa leads you into the catacombs. In a small chamber waits
-  someone named Sariel — candlelit, blind, and apparently
-  not surprised.
+  of Light, extremely rare. She gives you a name — Sariel, an old
+  colleague who left the academy forty years ago.
 vandara_shadow_trained: >-
   Sariel has walked you through the basics. You're awake — the
   rest comes with practice.
+vandara_shadow_bind_learned: >-
+  Sariel has taught you to bind a shadow to a task. Magic drains
+  while it works; one shadow at a time for now.
 vandara_pamle_intro_done: >-
   Pamle showed you the two basic recipes — energy potion and
   magic potion.

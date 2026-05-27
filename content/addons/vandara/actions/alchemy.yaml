@@ -74,7 +74,7 @@
   sfx: craft
   particleType: knowledge
 
-# Funkenlicht-Phiole — portable light: cuts arcane focus cost
+# Funkenlicht-Phiole — portable light: cuts shadow-bind cost
 # for 90s. Vandara-flavoured recipe (uses Kal're's reagents).
 - id: act-vandara-brew-spark-vial
   category: vandara_workshop

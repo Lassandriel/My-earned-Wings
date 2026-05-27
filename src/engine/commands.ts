@@ -14,7 +14,7 @@ import { EngineServices } from './types';
  */
 export type Command =
   | { type: 'attemptAction'; actionId: ActionId; element?: HTMLElement | null }
-  | { type: 'toggleFocus'; actionId: ActionId }
+  | { type: 'toggleShadow'; actionId: ActionId }
   | { type: 'executeAction'; actionId: ActionId };
 
 export interface CommandQueue {
@@ -51,8 +51,8 @@ export function processCommand(cmd: Command, state: GameState, services: EngineS
     case 'attemptAction':
       services.actions.attemptAction(state, cmd.element as HTMLElement, cmd.actionId);
       return;
-    case 'toggleFocus':
-      services.actions.toggleFocus(state, cmd.actionId);
+    case 'toggleShadow':
+      services.actions.toggleShadow(state, cmd.actionId);
       return;
     case 'executeAction':
       services.actions.execute(state, cmd.actionId);

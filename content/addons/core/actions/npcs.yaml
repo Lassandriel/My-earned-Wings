@@ -455,12 +455,13 @@
   icon: 🧙‍♂️
   journalColor: '#8b5cf6'
   steps:
+    # Aris step 1 used to teach the "arcane focus" automation flag.
+    # That ability has since been reframed as Shadow Bind and is now
+    # taught exclusively by Sariel in Vandara. Aris's intro is now a
+    # plain dialogue step — no mechanical reward, just the opening
+    # beat of his arc.
     - cost: 20
       costType: magic
-      onSuccess:
-        - type: setFlag
-          flag: ability-arcane-focus
-          value: true
       dialogueKey: npc_aris_1
     - cost: 30
       costType: magic

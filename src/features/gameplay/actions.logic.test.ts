@@ -17,7 +17,7 @@ const createMockState = (overrides: Partial<GameState> = {}): GameState => {
     activeBuffs: {},
     activeProducers: [],
     activeHome: null,
-    activeFocus: null,
+    activeShadow: null,
     unlockedNPCs: [],
     unlockedRecipes: [],
     discoveredItems: [],
@@ -276,8 +276,8 @@ describe('Action System', () => {
       expect(result.success).toBe(false);
     });
 
-    it('skips energy cost when activeFocus matches the action id', () => {
-      const state = createMockState({ activeFocus: 'chop_wood' as any });
+    it('skips energy cost when activeShadow matches the action id', () => {
+      const state = createMockState({ activeShadow: 'chop_wood' as any });
       const action: any = { id: 'chop_wood', costs: { energy: 5, wood: 1 } };
 
       actions.processAction(state, 'chop_wood' as any, action);
@@ -288,7 +288,7 @@ describe('Action System', () => {
 
     it('stops a focused action when satiation falls below 5', () => {
       const state = createMockState({
-        activeFocus: 'chop_wood' as any,
+        activeShadow: 'chop_wood' as any,
         stats: { satiation: 3, energy: 100, magic: 50 },
       });
       const action: any = { id: 'chop_wood' };

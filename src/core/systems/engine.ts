@@ -1,7 +1,7 @@
 import { GameState } from '../../types/game';
 import { EngineServices } from '../../engine/types';
 import { tickBuffs } from '../../engine/systems/buffs';
-import { tickFocus } from '../../engine/systems/focus';
+import { tickShadow } from '../../engine/systems/shadow';
 import { tickRegen } from '../../engine/systems/regen';
 import { tickProducers } from '../../engine/systems/producers';
 import { tickTasks } from '../../engine/systems/tasks';
@@ -153,7 +153,7 @@ export function createEngineSystem(): Engine {
 
     processTick(state: GameState, services: EngineServices, deltaTime: number) {
       tickBuffs(state, deltaTime);
-      tickFocus(state, services, deltaTime);
+      tickShadow(state, services, deltaTime);
       this.magicAccumulator = tickRegen(state, services, deltaTime, this.magicAccumulator || 0);
       this.processPassiveProduction(state, services, deltaTime);
       // Addon tick hooks run AFTER built-in ticks so they can read

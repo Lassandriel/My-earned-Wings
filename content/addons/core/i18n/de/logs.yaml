@@ -123,7 +123,7 @@ fail_full_iron_parts: Das Lager für Eisenbeschläge ist voll.
 fail_full_clay: Das Tonlager ist voll.
 fail_full_rune_fragment: Das Runenfragmentlager ist voll.
 fail_full_study_xp: Das Limit für Studien-Erfahrung wurde erreicht.
-ui_focus_stopped: Fokus aufgehoben (Bedingungen nicht mehr erfüllt).
+ui_shadow_released: Schatten gelöst (Bedingungen nicht mehr erfüllt).
 item_used: "{item} benutzt."
 wood_log: +{val} Holz gesammelt.
 stone_log: +{val} Stein abgebaut.
@@ -191,4 +191,4 @@ npc_teacher_2_no_house: >-
 npc_teacher_2_with_house: >-
   "Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns
   dem Studium widmen!"
-focus_broken_magic: Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.
+shadow_broken_magic: Deine magische Energie ist erschöpft. Der gebundene Schatten löst sich auf.

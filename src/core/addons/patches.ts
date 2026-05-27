@@ -233,7 +233,7 @@ export interface ModifierPatchEntry extends BasePatchEntry {
    * other modifiers add their own deltas. Patching this is how an
    * addon rebalances base mechanics:
    *
-   *   - `arcane_focus_cost.baseValue: 3 → 5` makes the focus
+   *   - `shadow_bind_cost.baseValue: 3 → 5` makes the shadow-bind
    *     mechanic more expensive across the board
    *   - `wood_limit.baseValue: 0 → 50` gives the player 50 wood
    *     capacity from the start instead of needing storage

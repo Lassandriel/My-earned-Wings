@@ -53,7 +53,7 @@ export type FlagId =
   | 'unlocked-mine'
   | 'unlocked-glade'
   | 'unlocked-whispering-grove'
-  | 'ability-arcane-focus'
+  | 'ability-shadow-bind'
   | 'item-axe'
   | 'item-pickaxe'
   | 'item-bow'

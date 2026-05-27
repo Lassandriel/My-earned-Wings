@@ -315,6 +315,31 @@ npc_vandara_sariel_4: >-
   part." They laugh drily. "Forty years teaching and I still
   promise the interesting stuff for next session."
 
+# ─── Step 5: the finale — Sariel teaches Shadow Bind ────────
+# Sariel actually delivers on the promise from step 4: a shadow
+# bound to a task does it for you while you do other things. Sets
+# the base-game ability flag.
+npc_vandara_sariel_5: >-
+  "You brought the bowl. Good. Set it down — there, on the
+  floor between us." Sariel doesn't move from the chair, but
+  the candle flame flickers once. "Now. The trick I promised.
+  Shadows aren't free. They are you, a part you push out into
+  the world. So binding one costs your own magic, continuously,
+  for as long as you keep it out." A long, slow pause. "Pick a
+  task. Anything you do with your hands — chopping, brewing,
+  drawing water. Look at your shadow. Then ask it to do that
+  task instead of you. Not aloud. With the same wordless push
+  you used when you grabbed the shadow off the wall last time."
+  You try. The shadow at your feet lengthens — and then it
+  lifts the bowl. Holds it. Steady. Sariel smiles, faintly.
+  "Yes. That. Now you can do something else while the shadow
+  carries on. Magic drains the whole time, mind you. When it
+  runs out the shadow lets go." Another pause. "One shadow.
+  One task. That's the cap I can teach you. Splitting your
+  attention further than that is for the next forty years, not
+  the next hour." They lean back. "Go. Do two things at once.
+  It is the closest most of us ever come to being free."
+
 # ─── Ormias — Dragon Studies ──────────────────────────
 # One session per main type, in order: intro, Great Dragons,
 # Wyverns, Lindwurms, Amphitheres, Leviathans, Seraphs, Fae,

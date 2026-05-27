@@ -11,7 +11,7 @@
   modifiers:
     - { key: energy_reg_bonus, add: 1 }
 
-# Funkenlicht-Phiole — portable light: reduces arcane focus cost
+# Funkenlicht-Phiole — portable light: reduces shadow-bind cost
 # (because the player has their own glow source to "spend"). Plot
 # hook for Sariel's shadow mechanic later — when shadow-helpers
 # need light, this is the light.
@@ -20,7 +20,7 @@
   desc: buff_vandara_spark_light_desc
   duration: 90
   modifiers:
-    - { key: arcane_focus_cost, add: -1 }
+    - { key: shadow_bind_cost, add: -1 }
 
 # Aschebrand-Tinktur — short labour boost. Wood+stone yield up,
 # 2 minutes, classic "I drank my coffee and now I'm felling trees".

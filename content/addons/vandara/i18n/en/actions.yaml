@@ -90,7 +90,7 @@ act-vandara-brew-spark-vial:
   desc: >-
     Glitter dust bound inside an ash flower. The vial glows on
     its own — a portable light you can hang from your belt.
-    Lowers the magic cost of your arcane focus.
+    Lowers the magic cost of a bound shadow.
 
 act-vandara-brew-arcane-water:
   title: "Brew Arcane Water"

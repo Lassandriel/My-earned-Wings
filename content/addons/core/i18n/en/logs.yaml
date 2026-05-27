@@ -118,7 +118,7 @@ fail_full_iron_parts: Iron parts storage is full.
 fail_full_clay: Clay storage is full.
 fail_full_rune_fragment: Rune fragment storage is full.
 fail_full_study_xp: Study experience reached its limit.
-ui_focus_stopped: Focus cleared (Conditions no longer met).
+ui_shadow_released: Shadow released (conditions no longer met).
 item_used: Used {item}.
 wood_log: +{val} Wood gathered.
 stone_log: +{val} Stone quarried.
@@ -185,4 +185,4 @@ npc_teacher_2_no_house: >-
 npc_teacher_2_with_house: >-
   "Ah, I see you have created a beautiful home. Now we can dedicate ourselves to
   the study!"
-focus_broken_magic: Your magic energy is depleted. The arcane focus has been interrupted.
+shadow_broken_magic: Your magic energy is depleted. The bound shadow slips away.

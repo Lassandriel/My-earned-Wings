@@ -150,11 +150,12 @@ export const createViewManagerSystem = () => ({
       store.view = 'main';
       if (store.audio) store.audio.startMusic();
 
-      // --- AUTO-RESUME FOCUS: Start the automation loop if a focus was loaded ---
-      if (store.activeFocus) {
+      // --- AUTO-RESUME SHADOW: If a shadow was bound when the save
+      // was written, restart its automation loop on load. ---
+      if (store.activeShadow) {
         setTimeout(() => {
-          if (store.activeFocus && store.commands) {
-            store.commands.enqueue({ type: 'executeAction', actionId: store.activeFocus });
+          if (store.activeShadow && store.commands) {
+            store.commands.enqueue({ type: 'executeAction', actionId: store.activeShadow });
           }
         }, 500);
       }
@@ -216,7 +217,7 @@ export const createViewManagerSystem = () => ({
 
     // 2. Clear auto-loops and ongoing tasks
     (store as { isLooping?: boolean }).isLooping = false;
-    store.activeFocus = null;
+    store.activeShadow = null;
     store.activeTasks = {};
 
     // 3. Set View

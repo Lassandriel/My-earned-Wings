@@ -34,7 +34,7 @@ export function renderCheatsPanel(): string {
 
       <section>
         <h3>Flags</h3>
-        <button data-cheat="setFlag" data-flag="ability-arcane-focus" data-value="true">Unlock Arcane Focus</button>
+        <button data-cheat="setFlag" data-flag="ability-shadow-bind" data-value="true">Unlock Shadow Bind</button>
         <button data-cheat="setFlag" data-flag="school_graduate" data-value="true">Village School Graduate</button>
       </section>
 

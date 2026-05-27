@@ -78,7 +78,7 @@ export function createActionSystem() {
 
   const metadata = {
     id: 'actions',
-    // Delegates removed: executeAction / attemptAction / toggleFocus on the
+    // Delegates removed: executeAction / attemptAction / toggleShadow on the
     // store are no longer needed — all callers now go through
     // services.commands.enqueue({ type: ..., actionId: ... }).
   };
@@ -168,7 +168,7 @@ export function createActionSystem() {
 
     svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
     if (action.particleText || action.yieldType) {
-      const isAutomated = game.activeFocus === id;
+      const isAutomated = game.activeShadow === id;
       spawnParticles(game, action, isAutomated);
     }
 
@@ -195,9 +195,9 @@ export function createActionSystem() {
     const fullRes = rewards ? Object.keys(rewards).find(resId => svc().resource.isFull(game, resId as ResourceId)) : null;
 
     if (fullRes) {
-      if (game.activeFocus === _id) {
-        game.activeFocus = null;
-        svc().addLog('ui_focus_stopped', 'logs', LOG_COLOR.dim);
+      if (game.activeShadow === _id) {
+        game.activeShadow = null;
+        svc().addLog('ui_shadow_released', 'logs', LOG_COLOR.dim);
       }
       svc().bus.emit(svc().EVENTS.LOG_ADDED, {
         id: 'fail_full_' + fullRes,
@@ -230,9 +230,9 @@ export function createActionSystem() {
     }
 
     // NEW: Auto-stop focus if the focused action fails
-    if (game.activeFocus === _id) {
-      game.activeFocus = null;
-      svc().addLog('ui_focus_stopped', 'logs', LOG_COLOR.dim);
+    if (game.activeShadow === _id) {
+      game.activeShadow = null;
+      svc().addLog('ui_shadow_released', 'logs', LOG_COLOR.dim);
     }
   };
 
@@ -268,12 +268,12 @@ export function createActionSystem() {
       );
 
       // Safety Guard: Automated loops stop if satiation is too low
-      if (game.activeFocus === id && (game.stats.satiation ?? 0) < 5) {
+      if (game.activeShadow === id && (game.stats.satiation ?? 0) < 5) {
         svc().addLog('fail_satiation_loop', 'logs', LOG_COLOR.failure);
         return { success: false };
       }
 
-      if (game.activeFocus === id && costs.energy) {
+      if (game.activeShadow === id && costs.energy) {
         delete costs.energy;
       }
 
@@ -447,15 +447,18 @@ export function createActionSystem() {
     },
 
     /**
-     * Toggles the "magic focus" mode for a specific action.
+     * Toggles a bound-shadow on a specific action. Replaces the
+     * older "arcane focus" framing: a shadow does the action for
+     * you while you do other things; magic drains continuously
+     * via tickShadow.
      */
-    toggleFocus(game: GameState, id: ActionId) {
+    toggleShadow(game: GameState, id: ActionId) {
       const action = svc().content.get<ActionDefinition>(id, 'actions');
-      if (game.activeFocus === id) {
-        game.activeFocus = null;
+      if (game.activeShadow === id) {
+        game.activeShadow = null;
         svc().playSound('click');
       } else {
-        game.activeFocus = id;
+        game.activeShadow = id;
         svc().playSound('magic');
         if (action && action.isLoopable) {
           this.execute(game, id);

@@ -473,9 +473,9 @@ describe('patch engine — additional entity types', () => {
 
   describe('modifier', () => {
     const mkReg = (): Record<string, any> => ({
-      arcane_focus_cost: {
-        id: 'arcane_focus_cost',
-        title: 'arcane_focus_cost_title',
+      shadow_bind_cost: {
+        id: 'shadow_bind_cost',
+        title: 'shadow_bind_cost_title',
         baseValue: 3,
       },
     });
@@ -483,21 +483,21 @@ describe('patch engine — additional entity types', () => {
     it('setBaseValue rebalances the modifier', () => {
       const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), modifier: mkReg() };
       applyPatches(
-        patch({ targetType: 'modifier', targetId: 'arcane_focus_cost', setBaseValue: 5 }),
+        patch({ targetType: 'modifier', targetId: 'shadow_bind_cost', setBaseValue: 5 }),
         reg,
         { missingTarget: 'throw' },
       );
-      expect(reg.modifier['arcane_focus_cost'].baseValue).toBe(5);
+      expect(reg.modifier['shadow_bind_cost'].baseValue).toBe(5);
     });
 
     it('accepts zero and negative values (some modifiers are deltas)', () => {
       const reg = { action: makeActionRegistry(), npc: makeNpcRegistry(), modifier: mkReg() };
       applyPatches(
-        patch({ targetType: 'modifier', targetId: 'arcane_focus_cost', setBaseValue: -1 }),
+        patch({ targetType: 'modifier', targetId: 'shadow_bind_cost', setBaseValue: -1 }),
         reg,
         { missingTarget: 'throw' },
       );
-      expect(reg.modifier['arcane_focus_cost'].baseValue).toBe(-1);
+      expect(reg.modifier['shadow_bind_cost'].baseValue).toBe(-1);
     });
   });
 

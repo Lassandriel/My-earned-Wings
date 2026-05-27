@@ -46,9 +46,9 @@
   desc: resource_efficiency_desc
   baseValue: 1
 
-- id: arcane_focus_cost
-  title: arcane_focus_cost_title
-  desc: arcane_focus_cost_desc
+- id: shadow_bind_cost
+  title: shadow_bind_cost_title
+  desc: shadow_bind_cost_desc
   baseValue: 3
 
 - id: satiation_drain_multiplier

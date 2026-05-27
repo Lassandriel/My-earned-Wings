@@ -38,7 +38,7 @@ const OBJECT_KEYS = [
  * references). Just copy across — Alpine handles primitive equality itself.
  */
 const PRIMITIVE_KEYS = [
-  'activeFocus',
+  'activeShadow',
   'view',
   'prologueStep',
   'demoCompleted',

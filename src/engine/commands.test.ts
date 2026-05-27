@@ -8,7 +8,7 @@ const createMockState = (): GameState => ({} as GameState);
 const createMockServices = (): EngineServices => ({
   actions: {
     attemptAction: vi.fn(),
-    toggleFocus: vi.fn(),
+    toggleShadow: vi.fn(),
     execute: vi.fn(() => true),
   } as any,
   pipeline: {} as any,
@@ -38,8 +38,8 @@ describe('Command Queue', () => {
 
     it('enqueue increases size, drain empties it', () => {
       const q = createCommandQueue();
-      q.enqueue({ type: 'toggleFocus', actionId: 'study' as any });
-      q.enqueue({ type: 'toggleFocus', actionId: 'craft' as any });
+      q.enqueue({ type: 'toggleShadow', actionId: 'study' as any });
+      q.enqueue({ type: 'toggleShadow', actionId: 'craft' as any });
       expect(q.size()).toBe(2);
 
       q.drain(state, services);
@@ -48,30 +48,30 @@ describe('Command Queue', () => {
 
     it('processes commands in FIFO order', () => {
       const q = createCommandQueue();
-      q.enqueue({ type: 'toggleFocus', actionId: 'first' as any });
-      q.enqueue({ type: 'toggleFocus', actionId: 'second' as any });
-      q.enqueue({ type: 'toggleFocus', actionId: 'third' as any });
+      q.enqueue({ type: 'toggleShadow', actionId: 'first' as any });
+      q.enqueue({ type: 'toggleShadow', actionId: 'second' as any });
+      q.enqueue({ type: 'toggleShadow', actionId: 'third' as any });
 
       q.drain(state, services);
 
-      const calls = (services.actions.toggleFocus as any).mock.calls;
+      const calls = (services.actions.toggleShadow as any).mock.calls;
       expect(calls.map((c: any[]) => c[1])).toEqual(['first', 'second', 'third']);
     });
 
     it('drain on an empty queue is a no-op', () => {
       const q = createCommandQueue();
       q.drain(state, services);
-      expect(services.actions.toggleFocus).not.toHaveBeenCalled();
+      expect(services.actions.toggleShadow).not.toHaveBeenCalled();
     });
 
     it('clear() empties without processing', () => {
       const q = createCommandQueue();
-      q.enqueue({ type: 'toggleFocus', actionId: 'x' as any });
+      q.enqueue({ type: 'toggleShadow', actionId: 'x' as any });
       q.clear();
 
       expect(q.size()).toBe(0);
       q.drain(state, services);
-      expect(services.actions.toggleFocus).not.toHaveBeenCalled();
+      expect(services.actions.toggleShadow).not.toHaveBeenCalled();
     });
   });
 
@@ -85,9 +85,9 @@ describe('Command Queue', () => {
       expect(services.actions.attemptAction).toHaveBeenCalledWith(state, el, 'chop_wood');
     });
 
-    it('toggleFocus → services.actions.toggleFocus(state, id)', () => {
-      processCommand({ type: 'toggleFocus', actionId: 'study' as any }, state, services);
-      expect(services.actions.toggleFocus).toHaveBeenCalledWith(state, 'study');
+    it('toggleShadow → services.actions.toggleShadow(state, id)', () => {
+      processCommand({ type: 'toggleShadow', actionId: 'study' as any }, state, services);
+      expect(services.actions.toggleShadow).toHaveBeenCalledWith(state, 'study');
     });
 
     it('executeAction → services.actions.execute(state, id)', () => {

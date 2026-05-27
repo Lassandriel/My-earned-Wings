@@ -27,7 +27,7 @@ const createMockStore = (overrides: Partial<GameState> = {}): any => {
     activeBuffs: {},
     activeTasks: {},
     activeProducers: [],
-    activeFocus: null,
+    activeShadow: null,
     counters: { totalTime: 0 },
     placedItems: [],
 
@@ -111,7 +111,7 @@ describe('Engine System', () => {
   describe('Arcane Focus', () => {
     it('consumes magic per second while focus is active', () => {
       const store = createMockStore({
-        activeFocus: 'study',
+        activeShadow: 'study',
         stats: { magic: 100, satiation: 50 },
       });
       // pipeline returns base cost (3) unchanged
@@ -121,21 +121,21 @@ describe('Engine System', () => {
 
       expect(store.resource.consume).toHaveBeenCalledWith(store, 'magic', 3, true);
       expect(store.stats.magic).toBe(97);
-      expect(store.activeFocus).toBe('study');
+      expect(store.activeShadow).toBe('study');
     });
 
     it('breaks focus and logs a message when magic is insufficient', () => {
       const store = createMockStore({
-        activeFocus: 'study',
+        activeShadow: 'study',
         stats: { magic: 1, satiation: 50 }, // less than cost of 3
       });
       (store.pipeline.calculate as any).mockReturnValue(3);
 
       engine.processTick(store, store, 1);
 
-      expect(store.activeFocus).toBeNull();
+      expect(store.activeShadow).toBeNull();
       expect(store.addLog).toHaveBeenCalledWith(
-        'focus_broken_magic',
+        'shadow_broken_magic',
         'logs',
         expect.any(String),
       );

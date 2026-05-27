@@ -196,8 +196,8 @@
   border-color: rgba(20, 184, 166, 0.4);
 }
 
-/* Focus Toggle Enhancements */
-.focus-toggle-btn {
+/* Shadow Bind toggle (Sariel's automation ability) */
+.shadow-bind-btn {
   position: absolute;
   right: 8px;
   top: 50%;
@@ -215,21 +215,21 @@
   border: 1px solid transparent;
 }
 
-.focus-toggle-btn:hover {
+.shadow-bind-btn:hover {
   opacity: 0.8;
   background: rgba(20, 184, 166, 0.2);
   border-color: var(--accent-teal);
 }
 
-.focus-toggle-btn.is-focused {
+.shadow-bind-btn.is-bound {
   opacity: 1;
   background: var(--accent-teal);
   color: #0f172a;
   box-shadow: 0 0 15px var(--accent-teal);
-  animation: focusPulse 2s infinite;
+  animation: shadowBindPulse 2s infinite;
 }
 
-@keyframes focusPulse {
+@keyframes shadowBindPulse {
   0%, 100% { transform: translateY(-50%) scale(1); box-shadow: 0 0 10px var(--accent-teal); }
   50% { transform: translateY(-50%) scale(1.1); box-shadow: 0 0 20px var(--accent-teal); }
 }

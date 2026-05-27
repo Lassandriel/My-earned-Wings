@@ -22,7 +22,7 @@ const log = makeLogger('SAVE');
 
 /** Bump this whenever you add a migration. The number must match the
  *  highest key in MIGRATIONS. */
-export const SAVE_SCHEMA_VERSION = 2;
+export const SAVE_SCHEMA_VERSION = 3;
 
 /** A migration takes an old-shape state and brings it to the next version. */
 export type Migration = (state: Record<string, unknown>) => void;
@@ -81,6 +81,24 @@ export const MIGRATIONS: Record<number, Migration> = {
         state.counters as Record<string, unknown>,
         PHASE_15_RENAMES,
       ) as Record<string, number>;
+    }
+  },
+
+  // v2 → v3: "Arcane Focus" automation system was rebranded as
+  // "Shadow Bind" — taught by Sariel in Vandara instead of Aris in
+  // the Arcane Sanctum, and lore-framed as a bound shadow doing the
+  // action for the player. State field and flag both renamed.
+  3: (state) => {
+    if ('activeFocus' in state) {
+      state.activeShadow = state.activeFocus;
+      delete state.activeFocus;
+    }
+    if (state.flags && typeof state.flags === 'object') {
+      const flags = state.flags as Record<string, unknown>;
+      if ('ability-arcane-focus' in flags) {
+        flags['ability-shadow-bind'] = flags['ability-arcane-focus'];
+        delete flags['ability-arcane-focus'];
+      }
     }
   },
 };

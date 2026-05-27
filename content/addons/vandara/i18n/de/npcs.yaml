@@ -338,6 +338,34 @@ npc_vandara_sariel_4: >-
   trocken. "Vierzig Jahre Lehrkraft und ich verspreche immer
   noch das Spannende für die nächste Stunde."
 
+# ─── Step 5: das Finale — Sariel lehrt Schatten-Bindung ─────
+# Dey löst das Versprechen aus Step 4 ein: ein an eine Aufgabe
+# gebundener Schatten erledigt sie für dich, während du etwas
+# anderes machst. Setzt das Base-Game-Ability-Flag.
+npc_vandara_sariel_5: >-
+  "Du hast die Schale mitgebracht. Gut. Stell sie ab — dort,
+  auf den Boden zwischen uns." Sariel bewegt sich nicht vom
+  Stuhl, aber die Kerzenflamme flackert einmal. "So. Der Trick,
+  den ich dir versprochen habe. Schatten sind nicht umsonst. Sie
+  sind du, ein Teil von dir, den du in die Welt schiebst. Einen
+  zu binden kostet deine eigene Magie, fortlaufend, solange du
+  ihn draußen hältst." Eine lange, langsame Pause. "Wähl eine
+  Aufgabe. Irgendetwas, das du mit den Händen machst — Hacken,
+  Brauen, Wasser schöpfen. Schau auf deinen Schatten. Dann bitte
+  ihn, die Aufgabe statt deiner zu machen. Nicht laut. Mit dem
+  gleichen wortlosen Druck, mit dem du letztens den Schatten von
+  der Wand gegriffen hast." Du versuchst es. Der Schatten zu
+  deinen Füßen wird länger — und dann hebt er die Schale. Hält
+  sie. Ruhig. Sariel lächelt schwach. "Ja. Genau das. Jetzt
+  kannst du etwas anderes tun, während der Schatten weitermacht.
+  Magie läuft die ganze Zeit ab, vergiss das nicht. Wenn sie zur
+  Neige geht, lässt der Schatten los." Noch eine Pause. "Einen
+  Schatten. Eine Aufgabe. Mehr kann ich dir nicht beibringen.
+  Aufmerksamkeit weiter zu spalten als das ist die Arbeit der
+  nächsten vierzig Jahre, nicht der nächsten Stunde." Dey lehnt
+  sich zurück. "Geh. Mach zwei Dinge gleichzeitig. Das ist das
+  Nächste, was die meisten von uns je dem Freisein kommen."
+
 # ─── Ormias — Drachenkunde ────────────────────────────
 # Eine Lehrstunde pro Hauptart: Intro, Großdrachen, Wyvern,
 # Lindwürmer, Amphithere, Leviathane, Seraphe, Fae, und zum

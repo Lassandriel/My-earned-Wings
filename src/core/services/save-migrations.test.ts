@@ -118,6 +118,43 @@ describe('save-migrations', () => {
     });
   });
 
+  describe('v2 → v3 (arcane focus → shadow bind)', () => {
+    const v3 = MIGRATIONS[3]!;
+    it('exists', () => expect(v3).toBeDefined());
+
+    it('renames activeFocus → activeShadow', () => {
+      const state: Record<string, unknown> = { activeFocus: 'act-wood' };
+      v3(state);
+      expect(state.activeShadow).toBe('act-wood');
+      expect('activeFocus' in state).toBe(false);
+    });
+
+    it('preserves null activeFocus as null activeShadow', () => {
+      const state: Record<string, unknown> = { activeFocus: null };
+      v3(state);
+      expect(state.activeShadow).toBeNull();
+      expect('activeFocus' in state).toBe(false);
+    });
+
+    it('renames the ability-arcane-focus flag', () => {
+      const state: Record<string, unknown> = {
+        flags: { 'ability-arcane-focus': true, unrelated: true },
+      };
+      v3(state);
+      const flags = state.flags as Record<string, boolean>;
+      expect(flags['ability-shadow-bind']).toBe(true);
+      expect('ability-arcane-focus' in flags).toBe(false);
+      expect(flags.unrelated).toBe(true);
+    });
+
+    it('is a no-op when neither field nor flag is present', () => {
+      const state: Record<string, unknown> = { playerName: 'Lassi' };
+      v3(state);
+      expect(state.playerName).toBe('Lassi');
+      expect('activeShadow' in state).toBe(false);
+    });
+  });
+
   // Addon migration framework: addons that ship a migrations.ts get their
   // SCHEMA_VERSION + MIGRATIONS table picked up by the load path. We test
   // the runner here with synthetic modules — real addon migrations live

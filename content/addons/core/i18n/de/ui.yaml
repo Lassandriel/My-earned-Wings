@@ -54,7 +54,7 @@ ui_item: Gegenstand
 ui_bonus: "Bonus:"
 ui_decorative: Dekorativ
 ui_gourmet-meal: Gourmet-Mahlzeit
-ui_focus: Fokus
+ui_shadow_bind: Schatten-Bindung
 ui_naming_title: Dein Name
 ui_naming_desc: Wie soll die Welt von Draconia dich nennen?
 ui_naming_placeholder: Wandler-Name...
@@ -152,7 +152,7 @@ ui_continue_hint: Klicke zum Fortfahren...
 ui_skip_hint: "[ESC] zum Überspringen | [ENTER] zum Fortfahren"
 ui_skip_btn: Intro überspringen
 ui_limit: Limit
-ui_focus_stopped: Fokus aufgehoben (Bedingungen nicht mehr erfüllt).
+ui_shadow_released: Schatten gelöst (Bedingungen nicht mehr erfüllt).
 fail_satiation_loop: Zu hungrig für konzentrierte Arbeit!
 malus_satiation: Sättigung kritisch! Dein Ertrag ist stark verringert.
 fail_low_efficiency: Deine Effizienz ist niedrig (Sättigung prüfen).
@@ -279,7 +279,7 @@ particle_blessing: Segen!
 ui_duration: Laufzeit
 ui_remaining_prefix: Noch
 ui_seconds: Sekunden
-ui_focus_toggle: Fokus-Modus umschalten
+ui_shadow_bind_toggle: Schatten an diese Aktion binden
 nav_inventory: Inventar und Ressourcen
 receive_apple: Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.
 item_crystal_apple_title: Kristallapfel
@@ -345,8 +345,8 @@ clay_limit_desc: Erhöht die Kapazität für Ton.
 iron_parts_limit_title: Eisen-Kapazität
 iron_parts_limit_desc: Erhöht die Kapazität für Eisenbeschläge.
 resource_efficiency_title: Ressourcen-Effizienz
-arcane_focus_cost_title: Arkaner Fokus-Kosten
-arcane_focus_cost_desc: Verringert die Kosten für den arkanen Fokus.
+shadow_bind_cost_title: Schatten-Bindungs-Kosten
+shadow_bind_cost_desc: Verringert den Magie-Verbrauch eines gebundenen Schattens.
 
 # ─── Location sub-tabs ───────────────────────────────────────────
 # Sub-tab labels for the "Orte" view. New locations (added by addons)

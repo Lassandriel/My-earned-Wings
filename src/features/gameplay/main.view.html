@@ -239,12 +239,12 @@
                 >
                   <span x-text="$store.game.ui.renderActionTitle($store.game, action.id)"></span>
                   
-                  <!-- Focus Toggle -->
+                  <!-- Shadow Bind toggle (taught by Sariel) -->
                   <div
-                    class="focus-toggle-btn"
-                    x-show="$store.game.flags['ability-arcane-focus'] && action.isLoopable"
-                    :class="$store.game.activeFocus === action.id && 'is-focused'"
-                    @click.stop="$store.game.commands.enqueue({ type: 'toggleFocus', actionId: action.id })"
+                    class="shadow-bind-btn"
+                    x-show="$store.game.flags['ability-shadow-bind'] && action.isLoopable"
+                    :class="$store.game.activeShadow === action.id && 'is-bound'"
+                    @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: action.id })"
                   >✨</div>
                 </button>
               </template>
@@ -272,7 +272,7 @@
               @mouseout="$store.game.setHovered(null)"
             >
               <span x-text="$store.game.t('act-work', 'actions').title"></span>
-              <div class="focus-toggle-btn" x-show="$store.game.flags['ability-arcane-focus']" :class="$store.game.activeFocus === 'act-work' && 'is-focused'" @click.stop="$store.game.commands.enqueue({ type: 'toggleFocus', actionId: 'act-work' })">✨</div>
+              <div class="shadow-bind-btn" x-show="$store.game.flags['ability-shadow-bind']" :class="$store.game.activeShadow === 'act-work' && 'is-bound'" @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: 'act-work' })">✨</div>
             </button>
           </div>
         </div>
@@ -368,10 +368,10 @@
                 <div class="btn-progress-fill" :style="'width: ' + $store.game.ui.getTaskProgress($store.game, actionId) + '%'"></div>
               </div>
               <div
-                class="focus-toggle-btn"
-                x-show="$store.game.flags['ability-arcane-focus'] && $store.game.content.get(actionId, 'actions').isLoopable"
-                :class="$store.game.activeFocus === actionId && 'is-focused'"
-                @click.stop="$store.game.commands.enqueue({ type: 'toggleFocus', actionId: actionId })"
+                class="shadow-bind-btn"
+                x-show="$store.game.flags['ability-shadow-bind'] && $store.game.content.get(actionId, 'actions').isLoopable"
+                :class="$store.game.activeShadow === actionId && 'is-bound'"
+                @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: actionId })"
               >✨</div>
             </button>
           </template>

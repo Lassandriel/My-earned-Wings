@@ -52,7 +52,7 @@ export interface GameState {
     total: number;
     duration?: number;
   }>;
-  activeFocus: string | null;
+  activeShadow: string | null;
   selectedItem: ItemId | null;
   dialogueActive: boolean;
   demoCompleted: boolean;
@@ -171,7 +171,7 @@ export interface GameState {
   actions: {
     execute: (game: GameState, id: ActionId) => boolean;
     attemptAction: (game: GameState, el: HTMLElement, id: ActionId) => boolean;
-    toggleFocus: (game: GameState, id: ActionId) => void;
+    toggleShadow: (game: GameState, id: ActionId) => void;
     processAction: (
       game: GameState,
       id: ActionId,
@@ -392,7 +392,7 @@ export interface GameState {
   }) => Promise<boolean>;
   resolveAddonCompat: (loadAnyway: boolean) => void;
   attemptAction: (el: HTMLElement, id: string) => boolean;
-  toggleFocus: (id: string) => void;
+  toggleShadow: (id: string) => void;
   npcExecute: (id: string) => void;
   toggleFurniture: (id: string) => void;
   consumeItem: (id: string) => void;

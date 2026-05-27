@@ -54,7 +54,7 @@ ui_item: Item
 ui_bonus: "Bonus:"
 ui_decorative: Decorative
 ui_gourmet-meal: Gourmet Meal
-ui_focus: Focus
+ui_shadow_bind: Shadow Bind
 ui_naming_title: Your Name
 ui_naming_desc: How shall the world of Draconia call you?
 ui_naming_placeholder: Shifter name...
@@ -190,7 +190,7 @@ ui_skip_btn: Skip Intro
 ui_limit: Limit
 ui_current: Stock
 ui_can_be_placed: Can be placed in your home.
-ui_focus_stopped: Focus cleared (Conditions no longer met).
+ui_shadow_released: Shadow released (conditions no longer met).
 ui_placed_furniture: Placed Furniture
 ui_stored_furniture: Warehouse (Furniture)
 ui_place: Place
@@ -278,7 +278,7 @@ particle_blessing: Blessing!
 ui_duration: Duration
 ui_remaining_prefix: Left
 ui_seconds: Seconds
-ui_focus_toggle: Toggle focus mode
+ui_shadow_bind_toggle: Bind a shadow to this action
 nav_inventory: Inventory and resources
 receive_apple: You received a Crystal Apple! A sweet refreshment for your journey.
 item_crystal_apple_title: Crystal Apple
@@ -344,8 +344,8 @@ clay_limit_desc: Increases clay capacity.
 iron_parts_limit_title: Iron Capacity
 iron_parts_limit_desc: Increases iron parts capacity.
 resource_efficiency_title: Resource Efficiency
-arcane_focus_cost_title: Arcane Focus Cost
-arcane_focus_cost_desc: Reduces the cost of arcane focus.
+shadow_bind_cost_title: Shadow Bind Cost
+shadow_bind_cost_desc: Reduces the magic drain of a bound shadow.
 
 # ─── Location sub-tabs ───────────────────────────────────────────
 # Sub-tab labels for the "Places" view. New locations (added by

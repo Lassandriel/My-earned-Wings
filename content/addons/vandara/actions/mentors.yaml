@@ -76,12 +76,13 @@
         # Wächter 1 → 2: Wieder-Begegnung (Respekt) wird klickbar.
         - type: extendNPCArc
           npcId: npc-vandara-gate-guard
-        # Sariel 1 → 4: echte Schatten-Schulung (Steps 2-4). by: 3
-        # weil Sariel total 4 Steps hat und vorher nur Step 1
+        # Sariel 1 → 5: echte Schatten-Schulung (Steps 2-5,
+        # inkl. Finale wo Shadow Bind freigeschaltet wird). by: 4
+        # weil Sariel total 5 Steps hat und vorher nur Step 1
         # (Element-agnostische Erstbegegnung) erreichbar war.
         - type: extendNPCArc
           npcId: npc-vandara-sariel
-          by: 3
+          by: 4
       dialogueKey: npc_vandara_veyra_6
   customExecute: npc_execute
 

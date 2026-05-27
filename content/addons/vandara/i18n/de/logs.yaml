@@ -27,15 +27,16 @@ vandara_trial_light: >-
   beunruhigt-fasziniert.
 vandara_shadow_revealed: >-
   Veyra hat es bestätigt: du bist ein Schattenwandler. Eine
-  Sub-Variante des Lichts, extrem selten. Sie verweist dich auf
-  jemanden, der dir wirklich helfen kann — Fafa wisse, wo.
-vandara_katakomben_entered: >-
-  Fafa führt dich in die Katakomben. In einer kleinen Kammer
-  wartet jemand namens Sariel — kerzenbeleuchtet, blind, und
-  scheinbar nicht überrascht.
+  Sub-Variante des Lichts, extrem selten. Sie gibt dir einen
+  Namen mit — Sariel, eine alte Kollegin, die vor vierzig Jahren
+  die Akademie verließ.
 vandara_shadow_trained: >-
   Sariel hat dich durch die Grundlagen geführt. Du bist
   aufgewacht — der Rest kommt mit der Übung.
+vandara_shadow_bind_learned: >-
+  Sariel hat dir beigebracht, einen Schatten an eine Aufgabe zu
+  binden. Magie läuft die ganze Zeit ab; vorerst nur ein
+  Schatten gleichzeitig.
 vandara_pamle_intro_done: >-
   Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank
   und Magietrank.

@@ -34,10 +34,10 @@ export function tickTasks(state: GameState, services: EngineServices, deltaMs: n
     const result = services.actions.processAction(state, actionId, action, 'finalize') as ActionResult;
     services.actions.handleSuccess(state, actionId, action, result);
 
-    if (state.activeFocus === actionId && action.isLoopable) {
+    if (state.activeShadow === actionId && action.isLoopable) {
       setTimeout(() => {
         if (
-          state.activeFocus === actionId &&
+          state.activeShadow === actionId &&
           state.view !== 'menu' &&
           !state.activeTasks[actionId] &&
           action.isLoopable

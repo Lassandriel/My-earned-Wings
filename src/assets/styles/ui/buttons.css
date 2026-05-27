@@ -186,8 +186,9 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* ARCANE FOCUS STYLES */
-.focus-toggle-btn {
+/* SHADOW BIND STYLES (formerly Arcane Focus — renamed when the
+   mechanic was reframed as a bound shadow taught by Sariel) */
+.shadow-bind-btn {
   position: absolute;
   top: 50%;
   right: 8px;
@@ -207,20 +208,20 @@
   padding: 0;
 }
 
-.focus-toggle-btn:hover {
+.shadow-bind-btn:hover {
   background: rgba(139, 92, 246, 0.3);
   border-color: var(--accent-purple);
   transform: translateY(-50%) scale(1.1);
 }
 
-.focus-toggle-btn.is-focused {
+.shadow-bind-btn.is-bound {
   background: var(--accent-purple);
   color: #fff;
   box-shadow: 0 0 15px var(--accent-purple);
   animation: magic-pulse 2s infinite ease-in-out;
 }
 
-.game-btn.is-focused {
+.game-btn.is-bound {
   border-color: var(--accent-purple);
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
 }
