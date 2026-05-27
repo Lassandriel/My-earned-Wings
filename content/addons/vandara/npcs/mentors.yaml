@@ -45,6 +45,9 @@
   image: img/addons/vandara/quinell.webp
   color: '#c084fc'
   progKey: vandaraQuinell
-  maxProgress: 4
+  # 7 Stufen — Intro, Definition, Drei-Komponenten-Gesetz,
+  # Element-Bindung, Erhaltungsgesetz, Erschöpfungs-Gesetz,
+  # Ausnahmen + Sariel-Erwähnung als Schluss.
+  maxProgress: 7
   chapter: Vandara
   location: vandara

@@ -153,29 +153,50 @@
   customExecute: npc_execute
 
 # ─── Quinell — Arkane Grundlagen ───────────────────────────────
+# Eine Vorlesung pro Gesetz: Intro, Definition (was IST Magie),
+# Drei-Komponenten (Element/Will/Substrate), Element-Bindung,
+# Erhaltungsgesetz, Erschöpfungs-Gesetz, und als Schluss die
+# "Ausnahmen existieren"-Stunde mit der Sariel-Erwähnung — Setup
+# für Sariels eigene Lehrstunden später.
 - id: act-npc-vandara-quinell
   npcId: npc-vandara-quinell
   category: npc
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraQuinell
-  maxProgress: 4
+  maxProgress: 7
   journalIcon: 💎
   icon: 💎
   journalColor: '#c084fc'
   steps:
+    # 1 — Intro: "langweiligste, wichtigste Vorlesung".
     - cost: 10
       costType: energy
       requirements:
         flags.vandara-enrolled: true
       dialogueKey: npc_vandara_quinell_1
-    - cost: 15
+    # 2 — Definition: Was IST Magie überhaupt?
+    - cost: 10
       costType: magic
       dialogueKey: npc_vandara_quinell_2
-    - cost: 15
+    # 3 — Drei-Komponenten-Gesetz: Element, Will, Substrate.
+    - cost: 10
       costType: magic
       dialogueKey: npc_vandara_quinell_3
-    - cost: 15
+    # 4 — Element-Bindung: warum man nicht switchen kann.
+    - cost: 10
+      costType: magic
+      dialogueKey: npc_vandara_quinell_4
+    # 5 — Erhaltungsgesetz: Magie kostet DICH.
+    - cost: 10
+      costType: magic
+      dialogueKey: npc_vandara_quinell_5
+    # 6 — Erschöpfungs-Gesetz: Müdigkeit als Messgerät der Wirkung.
+    - cost: 10
+      costType: magic
+      dialogueKey: npc_vandara_quinell_6
+    # 7 — Ausnahmen + Sariel-Erwähnung. Schließt den Kurs ab.
+    - cost: 10
       costType: magic
       onSuccess:
         - type: setFlag
@@ -184,5 +205,5 @@
         - type: log
           logKey: vandara_quinell_intro_done
           color: var(--gold)
-      dialogueKey: npc_vandara_quinell_4
+      dialogueKey: npc_vandara_quinell_7
   customExecute: npc_execute

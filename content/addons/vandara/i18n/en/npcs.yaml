@@ -411,6 +411,9 @@ npc_vandara_ormias_9: >-
   Great Dragon. In eighty percent of cases. Patience."
 
 # ─── Quinell — Arcane Foundations ───────────────────────────
+# One lecture per law, in order: intro, definition, three-component
+# law, element binding, conservation, exhaustion, exceptions —
+# closing with Sariel as the academy's one documented exception.
 npc_vandara_quinell_1: >-
   Doctor Quinell is a crystal-dragon-shifter — scales like cut
   rock crystal that refract the hall's light into every colour
@@ -419,34 +422,77 @@ npc_vandara_quinell_1: >-
   will hear at this academy. And the most important. If you don't
   understand what magic IS, you will never apply it precisely.
   You will cast like a dog swims — functional, ugly, inefficient.
-  We start with definitions."
+  Seven sessions: the definition, four laws, and the exceptions
+  that frame them. No shortcuts. We begin with the definition."
 
 npc_vandara_quinell_2: >-
-  "Magic is the manipulation of the aether through a draconic
-  mind. Three components: Element, Will, Substrate." Quinell
-  draws three circles on the board, perfectly symmetrical.
-  "Element is innate. Will is practice. Substrate is the
-  physical material through which magic acts — sometimes one's
-  own dragon form, sometimes a tool, sometimes the air itself.
-  Whoever cannot separate these three in their mind will fail
-  every advanced course."
+  "Definition." Quinell does not move while speaking. "Magic is
+  the manipulation of the aether through a draconic mind. Note:
+  the aether — not 'energy', not 'force'. Note: draconic mind —
+  not draconic body. The body is a tool, the mind is the caster."
+  He pauses for two seconds. "If you remember nothing else from
+  this entire course, remember those two words. Aether. Mind.
+  Everything else follows."
 
 npc_vandara_quinell_3: >-
-  "Today, effect theory." Quinell has a heavy quartz staff
-  before him. "Magic does not work 'just so'. It follows
-  conservation laws. What you send into the world comes from
-  you. Exhaustion is not failure, it is the measure of your
-  effect. Whoever casts without exhaustion has done nothing."
-  He pauses. "There are exceptions. Very few. If you discover
-  one, write a doctoral thesis on it."
+  "First law. The Three-Component Law." Quinell draws three
+  circles on the board, perfectly symmetrical. "Every act of
+  magic requires three elements at once. Element — your innate
+  alignment, the one element your bloodline grants you. Will —
+  the trained focus of your draconic mind. Substrate — the
+  physical material through which the effect manifests. Your
+  own form, a tool, the air itself." His tone sharpens. "Three.
+  Always three. Whoever cannot separate them in their mind will
+  fail every advanced course at this academy."
 
 npc_vandara_quinell_4: >-
-  Quinell sets a thin booklet before you. "Notes for the basic
-  course. Chapter six may interest you — Shadow as a theoretical
-  sub-variant of Light. Pure theory; no one has ever met a
-  shadow-shifter willing to be examined. Maybe because they
-  don't exist. Maybe because they hide well. Both interesting."
-  His expression doesn't change. "Study it."
+  "Second law. The Element-Binding Law." Quinell's tone does
+  not warm. "You cannot 'choose' your element. You cannot
+  'switch'. Whatever your bloodline gave you at birth is what
+  you will cast for the entirety of your life. A fire-shifter
+  who tries to wield water produces nothing — not weak water,
+  no water at all." He looks past you, not at you. "Students
+  occasionally arrive convinced they can train themselves into
+  a second element. They cannot. Disabuse yourself now."
+
+npc_vandara_quinell_5: >-
+  "Third law. The Conservation Law." Quinell lifts a heavy
+  quartz staff from beside the lectern, holds it, sets it down
+  again. "Magic does not come from nothing. What you send into
+  the world comes from you. Personal energy out, magical effect
+  in — one to one, no exceptions to the accounting. The aether
+  is a medium, not a source." He pauses. "Anyone who tells you
+  they have found 'free magic' is selling you a fraud or
+  performing a parlour trick. Probably both."
+
+npc_vandara_quinell_6: >-
+  "Fourth law. The Exhaustion Law." Quinell finally lets a
+  small expression cross his face — almost approval. "This is
+  the law students misunderstand most. Exhaustion is not
+  failure. Exhaustion is the measure of your effect. Tired
+  means the magic happened. Untired means it did not." His
+  voice levels again. "Whoever casts without exhaustion has
+  done nothing. Whoever exhausts themselves casting a teacup
+  has cast a real teacup. Apply both halves of that rule and
+  you will already cast better than three quarters of the
+  students sitting in this hall."
+
+npc_vandara_quinell_7: >-
+  "Final session. Exceptions." Quinell sets a thin booklet on
+  the lectern but does not push it toward you. "Four laws. They
+  are correct. They are also exceptions away from being
+  incorrect — very few, very rare, in eighty percent of cases
+  the laws hold without remainder. The remaining twenty are
+  what doctoral theses are made of." For the first time, he
+  pauses noticeably. "There was a colleague here once. Sariel.
+  Element-agnostic, the records say, until dey themselves
+  disproved that. Chapter six of these notes is theirs — a
+  treatise on Shadow as a sub-variant of Light. Pure theory.
+  No one has ever met a documented shadow-shifter willing to
+  be examined. Dey left the academy forty years ago. Whether
+  dey still lives, I do not know." A small breath, then nothing.
+  "Read the chapter. If you ever find evidence of a current
+  shadow-shifter, write the thesis. Dedicate it appropriately."
 
 npc_vandara_gate_guard_admit: >-
   The gate warden — a massive earth-dragon shifter with scales like

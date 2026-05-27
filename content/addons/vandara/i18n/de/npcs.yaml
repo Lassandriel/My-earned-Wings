@@ -447,36 +447,85 @@ npc_vandara_quinell_1: >-
   Vorlesung, die Sie an dieser Akademie hören werden. Und die
   wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie
   sie niemals präzise anwenden. Sie werden zaubern wie ein Hund
-  schwimmt — funktional, hässlich, ineffizient. Wir beginnen mit
-  Definitionen."
+  schwimmt — funktional, hässlich, ineffizient. Sieben Sitzungen:
+  die Definition, vier Gesetze, und die Ausnahmen, die sie rahmen.
+  Keine Abkürzungen. Wir beginnen mit der Definition."
 
 npc_vandara_quinell_2: >-
-  "Magie ist die Manipulation des Äthers durch einen drachischen
-  Geist. Drei Komponenten: Element, Wille, Substrat." Quinell
-  zeichnet drei Kreise an die Tafel, perfekt symmetrisch. "Element
-  ist angeboren. Wille ist Übungssache. Substrat ist das physische
-  Material durch das die Magie wirkt — manchmal die eigene
-  Drachenform, manchmal ein Werkzeug, manchmal die Luft. Wer diese
-  drei nicht im Kopf trennen kann, wird in jedem höheren Kurs
-  scheitern."
+  "Definition." Quinell bewegt sich beim Sprechen nicht. "Magie
+  ist die Manipulation des Äthers durch einen drachischen Geist.
+  Beachten Sie: der Äther — nicht 'Energie', nicht 'Kraft'.
+  Beachten Sie: drachischer Geist — nicht drachischer Körper.
+  Der Körper ist ein Werkzeug, der Geist ist der Zauberer." Er
+  pausiert zwei Sekunden. "Wenn Sie aus diesem gesamten Kurs nur
+  zwei Wörter behalten, dann diese: Äther. Geist. Alles andere
+  folgt daraus."
 
 npc_vandara_quinell_3: >-
-  "Heute Wirkungstheorie." Quinell hat einen schweren Quarzstab vor
-  sich liegen. "Magie wirkt nicht 'einfach so'. Sie folgt
-  Erhaltungsregeln. Was du in die Welt schickst, kommt aus dir.
-  Erschöpfung ist kein Versagen, sie ist das Maß deiner Wirkung.
-  Wer ohne Erschöpfung zaubert, hat nichts getan." Er pausiert. "Es
-  gibt Ausnahmen. Sehr wenige. Wenn Sie eine entdecken, schreiben
-  Sie eine Doktorarbeit darüber."
+  "Erstes Gesetz. Das Drei-Komponenten-Gesetz." Quinell zeichnet
+  drei Kreise an die Tafel, perfekt symmetrisch. "Jede Handlung
+  von Magie braucht drei Elemente gleichzeitig. Element — Ihre
+  angeborene Ausrichtung, das eine Element, das Ihre Blutlinie
+  Ihnen gibt. Wille — der geübte Fokus Ihres drachischen Geistes.
+  Substrat — das physische Material, durch das die Wirkung
+  manifestiert. Die eigene Form, ein Werkzeug, die Luft selbst."
+  Sein Tonfall wird schärfer. "Drei. Immer drei. Wer sie nicht
+  im Kopf trennen kann, scheitert an jedem höheren Kurs dieser
+  Akademie."
 
 npc_vandara_quinell_4: >-
-  Quinell legt dir ein dünnes Heft hin. "Skript zum Grundkurs.
-  Kapitel sechs interessiert Sie vielleicht — Schatten als
-  theoretische Sub-Variante des Lichts. Reine Theorie, niemand hat
-  je einen Schatten-Wandler kennengelernt der bereit war, sich
-  untersuchen zu lassen. Vielleicht weil es sie nicht gibt.
-  Vielleicht weil sie sich gut verstecken. Beides interessant."
-  Sein Ausdruck verändert sich nicht. "Studieren Sie es."
+  "Zweites Gesetz. Das Gesetz der Element-Bindung." Quinells
+  Tonfall wird nicht wärmer. "Sie können Ihr Element nicht
+  'wählen'. Sie können nicht 'wechseln'. Was Ihnen Ihre Blutlinie
+  bei der Geburt gegeben hat, ist, was Sie für den Rest Ihres
+  Lebens zaubern werden. Ein Feuerwandler, der versucht Wasser
+  zu bändigen, produziert nichts — kein schwaches Wasser, gar
+  kein Wasser." Er schaut an dir vorbei, nicht in dich hinein.
+  "Gelegentlich kommen Studierende mit der Überzeugung an, sie
+  könnten sich ein zweites Element antrainieren. Können sie
+  nicht. Geben Sie sich diese Illusion jetzt auf."
+
+npc_vandara_quinell_5: >-
+  "Drittes Gesetz. Das Erhaltungsgesetz." Quinell hebt einen
+  schweren Quarzstab neben dem Stehpult an, hält ihn, legt ihn
+  wieder ab. "Magie kommt nicht aus dem Nichts. Was Sie in die
+  Welt schicken, kommt aus Ihnen. Persönliche Energie raus,
+  magischer Effekt rein — eins zu eins, keine Ausnahmen in der
+  Buchhaltung. Der Äther ist ein Medium, keine Quelle." Er
+  pausiert. "Wer Ihnen 'freie Magie' verspricht, verkauft Ihnen
+  Betrug oder einen Salon-Trick. Wahrscheinlich beides."
+
+npc_vandara_quinell_6: >-
+  "Viertes Gesetz. Das Erschöpfungs-Gesetz." Quinell lässt zum
+  ersten Mal einen kleinen Ausdruck über sein Gesicht ziehen —
+  fast Zustimmung. "Das ist das Gesetz, das Studierende am
+  häufigsten missverstehen. Erschöpfung ist kein Versagen.
+  Erschöpfung ist das Maß Ihrer Wirkung. Müde heißt: die Magie
+  ist geschehen. Nicht müde heißt: sie ist nicht geschehen." Er
+  ebnet seinen Ton wieder ein. "Wer ohne Erschöpfung zaubert,
+  hat nichts getan. Wer sich beim Zaubern einer Teetasse
+  erschöpft, hat eine echte Teetasse gezaubert. Wenden Sie beide
+  Hälften dieses Gesetzes an, und Sie zaubern bereits besser als
+  drei Viertel der Studierenden in diesem Saal."
+
+npc_vandara_quinell_7: >-
+  "Letzte Sitzung. Ausnahmen." Quinell legt ein dünnes Heft auf
+  das Stehpult, schiebt es aber nicht zu dir. "Vier Gesetze. Sie
+  sind korrekt. Sie sind auch nur einen Ausnahmefall davon
+  entfernt, falsch zu sein — sehr wenige, sehr selten, in achtzig
+  Prozent der Fälle gelten die Gesetze restlos. Die restlichen
+  zwanzig Prozent sind das, woraus Doktorarbeiten gemacht werden."
+  Zum ersten Mal pausiert er merklich. "Es gab hier einmal eine
+  Lehrkraft. Sariel. Element-agnostisch laut Akten, bis dey das
+  selbst widerlegt hat. Kapitel sechs dieses Skripts gehört dey
+  — eine Abhandlung über Schatten als Sub-Variante des Lichts.
+  Reine Theorie. Niemand hat je einen dokumentierten
+  Schatten-Wandler kennengelernt, der bereit war, sich
+  untersuchen zu lassen. Dey verließ die Akademie vor vierzig
+  Jahren. Ob dey noch lebt, weiß ich nicht." Ein kleiner Atemzug,
+  dann nichts. "Lesen Sie das Kapitel. Wenn Sie je Belege für
+  einen aktuellen Schatten-Wandler finden, schreiben Sie die
+  Arbeit. Widmen Sie sie angemessen."
 
 npc_vandara_gate_guard_admit: >-
   Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie
