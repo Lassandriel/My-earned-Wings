@@ -671,8 +671,9 @@ npc_vandara_gate_guard_respect: >-
 npc_vandara_korren_1: >-
   Korren blickt von einem niedrigen Werktisch auf, vollgehäuft
   mit zerbrochenen Tonscherben und alten Metallfragmenten. Seine
-  Schuppen — gesprenkelt grün-braun wie feuchte Rinde — fangen
-  das Kerzenlicht seltsam. "Du bist runtergekommen. Gut.
+  Haut hat den rostbraunen Ton alter Erde an Hals und Händen, wo
+  die Schuppen durchscheinen, und seine Flügel — wenn er sich
+  auf dem Hocker dreht — entfalten sich tiefrot hinter ihm. "Du bist runtergekommen. Gut.
   Nachrichten reisen, sogar bis hier." Er deutet auf den
   Werktisch. "Ich bin Korren. Ich — naja. Ich arbeite für König
   Archivaris. Nicht offiziell, verstehst du. Offiziell bin ich
@@ -723,11 +724,12 @@ npc_vandara_korren_3: >-
   starrt ins Nichts.
 
 npc_vandara_iska_1: >-
-  Eine Wyvern in humanoider Form sitzt mit gekreuzten Beinen
-  auf dem Boden, umgeben von Krimskrams — ein Löffel, eine
-  Drahtschlinge, eine Schachfigur. Ihre Haare sind kurz, ihre
-  Hände bandagiert. "Hi, hi, setz dich, mach den Kreis nicht
-  kaputt." Sie blickt nicht auf. "Iska. Wind-Linie. Ich sollte
+  Eine Wyvern in humanoider Form steht an einer Werkbank, umgeben
+  von Krimskrams — ein Löffel, eine Drahtschlinge, eine
+  Schachfigur. Ihre Haare sind dunkel, stehen schief ab, und
+  ihre Patchwork-Robe ist ein wildes Farbgewitter. Ihre Flügel
+  klappen tiefrot hinter ihr aus — dieselbe Form wie Korrens den
+  Gang runter. "Hi, hi, setz dich, mach den Kreis nicht kaputt." Sie blickt nicht auf. "Iska. Wind-Linie. Ich sollte
   eigentlich nicht hier sein, ich sollte bei Pamles
   Tier-drei-Vorlesung sein, aber Pamle unterrichtet BRAUEN und
   ich will Sachen BEWEGEN." Sie deutet auf den Löffel. "Pass
@@ -739,8 +741,8 @@ npc_vandara_iska_1: >-
   schüchtern."
 
 npc_vandara_iska_2: >-
-  Iska grinst breiter als zuvor, mit einer neuen Brandspur über
-  der Wange. "Korren hat das Ring-Ding gemacht. Hat ihn
+  Iska grinst breiter als zuvor, gestikuliert mit beiden Händen
+  gleichzeitig. "Korren hat das Ring-Ding gemacht. Hat ihn
   flüstern lassen. Flüstern. Jeder kann flüstern. Ich will
   BEWEGEN." Sie deutet auf ein Uhrwerks-Gestell auf ihrem
   Werktisch. "Ich verdrahte Runen ins Uhrwerk. Nicht nur
@@ -768,9 +770,9 @@ npc_vandara_iska_3: >-
 
 npc_vandara_daven_1: >-
   Ein hochgewachsener Großdrachen-Wandler tritt in die
-  kerzenbeleuchtete Kammer. Seine Schuppen sind schiefergrau,
-  sein Mantel dunkelgrün mit einem einzigen Faden Akademie-Gold
-  am Kragen. Er schaut Sie an, nicht die Werktische. "Sie.
+  kerzenbeleuchtete Kammer. Deren Schuppen sind schiefergrau,
+  deren Mantel tiefrot mit einem einzigen Faden Akademie-Gold
+  am Kragen. Dey schaut Sie an, nicht die Werktische. "Sie.
   Studierende. Mir wurde berichtet, dass Sie hier unten zu
   Besuch waren. Ich bin Marschall Daven, Vollstreckung des
   Rats von Vandara." Ein knappes Nicken. "Ich verhafte Sie
@@ -786,22 +788,22 @@ npc_vandara_daven_2: >-
   Daven hört zu, macht Notizen auf einer kleinen
   Schiefertafel. "Ein Echo aus einer kaiserlichen
   Archiv-Scherbe. Eine animierte Figur aus grabgeraubtem
-  Knochen. Beide an Ihrer eigenen Magie verankert." Er seufzt
+  Knochen. Beide an Ihrer eigenen Magie verankert." Dey seufzt
   einmal, kurz. "Das ist das Muster, das ich alle fünfzehn,
   zwanzig Jahre sehe. Zwei Studierende, jeder für einen König.
   Sie fangen klein an, sie überbieten sich gegenseitig, und
   irgendwann geht jemand ans kaiserliche Archiv oder an ein
   Grab. Sie haben das nicht angefangen. Sie haben allerdings
   den magischen Faden geliefert, der beide über die Linie
-  geschoben hat." Er sieht Sie zum ersten Mal direkt an. "Ich
+  geschoben hat." Dey sieht Sie zum ersten Mal direkt an. "Ich
   schätze Ihre Kooperation. Eine letzte Frage. Zeigen Sie mir,
   wo die zwei arbeiten. Genau wo. Der Rat bevorzugt eine
   saubere Festnahme."
 
 npc_vandara_daven_3: >-
-  Sie führen Daven zu Korrens Werktisch, dann zu Iskas. Er
+  Sie führen Daven zu Korrens Werktisch, dann zu Iskas. Dey
   nickt einmal bei jedem. Zwei weitere Wachen treten hinter
-  ihm ein — ruhig, professionell. Es wird nicht geschrien;
+  dey ein — ruhig, professionell. Es wird nicht geschrien;
   beide Studierende scheinen auf ihre eigene Art gewartet zu
   haben. Korren richtet sich auf, sieht Sie nicht an. Iska
   schaut Sie an und grinst, zwinkert, und lässt sich abführen.
@@ -815,6 +817,6 @@ npc_vandara_daven_3: >-
   vermerkt. Das ist großzügiger als 'Mittäter:in', was es
   ebenso gut sein könnte. Gehen Sie vorsichtig, Studierende.
   Glauben Sie nicht alles, was Ihnen die Agenten eines
-  Vassals erzählen." Er wendet sich zum Gehen. "Und wenn das
+  Vassals erzählen." Dey wendet sich zum Gehen. "Und wenn das
   nächste Mal jemand in den Katakomben Sie nach Magie fragt —
   sagen Sie nein. Einmal. Sagen Sie nein."

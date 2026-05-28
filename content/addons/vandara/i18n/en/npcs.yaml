@@ -622,8 +622,10 @@ npc_vandara_gate_guard_respect: >-
 
 npc_vandara_korren_1: >-
   Korren looks up from a low workbench cluttered with broken
-  pottery and old metal fragments. His scales — mottled green-
-  brown like wet bark — catch the candlelight strangely.
+  pottery and old metal fragments. His skin has the rust-brown
+  tone of old earth at the neck and hands where the scales
+  show through, and his wings — when he shifts on his stool —
+  fan out behind him in deep red membrane.
   "You came down. Good. Word travels, even to here." He
   gestures at the bench. "I'm Korren. I'm — well. I work for
   King Archivaris. Not officially, you understand. Officially
@@ -667,9 +669,11 @@ npc_vandara_korren_3: >-
   until—" He cuts off, staring at nothing.
 
 npc_vandara_iska_1: >-
-  A Wyvern in humanoid form sits cross-legged on the floor
-  surrounded by trinkets — a spoon, a coil of wire, a chess
-  piece. Her hair is short, her hands are bandaged. "Hi, hi,
+  A Wyvern in humanoid form stands at a workbench surrounded
+  by trinkets — a spoon, a coil of wire, a chess piece. Her
+  hair is dark, sticking up at angles, and her patchwork robe
+  is a riot of colour. Her wings flick out behind her in deep
+  red, the same shape as Korren's down the corridor. "Hi, hi,
   sit down, don't break my circle." She doesn't look up.
   "Iska. Wind line. I'm not supposed to be here, I'm supposed
   to be at Pamle's tier-three lecture, but Pamle teaches
@@ -681,8 +685,8 @@ npc_vandara_iska_1: >-
   not inert. Matter is just shy."
 
 npc_vandara_iska_2: >-
-  Iska is grinning wider than before, with a new burn across
-  one cheekbone. "Korren did the ring thing. Made it whisper.
+  Iska is grinning wider than before, gesturing with both
+  hands at once. "Korren did the ring thing. Made it whisper.
   Whisper. Anyone can whisper. I want to MOVE." She points
   at a clockwork chassis on her workbench. "I'm wiring runes
   into a clockwork. Not just twitch — walk. Three steps. The
@@ -707,10 +711,10 @@ npc_vandara_iska_3: >-
 
 npc_vandara_daven_1: >-
   A tall Great Dragon shifter steps into the candlelit
-  chamber. His scales are slate-grey, his coat dark green with
-  a single thread of academy gold at the collar. He looks at
-  you, not at the workbenches. "You. Student. I've been told
-  you've been visiting down here. I'm Marshal Daven,
+  chamber. Their scales are slate-grey, their coat a deep red
+  with a single thread of academy gold at the collar. They
+  look at you, not at the workbenches. "You. Student. I've
+  been told you've been visiting down here. I'm Marshal Daven,
   Council-of-Vandara enforcement." A small nod. "I'm not
   arresting you — yet. I'm asking because you've seen them.
   Korren the echo-summoner and Iska the animator. What are
@@ -722,20 +726,20 @@ npc_vandara_daven_1: >-
 npc_vandara_daven_2: >-
   Daven listens, taking notes on a small slate. "An echo from
   an imperial archive shard. An animated figure made from
-  grave-robbed bone. Both anchored to your own magic." He
-  sighs once, briefly. "This is the pattern I've seen every
+  grave-robbed bone. Both anchored to your own magic." They
+  sigh once, briefly. "This is the pattern I've seen every
   fifteen or twenty years. Two students, one for each king.
   They start small, they escalate against each other, and
   somebody eventually goes to the imperial archive or to a
   grave. You did not start this. You did, however, contribute
   the magical thread that pushed both of them past the line."
-  He looks at you directly for the first time. "I appreciate
+  They look at you directly for the first time. "I appreciate
   your cooperation. One last question. Show me where they
   work. Exactly where. The Council prefers a clean arrest."
 
 npc_vandara_daven_3: >-
-  You lead Daven to Korren's workbench, then to Iska's. He
-  nods once at each. Two more guards step in behind him —
+  You lead Daven to Korren's workbench, then to Iska's. They
+  nod once at each. Two more guards step in behind them —
   quiet, professional. There is no shouting; both students
   seem to have been waiting, in their own way. Korren
   straightens, refuses to look at you. Iska looks at you and
@@ -749,6 +753,6 @@ npc_vandara_daven_3: >-
   'cooperating witness'. That is more generous than
   'accomplice', which it could just as easily be. Walk
   carefully, student. Do not believe everything every Vassal's
-  agent tells you." He turns to leave. "And the next time
+  agent tells you." They turn to leave. "And the next time
   someone in the catacombs asks for your magic — say no. Just
   once. Say no."

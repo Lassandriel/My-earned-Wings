@@ -1,92 +1,33 @@
-## 🛡️ Torwächter (kein Eigenname)
+## 🪨 Student Korren
 
-* **Rolle:** Wache am Stadttor, kontrolliert Einlass mit dem Akademie-Einladungsbrief
-* **Drachenart:** Erddrachenwandler (massiver Großdrache, Erdlinie)
-* **Aussehen:** "Schuppen wie geschliffener Stein", Stoiker, kontrolliert ruhig, gemessene Bewegungen
-* **Kleidung:** Wachen-Uniform (eher schlicht, funktional)
-* **Setting:** Vor dem Stadttor von Vandara
-* **Vibe:** "First time in Vandara, eh?" — gelassen, hat alles schon gesehen, gibt knappen Nicken statt langer Worte
-
-***
-
-## 📋 Sekretär Olié
-
-* **Rolle:** Sekretariat der Roségold-Akademie, stellt Studentenausweise aus, schickt Studenten ohne bekanntes Element zusätzlich zu Veyra zur Diagnostik
-* **Drachenart:** **Gezeiten-Amphithere** (gefiederte Schlange mit Federflügeln, langgestreckt)
-* **Aussehen:** "Iridisierende Schuppen wie nasse Kieselsteine", elegant gefiedert, Federkamm der bei Emotionen zuckt
-* **Kleidung:** Formell-bürokratisch, akkurat
-* **Vibe:** Höflich aber distanziert. Effizient. Schiebt Bronze-Schälchen für die Gebühr rüber. Kennt nur die Akademie-Personen, nicht die Stadt-Bewohner — als "akademischer Beamter" bleibt er drinnen.
+* **Rolle**: Drittklässler, inoffiziell im Dienst von König Archivaris. Halb-legaler Echo-Beschwörer in den Katakomben — weckt alte Gegenstände dazu, ihre Geschichte zu flüstern.
+* **Drachenart**: **Sumpf-Lindwurm**
+* **Pronomen**: he/him (EN), er/ihm (DE)
+* **Aussehen**: Schuppen wie feuchte Rinde, gesprenkelt grün-braun (Sumpf-Tarnung). In humanoider Form drahtig, mittelgroß. Hat dunkle Augenringe, immer Tinte an den Fingern. Schuppen werden lebendiger/dunkler wenn er aufgeregt ist.
+* **Kleidung**: Verstaubte Akademie-Robe, abgegriffen, vom Werkbank-Staub vergilbt. Notizen-Riemen quer über die Brust mit Notebook + Stift.
+* **Vibe**: Methodisch, leise stolz, defensiv-akademisch. "Das ist Resonanz, nicht Nekromantie. Die Akademie kümmert sich nicht um Feinheiten, wenn sie die Mathematik nicht sieht." Spricht in vollen Sätzen, korrigiert Fremdfehler. Bricht im Step 3 unter dem eigenen Erfolg zusammen.
 
 ***
 
-## 🌬️ Händlerin Kal're
+## ⚙️Studentin Iska
 
-* **Rolle:** Markthändlerin in Vandaras Straßen. Verkauft basis-Reagenzien (Ascheblume, Glitzerstaub) ab Stufe 1, ab Stufe 5 zusätzlich Rares-Sortiment (Leuchtpollen, Harz, Arkanstaub) mit Aufschlag. In Stufe 3 lehrt sie den Spieler das Alchemielabor-Bauplan (`unlockRecipe: build-vandara-alchemy-laboratory`) — kein Item-Kauf, reine Wissensweitergabe wie der Dorf-Schmied.
-* **Drachenart:** **Wind-Drachin** aus dem Kristallreich (Großdrache, Wind-Variante)
-* **Aussehen:** Junge Drachenwandlerin, **silberblaue Haare**, Schuppen "wie Glas" (Kristall-Erbe)
-* **Kleidung:** Markt-praktisch, leicht
-* **Vibe:** Warm, einnehmend, redet viel, ein bisschen geschäftstüchtig. Erwähnt gerne dass sie aus dem Kristallreich ist. Kennt Sariel von früher.
-
-***
-
-## 🪙 Bettlerin Fafa (= Vorname only, ihr Familienname ist verloren)
-
-* **Rolle:** Bettlerin am Brunnen, gibt Stadt-Lore gegen Splitter
-* **Drachenart:** **Erd-Drachin, westlicher Großdrache, alt**
-* **Aussehen:** Sehr alt, gebeugt am Brunnen. **Schuppen "wie geborstener Granit"**, knochige Hände. **Graue Augen, scharf wie frisch geschliffene Klingen.** Steht in Stufe 4 plötzlich auf und ist größer als gedacht.
-* **Kleidung:** Verstaubter grauer Umhang, viel zu groß für sie wirkt aber
-* **Vibe:** Müde-weise. Sieht mehr als sie sagt. Mystisch. Führt MC später in die Katakomben — dann nicht mehr Bettlerin sondern Mentorin-Persönlichkeit.
+* **Rolle**: Studentin, hätte bei Pamles Tier-3-Vorlesung sein sollen, ist stattdessen unten. Inoffiziell im Dienst von König-Rektorin Novia. Animatorin — verdrahtet Runen in tote Materie, damit sie sich kurz bewegt.
+* **Drachenart**: **Sturm-Wyvern**
+* **Pronomen**: she/her (EN), sie/ihr (DE)
+* **Aussehen**: Klein, drahtig, jung. Kurz geschnittene Haare (eigenhändig mit Schere, schief). **Bandagierte Hände** — überall Pflaster, ständig Brandspuren von misslungenen Experimenten. Im Step 2 neue Brandspur über einer Wange.
+* **Kleidung**: Akademierobe mit vielen löchern und teils brandflecken.
+* **Vibe**: Forsch, schnelle Rede, zu wenig Schlaf. Sätze brechen mittendrin ab. "Die Alten sagen, Materie ist träge. Materie ist nicht träge. Materie ist nur schüchtern." Grinst breit auch wenn sie blutet. Im Step 3 sieht sie zum ersten Mal kaputt aus — und lässt sich am Ende grinsend verhaften.
 
 ***
 
-## ☀️ Magistra Veyra
+## 🛡️ Marschall Daven
 
-* **Rolle:** Akademie-**Diagnostikerin** für Element-Bestimmung. **Keine Klasse, kein Fach** — Studenten ohne bekanntes Element werden zu ihr in die Sprechstunde geschickt. Hat dafür ein eigenes Sprechzimmer (samtene Untersuchungsliege, Instrumente, Wasserkaraffe), keinen Hörsaal. Vierzig Jahre Praxis-Erfahrung; ihr Tonfall ist ärztlich-warm, das Vokabular akademisch-präzise ("Anamnese", "Resonanzbatterie", "Äther-Signatur").
-* **Drachenart:** **Sonnen-Amphithere** (gefiederte Schlange in warmen Tönen)
-* **Aussehen:** Federn in **Gold und sanftem Orange**, fängt Licht und wirft es zurück
-* **Kleidung:** Eher klassische Akademie-Robe (Magistra-Titel beibehalten, auch ohne Lehrauftrag)
-* **Vibe:** Sanft, geduldig, lacht weich. Ärztin mit Empathie + Composure. Notiert auf Schiefertafel mit Feder. Wird in der Schatten-Reveal-Szene (Stufe 5) zum ersten Mal aus dem gemessenen Ton geworfen — atemloses Halblachen, "in vierzig Jahren Diagnostik noch nie".
-
-***
-
-## 🐲 Lektor Ormias
-
-* **Rolle:** Akademie-Lektor, **Drachenkunde**. Sein Grundkurs hat **9 Lehrstunden** (Step-Struktur): Intro + eine Stunde pro Hauptart (Großdrachen, Wyvern, Lindwürmer, Amphithere, Leviathane, Seraphe, Fae) + Lung-Drachen als Schluss-Beat mit Dramatic Irony.
-* **Drachenart:** **Magma-Lindwurm** (zwei Vorderbeine, langer Hinterkörper, Schuppen wie erstarrte Lava)
-* **Aussehen:** Sehr alt, "Schädel schimmert in der Sonne", verkrusteter Lava-Look, **rutschende Brille die nicht passt**, zerknitterte Roben
-* **Kleidung:** Akademische Roben, leicht zerknittert, akademisch-vergesslich
-* **Vibe:** Trocken, gelehrt, leicht überfordert. Kreide bricht ständig. Lung-Drachen-Beat im finalen Step: der flügellose Spieler sitzt vor ihm, er sagt "ja, ich seh die Flügel fehlen — nicht aufregen, Lung-Drachen sind nur in der Kaiserfamilie, aktuell nur zwei". Hat den persönlichen "meinesgleichen"-Moment bei den Lindwürmern. Mag die Fae-Drachen heimlich ("bester Klatsch in Draconia").
-
-***
-
-## 💎 Doktor Quinell
-
-* **Rolle:** Akademie-Mentor, **Arkane Grundlagen** (die "langweiligste, wichtigste Vorlesung"). **7-Step-Kurs**: Intro, Definition (was IST Magie), und vier nummerierte Gesetze (Drei-Komponenten / Element-Bindung / Erhaltung / Erschöpfung), Schluss-Stunde über Ausnahmen.
-* **Drachenart:** **Kristalldrache** (westlicher Großdrache, Kristallschuppen)
-* **Aussehen:** **Schuppen wie geschliffener Bergkristall**, brechen Licht in alle Spektrum-Farben
-* **Kleidung:** Akademie-formal, makellos
-* **Vibe:** Eiskalt-präzise, unbewegt, kein Lächeln. Trockenster Lehrer der Akademie. **Schlüssel-Beat in Stunde 7**: erwähnt Sariel namentlich als die eine dokumentierte Ausnahme, dey verließ die Akademie vor 40 Jahren, "ob dey noch lebt, weiß ich nicht" — respektvoll-melancholisch, einzige Stelle wo er Wärme zeigt. Kapitel sechs der Skripts gehört dey.
-
-***
-
-## 🕯️ Sariel (kein Titel)
-
-* **Rolle:** Ehemalige Akademie-Lehrkraft (vor 40 Jahren), jetzt Schatten-Lehrkraft in den Katakomben. Erreichbar bereits **vor** dem Schatten-Reveal (über Fafa Step 4), aber die Element-spezifischen Stufen 2-4 sind erst nach dem Reveal zugänglich. Quinell erwähnt dey in Stunde 7 namentlich als die eine dokumentierte Ausnahme der Magie-Gesetze.
-* **Drachenart:** **Schatten-Kristalldrachenwandler** (Kristalldrache + Schatten-Element = sehr selten)
-* **Pronomen:** **they/them** im EN, **dey/dem/deren** im DE (eingedeutschtes they-Set). Verben verhalten sich wie bei er/sie: "Dey hebt den Kopf", "Sariel sortiert deren Notizen". Self-Reference im DE: "Lehrkraft", nicht "Lehrerin".
-* **Aussehen:** **Schwarze, kristallförmige Schuppen** entlang des Halses (klirren leise wenn dey sich bewegt). **Blind**, aber unaufgeregt darüber — orientiert sich über Schatten + Hörsinn. Sortiert Notizen per Fingerspitze.
-* **Kleidung:** Einfach, abgetragen, eremitisch
-* **Vibe:** Trocken-zynisch, schlagfertig, gibt erst zu spät einen Lehrer-Moment frei. Vierzig Jahre Erfahrung. Ironisch über das eigene Unterrichten. Mag den MC heimlich gerne.
-
-***
-
-## 🌋 Magistra Pamle (Vorname only, "ich hab nie einen vollen bekommen")
-
-* **Rolle:** Akademie-Mentorin, "Alchemie" (mit Tribut-Loop)
-* **Drachenart:** **Magma-Drachenwandlerin (westlicher)**
-* **Aussehen:** **In humanoider Form kompakt, gerade so schulterhoch.** Schuppen wie **verkrustete Lava** über den Unterarmen
-* **Kleidung:** Arbeitsschürze die "schon viel zu viel gesehen hat"
-* **Vibe:** Praktisch, geschäftstüchtig, scharfes Grinsen. Sagt was sie meint. Verkauft den Studenten heimlich die Tribut-Tränke weiter (für gutes Geld). Stolz auf ihre eigene Aschebrand-Tinktur-Erfindung.
+* **Rolle**: Vollstreckung des Rats von Vandara. Neutral zwischen den beiden Vassalen — das ist der politische Pakt. Macht das seit dreißig Jahren, hat das Muster schon mehrfach gesehen.
+* **Drachenart**: **Großdrache** (westlich, Luft-Element)
+* **Pronomen**: **they/them** (EN), **dey/dem/deren** (DE) — non-binär, akademisch-korrekt addressiert
+* **Aussehen**: Hochgewachsen, Schuppen schiefergrau (matt, nicht poliert — Arbeits-Drache, kein Hof-Drache). Mittlere Jahre, ruhige Körpersprache. Trägt eine kleine Schiefertafel + Kreide an einem Riemen am Gürtel — schreibt Notizen direkt vor Ort.
+* **Kleidung**: Tiefroter Mantel, lang geschnitten, ein einziger Faden Akademie-Gold am Kragen (Insignie des Rats, nicht Pomp). Sonst kein Schmuck. Dunkelblaue, fast schwarze Flügel.
+* **Vibe**: Streng-höflich, sehr ruhig, alles förmlich. Spricht den Spieler mit "Sie/Studierende" an (DE) durchgehend. Kein Drama bei der Festnahme — kennt das Muster. Endet auf einer trockenen, fast warnenden Note: "Beim nächsten Mal jemand nach deiner Magie fragt — sag nein. Einmal."
 
 ***
 
