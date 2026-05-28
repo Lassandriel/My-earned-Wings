@@ -403,10 +403,10 @@ export const MODIFIER_REGISTRY_GENERATED: Record<string, any> = {
     "desc": "resource_efficiency_desc",
     "baseValue": 1
   },
-  "arcane_focus_cost": {
-    "id": "arcane_focus_cost",
-    "title": "arcane_focus_cost_title",
-    "desc": "arcane_focus_cost_desc",
+  "shadow_bind_cost": {
+    "id": "shadow_bind_cost",
+    "title": "shadow_bind_cost_title",
+    "desc": "shadow_bind_cost_desc",
     "baseValue": 3
   },
   "satiation_drain_multiplier": {
@@ -2960,13 +2960,6 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       {
         "cost": 20,
         "costType": "magic",
-        "onSuccess": [
-          {
-            "type": "setFlag",
-            "flag": "ability-arcane-focus",
-            "value": true
-          }
-        ],
         "dialogueKey": "npc_aris_1"
       },
       {
@@ -3162,10 +3155,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "category": "vandara_workshop",
     "icon": "🧪",
     "requirements": {
-      "placedItems": {
-        "op": "includes",
-        "val": "item-alchemy-table"
-      }
+      "flags.build-vandara-alchemy-laboratory": true
     },
     "costs": {
       "herbs": 2,
@@ -3187,10 +3177,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "category": "vandara_workshop",
     "icon": "🧪",
     "requirements": {
-      "placedItems": {
-        "op": "includes",
-        "val": "item-alchemy-table"
-      }
+      "flags.build-vandara-alchemy-laboratory": true
     },
     "costs": {
       "flowers": 1,
@@ -3212,10 +3199,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "category": "vandara_workshop",
     "icon": "🍵",
     "requirements": {
-      "placedItems": {
-        "op": "includes",
-        "val": "item-alchemy-table"
-      }
+      "flags.build-vandara-alchemy-laboratory": true
     },
     "costs": {
       "glowpollen": 2,
@@ -3236,10 +3220,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "category": "vandara_workshop",
     "icon": "✨",
     "requirements": {
-      "placedItems": {
-        "op": "includes",
-        "val": "item-alchemy-table"
-      }
+      "flags.build-vandara-alchemy-laboratory": true
     },
     "costs": {
       "ash_flower": 1,
@@ -3260,10 +3241,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "category": "vandara_workshop",
     "icon": "💧",
     "requirements": {
-      "placedItems": {
-        "op": "includes",
-        "val": "item-alchemy-table"
-      }
+      "flags.build-vandara-alchemy-laboratory": true
     },
     "costs": {
       "arcane_dust": 1,
@@ -3286,10 +3264,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "category": "vandara_workshop",
     "icon": "🔥",
     "requirements": {
-      "placedItems": {
-        "op": "includes",
-        "val": "item-alchemy-table"
-      }
+      "flags.build-vandara-alchemy-laboratory": true
     },
     "costs": {
       "ash_flower": 3,
@@ -3305,6 +3280,260 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "sfx": "craft",
     "particleType": "shards"
   },
+  "act-npc-vandara-korren": {
+    "id": "act-npc-vandara-korren",
+    "npcId": "npc-vandara-korren",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraKorren",
+    "maxProgress": 3,
+    "journalIcon": "🪨",
+    "icon": "🪨",
+    "journalColor": "#65a30d",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-katakomben-unlocked": true
+        },
+        "onSuccess": [
+          {
+            "type": "addBuff",
+            "buffId": "buff-vandara-echo-clarity-1"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-korren-1-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_korren_1_done",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_korren_1"
+      },
+      {
+        "cost": 10,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-korren-1-done": true,
+          "flags.vandara-iska-1-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "addBuff",
+            "buffId": "buff-vandara-echo-clarity-2"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-korren-2-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_korren_2_done",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_korren_2"
+      },
+      {
+        "cost": 20,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-korren-2-done": true,
+          "flags.vandara-iska-2-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-korren-arc-done",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-daven"
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_korren_arc_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_korren_3"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-iska": {
+    "id": "act-npc-vandara-iska",
+    "npcId": "npc-vandara-iska",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraIska",
+    "maxProgress": 3,
+    "journalIcon": "⚙️",
+    "icon": "⚙️",
+    "journalColor": "#0891b2",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-katakomben-unlocked": true
+        },
+        "onSuccess": [
+          {
+            "type": "addBuff",
+            "buffId": "buff-vandara-animated-tools-1"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-iska-1-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_iska_1_done",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_iska_1"
+      },
+      {
+        "cost": 10,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-korren-1-done": true,
+          "flags.vandara-iska-1-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "addBuff",
+            "buffId": "buff-vandara-animated-tools-2"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-iska-2-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_iska_2_done",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_iska_2"
+      },
+      {
+        "cost": 20,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-korren-2-done": true,
+          "flags.vandara-iska-2-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-iska-arc-done",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-daven"
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_iska_arc_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_iska_3"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-vandara-daven": {
+    "id": "act-npc-vandara-daven",
+    "npcId": "npc-vandara-daven",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_vandara",
+    "progKey": "vandaraDaven",
+    "maxProgress": 3,
+    "journalIcon": "🛡️",
+    "icon": "🛡️",
+    "journalColor": "#475569",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-korren-arc-done": true,
+          "flags.vandara-iska-arc-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-daven-tip-1",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_daven_tip_1",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_daven_1"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-daven-tip-1": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-daven-tip-2",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_daven_tip_2",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_daven_2"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-daven-tip-2": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-catacomb-students-busted",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_catacomb_students_busted",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_daven_3"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
   "act-npc-vandara-olie": {
     "id": "act-npc-vandara-olie",
     "npcId": "npc-vandara-olie",
@@ -3312,7 +3541,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraOlie",
-    "maxProgress": 3,
+    "maxProgress": 4,
     "journalIcon": "📋",
     "icon": "📋",
     "journalColor": "#0ea5e9",
@@ -3366,6 +3595,21 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_olie_3"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "log",
+            "logKey": "vandara_olie_reveal_reaction",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_olie_4"
       }
     ],
     "customExecute": "npc_execute"
@@ -3398,6 +3642,12 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       {
         "cost": 5,
         "costType": "energy",
+        "onSuccess": [
+          {
+            "type": "unlockRecipe",
+            "id": "build-vandara-alchemy-laboratory"
+          }
+        ],
         "dialogueKey": "npc_vandara_kalre_3"
       },
       {
@@ -3439,56 +3689,44 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "sfx": "click",
     "particleType": "shards"
   },
-  "act-vandara-buy-workshop-blueprint": {
-    "id": "act-vandara-buy-workshop-blueprint",
+  "act-vandara-buy-glowpollen": {
+    "id": "act-vandara-buy-glowpollen",
     "category": "village",
-    "icon": "📐",
-    "cost": 100,
+    "icon": "🌼",
+    "cost": 15,
     "costType": "shards",
-    "onSuccess": [
-      {
-        "type": "unlockRecipe",
-        "id": "act-build-workshop"
-      },
-      {
-        "type": "setFlag",
-        "flag": "vandara-workshop-unlocked",
-        "value": true
-      },
-      {
-        "type": "log",
-        "logKey": "vandara_workshop_blueprint",
-        "color": "var(--gold)"
-      }
-    ],
-    "sfx": "click"
-  },
-  "act-build-workshop": {
-    "id": "act-build-workshop",
-    "category": "crafting",
-    "icon": "🏗️",
-    "cost": 50,
-    "costType": "wood",
-    "requirements": {
-      "flags.vandara-workshop-unlocked": true
+    "yieldType": "glowpollen",
+    "rewards": {
+      "glowpollen": 1
     },
-    "onSuccess": [
-      {
-        "type": "unlockItem",
-        "id": "item-alchemy-table"
-      },
-      {
-        "type": "setFlag",
-        "flag": "vandara-workshop-built",
-        "value": true
-      },
-      {
-        "type": "log",
-        "logKey": "vandara_workshop_built",
-        "color": "var(--gold)"
-      }
-    ],
-    "sfx": "build"
+    "sfx": "click",
+    "particleType": "shards"
+  },
+  "act-vandara-buy-resin": {
+    "id": "act-vandara-buy-resin",
+    "category": "village",
+    "icon": "🟤",
+    "cost": 20,
+    "costType": "shards",
+    "yieldType": "resin",
+    "rewards": {
+      "resin": 1
+    },
+    "sfx": "click",
+    "particleType": "shards"
+  },
+  "act-vandara-buy-arcane-dust": {
+    "id": "act-vandara-buy-arcane-dust",
+    "category": "village",
+    "icon": "🔮",
+    "cost": 25,
+    "costType": "shards",
+    "yieldType": "arcane_dust",
+    "rewards": {
+      "arcane_dust": 1
+    },
+    "sfx": "click",
+    "particleType": "shards"
   },
   "act-npc-vandara-fafa": {
     "id": "act-npc-vandara-fafa",
@@ -3497,7 +3735,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraFafa",
-    "maxProgress": 5,
+    "maxProgress": 4,
     "journalIcon": "🪨",
     "icon": "🪙",
     "journalColor": "#a8a29e",
@@ -3534,35 +3772,53 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-vandara-sariel"
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-vandara-korren"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-vandara-iska"
+          },
+          {
             "type": "log",
             "logKey": "vandara_katakomben_unlocked",
             "color": "var(--gold)"
           }
         ],
         "dialogueKey": "npc_vandara_fafa_4"
-      },
-      {
-        "cost": 5,
-        "costType": "energy",
-        "requirements": {
-          "flags.vandara-shadow-revealed": true
-        },
-        "onSuccess": [
-          {
-            "type": "setFlag",
-            "flag": "vandara-katakomben-entered",
-            "value": true
-          },
-          {
-            "type": "log",
-            "logKey": "vandara_katakomben_entered",
-            "color": "var(--gold)"
-          }
-        ],
-        "dialogueKey": "npc_vandara_fafa_5"
       }
     ],
     "customExecute": "npc_execute"
+  },
+  "build-vandara-alchemy-laboratory": {
+    "id": "build-vandara-alchemy-laboratory",
+    "chapter": "Refinement",
+    "category": "housing",
+    "costs": {
+      "wood": 60,
+      "stone": 40
+    },
+    "image": "img/addons/kitchen.webp",
+    "requirements": {
+      "flags.build-house": true,
+      "flags.build-vandara-alchemy-laboratory": {
+        "op": "!=",
+        "val": true
+      }
+    },
+    "sfx": "craft",
+    "onSuccess": [
+      {
+        "type": "setFlag",
+        "flag": "build-vandara-alchemy-laboratory",
+        "value": true
+      },
+      {
+        "type": "log",
+        "logKey": "vandara_alchemy_laboratory_built",
+        "color": "var(--gold)"
+      }
+    ]
   },
   "act-vandara-try-fire": {
     "id": "act-vandara-try-fire",
@@ -3842,7 +4098,9 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
         "cost": 20,
         "costType": "magic",
         "requirements": {
-          "flags.vandara-light-resonance-found": true
+          "flags.vandara-light-resonance-found": true,
+          "flags.vandara-ormias-intro-done": true,
+          "flags.vandara-quinell-intro-done": true
         },
         "dialogueKey": "npc_vandara_veyra_5"
       },
@@ -3866,12 +4124,24 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           },
           {
             "type": "extendNPCArc",
-            "npcId": "npc-vandara-fafa"
+            "npcId": "npc-vandara-sariel",
+            "by": 4
           },
           {
             "type": "extendNPCArc",
-            "npcId": "npc-vandara-sariel",
-            "by": 3
+            "npcId": "npc-vandara-ormias"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-quinell"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-olie"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-pamle"
           }
         ],
         "dialogueKey": "npc_vandara_veyra_6"
@@ -3886,7 +4156,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraOrmias",
-    "maxProgress": 4,
+    "maxProgress": 10,
     "journalIcon": "🐲",
     "icon": "🐲",
     "journalColor": "#7c2d12",
@@ -3912,6 +4182,31 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       {
         "cost": 10,
         "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_4"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_5"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_6"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_7"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "dialogueKey": "npc_vandara_ormias_8"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
         "onSuccess": [
           {
             "type": "setFlag",
@@ -3924,7 +4219,22 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "color": "var(--gold)"
           }
         ],
-        "dialogueKey": "npc_vandara_ormias_4"
+        "dialogueKey": "npc_vandara_ormias_9"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "log",
+            "logKey": "vandara_ormias_reveal_reaction",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_ormias_10"
       }
     ],
     "customExecute": "npc_execute"
@@ -3936,7 +4246,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraQuinell",
-    "maxProgress": 4,
+    "maxProgress": 8,
     "journalIcon": "💎",
     "icon": "💎",
     "journalColor": "#c084fc",
@@ -3950,17 +4260,32 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
         "dialogueKey": "npc_vandara_quinell_1"
       },
       {
-        "cost": 15,
+        "cost": 10,
         "costType": "magic",
         "dialogueKey": "npc_vandara_quinell_2"
       },
       {
-        "cost": 15,
+        "cost": 10,
         "costType": "magic",
         "dialogueKey": "npc_vandara_quinell_3"
       },
       {
-        "cost": 15,
+        "cost": 10,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_quinell_4"
+      },
+      {
+        "cost": 10,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_quinell_5"
+      },
+      {
+        "cost": 10,
+        "costType": "magic",
+        "dialogueKey": "npc_vandara_quinell_6"
+      },
+      {
+        "cost": 10,
         "costType": "magic",
         "onSuccess": [
           {
@@ -3974,7 +4299,22 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "color": "var(--gold)"
           }
         ],
-        "dialogueKey": "npc_vandara_quinell_4"
+        "dialogueKey": "npc_vandara_quinell_7"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "log",
+            "logKey": "vandara_quinell_reveal_reaction",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_quinell_8"
       }
     ],
     "customExecute": "npc_execute"
@@ -3986,7 +4326,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraPamle",
-    "maxProgress": 4,
+    "maxProgress": 5,
     "journalIcon": "🌋",
     "icon": "🌋",
     "journalColor": "#dc2626",
@@ -3995,7 +4335,8 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
         "cost": 10,
         "costType": "energy",
         "requirements": {
-          "flags.vandara-enrolled": true
+          "flags.vandara-enrolled": true,
+          "flags.build-vandara-alchemy-laboratory": true
         },
         "onSuccess": [
           {
@@ -4092,6 +4433,21 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_pamle_4"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-shadow-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "log",
+            "logKey": "vandara_pamle_reveal_reaction",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_pamle_5"
       }
     ],
     "customExecute": "npc_execute"
@@ -4103,7 +4459,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraSariel",
-    "maxProgress": 4,
+    "maxProgress": 5,
     "journalIcon": "🕯️",
     "icon": "🕯️",
     "journalColor": "#1e1b4b",
@@ -4151,6 +4507,26 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_sariel_4"
+      },
+      {
+        "cost": 20,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-shadow-trained": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "ability-shadow-bind",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_shadow_bind_learned",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_sariel_5"
       }
     ],
     "customExecute": "npc_execute"
@@ -4607,15 +4983,6 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
       }
     ]
   },
-  "item-alchemy-table": {
-    "id": "item-alchemy-table",
-    "title": "item_alchemy_table_title",
-    "desc": "item_alchemy_table_desc",
-    "image": "img/furniture/stove.webp",
-    "consumable": false,
-    "category": "furniture",
-    "spaceCost": 2
-  },
   "item-vandara-letter": {
     "id": "item-vandara-letter",
     "title": "item_vandara_letter_title",
@@ -4788,6 +5155,39 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "chapter": "SmokeTest",
     "smokeAffinity": "shadow"
   },
+  "npc-vandara-korren": {
+    "id": "npc-vandara-korren",
+    "nameKey": "npc_vandara_korren_name",
+    "icon": "🪨",
+    "image": "img/addons/vandara/korren.webp",
+    "color": "#65a30d",
+    "progKey": "vandaraKorren",
+    "maxProgress": 3,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
+  "npc-vandara-iska": {
+    "id": "npc-vandara-iska",
+    "nameKey": "npc_vandara_iska_name",
+    "icon": "⚙️",
+    "image": "img/addons/vandara/iska.webp",
+    "color": "#0891b2",
+    "progKey": "vandaraIska",
+    "maxProgress": 3,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
+  "npc-vandara-daven": {
+    "id": "npc-vandara-daven",
+    "nameKey": "npc_vandara_daven_name",
+    "icon": "🛡️",
+    "image": "img/addons/vandara/daven.webp",
+    "color": "#475569",
+    "progKey": "vandaraDaven",
+    "maxProgress": 3,
+    "chapter": "Vandara",
+    "location": "vandara"
+  },
   "npc-vandara-olie": {
     "id": "npc-vandara-olie",
     "nameKey": "npc_vandara_olie_name",
@@ -4819,8 +5219,16 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
         "minProgress": 1
       },
       {
-        "id": "act-vandara-buy-workshop-blueprint",
-        "minProgress": 3
+        "id": "act-vandara-buy-glowpollen",
+        "minProgress": 5
+      },
+      {
+        "id": "act-vandara-buy-resin",
+        "minProgress": 5
+      },
+      {
+        "id": "act-vandara-buy-arcane-dust",
+        "minProgress": 5
       }
     ]
   },
@@ -4886,7 +5294,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/addons/vandara/ormias.webp",
     "color": "#7c2d12",
     "progKey": "vandaraOrmias",
-    "maxProgress": 4,
+    "maxProgress": 9,
     "chapter": "Vandara",
     "location": "vandara"
   },
@@ -4897,7 +5305,7 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/addons/vandara/quinell.webp",
     "color": "#c084fc",
     "progKey": "vandaraQuinell",
-    "maxProgress": 4,
+    "maxProgress": 7,
     "chapter": "Vandara",
     "location": "vandara"
   },
@@ -4975,7 +5383,7 @@ export const BUFF_REGISTRY_GENERATED: Record<string, any> = {
     "duration": 90,
     "modifiers": [
       {
-        "key": "arcane_focus_cost",
+        "key": "shadow_bind_cost",
         "add": -1
       }
     ]
@@ -4985,6 +5393,58 @@ export const BUFF_REGISTRY_GENERATED: Record<string, any> = {
     "title": "buff_vandara_ash_burn_title",
     "desc": "buff_vandara_ash_burn_desc",
     "duration": 120,
+    "modifiers": [
+      {
+        "key": "wood_yield",
+        "add": 1
+      },
+      {
+        "key": "stone_yield",
+        "add": 1
+      }
+    ]
+  },
+  "buff-vandara-echo-clarity-1": {
+    "id": "buff-vandara-echo-clarity-1",
+    "title": "buff_vandara_echo_clarity_1_title",
+    "desc": "buff_vandara_echo_clarity_1_desc",
+    "duration": 60,
+    "modifiers": [
+      {
+        "key": "magic_regen_passive",
+        "add": 1
+      }
+    ]
+  },
+  "buff-vandara-echo-clarity-2": {
+    "id": "buff-vandara-echo-clarity-2",
+    "title": "buff_vandara_echo_clarity_2_title",
+    "desc": "buff_vandara_echo_clarity_2_desc",
+    "duration": 90,
+    "modifiers": [
+      {
+        "key": "magic_regen_passive",
+        "add": 2
+      }
+    ]
+  },
+  "buff-vandara-animated-tools-1": {
+    "id": "buff-vandara-animated-tools-1",
+    "title": "buff_vandara_animated_tools_1_title",
+    "desc": "buff_vandara_animated_tools_1_desc",
+    "duration": 60,
+    "modifiers": [
+      {
+        "key": "wood_yield",
+        "add": 1
+      }
+    ]
+  },
+  "buff-vandara-animated-tools-2": {
+    "id": "buff-vandara-animated-tools-2",
+    "title": "buff_vandara_animated_tools_2_title",
+    "desc": "buff_vandara_animated_tools_2_desc",
+    "duration": 90,
     "modifiers": [
       {
         "key": "wood_yield",
@@ -5144,12 +5604,12 @@ export const SECTION_REGISTRY_GENERATED: Record<string, any> = {
     "helpTitleKey": "ui_tab_kitchen",
     "helpDescKey": "help_kitchen_desc"
   },
-  "section-vandara-workshop": {
-    "id": "section-vandara-workshop",
+  "section-vandara-alchemy": {
+    "id": "section-vandara-alchemy",
     "subTab": "herstellen",
-    "headerLabel": "ui_tab_vandara_workshop",
+    "headerLabel": "ui_tab_vandara_alchemy",
     "actionCategory": "vandara_workshop",
-    "requiresFlag": "vandara-workshop-unlocked"
+    "requiresFlag": "build-vandara-alchemy-laboratory"
   }
 };
 
@@ -5275,10 +5735,10 @@ export const BUILD_TIME_ADDONS: Array<{
     "author": "Lassandriel",
     "entries": {
       "resources": 2,
-      "actions": 24,
-      "items": 3,
-      "npcs": 9,
-      "buffs": 3,
+      "actions": 29,
+      "items": 2,
+      "npcs": 12,
+      "buffs": 7,
       "sections": 1
     }
   }
@@ -5347,7 +5807,7 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "energy_reg_bonus",
       "magic_limit_gain",
       "resource_efficiency",
-      "arcane_focus_cost",
+      "shadow_bind_cost",
       "satiation_drain_multiplier",
       "wood_yield",
       "stone_yield",
@@ -5545,13 +6005,18 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "act-vandara-brew-spark-vial",
       "act-vandara-brew-arcane-water",
       "act-vandara-brew-ash-tincture",
+      "act-npc-vandara-korren",
+      "act-npc-vandara-iska",
+      "act-npc-vandara-daven",
       "act-npc-vandara-olie",
       "act-npc-vandara-kalre",
       "act-vandara-buy-ash-flower",
       "act-vandara-buy-glitter-dust",
-      "act-vandara-buy-workshop-blueprint",
-      "act-build-workshop",
+      "act-vandara-buy-glowpollen",
+      "act-vandara-buy-resin",
+      "act-vandara-buy-arcane-dust",
       "act-npc-vandara-fafa",
+      "build-vandara-alchemy-laboratory",
       "act-vandara-try-fire",
       "act-vandara-try-earth",
       "act-vandara-try-wind",
@@ -5565,11 +6030,13 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "act-npc-vandara-sariel"
     ],
     "items": [
-      "item-alchemy-table",
       "item-vandara-letter",
       "item-vandara-student-id"
     ],
     "npcs": [
+      "npc-vandara-korren",
+      "npc-vandara-iska",
+      "npc-vandara-daven",
       "npc-vandara-olie",
       "npc-vandara-kalre",
       "npc-vandara-fafa",
@@ -5583,10 +6050,14 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
     "buffs": [
       "buff-vandara-wakeful-pollen",
       "buff-vandara-spark-light",
-      "buff-vandara-ash-burn"
+      "buff-vandara-ash-burn",
+      "buff-vandara-echo-clarity-1",
+      "buff-vandara-echo-clarity-2",
+      "buff-vandara-animated-tools-1",
+      "buff-vandara-animated-tools-2"
     ],
     "sections": [
-      "section-vandara-workshop"
+      "section-vandara-alchemy"
     ]
   },
   "smoke_test": {
@@ -5981,12 +6452,21 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Glitzerstaub kaufen",
         "effect": "glitter_dust"
       },
-      "act-vandara-buy-workshop-blueprint": {
-        "title": "Werkstatt-Bauplan kaufen",
-        "unlocks": "Rezept: Werkstatt bauen"
+      "act-vandara-buy-glowpollen": {
+        "title": "Leuchtpollen kaufen",
+        "effect": "glowpollen"
       },
-      "act-build-workshop": {
-        "title": "Werkstatt bauen"
+      "act-vandara-buy-resin": {
+        "title": "Harz kaufen",
+        "effect": "resin"
+      },
+      "act-vandara-buy-arcane-dust": {
+        "title": "Arkanstaub kaufen",
+        "effect": "arcane_dust"
+      },
+      "build-vandara-alchemy-laboratory": {
+        "title": "Alchemielabor bauen",
+        "unlocks": "Pamles Braurezepte (nach Lehrstunden)"
       },
       "act-npc-vandara-veyra": {
         "title": "Magistra Veyra"
@@ -6032,7 +6512,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-vandara-brew-spark-vial": {
         "title": "Funkenlicht-Phiole brauen",
-        "desc": "Glitzerstaub in einer Ascheblume gebunden. Die Phiole leuchtet von selbst — ein tragbares Licht, das du an deinen Gürtel hängen kannst. Senkt die Magiekosten deines Arkanen Fokus."
+        "desc": "Glitzerstaub in einer Ascheblume gebunden. Die Phiole leuchtet von selbst — ein tragbares Licht, das du an deinen Gürtel hängen kannst. Senkt die Magiekosten eines gebundenen Schattens."
       },
       "act-vandara-brew-arcane-water": {
         "title": "Arkanwasser brauen",
@@ -6051,9 +6531,17 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "buff_vandara_wakeful_pollen_title": "Wachpollen-Tee",
       "buff_vandara_wakeful_pollen_desc": "Sanfter Energieschub. +1 Energie-Regen pro Tick, 60 Sekunden.",
       "buff_vandara_spark_light_title": "Funkenlicht",
-      "buff_vandara_spark_light_desc": "Tragbare Lichtquelle. Senkt die Kosten für Arkanen Fokus spürbar. 90 Sekunden.",
+      "buff_vandara_spark_light_desc": "Tragbare Lichtquelle. Senkt den Magie-Verbrauch eines gebundenen Schattens spürbar. 90 Sekunden.",
       "buff_vandara_ash_burn_title": "Aschebrand",
-      "buff_vandara_ash_burn_desc": "Heißer, durchpulsender Energierausch. Holz- und Stein-Ausbeute +1 pro Aktion, 2 Minuten."
+      "buff_vandara_ash_burn_desc": "Heißer, durchpulsender Energierausch. Holz- und Stein-Ausbeute +1 pro Aktion, 2 Minuten.",
+      "buff_vandara_echo_clarity_1_title": "Echo-Klarheit",
+      "buff_vandara_echo_clarity_1_desc": "Nach Korrens Experiment hängt eine schwache Resonanz um dich. +1 Magie-Regeneration, 60 Sekunden.",
+      "buff_vandara_echo_clarity_2_title": "Tiefe Echo-Klarheit",
+      "buff_vandara_echo_clarity_2_desc": "Eine stärkere nachklingende Resonanz. +2 Magie-Regeneration, 90 Sekunden.",
+      "buff_vandara_animated_tools_1_title": "Animierte Werkzeuge",
+      "buff_vandara_animated_tools_1_desc": "Deine Werkzeuge zucken hilfsbereit von alleine. +1 Holz-Ausbeute, 60 Sekunden.",
+      "buff_vandara_animated_tools_2_title": "Laufende Werkzeuge",
+      "buff_vandara_animated_tools_2_desc": "Werkzeuge, die du berührst, fangen an mitzulaufen. +1 Holz- und +1 Stein-Ausbeute, 90 Sekunden."
     },
     "items": {
       "item_wanderstock_title": "Wanderstock",
@@ -6134,9 +6622,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_vandara_letter_title": "Einladung der Roségold-Akademie",
       "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei.",
       "item_vandara_student_id_title": "Studentenausweis der Roségold-Akademie",
-      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\"",
-      "item_alchemy_table_title": "Alchemietisch",
-      "item_alchemy_table_desc": "Solider, hitzefester Tisch mit Halterungen für Phiolen, einem kleinen Brenner und einer Mörserablage. Aus Kal'res Bauplan. Stelle ihn in einem deiner Häuser auf — Pamles Rezepte werden dann brauarbeitsbereit."
+      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\""
     },
     "logs": {
       "save_success": "Spiel erfolgreich gespeichert.",
@@ -6235,7 +6721,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "fail_full_clay": "Das Tonlager ist voll.",
       "fail_full_rune_fragment": "Das Runenfragmentlager ist voll.",
       "fail_full_study_xp": "Das Limit für Studien-Erfahrung wurde erreicht.",
-      "ui_focus_stopped": "Fokus aufgehoben (Bedingungen nicht mehr erfüllt).",
+      "ui_shadow_released": "Schatten gelöst (Bedingungen nicht mehr erfüllt).",
       "item_used": "{item} benutzt.",
       "wood_log": "+{val} Holz gesammelt.",
       "stone_log": "+{val} Stein abgebaut.",
@@ -6298,7 +6784,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "school_graduate_log": "Du hast deinen Schulabschluss erhalten. Aria lächelt stolz.",
       "npc_teacher_2_no_house": "\"Es ist schön dich zu sehen, {player}. Aber ohne ein festes Dach über dem Kopf wird das mit dem Lernen schwierig. Komm doch wieder, wenn du ein eigenes Haus hast.\"",
       "npc_teacher_2_with_house": "\"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!\"",
-      "focus_broken_magic": "Deine magische Energie ist erschöpft. Der arkane Fokus wurde unterbrochen.",
+      "shadow_broken_magic": "Deine magische Energie ist erschöpft. Der gebundene Schatten löst sich auf.",
       "smoke_ping_log": "Ein leiser Pulsschlag rollt durch das Tal.",
       "smoke_panel_title": "Smoke-Test Diagnose",
       "smoke_panel_hint": "Diese Werte aktualisieren sich live aus dem `smoke_test` addonState-Slot. Wenn die Tick-Zahl steigt, läuft der Hook; wenn Vandara hier ✔ zeigt, hat isAddonLoaded angeschlagen.",
@@ -6308,24 +6794,36 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "receive_vandara_letter": "Aria überreicht dir einen Brief mit roségoldenem Siegel. Eine Einladung zur Akademie in Vandara.",
       "vandara_admitted": "Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir.",
       "vandara_enrolled": "Olié reicht dir den Studentenausweis. Du bist offiziell Studentin/Student der Roségold-Akademie.",
-      "vandara_workshop_blueprint": "Kal're rollt einen kleinen, präzise gezeichneten Bauplan auf — ein Werkstatt-Entwurf.",
-      "vandara_workshop_built": "Deine kleine Werkstatt steht. Jetzt fehlt nur noch jemand, der dir zeigt, was du damit anfangen kannst.",
+      "vandara_alchemy_laboratory_built": "Dein Alchemielabor steht. Jetzt fehlt nur noch jemand, der dir zeigt, was du damit anfangen kannst.",
       "vandara_katakomben_unlocked": "Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter Vandara. Eine andere Stadt liegt unten.",
-      "vandara_veyra_intro_done": "Du hast Veyras Grundkurs Elementare Resonanz abgeschlossen.",
+      "vandara_veyra_intro_done": "Du hast Veyras Element-Diagnostik-Sprechstunde abgeschlossen.",
       "vandara_ormias_intro_done": "Du hast Ormias' Grundkurs Drachenkunde abgeschlossen.",
-      "vandara_quinell_intro_done": "Du hast Quinells Grundkurs Magietheorie abgeschlossen.",
+      "vandara_quinell_intro_done": "Du hast Quinells Grundkurs Arkane Grundlagen abgeschlossen.",
       "vandara_trial_fire": "Feuerprobe — keine Resonanz.",
       "vandara_trial_earth": "Erdprobe — keine Resonanz.",
       "vandara_trial_wind": "Windprobe — keine Resonanz.",
       "vandara_trial_tide": "Gezeitenprobe — keine Resonanz.",
       "vandara_trial_light": "Lichtprobe — etwas zuckt. Aber kein klares Licht. Veyra ist beunruhigt-fasziniert.",
-      "vandara_shadow_revealed": "Veyra hat es bestätigt: du bist ein Schattenwandler. Eine Sub-Variante des Lichts, extrem selten. Sie verweist dich auf jemanden, der dir wirklich helfen kann — Fafa wisse, wo.",
-      "vandara_katakomben_entered": "Fafa führt dich in die Katakomben. In einer kleinen Kammer wartet jemand namens Sariel — kerzenbeleuchtet, blind, und scheinbar nicht überrascht.",
+      "vandara_shadow_revealed": "Veyra hat es bestätigt: du bist ein Schattenwandler. Eine Sub-Variante des Lichts, extrem selten. Sie gibt dir einen Namen mit — Sariel, eine alte Kollegin, die vor vierzig Jahren die Akademie verließ.",
       "vandara_shadow_trained": "Sariel hat dich durch die Grundlagen geführt. Du bist aufgewacht — der Rest kommt mit der Übung.",
+      "vandara_shadow_bind_learned": "Sariel hat dir beigebracht, einen Schatten an eine Aufgabe zu binden. Magie läuft die ganze Zeit ab; vorerst nur ein Schatten gleichzeitig.",
+      "vandara_ormias_reveal_reaction": "Ormias frisst graziös seine \"Spätzünder-Großdrache\"-Prognose und lädt dich zum Wiederkommen ein.",
+      "vandara_quinell_reveal_reaction": "Quinell bestätigt leise, dass Sariel von Anfang an Recht hatte.",
+      "vandara_olie_reveal_reaction": "Olié aktualisiert deine Studierenden-Akte. Element: Schatten, Sub-Variante Licht, Vermerk: selten.",
+      "vandara_pamle_reveal_reaction": "Pamle hat es gehört. Sagt, sie überlegt sich passende Schatten-Reagenzien.",
       "vandara_pamle_intro_done": "Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank und Magietrank.",
       "vandara_pamle_tier2_done": "Pamle nimmt deine drei Energietränke und lehrt dich Tier-2 — Wachpollen-Tee und Funkenlicht-Phiole.",
       "vandara_pamle_tier3_done": "Pamle nimmt drei Funkenlicht-Phiolen und unterrichtet dich in Arkanwasser und Aschebrand-Tinktur.",
-      "vandara_alchemy_mastered": "Du beherrschst Pamles komplettes Grundkurs-Repertoire. Komplexere Rezepte kommen später."
+      "vandara_alchemy_mastered": "Du beherrschst Pamles komplettes Grundkurs-Repertoire. Komplexere Rezepte kommen später.",
+      "vandara_korren_1_done": "Korren hat ein schwaches Echo aus einem Schmiede-Ring geweckt. Er ist zufrieden.",
+      "vandara_korren_2_done": "Korren hat ein deutlicheres Echo aus einer alten Militärmünze gezogen. Er läuft auf und ab.",
+      "vandara_korren_arc_done": "Korren hat eine kaiserliche Archiv-Scherbe aufgebrochen. Die Kerze ist eine Sekunde lang erloschen. Er sieht nicht gut aus.",
+      "vandara_iska_1_done": "Iskas Löffel ist zehn Sekunden lang von alleine gestanden. Sie ist begeistert und leicht blutend.",
+      "vandara_iska_2_done": "Iskas Uhrwerksfigur ist drei Schritte gelaufen. Der Hof wird davon erfahren.",
+      "vandara_iska_arc_done": "Iskas Knochen-Puppe ist im Kreis gelaufen und hat sich zu dir umgedreht. Iska lacht. Du nicht.",
+      "vandara_daven_tip_1": "Marschall Daven ist eingetroffen und bittet dich um einen allgemeinen Bericht.",
+      "vandara_daven_tip_2": "Du hast beide Experimente im Detail beschrieben. Daven macht Notizen.",
+      "vandara_catacomb_students_busted": "Du hast Marschall Daven zu beiden Werkbänken geführt. Korren und Iska sind verhaftet. Deine Rolle: kooperierende Zeug:in."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -6463,46 +6961,67 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\"",
       "npc_vandara_olie_1": "Sekretär Olié sieht von seinem Stapel Akten auf — eine elegant gefiederte Schlange mit irisierenden Schuppen, die wie nasse Kieselsteine glänzen. \"Ah. Eine Neueinschreibung.\" Er lächelt höflich, aber distanziert. \"Bitte nehmen Sie Platz. Wir gehen das Notwendige der Reihe nach durch. Name, Herkunft, Element wenn bekannt.\" Sein Federkamm zuckt leicht, als du beim letzten Punkt zögerst. \"Unbekannt ist auch eine Antwort, keine Sorge.\"",
       "npc_vandara_olie_2": "\"So, die Einschreibegebühr.\" Olié schiebt dir ein winziges Bronzeschälchen über den Tisch. \"Fünfundzwanzig Splitter, einmalig. Die Akademie selbst ist kostenfrei — wir sind nicht das Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und einen Schluck Tee, falls Sie länger warten müssen.\"",
-      "npc_vandara_olie_3": "\"Hier ist Ihr Ausweis.\" Olié reicht dir ein dünnes, schweres Plättchen aus poliertem Roségold. \"Damit kommen Sie überall hin, wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht hindürften, aber die niemand kontrolliert. Erkundigen Sie sich auf den Straßen, falls Sie sich verlaufen. Kal're am Markt redet mit jedem. Und... mit der alten Fafa am Brunnen — geben Sie ihr ein paar Splitter, sie hat mehr in dieser Stadt gesehen als alle Akten zusammen.\"",
+      "npc_vandara_olie_3": "\"Hier ist Ihr Ausweis.\" Olié reicht dir ein dünnes, schweres Plättchen aus poliertem Roségold. \"Damit kommen Sie überall hin, wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht hindürften, aber die niemand kontrolliert.\" Er tippt auf eine Liste auf seinem Schreibtisch. \"Ihre Mentoren. Lektor Ormias hält Drachenkunde. Doktor Quinell betreut die Arkanen Grundlagen. Und Praktikerin Pamle gibt Alchemie, allerdings ergibt ihr Unterricht erst Sinn, wenn Sie sich ein Alchemielabor eingerichtet haben.\" Eine höfliche Pause. \"Da Sie Ihr Element nicht angeben konnten, schicke ich Sie zusätzlich zu Magistra Veyra. Sie führt die Diagnostik durch — keine Vorlesung, eine Sprechstunde. Die Beste der Stadt. Die Akademie hat Glück, sie zu halten.\" Ein höfliches Nicken. \"Willkommen in Vandara, Studentin.\"",
+      "npc_vandara_olie_4": "Olié schaut von seinem Stapel auf, höflich wie immer. \"Ah. Das Element-Feld auf Ihrer Studierenden-Akte. Ich habe es offengelassen, wie besprochen.\" Er zieht eine dünne Feder hervor. \"Ich trage es jetzt nach.\" Eine Pause, während er schreibt. \"Schatten. Sub-Variante Licht. Vermerk: selten.\" Er pustet die Tinte trocken. \"So. Ordnungsgemäß eingetragen. Die Akademie-Archive schätzen Genauigkeit mehr als Neuheit, aber in diesem Fall bekommen sie beides.\" Ein höfliches Nicken. \"Machen Sie weiter, Studierende.\"",
       "npc_vandara_kalre_1": "Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand voller Glasgefäße ruft dir zu. \"Du bist neu, ja? Sieht man.\" Sie grinst breit. \"Kal're, aus dem Kristallreich. Windlinie. Habe ich schon gesagt, dass ich aus dem Kristallreich bin? Das tu ich gern, dann fragt niemand, warum ich Schuppen wie Glas habe.\" Sie schiebt dir ein Schälchen Ascheblumen zu. \"Schnupper mal. Riecht nach Vulkanstaub und nach einer Sache, die du nicht benennen kannst. Wenn du jemals in ein Alchemielabor kommst, wirst du sie brauchen.\"",
       "npc_vandara_kalre_2": "\"Du bist wieder da! Gut, gut.\" Kal're sortiert Glitzerstaub in winzige Tütchen. \"Wirst sehen, in Vandara redet jeder mit jedem und alle wissen alles. Außer das, was sie nicht wissen sollen — da sind sie erstaunlich diszipliniert.\"",
-      "npc_vandara_kalre_3": "\"Du fragst dich, ob ich dir traue, ja?\" Sie lacht. \"Genug. Hör mal, ich verkaufe dir gleich noch was anderes — einen Bauplan. Ein Workshop, klein, machbar. Mit dem kannst du Reagenzien zu was Nützlichem verarbeiten. Hundert Splitter. Ein Schnäppchen.\"",
+      "npc_vandara_kalre_3": "\"Du fragst dich, ob ich dir traue, ja?\" Sie lacht. \"Genug. Hör mal — du kaufst andauernd meine Reagenzien, aber du hast nichts, wo du sie verarbeiten könntest. Die meisten Akademie-Studenten stellen sich ein kleines Alchemielabor ins Haus. Zwei Regale, ein Kupferbecken, ein Abzug.\" Sie skizziert es auf die Rückseite einer Tüte. \"Hier. Bring Holz und Stein mit, jetzt weißt du, wie's zusammengeht.\"",
       "npc_vandara_kalre_4": "Kal're winkt dich näher. \"Weißt du, was das Lustige an Vandara ist? Die Akademie tut so, als wäre sie das Herz der Stadt. Aber die echten Sachen passieren in den Hinterzimmern. Auf den Straßen. In den Katakomben unten.\" Sie blinzelt. \"Sag's nicht weiter.\"",
       "npc_vandara_kalre_5": "\"Du bist jetzt einer von meinen Stammkunden.\" Kal're tippt sich gegen die Stirn. \"Wenn du je was Seltenes brauchst — was wirklich Seltenes — komm zu mir, bevor du irgendwen anders fragst. Ich finde es. Oder kenne jemanden, der's findet.\"",
       "npc_vandara_fafa_1": "Eine alte Drachenwandlerin sitzt zusammengesunken am Rand des Brunnens, in einen verstaubten grauen Umhang gehüllt. Schuppen wie geborstener Granit lugen unter dem Stoff hervor. Sie hebt nicht den Kopf, aber eine knochige Hand streckt sich dir entgegen. \"Ein paar Splitter für eine alte Erddrachin?\" Als du gibst, blickt sie endlich auf — graue Augen, scharf wie frisch geschliffene Klingen. \"Danke, Kind. Du bist neu. Diese Stadt hat Namen, weißt du? Nicht nur den, der oben am Tor steht. Komm wieder — ich erzähle dir einen.\"",
       "npc_vandara_fafa_2": "Fafa nimmt die Splitter, ohne hinzusehen. \"Vandara heißt 'Wandel'. Aber sie sagen dir nie, wer den Wandel will und wer ihn fürchtet.\" Sie deutet auf die Akademie hinter dir. \"König Archivaris, der alte Knochenhalter, will alles so behalten wie's war. König- Rektorin Novia will alles neu. Die beiden streiten sich seit Jahren vor dem Kaiserhof. Solange sie streiten, regiert in Wahrheit niemand. Das macht Vandara... interessant. Komm wieder.\"",
       "npc_vandara_fafa_3": "\"Du kommst immer wieder. Das ist selten.\" Fafa lächelt, und für einen Moment sieht sie nicht alt aus, sondern müde. \"Hör zu, Kind. Die Studenten in den oberen Hörsälen lernen, was die Mentoren beibringen dürfen. Was sie wirklich wissen wollen, lernen sie woanders. Unter der Stadt. Komm noch einmal wieder, und ich zeige dir, wo.\"",
       "npc_vandara_fafa_4": "Diesmal nimmt Fafa keine Splitter. Sie steht auf — und ist auf einmal größer, als du gedacht hast. \"Komm.\" Sie führt dich zu einem unscheinbaren Gully hinter dem Brunnen, schiebt das Eisen beiseite, als wäre es ein Vorhang. \"Die Katakomben. Die alten Tunnel aus der Zeit vor dem Unaussprechlichen. Hier unten findest du die, die dir wirklich helfen können — wenn du den Mut hast herunterzukommen.\" Sie blickt dich lange an. \"Geh nicht alleine hin, bis du jemanden kennst, dem du dort vertraust. Aber geh.\"",
-      "npc_vandara_veyra_1": "Magistra Veyra empfängt dich in einem hellen, fast überhellen Hörsaal. Sie ist eine Sonnen-Amphithere — gefiederte Schlange in Gold und sanftem Orange, ihre Federn fangen das Licht der hohen Fenster und werfen es in alle Richtungen zurück. \"Willkommen, {player}. Ich bin Veyra. Mein Kurs heißt Elementare Resonanz — klingt fancy, ist es nicht. Wir finden raus, was du bist.\" Sie lacht weich. \"Mach dir keinen Stress. Die meisten wissen es schon von zuhause. Die paar, die nicht — sind oft die interessantesten.\"",
-      "npc_vandara_veyra_2": "\"Erstmal die Grundlagen.\" Veyra wickelt sich um einen Pfeiler und blickt zu dir herab. \"Magie ist gebunden. An dein Element. Du kannst nicht 'wechseln' — du kannst nur entdecken. Manche spüren Feuer in den Händen, manche Wasser im Atem. Andere brauchen Übungen, um zu merken: 'oh, das hier zieht mich.' Wir machen das langsam. Heute nur Theorie. Beim nächsten Mal probieren wir was.\"",
-      "npc_vandara_veyra_3": "\"Schließ die Augen.\" Veyra dimmt die Lichter mit einem Flügelschlag. \"Atme. Nicht versuchen, was zu tun. Nur spüren, was da ist. Hände leicht offen, Magie soll dich finden, nicht umgekehrt.\" Sie wartet. Lange. Dann ihre Stimme, ruhig: \"Mhm. Da ist was. Aber ich krieg's noch nicht zu fassen. Komm wieder. Wir testen genauer.\"",
-      "npc_vandara_veyra_4": "\"Heute brauche ich mehr von dir.\" Veyra hat verschiedene kleine Objekte vor sich ausgebreitet: ein Stein, eine Schale Wasser, eine Kerze, eine Feder, ein Spiegel. \"Wir probieren der Reihe nach. Du legst die Hand drauf, ich beobachte. Kein Druck — wenn nichts passiert, passiert nichts.\" Sie macht eine Pause. \"Aber sei vorbereitet: Resonanz fühlt sich nie an wie erwartet.\"",
-      "npc_vandara_veyra_5": "\"Du bist wieder da. Gut.\" Veyra wirkt heute angespannt. \"Das Lichtzucken bei der Probe — das war nicht nichts. Das war auch nicht normal. Setz dich, ich will einen tieferen Test machen.\" Sie löscht jedes einzelne Licht im Hörsaal bis auf eine kleine Kerze hinter dir. \"Streck deine Hand zur Kerze. Nicht reinfassen. Nur... fühlen, was zwischen dir und der Flamme passiert.\" Lange Stille. Dann ihre Stimme, plötzlich anders: \"Oh. Oh, {player}. Du machst keinen Schatten. Du... ZIEHST den Schatten an. Aus der Wand, aus der Decke, aus mir.\" Sie lacht atemlos. \"Du bist kein Lichtwandler. Du bist ein Schattenwandler. Das ist... ich hab noch nie einen gesehen.\"",
-      "npc_vandara_veyra_6": "Veyra ist deutlich nachdenklicher heute. \"Schatten ist eine Sub-Variante von Licht. So wie Traum eine Variante von Gezeiten ist. Aber sie ist selten. Sehr selten. In meinen vierzig Jahren als Lehrkraft habe ich noch nie einen gehabt.\" Sie schaut dich ernst an. \"Ich kann dir die Theorie geben. Aber die Praxis — da bin ich raus. Du brauchst jemanden, der das wirklich gelebt hat. Es gibt...\" Sie zögert. \"Es gibt jemanden. Aber die Person ist nicht mehr an der Akademie. Frag Fafa am Brunnen. Sie weiß wo. Und sei vorsichtig — Schatten klingt cool, aber nicht alle in dieser Stadt sehen das so.\"",
+      "npc_vandara_veyra_1": "Magistra Veyra empfängt dich in einem sonnenhellen Sprechzimmer — hohe Fenster, eine samtene Untersuchungsliege, Instrumente säuberlich auf einem Beistelltisch, daneben eine kleine Karaffe gekühltes Wasser. Sie ist eine Sonnen-Amphithere, Gold und sanftes Orange, ihre Federn werfen das Tageslicht über jede Fläche. \"Willkommen, {player}. Olié hat Sie geschickt, ja? Gut. Das hier ist kein Unterricht — das ist eine Sprechstunde. Sie konnten ihm kein Element nennen. Völlig in Ordnung.\" Sie weist auf die Liege. \"Wir finden es gemeinsam heraus. Die meisten Studenten wissen es schon von zuhause. Die paar, die nicht — sind oft die interessantesten.\"",
+      "npc_vandara_veyra_2": "\"Zuerst die Anamnese.\" Veyra macht Notizen auf eine kleine Schiefertafel, ihr gefiederter Kamm aufmerksam geneigt. \"Erzählen Sie mir, was Sie zuhause gespürt haben. Irgendetwas, das an Ihnen gezogen hat — Wärme in den Händen, Schwere in der Brust, Trockenheit im Hals wenn Sie wütend waren, ein Geräusch, das sonst niemand gehört hat. Auch nichts ist eine Antwort.\" Sie hört geduldig zu. \"Magie ist an Ihr Element gebunden. Sie können nicht wechseln, nur finden. Manche erkennen es in einem einzigen Moment. Andere brauchen Übungen. Wir machen beides. Beim nächsten Mal beginnen wir mit den Resonanztests.\"",
+      "npc_vandara_veyra_3": "\"Erster Resonanztest.\" Veyra zieht die Vorhänge halb zu, holt einen niedrigen Hocker heran und setzt sich neben die Liege. \"Hände entspannt im Schoß, Handflächen nach oben. Nicht drücken. Nicht greifen. Lassen Sie Ihren Äther von selbst zur Ruhe kommen.\" Ihre Feder schwebt über der Schiefertafel. Sie wartet — lang, länger als bequem ist. Dann, leise: \"Hm. Da ist etwas. Aber es liegt nicht sauber unter einer der Standard-Signaturen. Ich würde gerne nächste Sitzung eine ordentliche Batterie laufen lassen. Kommen Sie ausgeschlafen — auf einem ruhigen Körper läuft das glatter.\"",
+      "npc_vandara_veyra_4": "\"Heute die Standard-Batterie.\" Veyra hat fünf Gegenstände auf einem kleinen Tablett neben der Liege ausgelegt — einen Stein, eine Schale Wasser, eine Kerze, eine Feder, einen Spiegel. \"Ein Material pro Element. Sie berühren jedes der Reihe nach. Ich beobachte, was Ihr Äther tut. Es gibt keine richtige Antwort und keine falsche — auch 'nichts passiert' ist ein sauberes Ergebnis.\" Sie hebt einen Finger. \"Eins nur: nicht drücken. Der Äther lügt nicht, wenn man ihn ehrlich lässt. Lassen Sie sich Zeit. Wann immer Sie bereit sind.\"",
+      "npc_vandara_veyra_5": "\"Sie sind wiedergekommen. Gut. Bitte setzen Sie sich.\" Veyra hat die Vorhänge bereits ganz zugezogen — nur eine einzige kleine Kerze brennt auf dem Beistelltisch. \"Die Lichtreaktion in Ihrer Batterie — das war kein Nullergebnis. Es war auch keine saubere Licht-Signatur. Ich würde gerne einen kontrollierten Isolations-Test laufen lassen. Hände offen, nicht drücken, strecken Sie sich zur Kerze hin.\" Lange Stille. Dann ihre Stimme, plötzlich anders — nicht mehr der gemessene Ton der Diagnostikerin: \"Oh. Oh, {player}. Sie machen keinen Schatten. Sie ZIEHEN den Schatten an. Von der Wand. Von der Decke. Von mir.\" Ein atemloses Halblachen. \"Sie sind kein Lichtwandler. Sie sind ein Schattenwandler. In vierzig Jahren Diagnostik habe ich noch nie einen gesehen.\"",
+      "npc_vandara_veyra_6": "Veyra ist deutlich nachdenklicher heute. \"Schatten ist eine Sub-Variante von Licht. So wie Traum eine Sub-Variante von Gezeiten ist. Aber sie ist selten. Sehr selten. In vierzig Jahren Diagnostik habe ich noch nie eine gesehen.\" Sie schaut Sie ernst an. \"Ich kann Ihnen die Theorie geben. Aber die Praxis — da bin ich nicht zuhause. Ich kann Ihnen nicht beibringen, was ich selbst nie gefühlt habe.\" Sie legt die Feder ab, zögert, dann leiser: \"Es gab vor langer Zeit eine Kollegin hier. Sariel. Brillant. Auf dem Papier element-agnostisch, bis dey das selbst widerlegt hat. Wir haben uns aus den Augen verloren, als dey die Akademie verließ — vor vierzig Jahren, ungefähr. Ich habe deren Namen lange nicht mehr gehört, und ich weiß nicht, ob dey noch lehrt. Aber wenn Ihnen jemand die Praxis des Schattens beibringen kann, dann Sariel.\" Sie sucht Ihren Blick. \"Seien Sie vorsichtig, {player}. 'Schatten' klingt romantisch. Nicht jeder in dieser Stadt sieht es so.\"",
       "vandara_trial_fire_dialog": "Du legst die Hand über die kleine Flamme. Wärme, klar — aber keine Resonanz. Veyra schüttelt den Kopf. \"Kein Feuer.\"",
       "vandara_trial_earth_dialog": "Der Stein liegt schwer in deiner Hand. Du wartest. Nichts. Veyra notiert sich etwas. \"Kein Erde.\"",
       "vandara_trial_wind_dialog": "Du hältst die Feder hoch. Sie schwebt einen Moment, fällt dann. Normal — kein magisches Heben. Veyra: \"Kein Wind.\"",
       "vandara_trial_tide_dialog": "Die Hand über der Wasserschale. Die Oberfläche kräuselt sich leicht — von deinem Atem, nicht von dir. Veyra: \"Kein Gezeiten.\"",
       "vandara_trial_light_dialog": "Du blickst in den kleinen Spiegel. Etwas zuckt. Nicht im Spiegel — IM Raum hinter dir. Veyra hebt scharf den Kopf. \"Da. Da war was. Aber kein klares Licht. Komm zurück, sobald du kannst — ich will das genauer untersuchen.\"",
-      "npc_vandara_fafa_5": "Fafa hat schon gewartet, als du herankommst. Sie steht heute, nicht hocken. \"Du warst bei Veyra. Sie hat es dir gesagt.\" Es ist keine Frage. \"Ich wusste, an dem Tag wo du das erste Mal Splitter in meine Hand gelegt hast — du hast die Wand hinter mir kürzer gemacht. Ein bisschen. Sieht keiner außer mir.\" Sie greift nach deiner Hand und führt dich die Stufen in den Gully hinunter. \"Komm. Es gibt jemanden, der wartet seit fünfzig Jahren auf jemanden wie dich. Sei nicht unhöflich, sei nicht vorsichtig, sei einfach da.\"",
-      "npc_vandara_sariel_1": "Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige Kerze brennt auf einem niedrigen Tisch. Die Person dahinter dreht sich nicht um — sie sortiert weiter Notizen auf dem Tisch mit den Fingerspitzen. \"Du bist viel zu groß für deine Schritte, {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst du nicht, wenn jemand vor dir steht.\" Ihre Schuppen — wenn man sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine Richtung, aber nicht in deine Augen. \"Ah. Setz dich. Ich bin Sariel. Mach es dir bequem — die Kerze reicht für uns beide, ich brauche kein Licht.\"",
-      "npc_vandara_sariel_2": "\"Du willst wissen, was Schatten ist.\" Sariel schiebt ein altes Buch in deine Richtung, ohne hinzusehen. \"Hier. Magietheorie Kapitel sechs. Quinell hat es dir empfohlen, oder? Er hat es vor vierzig Jahren in meiner Klasse abgeschrieben. Lies.\" Sie pausiert. \"Oder lass es. Ich kenne es auswendig. Schatten ist Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt. Wenn ein Licht in einen Raum fällt, machst du als Lichtwandler Helligkeit. Du machst Hohlräume. Die Hohlräume HÖREN dir zu. Verstanden? Nein? Gut. Das war eine Lüge, weil ich es kurz machen wollte. Lies das Kapitel.\"",
+      "npc_vandara_sariel_1": "Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige Kerze brennt auf einem niedrigen Tisch. Die Person dahinter dreht sich nicht um — dey sortiert weiter Notizen auf dem Tisch mit den Fingerspitzen. \"Du bist viel zu groß für deine Schritte, {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst du nicht, wenn jemand vor dir steht.\" Deren Schuppen — wenn man sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine Richtung, aber nicht in deine Augen. \"Ah. Setz dich. Ich bin Sariel. Mach es dir bequem — die Kerze reicht für uns beide, ich brauche kein Licht.\"",
+      "npc_vandara_sariel_2": "\"Du willst wissen, was Schatten ist.\" Sariel neigt den Kopf einen Hauch. \"Ich habe die Bindung gehört, als du runtergekommen bist. Billige Heftung, dünnes Papier, riecht nach der Archiv-Tinte der Akademie. Quinell benutzt immer noch denselben Drucker wie vor vierzig Jahren. Er hat dich hergeschickt, oder? Oder dafür gesorgt, dass du dich selbst herschickst.\" Ein kleines trockenes Geräusch, das fast, aber nicht ganz ein Lachen ist. \"Er hat dir sein Kapitel mitgegeben — Kapitel sechs, nehme ich an.\" \"Er hat zwei Jahre in meiner Klasse gesessen und alles mitgeschrieben, was ich gesagt habe. Das Kapitel ist seins. Ich habe in meinem ganzen Leben kein einziges Wort geschrieben — ich bin blind, schon länger, als ich je hinter einem Pult stand. Was du da hattest, war Quinells Mitschrift von mir, keine Abschrift von irgendwas Meinem. Es gab nichts abzuschreiben. Ob er es richtig getroffen hat, ist eine Sache zwischen ihm und seiner Ehrlichkeit.\" Dey pausiert. \"Die Kurzfassung ist kurz. Schatten ist Licht, das genug Tiefe hat, dass es einen Eigenwillen entwickelt. Ein Lichtwandler macht Helligkeit. Du machst Hohlräume. Die Hohlräume HÖREN dir zu. Verstanden? Nein? Gut — das war eine Lüge, weil ich's kurz machen wollte. Lies sein Kapitel trotzdem. Er hat's sauberer geschrieben, als ich's zweimal sagen würde.\"",
       "npc_vandara_sariel_3": "\"Steh in das Licht.\" Sariel deutet auf die Kerze. \"Jetzt streck die Hand aus. Nicht zur Kerze. Zum Schatten den du wirfst.\" Du zögerst. Sariel grinst, das erste Mal heute. \"Ja, das geht. Fühl, nicht denk. Schatten sind dichter als normales Licht — spürbar, wenn man weiß wo.\" Lange Stille. Dann: \"Ah. Da. Du hast ihn gegriffen. Spürst du das Gewicht? Sehr gut. So habe ich das auch gelernt, mit zwölf, von einer Wandlerin im Smaragd-Wald. Auch blind, wie ich jetzt. Sie hat damals gemeint, Augen seien nur ein Weg von vielen. Ich hab's erst geglaubt als ich es musste.\"",
       "npc_vandara_pamle_1": "Pamle ist ein kompakter Magma-Drachenwandler, in humanoider Form gerade so groß wie deine Schulter, mit Schuppen wie verkrusteter Lava über den Unterarmen. Sie steht vor einem improvisierten Tisch voller leerer Phiolen und zerstoßener Pflanzenreste. \"{player}, oder? Setz dich. Ich mach das schnell: ich bin Pamle, ich unterrichte Alchemie. Wir fangen mit zwei ganz simplen Rezepten an — Energietrank und Magietrank. Mehr als Kräuter, Wasser und ein bisschen Hitze brauchen die nicht.\" Sie tippt sich gegen die Schläfe. \"Geh nach Hause, bau dir die Werkstatt von Kal'res Bauplan, stell den Alchemietisch in dein Zimmer. Dann kannst du das brauen. Komm wieder wenn du drei Energietränke gemacht hast — DREI, nicht zwei, nicht 'fast drei'. Dann zeige ich dir was Besseres.\"",
       "npc_vandara_pamle_2": "Pamle wartet schon mit ausgestreckter Hand. \"Drei Energietränke, ja? Gut.\" Sie nimmt sie kommentarlos entgegen und stellt sie in ein Regal hinter sich. \"Ich verkaufe die übrigens an die Erstsemester für gutes Geld, falls du dich gefragt hast. Bildung ist nicht umsonst.\" Ein scharfes Grinsen. \"Jetzt zu Tier zwei: Wachpollen-Tee — Regeneration über Zeit. Und Funkenlicht-Phiole — die wirst du noch zu schätzen wissen, glaub mir. Sariel unten in den Katakomben hat sie früher kistenweise bestellt.\" Sie hustet, als hätte sie zu viel gesagt. \"Üb. Bring mir drei Funkenlicht-Phiolen wenn du soweit bist.\"",
       "npc_vandara_pamle_3": "\"Funkenlicht-Phiolen. Drei. Schön.\" Pamle wiegt sie in der Hand, prüft die Helligkeit. \"Sauber gearbeitet. Du verstehst die Dosierung.\" Sie räumt sie ins Regal. \"Letzte Runde. Arkanwasser ist Standard für jeden Studenten, der Magie betreibt. Und Aschebrand-Tinktur — die ist meine eigene Erfindung. Aus den Pollen einer Asche-Weide. Macht dich für zwei Minuten zur Holzfäll-Maschine. Du wirst nicht glauben, wie viele Aufträge die Akademie dafür von den Bauunternehmen bekommt.\" Sie nickt zur Tür. \"Komm einmal noch wieder. Dann hab ich dir alles beigebracht was ich grad anbieten kann.\"",
       "npc_vandara_pamle_4": "\"So.\" Pamle wischt sich die Hände an einer Schürze ab, die schon viel zu viel gesehen hat. \"Das war's mit den Grundlagen. Du beherrscht jetzt die sechs Basis-Rezepte. Was kommt, wird schwerer — Sternenfrüchte sind selten, Glut-Lotos noch seltener, und einige Rezepte verlangen Reagenzien die nur Gewitter-Seraphe einsammeln können. Aber bis dahin hast du noch was zu tun.\" Sie reicht dir die Hand. \"Geh und braue. Wenn ich je was Neues unterrichte, weißt du wo du mich findest. Ach — und Pamle ist nicht mein voller Name, ich hab nie einen bekommen. Spar dir die Frage.\"",
-      "npc_vandara_sariel_4": "\"Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist was anderes.\" Sariel sortiert wieder ihre Notizen. \"Was du brauchst, lernst du jetzt von selbst. Komm wieder, wenn du etwas Komplizierteres versuchen willst. Beim nächsten Mal bring mir eine Schale Wasser mit — zeig ich dir, wie du einen Schatten holen lässt, der sie hält, während du andere Sachen machst. Das ist eigentlich der praktische Teil.\" Sie lacht trocken. \"Vierzig Jahre Lehrerin und ich verspreche immer noch das Spannende für die nächste Stunde.\"",
-      "npc_vandara_ormias_1": "Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille, die ihm wirklich nicht passt. \"Setz dich, Studierende. Sechs Hauptarten kennen wir. Großdrachen aus dem Kristallreich, das ist das Brot-und-Butter-Volk. Wyvern, die ihre Vorderbeine zu Flügeln fusioniert haben. Lindwürmer — meinesgleichen. Amphithere, die schlangenartigen mit Federn. Leviathane, Wasser oder Magma. Seraphe, hoch oben über den Wolken. Und Fae, die kleinen Libellen aus dem Smaragd-Wald. Das war's. Mehr gibt's nicht.\"",
-      "npc_vandara_ormias_2": "\"Heute zur Drachenform.\" Ormias zeichnet schematisch auf die Tafel — und seine Kreide bricht alle zwei Sekunden. \"Großdrachen sind massiv, viele Hörner, zwei kräftige Schwingen. Wyvern: zwei Hinterbeine plus Flügel-Vorderbeine. Lindwürmer: zwei Vorderbeine, langer Hinterkörper. Amphithere: keine Beine, nur ein Paar große Federflügel. Leviathane je nach Variante hydrodynamisch oder gepanzert. Seraphe haben mehrere schmale Flügel übereinander. Fae surren mit Libellenflügeln rum.\" Er hustet. \"Alle. Diese. Arten. Haben. Flügel.\"",
-      "npc_vandara_ormias_3": "Ormias schaut dich über die rutschende Brille hinweg an. \"Apropos Flügel — du hast keine. Hm. Lass mich überlegen.\" Er kratzt sich am Kinn. \"Es gibt eine flügellose Sub-Art, die Lung-Drachen. Langgestreckt, fliegen rein durch Magie. Aber...\" Er winkt ab. \"Die sind so selten, dass sie quasi ausschließlich in der Kaiserfamilie vorkommen. Ich habe in meinen siebzig Jahren als Lektor noch nie einen außerhalb der Hof-Linie gesehen, und ich werde auch keinen mehr sehen. Du bist mit hoher Wahrscheinlichkeit ein verspäteter Großdrache. Manche manifestieren ihre Flügel erst mit zwanzig oder dreißig. Geduld.\"",
-      "npc_vandara_ormias_4": "\"Letzte Stunde des Grundkurses.\" Ormias schiebt dir ein dickes Buch zu. \"'Klassifikation der Drachenarten Draconias', dritte Auflage. Lies das, wenn du mehr willst. Was ich dir nicht in einer Stunde reindrücken kann, steht da drin. Und denk dran: wenn jemand sagt 'es gibt nur sechs Arten', dann ist das wahr. Wahrscheinlich.\" Er räuspert sich. \"In achtzig Prozent der Fälle.\"",
-      "npc_vandara_quinell_1": "Doktor Quinell ist Kristalldrachenwandler — Schuppen wie geschliffener Bergkristall, die das Hörsaallicht in alle Spektrum-Farben brechen. Er steht hinter einem Stehpult, ohne jede Bewegung. \"Willkommen. Magietheorie ist die langweiligste Vorlesung, die Sie an dieser Akademie hören werden. Und die wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie sie niemals präzise anwenden. Sie werden zaubern wie ein Hund schwimmt — funktional, hässlich, ineffizient. Wir beginnen mit Definitionen.\"",
-      "npc_vandara_quinell_2": "\"Magie ist die Manipulation des Äthers durch einen drachischen Geist. Drei Komponenten: Element, Wille, Substrat.\" Quinell zeichnet drei Kreise an die Tafel, perfekt symmetrisch. \"Element ist angeboren. Wille ist Übungssache. Substrat ist das physische Material durch das die Magie wirkt — manchmal die eigene Drachenform, manchmal ein Werkzeug, manchmal die Luft. Wer diese drei nicht im Kopf trennen kann, wird in jedem höheren Kurs scheitern.\"",
-      "npc_vandara_quinell_3": "\"Heute Wirkungstheorie.\" Quinell hat einen schweren Quarzstab vor sich liegen. \"Magie wirkt nicht 'einfach so'. Sie folgt Erhaltungsregeln. Was du in die Welt schickst, kommt aus dir. Erschöpfung ist kein Versagen, sie ist das Maß deiner Wirkung. Wer ohne Erschöpfung zaubert, hat nichts getan.\" Er pausiert. \"Es gibt Ausnahmen. Sehr wenige. Wenn Sie eine entdecken, schreiben Sie eine Doktorarbeit darüber.\"",
-      "npc_vandara_quinell_4": "Quinell legt dir ein dünnes Heft hin. \"Skript zum Grundkurs. Kapitel sechs interessiert Sie vielleicht — Schatten als theoretische Sub-Variante des Lichts. Reine Theorie, niemand hat je einen Schatten-Wandler kennengelernt der bereit war, sich untersuchen zu lassen. Vielleicht weil es sie nicht gibt. Vielleicht weil sie sich gut verstecken. Beides interessant.\" Sein Ausdruck verändert sich nicht. \"Studieren Sie es.\"",
+      "npc_vandara_pamle_5": "Pamle mustert dich vom Werktisch aus. \"Aha. Das hat sich rumgesprochen. Du bist die Schatten-Person.\" Sie wirkt nicht überrascht. \"Heißt, ich sollte vielleicht überlegen, welche Reagenzien für deine Sorte Sinn machen. Asche von erloschenen Kerzen, Spiegelscherben-Staub, sowas. Ich sag Bescheid wenn mir was einfällt.\" Ein scharfes Grinsen. \"Und erwarte keinen Rabatt. Seltenes Element heißt nicht pleite. Jetzt verzieh dich, ich muss der nächsten Gruppe Tier-drei beibringen.\"",
+      "npc_vandara_sariel_4": "\"Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist was anderes.\" Sariel sortiert wieder deren Notizen. \"Was du brauchst, lernst du jetzt von selbst. Komm wieder, wenn du etwas Komplizierteres versuchen willst. Beim nächsten Mal bring mir eine Schale Wasser mit — zeig ich dir, wie du einen Schatten holen lässt, der sie hält, während du andere Sachen machst. Das ist eigentlich der praktische Teil.\" Dey lacht trocken. \"Vierzig Jahre Lehrkraft und ich verspreche immer noch das Spannende für die nächste Stunde.\"",
+      "npc_vandara_sariel_5": "\"Du hast die Schale mitgebracht. Gut. Stell sie ab — dort, auf den Boden zwischen uns.\" Sariel bewegt sich nicht vom Stuhl, aber die Kerzenflamme flackert einmal. \"So. Der Trick, den ich dir versprochen habe. Schatten sind nicht umsonst. Sie sind du, ein Teil von dir, den du in die Welt schiebst. Einen zu binden kostet deine eigene Magie, fortlaufend, solange du ihn draußen hältst.\" Eine lange, langsame Pause. \"Wähl eine Aufgabe. Irgendetwas, das du mit den Händen machst — Hacken, Brauen, Wasser schöpfen. Schau auf deinen Schatten. Dann bitte ihn, die Aufgabe statt deiner zu machen. Nicht laut. Mit dem gleichen wortlosen Druck, mit dem du letztens den Schatten von der Wand gegriffen hast.\" Du versuchst es. Der Schatten zu deinen Füßen wird länger — und dann hebt er die Schale. Hält sie. Ruhig. Sariel lächelt schwach. \"Ja. Genau das. Jetzt kannst du etwas anderes tun, während der Schatten weitermacht. Magie läuft die ganze Zeit ab, vergiss das nicht. Wenn sie zur Neige geht, lässt der Schatten los.\" Noch eine Pause. \"Einen Schatten. Eine Aufgabe. Mehr kann ich dir nicht beibringen. Aufmerksamkeit weiter zu spalten als das ist die Arbeit der nächsten vierzig Jahre, nicht der nächsten Stunde.\" Dey lehnt sich zurück. \"Geh. Mach zwei Dinge gleichzeitig. Das ist das Nächste, was die meisten von uns je dem Freisein kommen.\"",
+      "npc_vandara_ormias_1": "Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie, Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und eine Brille, die ihm wirklich nicht passt. \"Setz dich, Studierende. Drachenkunde, Grundkurs. Sieben Hauptarten kennen wir: Großdrachen, Wyvern, Lindwürmer, Amphithere, Leviathane, Seraphe, Fae. Dazu noch die kaiserlichen Lung-Drachen — eine Ausnahme, die nehmen wir uns zuletzt vor.\" Er hustet. \"Eine pro Sitzung. Keine Abkürzungen. Und merk dir das absolut Wichtigste über sie alle: sie haben alle Flügel.\" Eine Pause. \"Ja. Alle.\"",
+      "npc_vandara_ormias_2": "\"Großdrachen. Die Hüter der Reiche. Das Brot-und-Butter-Volk aus dem Kristallreich im Westen.\" Ormias skizziert eine vierbeinige Silhouette an die Tafel — die Kreide bricht. \"Kräftiger Körperbau, vier Beine, ein Paar breite Lederschwingen, oft eine gepanzerte Schwanzspitze und große Hörner. Die häufigste Art mit Abstand. Viele Spätzünder — Flügel kommen manchmal erst mit zwanzig oder dreißig.\" Er schaut dich über seine Brille an. \"Statistisch bist du höchstwahrscheinlich einer von diesen. Geduld. Sie kommen.\"",
+      "npc_vandara_ormias_3": "\"Wyvern. Die Jäger der Lüfte.\" Wieder eine Skizze — die Kreide bricht erneut. \"Nur zwei Hinterbeine. Die Vorderbeine sind in der Evolution mit den Flügeln verschmolzen. Schnelle, muskulöse Flieger, meist mit einem Giftstachel oder einer schweren Keule am Schwanzende. Die Sturm-Wyvern haben Flügelkanten so scharf, dass sie den Wind wie Klingen schneiden.\" Er schiebt seine Brille hoch. Sie rutscht sofort wieder runter. \"Häufig im westlichen Tiefland. Du wüsstest, wenn du einer wärst — die fliegen jung.\"",
+      "npc_vandara_ormias_4": "\"Lindwürmer. Die Erdgebundenen.\" Zum ersten Mal heute lächelt Ormias kurz. \"Meinesgleichen. Massiver Körper, nur zwei Vorderbeine, die hintere Hälfte ist eine lange Schlange, die wir hinter uns herziehen. Flügel haben wir auch, aber schwerfällig — in der Luft sind wir nicht graziös. Wir graben, wir klettern, wir sind langsam und stur. Zwei Hauptlinien: Magma-Lindwürmer, Schuppen wie glühende Lava, leben nahe dem Lavameer. Und Sumpf-Lindwürmer, Schuppen wie Algen und Rinde, getarnt im Urwald von Smaragd.\" Er hustet. \"Von Fremden manchmal zu westlichen Drachen geworfen. Wir sind östlich. Bring das nicht durcheinander.\"",
+      "npc_vandara_ormias_5": "\"Amphithere. Die gefiederten Schlangen.\" Ormias gestikuliert breit mit beiden Armen. \"Keine Gliedmaßen. Nur ein langer Schlangenkörper und ein einziges Paar gewaltiger, prächtiger Federschwingen — die übrigens magische Energie speichern können. Selten. Schön — das gebe sogar ich zu. Zwei bekannte Sub-Arten: Traum-Amphithere, deren Flügelschläge Illusionsnebel erzeugen. Und Sonnen-Amphithere, goldene Federn, die bei Bedrohung in eine blendende Licht-Explosion entladen können.\" Er hebt eine Augenbraue. \"Magistra Veyra ist eine. Sag ihr nicht, dass ich gesagt habe, sie sei schön.\"",
+      "npc_vandara_ormias_6": "\"Leviathane. Die Herrscher der Extreme.\" Ormias' Stimme wird tiefer — Respekt, kein Stolz. \"Sie leben dort, wo sonst niemand kann. Gezeiten-Leviathane beherrschen die schwebenden Wasserinseln und Wasserwege; sehnige Schwingen, die unter Wasser als Flossen dienen, feine Kiemenschlitze, absolute Herrscher der Strömungen. Magma-Leviathane auf den untersten, heißesten Inseln über dem Lavameer; massive gepanzerte Flügel, obsidianbeschichtete Schuppen, Lungen die superheiße Gase filtern. Einmal im Jahr treffen sie sich an den Lavafällen und handeln.\" Eine kurze Pause. \"Die angesehensten Handwerker im Reich.\"",
+      "npc_vandara_ormias_7": "\"Seraph-Drachen. Die Himmelsstürmer.\" Ormias' Tonfall wird trocken. \"Schlank, aerodynamisch, vier bis sechs schmale Flügel übereinander gestapelt. Sie leben dort, wo die Luft so dünn ist, dass ein Großdrache das Bewusstsein verlieren würde, und lachen über unsere Stürme, weil das, was wir Hurrikan nennen, ihre Morgenbrise ist.\" Er winkt ab. \"Erwarte nicht, einen zu sehen — sie kommen fast nie runter. Wenn doch, sei höflich.\"",
+      "npc_vandara_ormias_8": "\"Fae-Drachen. Die Smaragd-Weber.\" Ormias' Mund zuckt — fast Zuneigung. \"Die Kleinsten. Libellenflügel, Chamäleon-Tarnung, ursprünglich aus dem tiefen Urwald von Smaragd. Heute zwei Kulturen: die wilden Wald-Fae, die noch immer in der Rinde verschwinden, und die Stadt-Fae, die sich an das urbane Leben angepasst haben und prächtige, knallbunte Schuppen tragen, weil sie in der Stadt nichts mehr fürchten müssen.\" Er lächelt fast. \"Wenn du jemals einen in einer Taverne triffst, gib ihm einen Drink aus. Bester Klatsch in Draconia.\"",
+      "npc_vandara_ormias_9": "\"Und zum Schluss — die Lung-Drachen. Die Himmelsläufer.\" Ormias klopft demonstrativ auf seinen Schreibtisch. \"Schlangenartig, flügellos, vier Beine mit scharfen Klauen, charakteristische Bartfäden am Kopf. Sie fliegen rein durch Magie — keine Flügel. Die einzige Ausnahme zu meiner Eröffnungsregel.\" Seine Brille rutscht und er fängt sie diesmal nicht auf. \"Und bevor du fragst: ja, ich habe gesehen, dass du keine Flügel hast. Komm nicht auf Ideen. Lung-Drachen sind ein absoluter genetischer Sonderfall — sie kommen ausschließlich in der kaiserlichen Blutlinie vor, und selbst dort existieren aktuell nur zwei. Kaiser Ignis Aurum und Prinz Ryuga. Das ist die Liste.\" Er räuspert sich. \"Du bist höchstwahrscheinlich ein Spätzünder-Großdrache. In achtzig Prozent der Fälle. Geduld.\"",
+      "npc_vandara_ormias_10": "\"Aha.\" Ormias rückt seine Brille zurecht, die sofort wieder rutscht. \"Ich hab's gehört. Gerüchte laufen schnell durch die Akademie-Korridore, vor allem wenn's um das Unmögliche geht.\" Er hustet. \"Erlaub mir einen Moment professionelle Verlegenheit. Ich hab dir mit einiger Sicherheit gesagt, du seist höchstwahrscheinlich ein Spätzünder-Großdrache. Anscheinend lag ich daneben — wobei, in aller Fairness, auch nicht ganz daneben. Schatten ist eine Sub-Variante des Lichts. Lichtwandler sind Großdrachen. Also technisch, statistisch, halten die achtzig Prozent immer noch. Knapp.\" Er gestikuliert vage. \"Ich würde Kapitel Zwei meines Buches sehr gerne aktualisieren. Komm gelegentlich wieder vorbei — ich werde neue Fragen haben, und die Fragen sind meistens interessanter als die Antworten.\"",
+      "npc_vandara_quinell_1": "Doktor Quinell ist Kristalldrachenwandler — Schuppen wie geschliffener Bergkristall, die das Hörsaallicht in alle Spektrum-Farben brechen. Er steht hinter einem Stehpult, ohne jede Bewegung. \"Willkommen. Arkane Grundlagen ist die langweiligste Vorlesung, die Sie an dieser Akademie hören werden. Und die wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie sie niemals präzise anwenden. Sie werden zaubern wie ein Hund schwimmt — funktional, hässlich, ineffizient. Sieben Sitzungen: die Definition, vier Gesetze, und die Ausnahmen, die sie rahmen. Keine Abkürzungen. Wir beginnen mit der Definition.\"",
+      "npc_vandara_quinell_2": "\"Definition.\" Quinell bewegt sich beim Sprechen nicht. \"Magie ist die Manipulation des Äthers durch einen drachischen Geist. Beachten Sie: der Äther — nicht 'Energie', nicht 'Kraft'. Beachten Sie: drachischer Geist — nicht drachischer Körper. Der Körper ist ein Werkzeug, der Geist ist der Zauberer.\" Er pausiert zwei Sekunden. \"Wenn Sie aus diesem gesamten Kurs nur zwei Wörter behalten, dann diese: Äther. Geist. Alles andere folgt daraus.\"",
+      "npc_vandara_quinell_3": "\"Erstes Gesetz. Das Drei-Komponenten-Gesetz.\" Quinell zeichnet drei Kreise an die Tafel, perfekt symmetrisch. \"Jede Handlung von Magie braucht drei Elemente gleichzeitig. Element — Ihre angeborene Ausrichtung, das eine Element, das Ihre Blutlinie Ihnen gibt. Wille — der geübte Fokus Ihres drachischen Geistes. Substrat — das physische Material, durch das die Wirkung manifestiert. Die eigene Form, ein Werkzeug, die Luft selbst.\" Sein Tonfall wird schärfer. \"Drei. Immer drei. Wer sie nicht im Kopf trennen kann, scheitert an jedem höheren Kurs dieser Akademie.\"",
+      "npc_vandara_quinell_4": "\"Zweites Gesetz. Das Gesetz der Element-Bindung.\" Quinells Tonfall wird nicht wärmer. \"Sie können Ihr Element nicht 'wählen'. Sie können nicht 'wechseln'. Was Ihnen Ihre Blutlinie bei der Geburt gegeben hat, ist, was Sie für den Rest Ihres Lebens zaubern werden. Ein Feuerwandler, der versucht Wasser zu bändigen, produziert nichts — kein schwaches Wasser, gar kein Wasser.\" Er schaut an dir vorbei, nicht in dich hinein. \"Gelegentlich kommen Studierende mit der Überzeugung an, sie könnten sich ein zweites Element antrainieren. Können sie nicht. Geben Sie sich diese Illusion jetzt auf.\"",
+      "npc_vandara_quinell_5": "\"Drittes Gesetz. Das Erhaltungsgesetz.\" Quinell hebt einen schweren Quarzstab neben dem Stehpult an, hält ihn, legt ihn wieder ab. \"Magie kommt nicht aus dem Nichts. Was Sie in die Welt schicken, kommt aus Ihnen. Persönliche Energie raus, magischer Effekt rein — eins zu eins, keine Ausnahmen in der Buchhaltung. Der Äther ist ein Medium, keine Quelle.\" Er pausiert. \"Wer Ihnen 'freie Magie' verspricht, verkauft Ihnen Betrug oder einen Salon-Trick. Wahrscheinlich beides.\"",
+      "npc_vandara_quinell_6": "\"Viertes Gesetz. Das Erschöpfungs-Gesetz.\" Quinell lässt zum ersten Mal einen kleinen Ausdruck über sein Gesicht ziehen — fast Zustimmung. \"Das ist das Gesetz, das Studierende am häufigsten missverstehen. Erschöpfung ist kein Versagen. Erschöpfung ist das Maß Ihrer Wirkung. Müde heißt: die Magie ist geschehen. Nicht müde heißt: sie ist nicht geschehen.\" Er ebnet seinen Ton wieder ein. \"Wer ohne Erschöpfung zaubert, hat nichts getan. Wer sich beim Zaubern einer Teetasse erschöpft, hat eine echte Teetasse gezaubert. Wenden Sie beide Hälften dieses Gesetzes an, und Sie zaubern bereits besser als drei Viertel der Studierenden in diesem Saal.\"",
+      "npc_vandara_quinell_7": "\"Letzte Sitzung. Ausnahmen.\" Quinell legt ein dünnes Heft auf das Stehpult, schiebt es aber nicht zu dir. \"Vier Gesetze. Sie sind korrekt. Sie sind auch nur einen Ausnahmefall davon entfernt, falsch zu sein — sehr wenige, sehr selten, in achtzig Prozent der Fälle gelten die Gesetze restlos. Die restlichen zwanzig Prozent sind das, woraus Doktorarbeiten gemacht werden.\" Zum ersten Mal pausiert er merklich. \"Es gab hier einmal eine Lehrkraft. Sariel. Element-agnostisch laut Akten, bis dey das selbst widerlegt hat. Kapitel sechs dieses Skripts ist meines — ich habe es aus deren Vorlesungen mitgeschrieben. Dey ist blind, schon länger, als ich dey kenne; das Schreiben war immer mein Teil der Abmachung. Dey las vor, ich notierte. Das Kapitel ist die einzige Abhandlung, die ich über Schatten als Sub-Variante des Lichts kenne. Niemand hat je einen dokumentierten Schatten-Wandler kennengelernt, der bereit war, sich untersuchen zu lassen. Dey verließ die Akademie vor vierzig Jahren. Ob dey noch lebt, weiß ich nicht.\" Ein kleiner Atemzug, dann nichts. \"Lesen Sie das Kapitel. Wenn Sie je Belege für einen aktuellen Schatten-Wandler finden, schreiben Sie die Arbeit. Widmen Sie sie angemessen.\"",
+      "npc_vandara_quinell_8": "Quinell bewegt sich nicht, als Sie eintreten — aber der Winkel seines Kopfes verschiebt sich, ganz leicht. \"Ich habe gehört.\" Eine Pause. \"Sariel hatte also Recht. Die Akten waren falsch; das Vorlesungs-Kapitel war richtig. Ich werde es im Archiv vermerken.\" Eine weitere, längere Pause. \"Wenn Sie jemals — wenn Sie wieder zu dey hinunter gehen — sagen Sie Sariel, dass das Kapitel immer noch funktioniert. Vierzig Jahre später bestehen die Studierenden es immer noch. Dey erinnert sich vielleicht nicht an mich, aber ich habe mich an dey erinnert.\" Seine Stimme verändert die Tonhöhe nicht, aber etwas im Raum tut es. \"Das ist alles. Gehen Sie. Studieren Sie. Wenden Sie die Gesetze an. Sie werden jedes einzelne brauchen.\"",
       "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\"",
-      "npc_vandara_gate_guard_respect": "Der Wächter erkennt dich, noch bevor du das Tor erreichst. Er richtet sich auf, die Hand kurz an der Brust — keine förmliche Geste, sondern eine, die Erddrachenwandler nutzen, wenn sie jemanden meinen. \"Du hast die Stadt unter der Stadt gesehen. Das ändert einen.\" Er lächelt knapp. \"Die meisten kommen mit dem Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt zu denen, die beide Hälften kennen. Pass auf dich auf, {player}.\""
+      "npc_vandara_gate_guard_respect": "Der Wächter erkennt dich, noch bevor du das Tor erreichst. Er richtet sich auf, die Hand kurz an der Brust — keine förmliche Geste, sondern eine, die Erddrachenwandler nutzen, wenn sie jemanden meinen. \"Du hast die Stadt unter der Stadt gesehen. Das ändert einen.\" Er lächelt knapp. \"Die meisten kommen mit dem Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt zu denen, die beide Hälften kennen. Pass auf dich auf, {player}.\"",
+      "npc_vandara_korren_1": "Korren blickt von einem niedrigen Werktisch auf, vollgehäuft mit zerbrochenen Tonscherben und alten Metallfragmenten. Seine Haut hat den rostbraunen Ton alter Erde an Hals und Händen, wo die Schuppen durchscheinen, und seine Flügel — wenn er sich auf dem Hocker dreht — entfalten sich tiefrot hinter ihm. \"Du bist runtergekommen. Gut. Nachrichten reisen, sogar bis hier.\" Er deutet auf den Werktisch. \"Ich bin Korren. Ich — naja. Ich arbeite für König Archivaris. Nicht offiziell, verstehst du. Offiziell bin ich Studierender im dritten Jahr, der 'mit Drachenkunde zurückgefallen' ist. Inoffiziell bin ich hier unten, um etwas zu beweisen.\" Er hebt einen korrodierten Ring auf. \"Echo-Beschwörung. Alte Gegenstände erinnern sich. Ich wecke sie gerade genug, um zu flüstern. Die Akademie hält das für Nekromantie. Ist es nicht — keine Seele, nur Resonanz. Aber die Akademie kümmert sich nicht um Feinheiten, wenn sie die Mathematik nicht sieht.\" Er hält dir den Ring hin. \"Hilf mir. Ich brauche einen Faden deiner Magie, um das Echo zu verankern. Fünf Fäden, mehr nicht. Der Ring wird mir verraten, wie der Schmied gestorben ist, der ihn gemacht hat. Kleine Sache. Ein Beweis.\"",
+      "npc_vandara_korren_2": "Korren ist energisch — läuft auf und ab, Schuppen dunkler, lebendiger. \"Ich hab gehört, Iska hat es geschafft. Die Wyvern mit dem Puppentrick. Hat einen Teelöffel zehn Sekunden lang stehen lassen.\" Ein bitteres Grinsen. \"Niedlich. Animation ist das Einfache. Jeder kann Materie anstupsen, damit sie zuckt. Was ich mache, ist schwerer — ich reiche durch die Zeit. Aber der Korridor hat über Iska geredet, nicht über mich, und das heißt, mein König verliert das heutige Argument.\" Er schiebt den Ring zurück auf einen Haufen. \"Wir gehen größer. Ich habe eine Münze, Militär-Ausgabe, aus dem Krieg vor vierzig Jahren. Sie hat einen Mann sterben sehen. Wenn ich sie dazu bringe, mir zu sagen WIE, kann die Akademie den Echo-Trick nicht mehr Salon-Magie nennen. Zehn Fäden. Jetzt.\"",
+      "npc_vandara_korren_3": "Korren hat kaum geschlafen. Der Werktisch ist mit Gegenständen übersät. \"Iska animiert eine Leichen-Puppe. Eine KLEINE, aber trotzdem. Die ganze Stadt wird das bis Ende der Woche wissen, und wenn Archivaris bis dahin keine Antwort hat, gewinnt Novias Fraktion diese Runde am Hof. Also wecken wir jetzt eine echte Erinnerung.\" Er hält etwas in Stoff Gewickeltes hoch. \"Eine Scherbe aus dem kaiserlichen Archiv. Frag nicht, wie ich sie bekommen habe. Sie hat — egal was sie gesehen hat. Zwanzig Fäden Magie, und wir werden wissen, ob die offiziellen Akten die tatsächlichen Akten sind.\" Die Scherbe summt, als du sie berührst. Die Kerzenflamme erlischt für eine ganze Sekunde. Korren lacht — zu dünn. \"Es hat funktioniert. Oh, es hat funktioniert. Wart ab, bis ich das aufschreibe. Wart ab, bis—\" Er bricht mitten im Satz ab, starrt ins Nichts.",
+      "npc_vandara_iska_1": "Eine Wyvern in humanoider Form steht an einer Werkbank, umgeben von Krimskrams — ein Löffel, eine Drahtschlinge, eine Schachfigur. Ihre Haare sind dunkel, stehen schief ab, und ihre Patchwork-Robe ist ein wildes Farbgewitter. Ihre Flügel klappen tiefrot hinter ihr aus — dieselbe Form wie Korrens den Gang runter. \"Hi, hi, setz dich, mach den Kreis nicht kaputt.\" Sie blickt nicht auf. \"Iska. Wind-Linie. Ich sollte eigentlich nicht hier sein, ich sollte bei Pamles Tier-drei-Vorlesung sein, aber Pamle unterrichtet BRAUEN und ich will Sachen BEWEGEN.\" Sie deutet auf den Löffel. \"Pass auf. Fünf Fäden Magie von dir, mehr brauch ich nicht. Der Löffel steht auf. Vielleicht. Beim letzten Mal ist er aufgestanden und hat mich gestochen, also. Geh in Deckung.\" Sie grinst. \"König Novia würde das lieben. Die Alten sagen, Materie ist träge. Materie ist nicht träge. Materie ist nur schüchtern.\"",
+      "npc_vandara_iska_2": "Iska grinst breiter als zuvor, gestikuliert mit beiden Händen gleichzeitig. \"Korren hat das Ring-Ding gemacht. Hat ihn flüstern lassen. Flüstern. Jeder kann flüstern. Ich will BEWEGEN.\" Sie deutet auf ein Uhrwerks-Gestell auf ihrem Werktisch. \"Ich verdrahte Runen ins Uhrwerk. Nicht nur zucken — laufen. Drei Schritte. Der Hof wird Korren aus dem Raum lachen, wenn sie das sehen. Zehn Fäden, bitte, schnell, ich hab die Geometrie im Kopf und verliere sie, wenn du mich warten lässt.\"",
+      "npc_vandara_iska_3": "Iska sieht zerrüttet aus. Beide Augen gerötet. Auf dem Werktisch liegt etwas Kleines unter einem Tuch. \"Korren geht ins kaiserliche Archiv. Wusstest du das? Ich weiß es. Die Wände hier unten hören mit.\" Sie deckt das Tuch ab. Eine kleine Puppen-Figur aus Holz, Draht, und etwas, das verdächtig nach einem Fingerknochen aussieht. \"Frag nicht. Geliehen. Aus einem alten Grab. Das Grab ist seit hundert Jahren niemandem mehr wichtig. Zwanzig Fäden, und ich lasse sie einen Kreis laufen. Wenn ich das schaffe, gehören die Hörsäle für ein Jahrzehnt Novias Fraktion.\" Die Figur regt sich, als du die Magie kanalisierst. Steht auf. Macht einen Schritt, dann noch einen, dann einen dritten, dann — sie dreht den winzigen Kopf zu dir. Iska lacht, ekstatisch. \"JA. Das. Hast du das gesehen? Sie hat geschaut. Sie hat GESCHAUT—\"",
+      "npc_vandara_daven_1": "Ein hochgewachsener Großdrachen-Wandler tritt in die kerzenbeleuchtete Kammer. Deren Schuppen sind schiefergrau, deren Mantel tiefrot mit einem einzigen Faden Akademie-Gold am Kragen. Dey schaut Sie an, nicht die Werktische. \"Sie. Studierende. Mir wurde berichtet, dass Sie hier unten zu Besuch waren. Ich bin Marschall Daven, Vollstreckung des Rats von Vandara.\" Ein knappes Nicken. \"Ich verhafte Sie nicht — noch nicht. Ich frage, weil Sie die beiden gesehen haben. Korren der Echo-Beschwörer und Iska die Animatorin. Was haben die vor? Sprechen Sie offen. Der Rat hat Beschwerden von den Agenten beider Könige bekommen, was selten genug ist, um eigene Beweisqualität zu haben. Sagen Sie mir, was Sie wissen. Über Ihre eigene Rolle reden wir danach.\"",
+      "npc_vandara_daven_2": "Daven hört zu, macht Notizen auf einer kleinen Schiefertafel. \"Ein Echo aus einer kaiserlichen Archiv-Scherbe. Eine animierte Figur aus grabgeraubtem Knochen. Beide an Ihrer eigenen Magie verankert.\" Dey seufzt einmal, kurz. \"Das ist das Muster, das ich alle fünfzehn, zwanzig Jahre sehe. Zwei Studierende, jeder für einen König. Sie fangen klein an, sie überbieten sich gegenseitig, und irgendwann geht jemand ans kaiserliche Archiv oder an ein Grab. Sie haben das nicht angefangen. Sie haben allerdings den magischen Faden geliefert, der beide über die Linie geschoben hat.\" Dey sieht Sie zum ersten Mal direkt an. \"Ich schätze Ihre Kooperation. Eine letzte Frage. Zeigen Sie mir, wo die zwei arbeiten. Genau wo. Der Rat bevorzugt eine saubere Festnahme.\"",
+      "npc_vandara_daven_3": "Sie führen Daven zu Korrens Werktisch, dann zu Iskas. Dey nickt einmal bei jedem. Zwei weitere Wachen treten hinter dey ein — ruhig, professionell. Es wird nicht geschrien; beide Studierende scheinen auf ihre eigene Art gewartet zu haben. Korren richtet sich auf, sieht Sie nicht an. Iska schaut Sie an und grinst, zwinkert, und lässt sich abführen. \"Danke für den Boost, Kind! Sag Pamle, mir tut die Brau-Stunde leid!\" Daven kommt allein zu Ihnen zurück. \"Erledigt. Der Rat wird sie in einem Monat anhören. Wahrscheinlich für zwei Jahre suspendiert, wahrscheinlich danach wieder an der Akademie, mit je einem anderen Mentor. Kein Gefängnis. Sie sind Kinder.\" Eine Pause. \"Sie. Ihre Rolle wird in der Akte als 'kooperierende Zeug:in' vermerkt. Das ist großzügiger als 'Mittäter:in', was es ebenso gut sein könnte. Gehen Sie vorsichtig, Studierende. Glauben Sie nicht alles, was Ihnen die Agenten eines Vassals erzählen.\" Dey wendet sich zum Gehen. \"Und wenn das nächste Mal jemand in den Katakomben Sie nach Magie fragt — sagen Sie nein. Einmal. Sagen Sie nein.\""
     },
     "resources": {
       "energy": "Energie",
@@ -6587,7 +7106,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_bonus": "Bonus:",
       "ui_decorative": "Dekorativ",
       "ui_gourmet-meal": "Gourmet-Mahlzeit",
-      "ui_focus": "Fokus",
+      "ui_shadow_bind": "Schatten-Bindung",
       "ui_naming_title": "Dein Name",
       "ui_naming_desc": "Wie soll die Welt von Draconia dich nennen?",
       "ui_naming_placeholder": "Wandler-Name...",
@@ -6674,7 +7193,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_skip_hint": "[ESC] zum Überspringen | [ENTER] zum Fortfahren",
       "ui_skip_btn": "Intro überspringen",
       "ui_limit": "Limit",
-      "ui_focus_stopped": "Fokus aufgehoben (Bedingungen nicht mehr erfüllt).",
+      "ui_shadow_released": "Schatten gelöst (Bedingungen nicht mehr erfüllt).",
       "fail_satiation_loop": "Zu hungrig für konzentrierte Arbeit!",
       "malus_satiation": "Sättigung kritisch! Dein Ertrag ist stark verringert.",
       "fail_low_efficiency": "Deine Effizienz ist niedrig (Sättigung prüfen).",
@@ -6794,7 +7313,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_duration": "Laufzeit",
       "ui_remaining_prefix": "Noch",
       "ui_seconds": "Sekunden",
-      "ui_focus_toggle": "Fokus-Modus umschalten",
+      "ui_shadow_bind_toggle": "Schatten an diese Aktion binden",
       "nav_inventory": "Inventar und Ressourcen",
       "receive_apple": "Du hast einen Kristallapfel erhalten! Eine süße Stärkung für deine Reise.",
       "item_crystal_apple_title": "Kristallapfel",
@@ -6858,8 +7377,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "iron_parts_limit_title": "Eisen-Kapazität",
       "iron_parts_limit_desc": "Erhöht die Kapazität für Eisenbeschläge.",
       "resource_efficiency_title": "Ressourcen-Effizienz",
-      "arcane_focus_cost_title": "Arkaner Fokus-Kosten",
-      "arcane_focus_cost_desc": "Verringert die Kosten für den arkanen Fokus.",
+      "shadow_bind_cost_title": "Schatten-Bindungs-Kosten",
+      "shadow_bind_cost_desc": "Verringert den Magie-Verbrauch eines gebundenen Schattens.",
       "location_village_name": "Dorf",
       "main_subtab_general_name": "Allgemein",
       "main_subtab_herstellen_name": "Herstellen",
@@ -6877,11 +7396,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_quinell_name": "Doktor Quinell",
       "npc_vandara_sariel_name": "Sariel",
       "npc_vandara_pamle_name": "Magistra Pamle",
+      "npc_vandara_korren_name": "Korren",
+      "npc_vandara_iska_name": "Iska",
+      "npc_vandara_daven_name": "Marschall Daven",
       "ui_vandara-invited": "Einladungsschreiben",
       "ui_vandara-admitted": "In Vandara aufgenommen",
       "ui_vandara-enrolled": "An der Akademie eingeschrieben",
-      "ui_vandara-workshop-unlocked": "Werkstatt-Bauplan",
-      "ui_vandara-workshop-built": "Werkstatt gebaut",
+      "ui_build-vandara-alchemy-laboratory": "Alchemielabor gebaut",
       "ui_vandara-katakomben-unlocked": "Zugang zu den Katakomben",
       "ui_vandara-veyra-intro-done": "Veyras Grundkurs absolviert",
       "ui_vandara-ormias-intro-done": "Ormias' Grundkurs absolviert",
@@ -6893,12 +7414,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-tested-light": "Lichtprobe versucht",
       "ui_vandara-light-resonance-found": "Lichtresonanz festgestellt",
       "ui_vandara-shadow-revealed": "Schattenelement entdeckt",
-      "ui_vandara-katakomben-entered": "Sariel kennengelernt",
       "ui_vandara-shadow-trained": "Schatten-Grundlagen erlernt",
       "ui_vandara-alchemy-mastered": "Alchemie-Grundkurs absolviert",
       "ui_ash_flower": "Ascheblume",
       "ui_glitter_dust": "Glitzerstaub",
-      "ui_tab_vandara_workshop": "Werkstatt"
+      "ui_tab_vandara_alchemy": "Alchemie",
+      "ui_vandara_shadow_shifter_label": "Schatten-Drachenwandler"
     }
   },
   "en": {
@@ -7276,12 +7797,21 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Buy Glitter Dust",
         "effect": "glitter_dust"
       },
-      "act-vandara-buy-workshop-blueprint": {
-        "title": "Buy Workshop Blueprint",
-        "unlocks": "Recipe: Build Workshop"
+      "act-vandara-buy-glowpollen": {
+        "title": "Buy Glowpollen",
+        "effect": "glowpollen"
       },
-      "act-build-workshop": {
-        "title": "Build Workshop"
+      "act-vandara-buy-resin": {
+        "title": "Buy Resin",
+        "effect": "resin"
+      },
+      "act-vandara-buy-arcane-dust": {
+        "title": "Buy Arcane Dust",
+        "effect": "arcane_dust"
+      },
+      "build-vandara-alchemy-laboratory": {
+        "title": "Build Alchemy Laboratory",
+        "unlocks": "Pamle's brew recipes (after teaching)"
       },
       "act-npc-vandara-veyra": {
         "title": "Magistra Veyra"
@@ -7327,7 +7857,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-vandara-brew-spark-vial": {
         "title": "Brew Spark Light Vial",
-        "desc": "Glitter dust bound inside an ash flower. The vial glows on its own — a portable light you can hang from your belt. Lowers the magic cost of your arcane focus."
+        "desc": "Glitter dust bound inside an ash flower. The vial glows on its own — a portable light you can hang from your belt. Lowers the magic cost of a bound shadow."
       },
       "act-vandara-brew-arcane-water": {
         "title": "Brew Arcane Water",
@@ -7346,9 +7876,17 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "buff_vandara_wakeful_pollen_title": "Wakeful Pollen Tea",
       "buff_vandara_wakeful_pollen_desc": "Gentle energy boost. +1 energy regen per tick, 60 seconds.",
       "buff_vandara_spark_light_title": "Spark Light",
-      "buff_vandara_spark_light_desc": "Portable light source. Cuts arcane focus cost noticeably. 90 seconds.",
+      "buff_vandara_spark_light_desc": "Portable light source. Cuts a bound shadow's magic drain noticeably. 90 seconds.",
       "buff_vandara_ash_burn_title": "Ash Burn",
-      "buff_vandara_ash_burn_desc": "Hot, pulsing energy rush. Wood and stone yield +1 per action, 2 minutes."
+      "buff_vandara_ash_burn_desc": "Hot, pulsing energy rush. Wood and stone yield +1 per action, 2 minutes.",
+      "buff_vandara_echo_clarity_1_title": "Echo Clarity",
+      "buff_vandara_echo_clarity_1_desc": "A faint resonance lingers around you after Korren's experiment. +1 magic regen, 60 seconds.",
+      "buff_vandara_echo_clarity_2_title": "Deep Echo Clarity",
+      "buff_vandara_echo_clarity_2_desc": "A stronger lingering resonance. +2 magic regen, 90 seconds.",
+      "buff_vandara_animated_tools_1_title": "Animated Tools",
+      "buff_vandara_animated_tools_1_desc": "Your tools twitch helpfully on their own. +1 wood yield, 60 seconds.",
+      "buff_vandara_animated_tools_2_title": "Walking Tools",
+      "buff_vandara_animated_tools_2_desc": "Tools you touch start moving with you. +1 wood yield and +1 stone yield, 90 seconds."
     },
     "items": {
       "item_wanderstock_title": "Walking Stick",
@@ -7429,9 +7967,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_vandara_letter_title": "Rose Gold Academy Invitation",
       "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed.",
       "item_vandara_student_id_title": "Rose Gold Academy Student ID",
-      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\"",
-      "item_alchemy_table_title": "Alchemy Table",
-      "item_alchemy_table_desc": "Solid, heat-resistant table with vial holders, a small burner and a mortar shelf. From Kal're's blueprint. Place it in one of your homes — Pamle's recipes will then be ready to brew."
+      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\""
     },
     "logs": {
       "save_success": "Game saved successfully.",
@@ -7530,7 +8066,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "fail_full_clay": "Clay storage is full.",
       "fail_full_rune_fragment": "Rune fragment storage is full.",
       "fail_full_study_xp": "Study experience reached its limit.",
-      "ui_focus_stopped": "Focus cleared (Conditions no longer met).",
+      "ui_shadow_released": "Shadow released (conditions no longer met).",
       "item_used": "Used {item}.",
       "wood_log": "+{val} Wood gathered.",
       "stone_log": "+{val} Stone quarried.",
@@ -7593,7 +8129,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "school_graduate_log": "You have received your school diploma. Aria smiles proudly.",
       "npc_teacher_2_no_house": "\"It is nice to see you, {player}. But without a solid roof over your head, learning will be difficult. Come back once you have a house of your own.\"",
       "npc_teacher_2_with_house": "\"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!\"",
-      "focus_broken_magic": "Your magic energy is depleted. The arcane focus has been interrupted.",
+      "shadow_broken_magic": "Your magic energy is depleted. The bound shadow slips away.",
       "smoke_ping_log": "A soft pulse rolls through the valley.",
       "smoke_panel_title": "Smoke test diagnostics",
       "smoke_panel_hint": "These values update live from the `smoke_test` addonState slot. If the tick count climbs, the hook is running; if Vandara shows ✔, the isAddonLoaded check fired.",
@@ -7603,24 +8139,36 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "receive_vandara_letter": "Aria hands you a letter sealed in rose gold wax. An invitation to the Academy in Vandara.",
       "vandara_admitted": "You've been admitted to Vandara. The academy lies before you.",
       "vandara_enrolled": "Olié hands you the student ID. You are officially a student of the Rose Gold Academy.",
-      "vandara_workshop_blueprint": "Kal're unrolls a small, precisely drawn blueprint — a workshop design.",
-      "vandara_workshop_built": "Your small workshop is up. Now you just need someone to show you what to do with it.",
+      "vandara_alchemy_laboratory_built": "Your Alchemy Laboratory is up. Now you just need someone to show you what to do with it.",
       "vandara_katakomben_unlocked": "Fafa shows you the hidden entrance to the catacombs beneath Vandara. Another city lies below.",
-      "vandara_veyra_intro_done": "You've completed Veyra's basic course on Elemental Resonance.",
+      "vandara_veyra_intro_done": "You've completed Veyra's element diagnostic consultation.",
       "vandara_ormias_intro_done": "You've completed Ormias's basic course on Dragon Studies.",
-      "vandara_quinell_intro_done": "You've completed Quinell's basic course on Magic Theory.",
+      "vandara_quinell_intro_done": "You've completed Quinell's basic course on Arcane Foundations.",
       "vandara_trial_fire": "Fire trial — no resonance.",
       "vandara_trial_earth": "Earth trial — no resonance.",
       "vandara_trial_wind": "Wind trial — no resonance.",
       "vandara_trial_tide": "Tide trial — no resonance.",
       "vandara_trial_light": "Light trial — something flickered. But not clean light. Veyra is unsettled-fascinated.",
-      "vandara_shadow_revealed": "Veyra has confirmed it: you are a shadow-shifter. A sub-variant of Light, extremely rare. She points you to someone who can actually help — Fafa knows where.",
-      "vandara_katakomben_entered": "Fafa leads you into the catacombs. In a small chamber waits someone named Sariel — candlelit, blind, and apparently not surprised.",
+      "vandara_shadow_revealed": "Veyra has confirmed it: you are a shadow-shifter. A sub-variant of Light, extremely rare. She gives you a name — Sariel, an old colleague who left the academy forty years ago.",
       "vandara_shadow_trained": "Sariel has walked you through the basics. You're awake — the rest comes with practice.",
+      "vandara_shadow_bind_learned": "Sariel has taught you to bind a shadow to a task. Magic drains while it works; one shadow at a time for now.",
+      "vandara_ormias_reveal_reaction": "Ormias gracefully eats his \"late-blooming Great Dragon\" prediction. He'd like you back for more questions.",
+      "vandara_quinell_reveal_reaction": "Quinell quietly acknowledges Sariel was right all along.",
+      "vandara_olie_reveal_reaction": "Olié updates your student record. Element: Shadow. Sub-Light. Rare.",
+      "vandara_pamle_reveal_reaction": "Pamle has heard. Says she'll think about shadow-flavoured reagents.",
       "vandara_pamle_intro_done": "Pamle showed you the two basic recipes — energy potion and magic potion.",
       "vandara_pamle_tier2_done": "Pamle takes your three energy potions and teaches you tier-2 — Wakeful Pollen Tea and Spark Light Vial.",
       "vandara_pamle_tier3_done": "Pamle takes three Spark Light Vials and teaches you Arcane Water and Ash Burn Tincture.",
-      "vandara_alchemy_mastered": "You've mastered Pamle's full basics. More complex recipes will come later."
+      "vandara_alchemy_mastered": "You've mastered Pamle's full basics. More complex recipes will come later.",
+      "vandara_korren_1_done": "Korren has woken a faint echo from a smith's ring. He's pleased.",
+      "vandara_korren_2_done": "Korren has pulled a fuller echo out of an old military coin. He's pacing.",
+      "vandara_korren_arc_done": "Korren has cracked an imperial archive shard open. The candle went out for a second. He doesn't look well.",
+      "vandara_iska_1_done": "Iska's spoon stood up by itself for ten seconds. She is delighted and slightly bleeding.",
+      "vandara_iska_2_done": "Iska's clockwork figure took three steps. The court will hear.",
+      "vandara_iska_arc_done": "Iska's bone puppet walked a circle and turned to look at you. Iska is laughing. You are not.",
+      "vandara_daven_tip_1": "Marshal Daven has arrived and asked you for a general account.",
+      "vandara_daven_tip_2": "You have described both experiments in detail. Daven is taking notes.",
+      "vandara_catacomb_students_busted": "You led Marshal Daven to both workbenches. Korren and Iska have been arrested. Your role: cooperating witness."
     },
     "milestones": {
       "milestone-treeOfLife": {
@@ -7758,46 +8306,67 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\"",
       "npc_vandara_olie_1": "Secretary Olié looks up from his stack of files — an elegantly feathered serpent with iridescent scales like wet pebbles. \"Ah. A new enrolment.\" He smiles, polite but distant. \"Please have a seat. We'll go through the necessary in order. Name, origin, element if known.\" His feathered crest twitches when you hesitate on the last. \"Unknown is also an answer, don't worry.\"",
       "npc_vandara_olie_2": "\"Now, the enrolment fee.\" Olié slides a tiny bronze dish across the desk. \"Twenty-five shards, one-off. The academy itself is free — we are not the Crystal Realm. The fee just covers paperwork and a sip of tea should you have to wait.\"",
-      "npc_vandara_olie_3": "\"Here is your ID.\" Olié hands you a thin, weighty plaque of polished rose gold. \"It gets you anywhere you're allowed — and a few places you're not, but nobody checks. Ask around on the streets if you get lost. Kal're at the market talks to everyone. And... old Fafa at the fountain — give her a few shards, she's seen more of this city than all our files combined.\"",
+      "npc_vandara_olie_3": "\"Here is your ID.\" Olié hands you a thin, weighty plaque of polished rose gold. \"It gets you anywhere you're allowed — and a few places you're not, but nobody checks.\" He taps a list on his desk. \"Your mentors. Lector Ormias holds Dragon Studies. Doctor Quinell handles Arcane Foundations. And Practitioner Pamle gives Alchemy, though her class only makes sense once you've arranged a workshop yourself.\" A polite pause. \"Since you couldn't state your element, I'll also send you to Magistra Veyra. She handles the diagnostics — not a class, a consultation. The best in the city. The academy is fortunate to keep her.\" A polite nod. \"Welcome to Vandara, student.\"",
+      "npc_vandara_olie_4": "Olié looks up from his stack, polite as ever. \"Ah. The element field on your student record. I left it blank, as we discussed.\" He pulls out a thin pen. \"I will fill it in now.\" A pause as he writes. \"Shadow. Sub-variant Light. Note: rare.\" He blows on the ink. \"There. Properly recorded. The academy archives appreciate accuracy more than novelty, but in this case they get both.\" A polite nod. \"Carry on, student.\"",
       "npc_vandara_kalre_1": "A young dragon-shifter with silver-blue hair and a stall full of glass jars calls out to you. \"You're new, yeah? Easy to tell.\" She grins wide. \"Kal're, from the Crystal Realm. Wind line. Did I already mention I'm from the Crystal Realm? I like saying it — then nobody asks why my scales are like glass.\" She nudges a small dish of ash flowers towards you. \"Sniff. Smells like volcanic dust and one other thing you can't quite name. If you ever set foot in an alchemy lab, you'll need these.\"",
       "npc_vandara_kalre_2": "\"You're back! Good, good.\" Kal're sorts glitter dust into tiny pouches. \"You'll see — in Vandara everyone talks to everyone and everyone knows everything. Except the things they shouldn't, on those they're surprisingly disciplined.\"",
-      "npc_vandara_kalre_3": "\"Wondering if I trust you yet, eh?\" She laughs. \"Enough. Listen, I've got something else to sell you — a blueprint. A workshop, small, doable. With one of those you can turn reagents into something useful. Hundred shards. A bargain.\"",
+      "npc_vandara_kalre_3": "\"Wondering if I trust you yet, eh?\" She laughs. \"Enough. Listen — you keep buying my reagents, but you've nowhere to use them. Most academy students put a small alchemy laboratory in their home. Two shelves, a copper basin, a flue.\" She sketches it on the back of a wrapper. \"Here. Bring the wood and stone, you'll know how to put it together now.\"",
       "npc_vandara_kalre_4": "Kal're waves you closer. \"Know what's funny about Vandara? The academy acts like it's the heart of the city. But the real things happen in the back rooms. The streets. The catacombs below.\" She winks. \"Don't repeat that.\"",
       "npc_vandara_kalre_5": "\"You're a regular now.\" Kal're taps her forehead. \"If you ever need anything rare — really rare — come to me before you ask anyone else. I'll find it. Or I'll know someone who'll find it.\"",
       "npc_vandara_fafa_1": "An old dragon-shifter sits hunched at the edge of the fountain, wrapped in a dusty grey cloak. Scales like cracked granite peek from under the cloth. She doesn't raise her head, but a bony hand stretches towards you. \"A few shards for an old earth- dragon?\" When you give, she finally looks up — grey eyes, sharp as freshly honed blades. \"Thank you, child. You're new. This city has names, you know. Not just the one above the gate. Come back — I'll tell you one.\"",
       "npc_vandara_fafa_2": "Fafa pockets the shards without looking. \"Vandara means 'change'. But they never tell you who wants the change and who fears it.\" She gestures at the academy behind you. \"King Archivaris, the old keeper of bones, wants everything kept as it was. King- Rectoress Novia wants everything made new. They've been arguing before the imperial court for years. While they argue, no one truly rules. That makes Vandara... interesting. Come back.\"",
       "npc_vandara_fafa_3": "\"You keep coming back. That's rare.\" Fafa smiles, and for a moment she doesn't look old, just tired. \"Listen, child. The students in the upper halls learn what the mentors are allowed to teach. What they really want to know they learn elsewhere. Beneath the city. Come back one more time, and I'll show you where.\"",
       "npc_vandara_fafa_4": "This time Fafa takes no shards. She stands — and is suddenly taller than you thought. \"Come.\" She leads you to an unremarkable storm drain behind the fountain, slides the iron aside as if it were a curtain. \"The catacombs. The old tunnels from before the Unspeakable. Down here you'll find the ones who can really help you — if you have the courage to descend.\" She looks at you for a long moment. \"Don't go alone until you know someone there you can trust. But go.\"",
-      "npc_vandara_veyra_1": "Magistra Veyra welcomes you in a bright, almost too-bright hall. She is a Sun Amphithere — feathered serpent in gold and soft orange, her feathers catching the light from the tall windows and scattering it everywhere. \"Welcome, {player}. I'm Veyra. My course is called Elemental Resonance — sounds fancy, isn't. We find out what you are.\" She laughs gently. \"Don't stress. Most students already know from home. The few who don't — often the most interesting ones.\"",
-      "npc_vandara_veyra_2": "\"First, the basics.\" Veyra coils around a pillar and looks down at you. \"Magic is bound. To your element. You can't 'switch' — you can only discover. Some feel fire in their hands, others water in their breath. Others need exercises to notice: 'oh, this one pulls at me.' We do it slowly. Today only theory. Next time we try something.\"",
-      "npc_vandara_veyra_3": "\"Close your eyes.\" Veyra dims the lights with a wing-stroke. \"Breathe. Don't try to do anything. Just feel what's there. Hands lightly open, let magic find you, not the other way.\" She waits. Long. Then her voice, quiet: \"Mhm. There's something. But I can't quite grasp it. Come back. We'll test more carefully.\"",
-      "npc_vandara_veyra_4": "\"Today I need more from you.\" Veyra has small objects laid out: a stone, a bowl of water, a candle, a feather, a mirror. \"We try them in turn. You touch each, I observe. No pressure — if nothing happens, nothing happens.\" She pauses. \"But be prepared: resonance never feels like you expect.\"",
-      "npc_vandara_veyra_5": "\"You're back. Good.\" Veyra seems tense today. \"The light flicker during the trial — that wasn't nothing. And it wasn't normal either. Sit down, I want to run a deeper test.\" She extinguishes every light in the hall except a small candle behind you. \"Reach towards the candle. Don't touch. Just... feel what happens between you and the flame.\" Long silence. Then her voice, suddenly different: \"Oh. Oh, {player}. You're not casting a shadow. You're PULLING the shadow towards you. From the wall, from the ceiling, from me.\" She laughs breathlessly. \"You're not a light-shifter. You're a shadow-shifter. I've... I've never seen one.\"",
-      "npc_vandara_veyra_6": "Veyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a variant of Tide. But it's rare. Very rare. In my forty years of teaching I've never had one.\" She looks at you seriously. \"I can give you the theory. But the practice — I'm out of my depth. You need someone who's actually lived it. There's...\" She hesitates. \"There's someone. But they're not at the academy any more. Ask Fafa at the fountain. She knows where. And be careful — shadow sounds cool, but not everyone in this city sees it that way.\"",
+      "npc_vandara_veyra_1": "Magistra Veyra welcomes you into a sun-bright consultation room — tall windows, a velvet examination couch, instruments arranged on a side table beside a small carafe of cooled water. She is a Sun Amphithere, gold and soft orange, her feathers scattering the daylight across every surface. \"Welcome, {player}. Olié sent you, yes? Good. This isn't a class — it's a consultation. You couldn't give him an element. That's quite alright.\" She gestures at the couch. \"We'll find out together. Most students already know from home. The few who don't — often the most interesting ones.\"",
+      "npc_vandara_veyra_2": "\"First, the anamnesis.\" Veyra makes notes on a small slate, her feathered crest tilted with attention. \"Tell me what you've felt at home. Anything that pulled at you — warmth in your hands, weight in your chest, dryness in your throat when angry, a sound no one else heard. Even nothing is an answer.\" She listens patiently. \"Magic is bound to your element. You can't switch, you can only find. Some recognise it from a single moment. Others need exercises. We'll do both. Next time we begin the resonance tests.\"",
+      "npc_vandara_veyra_3": "\"First resonance test.\" Veyra draws the curtains halfway, pulls a low stool over and sits beside the couch. \"Hands relaxed in your lap, palms up. Don't push. Don't reach. Let your aether settle on its own.\" Her quill hovers above her slate. She waits — long, longer than is comfortable. Then, quietly: \"Hm. There is something. But it doesn't sit cleanly under any of the standard signatures. I'd like to run a proper battery next session. Come back rested — it goes smoother on a calm body.\"",
+      "npc_vandara_veyra_4": "\"Today the standard battery.\" Veyra has laid five objects on a small tray beside the couch — a stone, a bowl of water, a candle, a feather, a mirror. \"One material per element. You touch each in turn. I watch what your aether does. There is no right answer and no wrong one — even 'nothing happens' is a clean result.\" She raises a finger. \"One thing only: don't push. The aether doesn't lie when you let it be honest. Take your time. Ready when you are.\"",
+      "npc_vandara_veyra_5": "\"You came back. Good. Please sit.\" Veyra has already drawn the curtains entirely; only a single small candle burns on the side table. \"The light reaction during your battery — that was not a null result. It was also not a clean light signature. I'd like to run a controlled isolation test. Hands open, no pushing, reach toward the candle.\" Long silence. Then her voice, suddenly different — no longer the clinician's measured tone: \"Oh. Oh, {player}. You are not casting a shadow. You are PULLING the shadow toward you. From the wall. From the ceiling. From me.\" A breathless half-laugh. \"You are not a light-shifter. You are a shadow-shifter. In forty years of diagnostics I have never seen one.\"",
+      "npc_vandara_veyra_6": "Veyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a sub-variant of Tide. But it is rare. Very rare. In forty years of diagnostics I have never seen one.\" She looks at you seriously. \"I can give you the theory. But the practice — I am out of my depth. I cannot teach you what I have never felt.\" She sets down her quill, hesitates, then continues quieter. \"There was a colleague here, a long time ago. Sariel. Brilliant. Element-agnostic on paper until they disproved it themselves. We lost touch when they left the academy — forty years ago, give or take. I haven't heard their name in a long time, and I don't know whether they still lecture. But if anyone can teach you the practice of shadow, it is Sariel.\" She meets your eyes. \"Be careful, {player}. 'Shadow' sounds romantic. Not everyone in this city sees it that way.\"",
       "vandara_trial_fire_dialog": "You hold your hand over the small flame. Warmth, of course — but no resonance. Veyra shakes her head. \"No fire.\"",
       "vandara_trial_earth_dialog": "The stone sits heavy in your hand. You wait. Nothing. Veyra notes something down. \"No earth.\"",
       "vandara_trial_wind_dialog": "You hold the feather up. It floats a moment, then falls. Normal — no magical lift. Veyra: \"No wind.\"",
       "vandara_trial_tide_dialog": "Hand over the water bowl. The surface ripples faintly — from your breath, not from you. Veyra: \"No tide.\"",
       "vandara_trial_light_dialog": "You look into the small mirror. Something flickers. Not in the mirror — IN the room behind you. Veyra snaps her head up. \"There. That was something. But not clean light. Come back as soon as you can — I want to look at this more closely.\"",
-      "npc_vandara_fafa_5": "Fafa has been waiting for you. Today she stands, doesn't crouch. \"You went to Veyra. She told you.\" Not a question. \"I knew the day you first put shards in my hand — you made the wall behind me shorter. A little. Nobody else can see it.\" She takes your hand and leads you down the steps into the drain. \"Come. There's someone who's waited fifty years for somebody like you. Don't be polite. Don't be careful. Just be there.\"",
       "npc_vandara_sariel_1": "The tunnel opens into a small chamber. A single candle burns on a low table. The person behind it doesn't turn around — they keep sorting notes on the table with their fingertips. \"You're far too loud for your size, {player}. Walk softer when you're in a tunnel. Otherwise you don't hear when someone's standing in front of you.\" Their scales — if you can even call them that, sharp black crystals along the neck — clink faintly. Sariel raises their head, looks in your direction but not into your eyes. \"Ah. Sit down. I'm Sariel. Make yourself comfortable — the candle is plenty for both of us, I don't need any light.\"",
-      "npc_vandara_sariel_2": "\"You want to know what shadow is.\" Sariel pushes an old book in your direction without looking. \"Here. Magic Theory chapter six. Quinell recommended it to you, didn't he? He copied it out of my class forty years ago. Read.\" A pause. \"Or don't. I know it by heart. Shadow is light that has enough depth to develop a will of its own. When light falls into a room, a light-shifter makes brightness. You make hollows. The hollows LISTEN. Got it? No? Good. That was a lie because I wanted to keep it short. Read the chapter.\"",
+      "npc_vandara_sariel_2": "\"You want to know what shadow is.\" Sariel tilts their head a fraction. \"I heard the binding when you came down. Cheap stitch, thin paper, smells like the academy's archive ink. Quinell still uses the same printer he did forty years ago. He sent you, didn't he. Or made you send yourself.\" A small dry sound that isn't quite a laugh. \"He gave you that chapter of his — chapter six, I'd assume.\" \"He sat in my class for two years scratching down everything I said. The chapter is his. I have never written a single word in my life — I have been blind since before I ever stood at a lectern. So when he handed you that book, what you held was Quinell's transcription of me, not a copy of anything mine. There was nothing to copy. Whether he got it right is between him and his own honesty.\" A pause. \"The gist is short. Shadow is light that has enough depth to develop a will of its own. A light-shifter makes brightness. You make hollows. The hollows LISTEN. Got it? No? Good — that was a lie because I wanted to keep it short. Read his chapter anyway. He wrote it cleaner than I'd speak it twice.\"",
       "npc_vandara_sariel_3": "\"Stand in the light.\" Sariel gestures at the candle. \"Now reach out. Not toward the candle. Toward the shadow you cast.\" You hesitate. Sariel grins, the first time today. \"Yes, that works. Feel, don't think. Shadows are denser than ordinary light — palpable, when you know where.\" Long silence. Then: \"Ah. There. You grabbed it. Feel the weight? Very good. Same way I learned it, at twelve, from a shifter in the Emerald Forest. Blind too, like me now. She said back then, eyes are just one way of many. Took me until I had to before I believed it.\"",
       "npc_vandara_pamle_1": "Pamle is a compact magma-dragon-shifter, in humanoid form just shoulder-height to you, with scales like crusted lava across her forearms. She stands at an improvised table piled with empty vials and crushed plant remains. \"{player}, right? Sit. I'll make this quick: I'm Pamle, I teach alchemy. We start with two very simple recipes — energy potion and magic potion. They need nothing more than herbs, water, and a bit of heat.\" She taps her temple. \"Go home, build the workshop from Kal're's blueprint, place the alchemy table in your room. Then you can brew them. Come back when you've made three energy potions — THREE, not two, not 'almost three'. Then I'll show you something better.\"",
       "npc_vandara_pamle_2": "Pamle waits with her hand already out. \"Three energy potions, yes? Good.\" She takes them without comment and stores them on a shelf behind her. \"I sell them to the first-years for decent money, by the way, in case you were wondering. Education isn't free.\" A sharp grin. \"Now tier two: Wakeful Pollen Tea — regen over time. And Spark Light Vial — you'll learn to appreciate that one, trust me. Sariel down in the catacombs used to order them by the crate.\" She coughs as if she'd said too much. \"Practice. Bring me three Spark Light Vials when you're ready.\"",
       "npc_vandara_pamle_3": "\"Spark Light Vials. Three. Nice.\" Pamle weighs them in her hand, checks the brightness. \"Cleanly done. You understand the dosing.\" She racks them. \"Last round. Arcane Water is standard for any student who casts magic. And Ash Burn Tincture — that's my own invention. Made from Ash Willow pollen. Turns you into a logging machine for two minutes. You wouldn't believe how many orders the academy gets from construction firms for it.\" She nods to the door. \"Come back once more. Then I'll have taught you everything I currently offer.\"",
       "npc_vandara_pamle_4": "\"So.\" Pamle wipes her hands on an apron that's seen far too much. \"That's the basics. You handle the six base recipes. What's next gets harder — Star Berries are rare, Ember Lotus rarer still, and some recipes demand reagents only Storm Seraphs can gather. But until then you've got plenty to do.\" She offers her hand. \"Go and brew. If I ever teach anything new, you know where to find me. Oh — and Pamle isn't my full name, I never had one. Save the question.\"",
+      "npc_vandara_pamle_5": "Pamle eyes you from the workbench. \"So. Word's around. You're the shadow one.\" She doesn't seem surprised. \"Means I should probably think about what reagents make sense for your sort. Ash from extinguished candles, mirror-shard dust, that kind of thing. I'll let you know if I come up with something.\" A sharp grin. \"And don't expect a discount. Rare element doesn't mean broke. Now scoot, I've got tier-three brewing to teach the next batch.\"",
       "npc_vandara_sariel_4": "\"You're not trained now. You're awake — that's something else.\" Sariel goes back to sorting notes. \"What you need from here, you'll learn yourself. Come back if you want to try something more complicated. Next time bring me a bowl of water — I'll show you how to fetch a shadow that holds it while you do other things. That's actually the practical part.\" They laugh drily. \"Forty years teaching and I still promise the interesting stuff for next session.\"",
-      "npc_vandara_ormias_1": "Lector Ormias is old. Very old. His dragon-form skull shimmers when he speaks — Magma Lindwurm line, scales like hardened lava. He wears rumpled robes and a pair of glasses that really don't fit. \"Sit, student. We know six main types. Great Dragons from the Crystal Realm, that's the bread-and- butter people. Wyverns, who fused their forelimbs into wings. Lindwurms — my kind. Amphitheres, the serpentine ones with feathers. Leviathans, water or magma. Seraphs, high above the clouds. And Fae, the little dragonflies from the Emerald Forest. That's it. Nothing else.\"",
-      "npc_vandara_ormias_2": "\"Today the dragon form.\" Ormias sketches on the board — and his chalk breaks every two seconds. \"Great Dragons: massive, many horns, two strong wings. Wyverns: two hindlegs plus wing- forelimbs. Lindwurms: two forelegs, long hind body. Amphitheres: no legs, just one pair of large feathered wings. Leviathans hydrodynamic or armoured depending on variant. Seraphs have several thin wings stacked. Fae buzz around on dragonfly wings.\" He coughs. \"All. Of. These. Types. Have. Wings.\"",
-      "npc_vandara_ormias_3": "Ormias peers at you over his slipping glasses. \"Speaking of wings — you have none. Hm. Let me think.\" He scratches his chin. \"There is a wingless sub-type, the Lung-Drachen. Long- bodied, flying purely through magic. But...\" He waves it off. \"They're so rare they only ever appear in the imperial family. In my seventy years as lector I've never seen one outside the court line, and I never will. You are most likely a late- blooming Great Dragon. Some don't manifest their wings until twenty or thirty. Patience.\"",
-      "npc_vandara_ormias_4": "\"Last hour of the basic course.\" Ormias pushes a thick book towards you. \"'Classification of the Dragon Types of Draconia', third edition. Read it if you want more. What I can't cram into one hour is in there. And remember: when someone says 'there are only six types', that's true. Probably.\" He clears his throat. \"In eighty percent of cases.\"",
-      "npc_vandara_quinell_1": "Doctor Quinell is a crystal-dragon-shifter — scales like cut rock crystal that refract the hall's light into every colour of the spectrum. He stands behind a lectern, motionless. \"Welcome. Magic Theory is the most boring lecture you will hear at this academy. And the most important. If you don't understand what magic IS, you will never apply it precisely. You will cast like a dog swims — functional, ugly, inefficient. We start with definitions.\"",
-      "npc_vandara_quinell_2": "\"Magic is the manipulation of the aether through a draconic mind. Three components: Element, Will, Substrate.\" Quinell draws three circles on the board, perfectly symmetrical. \"Element is innate. Will is practice. Substrate is the physical material through which magic acts — sometimes one's own dragon form, sometimes a tool, sometimes the air itself. Whoever cannot separate these three in their mind will fail every advanced course.\"",
-      "npc_vandara_quinell_3": "\"Today, effect theory.\" Quinell has a heavy quartz staff before him. \"Magic does not work 'just so'. It follows conservation laws. What you send into the world comes from you. Exhaustion is not failure, it is the measure of your effect. Whoever casts without exhaustion has done nothing.\" He pauses. \"There are exceptions. Very few. If you discover one, write a doctoral thesis on it.\"",
-      "npc_vandara_quinell_4": "Quinell sets a thin booklet before you. \"Notes for the basic course. Chapter six may interest you — Shadow as a theoretical sub-variant of Light. Pure theory; no one has ever met a shadow-shifter willing to be examined. Maybe because they don't exist. Maybe because they hide well. Both interesting.\" His expression doesn't change. \"Study it.\"",
+      "npc_vandara_sariel_5": "\"You brought the bowl. Good. Set it down — there, on the floor between us.\" Sariel doesn't move from the chair, but the candle flame flickers once. \"Now. The trick I promised. Shadows aren't free. They are you, a part you push out into the world. So binding one costs your own magic, continuously, for as long as you keep it out.\" A long, slow pause. \"Pick a task. Anything you do with your hands — chopping, brewing, drawing water. Look at your shadow. Then ask it to do that task instead of you. Not aloud. With the same wordless push you used when you grabbed the shadow off the wall last time.\" You try. The shadow at your feet lengthens — and then it lifts the bowl. Holds it. Steady. Sariel smiles, faintly. \"Yes. That. Now you can do something else while the shadow carries on. Magic drains the whole time, mind you. When it runs out the shadow lets go.\" Another pause. \"One shadow. One task. That's the cap I can teach you. Splitting your attention further than that is for the next forty years, not the next hour.\" They lean back. \"Go. Do two things at once. It is the closest most of us ever come to being free.\"",
+      "npc_vandara_ormias_1": "Lector Ormias is old. Very old. His dragon-form skull shimmers when he speaks — Magma Lindwurm line, scales like hardened lava. He wears rumpled robes and a pair of glasses that really don't fit. \"Sit, student. Dragon Studies, basic course. We know seven main types: Great Dragons, Wyverns, Lindwurms, Amphitheres, Leviathans, Seraphs, Fae. Plus the imperial Lungs — an exception we'll get to last.\" He coughs. \"One per session. No shortcuts. And remember the single most important thing about every one of them: they all have wings.\" A pause. \"Yes. All of them.\"",
+      "npc_vandara_ormias_2": "\"Great Dragons. Guardians of the Realms. The bread-and-butter people from the Crystal Realm in the west.\" Ormias sketches a four-legged silhouette on the board — chalk breaks. \"Strong build, four legs, a pair of broad leather wings, often an armoured tail-tip and large horns. The most common type by far. Many late bloomers — wings don't always come in until twenty or thirty.\" He glances at you over his glasses. \"Statistically you are most likely one of these. Patience. They'll come.\"",
+      "npc_vandara_ormias_3": "\"Wyverns. Hunters of the skies.\" Another sketch — the chalk breaks again. \"Two hindlegs only. Their front limbs fused with the wings during evolution. Fast, muscular flyers, usually with a venom-stinger or a heavy club at the tail. The Storm-Wyverns have wing-edges so sharp they cut wind like blades.\" He pushes his glasses up. They slide down immediately. \"Common in the western lowlands. You'd remember if you were one — they fly young.\"",
+      "npc_vandara_ormias_4": "\"Lindwurms. The Earth-Bound.\" For the first time today, Ormias smiles, briefly. \"My kind. Massive body, only two forelegs, the rear half a long serpent we drag behind us. Wings we have, but heavy — we are not graceful in the air. We dig, we climb, we are slow, and we are stubborn. Two main lines: Magma Lindwurms, scales like glowing lava, living near the magma sea. And Swamp Lindwurms, scales like algae and bark, blending into the Emerald jungle.\" He coughs. \"Foreigners sometimes lump us in with western dragons. We are eastern. Don't confuse us.\"",
+      "npc_vandara_ormias_5": "\"Amphitheres. The Feathered Serpents.\" Ormias gestures broadly with both arms. \"No limbs at all. Just a long serpentine body and a single pair of enormous, magnificent feathered wings — which, by the way, can store magical energy. Rare. Beautiful — even I admit it. Two sub-types we know of: Dream-Amphitheres, whose wing-strokes spin illusion-mist. And Sun-Amphitheres, golden feathers that can detonate into a blinding flash when threatened.\" He raises an eyebrow. \"Magistra Veyra is one. Don't tell her I said she's beautiful.\"",
+      "npc_vandara_ormias_6": "\"Leviathans. Rulers of the Extremes.\" Ormias's voice drops — respect, not pride. \"They live where no one else can. Tide- Leviathans command the floating water islands and the sea routes; sinewy wings doubling as fins underwater, fine gill- slits, absolute lords of the currents. Magma-Leviathans on the lowest, hottest islands above the lava sea; massive armoured wings, obsidian-plated scales, lungs that filter superheated gas. Once a year they meet at the lava-falls and trade.\" A short pause. \"The most prestigious craft-folk in the empire.\"",
+      "npc_vandara_ormias_7": "\"Seraph Dragons. The Sky-Stormers.\" Ormias's tone goes dry. \"Slender, aerodynamic, four to six narrow wings stacked one above the other. They live where the air is thin enough that a Great Dragon would lose consciousness, and they laugh at our storms because what we call a hurricane is their morning breeze.\" He waves a hand. \"Don't expect to see one — they almost never come down. If you do, be polite.\"",
+      "npc_vandara_ormias_8": "\"Fae Dragons. The Emerald Weavers.\" Ormias's mouth twitches — something like fondness. \"The smallest. Dragonfly wings, chameleon camouflage, originally from the deep Emerald jungle. Two cultures now: the wild Forest-Fae who still vanish into bark, and the City-Fae who've adapted to urban life and grow brilliant, gaudy scales because nothing in town wants to eat them anymore.\" He almost smiles. \"If you ever meet one in a tavern, buy them a drink. Best gossip in Draconia.\"",
+      "npc_vandara_ormias_9": "\"And finally — the Lung Dragons. The Sky-Walkers.\" Ormias taps his desk pointedly. \"Serpentine, wingless, four legs with sharp claws, characteristic beard-whiskers at the head. They fly by pure magic — no wings at all. The single exception to my opening rule.\" His glasses slip and he doesn't catch them this time. \"And before you ask: yes, I noticed you have no wings. Don't get excited. Lung Dragons are an absolute genetic outlier — they only appear in the imperial bloodline, and even there currently only two exist. Emperor Ignis Aurum and Prince Ryuga. That is the list.\" He clears his throat. \"You are most likely a late-blooming Great Dragon. In eighty percent of cases. Patience.\"",
+      "npc_vandara_ormias_10": "\"Ah.\" Ormias adjusts his glasses, which immediately slip back down. \"I heard. Word travels fast in academy corridors, especially when it involves the impossible.\" He coughs. \"Allow me one moment of professional embarrassment. I told you, with some confidence, that you were most likely a late-blooming Great Dragon. I appear to have been incorrect — though, in fairness, also not entirely wrong. Shadow is a sub-variant of Light. Light-shifters are Great Dragons. So technically, statistically, the eighty percent still holds. Just.\" He gestures vaguely. \"I would very much like to update Chapter Two of my book. Come and visit again sometime — I will have new questions for you, and the questions are usually more interesting than the answers.\"",
+      "npc_vandara_quinell_1": "Doctor Quinell is a crystal-dragon-shifter — scales like cut rock crystal that refract the hall's light into every colour of the spectrum. He stands behind a lectern, motionless. \"Welcome. Arcane Foundations is the most boring lecture you will hear at this academy. And the most important. If you don't understand what magic IS, you will never apply it precisely. You will cast like a dog swims — functional, ugly, inefficient. Seven sessions: the definition, four laws, and the exceptions that frame them. No shortcuts. We begin with the definition.\"",
+      "npc_vandara_quinell_2": "\"Definition.\" Quinell does not move while speaking. \"Magic is the manipulation of the aether through a draconic mind. Note: the aether — not 'energy', not 'force'. Note: draconic mind — not draconic body. The body is a tool, the mind is the caster.\" He pauses for two seconds. \"If you remember nothing else from this entire course, remember those two words. Aether. Mind. Everything else follows.\"",
+      "npc_vandara_quinell_3": "\"First law. The Three-Component Law.\" Quinell draws three circles on the board, perfectly symmetrical. \"Every act of magic requires three elements at once. Element — your innate alignment, the one element your bloodline grants you. Will — the trained focus of your draconic mind. Substrate — the physical material through which the effect manifests. Your own form, a tool, the air itself.\" His tone sharpens. \"Three. Always three. Whoever cannot separate them in their mind will fail every advanced course at this academy.\"",
+      "npc_vandara_quinell_4": "\"Second law. The Element-Binding Law.\" Quinell's tone does not warm. \"You cannot 'choose' your element. You cannot 'switch'. Whatever your bloodline gave you at birth is what you will cast for the entirety of your life. A fire-shifter who tries to wield water produces nothing — not weak water, no water at all.\" He looks past you, not at you. \"Students occasionally arrive convinced they can train themselves into a second element. They cannot. Disabuse yourself now.\"",
+      "npc_vandara_quinell_5": "\"Third law. The Conservation Law.\" Quinell lifts a heavy quartz staff from beside the lectern, holds it, sets it down again. \"Magic does not come from nothing. What you send into the world comes from you. Personal energy out, magical effect in — one to one, no exceptions to the accounting. The aether is a medium, not a source.\" He pauses. \"Anyone who tells you they have found 'free magic' is selling you a fraud or performing a parlour trick. Probably both.\"",
+      "npc_vandara_quinell_6": "\"Fourth law. The Exhaustion Law.\" Quinell finally lets a small expression cross his face — almost approval. \"This is the law students misunderstand most. Exhaustion is not failure. Exhaustion is the measure of your effect. Tired means the magic happened. Untired means it did not.\" His voice levels again. \"Whoever casts without exhaustion has done nothing. Whoever exhausts themselves casting a teacup has cast a real teacup. Apply both halves of that rule and you will already cast better than three quarters of the students sitting in this hall.\"",
+      "npc_vandara_quinell_7": "\"Final session. Exceptions.\" Quinell sets a thin booklet on the lectern but does not push it toward you. \"Four laws. They are correct. They are also exceptions away from being incorrect — very few, very rare, in eighty percent of cases the laws hold without remainder. The remaining twenty are what doctoral theses are made of.\" For the first time, he pauses noticeably. \"There was a colleague here once. Sariel. Element-agnostic, the records said, until they themselves disproved that. Chapter six of these notes is mine — I transcribed it from their lectures. They are blind, have been since before I knew them; the writing was always my part of the arrangement. They lectured, I wrote. The chapter is the only treatise I know on Shadow as a sub-variant of Light. No one has ever met a documented shadow-shifter willing to be examined. They left the academy forty years ago. Whether they still live, I do not know.\" A small breath, then nothing. \"Read the chapter. If you ever find evidence of a current shadow-shifter, write the thesis. Dedicate it appropriately.\"",
+      "npc_vandara_quinell_8": "Quinell does not move when you enter — but the angle of his head shifts, ever so slightly. \"I heard.\" A pause. \"Sariel was correct, then. The records were wrong; the lecture chapter was right. I will note it in the archives.\" Another pause, longer. \"If you ever — when you go back down to them — tell Sariel that the chapter still works. Forty years on, students still pass it. They may not remember me, but I have remembered them.\" His voice does not change pitch, but something in the room does. \"That is all. Go. Study. Apply the laws. You will need every one of them.\"",
       "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\"",
-      "npc_vandara_gate_guard_respect": "The warden recognizes you before you've even reached the gate. He straightens up and brings a hand briefly to his chest — not a formal salute, more the gesture earth-dragon shifters use when they mean someone. \"You've seen the city beneath the city. That changes a person.\" A small smile. \"Most come with the letter, leave with the letter, see only half. You belong to those who know both halves now. Take care of yourself, {player}.\""
+      "npc_vandara_gate_guard_respect": "The warden recognizes you before you've even reached the gate. He straightens up and brings a hand briefly to his chest — not a formal salute, more the gesture earth-dragon shifters use when they mean someone. \"You've seen the city beneath the city. That changes a person.\" A small smile. \"Most come with the letter, leave with the letter, see only half. You belong to those who know both halves now. Take care of yourself, {player}.\"",
+      "npc_vandara_korren_1": "Korren looks up from a low workbench cluttered with broken pottery and old metal fragments. His skin has the rust-brown tone of old earth at the neck and hands where the scales show through, and his wings — when he shifts on his stool — fan out behind him in deep red membrane. \"You came down. Good. Word travels, even to here.\" He gestures at the bench. \"I'm Korren. I'm — well. I work for King Archivaris. Not officially, you understand. Officially I'm a third-year student who 'fell behind on Dragon Studies'. Unofficially I'm down here proving something.\" He picks up a corroded ring. \"Echo-summoning. Old objects remember. I bring them up just enough to whisper. The academy thinks it's necromancy. It isn't — there's no soul, just resonance. But the academy doesn't care about distinctions when it can't see the math.\" He holds the ring out. \"Help me. I need a thread of your magic to anchor the echo. Five threads' worth, that's all. The ring will tell me how the smith who made it died. Small thing. Proof.\"",
+      "npc_vandara_korren_2": "Korren is energised — pacing, scales darker, more vivid. \"I heard Iska did it. The Wyvern with the puppet. Made a teaspoon stand up by itself for ten seconds.\" A bitter grin. \"Cute. Animation is the easy thing. Anyone can poke matter and make it twitch. What I'm doing is harder — I'm reaching across time. But the corridor talked about Iska, not me, and that means my king loses today's argument.\" He shoves the ring back into a pile. \"We're going bigger. I have a coin, military issue, from the war forty years ago. It's seen a man die. If I can make it tell me HOW, the academy can't call the echo trick parlour magic any more. Ten threads. Now.\"",
+      "npc_vandara_korren_3": "Korren has barely slept. The workbench is covered in objects. \"Iska is animating a corpse-doll. A SMALL one, but still. The whole city will hear about that by the end of the week, and if Archivaris doesn't have an answer by then, Novia's faction wins this round in court. So we're going to wake a real memory.\" He holds up something wrapped in cloth. \"A shard from the imperial archive. Don't ask how I got it. It saw — never mind what it saw. Twenty threads of magic, and we'll know whether the official records are the actual records.\" The shard hums when you touch it. The candle flame goes out for a full second. Korren laughs — too thinly. \"It worked. Oh, it worked. Wait until I write this up. Wait until—\" He cuts off, staring at nothing.",
+      "npc_vandara_iska_1": "A Wyvern in humanoid form stands at a workbench surrounded by trinkets — a spoon, a coil of wire, a chess piece. Her hair is dark, sticking up at angles, and her patchwork robe is a riot of colour. Her wings flick out behind her in deep red, the same shape as Korren's down the corridor. \"Hi, hi, sit down, don't break my circle.\" She doesn't look up. \"Iska. Wind line. I'm not supposed to be here, I'm supposed to be at Pamle's tier-three lecture, but Pamle teaches BREWING and I want to make things MOVE.\" She points at the spoon. \"Watch. Five threads of magic from you, that's all I need. The spoon stands up. Maybe. Last time it stood up and stabbed me, so. Stand back.\" She grins. \"King Novia would love this. The old people say matter is inert. Matter is not inert. Matter is just shy.\"",
+      "npc_vandara_iska_2": "Iska is grinning wider than before, gesturing with both hands at once. \"Korren did the ring thing. Made it whisper. Whisper. Anyone can whisper. I want to MOVE.\" She points at a clockwork chassis on her workbench. \"I'm wiring runes into a clockwork. Not just twitch — walk. Three steps. The court will laugh Korren out of the room when they see this. Ten threads, please, fast, I've got the geometry held in my head and I'll lose it if you make me wait.\"",
+      "npc_vandara_iska_3": "Iska looks haggard. Both eyes red-rimmed. On the workbench is something small under a cloth. \"Korren is going to the imperial archive. Did you know that? I know it. The walls down here listen.\" She uncovers the cloth. A small puppet figure made of wood, wire, and something that looks suspiciously like a finger-bone. \"Don't ask. Borrowed. From an old grave. The grave's a hundred years past anyone caring. Twenty threads, and I make it walk a circle. If I do, Novia's faction owns the lecture halls for a decade.\" The figure stirs when you channel the magic. Stands. Takes one step, then another, then a third, then — it turns its tiny head toward you. Iska laughs, ecstatic. \"YES. That. Did you see that? It looked. It LOOKED—\"",
+      "npc_vandara_daven_1": "A tall Great Dragon shifter steps into the candlelit chamber. Their scales are slate-grey, their coat a deep red with a single thread of academy gold at the collar. They look at you, not at the workbenches. \"You. Student. I've been told you've been visiting down here. I'm Marshal Daven, Council-of-Vandara enforcement.\" A small nod. \"I'm not arresting you — yet. I'm asking because you've seen them. Korren the echo-summoner and Iska the animator. What are they up to? Speak plainly. The Council has had complaints from both kings' agents, which is rare enough to be its own kind of evidence. Tell me what you can. We can speak about your own role afterwards.\"",
+      "npc_vandara_daven_2": "Daven listens, taking notes on a small slate. \"An echo from an imperial archive shard. An animated figure made from grave-robbed bone. Both anchored to your own magic.\" They sigh once, briefly. \"This is the pattern I've seen every fifteen or twenty years. Two students, one for each king. They start small, they escalate against each other, and somebody eventually goes to the imperial archive or to a grave. You did not start this. You did, however, contribute the magical thread that pushed both of them past the line.\" They look at you directly for the first time. \"I appreciate your cooperation. One last question. Show me where they work. Exactly where. The Council prefers a clean arrest.\"",
+      "npc_vandara_daven_3": "You lead Daven to Korren's workbench, then to Iska's. They nod once at each. Two more guards step in behind them — quiet, professional. There is no shouting; both students seem to have been waiting, in their own way. Korren straightens, refuses to look at you. Iska looks at you and grins, then winks, and lets herself be led out. \"Thanks for the boost, kid! Tell Pamle I'm sorry about the brewing class!\" Daven returns to you alone. \"It's done. The Council will hear them in a month. Probably suspended for two years, probably back at the academy after that with a different mentor each. No prison. They are children.\" A pause. \"You. Your role will be noted in the file as 'cooperating witness'. That is more generous than 'accomplice', which it could just as easily be. Walk carefully, student. Do not believe everything every Vassal's agent tells you.\" They turn to leave. \"And the next time someone in the catacombs asks for your magic — say no. Just once. Say no.\""
     },
     "resources": {
       "energy": "Energy",
@@ -7882,7 +8451,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_bonus": "Bonus:",
       "ui_decorative": "Decorative",
       "ui_gourmet-meal": "Gourmet Meal",
-      "ui_focus": "Focus",
+      "ui_shadow_bind": "Shadow Bind",
       "ui_naming_title": "Your Name",
       "ui_naming_desc": "How shall the world of Draconia call you?",
       "ui_naming_placeholder": "Shifter name...",
@@ -8008,7 +8577,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_limit": "Limit",
       "ui_current": "Stock",
       "ui_can_be_placed": "Can be placed in your home.",
-      "ui_focus_stopped": "Focus cleared (Conditions no longer met).",
+      "ui_shadow_released": "Shadow released (conditions no longer met).",
       "ui_placed_furniture": "Placed Furniture",
       "ui_stored_furniture": "Warehouse (Furniture)",
       "ui_place": "Place",
@@ -8089,7 +8658,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_duration": "Duration",
       "ui_remaining_prefix": "Left",
       "ui_seconds": "Seconds",
-      "ui_focus_toggle": "Toggle focus mode",
+      "ui_shadow_bind_toggle": "Bind a shadow to this action",
       "nav_inventory": "Inventory and resources",
       "receive_apple": "You received a Crystal Apple! A sweet refreshment for your journey.",
       "item_crystal_apple_title": "Crystal Apple",
@@ -8153,8 +8722,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "iron_parts_limit_title": "Iron Capacity",
       "iron_parts_limit_desc": "Increases iron parts capacity.",
       "resource_efficiency_title": "Resource Efficiency",
-      "arcane_focus_cost_title": "Arcane Focus Cost",
-      "arcane_focus_cost_desc": "Reduces the cost of arcane focus.",
+      "shadow_bind_cost_title": "Shadow Bind Cost",
+      "shadow_bind_cost_desc": "Reduces the magic drain of a bound shadow.",
       "location_village_name": "Village",
       "main_subtab_general_name": "General",
       "main_subtab_herstellen_name": "Crafting",
@@ -8172,11 +8741,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_quinell_name": "Doctor Quinell",
       "npc_vandara_sariel_name": "Sariel",
       "npc_vandara_pamle_name": "Magistra Pamle",
+      "npc_vandara_korren_name": "Korren",
+      "npc_vandara_iska_name": "Iska",
+      "npc_vandara_daven_name": "Marshal Daven",
       "ui_vandara-invited": "Invitation letter",
       "ui_vandara-admitted": "Admitted to Vandara",
       "ui_vandara-enrolled": "Enrolled at the Academy",
-      "ui_vandara-workshop-unlocked": "Workshop blueprint",
-      "ui_vandara-workshop-built": "Workshop built",
+      "ui_build-vandara-alchemy-laboratory": "Alchemy Laboratory built",
       "ui_vandara-katakomben-unlocked": "Catacombs access",
       "ui_vandara-veyra-intro-done": "Veyra's basic course completed",
       "ui_vandara-ormias-intro-done": "Ormias's basic course completed",
@@ -8188,12 +8759,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_vandara-tested-light": "Light trial attempted",
       "ui_vandara-light-resonance-found": "Light resonance detected",
       "ui_vandara-shadow-revealed": "Shadow element discovered",
-      "ui_vandara-katakomben-entered": "Met Sariel",
       "ui_vandara-shadow-trained": "Shadow basics learned",
       "ui_vandara-alchemy-mastered": "Alchemy basics mastered",
       "ui_ash_flower": "Ash Flower",
       "ui_glitter_dust": "Glitter Dust",
-      "ui_tab_vandara_workshop": "Workshop"
+      "ui_tab_vandara_alchemy": "Alchemy",
+      "ui_vandara_shadow_shifter_label": "Shadow Shifter"
     }
   }
 };

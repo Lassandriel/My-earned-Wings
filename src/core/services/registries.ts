@@ -1,7 +1,7 @@
 // Phase 1.5 — All content is YAML-generated.
 // Actions that need bespoke logic declare `customExecute: <name>` in YAML and
-// the handler lives in src/data/actions/custom-handlers.ts.
-import { Registries } from '../types/game';
+// the handler lives in src/features/gameplay/custom-handlers.ts.
+import { Registries } from '../../types/game';
 
 // --- Phase 1 + 1.5: Auto-generated from YAML content files ---
 // Run `npm run build:content` to regenerate after editing content/*.yaml
@@ -19,7 +19,7 @@ import {
   SECTION_REGISTRY_GENERATED,
   SUB_TAB_REGISTRY_GENERATED,
   SETTINGS_TAB_REGISTRY_GENERATED,
-} from '../generated/content';
+} from '../../generated/content';
 
 /**
  * Organized registries for the ContentService - YAML Edition

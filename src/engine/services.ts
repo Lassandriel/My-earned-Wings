@@ -4,7 +4,7 @@ import { createContentService } from '../core/services/content';
 import { createBootSystem } from '../core/systems/boot';
 import { getSystems } from '../core/systems/registry';
 import { bindServices } from '../core/constants';
-import { registries } from '../data';
+import { registries } from '../core/services/registries';
 import { createCommandQueue } from './commands';
 
 /**

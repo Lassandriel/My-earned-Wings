@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { TRANSLATIONS_GENERATED } from '../src/generated/content';
-import { registries } from '../src/data/index';
+import { registries } from '../src/core/services/registries';
 const de = TRANSLATIONS_GENERATED.de as any;
 const en = TRANSLATIONS_GENERATED.en as any;
 

@@ -1,7 +1,7 @@
 # Actions — Core & Gathering
 # Auto-loaded by scripts/build-content.ts
 # Note: Actions with custom 'execute' functions are registered separately
-#       in src/data/actions/custom-handlers.ts
+#       in src/features/gameplay/custom-handlers.ts
 
 # --- PRIMARY ACTIONS ---
 

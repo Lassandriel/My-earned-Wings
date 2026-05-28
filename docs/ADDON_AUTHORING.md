@@ -341,7 +341,7 @@ addon name so collisions are impossible.
 
 ```ts
 // content/addons/<your-addon>/handlers.ts
-import type { CustomExecuteHandler } from '../../../src/data/actions/custom-handlers';
+import type { CustomExecuteHandler } from '../../../src/features/gameplay/custom-handlers';
 
 const ping: CustomExecuteHandler = (state, actionId) => {
   state.addLog('Pinged from ' + actionId, 'logs');

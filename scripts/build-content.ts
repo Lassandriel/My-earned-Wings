@@ -715,7 +715,7 @@ let addonHandlersOutput = `// THIS FILE IS AUTO-GENERATED - DO NOT EDIT MANUALLY
 // Handler keys are namespaced to <addon>/<name> so YAML can reference them
 // without risk of collision (e.g. customExecute: vandara/npc_execute).
 
-import type { CustomExecuteHandler } from '../data/actions/custom-handlers';
+import type { CustomExecuteHandler } from '../features/gameplay/custom-handlers';
 `;
 
 if (addonsWithHandlers.length === 0) {

@@ -12,7 +12,7 @@ import {
   FlagId,
 } from '../../types/game';
 import { checkRequirement } from '../../core/systems/logicUtils';
-import { CUSTOM_EXECUTE_HANDLERS } from '../../data/actions/custom-handlers';
+import { CUSTOM_EXECUTE_HANDLERS } from './custom-handlers';
 import { registerBuiltinEffects } from './actions.effects';
 import { ADDON_EFFECT_REGISTRARS } from '../../generated/addon-effects';
 

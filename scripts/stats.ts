@@ -1,4 +1,4 @@
-import { registries } from '../src/data/index';
+import { registries } from '../src/core/services/registries';
 import { TRANSLATIONS_GENERATED } from '../src/generated/content';
 const de = TRANSLATIONS_GENERATED.de as any;
 

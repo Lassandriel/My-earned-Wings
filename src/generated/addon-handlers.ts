@@ -5,7 +5,7 @@
 // Handler keys are namespaced to <addon>/<name> so YAML can reference them
 // without risk of collision (e.g. customExecute: vandara/npc_execute).
 
-import type { CustomExecuteHandler } from '../data/actions/custom-handlers';
+import type { CustomExecuteHandler } from '../features/gameplay/custom-handlers';
 import * as h_smoke_test from '../../content/addons/smoke_test/handlers';
 
 const prefix = (name: string, hs: Record<string, CustomExecuteHandler>): Record<string, CustomExecuteHandler> => {

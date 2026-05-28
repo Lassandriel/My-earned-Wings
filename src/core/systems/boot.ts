@@ -1,4 +1,4 @@
-import { registries } from '../../data/index';
+import { registries } from '../services/registries';
 import { GameState } from '../../types/game';
 import { makeLogger } from '../log';
 

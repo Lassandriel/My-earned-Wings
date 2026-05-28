@@ -1,4 +1,4 @@
-# Actions — NPC dialogues. customExecute routes to src/data/actions/custom-handlers.ts.
+# Actions — NPC dialogues. customExecute routes to src/features/gameplay/custom-handlers.ts.
 # Auto-loaded by scripts/build-content.ts
 - id: act-npc-baker
   npcId: npc-baker

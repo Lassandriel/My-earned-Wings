@@ -8,7 +8,7 @@ import { GameState } from '../../types/game';
  * helper is a tiny dispatcher — also covered here against a fake store.
  *
  * We don't mock the registries — boot pulls them directly from
- * `src/data/index`, so the assertions stay loose ("at least one resource was
+ * `src/core/services/registries`, so the assertions stay loose ("at least one resource was
  * populated") rather than pinning to specific IDs that will drift.
  */
 

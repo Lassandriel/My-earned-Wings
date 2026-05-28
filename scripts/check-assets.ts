@@ -7,8 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 
-// Import registries (pointing to src/data/index.ts)
-import { registries } from '../src/data/index';
+// Import registries (pointing to src/core/services/registries.ts)
+import { registries } from '../src/core/services/registries';
 import { ADDON_SFX_GENERATED } from '../src/generated/addon-sfx';
 
 let errors = 0;

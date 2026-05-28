@@ -5,10 +5,10 @@
 // (`_example/<handlerName>`). YAML actions reference them via
 //   customExecute: _example/<handlerName>
 //
-// Type is imported from src/data/actions/custom-handlers.ts. The relative
+// Type is imported from src/features/gameplay/custom-handlers.ts. The relative
 // path looks long but never changes — addons all sit at the same depth.
 
-import type { CustomExecuteHandler } from '../../../src/data/actions/custom-handlers';
+import type { CustomExecuteHandler } from '../../../src/features/gameplay/custom-handlers';
 
 const ping: CustomExecuteHandler = (state, actionId) => {
   // `state` is the live engine state (GameState shape). You can mutate

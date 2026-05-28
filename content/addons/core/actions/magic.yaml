@@ -1,6 +1,6 @@
 # Actions — Magic System
 # Auto-loaded by scripts/build-content.ts
-# Note: act-dream-bloom has a custom execute handler in src/data/actions/custom-handlers.ts
+# Note: act-dream-bloom has a custom execute handler in src/features/gameplay/custom-handlers.ts
 
 - id: act-dream-bloom
   category: magic

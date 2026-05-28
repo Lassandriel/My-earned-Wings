@@ -24,7 +24,7 @@ import {
  *   3. (Optional) Add a unit test in actions.logic.test.ts
  *
  * Custom-execute handlers (per-action TS bridges declared in YAML via
- * `customExecute: <handler>`) live in src/data/actions/custom-handlers.ts
+ * `customExecute: <handler>`) live in src/features/gameplay/custom-handlers.ts
  * instead — those are content-specific, not engine built-ins.
  */
 export interface EffectDeps {

@@ -13,7 +13,7 @@
  * src/generated/addon-handlers.ts ends up with `smoke_test/noop`.
  */
 
-import type { CustomExecuteHandler } from '../../../src/data/actions/custom-handlers';
+import type { CustomExecuteHandler } from '../../../src/features/gameplay/custom-handlers';
 
 export const noop: CustomExecuteHandler = (state, actionId) => {
   // Touch addonState directly (plain field on GameState) so this

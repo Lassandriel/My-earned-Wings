@@ -11,7 +11,7 @@
  * Every *_REGISTRY_GENERATED export from src/generated/content.ts is a
  * plain object (`Record<string, any>`). The exported binding is `const`
  * but the object itself is mutable, and downstream code holds the same
- * object reference (data/index.ts, content.service.ts, …). So
+ * object reference (src/core/services/registries.ts, content.service.ts, …). So
  * Object.assign-ing onto the imported objects propagates to every
  * consumer without anyone needing to subscribe to a "load complete"
  * event.
