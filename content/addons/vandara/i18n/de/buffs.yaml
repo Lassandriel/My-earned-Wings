@@ -11,3 +11,27 @@ buff_vandara_ash_burn_title: Aschebrand
 buff_vandara_ash_burn_desc: >-
   Heißer, durchpulsender Energierausch. Holz- und Stein-Ausbeute
   +1 pro Aktion, 2 Minuten.
+
+# Korrens Echo-Beschwörung hinterlässt eine schwache Resonanz —
+# passive Magie-Regeneration für eine Weile. Zwei Stärken.
+buff_vandara_echo_clarity_1_title: Echo-Klarheit
+buff_vandara_echo_clarity_1_desc: >-
+  Nach Korrens Experiment hängt eine schwache Resonanz um dich.
+  +1 Magie-Regeneration, 60 Sekunden.
+
+buff_vandara_echo_clarity_2_title: Tiefe Echo-Klarheit
+buff_vandara_echo_clarity_2_desc: >-
+  Eine stärkere nachklingende Resonanz. +2 Magie-Regeneration,
+  90 Sekunden.
+
+# Iskas Animation lässt Werkzeuge in deiner Hand kurz selbst
+# mitarbeiten. Yield-Boost.
+buff_vandara_animated_tools_1_title: Animierte Werkzeuge
+buff_vandara_animated_tools_1_desc: >-
+  Deine Werkzeuge zucken hilfsbereit von alleine. +1
+  Holz-Ausbeute, 60 Sekunden.
+
+buff_vandara_animated_tools_2_title: Laufende Werkzeuge
+buff_vandara_animated_tools_2_desc: >-
+  Werkzeuge, die du berührst, fangen an mitzulaufen. +1 Holz-
+  und +1 Stein-Ausbeute, 90 Sekunden.

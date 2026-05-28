@@ -1,0 +1,189 @@
+# Catacomb students arc — two parallel three-step quests driving
+# each other to escalate, then a third NPC (Daven) arrests both.
+#
+# Parallel gating: each student's step 2 requires both step-1
+# flags to be set; each student's step 3 requires both step-2
+# flags. This forces the player to interleave help between the
+# two and prevents one student from racing ahead alone.
+#
+# Daven's three steps require sequential daven-tip flags, and his
+# step 1 is only reachable after BOTH students hit their arc-done
+# flag. Step 3 fires the busted flag, ending the arc.
+
+# ─── Korren — Echo-summoner, Archivaris-loyalist ────────────
+- id: act-npc-vandara-korren
+  npcId: npc-vandara-korren
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraKorren
+  maxProgress: 3
+  journalIcon: 🪨
+  icon: 🪨
+  journalColor: '#65a30d'
+  steps:
+    # 1 — first echo experiment (a corroded ring). Costs 5 magic.
+    - cost: 5
+      costType: magic
+      requirements:
+        flags.vandara-katakomben-unlocked: true
+      onSuccess:
+        - type: addBuff
+          buffId: buff-vandara-echo-clarity-1
+        - type: setFlag
+          flag: vandara-korren-1-done
+          value: true
+        - type: log
+          logKey: vandara_korren_1_done
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_korren_1
+    # 2 — escalation. "Iska did it. We have to top this." 10 magic.
+    - cost: 10
+      costType: magic
+      requirements:
+        flags.vandara-korren-1-done: true
+        flags.vandara-iska-1-done: true
+      onSuccess:
+        - type: addBuff
+          buffId: buff-vandara-echo-clarity-2
+        - type: setFlag
+          flag: vandara-korren-2-done
+          value: true
+        - type: log
+          logKey: vandara_korren_2_done
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_korren_2
+    # 3 — too far. Imperial archive shard. 20 magic, no buff —
+    # the experiment was too volatile to convert into a stable
+    # bonus. Story-only. Unlocks Daven.
+    - cost: 20
+      costType: magic
+      requirements:
+        flags.vandara-korren-2-done: true
+        flags.vandara-iska-2-done: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-korren-arc-done
+          value: true
+        - type: unlockNPC
+          id: npc-vandara-daven
+        - type: log
+          logKey: vandara_korren_arc_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_korren_3
+  customExecute: npc_execute
+
+# ─── Iska — Animator, Novia-loyalist ─────────────────────────
+- id: act-npc-vandara-iska
+  npcId: npc-vandara-iska
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraIska
+  maxProgress: 3
+  journalIcon: ⚙️
+  icon: ⚙️
+  journalColor: '#0891b2'
+  steps:
+    # 1 — first animation experiment (a spoon). Costs 5 magic.
+    - cost: 5
+      costType: magic
+      requirements:
+        flags.vandara-katakomben-unlocked: true
+      onSuccess:
+        - type: addBuff
+          buffId: buff-vandara-animated-tools-1
+        - type: setFlag
+          flag: vandara-iska-1-done
+          value: true
+        - type: log
+          logKey: vandara_iska_1_done
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_iska_1
+    # 2 — escalation. Clockwork walker. 10 magic.
+    - cost: 10
+      costType: magic
+      requirements:
+        flags.vandara-korren-1-done: true
+        flags.vandara-iska-1-done: true
+      onSuccess:
+        - type: addBuff
+          buffId: buff-vandara-animated-tools-2
+        - type: setFlag
+          flag: vandara-iska-2-done
+          value: true
+        - type: log
+          logKey: vandara_iska_2_done
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_iska_2
+    # 3 — too far. Bone puppet. 20 magic, story-only. Unlocks Daven.
+    - cost: 20
+      costType: magic
+      requirements:
+        flags.vandara-korren-2-done: true
+        flags.vandara-iska-2-done: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-iska-arc-done
+          value: true
+        - type: unlockNPC
+          id: npc-vandara-daven
+        - type: log
+          logKey: vandara_iska_arc_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_iska_3
+  customExecute: npc_execute
+
+# ─── Marshal Daven — Council enforcement, arrest arc ─────────
+- id: act-npc-vandara-daven
+  npcId: npc-vandara-daven
+  category: npc
+  isStory: true
+  chapter: chapter_vandara
+  progKey: vandaraDaven
+  maxProgress: 3
+  journalIcon: 🛡️
+  icon: 🛡️
+  journalColor: '#475569'
+  steps:
+    # 1 — Daven arrives, asks generally what's going on.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-korren-arc-done: true
+        flags.vandara-iska-arc-done: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-daven-tip-1
+          value: true
+        - type: log
+          logKey: vandara_daven_tip_1
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_daven_1
+    # 2 — player provides specifics about both experiments.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-daven-tip-1: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-daven-tip-2
+          value: true
+        - type: log
+          logKey: vandara_daven_tip_2
+          color: var(--text-dim)
+      dialogueKey: npc_vandara_daven_2
+    # 3 — player guides Daven to both workbenches. Arrest.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-daven-tip-2: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-catacomb-students-busted
+          value: true
+        - type: log
+          logKey: vandara_catacomb_students_busted
+          color: var(--gold)
+      dialogueKey: npc_vandara_daven_3
+  customExecute: npc_execute

@@ -65,3 +65,32 @@ vandara_pamle_tier3_done: >-
 vandara_alchemy_mastered: >-
   Du beherrschst Pamles komplettes Grundkurs-Repertoire.
   Komplexere Rezepte kommen später.
+
+# Katakomben-Studenten-Arc — drei Schleifen, dann Festnahme.
+vandara_korren_1_done: >-
+  Korren hat ein schwaches Echo aus einem Schmiede-Ring geweckt.
+  Er ist zufrieden.
+vandara_korren_2_done: >-
+  Korren hat ein deutlicheres Echo aus einer alten Militärmünze
+  gezogen. Er läuft auf und ab.
+vandara_korren_arc_done: >-
+  Korren hat eine kaiserliche Archiv-Scherbe aufgebrochen. Die
+  Kerze ist eine Sekunde lang erloschen. Er sieht nicht gut aus.
+vandara_iska_1_done: >-
+  Iskas Löffel ist zehn Sekunden lang von alleine gestanden. Sie
+  ist begeistert und leicht blutend.
+vandara_iska_2_done: >-
+  Iskas Uhrwerksfigur ist drei Schritte gelaufen. Der Hof wird
+  davon erfahren.
+vandara_iska_arc_done: >-
+  Iskas Knochen-Puppe ist im Kreis gelaufen und hat sich zu dir
+  umgedreht. Iska lacht. Du nicht.
+vandara_daven_tip_1: >-
+  Marschall Daven ist eingetroffen und bittet dich um einen
+  allgemeinen Bericht.
+vandara_daven_tip_2: >-
+  Du hast beide Experimente im Detail beschrieben. Daven macht
+  Notizen.
+vandara_catacomb_students_busted: >-
+  Du hast Marschall Daven zu beiden Werkbänken geführt. Korren
+  und Iska sind verhaftet. Deine Rolle: kooperierende Zeug:in.

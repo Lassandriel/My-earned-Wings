@@ -660,3 +660,161 @@ npc_vandara_gate_guard_respect: >-
   ändert einen." Er lächelt knapp. "Die meisten kommen mit dem
   Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt
   zu denen, die beide Hälften kennen. Pass auf dich auf, {player}."
+
+
+# ─── Katakomben-Studenten-Arc (Korren + Iska + Daven) ────────
+# Zwei Studierende im Dienst der gegnerischen Vandara-Vassalen
+# treiben sich gegenseitig in immer größere Regel-Verstöße;
+# Marschall Daven kommt am Ende runter und verhaftet beide mit
+# der Hilfe des Spielers.
+
+npc_vandara_korren_1: >-
+  Korren blickt von einem niedrigen Werktisch auf, vollgehäuft
+  mit zerbrochenen Tonscherben und alten Metallfragmenten. Seine
+  Schuppen — gesprenkelt grün-braun wie feuchte Rinde — fangen
+  das Kerzenlicht seltsam. "Du bist runtergekommen. Gut.
+  Nachrichten reisen, sogar bis hier." Er deutet auf den
+  Werktisch. "Ich bin Korren. Ich — naja. Ich arbeite für König
+  Archivaris. Nicht offiziell, verstehst du. Offiziell bin ich
+  Studierender im dritten Jahr, der 'mit Drachenkunde
+  zurückgefallen' ist. Inoffiziell bin ich hier unten, um etwas
+  zu beweisen." Er hebt einen korrodierten Ring auf.
+  "Echo-Beschwörung. Alte Gegenstände erinnern sich. Ich wecke
+  sie gerade genug, um zu flüstern. Die Akademie hält das für
+  Nekromantie. Ist es nicht — keine Seele, nur Resonanz. Aber
+  die Akademie kümmert sich nicht um Feinheiten, wenn sie die
+  Mathematik nicht sieht." Er hält dir den Ring hin. "Hilf mir.
+  Ich brauche einen Faden deiner Magie, um das Echo zu
+  verankern. Fünf Fäden, mehr nicht. Der Ring wird mir verraten,
+  wie der Schmied gestorben ist, der ihn gemacht hat. Kleine
+  Sache. Ein Beweis."
+
+npc_vandara_korren_2: >-
+  Korren ist energisch — läuft auf und ab, Schuppen dunkler,
+  lebendiger. "Ich hab gehört, Iska hat es geschafft. Die Wyvern
+  mit dem Puppentrick. Hat einen Teelöffel zehn Sekunden lang
+  stehen lassen." Ein bitteres Grinsen. "Niedlich. Animation
+  ist das Einfache. Jeder kann Materie anstupsen, damit sie
+  zuckt. Was ich mache, ist schwerer — ich reiche durch die
+  Zeit. Aber der Korridor hat über Iska geredet, nicht über
+  mich, und das heißt, mein König verliert das heutige
+  Argument." Er schiebt den Ring zurück auf einen Haufen. "Wir
+  gehen größer. Ich habe eine Münze, Militär-Ausgabe, aus dem
+  Krieg vor vierzig Jahren. Sie hat einen Mann sterben sehen.
+  Wenn ich sie dazu bringe, mir zu sagen WIE, kann die Akademie
+  den Echo-Trick nicht mehr Salon-Magie nennen. Zehn Fäden.
+  Jetzt."
+
+npc_vandara_korren_3: >-
+  Korren hat kaum geschlafen. Der Werktisch ist mit Gegenständen
+  übersät. "Iska animiert eine Leichen-Puppe. Eine KLEINE, aber
+  trotzdem. Die ganze Stadt wird das bis Ende der Woche wissen,
+  und wenn Archivaris bis dahin keine Antwort hat, gewinnt
+  Novias Fraktion diese Runde am Hof. Also wecken wir jetzt
+  eine echte Erinnerung." Er hält etwas in Stoff Gewickeltes
+  hoch. "Eine Scherbe aus dem kaiserlichen Archiv. Frag nicht,
+  wie ich sie bekommen habe. Sie hat — egal was sie gesehen
+  hat. Zwanzig Fäden Magie, und wir werden wissen, ob die
+  offiziellen Akten die tatsächlichen Akten sind." Die Scherbe
+  summt, als du sie berührst. Die Kerzenflamme erlischt für
+  eine ganze Sekunde. Korren lacht — zu dünn. "Es hat
+  funktioniert. Oh, es hat funktioniert. Wart ab, bis ich das
+  aufschreibe. Wart ab, bis—" Er bricht mitten im Satz ab,
+  starrt ins Nichts.
+
+npc_vandara_iska_1: >-
+  Eine Wyvern in humanoider Form sitzt mit gekreuzten Beinen
+  auf dem Boden, umgeben von Krimskrams — ein Löffel, eine
+  Drahtschlinge, eine Schachfigur. Ihre Haare sind kurz, ihre
+  Hände bandagiert. "Hi, hi, setz dich, mach den Kreis nicht
+  kaputt." Sie blickt nicht auf. "Iska. Wind-Linie. Ich sollte
+  eigentlich nicht hier sein, ich sollte bei Pamles
+  Tier-drei-Vorlesung sein, aber Pamle unterrichtet BRAUEN und
+  ich will Sachen BEWEGEN." Sie deutet auf den Löffel. "Pass
+  auf. Fünf Fäden Magie von dir, mehr brauch ich nicht. Der
+  Löffel steht auf. Vielleicht. Beim letzten Mal ist er
+  aufgestanden und hat mich gestochen, also. Geh in Deckung."
+  Sie grinst. "König Novia würde das lieben. Die Alten sagen,
+  Materie ist träge. Materie ist nicht träge. Materie ist nur
+  schüchtern."
+
+npc_vandara_iska_2: >-
+  Iska grinst breiter als zuvor, mit einer neuen Brandspur über
+  der Wange. "Korren hat das Ring-Ding gemacht. Hat ihn
+  flüstern lassen. Flüstern. Jeder kann flüstern. Ich will
+  BEWEGEN." Sie deutet auf ein Uhrwerks-Gestell auf ihrem
+  Werktisch. "Ich verdrahte Runen ins Uhrwerk. Nicht nur
+  zucken — laufen. Drei Schritte. Der Hof wird Korren aus dem
+  Raum lachen, wenn sie das sehen. Zehn Fäden, bitte, schnell,
+  ich hab die Geometrie im Kopf und verliere sie, wenn du mich
+  warten lässt."
+
+npc_vandara_iska_3: >-
+  Iska sieht zerrüttet aus. Beide Augen gerötet. Auf dem
+  Werktisch liegt etwas Kleines unter einem Tuch. "Korren geht
+  ins kaiserliche Archiv. Wusstest du das? Ich weiß es. Die
+  Wände hier unten hören mit." Sie deckt das Tuch ab. Eine
+  kleine Puppen-Figur aus Holz, Draht, und etwas, das
+  verdächtig nach einem Fingerknochen aussieht. "Frag nicht.
+  Geliehen. Aus einem alten Grab. Das Grab ist seit hundert
+  Jahren niemandem mehr wichtig. Zwanzig Fäden, und ich lasse
+  sie einen Kreis laufen. Wenn ich das schaffe, gehören die
+  Hörsäle für ein Jahrzehnt Novias Fraktion." Die Figur regt
+  sich, als du die Magie kanalisierst. Steht auf. Macht einen
+  Schritt, dann noch einen, dann einen dritten, dann — sie
+  dreht den winzigen Kopf zu dir. Iska lacht, ekstatisch. "JA.
+  Das. Hast du das gesehen? Sie hat geschaut. Sie hat
+  GESCHAUT—"
+
+npc_vandara_daven_1: >-
+  Ein hochgewachsener Großdrachen-Wandler tritt in die
+  kerzenbeleuchtete Kammer. Seine Schuppen sind schiefergrau,
+  sein Mantel dunkelgrün mit einem einzigen Faden Akademie-Gold
+  am Kragen. Er schaut Sie an, nicht die Werktische. "Sie.
+  Studierende. Mir wurde berichtet, dass Sie hier unten zu
+  Besuch waren. Ich bin Marschall Daven, Vollstreckung des
+  Rats von Vandara." Ein knappes Nicken. "Ich verhafte Sie
+  nicht — noch nicht. Ich frage, weil Sie die beiden gesehen
+  haben. Korren der Echo-Beschwörer und Iska die Animatorin.
+  Was haben die vor? Sprechen Sie offen. Der Rat hat
+  Beschwerden von den Agenten beider Könige bekommen, was
+  selten genug ist, um eigene Beweisqualität zu haben. Sagen
+  Sie mir, was Sie wissen. Über Ihre eigene Rolle reden wir
+  danach."
+
+npc_vandara_daven_2: >-
+  Daven hört zu, macht Notizen auf einer kleinen
+  Schiefertafel. "Ein Echo aus einer kaiserlichen
+  Archiv-Scherbe. Eine animierte Figur aus grabgeraubtem
+  Knochen. Beide an Ihrer eigenen Magie verankert." Er seufzt
+  einmal, kurz. "Das ist das Muster, das ich alle fünfzehn,
+  zwanzig Jahre sehe. Zwei Studierende, jeder für einen König.
+  Sie fangen klein an, sie überbieten sich gegenseitig, und
+  irgendwann geht jemand ans kaiserliche Archiv oder an ein
+  Grab. Sie haben das nicht angefangen. Sie haben allerdings
+  den magischen Faden geliefert, der beide über die Linie
+  geschoben hat." Er sieht Sie zum ersten Mal direkt an. "Ich
+  schätze Ihre Kooperation. Eine letzte Frage. Zeigen Sie mir,
+  wo die zwei arbeiten. Genau wo. Der Rat bevorzugt eine
+  saubere Festnahme."
+
+npc_vandara_daven_3: >-
+  Sie führen Daven zu Korrens Werktisch, dann zu Iskas. Er
+  nickt einmal bei jedem. Zwei weitere Wachen treten hinter
+  ihm ein — ruhig, professionell. Es wird nicht geschrien;
+  beide Studierende scheinen auf ihre eigene Art gewartet zu
+  haben. Korren richtet sich auf, sieht Sie nicht an. Iska
+  schaut Sie an und grinst, zwinkert, und lässt sich abführen.
+  "Danke für den Boost, Kind! Sag Pamle, mir tut die
+  Brau-Stunde leid!" Daven kommt allein zu Ihnen zurück.
+  "Erledigt. Der Rat wird sie in einem Monat anhören.
+  Wahrscheinlich für zwei Jahre suspendiert, wahrscheinlich
+  danach wieder an der Akademie, mit je einem anderen Mentor.
+  Kein Gefängnis. Sie sind Kinder." Eine Pause. "Sie. Ihre
+  Rolle wird in der Akte als 'kooperierende Zeug:in'
+  vermerkt. Das ist großzügiger als 'Mittäter:in', was es
+  ebenso gut sein könnte. Gehen Sie vorsichtig, Studierende.
+  Glauben Sie nicht alles, was Ihnen die Agenten eines
+  Vassals erzählen." Er wendet sich zum Gehen. "Und wenn das
+  nächste Mal jemand in den Katakomben Sie nach Magie fragt —
+  sagen Sie nein. Einmal. Sagen Sie nein."

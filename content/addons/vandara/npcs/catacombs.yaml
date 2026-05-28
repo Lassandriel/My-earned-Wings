@@ -1,0 +1,45 @@
+# Vandara catacombs — two student-mages running half-legal
+# experiments for opposing Vandara Vassals, plus the Council-of-
+# Vandara enforcement marshal who eventually shows up to arrest
+# them both. All three live next to Sariel in the underground
+# chamber, accessed via Fafa step 4.
+#
+# Korren and Iska are both unlocked by Fafa step 4 (same chain
+# as Sariel). They are accessible pre-shadow-reveal — their arc
+# has nothing to do with shadow specifically, it's about the
+# Archivaris/Novia rivalry from Fafa step 2.
+#
+# Daven is unlocked only after both students finish their step 3
+# (both vandara-korren-arc-done and vandara-iska-arc-done flags
+# set). His own three-step arc is the player helping the Council
+# build the case against the two students.
+
+- id: npc-vandara-korren
+  nameKey: npc_vandara_korren_name
+  icon: 🪨
+  image: img/addons/vandara/korren.webp # placeholder — portrait later
+  color: '#65a30d'
+  progKey: vandaraKorren
+  maxProgress: 3
+  chapter: Vandara
+  location: vandara
+
+- id: npc-vandara-iska
+  nameKey: npc_vandara_iska_name
+  icon: ⚙️
+  image: img/addons/vandara/iska.webp # placeholder — portrait later
+  color: '#0891b2'
+  progKey: vandaraIska
+  maxProgress: 3
+  chapter: Vandara
+  location: vandara
+
+- id: npc-vandara-daven
+  nameKey: npc_vandara_daven_name
+  icon: 🛡️
+  image: img/addons/vandara/daven.webp # placeholder — portrait later
+  color: '#475569'
+  progKey: vandaraDaven
+  maxProgress: 3
+  chapter: Vandara
+  location: vandara

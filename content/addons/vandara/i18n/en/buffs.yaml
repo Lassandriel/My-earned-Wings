@@ -11,3 +11,26 @@ buff_vandara_ash_burn_title: Ash Burn
 buff_vandara_ash_burn_desc: >-
   Hot, pulsing energy rush. Wood and stone yield +1 per action,
   2 minutes.
+
+# Korren's echo-summoning leaves a faint resonance on you —
+# passive magic regen for a short while. Two strengths.
+buff_vandara_echo_clarity_1_title: Echo Clarity
+buff_vandara_echo_clarity_1_desc: >-
+  A faint resonance lingers around you after Korren's
+  experiment. +1 magic regen, 60 seconds.
+
+buff_vandara_echo_clarity_2_title: Deep Echo Clarity
+buff_vandara_echo_clarity_2_desc: >-
+  A stronger lingering resonance. +2 magic regen, 90 seconds.
+
+# Iska's animation makes tools you touch briefly do a little
+# of the work themselves. Yield boost.
+buff_vandara_animated_tools_1_title: Animated Tools
+buff_vandara_animated_tools_1_desc: >-
+  Your tools twitch helpfully on their own. +1 wood yield,
+  60 seconds.
+
+buff_vandara_animated_tools_2_title: Walking Tools
+buff_vandara_animated_tools_2_desc: >-
+  Tools you touch start moving with you. +1 wood yield and
+  +1 stone yield, 90 seconds.

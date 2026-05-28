@@ -60,3 +60,29 @@ vandara_pamle_tier3_done: >-
 vandara_alchemy_mastered: >-
   You've mastered Pamle's full basics. More complex recipes will
   come later.
+
+# Catacomb students arc — three loops then arrest.
+vandara_korren_1_done: >-
+  Korren has woken a faint echo from a smith's ring. He's pleased.
+vandara_korren_2_done: >-
+  Korren has pulled a fuller echo out of an old military coin.
+  He's pacing.
+vandara_korren_arc_done: >-
+  Korren has cracked an imperial archive shard open. The candle
+  went out for a second. He doesn't look well.
+vandara_iska_1_done: >-
+  Iska's spoon stood up by itself for ten seconds. She is
+  delighted and slightly bleeding.
+vandara_iska_2_done: >-
+  Iska's clockwork figure took three steps. The court will hear.
+vandara_iska_arc_done: >-
+  Iska's bone puppet walked a circle and turned to look at you.
+  Iska is laughing. You are not.
+vandara_daven_tip_1: >-
+  Marshal Daven has arrived and asked you for a general account.
+vandara_daven_tip_2: >-
+  You have described both experiments in detail. Daven is taking
+  notes.
+vandara_catacomb_students_busted: >-
+  You led Marshal Daven to both workbenches. Korren and Iska
+  have been arrested. Your role: cooperating witness.

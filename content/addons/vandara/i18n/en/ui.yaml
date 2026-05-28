@@ -14,6 +14,9 @@ npc_vandara_ormias_name: Lector Ormias
 npc_vandara_quinell_name: Doctor Quinell
 npc_vandara_sariel_name: Sariel
 npc_vandara_pamle_name: Magistra Pamle
+npc_vandara_korren_name: Korren
+npc_vandara_iska_name: Iska
+npc_vandara_daven_name: Marshal Daven
 
 # Flag display labels — the tooltip's requirements renderer looks
 # up `ui_<flagkey>` for any `flags.<key>` requirement. Without these

@@ -613,3 +613,142 @@ npc_vandara_gate_guard_respect: >-
   changes a person." A small smile. "Most come with the letter,
   leave with the letter, see only half. You belong to those who
   know both halves now. Take care of yourself, {player}."
+
+
+# ─── Catacomb students arc (Korren + Iska + Daven) ───────────
+# Two students serving opposite Vandara Vassals push each other
+# into bigger and bigger rule-breaking; Marshal Daven eventually
+# comes down to arrest them with the player's help.
+
+npc_vandara_korren_1: >-
+  Korren looks up from a low workbench cluttered with broken
+  pottery and old metal fragments. His scales — mottled green-
+  brown like wet bark — catch the candlelight strangely.
+  "You came down. Good. Word travels, even to here." He
+  gestures at the bench. "I'm Korren. I'm — well. I work for
+  King Archivaris. Not officially, you understand. Officially
+  I'm a third-year student who 'fell behind on Dragon Studies'.
+  Unofficially I'm down here proving something." He picks up
+  a corroded ring. "Echo-summoning. Old objects remember. I
+  bring them up just enough to whisper. The academy thinks
+  it's necromancy. It isn't — there's no soul, just resonance.
+  But the academy doesn't care about distinctions when it
+  can't see the math." He holds the ring out. "Help me. I
+  need a thread of your magic to anchor the echo. Five
+  threads' worth, that's all. The ring will tell me how the
+  smith who made it died. Small thing. Proof."
+
+npc_vandara_korren_2: >-
+  Korren is energised — pacing, scales darker, more vivid.
+  "I heard Iska did it. The Wyvern with the puppet. Made a
+  teaspoon stand up by itself for ten seconds." A bitter grin.
+  "Cute. Animation is the easy thing. Anyone can poke matter
+  and make it twitch. What I'm doing is harder — I'm reaching
+  across time. But the corridor talked about Iska, not me, and
+  that means my king loses today's argument." He shoves the
+  ring back into a pile. "We're going bigger. I have a coin,
+  military issue, from the war forty years ago. It's seen a
+  man die. If I can make it tell me HOW, the academy can't
+  call the echo trick parlour magic any more. Ten threads. Now."
+
+npc_vandara_korren_3: >-
+  Korren has barely slept. The workbench is covered in objects.
+  "Iska is animating a corpse-doll. A SMALL one, but still.
+  The whole city will hear about that by the end of the week,
+  and if Archivaris doesn't have an answer by then, Novia's
+  faction wins this round in court. So we're going to wake a
+  real memory." He holds up something wrapped in cloth. "A
+  shard from the imperial archive. Don't ask how I got it.
+  It saw — never mind what it saw. Twenty threads of magic,
+  and we'll know whether the official records are the actual
+  records." The shard hums when you touch it. The candle flame
+  goes out for a full second. Korren laughs — too thinly.
+  "It worked. Oh, it worked. Wait until I write this up. Wait
+  until—" He cuts off, staring at nothing.
+
+npc_vandara_iska_1: >-
+  A Wyvern in humanoid form sits cross-legged on the floor
+  surrounded by trinkets — a spoon, a coil of wire, a chess
+  piece. Her hair is short, her hands are bandaged. "Hi, hi,
+  sit down, don't break my circle." She doesn't look up.
+  "Iska. Wind line. I'm not supposed to be here, I'm supposed
+  to be at Pamle's tier-three lecture, but Pamle teaches
+  BREWING and I want to make things MOVE." She points at the
+  spoon. "Watch. Five threads of magic from you, that's all I
+  need. The spoon stands up. Maybe. Last time it stood up and
+  stabbed me, so. Stand back." She grins. "King Novia would
+  love this. The old people say matter is inert. Matter is
+  not inert. Matter is just shy."
+
+npc_vandara_iska_2: >-
+  Iska is grinning wider than before, with a new burn across
+  one cheekbone. "Korren did the ring thing. Made it whisper.
+  Whisper. Anyone can whisper. I want to MOVE." She points
+  at a clockwork chassis on her workbench. "I'm wiring runes
+  into a clockwork. Not just twitch — walk. Three steps. The
+  court will laugh Korren out of the room when they see this.
+  Ten threads, please, fast, I've got the geometry held in my
+  head and I'll lose it if you make me wait."
+
+npc_vandara_iska_3: >-
+  Iska looks haggard. Both eyes red-rimmed. On the workbench
+  is something small under a cloth. "Korren is going to the
+  imperial archive. Did you know that? I know it. The walls
+  down here listen." She uncovers the cloth. A small puppet
+  figure made of wood, wire, and something that looks
+  suspiciously like a finger-bone. "Don't ask. Borrowed. From
+  an old grave. The grave's a hundred years past anyone
+  caring. Twenty threads, and I make it walk a circle. If I
+  do, Novia's faction owns the lecture halls for a decade."
+  The figure stirs when you channel the magic. Stands. Takes
+  one step, then another, then a third, then — it turns its
+  tiny head toward you. Iska laughs, ecstatic. "YES. That.
+  Did you see that? It looked. It LOOKED—"
+
+npc_vandara_daven_1: >-
+  A tall Great Dragon shifter steps into the candlelit
+  chamber. His scales are slate-grey, his coat dark green with
+  a single thread of academy gold at the collar. He looks at
+  you, not at the workbenches. "You. Student. I've been told
+  you've been visiting down here. I'm Marshal Daven,
+  Council-of-Vandara enforcement." A small nod. "I'm not
+  arresting you — yet. I'm asking because you've seen them.
+  Korren the echo-summoner and Iska the animator. What are
+  they up to? Speak plainly. The Council has had complaints
+  from both kings' agents, which is rare enough to be its own
+  kind of evidence. Tell me what you can. We can speak about
+  your own role afterwards."
+
+npc_vandara_daven_2: >-
+  Daven listens, taking notes on a small slate. "An echo from
+  an imperial archive shard. An animated figure made from
+  grave-robbed bone. Both anchored to your own magic." He
+  sighs once, briefly. "This is the pattern I've seen every
+  fifteen or twenty years. Two students, one for each king.
+  They start small, they escalate against each other, and
+  somebody eventually goes to the imperial archive or to a
+  grave. You did not start this. You did, however, contribute
+  the magical thread that pushed both of them past the line."
+  He looks at you directly for the first time. "I appreciate
+  your cooperation. One last question. Show me where they
+  work. Exactly where. The Council prefers a clean arrest."
+
+npc_vandara_daven_3: >-
+  You lead Daven to Korren's workbench, then to Iska's. He
+  nods once at each. Two more guards step in behind him —
+  quiet, professional. There is no shouting; both students
+  seem to have been waiting, in their own way. Korren
+  straightens, refuses to look at you. Iska looks at you and
+  grins, then winks, and lets herself be led out. "Thanks for
+  the boost, kid! Tell Pamle I'm sorry about the brewing
+  class!" Daven returns to you alone. "It's done. The Council
+  will hear them in a month. Probably suspended for two
+  years, probably back at the academy after that with a
+  different mentor each. No prison. They are children." A
+  pause. "You. Your role will be noted in the file as
+  'cooperating witness'. That is more generous than
+  'accomplice', which it could just as easily be. Walk
+  carefully, student. Do not believe everything every Vassal's
+  agent tells you." He turns to leave. "And the next time
+  someone in the catacombs asks for your magic — say no. Just
+  once. Say no."

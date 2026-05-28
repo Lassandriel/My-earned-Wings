@@ -1,0 +1,40 @@
+# Buffs from the catacomb students' experiments. Both come in a
+# weak step-1 version and a stronger step-2 version; step 3 has
+# no buff (the experiment goes too far).
+#
+# Tonally: these are "you helped a kid do something they shouldn't
+# have done, and now you have a slightly improved stat for a bit."
+# Not permanent. Not stable. Lore-fitting.
+
+# Korren's echo-summoning side-effect: passive magic regen, mild,
+# from the lingering aether around the woken-up object.
+- id: buff-vandara-echo-clarity-1
+  title: buff_vandara_echo_clarity_1_title
+  desc: buff_vandara_echo_clarity_1_desc
+  duration: 60
+  modifiers:
+    - { key: magic_regen_passive, add: 1 }
+
+- id: buff-vandara-echo-clarity-2
+  title: buff_vandara_echo_clarity_2_title
+  desc: buff_vandara_echo_clarity_2_desc
+  duration: 90
+  modifiers:
+    - { key: magic_regen_passive, add: 2 }
+
+# Iska's animation side-effect: tools you touch briefly do a
+# little of the work themselves. Yield boost on raw materials.
+- id: buff-vandara-animated-tools-1
+  title: buff_vandara_animated_tools_1_title
+  desc: buff_vandara_animated_tools_1_desc
+  duration: 60
+  modifiers:
+    - { key: wood_yield, add: 1 }
+
+- id: buff-vandara-animated-tools-2
+  title: buff_vandara_animated_tools_2_title
+  desc: buff_vandara_animated_tools_2_desc
+  duration: 90
+  modifiers:
+    - { key: wood_yield, add: 1 }
+    - { key: stone_yield, add: 1 }
