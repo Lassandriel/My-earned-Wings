@@ -3,7 +3,7 @@
 
 # Passive magic regeneration per tick. Demo has this at 0 (no passive
 # regen — magic is gained only through act-meditate). Defined so the
-# engine's regen tick (engine/systems/regen.ts) doesn't spam
+# engine's regen tick (engine/ticks/regen.ts) doesn't spam
 # [CONTENT] Missing ID warnings on every tick.
 - id: magic_regen_passive
   title: modifier_magic_regen_passive_title

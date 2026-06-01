@@ -5,7 +5,7 @@
 
 # Dormant knowledge resource. Historically tied to the "Arcane Focus"
 # automation concept in GAMEDESIGN.md, but that system has since been
-# reframed as Shadow Bind (see src/engine/systems/shadow.ts) and no
+# reframed as Shadow Bind (see src/engine/ticks/shadow.ts) and no
 # longer touches this resource. The id is kept for save compatibility.
 - id: focus
   type: resource
