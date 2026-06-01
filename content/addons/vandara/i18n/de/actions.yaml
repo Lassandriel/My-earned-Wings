@@ -48,6 +48,15 @@ act-npc-vandara-ormias:
 act-npc-vandara-quinell:
   title: Doktor Quinell
 
+act-npc-vandara-korren:
+  title: Student Korren
+
+act-npc-vandara-iska:
+  title: Studentin Iska
+
+act-npc-vandara-daven:
+  title: Marschall Daven
+
 act-vandara-try-fire:
   title: "Feuerprobe"
 act-vandara-try-earth:

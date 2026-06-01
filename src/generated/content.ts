@@ -6615,6 +6615,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-vandara-quinell": {
         "title": "Doktor Quinell"
       },
+      "act-npc-vandara-korren": {
+        "title": "Student Korren"
+      },
+      "act-npc-vandara-iska": {
+        "title": "Studentin Iska"
+      },
+      "act-npc-vandara-daven": {
+        "title": "Marschall Daven"
+      },
       "act-vandara-try-fire": {
         "title": "Feuerprobe"
       },
@@ -7257,6 +7266,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_decorative": "Dekorativ",
       "ui_gourmet-meal": "Gourmet-Mahlzeit",
       "ui_shadow_bind": "Schatten-Bindung",
+      "ui_focus": "Fokus",
       "ui_naming_title": "Dein Name",
       "ui_naming_desc": "Wie soll die Welt von Draconia dich nennen?",
       "ui_naming_placeholder": "Wandler-Name...",
@@ -7972,6 +7982,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-vandara-quinell": {
         "title": "Doctor Quinell"
       },
+      "act-npc-vandara-korren": {
+        "title": "Student Korren"
+      },
+      "act-npc-vandara-iska": {
+        "title": "Student Iska"
+      },
+      "act-npc-vandara-daven": {
+        "title": "Marshal Daven"
+      },
       "act-vandara-try-fire": {
         "title": "Fire Trial"
       },
@@ -8481,7 +8500,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_3": "\"First resonance test.\" Veyra draws the curtains halfway, pulls a low stool over and sits beside the couch. \"Hands relaxed in your lap, palms up. Don't push. Don't reach. Let your aether settle on its own.\" Her quill hovers above her slate. She waits — long, longer than is comfortable. Then, quietly: \"Hm. There is something. But it doesn't sit cleanly under any of the standard signatures. I'd like to run a proper battery next session. Come back rested — it goes smoother on a calm body.\"",
       "npc_vandara_veyra_4": "\"Today the standard battery.\" Veyra has laid five objects on a small tray beside the couch — a stone, a bowl of water, a candle, a feather, a mirror. \"One material per element. You touch each in turn. I watch what your aether does. There is no right answer and no wrong one — even 'nothing happens' is a clean result.\" She raises a finger. \"One thing only: don't push. The aether doesn't lie when you let it be honest. Take your time. Ready when you are.\"",
       "npc_vandara_veyra_5": "\"You came back. Good. Please sit.\" Veyra has already drawn the curtains entirely; only a single small candle burns on the side table. \"The light reaction during your battery — that was not a null result. It was also not a clean light signature. I'd like to run a controlled isolation test. Hands open, no pushing, reach toward the candle.\" Long silence. Then her voice, suddenly different — no longer the clinician's measured tone: \"Oh. Oh, {player}. You are not casting a shadow. You are PULLING the shadow toward you. From the wall. From the ceiling. From me.\" A breathless half-laugh. \"You are not a light-shifter. You are a shadow-shifter. In forty years of diagnostics I have never seen one.\"",
-      "npc_vandara_veyra_7": "Veyra has cleared the consultation room of every personal object — only the velvet couch, the small candle, and her slate remain. \"You came with the permit. Good. The practical is short.\" She gestures at the candle. \"Bind a shadow to it. Hold it. Talk to me about something unrelated for a count of thirty. Do not let the shadow drop, do not let the conversation falter. The exam is not about strength — it is about doing two things at once without one swallowing the other.\" She watches. Notes. Watches some more. Then a small smile that is entirely the diagnostician and not at all the proctor. \"Yes. Cleanly done. Forty years and a first. You pass. Tell Olié.\"\n\nVeyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a sub-variant of Tide. But it is rare. Very rare. In forty years of diagnostics I have never seen one.\" She looks at you seriously. \"I can give you the theory. But the practice — I am out of my depth. I cannot teach you what I have never felt.\" She sets down her quill, hesitates, then continues quieter. \"There was a colleague here, a long time ago. Sariel. Brilliant. Element-agnostic on paper until they disproved it themselves. We lost touch when they left the academy — forty years ago, give or take. I haven't heard their name in a long time, and I don't know whether they still lecture. But if anyone can teach you the practice of shadow, it is Sariel.\" She meets your eyes. \"Be careful, {player}. 'Shadow' sounds romantic. Not everyone in this city sees it that way.\"",
+      "npc_vandara_veyra_6": "Veyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a sub-variant of Tide. But it is rare. Very rare. In forty years of diagnostics I have never seen one.\" She looks at you seriously. \"I can give you the theory. But the practice — I am out of my depth. I cannot teach you what I have never felt.\" She sets down her quill, hesitates, then continues quieter. \"There was a colleague here, a long time ago. Sariel. Brilliant. Element-agnostic on paper until they disproved it themselves. We lost touch when they left the academy — forty years ago, give or take. I haven't heard their name in a long time, and I don't know whether they still lecture. But if anyone can teach you the practice of shadow, it is Sariel.\" She meets your eyes. \"Be careful, {player}. 'Shadow' sounds romantic. Not everyone in this city sees it that way.\"",
+      "npc_vandara_veyra_7": "Veyra has cleared the consultation room of every personal object — only the velvet couch, the small candle, and her slate remain. \"You came with the permit. Good. The practical is short.\" She gestures at the candle. \"Bind a shadow to it. Hold it. Talk to me about something unrelated for a count of thirty. Do not let the shadow drop, do not let the conversation falter. The exam is not about strength — it is about doing two things at once without one swallowing the other.\" She watches. Notes. Watches some more. Then a small smile that is entirely the diagnostician and not at all the proctor. \"Yes. Cleanly done. Forty years and a first. You pass. Tell Olié.\"",
       "vandara_trial_fire_dialog": "You hold your hand over the small flame. Warmth, of course — but no resonance. Veyra shakes her head. \"No fire.\"",
       "vandara_trial_earth_dialog": "The stone sits heavy in your hand. You wait. Nothing. Veyra notes something down. \"No earth.\"",
       "vandara_trial_wind_dialog": "You hold the feather up. It floats a moment, then falls. Normal — no magical lift. Veyra: \"No wind.\"",
@@ -8613,6 +8633,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_decorative": "Decorative",
       "ui_gourmet-meal": "Gourmet Meal",
       "ui_shadow_bind": "Shadow Bind",
+      "ui_focus": "Focus",
       "ui_naming_title": "Your Name",
       "ui_naming_desc": "How shall the world of Draconia call you?",
       "ui_naming_placeholder": "Shifter name...",

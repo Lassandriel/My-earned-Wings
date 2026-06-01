@@ -55,6 +55,10 @@ ui_bonus: "Bonus:"
 ui_decorative: Decorative
 ui_gourmet-meal: Gourmet Meal
 ui_shadow_bind: Shadow Bind
+# Dormant 'focus' resource (kept for save compat). Label preserved
+# even though the Arcane-Focus automation mechanic was renamed to
+# Shadow Bind — the resource is a separate dormant slot.
+ui_focus: Focus
 ui_naming_title: Your Name
 ui_naming_desc: How shall the world of Draconia call you?
 ui_naming_placeholder: Shifter name...

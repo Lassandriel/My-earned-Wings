@@ -219,23 +219,7 @@ npc_vandara_veyra_5: >-
   shadow-shifter. In forty years of diagnostics I have never
   seen one."
 
-# Step 7 — practical graduation exam. The diagnostician becomes
-# the examiner; she stays warm but is paying close attention.
-npc_vandara_veyra_7: >-
-  Veyra has cleared the consultation room of every personal
-  object — only the velvet couch, the small candle, and her
-  slate remain. "You came with the permit. Good. The practical
-  is short." She gestures at the candle. "Bind a shadow to it.
-  Hold it. Talk to me about something unrelated for a count of
-  thirty. Do not let the shadow drop, do not let the
-  conversation falter. The exam is not about strength — it is
-  about doing two things at once without one swallowing the
-  other." She watches. Notes. Watches some more. Then a small
-  smile that is entirely the diagnostician and not at all the
-  proctor. "Yes. Cleanly done. Forty years and a first. You
-  pass. Tell Olié."
-
-
+npc_vandara_veyra_6: >-
   Veyra is markedly more thoughtful today. "Shadow is a sub-
   variant of Light. Like Dream is a sub-variant of Tide. But it
   is rare. Very rare. In forty years of diagnostics I have
@@ -251,6 +235,22 @@ npc_vandara_veyra_7: >-
   practice of shadow, it is Sariel." She meets your eyes.
   "Be careful, {player}. 'Shadow' sounds romantic. Not everyone
   in this city sees it that way."
+
+# Step 7 — practical graduation exam. The diagnostician becomes
+# the examiner; she stays warm but is paying close attention.
+npc_vandara_veyra_7: >-
+  Veyra has cleared the consultation room of every personal
+  object — only the velvet couch, the small candle, and her
+  slate remain. "You came with the permit. Good. The practical
+  is short." She gestures at the candle. "Bind a shadow to it.
+  Hold it. Talk to me about something unrelated for a count of
+  thirty. Do not let the shadow drop, do not let the
+  conversation falter. The exam is not about strength — it is
+  about doing two things at once without one swallowing the
+  other." She watches. Notes. Watches some more. Then a small
+  smile that is entirely the diagnostician and not at all the
+  proctor. "Yes. Cleanly done. Forty years and a first. You
+  pass. Tell Olié."
 
 # Element trials — short reaction blurbs (used as each trial's
 # dialogueKey in the step).
