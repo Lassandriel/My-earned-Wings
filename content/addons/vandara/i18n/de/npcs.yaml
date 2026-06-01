@@ -55,6 +55,45 @@ npc_vandara_olie_4: >-
   in diesem Fall bekommen sie beides." Ein höfliches Nicken.
   "Machen Sie weiter, Studierende."
 
+# Step 5 — Olié setzt die Abschluss-Prüfung an. Erscheint nach
+# Sariels Shadow-Bind-Finale (Praxis-Teil braucht's) und wenn
+# alle drei Pflicht-Grundkurse durch sind.
+npc_vandara_olie_5: >-
+  Olié legt seine Feder in dem Moment ab, in dem Sie eintreten —
+  er hat offensichtlich gewartet. "Ihre Akte ist vollständig.
+  Drei Grundkurse, eine Element-Diagnostik, eine eigenständig
+  organisierte Schatten-Praxis. Der Rat hat Sie zur
+  Abschluss-Prüfung zugelassen." Er schiebt eine dünne
+  roségoldene Marke über den Tisch. "Ihr Prüfungs-Pass. Zeigen
+  Sie ihn an jeder Station. Magistra Veyra führt die Praxis
+  durch — sie erwartet Shadow Bind unter kontrollierten
+  Bedingungen. Lektor Ormias prüft Sie mündlich in
+  Drachenkunde. Doktor Quinell prüft Sie schriftlich in den
+  Arkanen Grundlagen." Eine kleine, formale Pause. "Sie können
+  die Reihenfolge wählen. Kehren Sie danach zu mir zurück. Ich
+  werde hier sein. Ich bin immer hier."
+
+# Step 6 — Diplom-Zeremonie. Braucht alle drei Prüfungs-Flags.
+# Sichtbar nach Step 5 (via extendNPCArc auf Olié), aber gegated
+# damit der Spieler sieht, dass es wartet und weiß was zu tun ist.
+npc_vandara_olie_6: >-
+  Olié erhebt sich. Er erhebt sich selten. "Alle drei Teile
+  bestanden. Magistra Veyra notierte, ich zitiere: 'beispielhafte
+  Kontrolle für eine:n Erstjähre:r:n Schattenwandler:in — zumindest
+  die:der erste, die:der mir je begegnet ist.' Lektor Ormias
+  notierte: 'kannte alle sieben und benannte die achte
+  unaufgefordert.' Doktor Quinell notierte nur 'zufriedenstellend'.
+  Das ist das höchste Lob, das er je auf ein Abschluss-Formular
+  geschrieben hat, in meinen vierzig Jahren." Er holt ein
+  gefaltetes Dokument aus schwerem cremefarbenen Papier mit
+  roségoldenem Siegel hervor. "Ihr Diplom. Die Roségold-Akademie
+  von Vandara bestätigt hiermit, dass Sie den Grundkurs
+  abgeschlossen haben." Er reicht es Ihnen mit beiden Händen.
+  "Glückwunsch, Absolvent:in. Die Akademie steht in Ihrer Schuld
+  für eine:n Schattenwandler:in. Wohin Sie als Nächstes gehen,
+  steht nicht in unserer Akte." Ein kleines, fast warmes Lächeln.
+  "Viel Glück, {player}."
+
 # Kal're — Händlerin auf den Straßen Vandaras
 npc_vandara_kalre_1: >-
   Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand
@@ -214,6 +253,23 @@ npc_vandara_veyra_6: >-
   beibringen kann, dann Sariel." Sie sucht Ihren Blick. "Seien
   Sie vorsichtig, {player}. 'Schatten' klingt romantisch. Nicht
   jeder in dieser Stadt sieht es so."
+
+# Step 7 — Praxis-Abschlussprüfung. Die Diagnostikerin wird zur
+# Prüferin; bleibt warm, aber sehr aufmerksam.
+npc_vandara_veyra_7: >-
+  Veyra hat das Sprechzimmer von jedem persönlichen Gegenstand
+  geräumt — nur die samtene Liege, die kleine Kerze und ihre
+  Schiefertafel sind übrig. "Sie sind mit dem Pass gekommen.
+  Gut. Die Praxis ist kurz." Sie deutet auf die Kerze. "Binden
+  Sie einen Schatten an sie. Halten Sie ihn. Reden Sie mit mir
+  über etwas Unrelatedes, dreißig Sekunden lang. Lassen Sie den
+  Schatten nicht fallen, lassen Sie das Gespräch nicht
+  versanden. Die Prüfung geht nicht um Stärke — sie geht darum,
+  zwei Dinge gleichzeitig zu tun, ohne dass eines das andere
+  verschluckt." Sie beobachtet. Notiert. Beobachtet weiter.
+  Dann ein kleines Lächeln, ganz Diagnostikerin und gar nicht
+  Prüferin. "Ja. Sauber gearbeitet. Vierzig Jahre und ein
+  Erstes. Sie bestehen. Sagen Sie es Olié."
 
 # Element-Übungen — knappe Reaktionsbeschreibungen, die jede Trial
 # als Tooltip-Text mitliefert (dialogueKey im step).
@@ -527,6 +583,26 @@ npc_vandara_ormias_10: >-
   ich werde neue Fragen haben, und die Fragen sind meistens
   interessanter als die Antworten."
 
+# Step 11 — mündliche Abschlussprüfung in Drachenkunde.
+npc_vandara_ormias_11: >-
+  Ormias hat seinen üblichen Chaos vom Schreibtisch geräumt
+  und ein einzelnes Blatt Papier hingelegt, auf dem genau ein
+  Wort steht: PROCEED. Er schaut dich von der Seite an. "Also
+  gut. Mündliche Prüfung. Ich sage die Frage, du sprichst die
+  Antwort. Keine Notizen. Versuch, mich nicht anzuhusten." Er
+  räuspert sich, als wolle er es demonstrieren. "Nenne die
+  sieben Hauptarten der Drachenwandler, in beliebiger
+  Reihenfolge, mit je einem unterscheidenden Merkmal." Lange
+  Stille, während du rezitierst. Er nickt durch jede.
+  "Gut, gut, gut." Dann: "Und die achte." Eine Pause. "Ja, die
+  achte. Wir beide wissen, dass es eine gibt. Nenn sie, und
+  das eine Merkmal, das sie von allen anderen unterscheidet."
+  Eine weitere Pause, während du antwortest. Seine Brille
+  rutscht und er fängt sie auch diesmal nicht auf.
+  "Lung-Drachen. Flügellos. Genau." Er lächelt kurz. "Du
+  bestehst. Sag's Olié. Und komm später wieder für ein längeres
+  Gespräch. Ich habe einige Fragen aktualisiert."
+
 # ─── Quinell — Arkane Grundlagen ───────────────────────────
 npc_vandara_quinell_1: >-
   Doktor Quinell ist Kristalldrachenwandler — Schuppen wie
@@ -637,6 +713,22 @@ npc_vandara_quinell_8: >-
   aber etwas im Raum tut es. "Das ist alles. Gehen Sie.
   Studieren Sie. Wenden Sie die Gesetze an. Sie werden jedes
   einzelne brauchen."
+
+# Step 9 — schriftliche Abschlussprüfung über die vier Gesetze.
+npc_vandara_quinell_9: >-
+  Quinell bewegt sich nicht, als Sie eintreten. Auf dem
+  Stehpult wartet ein einzelnes Blatt Papier mit vier
+  vorgedruckten Zeilen. "Setzen Sie sich. Schreiben Sie.
+  Nennen Sie jedes der vier Gesetze beim Namen plus einen
+  Satz mit Substanz. Sie können sich angemessen Zeit lassen.
+  Benutzen Sie den Stift, nicht den Finger." Lange Stille.
+  Sie schreiben. Er wartet bewegungslos. Als Sie den Stift
+  ablegen, liest er das Blatt ausdruckslos, faltet es einmal
+  und lässt es in ein Fach mit der Aufschrift BESTANDEN
+  fallen. "Zufriedenstellend. Kehren Sie zu Olié zurück." Eine
+  Pause, die für ihn als warm zählt. "Wenden Sie sie ehrlich
+  an. Die Gesetze interessieren sich nicht, ob Sie sich an sie
+  erinnern. Nur, ob Sie sie respektieren."
 
 npc_vandara_gate_guard_admit: >-
   Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie

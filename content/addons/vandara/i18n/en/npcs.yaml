@@ -48,6 +48,43 @@ npc_vandara_olie_4: >-
   in this case they get both." A polite nod. "Carry on,
   student."
 
+# Step 5 — Olié schedules the player's graduation exam. Unlocked
+# once Sariel has finished teaching Shadow Bind (the practical
+# component requires it) AND the three mandatory mentor courses
+# are complete.
+npc_vandara_olie_5: >-
+  Olié sets down his pen the moment you arrive — clearly he has
+  been waiting. "Your file is complete. Three basic courses,
+  one element diagnostic, one independently arranged shadow-
+  practice. The Council has authorised you to sit your
+  graduation examination." He slides a thin rose-gold token
+  across the desk. "Your exam permit. Show it at each station.
+  Magistra Veyra will run the practical — she expects to see
+  Shadow Bind under controlled conditions. Lector Ormias will
+  examine you orally on Dragon Studies. Doctor Quinell will
+  examine you in writing on Arcane Foundations." A small, formal
+  pause. "Take them in any order. Return to me afterwards. I
+  will be here. I am always here."
+
+# Step 6 — Diploma ceremony. Requires all three exam flags.
+# Visible after step 5 (via extendNPCArc on Olié) but gated so
+# the player sees it waiting and knows what to do next.
+npc_vandara_olie_6: >-
+  Olié rises. He does not rise often. "All three sections
+  passed. Magistra Veyra noted, and I quote, 'exemplary control
+  for a first-year shadow-shifter — at least, the first I have
+  ever met.' Lector Ormias noted, 'remembered all seven and
+  named the eighth without prompting.' Doctor Quinell noted only
+  'satisfactory'. That is the highest praise he has ever written
+  on a graduation form, in my forty years." He produces a
+  folded document of heavy cream paper with the rose-gold seal.
+  "Your diploma. The Rose Gold Academy of Vandara hereby
+  confirms that you have completed the basic curriculum." He
+  hands it across with both hands. "Congratulations, graduate.
+  The academy is in your debt for one shadow-shifter. Where you
+  go next is not in our file." A small, almost warm smile.
+  "Good luck, {player}."
+
 # Kal're — trader in the streets of Vandara
 npc_vandara_kalre_1: >-
   A young dragon-shifter with silver-blue hair and a stall full of
@@ -182,7 +219,23 @@ npc_vandara_veyra_5: >-
   shadow-shifter. In forty years of diagnostics I have never
   seen one."
 
-npc_vandara_veyra_6: >-
+# Step 7 — practical graduation exam. The diagnostician becomes
+# the examiner; she stays warm but is paying close attention.
+npc_vandara_veyra_7: >-
+  Veyra has cleared the consultation room of every personal
+  object — only the velvet couch, the small candle, and her
+  slate remain. "You came with the permit. Good. The practical
+  is short." She gestures at the candle. "Bind a shadow to it.
+  Hold it. Talk to me about something unrelated for a count of
+  thirty. Do not let the shadow drop, do not let the
+  conversation falter. The exam is not about strength — it is
+  about doing two things at once without one swallowing the
+  other." She watches. Notes. Watches some more. Then a small
+  smile that is entirely the diagnostician and not at all the
+  proctor. "Yes. Cleanly done. Forty years and a first. You
+  pass. Tell Olié."
+
+
   Veyra is markedly more thoughtful today. "Shadow is a sub-
   variant of Light. Like Dream is a sub-variant of Tide. But it
   is rare. Very rare. In forty years of diagnostics I have
@@ -489,6 +542,24 @@ npc_vandara_ormias_10: >-
   sometime — I will have new questions for you, and the
   questions are usually more interesting than the answers."
 
+# Step 11 — oral graduation exam on Dragon Studies.
+npc_vandara_ormias_11: >-
+  Ormias has cleared his usual chaos off the desk and lined up
+  a single sheet of paper, on which exactly one word is
+  written: PROCEED. He looks at you sideways. "Right. Oral
+  exam. I will say the prompt, you will speak the answer. No
+  notes. Try not to cough on me." He clears his throat as if
+  to demonstrate. "Name the seven main types of dragon-shifter,
+  in any order, with one distinguishing feature each." Long
+  silence as you recite. He nods through each. "Good, good,
+  good." Then: "And the eighth." A pause. "Yes, the eighth. We
+  both know there is one. Name it, and the one identifying
+  feature that disqualifies all of the others." Another pause
+  as you answer. His glasses slip and he does not catch them
+  this time either. "Lung-Drachen. Wingless. Exactly." He
+  smiles, briefly. "You pass. Tell Olié. And come back later
+  for a longer conversation. I have updated some questions."
+
 # ─── Quinell — Arcane Foundations ───────────────────────────
 # One lecture per law, in order: intro, definition, three-component
 # law, element binding, conservation, exhaustion, exceptions —
@@ -590,6 +661,20 @@ npc_vandara_quinell_8: >-
   them." His voice does not change pitch, but something in the
   room does. "That is all. Go. Study. Apply the laws. You will
   need every one of them."
+
+# Step 9 — written graduation exam on Arcane Foundations.
+npc_vandara_quinell_9: >-
+  Quinell does not move when you enter. A single sheet of
+  paper waits on the lectern with four lines printed on it.
+  "Sit. Write. State each of the four laws by name and one
+  sentence of substance. You may take as long as you require
+  within reason. Use the pen, not your finger." Long silence.
+  You write. He waits, motionless. When you set the pen down he
+  reads the sheet without expression, then folds it once and
+  drops it into a tray marked PASSED. "Satisfactory. Return to
+  Olié." A pause that for him counts as warm. "Apply them
+  honestly. The laws do not care whether you remember them.
+  Only whether you respect them."
 
 npc_vandara_gate_guard_admit: >-
   The gate warden — a massive earth-dragon shifter with scales like

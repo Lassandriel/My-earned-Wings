@@ -16,7 +16,9 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraVeyra
-  maxProgress: 6
+  # Base 6 (Diagnostik-Sprechstunde + Reveal). Step 7 ist der
+  # Prüfungs-Beat (Praxis), via Oliés Step 5 freigeschaltet.
+  maxProgress: 7
   journalIcon: ☀️
   icon: ☀️
   journalColor: '#fbbf24'
@@ -96,6 +98,22 @@
         - type: extendNPCArc
           npcId: npc-vandara-pamle
       dialogueKey: npc_vandara_veyra_6
+    # 7 — Prüfungs-Praxis. Veyra prüft die Schatten-Beherrschung
+    # unter kontrollierten Bedingungen. Wird durch Oliés Step 5
+    # (Prüfungs-Ankündigung) via extendNPCArc freigeschaltet.
+    - cost: 15
+      costType: magic
+      requirements:
+        flags.vandara-exam-scheduled: true
+        flags.ability-shadow-bind: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-exam-veyra-done
+          value: true
+        - type: log
+          logKey: vandara_exam_veyra_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_veyra_7
   customExecute: npc_execute
 
 # ─── Ormias — Drachenkunde ────────────────────────────────────
@@ -112,10 +130,9 @@
   chapter: chapter_vandara
   progKey: vandaraOrmias
   # Base 9 (Intro + 7 Hauptarten + Lung-Schluss). Schritt 10 ist
-  # ein Reveal-Reaktions-Beat, freigeschaltet via extendNPCArc von
-  # Veyras Step 6 — Ormias gesteht ein, dass er den Spätzünder-
-  # Großdrachen-Tipp halb daneben hatte.
-  maxProgress: 10
+  # ein Reveal-Reaktions-Beat (via Veyras Step 6 extendNPCArc).
+  # Schritt 11 ist die mündliche Prüfung (via Oliés Step 5).
+  maxProgress: 11
   journalIcon: 🐲
   icon: 🐲
   journalColor: '#7c2d12'
@@ -179,6 +196,21 @@
           logKey: vandara_ormias_reveal_reaction
           color: var(--text-dim)
       dialogueKey: npc_vandara_ormias_10
+    # 11 — Mündliche Prüfung. Ormias fragt die sieben Hauptarten
+    # ab und prüft die Lung-Drachen-Sonderfall-Kenntnis.
+    # Freigeschaltet via Oliés Step 5.
+    - cost: 15
+      costType: energy
+      requirements:
+        flags.vandara-exam-scheduled: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-exam-ormias-done
+          value: true
+        - type: log
+          logKey: vandara_exam_ormias_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_ormias_11
   customExecute: npc_execute
 
 # ─── Quinell — Arkane Grundlagen ───────────────────────────────
@@ -194,10 +226,10 @@
   chapter: chapter_vandara
   progKey: vandaraQuinell
   # Base 7 (Intro + Definition + vier Gesetze + Ausnahmen-Stunde
-  # mit Sariel-Erwähnung). Schritt 8 ist ein Reveal-Reaktions-Beat,
-  # freigeschaltet via extendNPCArc von Veyras Step 6 — leise
-  # Vindikation für Sariel.
-  maxProgress: 8
+  # mit Sariel-Erwähnung). Schritt 8 ist ein Reveal-Reaktions-Beat
+  # (via Veyras Step 6 extendNPCArc). Schritt 9 ist die schriftliche
+  # Prüfung über die vier Gesetze (via Oliés Step 5).
+  maxProgress: 9
   journalIcon: 💎
   icon: 💎
   journalColor: '#c084fc'
@@ -250,4 +282,18 @@
           logKey: vandara_quinell_reveal_reaction
           color: var(--text-dim)
       dialogueKey: npc_vandara_quinell_8
+    # 9 — Schriftliche Prüfung über die vier Gesetze. Freigeschaltet
+    # via Oliés Step 5. Magie-intensiv (Konzentration).
+    - cost: 20
+      costType: magic
+      requirements:
+        flags.vandara-exam-scheduled: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-exam-quinell-done
+          value: true
+        - type: log
+          logKey: vandara_exam_quinell_done
+          color: var(--gold)
+      dialogueKey: npc_vandara_quinell_9
   customExecute: npc_execute

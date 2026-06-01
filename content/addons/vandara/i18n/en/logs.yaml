@@ -48,6 +48,23 @@ vandara_olie_reveal_reaction: >-
 vandara_pamle_reveal_reaction: >-
   Pamle has heard. Says she'll think about shadow-flavoured reagents.
 
+# Graduation arc — Olié schedules the exam, the player runs the
+# three stations, returns for the diploma.
+vandara_exam_scheduled: >-
+  Olié has scheduled your graduation exam. Three stations: Veyra
+  for the practical, Ormias for the oral, Quinell for the written.
+vandara_exam_veyra_done: >-
+  Practical exam passed. Veyra's note: "exemplary control for a
+  first-year shadow-shifter."
+vandara_exam_ormias_done: >-
+  Oral exam passed. Ormias's note: "remembered all seven and named
+  the eighth without prompting."
+vandara_exam_quinell_done: >-
+  Written exam passed. Quinell's note: "satisfactory" — his highest
+  praise in forty years.
+vandara_graduated: >-
+  You have graduated from the Rose Gold Academy of Vandara.
+
 vandara_pamle_intro_done: >-
   Pamle showed you the two basic recipes — energy potion and
   magic potion.

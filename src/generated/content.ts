@@ -3541,7 +3541,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraOlie",
-    "maxProgress": 4,
+    "maxProgress": 6,
     "journalIcon": "📋",
     "icon": "📋",
     "journalColor": "#0ea5e9",
@@ -3610,6 +3610,70 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_olie_4"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.ability-shadow-bind": true,
+          "flags.vandara-ormias-intro-done": true,
+          "flags.vandara-quinell-intro-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-exam-scheduled",
+            "value": true
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-veyra"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-ormias"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-quinell"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-olie"
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_exam_scheduled",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_olie_5"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-exam-veyra-done": true,
+          "flags.vandara-exam-ormias-done": true,
+          "flags.vandara-exam-quinell-done": true
+        },
+        "onSuccess": [
+          {
+            "type": "unlockItem",
+            "id": "item-vandara-diploma"
+          },
+          {
+            "type": "setFlag",
+            "flag": "vandara-graduated",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_graduated",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_olie_6"
       }
     ],
     "customExecute": "npc_execute"
@@ -4054,7 +4118,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraVeyra",
-    "maxProgress": 6,
+    "maxProgress": 7,
     "journalIcon": "☀️",
     "icon": "☀️",
     "journalColor": "#fbbf24",
@@ -4145,6 +4209,27 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_veyra_6"
+      },
+      {
+        "cost": 15,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-exam-scheduled": true,
+          "flags.ability-shadow-bind": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-exam-veyra-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_exam_veyra_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_veyra_7"
       }
     ],
     "customExecute": "npc_execute"
@@ -4156,7 +4241,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraOrmias",
-    "maxProgress": 10,
+    "maxProgress": 11,
     "journalIcon": "🐲",
     "icon": "🐲",
     "journalColor": "#7c2d12",
@@ -4235,6 +4320,26 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_ormias_10"
+      },
+      {
+        "cost": 15,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-exam-scheduled": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-exam-ormias-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_exam_ormias_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_ormias_11"
       }
     ],
     "customExecute": "npc_execute"
@@ -4246,7 +4351,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraQuinell",
-    "maxProgress": 8,
+    "maxProgress": 9,
     "journalIcon": "💎",
     "icon": "💎",
     "journalColor": "#c084fc",
@@ -4315,6 +4420,26 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_vandara_quinell_8"
+      },
+      {
+        "cost": 20,
+        "costType": "magic",
+        "requirements": {
+          "flags.vandara-exam-scheduled": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "vandara-exam-quinell-done",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "vandara_exam_quinell_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_vandara_quinell_9"
       }
     ],
     "customExecute": "npc_execute"
@@ -4524,6 +4649,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "log",
             "logKey": "vandara_shadow_bind_learned",
             "color": "var(--gold)"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-olie"
           }
         ],
         "dialogueKey": "npc_vandara_sariel_5"
@@ -4982,6 +5111,14 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
         "add": 1
       }
     ]
+  },
+  "item-vandara-diploma": {
+    "id": "item-vandara-diploma",
+    "title": "item_vandara_diploma_title",
+    "desc": "item_vandara_diploma_desc",
+    "image": "img/items/scroll.webp",
+    "consumable": false,
+    "category": "lore"
   },
   "item-vandara-letter": {
     "id": "item-vandara-letter",
@@ -5736,7 +5873,7 @@ export const BUILD_TIME_ADDONS: Array<{
     "entries": {
       "resources": 2,
       "actions": 29,
-      "items": 2,
+      "items": 3,
       "npcs": 12,
       "buffs": 7,
       "sections": 1
@@ -6030,6 +6167,7 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "act-npc-vandara-sariel"
     ],
     "items": [
+      "item-vandara-diploma",
       "item-vandara-letter",
       "item-vandara-student-id"
     ],
@@ -6622,7 +6760,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_vandara_letter_title": "Einladung der Roségold-Akademie",
       "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei.",
       "item_vandara_student_id_title": "Studentenausweis der Roségold-Akademie",
-      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\""
+      "item_vandara_student_id_desc": "Ein kleines, gewichtiges Plättchen aus poliertem Roségold mit deinem Namen, einer Seriennummer und dem Akademie-Wappen. Vom Sekretariat ausgestellt — Sekretär Olié hat dich extra zweimal buchstabieren lassen, \"um nichts zu verschmutzen.\"",
+      "item_vandara_diploma_title": "Diplom der Roségold-Akademie",
+      "item_vandara_diploma_desc": "Ein gefaltetes Dokument auf schwerem cremefarbenen Papier, versiegelt mit roségoldenem Wachs. Innen, in feiner Kalligrafie, bestätigt die Akademie, dass du den Grundkurs abgeschlossen hast — Drachenkunde, Arkane Grundlagen, Element-Diagnostik — und praktische Schatten-Kontrolle nachgewiesen hast. Drei Prüfer:innen haben unterschrieben. Olié hat es mit der Würde einer Person beglaubigt, die seit dreißig Jahren diese Akten archiviert."
     },
     "logs": {
       "save_success": "Spiel erfolgreich gespeichert.",
@@ -6811,6 +6951,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_quinell_reveal_reaction": "Quinell bestätigt leise, dass Sariel von Anfang an Recht hatte.",
       "vandara_olie_reveal_reaction": "Olié aktualisiert deine Studierenden-Akte. Element: Schatten, Sub-Variante Licht, Vermerk: selten.",
       "vandara_pamle_reveal_reaction": "Pamle hat es gehört. Sagt, sie überlegt sich passende Schatten-Reagenzien.",
+      "vandara_exam_scheduled": "Olié hat deine Abschluss-Prüfung angesetzt. Drei Stationen: Veyra für die Praxis, Ormias für die Mündliche, Quinell für die Schriftliche.",
+      "vandara_exam_veyra_done": "Praxis-Prüfung bestanden. Veyras Notiz: \"beispielhafte Kontrolle für eine:n Erstjährige:n Schattenwandler:in.\"",
+      "vandara_exam_ormias_done": "Mündliche Prüfung bestanden. Ormias' Notiz: \"kannte alle sieben und benannte die achte unaufgefordert.\"",
+      "vandara_exam_quinell_done": "Schriftliche Prüfung bestanden. Quinells Notiz: \"zufriedenstellend\" — sein höchstes Lob in vierzig Jahren.",
+      "vandara_graduated": "Du hast die Roségold-Akademie von Vandara abgeschlossen.",
       "vandara_pamle_intro_done": "Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank und Magietrank.",
       "vandara_pamle_tier2_done": "Pamle nimmt deine drei Energietränke und lehrt dich Tier-2 — Wachpollen-Tee und Funkenlicht-Phiole.",
       "vandara_pamle_tier3_done": "Pamle nimmt drei Funkenlicht-Phiolen und unterrichtet dich in Arkanwasser und Aschebrand-Tinktur.",
@@ -6963,6 +7108,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_olie_2": "\"So, die Einschreibegebühr.\" Olié schiebt dir ein winziges Bronzeschälchen über den Tisch. \"Fünfundzwanzig Splitter, einmalig. Die Akademie selbst ist kostenfrei — wir sind nicht das Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und einen Schluck Tee, falls Sie länger warten müssen.\"",
       "npc_vandara_olie_3": "\"Hier ist Ihr Ausweis.\" Olié reicht dir ein dünnes, schweres Plättchen aus poliertem Roségold. \"Damit kommen Sie überall hin, wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht hindürften, aber die niemand kontrolliert.\" Er tippt auf eine Liste auf seinem Schreibtisch. \"Ihre Mentoren. Lektor Ormias hält Drachenkunde. Doktor Quinell betreut die Arkanen Grundlagen. Und Praktikerin Pamle gibt Alchemie, allerdings ergibt ihr Unterricht erst Sinn, wenn Sie sich ein Alchemielabor eingerichtet haben.\" Eine höfliche Pause. \"Da Sie Ihr Element nicht angeben konnten, schicke ich Sie zusätzlich zu Magistra Veyra. Sie führt die Diagnostik durch — keine Vorlesung, eine Sprechstunde. Die Beste der Stadt. Die Akademie hat Glück, sie zu halten.\" Ein höfliches Nicken. \"Willkommen in Vandara, Studentin.\"",
       "npc_vandara_olie_4": "Olié schaut von seinem Stapel auf, höflich wie immer. \"Ah. Das Element-Feld auf Ihrer Studierenden-Akte. Ich habe es offengelassen, wie besprochen.\" Er zieht eine dünne Feder hervor. \"Ich trage es jetzt nach.\" Eine Pause, während er schreibt. \"Schatten. Sub-Variante Licht. Vermerk: selten.\" Er pustet die Tinte trocken. \"So. Ordnungsgemäß eingetragen. Die Akademie-Archive schätzen Genauigkeit mehr als Neuheit, aber in diesem Fall bekommen sie beides.\" Ein höfliches Nicken. \"Machen Sie weiter, Studierende.\"",
+      "npc_vandara_olie_5": "Olié legt seine Feder in dem Moment ab, in dem Sie eintreten — er hat offensichtlich gewartet. \"Ihre Akte ist vollständig. Drei Grundkurse, eine Element-Diagnostik, eine eigenständig organisierte Schatten-Praxis. Der Rat hat Sie zur Abschluss-Prüfung zugelassen.\" Er schiebt eine dünne roségoldene Marke über den Tisch. \"Ihr Prüfungs-Pass. Zeigen Sie ihn an jeder Station. Magistra Veyra führt die Praxis durch — sie erwartet Shadow Bind unter kontrollierten Bedingungen. Lektor Ormias prüft Sie mündlich in Drachenkunde. Doktor Quinell prüft Sie schriftlich in den Arkanen Grundlagen.\" Eine kleine, formale Pause. \"Sie können die Reihenfolge wählen. Kehren Sie danach zu mir zurück. Ich werde hier sein. Ich bin immer hier.\"",
+      "npc_vandara_olie_6": "Olié erhebt sich. Er erhebt sich selten. \"Alle drei Teile bestanden. Magistra Veyra notierte, ich zitiere: 'beispielhafte Kontrolle für eine:n Erstjähre:r:n Schattenwandler:in — zumindest die:der erste, die:der mir je begegnet ist.' Lektor Ormias notierte: 'kannte alle sieben und benannte die achte unaufgefordert.' Doktor Quinell notierte nur 'zufriedenstellend'. Das ist das höchste Lob, das er je auf ein Abschluss-Formular geschrieben hat, in meinen vierzig Jahren.\" Er holt ein gefaltetes Dokument aus schwerem cremefarbenen Papier mit roségoldenem Siegel hervor. \"Ihr Diplom. Die Roségold-Akademie von Vandara bestätigt hiermit, dass Sie den Grundkurs abgeschlossen haben.\" Er reicht es Ihnen mit beiden Händen. \"Glückwunsch, Absolvent:in. Die Akademie steht in Ihrer Schuld für eine:n Schattenwandler:in. Wohin Sie als Nächstes gehen, steht nicht in unserer Akte.\" Ein kleines, fast warmes Lächeln. \"Viel Glück, {player}.\"",
       "npc_vandara_kalre_1": "Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand voller Glasgefäße ruft dir zu. \"Du bist neu, ja? Sieht man.\" Sie grinst breit. \"Kal're, aus dem Kristallreich. Windlinie. Habe ich schon gesagt, dass ich aus dem Kristallreich bin? Das tu ich gern, dann fragt niemand, warum ich Schuppen wie Glas habe.\" Sie schiebt dir ein Schälchen Ascheblumen zu. \"Schnupper mal. Riecht nach Vulkanstaub und nach einer Sache, die du nicht benennen kannst. Wenn du jemals in ein Alchemielabor kommst, wirst du sie brauchen.\"",
       "npc_vandara_kalre_2": "\"Du bist wieder da! Gut, gut.\" Kal're sortiert Glitzerstaub in winzige Tütchen. \"Wirst sehen, in Vandara redet jeder mit jedem und alle wissen alles. Außer das, was sie nicht wissen sollen — da sind sie erstaunlich diszipliniert.\"",
       "npc_vandara_kalre_3": "\"Du fragst dich, ob ich dir traue, ja?\" Sie lacht. \"Genug. Hör mal — du kaufst andauernd meine Reagenzien, aber du hast nichts, wo du sie verarbeiten könntest. Die meisten Akademie-Studenten stellen sich ein kleines Alchemielabor ins Haus. Zwei Regale, ein Kupferbecken, ein Abzug.\" Sie skizziert es auf die Rückseite einer Tüte. \"Hier. Bring Holz und Stein mit, jetzt weißt du, wie's zusammengeht.\"",
@@ -6978,6 +7125,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_4": "\"Heute die Standard-Batterie.\" Veyra hat fünf Gegenstände auf einem kleinen Tablett neben der Liege ausgelegt — einen Stein, eine Schale Wasser, eine Kerze, eine Feder, einen Spiegel. \"Ein Material pro Element. Sie berühren jedes der Reihe nach. Ich beobachte, was Ihr Äther tut. Es gibt keine richtige Antwort und keine falsche — auch 'nichts passiert' ist ein sauberes Ergebnis.\" Sie hebt einen Finger. \"Eins nur: nicht drücken. Der Äther lügt nicht, wenn man ihn ehrlich lässt. Lassen Sie sich Zeit. Wann immer Sie bereit sind.\"",
       "npc_vandara_veyra_5": "\"Sie sind wiedergekommen. Gut. Bitte setzen Sie sich.\" Veyra hat die Vorhänge bereits ganz zugezogen — nur eine einzige kleine Kerze brennt auf dem Beistelltisch. \"Die Lichtreaktion in Ihrer Batterie — das war kein Nullergebnis. Es war auch keine saubere Licht-Signatur. Ich würde gerne einen kontrollierten Isolations-Test laufen lassen. Hände offen, nicht drücken, strecken Sie sich zur Kerze hin.\" Lange Stille. Dann ihre Stimme, plötzlich anders — nicht mehr der gemessene Ton der Diagnostikerin: \"Oh. Oh, {player}. Sie machen keinen Schatten. Sie ZIEHEN den Schatten an. Von der Wand. Von der Decke. Von mir.\" Ein atemloses Halblachen. \"Sie sind kein Lichtwandler. Sie sind ein Schattenwandler. In vierzig Jahren Diagnostik habe ich noch nie einen gesehen.\"",
       "npc_vandara_veyra_6": "Veyra ist deutlich nachdenklicher heute. \"Schatten ist eine Sub-Variante von Licht. So wie Traum eine Sub-Variante von Gezeiten ist. Aber sie ist selten. Sehr selten. In vierzig Jahren Diagnostik habe ich noch nie eine gesehen.\" Sie schaut Sie ernst an. \"Ich kann Ihnen die Theorie geben. Aber die Praxis — da bin ich nicht zuhause. Ich kann Ihnen nicht beibringen, was ich selbst nie gefühlt habe.\" Sie legt die Feder ab, zögert, dann leiser: \"Es gab vor langer Zeit eine Kollegin hier. Sariel. Brillant. Auf dem Papier element-agnostisch, bis dey das selbst widerlegt hat. Wir haben uns aus den Augen verloren, als dey die Akademie verließ — vor vierzig Jahren, ungefähr. Ich habe deren Namen lange nicht mehr gehört, und ich weiß nicht, ob dey noch lehrt. Aber wenn Ihnen jemand die Praxis des Schattens beibringen kann, dann Sariel.\" Sie sucht Ihren Blick. \"Seien Sie vorsichtig, {player}. 'Schatten' klingt romantisch. Nicht jeder in dieser Stadt sieht es so.\"",
+      "npc_vandara_veyra_7": "Veyra hat das Sprechzimmer von jedem persönlichen Gegenstand geräumt — nur die samtene Liege, die kleine Kerze und ihre Schiefertafel sind übrig. \"Sie sind mit dem Pass gekommen. Gut. Die Praxis ist kurz.\" Sie deutet auf die Kerze. \"Binden Sie einen Schatten an sie. Halten Sie ihn. Reden Sie mit mir über etwas Unrelatedes, dreißig Sekunden lang. Lassen Sie den Schatten nicht fallen, lassen Sie das Gespräch nicht versanden. Die Prüfung geht nicht um Stärke — sie geht darum, zwei Dinge gleichzeitig zu tun, ohne dass eines das andere verschluckt.\" Sie beobachtet. Notiert. Beobachtet weiter. Dann ein kleines Lächeln, ganz Diagnostikerin und gar nicht Prüferin. \"Ja. Sauber gearbeitet. Vierzig Jahre und ein Erstes. Sie bestehen. Sagen Sie es Olié.\"",
       "vandara_trial_fire_dialog": "Du legst die Hand über die kleine Flamme. Wärme, klar — aber keine Resonanz. Veyra schüttelt den Kopf. \"Kein Feuer.\"",
       "vandara_trial_earth_dialog": "Der Stein liegt schwer in deiner Hand. Du wartest. Nichts. Veyra notiert sich etwas. \"Kein Erde.\"",
       "vandara_trial_wind_dialog": "Du hältst die Feder hoch. Sie schwebt einen Moment, fällt dann. Normal — kein magisches Heben. Veyra: \"Kein Wind.\"",
@@ -7003,6 +7151,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_ormias_8": "\"Fae-Drachen. Die Smaragd-Weber.\" Ormias' Mund zuckt — fast Zuneigung. \"Die Kleinsten. Libellenflügel, Chamäleon-Tarnung, ursprünglich aus dem tiefen Urwald von Smaragd. Heute zwei Kulturen: die wilden Wald-Fae, die noch immer in der Rinde verschwinden, und die Stadt-Fae, die sich an das urbane Leben angepasst haben und prächtige, knallbunte Schuppen tragen, weil sie in der Stadt nichts mehr fürchten müssen.\" Er lächelt fast. \"Wenn du jemals einen in einer Taverne triffst, gib ihm einen Drink aus. Bester Klatsch in Draconia.\"",
       "npc_vandara_ormias_9": "\"Und zum Schluss — die Lung-Drachen. Die Himmelsläufer.\" Ormias klopft demonstrativ auf seinen Schreibtisch. \"Schlangenartig, flügellos, vier Beine mit scharfen Klauen, charakteristische Bartfäden am Kopf. Sie fliegen rein durch Magie — keine Flügel. Die einzige Ausnahme zu meiner Eröffnungsregel.\" Seine Brille rutscht und er fängt sie diesmal nicht auf. \"Und bevor du fragst: ja, ich habe gesehen, dass du keine Flügel hast. Komm nicht auf Ideen. Lung-Drachen sind ein absoluter genetischer Sonderfall — sie kommen ausschließlich in der kaiserlichen Blutlinie vor, und selbst dort existieren aktuell nur zwei. Kaiser Ignis Aurum und Prinz Ryuga. Das ist die Liste.\" Er räuspert sich. \"Du bist höchstwahrscheinlich ein Spätzünder-Großdrache. In achtzig Prozent der Fälle. Geduld.\"",
       "npc_vandara_ormias_10": "\"Aha.\" Ormias rückt seine Brille zurecht, die sofort wieder rutscht. \"Ich hab's gehört. Gerüchte laufen schnell durch die Akademie-Korridore, vor allem wenn's um das Unmögliche geht.\" Er hustet. \"Erlaub mir einen Moment professionelle Verlegenheit. Ich hab dir mit einiger Sicherheit gesagt, du seist höchstwahrscheinlich ein Spätzünder-Großdrache. Anscheinend lag ich daneben — wobei, in aller Fairness, auch nicht ganz daneben. Schatten ist eine Sub-Variante des Lichts. Lichtwandler sind Großdrachen. Also technisch, statistisch, halten die achtzig Prozent immer noch. Knapp.\" Er gestikuliert vage. \"Ich würde Kapitel Zwei meines Buches sehr gerne aktualisieren. Komm gelegentlich wieder vorbei — ich werde neue Fragen haben, und die Fragen sind meistens interessanter als die Antworten.\"",
+      "npc_vandara_ormias_11": "Ormias hat seinen üblichen Chaos vom Schreibtisch geräumt und ein einzelnes Blatt Papier hingelegt, auf dem genau ein Wort steht: PROCEED. Er schaut dich von der Seite an. \"Also gut. Mündliche Prüfung. Ich sage die Frage, du sprichst die Antwort. Keine Notizen. Versuch, mich nicht anzuhusten.\" Er räuspert sich, als wolle er es demonstrieren. \"Nenne die sieben Hauptarten der Drachenwandler, in beliebiger Reihenfolge, mit je einem unterscheidenden Merkmal.\" Lange Stille, während du rezitierst. Er nickt durch jede. \"Gut, gut, gut.\" Dann: \"Und die achte.\" Eine Pause. \"Ja, die achte. Wir beide wissen, dass es eine gibt. Nenn sie, und das eine Merkmal, das sie von allen anderen unterscheidet.\" Eine weitere Pause, während du antwortest. Seine Brille rutscht und er fängt sie auch diesmal nicht auf. \"Lung-Drachen. Flügellos. Genau.\" Er lächelt kurz. \"Du bestehst. Sag's Olié. Und komm später wieder für ein längeres Gespräch. Ich habe einige Fragen aktualisiert.\"",
       "npc_vandara_quinell_1": "Doktor Quinell ist Kristalldrachenwandler — Schuppen wie geschliffener Bergkristall, die das Hörsaallicht in alle Spektrum-Farben brechen. Er steht hinter einem Stehpult, ohne jede Bewegung. \"Willkommen. Arkane Grundlagen ist die langweiligste Vorlesung, die Sie an dieser Akademie hören werden. Und die wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie sie niemals präzise anwenden. Sie werden zaubern wie ein Hund schwimmt — funktional, hässlich, ineffizient. Sieben Sitzungen: die Definition, vier Gesetze, und die Ausnahmen, die sie rahmen. Keine Abkürzungen. Wir beginnen mit der Definition.\"",
       "npc_vandara_quinell_2": "\"Definition.\" Quinell bewegt sich beim Sprechen nicht. \"Magie ist die Manipulation des Äthers durch einen drachischen Geist. Beachten Sie: der Äther — nicht 'Energie', nicht 'Kraft'. Beachten Sie: drachischer Geist — nicht drachischer Körper. Der Körper ist ein Werkzeug, der Geist ist der Zauberer.\" Er pausiert zwei Sekunden. \"Wenn Sie aus diesem gesamten Kurs nur zwei Wörter behalten, dann diese: Äther. Geist. Alles andere folgt daraus.\"",
       "npc_vandara_quinell_3": "\"Erstes Gesetz. Das Drei-Komponenten-Gesetz.\" Quinell zeichnet drei Kreise an die Tafel, perfekt symmetrisch. \"Jede Handlung von Magie braucht drei Elemente gleichzeitig. Element — Ihre angeborene Ausrichtung, das eine Element, das Ihre Blutlinie Ihnen gibt. Wille — der geübte Fokus Ihres drachischen Geistes. Substrat — das physische Material, durch das die Wirkung manifestiert. Die eigene Form, ein Werkzeug, die Luft selbst.\" Sein Tonfall wird schärfer. \"Drei. Immer drei. Wer sie nicht im Kopf trennen kann, scheitert an jedem höheren Kurs dieser Akademie.\"",
@@ -7011,6 +7160,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_quinell_6": "\"Viertes Gesetz. Das Erschöpfungs-Gesetz.\" Quinell lässt zum ersten Mal einen kleinen Ausdruck über sein Gesicht ziehen — fast Zustimmung. \"Das ist das Gesetz, das Studierende am häufigsten missverstehen. Erschöpfung ist kein Versagen. Erschöpfung ist das Maß Ihrer Wirkung. Müde heißt: die Magie ist geschehen. Nicht müde heißt: sie ist nicht geschehen.\" Er ebnet seinen Ton wieder ein. \"Wer ohne Erschöpfung zaubert, hat nichts getan. Wer sich beim Zaubern einer Teetasse erschöpft, hat eine echte Teetasse gezaubert. Wenden Sie beide Hälften dieses Gesetzes an, und Sie zaubern bereits besser als drei Viertel der Studierenden in diesem Saal.\"",
       "npc_vandara_quinell_7": "\"Letzte Sitzung. Ausnahmen.\" Quinell legt ein dünnes Heft auf das Stehpult, schiebt es aber nicht zu dir. \"Vier Gesetze. Sie sind korrekt. Sie sind auch nur einen Ausnahmefall davon entfernt, falsch zu sein — sehr wenige, sehr selten, in achtzig Prozent der Fälle gelten die Gesetze restlos. Die restlichen zwanzig Prozent sind das, woraus Doktorarbeiten gemacht werden.\" Zum ersten Mal pausiert er merklich. \"Es gab hier einmal eine Lehrkraft. Sariel. Element-agnostisch laut Akten, bis dey das selbst widerlegt hat. Kapitel sechs dieses Skripts ist meines — ich habe es aus deren Vorlesungen mitgeschrieben. Dey ist blind, schon länger, als ich dey kenne; das Schreiben war immer mein Teil der Abmachung. Dey las vor, ich notierte. Das Kapitel ist die einzige Abhandlung, die ich über Schatten als Sub-Variante des Lichts kenne. Niemand hat je einen dokumentierten Schatten-Wandler kennengelernt, der bereit war, sich untersuchen zu lassen. Dey verließ die Akademie vor vierzig Jahren. Ob dey noch lebt, weiß ich nicht.\" Ein kleiner Atemzug, dann nichts. \"Lesen Sie das Kapitel. Wenn Sie je Belege für einen aktuellen Schatten-Wandler finden, schreiben Sie die Arbeit. Widmen Sie sie angemessen.\"",
       "npc_vandara_quinell_8": "Quinell bewegt sich nicht, als Sie eintreten — aber der Winkel seines Kopfes verschiebt sich, ganz leicht. \"Ich habe gehört.\" Eine Pause. \"Sariel hatte also Recht. Die Akten waren falsch; das Vorlesungs-Kapitel war richtig. Ich werde es im Archiv vermerken.\" Eine weitere, längere Pause. \"Wenn Sie jemals — wenn Sie wieder zu dey hinunter gehen — sagen Sie Sariel, dass das Kapitel immer noch funktioniert. Vierzig Jahre später bestehen die Studierenden es immer noch. Dey erinnert sich vielleicht nicht an mich, aber ich habe mich an dey erinnert.\" Seine Stimme verändert die Tonhöhe nicht, aber etwas im Raum tut es. \"Das ist alles. Gehen Sie. Studieren Sie. Wenden Sie die Gesetze an. Sie werden jedes einzelne brauchen.\"",
+      "npc_vandara_quinell_9": "Quinell bewegt sich nicht, als Sie eintreten. Auf dem Stehpult wartet ein einzelnes Blatt Papier mit vier vorgedruckten Zeilen. \"Setzen Sie sich. Schreiben Sie. Nennen Sie jedes der vier Gesetze beim Namen plus einen Satz mit Substanz. Sie können sich angemessen Zeit lassen. Benutzen Sie den Stift, nicht den Finger.\" Lange Stille. Sie schreiben. Er wartet bewegungslos. Als Sie den Stift ablegen, liest er das Blatt ausdruckslos, faltet es einmal und lässt es in ein Fach mit der Aufschrift BESTANDEN fallen. \"Zufriedenstellend. Kehren Sie zu Olié zurück.\" Eine Pause, die für ihn als warm zählt. \"Wenden Sie sie ehrlich an. Die Gesetze interessieren sich nicht, ob Sie sich an sie erinnern. Nur, ob Sie sie respektieren.\"",
       "npc_vandara_gate_guard_admit": "Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie geschliffenem Stein, betrachtet dich gemessen, als du den Brief hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann nickt er knapp. \"Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der Oberfläche ist.\" Mit einer Handbewegung öffnet sich das große Tor hinter ihm. \"Willkommen, {player}. Geh ruhig — die Mentoren werden dir den Rest erklären.\"",
       "npc_vandara_gate_guard_respect": "Der Wächter erkennt dich, noch bevor du das Tor erreichst. Er richtet sich auf, die Hand kurz an der Brust — keine förmliche Geste, sondern eine, die Erddrachenwandler nutzen, wenn sie jemanden meinen. \"Du hast die Stadt unter der Stadt gesehen. Das ändert einen.\" Er lächelt knapp. \"Die meisten kommen mit dem Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt zu denen, die beide Hälften kennen. Pass auf dich auf, {player}.\"",
       "npc_vandara_korren_1": "Korren blickt von einem niedrigen Werktisch auf, vollgehäuft mit zerbrochenen Tonscherben und alten Metallfragmenten. Seine Haut hat den rostbraunen Ton alter Erde an Hals und Händen, wo die Schuppen durchscheinen, und seine Flügel — wenn er sich auf dem Hocker dreht — entfalten sich tiefrot hinter ihm. \"Du bist runtergekommen. Gut. Nachrichten reisen, sogar bis hier.\" Er deutet auf den Werktisch. \"Ich bin Korren. Ich — naja. Ich arbeite für König Archivaris. Nicht offiziell, verstehst du. Offiziell bin ich Studierender im dritten Jahr, der 'mit Drachenkunde zurückgefallen' ist. Inoffiziell bin ich hier unten, um etwas zu beweisen.\" Er hebt einen korrodierten Ring auf. \"Echo-Beschwörung. Alte Gegenstände erinnern sich. Ich wecke sie gerade genug, um zu flüstern. Die Akademie hält das für Nekromantie. Ist es nicht — keine Seele, nur Resonanz. Aber die Akademie kümmert sich nicht um Feinheiten, wenn sie die Mathematik nicht sieht.\" Er hält dir den Ring hin. \"Hilf mir. Ich brauche einen Faden deiner Magie, um das Echo zu verankern. Fünf Fäden, mehr nicht. Der Ring wird mir verraten, wie der Schmied gestorben ist, der ihn gemacht hat. Kleine Sache. Ein Beweis.\"",
@@ -7967,7 +8117,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_vandara_letter_title": "Rose Gold Academy Invitation",
       "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed.",
       "item_vandara_student_id_title": "Rose Gold Academy Student ID",
-      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\""
+      "item_vandara_student_id_desc": "A small, weighty plaque of polished rose gold with your name, a serial number, and the academy crest. Issued by the secretariat — Secretary Olié had you spell your name twice, \"to keep the record clean.\"",
+      "item_vandara_diploma_title": "Rose Gold Academy Diploma",
+      "item_vandara_diploma_desc": "A folded document of heavy cream paper sealed with rose-gold wax. Inside, in fine calligraphy, the academy confirms you have completed the basic curriculum — Dragon Studies, Arcane Foundations, Element Diagnostics — and demonstrated practical shadow control. Three examiners signed it. Olié notarised it with the dignity of a man who has filed thirty years of these."
     },
     "logs": {
       "save_success": "Game saved successfully.",
@@ -8156,6 +8308,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_quinell_reveal_reaction": "Quinell quietly acknowledges Sariel was right all along.",
       "vandara_olie_reveal_reaction": "Olié updates your student record. Element: Shadow. Sub-Light. Rare.",
       "vandara_pamle_reveal_reaction": "Pamle has heard. Says she'll think about shadow-flavoured reagents.",
+      "vandara_exam_scheduled": "Olié has scheduled your graduation exam. Three stations: Veyra for the practical, Ormias for the oral, Quinell for the written.",
+      "vandara_exam_veyra_done": "Practical exam passed. Veyra's note: \"exemplary control for a first-year shadow-shifter.\"",
+      "vandara_exam_ormias_done": "Oral exam passed. Ormias's note: \"remembered all seven and named the eighth without prompting.\"",
+      "vandara_exam_quinell_done": "Written exam passed. Quinell's note: \"satisfactory\" — his highest praise in forty years.",
+      "vandara_graduated": "You have graduated from the Rose Gold Academy of Vandara.",
       "vandara_pamle_intro_done": "Pamle showed you the two basic recipes — energy potion and magic potion.",
       "vandara_pamle_tier2_done": "Pamle takes your three energy potions and teaches you tier-2 — Wakeful Pollen Tea and Spark Light Vial.",
       "vandara_pamle_tier3_done": "Pamle takes three Spark Light Vials and teaches you Arcane Water and Ash Burn Tincture.",
@@ -8308,6 +8465,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_olie_2": "\"Now, the enrolment fee.\" Olié slides a tiny bronze dish across the desk. \"Twenty-five shards, one-off. The academy itself is free — we are not the Crystal Realm. The fee just covers paperwork and a sip of tea should you have to wait.\"",
       "npc_vandara_olie_3": "\"Here is your ID.\" Olié hands you a thin, weighty plaque of polished rose gold. \"It gets you anywhere you're allowed — and a few places you're not, but nobody checks.\" He taps a list on his desk. \"Your mentors. Lector Ormias holds Dragon Studies. Doctor Quinell handles Arcane Foundations. And Practitioner Pamle gives Alchemy, though her class only makes sense once you've arranged a workshop yourself.\" A polite pause. \"Since you couldn't state your element, I'll also send you to Magistra Veyra. She handles the diagnostics — not a class, a consultation. The best in the city. The academy is fortunate to keep her.\" A polite nod. \"Welcome to Vandara, student.\"",
       "npc_vandara_olie_4": "Olié looks up from his stack, polite as ever. \"Ah. The element field on your student record. I left it blank, as we discussed.\" He pulls out a thin pen. \"I will fill it in now.\" A pause as he writes. \"Shadow. Sub-variant Light. Note: rare.\" He blows on the ink. \"There. Properly recorded. The academy archives appreciate accuracy more than novelty, but in this case they get both.\" A polite nod. \"Carry on, student.\"",
+      "npc_vandara_olie_5": "Olié sets down his pen the moment you arrive — clearly he has been waiting. \"Your file is complete. Three basic courses, one element diagnostic, one independently arranged shadow- practice. The Council has authorised you to sit your graduation examination.\" He slides a thin rose-gold token across the desk. \"Your exam permit. Show it at each station. Magistra Veyra will run the practical — she expects to see Shadow Bind under controlled conditions. Lector Ormias will examine you orally on Dragon Studies. Doctor Quinell will examine you in writing on Arcane Foundations.\" A small, formal pause. \"Take them in any order. Return to me afterwards. I will be here. I am always here.\"",
+      "npc_vandara_olie_6": "Olié rises. He does not rise often. \"All three sections passed. Magistra Veyra noted, and I quote, 'exemplary control for a first-year shadow-shifter — at least, the first I have ever met.' Lector Ormias noted, 'remembered all seven and named the eighth without prompting.' Doctor Quinell noted only 'satisfactory'. That is the highest praise he has ever written on a graduation form, in my forty years.\" He produces a folded document of heavy cream paper with the rose-gold seal. \"Your diploma. The Rose Gold Academy of Vandara hereby confirms that you have completed the basic curriculum.\" He hands it across with both hands. \"Congratulations, graduate. The academy is in your debt for one shadow-shifter. Where you go next is not in our file.\" A small, almost warm smile. \"Good luck, {player}.\"",
       "npc_vandara_kalre_1": "A young dragon-shifter with silver-blue hair and a stall full of glass jars calls out to you. \"You're new, yeah? Easy to tell.\" She grins wide. \"Kal're, from the Crystal Realm. Wind line. Did I already mention I'm from the Crystal Realm? I like saying it — then nobody asks why my scales are like glass.\" She nudges a small dish of ash flowers towards you. \"Sniff. Smells like volcanic dust and one other thing you can't quite name. If you ever set foot in an alchemy lab, you'll need these.\"",
       "npc_vandara_kalre_2": "\"You're back! Good, good.\" Kal're sorts glitter dust into tiny pouches. \"You'll see — in Vandara everyone talks to everyone and everyone knows everything. Except the things they shouldn't, on those they're surprisingly disciplined.\"",
       "npc_vandara_kalre_3": "\"Wondering if I trust you yet, eh?\" She laughs. \"Enough. Listen — you keep buying my reagents, but you've nowhere to use them. Most academy students put a small alchemy laboratory in their home. Two shelves, a copper basin, a flue.\" She sketches it on the back of a wrapper. \"Here. Bring the wood and stone, you'll know how to put it together now.\"",
@@ -8322,7 +8481,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_veyra_3": "\"First resonance test.\" Veyra draws the curtains halfway, pulls a low stool over and sits beside the couch. \"Hands relaxed in your lap, palms up. Don't push. Don't reach. Let your aether settle on its own.\" Her quill hovers above her slate. She waits — long, longer than is comfortable. Then, quietly: \"Hm. There is something. But it doesn't sit cleanly under any of the standard signatures. I'd like to run a proper battery next session. Come back rested — it goes smoother on a calm body.\"",
       "npc_vandara_veyra_4": "\"Today the standard battery.\" Veyra has laid five objects on a small tray beside the couch — a stone, a bowl of water, a candle, a feather, a mirror. \"One material per element. You touch each in turn. I watch what your aether does. There is no right answer and no wrong one — even 'nothing happens' is a clean result.\" She raises a finger. \"One thing only: don't push. The aether doesn't lie when you let it be honest. Take your time. Ready when you are.\"",
       "npc_vandara_veyra_5": "\"You came back. Good. Please sit.\" Veyra has already drawn the curtains entirely; only a single small candle burns on the side table. \"The light reaction during your battery — that was not a null result. It was also not a clean light signature. I'd like to run a controlled isolation test. Hands open, no pushing, reach toward the candle.\" Long silence. Then her voice, suddenly different — no longer the clinician's measured tone: \"Oh. Oh, {player}. You are not casting a shadow. You are PULLING the shadow toward you. From the wall. From the ceiling. From me.\" A breathless half-laugh. \"You are not a light-shifter. You are a shadow-shifter. In forty years of diagnostics I have never seen one.\"",
-      "npc_vandara_veyra_6": "Veyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a sub-variant of Tide. But it is rare. Very rare. In forty years of diagnostics I have never seen one.\" She looks at you seriously. \"I can give you the theory. But the practice — I am out of my depth. I cannot teach you what I have never felt.\" She sets down her quill, hesitates, then continues quieter. \"There was a colleague here, a long time ago. Sariel. Brilliant. Element-agnostic on paper until they disproved it themselves. We lost touch when they left the academy — forty years ago, give or take. I haven't heard their name in a long time, and I don't know whether they still lecture. But if anyone can teach you the practice of shadow, it is Sariel.\" She meets your eyes. \"Be careful, {player}. 'Shadow' sounds romantic. Not everyone in this city sees it that way.\"",
+      "npc_vandara_veyra_7": "Veyra has cleared the consultation room of every personal object — only the velvet couch, the small candle, and her slate remain. \"You came with the permit. Good. The practical is short.\" She gestures at the candle. \"Bind a shadow to it. Hold it. Talk to me about something unrelated for a count of thirty. Do not let the shadow drop, do not let the conversation falter. The exam is not about strength — it is about doing two things at once without one swallowing the other.\" She watches. Notes. Watches some more. Then a small smile that is entirely the diagnostician and not at all the proctor. \"Yes. Cleanly done. Forty years and a first. You pass. Tell Olié.\"\n\nVeyra is markedly more thoughtful today. \"Shadow is a sub- variant of Light. Like Dream is a sub-variant of Tide. But it is rare. Very rare. In forty years of diagnostics I have never seen one.\" She looks at you seriously. \"I can give you the theory. But the practice — I am out of my depth. I cannot teach you what I have never felt.\" She sets down her quill, hesitates, then continues quieter. \"There was a colleague here, a long time ago. Sariel. Brilliant. Element-agnostic on paper until they disproved it themselves. We lost touch when they left the academy — forty years ago, give or take. I haven't heard their name in a long time, and I don't know whether they still lecture. But if anyone can teach you the practice of shadow, it is Sariel.\" She meets your eyes. \"Be careful, {player}. 'Shadow' sounds romantic. Not everyone in this city sees it that way.\"",
       "vandara_trial_fire_dialog": "You hold your hand over the small flame. Warmth, of course — but no resonance. Veyra shakes her head. \"No fire.\"",
       "vandara_trial_earth_dialog": "The stone sits heavy in your hand. You wait. Nothing. Veyra notes something down. \"No earth.\"",
       "vandara_trial_wind_dialog": "You hold the feather up. It floats a moment, then falls. Normal — no magical lift. Veyra: \"No wind.\"",
@@ -8348,6 +8507,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_ormias_8": "\"Fae Dragons. The Emerald Weavers.\" Ormias's mouth twitches — something like fondness. \"The smallest. Dragonfly wings, chameleon camouflage, originally from the deep Emerald jungle. Two cultures now: the wild Forest-Fae who still vanish into bark, and the City-Fae who've adapted to urban life and grow brilliant, gaudy scales because nothing in town wants to eat them anymore.\" He almost smiles. \"If you ever meet one in a tavern, buy them a drink. Best gossip in Draconia.\"",
       "npc_vandara_ormias_9": "\"And finally — the Lung Dragons. The Sky-Walkers.\" Ormias taps his desk pointedly. \"Serpentine, wingless, four legs with sharp claws, characteristic beard-whiskers at the head. They fly by pure magic — no wings at all. The single exception to my opening rule.\" His glasses slip and he doesn't catch them this time. \"And before you ask: yes, I noticed you have no wings. Don't get excited. Lung Dragons are an absolute genetic outlier — they only appear in the imperial bloodline, and even there currently only two exist. Emperor Ignis Aurum and Prince Ryuga. That is the list.\" He clears his throat. \"You are most likely a late-blooming Great Dragon. In eighty percent of cases. Patience.\"",
       "npc_vandara_ormias_10": "\"Ah.\" Ormias adjusts his glasses, which immediately slip back down. \"I heard. Word travels fast in academy corridors, especially when it involves the impossible.\" He coughs. \"Allow me one moment of professional embarrassment. I told you, with some confidence, that you were most likely a late-blooming Great Dragon. I appear to have been incorrect — though, in fairness, also not entirely wrong. Shadow is a sub-variant of Light. Light-shifters are Great Dragons. So technically, statistically, the eighty percent still holds. Just.\" He gestures vaguely. \"I would very much like to update Chapter Two of my book. Come and visit again sometime — I will have new questions for you, and the questions are usually more interesting than the answers.\"",
+      "npc_vandara_ormias_11": "Ormias has cleared his usual chaos off the desk and lined up a single sheet of paper, on which exactly one word is written: PROCEED. He looks at you sideways. \"Right. Oral exam. I will say the prompt, you will speak the answer. No notes. Try not to cough on me.\" He clears his throat as if to demonstrate. \"Name the seven main types of dragon-shifter, in any order, with one distinguishing feature each.\" Long silence as you recite. He nods through each. \"Good, good, good.\" Then: \"And the eighth.\" A pause. \"Yes, the eighth. We both know there is one. Name it, and the one identifying feature that disqualifies all of the others.\" Another pause as you answer. His glasses slip and he does not catch them this time either. \"Lung-Drachen. Wingless. Exactly.\" He smiles, briefly. \"You pass. Tell Olié. And come back later for a longer conversation. I have updated some questions.\"",
       "npc_vandara_quinell_1": "Doctor Quinell is a crystal-dragon-shifter — scales like cut rock crystal that refract the hall's light into every colour of the spectrum. He stands behind a lectern, motionless. \"Welcome. Arcane Foundations is the most boring lecture you will hear at this academy. And the most important. If you don't understand what magic IS, you will never apply it precisely. You will cast like a dog swims — functional, ugly, inefficient. Seven sessions: the definition, four laws, and the exceptions that frame them. No shortcuts. We begin with the definition.\"",
       "npc_vandara_quinell_2": "\"Definition.\" Quinell does not move while speaking. \"Magic is the manipulation of the aether through a draconic mind. Note: the aether — not 'energy', not 'force'. Note: draconic mind — not draconic body. The body is a tool, the mind is the caster.\" He pauses for two seconds. \"If you remember nothing else from this entire course, remember those two words. Aether. Mind. Everything else follows.\"",
       "npc_vandara_quinell_3": "\"First law. The Three-Component Law.\" Quinell draws three circles on the board, perfectly symmetrical. \"Every act of magic requires three elements at once. Element — your innate alignment, the one element your bloodline grants you. Will — the trained focus of your draconic mind. Substrate — the physical material through which the effect manifests. Your own form, a tool, the air itself.\" His tone sharpens. \"Three. Always three. Whoever cannot separate them in their mind will fail every advanced course at this academy.\"",
@@ -8356,6 +8516,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_vandara_quinell_6": "\"Fourth law. The Exhaustion Law.\" Quinell finally lets a small expression cross his face — almost approval. \"This is the law students misunderstand most. Exhaustion is not failure. Exhaustion is the measure of your effect. Tired means the magic happened. Untired means it did not.\" His voice levels again. \"Whoever casts without exhaustion has done nothing. Whoever exhausts themselves casting a teacup has cast a real teacup. Apply both halves of that rule and you will already cast better than three quarters of the students sitting in this hall.\"",
       "npc_vandara_quinell_7": "\"Final session. Exceptions.\" Quinell sets a thin booklet on the lectern but does not push it toward you. \"Four laws. They are correct. They are also exceptions away from being incorrect — very few, very rare, in eighty percent of cases the laws hold without remainder. The remaining twenty are what doctoral theses are made of.\" For the first time, he pauses noticeably. \"There was a colleague here once. Sariel. Element-agnostic, the records said, until they themselves disproved that. Chapter six of these notes is mine — I transcribed it from their lectures. They are blind, have been since before I knew them; the writing was always my part of the arrangement. They lectured, I wrote. The chapter is the only treatise I know on Shadow as a sub-variant of Light. No one has ever met a documented shadow-shifter willing to be examined. They left the academy forty years ago. Whether they still live, I do not know.\" A small breath, then nothing. \"Read the chapter. If you ever find evidence of a current shadow-shifter, write the thesis. Dedicate it appropriately.\"",
       "npc_vandara_quinell_8": "Quinell does not move when you enter — but the angle of his head shifts, ever so slightly. \"I heard.\" A pause. \"Sariel was correct, then. The records were wrong; the lecture chapter was right. I will note it in the archives.\" Another pause, longer. \"If you ever — when you go back down to them — tell Sariel that the chapter still works. Forty years on, students still pass it. They may not remember me, but I have remembered them.\" His voice does not change pitch, but something in the room does. \"That is all. Go. Study. Apply the laws. You will need every one of them.\"",
+      "npc_vandara_quinell_9": "Quinell does not move when you enter. A single sheet of paper waits on the lectern with four lines printed on it. \"Sit. Write. State each of the four laws by name and one sentence of substance. You may take as long as you require within reason. Use the pen, not your finger.\" Long silence. You write. He waits, motionless. When you set the pen down he reads the sheet without expression, then folds it once and drops it into a tray marked PASSED. \"Satisfactory. Return to Olié.\" A pause that for him counts as warm. \"Apply them honestly. The laws do not care whether you remember them. Only whether you respect them.\"",
       "npc_vandara_gate_guard_admit": "The gate warden — a massive earth-dragon shifter with scales like polished stone — looks you over slowly as you produce the letter. His gaze drifts across the rose-gold seal, then he gives a short nod. \"First time in Vandara, eh? We see academy invitations every few weeks. You'll be surprised how big this city is below the surface.\" A wave of his hand and the great gate swings open behind him. \"Welcome, {player}. Go on through — the mentors will explain the rest.\"",
       "npc_vandara_gate_guard_respect": "The warden recognizes you before you've even reached the gate. He straightens up and brings a hand briefly to his chest — not a formal salute, more the gesture earth-dragon shifters use when they mean someone. \"You've seen the city beneath the city. That changes a person.\" A small smile. \"Most come with the letter, leave with the letter, see only half. You belong to those who know both halves now. Take care of yourself, {player}.\"",
       "npc_vandara_korren_1": "Korren looks up from a low workbench cluttered with broken pottery and old metal fragments. His skin has the rust-brown tone of old earth at the neck and hands where the scales show through, and his wings — when he shifts on his stool — fan out behind him in deep red membrane. \"You came down. Good. Word travels, even to here.\" He gestures at the bench. \"I'm Korren. I'm — well. I work for King Archivaris. Not officially, you understand. Officially I'm a third-year student who 'fell behind on Dragon Studies'. Unofficially I'm down here proving something.\" He picks up a corroded ring. \"Echo-summoning. Old objects remember. I bring them up just enough to whisper. The academy thinks it's necromancy. It isn't — there's no soul, just resonance. But the academy doesn't care about distinctions when it can't see the math.\" He holds the ring out. \"Help me. I need a thread of your magic to anchor the echo. Five threads' worth, that's all. The ring will tell me how the smith who made it died. Small thing. Proof.\"",

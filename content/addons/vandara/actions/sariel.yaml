@@ -75,5 +75,12 @@
         - type: log
           logKey: vandara_shadow_bind_learned
           color: var(--gold)
+        # Eröffnet das Akademie-Finale: Olié bekommt seinen Step 5
+        # (Prüfungs-Ankündigung) sichtbar gemacht. Sariel selbst
+        # hat damit nichts zu tun — dey will einfach Ruhe — aber
+        # mit der Shadow-Bind-Fähigkeit erfüllt der Spieler die
+        # letzte Voraussetzung für die Akademie-Prüfung.
+        - type: extendNPCArc
+          npcId: npc-vandara-olie
       dialogueKey: npc_vandara_sariel_5
   customExecute: npc_execute

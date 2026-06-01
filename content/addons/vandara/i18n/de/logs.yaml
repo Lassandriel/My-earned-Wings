@@ -53,6 +53,24 @@ vandara_pamle_reveal_reaction: >-
   Pamle hat es gehört. Sagt, sie überlegt sich passende
   Schatten-Reagenzien.
 
+# Abschluss-Arc — Olié setzt die Prüfung an, der Spieler läuft
+# die drei Stationen, kehrt fürs Diplom zurück.
+vandara_exam_scheduled: >-
+  Olié hat deine Abschluss-Prüfung angesetzt. Drei Stationen:
+  Veyra für die Praxis, Ormias für die Mündliche, Quinell für
+  die Schriftliche.
+vandara_exam_veyra_done: >-
+  Praxis-Prüfung bestanden. Veyras Notiz: "beispielhafte
+  Kontrolle für eine:n Erstjährige:n Schattenwandler:in."
+vandara_exam_ormias_done: >-
+  Mündliche Prüfung bestanden. Ormias' Notiz: "kannte alle sieben
+  und benannte die achte unaufgefordert."
+vandara_exam_quinell_done: >-
+  Schriftliche Prüfung bestanden. Quinells Notiz:
+  "zufriedenstellend" — sein höchstes Lob in vierzig Jahren.
+vandara_graduated: >-
+  Du hast die Roségold-Akademie von Vandara abgeschlossen.
+
 vandara_pamle_intro_done: >-
   Pamle hat dir die beiden Basis-Rezepte gezeigt — Energietrank
   und Magietrank.

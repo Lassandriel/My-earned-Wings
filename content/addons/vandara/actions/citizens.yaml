@@ -14,10 +14,12 @@
   isStory: true
   chapter: chapter_vandara
   progKey: vandaraOlie
-  # Base 3 (Greeting, Gebühr, Ausweis-Ausstellung). Schritt 4 ist
-  # ein Reveal-Reaktions-Beat (bürokratische Akten-Aktualisierung),
-  # via Veyras Step 6 extendNPCArc freigeschaltet.
-  maxProgress: 4
+  # Base 3 (Greeting, Gebühr, Ausweis-Ausstellung). Schritte 4-6
+  # werden über die Story freigeschaltet:
+  # - Step 4 (Reveal-Reaktion): via Veyras Step 6 extendNPCArc
+  # - Step 5 (Prüfungs-Ankündigung): via Sariels Step 5
+  # - Step 6 (Diplom-Übergabe): via Oliés eigenem Step 5
+  maxProgress: 6
   journalIcon: 📋
   icon: 📋
   journalColor: '#0ea5e9'
@@ -65,6 +67,52 @@
           logKey: vandara_olie_reveal_reaction
           color: var(--text-dim)
       dialogueKey: npc_vandara_olie_4
+    # 5 — Prüfungs-Ankündigung. Wird via extendNPCArc von Sariels
+    # Step 5 (Shadow-Bind-Finale) sichtbar. Setzt das Prüfungs-
+    # Flag UND extendet die drei Pflicht-Mentoren um je einen
+    # Prüfungs-Step + Olié selbst um Step 6 (Diplom-Übergabe).
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.ability-shadow-bind: true
+        flags.vandara-ormias-intro-done: true
+        flags.vandara-quinell-intro-done: true
+      onSuccess:
+        - type: setFlag
+          flag: vandara-exam-scheduled
+          value: true
+        - type: extendNPCArc
+          npcId: npc-vandara-veyra
+        - type: extendNPCArc
+          npcId: npc-vandara-ormias
+        - type: extendNPCArc
+          npcId: npc-vandara-quinell
+        - type: extendNPCArc
+          npcId: npc-vandara-olie
+        - type: log
+          logKey: vandara_exam_scheduled
+          color: var(--gold)
+      dialogueKey: npc_vandara_olie_5
+    # 6 — Diplom-Übergabe. Sichtbar nach Step 5 (via extendNPCArc
+    # auf Olié selbst), aber erst klickbar wenn alle drei
+    # Prüfungs-Flags gesetzt sind. Übergabe Diplom-Item + Setzt
+    # den Akademie-Abschluss-Flag.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-exam-veyra-done: true
+        flags.vandara-exam-ormias-done: true
+        flags.vandara-exam-quinell-done: true
+      onSuccess:
+        - type: unlockItem
+          id: item-vandara-diploma
+        - type: setFlag
+          flag: vandara-graduated
+          value: true
+        - type: log
+          logKey: vandara_graduated
+          color: var(--gold)
+      dialogueKey: npc_vandara_olie_6
   customExecute: npc_execute
 
 # ─── Kal're — street trader ────────────────────────────────────

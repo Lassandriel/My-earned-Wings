@@ -401,7 +401,7 @@ const translations = loadTranslations();
 // Loaded HERE (before taggedToRecord) so the resulting registries reflect
 // the patched state; everything downstream sees post-patch data.
 
-import { applyPatches, validatePatchEntry, type PatchEntry } from '../src/core/addons/patches.js';
+import { applyPatches, validatePatchEntry, type PatchEntry } from '../src/core/addons/patches/index.js';
 
 function loadAddonPatches(): Array<{ entry: PatchEntry; origin: string }> {
   const all: Array<{ entry: PatchEntry; origin: string }> = [];

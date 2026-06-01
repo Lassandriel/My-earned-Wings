@@ -1,0 +1,10 @@
+# Diploma of the Rose Gold Academy. Issued by Olié in step 6 after
+# the player passes the three exam parts (Veyra practical, Ormias
+# oral, Quinell theory). Pure lore item — no mechanical effect.
+
+- id: item-vandara-diploma
+  title: item_vandara_diploma_title
+  desc: item_vandara_diploma_desc
+  image: img/items/scroll.webp # placeholder — replace with a real diploma image later
+  consumable: false
+  category: lore
