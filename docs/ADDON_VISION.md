@@ -107,6 +107,34 @@ muss spät** kommen (es ist der Reveal) und das **Finale ganz zuletzt**.
 
 ---
 
+## Technische Voraussetzungen (Engine-Lücken vor bestimmten Kapiteln)
+
+Stand der Einschätzung (Mai 2026): ~90% der Vision ist reiner YAML-Content —
+jedes Kapitel ist strukturell wie Vandara (Ort + NPCs + Actions + Crafting +
+Flag-Gating). Die echten Lücken sind **Engine-Fähigkeiten, nicht das
+Addon-System**. Gesundes Muster: Engine *einmal* um eine Mechanik erweitern,
+danach ist der Content darauf wieder reine Daten.
+
+1. **Multi-Schatten** (vor Ghare / "Ancient Echoes"-Automatisierung).
+   `activeShadow` ist heute *ein* Feld (`src/types/game.ts`, getrieben von
+   `src/engine/ticks/shadow.ts`, command `toggleShadow`, UI in `main.view.html`).
+   Für den zweiten Schatten muss das zu mehreren Slots werden (Feld → Array oder
+   N benannte Slots + Magie-Kosten pro aktivem Schatten). Einmalige Engine-
+   Arbeit; danach schaltet das Ghare-Addon den Slot nur per Flag frei.
+
+2. **Neue UI-Muster** (Luxana Reputations-Leiste, Ghare Fraktions-Anzeige).
+   Das Slot-System existiert (`data-slot`, vgl. `player-name-extra`). Jedes neue
+   Anzeige-Element ist aber ein bisschen Handarbeit (Slot im Base-View + Addon-
+   HTML). Kein Blocker, nur einkalkulieren.
+
+3. **Skalierungs-Pass fürs Tooling** (irgendwann, nicht akut). Sechs weitere
+   Vandaras = `src/generated/content.ts` sehr groß, i18n-Volumen ×3, längere
+   build:content/check-all-Zeiten. Wenn es weh tut: **Lazy-Loading pro Addon**
+   (Content erst beim Betreten des Orts laden) statt alles in ein Bundle. Die
+   eigentliche Belastungsprobe des Systems ist Masse, nicht Vielfalt.
+
+---
+
 ## Design-Prinzipien (gelten für jedes Addon)
 
 - **Pro Iteration EINE Sache.** Ein Kapitel = ein großes neues System.
