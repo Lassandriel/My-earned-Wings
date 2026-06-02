@@ -53,7 +53,7 @@ der Auslöser, das Dorf kann bleiben wo es ist (Tenebre ist ja hingewandert).
 | 0 | (Kristallreich) | — | Erwachen via Ryuga, amnesisch, zieht los | Lore |
 | 1 | **Dorf** | Tutorial, Bauen | Lebt sich ein. **Baum des Lebens = Ryu = sein Vater** — er spricht unwissentlich mit ihm | Demo ✓ |
 | 2 | **Vandara** | Alchemie + Shadow-Bind | "Ich bin Schatten." (noch nicht: *der erste*) | ✓ |
-| 3 | **Luxana** (Hauptstadt) | Ansehen / Reputation + Stadt-Handel | Muss sein Element verbergen — Schatten wird gefürchtet | geplant |
+| 3 | **Luxana** (Hauptstadt) | Ansehen/Reputation + betreute Schatten-Experimente | An den Hof gerufen *wegen* des seltenen Elements — der Hof weiß es, die Adelsgesellschaft tuschelt | geplant (aktiv) |
 | 4 | **Ghare** (Klippenstadt) | Fraktionen (Entscheidungen zählen) | Der Wanderer hilft im Verborgenen. Zweiter Schatten lernbar (vgl. Roadmap "Ancient Echoes") | geplant |
 | 5 | **Smaragd-Wald** | Tiefes Sammeln + Heilung | Erster echter Schattenwurzel-Kontakt | geplant |
 | 6 | **Lavameer** | Meister-Schmieden (bei den Magma-Leviathanen) | Konfrontation mit den Schattenwurzeln — und mit Ragos Essenz | geplant |
@@ -104,6 +104,52 @@ muss spät** kommen (es ist der Reveal) und das **Finale ganz zuletzt**.
 - Wie wird Ragos Befreiung erzählt — "trösten statt zerstören" (wie Ryuga es mit
   den Schattenankern tat)? Passt thematisch perfekt zum Schatten-der-hört.
 - Wird Tenebres voller Name/Natur dem Spieler *gesagt* oder *erspielt*?
+
+---
+
+## Kapitel-Detail: Luxana (aktiv in Planung)
+
+**Hook:** Tenebre, nun ausgebildeter Magier (Vandara-Diplom), wird **an den
+Hof nach Luxana gerufen** — weil das Schatten-Element so selten ist, soll er
+dort **unter Anleitung Experimente damit durchführen**. Gleichzeitig muss er
+mit der Stadt und den Adeligen klarkommen.
+
+Das liefert auf einen Schlag:
+- **Grund da zu sein** (Berufung, nicht Zufall) → beantwortet die alte
+  "warum Luxana?"-Frage.
+- **Mentor-Figur** (jemand am Hof, der die Experimente betreut).
+- **Soziale Spannung**: der Hof *sanktioniert* das Schatten-Studium, aber die
+  breite Adelsgesellschaft fürchtet/tuschelt → Reputation als Spielsystem.
+- **Mechanik-Andocken**: die betreuten Experimente sind die natürliche Bühne,
+  um Shadow-Bind zu *vertiefen* und den Boden für den zweiten Schatten (Ghare)
+  narrativ zu legen.
+
+**Zu klären — welcher Hof?** NICHT der kaiserliche Hof (Ignis/Amaterasu/Ryuga)
+— die Kaiserfamilie ist fürs Finale reserviert. "Hof" hier = ein
+Luxana-Forschungshof / Adelshaus / Magie-Institut, prestigeträchtig aber
+*unterhalb* der Krone. So bleibt die Eskalation zum Finale intakt.
+
+**Housing:** Luxana sollte ein eigenes Zuhause mitbringen (Hof-Quartier /
+Stadtwohnung) — siehe Housing-Notiz unten.
+
+---
+
+## Housing-Status (cross-cutting)
+
+Beobachtung (Mai 2026): Housing ist ein **bestehendes Engine-System**
+(Homes mit Möbel-Slots, place/remove, Kapazität). Addons können eigene Homes
+shippen (`homes`-Kategorie ist YAML, kein Engine-Aufwand).
+
+- **Base-Game:** 3 Häuser (normal, See, Turm).
+- **Vandara:** **kein** eigenes Zuhause — der Spieler nutzt ein Base-Home und
+  stellt dort nur das Alchemielabor (Möbel) rein. Lücke: ein Vandara-Quartier
+  (z.B. Studentenbude) fehlt und könnte nachgereicht werden.
+- **Künftige Orte:** jeder bewohnbare Ort sollte ein ortsspezifisches Zuhause
+  erwägen (Luxana Hof-Quartier, Ghare-Unterkunft, …). Reiner YAML-Content.
+
+Leitlinie: Home = "wo platziere ich ortsspezifische Möbel/Werkstätten".
+Wenn ein Kapitel Crafting/Stationen einführt, braucht es meist auch ein
+lokales Zuhause dafür.
 
 ---
 
