@@ -203,6 +203,7 @@ ui_space_cost: Space
 fail_furniture_space: Not enough space in your home!
 ui_home: Your Home
 ui_furniture_space: Furniture Space
+ui_switch_home: Switch Home
 home_tent_title: Simple Tent
 home_tent_desc: A humble shelter for the beginning of your journey.
 home_house_title: Solid House

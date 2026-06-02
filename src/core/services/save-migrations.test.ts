@@ -155,6 +155,52 @@ describe('save-migrations', () => {
     });
   });
 
+  describe('v3 → v4 (multiple-homes / per-home furniture)', () => {
+    const v4 = MIGRATIONS[4]!;
+    it('exists', () => expect(v4).toBeDefined());
+
+    it('derives ownedHomes from build flags', () => {
+      const state: Record<string, unknown> = {
+        flags: { 'build-house': true, 'build-home-tower': true, unrelated: true },
+        activeHome: 'home-tower',
+        placedItems: [],
+      };
+      v4(state);
+      expect(state.ownedHomes).toEqual(
+        expect.arrayContaining(['home-house', 'home-tower']),
+      );
+      expect((state.ownedHomes as string[]).length).toBe(2);
+    });
+
+    it('includes activeHome even if no matching build flag', () => {
+      const state: Record<string, unknown> = {
+        flags: {},
+        activeHome: 'home-vandara-dorm',
+        placedItems: [],
+      };
+      v4(state);
+      expect(state.ownedHomes).toEqual(['home-vandara-dorm']);
+    });
+
+    it('seeds the active home\'s furniture archive from placedItems', () => {
+      const state: Record<string, unknown> = {
+        flags: { 'build-house': true },
+        activeHome: 'home-house',
+        placedItems: ['item-bed', 'item-stove'],
+      };
+      v4(state);
+      const archive = state.homeFurniture as Record<string, string[]>;
+      expect(archive['home-house']).toEqual(['item-bed', 'item-stove']);
+    });
+
+    it('handles a save with no homes built (empty owned list)', () => {
+      const state: Record<string, unknown> = { flags: {}, activeHome: null, placedItems: [] };
+      v4(state);
+      expect(state.ownedHomes).toEqual([]);
+      expect(state.homeFurniture).toEqual({});
+    });
+  });
+
   // Addon migration framework: addons that ship a migrations.ts get their
   // SCHEMA_VERSION + MIGRATIONS table picked up by the load path. We test
   // the runner here with synthetic modules — real addon migrations live

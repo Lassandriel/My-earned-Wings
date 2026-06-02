@@ -1,10 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createHousingSystem } from './housing.logic';
+import { createHousingSystem, activateHome } from './housing.logic';
 import { GameState } from '../../types/game';
 
 const createMockState = (overrides: Partial<GameState> = {}): GameState => {
   return {
     placedItems: [],
+    homeFurniture: {},
+    ownedHomes: [],
     discoveredItems: [],
     activeHome: null,
     ...overrides,
@@ -147,6 +149,74 @@ describe('Housing System', () => {
       mockContent.get.mockReturnValue({ capacity: 8 });
       const state = createMockState({ activeHome: 'home-cabin' as any });
       expect(housing.getHomeCapacity(state)).toBe(8);
+    });
+  });
+
+  describe('activateHome() — multiple-homes-one-active', () => {
+    it('registers ownership when activating a new home', () => {
+      const state = createMockState({ activeHome: 'home-house' as any, ownedHomes: ['home-house'] as any });
+      activateHome(state, 'home-vandara-dorm' as any);
+      expect(state.activeHome).toBe('home-vandara-dorm');
+      expect(state.ownedHomes).toEqual(expect.arrayContaining(['home-house', 'home-vandara-dorm']));
+    });
+
+    it('parks the old loadout and restores the new home\'s loadout', () => {
+      const state = createMockState({
+        activeHome: 'home-house' as any,
+        ownedHomes: ['home-house', 'home-vandara-dorm'] as any,
+        placedItems: ['item-bed', 'item-stove'] as any,
+        homeFurniture: { 'home-vandara-dorm': ['item-desk'] } as any,
+      });
+      activateHome(state, 'home-vandara-dorm' as any);
+      // old furniture parked under the old home
+      expect((state.homeFurniture as any)['home-house']).toEqual(['item-bed', 'item-stove']);
+      // new home's loadout restored into the active placedItems
+      expect(state.placedItems).toEqual(['item-desk']);
+    });
+
+    it('restores an empty loadout for a freshly-built home', () => {
+      const state = createMockState({
+        activeHome: 'home-house' as any,
+        ownedHomes: ['home-house'] as any,
+        placedItems: ['item-bed'] as any,
+      });
+      activateHome(state, 'home-vandara-dorm' as any);
+      expect(state.placedItems).toEqual([]);
+    });
+
+    it('is a no-op (but records ownership) when target is already active', () => {
+      const state = createMockState({
+        activeHome: 'home-house' as any,
+        ownedHomes: [] as any,
+        placedItems: ['item-bed'] as any,
+      });
+      activateHome(state, 'home-house' as any);
+      expect(state.placedItems).toEqual(['item-bed']);
+      expect(state.ownedHomes).toEqual(['home-house']);
+    });
+  });
+
+  describe('switchHome() — UI-facing', () => {
+    it('switches to an owned home with feedback', () => {
+      const state = createMockState({
+        activeHome: 'home-house' as any,
+        ownedHomes: ['home-house', 'home-vandara-dorm'] as any,
+        placedItems: [] as any,
+      });
+      housing.switchHome(state, 'home-vandara-dorm');
+      expect(state.activeHome).toBe('home-vandara-dorm');
+      expect(mockPlaySound).toHaveBeenCalledWith('magic');
+      expect(mockSaveGame).toHaveBeenCalled();
+    });
+
+    it('refuses to switch to a home the player does not own', () => {
+      const state = createMockState({
+        activeHome: 'home-house' as any,
+        ownedHomes: ['home-house'] as any,
+      });
+      housing.switchHome(state, 'home-tower');
+      expect(state.activeHome).toBe('home-house');
+      expect(mockSaveGame).not.toHaveBeenCalled();
     });
   });
 });

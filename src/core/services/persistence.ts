@@ -36,6 +36,7 @@ const CONFIG = {
     'discoveredItems',
     'discoveredResources',
     'placedItems',
+    'ownedHomes',
     'unlockedRecipes',
     'unlockedNPCs',
     'discoveredTitles',

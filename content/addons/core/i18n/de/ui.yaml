@@ -198,6 +198,7 @@ ui_can_be_placed: Kann in deinem Haus platziert werden.
 fail_furniture_space: Nicht genug Platz im Haus!
 ui_home: Dein Zuhause
 ui_furniture_space: Platz für Möbel
+ui_switch_home: Zuhause wechseln
 home_tent_title: Einfaches Zelt
 home_tent_desc: Ein bescheidener Unterschlupf für den Anfang deiner Reise.
 home_house_title: Solides Haus

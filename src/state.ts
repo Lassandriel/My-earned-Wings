@@ -44,7 +44,9 @@ export const initialState: Partial<GameState> = {
   upgrades: [],
   discoveredResources: [],
   discoveredItems: [],
-  placedItems: [], // NEW: Track which furniture is currently active
+  placedItems: [], // furniture in the active home (see GameState docs)
+  homeFurniture: {}, // per-home furniture archive, swapped on home-switch
+  ownedHomes: [], // every home the player owns; one (activeHome) is active
   unlockedRecipes: [],
   discoveredTitles: [],
   unlockedNPCs: [],

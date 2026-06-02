@@ -1,4 +1,5 @@
 import { LOG_COLOR, invalidateCaches } from '../../core/constants';
+import { activateHome } from '../housing/housing.logic';
 import {
   GameState,
   ActionDefinition,
@@ -153,8 +154,12 @@ export function registerBuiltinEffects(
     (game.counters as Record<string, number>)[counter] = Math.max(0, next);
   });
 
+  // Build/move-into-home effect. Routes through activateHome so building a
+  // new home parks the current home's furniture, registers ownership, and
+  // restores the new home's (empty) loadout — keeping the
+  // multiple-homes-one-active model consistent.
   registerEffect('setHome', (game, { id }) => {
-    game.activeHome = id;
+    activateHome(game, id);
     invalidateCaches(svc());
   });
 

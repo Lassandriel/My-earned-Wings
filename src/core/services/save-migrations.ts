@@ -22,7 +22,7 @@ const log = makeLogger('SAVE');
 
 /** Bump this whenever you add a migration. The number must match the
  *  highest key in MIGRATIONS. */
-export const SAVE_SCHEMA_VERSION = 3;
+export const SAVE_SCHEMA_VERSION = 4;
 
 /** A migration takes an old-shape state and brings it to the next version. */
 export type Migration = (state: Record<string, unknown>) => void;
@@ -100,6 +100,41 @@ export const MIGRATIONS: Record<number, Migration> = {
         delete flags['ability-arcane-focus'];
       }
     }
+  },
+
+  // v3 → v4: multiple-homes-one-active model. New fields ownedHomes
+  // (the switcher's list) and homeFurniture (per-home furniture archive).
+  // Derive ownership from the build-* flags + the current activeHome, and
+  // seed the active home's archive with the existing global placedItems
+  // (which already represented the active home's furniture).
+  4: (state) => {
+    const flags = (state.flags && typeof state.flags === 'object'
+      ? state.flags
+      : {}) as Record<string, unknown>;
+    const FLAG_TO_HOME: Record<string, string> = {
+      'build-tent': 'home-tent',
+      'build-house': 'home-house',
+      'build-home-lake': 'home-lake',
+      'build-home-tower': 'home-tower',
+    };
+    const owned: string[] = [];
+    for (const [flag, home] of Object.entries(FLAG_TO_HOME)) {
+      if (flags[flag] && !owned.includes(home)) owned.push(home);
+    }
+    if (typeof state.activeHome === 'string' && !owned.includes(state.activeHome)) {
+      owned.push(state.activeHome);
+    }
+    state.ownedHomes = owned;
+
+    const archive = (
+      state.homeFurniture && typeof state.homeFurniture === 'object'
+        ? state.homeFurniture
+        : {}
+    ) as Record<string, unknown>;
+    if (typeof state.activeHome === 'string' && Array.isArray(state.placedItems)) {
+      archive[state.activeHome] = [...(state.placedItems as unknown[])];
+    }
+    state.homeFurniture = archive;
   },
 };
 

@@ -67,6 +67,30 @@
     </div>
   </template>
 
+  <!-- HOME SWITCHER: every owned home except the active one. Switching
+       parks the current furniture loadout + perks and loads the target's. -->
+  <template x-if="$store.game.ownedHomes && $store.game.ownedHomes.length > 1">
+    <div class="home-switcher panel-premium">
+      <div class="group-header m-xxs">
+        <h4 x-text="$store.game.t('ui_switch_home')"></h4>
+      </div>
+      <div class="home-switcher-list">
+        <template x-for="hid in $store.game.ownedHomes" :key="hid">
+          <button
+            class="home-switcher-item card-premium p-sm"
+            x-show="hid !== $store.game.activeHome"
+            @click="$store.game.switchHome(hid)"
+            @mouseenter="$store.game.setHovered(hid)"
+            @mouseleave="$store.game.setHovered(null)"
+          >
+            <span class="home-switcher-name" x-text="$store.game.t($store.game.content.get(hid, 'homes')?.nameKey)"></span>
+            <span class="home-switcher-cap" x-text="($store.game.content.get(hid, 'homes')?.capacity ?? 0) + ' ' + $store.game.t('ui_furniture_space')"></span>
+          </button>
+        </template>
+      </div>
+    </div>
+  </template>
+
   <!-- Furniture Management UI -->
   <template x-if="$store.game.activeHome">
     <div class="housing-management-container">

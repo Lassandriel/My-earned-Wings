@@ -31,7 +31,17 @@ export interface GameState {
   resources: Partial<Record<ResourceId, number>>;
   limits: Partial<Record<ResourceId, number>>;
   stats: Record<string, number>;
+  // Furniture placed in the CURRENTLY ACTIVE home. All readers (pipeline,
+  // UI, tooltip, persistence) treat this as "the active home's furniture".
   placedItems: ItemId[];
+  // Per-home furniture archive. On home-switch the active loadout is parked
+  // here under the old home's id and the new home's loadout is restored into
+  // placedItems. Lets each owned home keep its own furniture set without
+  // touching the many placedItems readers.
+  homeFurniture: Partial<Record<HomeId, ItemId[]>>;
+  // Every home the player has built/owns. Exactly one (activeHome) is active
+  // at a time; the housing UI lets you switch between owned homes.
+  ownedHomes: HomeId[];
   npcProgress: Record<string, number>;
   activeBuffs: Record<
     string,
@@ -321,6 +331,7 @@ export interface GameState {
     getHomeCapacity: (store: GameState) => number;
     getAvailableFurniture: (store: GameState) => string[];
     getPlacedFurnitureList: (store: GameState) => string[];
+    switchHome: (store: GameState, id: string) => void;
   };
   titles: {
     unlockTitle: (store: GameState, id: TitleId) => void;
@@ -395,6 +406,7 @@ export interface GameState {
   toggleShadow: (id: string) => void;
   npcExecute: (id: string) => void;
   toggleFurniture: (id: string) => void;
+  switchHome: (id: string) => void;
   consumeItem: (id: string) => void;
   setActiveTitle: (id: string | null) => void;
   loadGame: () => Promise<boolean>;

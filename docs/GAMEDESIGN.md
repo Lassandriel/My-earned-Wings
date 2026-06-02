@@ -52,6 +52,29 @@
 * **Vandara — The Rose-Gold Academy**: Planned official content addon. Reached after the village arc via Aria's letter; introduces academy mentors, branching specializations, alchemy, and the shadow reveal arc. Lives at `content/addons/vandara/`.
 * **The Tree of Life**: The final milestone of the current demo.
 
+### 4.1 Housing Model
+
+The player can **own multiple homes, but only one is active at a time** and
+switched freely in the Housing view. What is tied to the active home vs. what
+stays global:
+
+* **Per active home (changes when you switch):**
+  * the **placed furniture** loadout of that home (each home keeps its own set)
+  * the home's **perks** — capacity + modifiers (e.g. lake = garden/water,
+    tower = magic)
+* **Global (independent of which home is active):**
+  * **Stations** — Kitchen, Alchemy Laboratory, Arcane Sanctum, Garden. These
+    are flag-based home addons built once (a `category: housing` action sets a
+    flag); they are **not furniture** and are available regardless of the
+    active home.
+  * everything else — resources, recipes, story flags, and the inventory of
+    furniture you own but haven't placed.
+
+Switching home therefore swaps only the furniture loadout + perks; stations and
+all progress persist. Each inhabitable location (village, Vandara, future
+chapters) can ship its own home(s) as pure YAML (`homes` category + a
+`category: housing` build action).
+
 ## 5\. Important Stuff
 
 

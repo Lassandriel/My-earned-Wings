@@ -1,4 +1,4 @@
-import { GameState, ItemId, ItemDefinition, HomeDefinition } from '../../types/game';
+import { GameState, ItemId, HomeId, ItemDefinition, HomeDefinition } from '../../types/game';
 import { LOG_COLOR, invalidateCaches, makeServiceContainer } from '../../core/constants';
 
 interface HousingDeps {
@@ -16,6 +16,36 @@ const ctx = makeServiceContainer<HousingDeps>('HOUSING');
 const svc = ctx.get;
 
 /**
+ * Make `id` the active home, parking the current home's furniture loadout
+ * into the per-home archive and restoring the target home's loadout.
+ *
+ * The invariant: `placedItems` is always "the active home's furniture", so
+ * every existing reader (pipeline furniture-modifiers, UI, tooltip,
+ * persistence) keeps working unchanged — we just swap the contents here.
+ *
+ * Pure w.r.t. side effects (no sound/save/cache-invalidation) so it can be
+ * called both from the `setHome` action-effect and the UI `switchHome`
+ * method. Callers handle their own feedback.
+ */
+export function activateHome(store: GameState, id: HomeId): void {
+  if (!id) return;
+  if (store.activeHome === id) {
+    // Already active — just make sure ownership is recorded (covers the
+    // build-then-stay case where setHome targets the current home).
+    if (!store.ownedHomes.includes(id)) store.ownedHomes.push(id);
+    return;
+  }
+  // Park the outgoing home's furniture.
+  if (store.activeHome) {
+    store.homeFurniture[store.activeHome] = [...store.placedItems];
+  }
+  if (!store.ownedHomes.includes(id)) store.ownedHomes.push(id);
+  store.activeHome = id;
+  // Restore the incoming home's loadout (empty for a freshly-built home).
+  store.placedItems = [...(store.homeFurniture[id] ?? [])];
+}
+
+/**
  * Housing System - TypeScript Edition
  * Handles furniture placement, home capacity, and shelter management.
  */
@@ -26,11 +56,26 @@ export const createHousingSystem = () => {
       delegates: [
         'toggleFurniture', 'getUsedFurnitureSpace',
         'getHomeCapacity', 'getAvailableFurniture',
-        'getPlacedFurnitureList',
+        'getPlacedFurnitureList', 'switchHome',
       ],
     },
 
     setServices: ctx.set,
+
+    /**
+     * UI-facing home switch: swap the active home (via activateHome) and
+     * give the player feedback + persist. Called from the housing view's
+     * home-switcher. No-op if the home isn't owned or is already active.
+     */
+    switchHome(store: GameState, id: string) {
+      const homeId = id as HomeId;
+      if (!store.ownedHomes.includes(homeId)) return;
+      if (store.activeHome === homeId) return;
+      activateHome(store, homeId);
+      svc().playSound('magic');
+      invalidateCaches(svc());
+      svc().saveGame();
+    },
 
     /**
      * Toggles a piece of furniture in the current home.
