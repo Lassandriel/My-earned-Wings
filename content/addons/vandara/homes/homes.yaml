@@ -1,0 +1,36 @@
+# Vandara dwellings. The player collects these as additional owned homes
+# (multiple-homes-one-active model, see GAMEDESIGN 4.1) and switches via the
+# Housing view. Built through the actions in actions/construction.yaml.
+#
+# Shadow lore note: shadow is a sub-element of LIGHT — strong where there's
+# light to cast shadows, weak in the dark. So the bright loft (not the dark
+# catacomb) carries the shadow-bind perk.
+
+# Student lodging — the entry Vandara dwelling, available on enrolment.
+# Small + cheap; somewhere to set up the alchemy lab without commuting to
+# the village.
+- id: home-vandara-dorm
+  nameKey: home_vandara_dorm_title
+  descKey: home_vandara_dorm_desc
+  image: img/housing/tent.webp # placeholder — real Vandara art later
+  capacity: 6
+
+# Sunlit scholar's loft — the "you made it" Vandara home, earned on
+# graduation. Bright and open: lots of light = shadows in abundance, so
+# binding a shadow is cheaper here.
+- id: home-vandara-loft
+  nameKey: home_vandara_loft_title
+  descKey: home_vandara_loft_desc
+  image: img/housing/house.webp # placeholder — real Vandara art later
+  capacity: 12
+  modifiers:
+    - { key: shadow_bind_cost, add: -1 }
+
+# Catacomb chamber — the hidden room below, near Sariel. Cheap and roomy,
+# but dark: no shadows to work with, so deliberately NO shadow perk. The
+# quiet, off-the-grid option.
+- id: home-vandara-catacomb
+  nameKey: home_vandara_catacomb_title
+  descKey: home_vandara_catacomb_desc
+  image: img/housing/island_tower.webp # placeholder — real Vandara art later
+  capacity: 8

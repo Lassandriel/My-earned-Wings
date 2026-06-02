@@ -25,3 +25,74 @@
     - type: log
       logKey: vandara_alchemy_laboratory_built
       color: var(--gold)
+
+# ─── Vandara dwellings (multiple-homes-one-active) ───────────────
+# Independent Vandara homes — they do NOT require the village house.
+# Building one makes it the active home (setHome); switch freely in the
+# Housing view. See content/addons/vandara/homes/homes.yaml.
+
+# Studentenbude — entry dwelling, on enrolment. Cheap shard deposit.
+- id: build-vandara-dorm
+  chapter: Vandara
+  category: housing
+  costs:
+    shards: 40
+  image: img/housing/tent.webp # placeholder
+  requirements:
+    flags.vandara-enrolled: true
+    "flags.build-vandara-dorm": {op: "!=", val: true}
+  sfx: success
+  onSuccess:
+    - type: setFlag
+      flag: build-vandara-dorm
+      value: true
+    - type: setHome
+      id: home-vandara-dorm
+    - type: log
+      logKey: vandara_dorm_built
+      color: var(--gold)
+
+# Sonniges Gelehrten-Loft — prestige home, on graduation. Bright =
+# shadow-bind perk (see home def). Costs real materials + shards.
+- id: build-vandara-loft
+  chapter: Vandara
+  category: housing
+  costs:
+    wood: 80
+    shards: 150
+  image: img/housing/house.webp # placeholder
+  requirements:
+    flags.vandara-graduated: true
+    "flags.build-vandara-loft": {op: "!=", val: true}
+  sfx: success
+  onSuccess:
+    - type: setFlag
+      flag: build-vandara-loft
+      value: true
+    - type: setHome
+      id: home-vandara-loft
+    - type: log
+      logKey: vandara_loft_built
+      color: var(--gold)
+
+# Katakomben-Kammer — hidden room below, once the catacombs are open.
+# Cheap; the dark, off-the-grid option (no shadow perk — dark = no shadows).
+- id: build-vandara-catacomb
+  chapter: Vandara
+  category: housing
+  costs:
+    shards: 20
+  image: img/housing/island_tower.webp # placeholder
+  requirements:
+    flags.vandara-katakomben-unlocked: true
+    "flags.build-vandara-catacomb": {op: "!=", val: true}
+  sfx: success
+  onSuccess:
+    - type: setFlag
+      flag: build-vandara-catacomb
+      value: true
+    - type: setHome
+      id: home-vandara-catacomb
+    - type: log
+      logKey: vandara_catacomb_built
+      color: var(--gold)

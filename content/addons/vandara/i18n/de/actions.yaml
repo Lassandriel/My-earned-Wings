@@ -39,6 +39,13 @@ build-vandara-alchemy-laboratory:
   title: "Alchemielabor bauen"
   unlocks: "Pamles Braurezepte (nach Lehrstunden)"
 
+build-vandara-dorm:
+  title: "Studentenbude mieten"
+build-vandara-loft:
+  title: "Gelehrten-Loft einrichten"
+build-vandara-catacomb:
+  title: "Katakomben-Kammer beziehen"
+
 act-npc-vandara-veyra:
   title: Magistra Veyra
 

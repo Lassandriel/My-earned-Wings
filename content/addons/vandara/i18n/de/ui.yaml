@@ -49,3 +49,20 @@ ui_tab_vandara_alchemy: Alchemie
 # Passive identity sub-label rendered under the player name once
 # Veyra has run the deep test (vandara-shadow-revealed flag set).
 ui_vandara_shadow_shifter_label: Schatten-Drachenwandler
+
+# Vandara-Wohnungen (Home nameKey/descKey lösen im ui-Kontext auf).
+home_vandara_dorm_title: Studentenbude
+home_vandara_dorm_desc: >-
+  Ein schmales gemietetes Zimmer über einer Seitengasse von Vandara. Kaum
+  größer als das Bett, aber es ist deins — und nah genug an der Akademie,
+  um aus dem Bett direkt in die Vorlesung zu rollen.
+home_vandara_loft_title: Gelehrten-Loft
+home_vandara_loft_desc: >-
+  Ein helles Loft im Obergeschoss, den ganzen Tag strömt Sonne durch hohe
+  Fenster. All das Licht bedeutet Schatten im Überfluss — einen zu binden
+  kostet dich hier weniger.
+home_vandara_catacomb_title: Katakomben-Kammer
+home_vandara_catacomb_desc: >-
+  Ein trockener, verborgener Raum in den alten Tunneln nahe Sariel. Geräumig
+  und billig, und kein Beamter verirrt sich je hier herunter. Dunkel
+  allerdings — wenig Licht, kaum Schatten zum Arbeiten.

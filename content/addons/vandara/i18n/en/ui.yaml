@@ -49,3 +49,19 @@ ui_tab_vandara_alchemy: Alchemy
 # Passive identity sub-label rendered under the player name once
 # Veyra has run the deep test (vandara-shadow-revealed flag set).
 ui_vandara_shadow_shifter_label: Shadow Shifter
+
+# Vandara dwellings (home nameKey/descKey resolve in the ui context).
+home_vandara_dorm_title: Student Lodging
+home_vandara_dorm_desc: >-
+  A narrow rented room above a Vandara side-street. Barely bigger than the
+  bed, but it's yours — and close enough to the academy to roll out of bed
+  into a lecture.
+home_vandara_loft_title: Scholar's Loft
+home_vandara_loft_desc: >-
+  A bright upper-floor loft, sun pouring through tall windows all day.
+  All that light means shadows in abundance — binding one costs you less here.
+home_vandara_catacomb_title: Catacomb Chamber
+home_vandara_catacomb_desc: >-
+  A dry, hidden room in the old tunnels near Sariel. Roomy and cheap, and
+  nobody official ever comes down here. Dark, though — little light, few
+  shadows to work with.

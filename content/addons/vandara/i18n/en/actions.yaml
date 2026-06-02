@@ -38,6 +38,13 @@ build-vandara-alchemy-laboratory:
   title: "Build Alchemy Laboratory"
   unlocks: "Pamle's brew recipes (after teaching)"
 
+build-vandara-dorm:
+  title: "Rent Student Lodging"
+build-vandara-loft:
+  title: "Furnish Scholar's Loft"
+build-vandara-catacomb:
+  title: "Claim Catacomb Chamber"
+
 act-npc-vandara-veyra:
   title: Magistra Veyra
 
