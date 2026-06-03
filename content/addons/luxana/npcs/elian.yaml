@@ -14,6 +14,6 @@
   image: img/npcs/sage.webp # placeholder — real Elian portrait later
   color: '#8b5cf6'
   progKey: luxanaElian
-  maxProgress: 1
+  maxProgress: 2 # 1 = first meeting, 2 = graduation finale (grants 2nd shadow slot)
   chapter: Luxana
   location: luxana

@@ -5,7 +5,8 @@ description: >-
   erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um
   unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute
   Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen.
-  Neues System: Ansehen/Reputation.
+  Vier Adelige geben Aufgaben, die nur ein Schatten lösen kann; Elians
+  Abschluss schaltet den zweiten Schatten-Slot frei.
 author: Lassandriel
 requires:
   - vandara

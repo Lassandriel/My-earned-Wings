@@ -1,0 +1,138 @@
+# The four noble experiments. Each is a single supervised shadow task that
+# sets its completion flag and branches the unlock graph (see npcs/nobles.yaml).
+# One step each for now — dialogue, multi-step build-up and any crafting come
+# in later iterations. All are gated on luxana-elian-met so they can't fire
+# before the chapter properly opens.
+
+# ── Lord Caldwen — the flooded vault ──────────────────────────────────
+# A strongroom under his estate has flooded; his signet sank behind a
+# narrow iron grate. No drake fits, and water-callers only flood it worse.
+# A shadow slips between the bars and lifts it out.
+- id: act-npc-luxana-caldwen
+  npcId: npc-luxana-caldwen
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaCaldwen
+  maxProgress: 1
+  journalIcon: 🗝️
+  icon: 🗝️
+  journalColor: '#b8860b'
+  steps:
+    - cost: 15
+      costType: magic
+      rewards:
+        shards: 25
+      requirements:
+        flags.luxana-elian-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-exp-vault
+          value: true
+        # Word spreads at court: two more nobles step forward.
+        - type: unlockNPC
+          id: npc-luxana-mirelle
+        - type: unlockNPC
+          id: npc-luxana-aurel
+        - type: log
+          logKey: luxana_caldwen_done
+          color: var(--gold)
+      dialogueKey: npc_luxana_caldwen_1
+  customExecute: npc_execute
+
+# ── Lady Mirelle — the fragile cradle ─────────────────────────────────
+# Her child sleeps in an heirloom cradle too delicate for claws; a charm
+# slipped beneath it must be retrieved without waking the babe or cracking
+# the wood. A shadow's touch has no weight.
+- id: act-npc-luxana-mirelle
+  npcId: npc-luxana-mirelle
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaMirelle
+  maxProgress: 1
+  journalIcon: 🍼
+  icon: 🍼
+  journalColor: '#c98ab0'
+  steps:
+    - cost: 15
+      costType: magic
+      rewards:
+        shards: 25
+      requirements:
+        flags.luxana-elian-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-exp-cradle
+          value: true
+        - type: unlockNPC
+          id: npc-luxana-sylvaine
+        - type: log
+          logKey: luxana_mirelle_done
+          color: var(--gold)
+      dialogueKey: npc_luxana_mirelle_1
+  customExecute: npc_execute
+
+# ── Vicomte Aurel — the shadow theatre ────────────────────────────────
+# A soirée to outshine his rivals: he wants a performance no one else at
+# court could stage. Shadow is strongest in bright light — a living
+# shadow-play cast across the ballroom walls.
+- id: act-npc-luxana-aurel
+  npcId: npc-luxana-aurel
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaAurel
+  maxProgress: 1
+  journalIcon: 🎭
+  icon: 🎭
+  journalColor: '#7c5cbf'
+  steps:
+    - cost: 15
+      costType: magic
+      rewards:
+        shards: 25
+      requirements:
+        flags.luxana-elian-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-exp-stage
+          value: true
+        - type: unlockNPC
+          id: npc-luxana-sylvaine
+        - type: log
+          logKey: luxana_aurel_done
+          color: var(--gold)
+      dialogueKey: npc_luxana_aurel_1
+  customExecute: npc_execute
+
+# ── Dame Sylvaine — shade the moonbloom ───────────────────────────────
+# Her prized moonbloom wilts the instant daylight touches it, yet it must
+# travel across the sunlit court. A shadow held steady over the bloom is
+# the only shade gentle and exact enough. "Shadow belongs to light."
+- id: act-npc-luxana-sylvaine
+  npcId: npc-luxana-sylvaine
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaSylvaine
+  maxProgress: 1
+  journalIcon: 🌙
+  icon: 🌙
+  journalColor: '#5c8a6b'
+  steps:
+    - cost: 15
+      costType: magic
+      rewards:
+        shards: 25
+      requirements:
+        flags.luxana-elian-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-exp-bloom
+          value: true
+        - type: log
+          logKey: luxana_sylvaine_done
+          color: var(--gold)
+      dialogueKey: npc_luxana_sylvaine_1
+  customExecute: npc_execute

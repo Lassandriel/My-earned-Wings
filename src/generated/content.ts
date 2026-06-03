@@ -3138,7 +3138,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_luxana",
     "progKey": "luxanaElian",
-    "maxProgress": 1,
+    "maxProgress": 2,
     "journalIcon": "🔮",
     "icon": "🔮",
     "journalColor": "#8b5cf6",
@@ -3156,12 +3156,211 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "value": true
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-luxana-caldwen"
+          },
+          {
             "type": "log",
             "logKey": "luxana_elian_met",
             "color": "var(--gold)"
           }
         ],
         "dialogueKey": "npc_luxana_elian_1"
+      },
+      {
+        "cost": 25,
+        "costType": "magic",
+        "requirements": {
+          "flags.luxana-exp-vault": true,
+          "flags.luxana-exp-cradle": true,
+          "flags.luxana-exp-stage": true,
+          "flags.luxana-exp-bloom": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-complete",
+            "value": true
+          },
+          {
+            "type": "grantShadowSlot",
+            "by": 1
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_elian_finale",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_elian_2"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-caldwen": {
+    "id": "act-npc-luxana-caldwen",
+    "npcId": "npc-luxana-caldwen",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaCaldwen",
+    "maxProgress": 1,
+    "journalIcon": "🗝️",
+    "icon": "🗝️",
+    "journalColor": "#b8860b",
+    "steps": [
+      {
+        "cost": 15,
+        "costType": "magic",
+        "rewards": {
+          "shards": 25
+        },
+        "requirements": {
+          "flags.luxana-elian-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-exp-vault",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-mirelle"
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-aurel"
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_caldwen_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_caldwen_1"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-mirelle": {
+    "id": "act-npc-luxana-mirelle",
+    "npcId": "npc-luxana-mirelle",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaMirelle",
+    "maxProgress": 1,
+    "journalIcon": "🍼",
+    "icon": "🍼",
+    "journalColor": "#c98ab0",
+    "steps": [
+      {
+        "cost": 15,
+        "costType": "magic",
+        "rewards": {
+          "shards": 25
+        },
+        "requirements": {
+          "flags.luxana-elian-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-exp-cradle",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-sylvaine"
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_mirelle_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_mirelle_1"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-aurel": {
+    "id": "act-npc-luxana-aurel",
+    "npcId": "npc-luxana-aurel",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaAurel",
+    "maxProgress": 1,
+    "journalIcon": "🎭",
+    "icon": "🎭",
+    "journalColor": "#7c5cbf",
+    "steps": [
+      {
+        "cost": 15,
+        "costType": "magic",
+        "rewards": {
+          "shards": 25
+        },
+        "requirements": {
+          "flags.luxana-elian-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-exp-stage",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-sylvaine"
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_aurel_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_aurel_1"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-sylvaine": {
+    "id": "act-npc-luxana-sylvaine",
+    "npcId": "npc-luxana-sylvaine",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaSylvaine",
+    "maxProgress": 1,
+    "journalIcon": "🌙",
+    "icon": "🌙",
+    "journalColor": "#5c8a6b",
+    "steps": [
+      {
+        "cost": 15,
+        "costType": "magic",
+        "rewards": {
+          "shards": 25
+        },
+        "requirements": {
+          "flags.luxana-elian-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-exp-bloom",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_sylvaine_done",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_sylvaine_1"
       }
     ],
     "customExecute": "npc_execute"
@@ -5468,6 +5667,50 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "image": "img/npcs/sage.webp",
     "color": "#8b5cf6",
     "progKey": "luxanaElian",
+    "maxProgress": 2,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
+  "npc-luxana-caldwen": {
+    "id": "npc-luxana-caldwen",
+    "nameKey": "npc_luxana_caldwen_name",
+    "icon": "🗝️",
+    "image": "img/npcs/official_hall.webp",
+    "color": "#b8860b",
+    "progKey": "luxanaCaldwen",
+    "maxProgress": 1,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
+  "npc-luxana-mirelle": {
+    "id": "npc-luxana-mirelle",
+    "nameKey": "npc_luxana_mirelle_name",
+    "icon": "🍼",
+    "image": "img/npcs/baker_gara.webp",
+    "color": "#c98ab0",
+    "progKey": "luxanaMirelle",
+    "maxProgress": 1,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
+  "npc-luxana-aurel": {
+    "id": "npc-luxana-aurel",
+    "nameKey": "npc_luxana_aurel_name",
+    "icon": "🎭",
+    "image": "img/npcs/artisan_geron.webp",
+    "color": "#7c5cbf",
+    "progKey": "luxanaAurel",
+    "maxProgress": 1,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
+  "npc-luxana-sylvaine": {
+    "id": "npc-luxana-sylvaine",
+    "nameKey": "npc_luxana_sylvaine_name",
+    "icon": "🌙",
+    "image": "img/npcs/flowergirl.webp",
+    "color": "#5c8a6b",
+    "progKey": "luxanaSylvaine",
     "maxProgress": 1,
     "chapter": "Luxana",
     "location": "luxana"
@@ -6074,12 +6317,12 @@ export const BUILD_TIME_ADDONS: Array<{
   {
     "name": "luxana",
     "version": "0.1.0",
-    "description": "Luxana — die Hauptstadt am Fuß des Vulkans. Zweites großes Story-Addon, erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen. Neues System: Ansehen/Reputation.",
+    "description": "Luxana — die Hauptstadt am Fuß des Vulkans. Zweites großes Story-Addon, erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen. Vier Adelige geben Aufgaben, die nur ein Schatten lösen kann; Elians Abschluss schaltet den zweiten Schatten-Slot frei.",
     "author": "Lassandriel",
     "entries": {
-      "actions": 1,
+      "actions": 5,
       "items": 1,
-      "npcs": 1
+      "npcs": 5
     }
   },
   {
@@ -6437,13 +6680,21 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
   },
   "luxana": {
     "actions": [
-      "act-npc-luxana-elian"
+      "act-npc-luxana-elian",
+      "act-npc-luxana-caldwen",
+      "act-npc-luxana-mirelle",
+      "act-npc-luxana-aurel",
+      "act-npc-luxana-sylvaine"
     ],
     "items": [
       "item-luxana-summons"
     ],
     "npcs": [
-      "npc-luxana-elian"
+      "npc-luxana-elian",
+      "npc-luxana-caldwen",
+      "npc-luxana-mirelle",
+      "npc-luxana-aurel",
+      "npc-luxana-sylvaine"
     ]
   },
   "smoke_test": {
@@ -6814,6 +7065,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-luxana-elian": {
         "title": "Meister Elian"
+      },
+      "act-npc-luxana-caldwen": {
+        "title": "Lord Caldwen — Der geflutete Tresor"
+      },
+      "act-npc-luxana-mirelle": {
+        "title": "Lady Mirelle — Die zerbrechliche Wiege"
+      },
+      "act-npc-luxana-aurel": {
+        "title": "Vicomte Aurel — Das Schattentheater"
+      },
+      "act-npc-luxana-sylvaine": {
+        "title": "Dame Sylvaine — Die Mondblume beschatten"
       },
       "act-smoke-ping": {
         "title": "Smoke-Ping senden",
@@ -7199,6 +7462,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "shadow_broken_magic": "Deine magische Energie ist erschöpft. Der gebundene Schatten löst sich auf.",
       "receive_luxana_summons": "Olié hat dir eine Hof-Vorladung überreicht. Luxana will deinen Schatten studieren — Meister Elian wartet im Hofmagier-Kollegium.",
       "luxana_elian_met": "Du hast Meister Elian kennengelernt. Der kaiserliche Lehrer, der jedes Element außer Schatten unterrichtet hat — so ratlos wie entzückt, dich zu haben.",
+      "luxana_caldwen_done": "Das Siegel steigt tropfend durch das Gitter. Lord Caldwen, um Worte verlegen, lässt durchblicken, dass der Hof nun zusieht. Bis zum Abend fragen zwei weitere Adelige nach dir.",
+      "luxana_mirelle_done": "Der Talisman löst sich; die Wiege knarzt nicht einmal, das Kind regt sich nicht. Lady Mirelle weint vor Erleichterung und erzählt den Gärten von dir.",
+      "luxana_aurel_done": "Schatten tanzen über die Wände des Ballsaals, heller noch durch die Kronleuchter. Vicomte Aurels Soirée ist das Gespräch von Luxana — und du auch.",
+      "luxana_sylvaine_done": "Ein Fleck steten Schattens wandert mit der Mondblume über den sonnigen Hof; kein Blütenblatt welkt. Dame Sylvaine nickt nur, was bei ihr höchstes Lob ist.",
+      "luxana_elian_finale": "Meister Elian legt seine Brille ausnahmsweise ab. \"Vier Probleme, die kein Drache lösen konnte — sauber gelöst, unter Aufsicht. Der Hof hat seine Antwort, und ich auch.\" Er lächelt. \"Du kannst nun einen zweiten Schatten halten. Nur zu — ich habe dir nichts beigebracht, und doch sind wir hier.\"",
       "smoke_ping_log": "Ein leiser Pulsschlag rollt durch das Tal.",
       "smoke_panel_title": "Smoke-Test Diagnose",
       "smoke_panel_hint": "Diese Werte aktualisieren sich live aus dem `smoke_test` addonState-Slot. Wenn die Tick-Zahl steigt, läuft der Hook; wenn Vandara hier ✔ zeigt, hat isAddonLoaded angeschlagen.",
@@ -7381,7 +7649,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_9": "<i>Legenden besagen, dass der Planet einst eine ganze Kugel war, bis ein unbekanntes Ereignis ihn in tausend Stücke zerschmetterte.</i>",
       "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>",
       "npc_olie_luxana_summons": "Olié schiebt ein letztes versiegeltes Dokument über den Tisch, so präzise wie immer. \"Ein allerletzter Eintrag für Ihre Akte. Der Hof von Luxana hat Sie angefordert — namentlich, und nach Element.\" Eine kleine, bedachte Pause. \"Eine Vorladung ans Hofmagier-Kollegium, unter Meister Elian persönlich. Schatten ist selten genug, dass die Hauptstadt es ordentlich studiert haben will, unter Aufsicht.\" Er stempelt die Akte mit einem sanften, endgültigen Pochen. \"Wir schicken selten eine frische Absolventin direkt an den Hof. Das ist... ungewöhnlich.\" Das leiseste Nicken. \"Legen Sie das im Kollegium in Luxana vor. Und — Glückwunsch. Gleich doppelt, wie es scheint.\"",
-      "npc_luxana_elian_1": "Ein vollgestopftes Studierzimmer hoch oben im Kollegium von Luxana: Kristallstäbe, die in der Luft treiben, schiefe Büchertürme, und ein uralter Drachenwandler, der über eine Brille blinzelt, die ihm in dem Moment von der Nase rutscht, in dem er sie hochschiebt. \"Ah — Sie sind es also. Kommen Sie rein, kommen Sie. Vorsicht beim dritten Stab, der beißt.\" Er kneift die Augen zusammen, mustert dich. \"Meister Elian. Vierzig Jahre Hauslehrer an diesem Hof. Ich habe die Kaiserkinder unterrichtet, müssen Sie wissen — alle vier. Der kleine Windfratz und der Jüngste waren...\" ein Seufzen, fast zärtlich, \"...sagen wir: *temperamentvoll*.\" Er fängt sich wieder, schiebt die Brille hoch (sie rutscht zurück). \"Licht habe ich gelehrt. Gezeiten. Traum. Erde. Wind. Jedes Element, das je durch diese Tür kam. Aber Schatten? Nie. Nicht ein einziges Mal in vierzig Jahren.\" Er legt einen Stab ab und wirkt einen Moment lang gleichermaßen nervös wie entzückt. \"Und jetzt drückt der Hof mir *Sie* in die Hand. Die Erste. Sie wollen es verstanden wissen — ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das gemeinsam herausfinden, denn ehrlich gesagt...\" er beugt sich verschwörerisch vor, \"...habe ich keine Ahnung, wo ich anfangen soll. Sagen Sie dem Kollegium den letzten Teil nicht.\"",
+      "npc_luxana_elian_1": "Ein vollgestopftes Studierzimmer hoch oben im Kollegium von Luxana: Kristallstäbe, die in der Luft treiben, schiefe Büchertürme, und ein uralter Drachenwandler, der über eine Brille blinzelt, die ihm in dem Moment von der Nase rutscht, in dem er sie hochschiebt. \"Ah — Sie sind es also. Kommen Sie rein, kommen Sie. Vorsicht beim dritten Stab, der beißt.\" Er kneift die Augen zusammen, mustert dich. \"Meister Elian. Vierzig Jahre Hauslehrer an diesem Hof. Ich habe die Kaiserkinder unterrichtet, müssen Sie wissen — alle vier. Der kleine Windfratz und der Jüngste waren...\" ein Seufzen, fast zärtlich, \"...sagen wir: *temperamentvoll*.\" Er fängt sich wieder, schiebt die Brille hoch (sie rutscht zurück). \"Licht habe ich gelehrt. Gezeiten. Traum. Erde. Wind. Jedes Element, das je durch diese Tür kam. Aber Schatten? Nie. Nicht ein einziges Mal in vierzig Jahren.\" Er legt einen Stab ab und wirkt einen Moment lang gleichermaßen nervös wie entzückt. \"Und jetzt drückt der Hof mir *Sie* in die Hand. Die Erste. Sie wollen es verstanden wissen — ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das gemeinsam herausfinden, denn ehrlich gesagt...\" er beugt sich verschwörerisch vor, \"...habe ich keine Ahnung, wo ich anfangen soll. Sagen Sie dem Kollegium den letzten Teil nicht.\" Er hellt auf. \"Aber Sie müssen nicht auf mich warten. Der alte Caldwen liegt dem Kollegium seit einer Woche in den Ohren — gehen Sie, zeigen Sie, was ein Schatten kann, was ein Drache nicht vermag.\"",
+      "npc_luxana_elian_2": "Elian wartet schon, als Sie zurückkehren, das Studierzimmer sonderbar aufgeräumt, als hätte er sich vorbereitet. \"Nachrichten reisen schnell an einem so gelangweilten Hof. Der Tresor, die Wiege, die Soirée, die vermaledeite Blume der Dame — alles, und kein Kratzer, kein Skandal.\" Er nimmt die Brille ab, putzt sie, legt sie hin statt sie wieder aufzusetzen. \"Ich habe vierzig Jahrgänge von Schülern beglaubigt. Keinen verstand ich weniger, und keinem vertraute ich mehr.\" Ein Atemzug. \"Sie haben jetzt die Kontrolle für einen zweiten Schatten — zwei Aufgaben zugleich, zwei Lasten an Magie. Binden Sie ihn, wie Sariel es Ihnen lehrte.\" Er hält inne, und für einen Augenblick verdünnt sich die Wärme zu etwas Suchendem. \"Seltsam. Wenn ich Sie unterrichte, habe ich stets das Gefühl, ich *wiederhole* es nur. Als kennte der Schatten den Weg bereits.\" Er winkt ab. \"Die Grille eines alten Mannes. Gehen Sie. Luxana gehört jetzt Ihnen.\"",
+      "npc_luxana_caldwen_1": "Lord Caldwen erhebt sich nicht, als Sie eintreten, was für sich genommen eine Botschaft ist. \"Also. Der Hof-Schatten zum Vorzeigen.\" Er schwenkt ein Glas, das er Ihnen keineswegs anzubieten gedenkt. \"Eine Schatzkammer unter meinem Anwesen ist in der Frühjahrsschmelze vollgelaufen. Das Siegel meiner Familie — drei Jahrhunderte alt — liegt hinter einem Eisengitter, zu eng für jede Drachenklaue, in Wasser, in das kein Diener tauchen will. Die Wasserrufer machten es nur schlimmer; Flut antwortete Flut.\" Endlich sieht er Sie an. \"Man sagt mir, ein Schatten braucht weder Atem noch Breite. Greifen Sie durch die Stäbe. Holen Sie es herauf. Versagen Sie, und ich habe einen Nachmittag vergeudet. Gelingt es...\" ein schmales Lächeln, \"...wird der Hof es von mir hören, und das ist mehr wert, als Sie ahnen.\"",
+      "npc_luxana_mirelle_1": "Lady Mirelle empfängt Sie an der Kinderzimmertür, den Finger auf den Lippen. \"Bitte — leise.\" Drinnen schläft ein Kind in einer Wiege aus gesponnenem Kernholz, so alt und fein, dass das Holz zu atmen scheint. \"Die meiner Mutter, und deren Mutter. Ein Schutztalisman ist heute Morgen zwischen Latten und Matratze gerutscht, und nun summt er, wo er schweigen sollte — doch das Holz trägt keine Hand, und Klauen würden sie wecken oder, schlimmer, die Wiege zersprengen.\" Ihre Fassung bebt. \"Man sagt, Ihr Schatten wiegt nichts. Heben Sie den Talisman heraus. Wecken Sie meine Tochter nicht. Ich werde in Ihrer Schuld stehen — und ich vergesse Schulden nicht.\"",
+      "npc_luxana_aurel_1": "Vicomte Aurel ist schon mitten in einer Geste, als Sie eintreffen, als hätte das Gespräch ohne Sie begonnen. \"Wunderbar, Sie sind da. Also — meine Soirée. Der halbe Adel kommt einzig, um beim frühen Gehen gesehen zu werden. Ich brauche etwas, das sie *nie* erlebt haben und nicht kaufen können.\" Er wirbelt herum und stößt die Ballsaaltüren auf, hin zu einem Lodern von Kronleuchtern. \"Man sagt, Schatten ist am stärksten, wo das Licht am hellsten brennt. Also: ein lebendiges Schattenspiel, hier, über diese Wände, während der Saal in Gold steht. Schenken Sie ihnen eine Stunde, deren Verständnis sie hinterher vorgeben werden. Tun Sie das, und Aurels Gunst öffnet Türen, die selbst Caldwens Name nicht vermag.\"",
+      "npc_luxana_sylvaine_1": "Dame Sylvaine spricht, ohne von der blassen, gefalteten Blüte aufzusehen, die sie in behandschuhten Händen hält. \"Mondblume. Sie öffnet sich nur dem Mondlicht; eine Berührung echten Tageslichts, und sie schwärzt für immer.\" Endlich betrachtet sie Sie, abwägend. \"Sie muss am Mittag über den offenen Hof zum Wintergarten. Ein Schirm streut das Licht; ein Tuch erstickt sie. Ich brauche Schatten, der genau ist — der mit der Blüte wandert, ruhig bleibt und nicht einen Strahl durchlässt.\" Eine schwache, trockene Anerkennung. \"Schatten gehört zum Licht; Sie von allen Wesen sollten das beherrschen. Gehen Sie neben mir. Halten Sie es dunkel. Und wir werden sehen, ob die Gerüchte des Hofes den Atem wert sind, der an sie verschwendet wird.\"",
       "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\"",
       "npc_vandara_olie_1": "Sekretär Olié sieht von seinem Stapel Akten auf — eine elegant gefiederte Schlange mit irisierenden Schuppen, die wie nasse Kieselsteine glänzen. \"Ah. Eine Neueinschreibung.\" Er lächelt höflich, aber distanziert. \"Bitte nehmen Sie Platz. Wir gehen das Notwendige der Reihe nach durch. Name, Herkunft, Element wenn bekannt.\" Sein Federkamm zuckt leicht, als du beim letzten Punkt zögerst. \"Unbekannt ist auch eine Antwort, keine Sorge.\"",
       "npc_vandara_olie_2": "\"So, die Einschreibegebühr.\" Olié schiebt dir ein winziges Bronzeschälchen über den Tisch. \"Fünfundzwanzig Splitter, einmalig. Die Akademie selbst ist kostenfrei — wir sind nicht das Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und einen Schluck Tee, falls Sie länger warten müssen.\"",
@@ -7817,6 +8090,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "location_luxana_name": "Luxana",
       "chapter_luxana": "Luxana",
       "npc_luxana_elian_name": "Meister Elian",
+      "npc_luxana_caldwen_name": "Lord Caldwen",
+      "npc_luxana_mirelle_name": "Lady Mirelle",
+      "npc_luxana_aurel_name": "Vicomte Aurel",
+      "npc_luxana_sylvaine_name": "Dame Sylvaine",
       "smoke_witness_name": "Rauchzeugin",
       "smoke_settings_tab": "Rauch",
       "location_vandara_name": "Vandara",
@@ -8214,6 +8491,18 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-luxana-elian": {
         "title": "Meister Elian"
       },
+      "act-npc-luxana-caldwen": {
+        "title": "Lord Caldwen — The Flooded Vault"
+      },
+      "act-npc-luxana-mirelle": {
+        "title": "Lady Mirelle — The Fragile Cradle"
+      },
+      "act-npc-luxana-aurel": {
+        "title": "Vicomte Aurel — The Shadow Theatre"
+      },
+      "act-npc-luxana-sylvaine": {
+        "title": "Dame Sylvaine — Shade the Moonbloom"
+      },
       "act-smoke-ping": {
         "title": "Send Smoke Ping",
         "desc": "Emit a quiet pulse. Increments the smoke_test state counters and fires the smokeFlash effect."
@@ -8598,6 +8887,11 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "shadow_broken_magic": "Your magic energy is depleted. The bound shadow slips away.",
       "receive_luxana_summons": "Olié has handed you a court summons. Luxana wants your shadow studied — Meister Elian awaits at the Hofmagier collegium.",
       "luxana_elian_met": "You've met Meister Elian. The imperial tutor who taught every element but shadow — as lost as he is delighted to have you.",
+      "luxana_caldwen_done": "The signet rises dripping through the grate. Lord Caldwen, lost for words, lets it slip that the court is now watching. Two more nobles ask for you by evening.",
+      "luxana_mirelle_done": "The charm lifts free; the cradle never so much as creaks, the child never stirs. Lady Mirelle weeps with relief and tells the gardens of you.",
+      "luxana_aurel_done": "Shadows dance across the ballroom walls, brighter for the chandeliers. Vicomte Aurel's soirée is the talk of Luxana — and so are you.",
+      "luxana_sylvaine_done": "A patch of steady shade travels with the moonbloom across the sunlit court; not a petal wilts. Dame Sylvaine simply nods, which from her is high praise.",
+      "luxana_elian_finale": "Meister Elian sets down his glasses for once. \"Four problems no drake could touch — solved, cleanly, under supervision. The court has its answer, and so do I.\" He smiles. \"You can hold a second shadow now. Go on — I taught you nothing, and yet here we are.\"",
       "smoke_ping_log": "A soft pulse rolls through the valley.",
       "smoke_panel_title": "Smoke test diagnostics",
       "smoke_panel_hint": "These values update live from the `smoke_test` addonState slot. If the tick count climbs, the hook is running; if Vandara shows ✔, the isAddonLoaded check fired.",
@@ -8780,7 +9074,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_4_not_read": "\"Have you read the books I gave you? Please study them thoroughly first.\"",
       "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>",
       "npc_olie_luxana_summons": "Olié slides one last sealed document across the desk, as precise as ever. \"One final item for your file. The court at Luxana has requested you — by name, and by element.\" A small, careful pause. \"A summons to the Hofmagier collegium, under Meister Elian himself. Shadow is rare enough that the capital wants it studied properly, under supervision.\" He stamps the record with a soft, final thud. \"We do not often send a fresh graduate straight to court. This is... unusual.\" The faintest nod. \"Present this at the collegium in Luxana. And — congratulations. Twice over, it would seem.\"",
-      "npc_luxana_elian_1": "A cluttered study high in the Luxana collegium: crystal staffs drifting in midair, leaning towers of books, and an ancient dragon-shifter peering over a pair of glasses that slide down his nose the instant he pushes them up. \"Ah — you're the one. Come in, come in. Mind the third staff, it bites.\" He squints, studying you. \"Meister Elian. Forty years tutoring at this court. I taught the imperial children, you know — all four of them. The little windy one and the youngest were...\" a sigh, almost fond, \"...let us say *spirited*.\" He refocuses, pushing the glasses up (they slide back down). \"Light I have taught. Tide. Dream. Earth. Wind. Every element that has ever walked through that door. But shadow? Never. Not once in forty years.\" He sets a staff down, and for a moment looks both nervous and delighted. \"And now the court hands me *you*. The first. They want it understood — properly, safely, under my supervision. Which means you and I are going to work this out together, because, frankly...\" he leans in, conspiratorial, \"...I have no idea where to begin. Don't tell the collegium that last part.\"",
+      "npc_luxana_elian_1": "A cluttered study high in the Luxana collegium: crystal staffs drifting in midair, leaning towers of books, and an ancient dragon-shifter peering over a pair of glasses that slide down his nose the instant he pushes them up. \"Ah — you're the one. Come in, come in. Mind the third staff, it bites.\" He squints, studying you. \"Meister Elian. Forty years tutoring at this court. I taught the imperial children, you know — all four of them. The little windy one and the youngest were...\" a sigh, almost fond, \"...let us say *spirited*.\" He refocuses, pushing the glasses up (they slide back down). \"Light I have taught. Tide. Dream. Earth. Wind. Every element that has ever walked through that door. But shadow? Never. Not once in forty years.\" He sets a staff down, and for a moment looks both nervous and delighted. \"And now the court hands me *you*. The first. They want it understood — properly, safely, under my supervision. Which means you and I are going to work this out together, because, frankly...\" he leans in, conspiratorial, \"...I have no idea where to begin. Don't tell the collegium that last part.\" He brightens. \"But you needn't wait on me. Old Caldwen has been hounding the collegium for a week — go, see what a shadow can do that a drake cannot.\"",
+      "npc_luxana_elian_2": "Elian is waiting when you return, the study oddly tidy, as if he'd prepared. \"Word travels fast in a court this bored. The vault, the cradle, the soirée, the Dame's wretched flower — all of it, and not a scratch nor a scandal.\" He takes off his glasses, polishes them, sets them down rather than back on his nose. \"I have certified forty years of students. None I understood less, and none I trusted more.\" A breath. \"You've the control now for a second shadow — two tasks at once, two burdens of magic. Bind it as Sariel taught you.\" He pauses, and for an instant the warmth thins into something searching. \"Strange. Teaching you, I keep feeling I'm *re*-teaching. As though the shadow already knew the way.\" He waves it off. \"An old man's fancy. Go. Luxana is yours now.\"",
+      "npc_luxana_caldwen_1": "Lord Caldwen does not rise when you enter, which is its own kind of message. \"So. The court's pet shadow.\" He swirls a glass he has no intention of offering you. \"A strongroom beneath my estate flooded in the spring melt. My family's signet — three centuries old — sits behind an iron grate too narrow for any drake's claw, in water no servant will dive. The water-callers only made it worse; flood answering flood.\" He finally looks at you. \"They tell me a shadow needs neither breath nor width. Reach through the bars. Bring it up. Fail, and I'll have wasted an afternoon. Succeed...\" a thin smile, \"...and the court will hear of it from me, which is worth more than you know.\"",
+      "npc_luxana_mirelle_1": "Lady Mirelle meets you at the nursery door with a finger to her lips. \"Please — softly.\" Inside, a child sleeps in a cradle of spun heartwood, so old and fine the wood seems to breathe. \"My mother's, and her mother's. A warding charm slipped between the slats and the mattress this morning, and now it hums where it should be silent — but the wood won't bear a hand, and claws would wake her, or worse, crack the cradle.\" Her composure trembles. \"They say your shadow weighs nothing. Lift the charm out. Don't wake my daughter. I will be in your debt — and I do not forget debts.\"",
+      "npc_luxana_aurel_1": "Vicomte Aurel is already mid-gesture when you arrive, as though the conversation began without you. \"Marvellous, you came. Now — my soirée. Half the peerage will attend purely to be seen leaving early. I require something they have *never* witnessed and cannot buy.\" He spins, flinging open the ballroom doors onto a blaze of chandeliers. \"They say shadow is strongest where the light is brightest. So: a living shadow-play, here, across these walls, while the room burns gold. Give them an hour they'll lie about having understood. Do that, and Aurel's favour opens doors even Caldwen's name cannot.\"",
+      "npc_luxana_sylvaine_1": "Dame Sylvaine speaks without looking up from the pale, folded blossom cupped in her gloved hands. \"Moonbloom. It opens only to moonlight; one touch of true daylight and it blackens forever.\" She finally regards you, measuring. \"It must cross the open court to the conservatory at noon. A parasol scatters light; a cloth smothers it. I need shade that is exact — that moves with the bloom, holds steady, and lets not one ray through.\" A faint, dry approval. \"Shadow belongs to light; you of all things should manage it. Walk beside me. Keep it dark. And we shall see if the court's rumours are worth the breath spent on them.\"",
       "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\"",
       "npc_vandara_olie_1": "Secretary Olié looks up from his stack of files — an elegantly feathered serpent with iridescent scales like wet pebbles. \"Ah. A new enrolment.\" He smiles, polite but distant. \"Please have a seat. We'll go through the necessary in order. Name, origin, element if known.\" His feathered crest twitches when you hesitate on the last. \"Unknown is also an answer, don't worry.\"",
       "npc_vandara_olie_2": "\"Now, the enrolment fee.\" Olié slides a tiny bronze dish across the desk. \"Twenty-five shards, one-off. The academy itself is free — we are not the Crystal Realm. The fee just covers paperwork and a sip of tea should you have to wait.\"",
@@ -9216,6 +9515,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "location_luxana_name": "Luxana",
       "chapter_luxana": "Luxana",
       "npc_luxana_elian_name": "Meister Elian",
+      "npc_luxana_caldwen_name": "Lord Caldwen",
+      "npc_luxana_mirelle_name": "Lady Mirelle",
+      "npc_luxana_aurel_name": "Vicomte Aurel",
+      "npc_luxana_sylvaine_name": "Dame Sylvaine",
       "smoke_witness_name": "Smoke Witness",
       "smoke_settings_tab": "Smoke",
       "location_vandara_name": "Vandara",

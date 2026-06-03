@@ -1,0 +1,55 @@
+# The four Luxana nobles — each brings Tenebre a problem only a shadow can
+# solve (a drake's bulk, weight or claws can't). Completing one earns word
+# of mouth that surfaces the next, branching out from Lord Caldwen:
+#
+#   Elian intro ─▶ Caldwen (flooded vault / grate)
+#                     │ done
+#                     ├─▶ Mirelle (fragile cradle)
+#                     └─▶ Aurel   (shadow theatre)
+#                            │ either done
+#                            └─▶ Sylvaine (shade the moonbloom)
+#                                   │ all four done
+#                                   └─▶ Elian finale (2nd shadow slot)
+#
+# Portraits are placeholders (reused village art) until real noble art
+# lands. location: luxana → they share the Orte ▸ Luxana sub-tab.
+
+- id: npc-luxana-caldwen
+  nameKey: npc_luxana_caldwen_name
+  icon: 🗝️
+  image: img/npcs/official_hall.webp # placeholder
+  color: '#b8860b'
+  progKey: luxanaCaldwen
+  maxProgress: 1
+  chapter: Luxana
+  location: luxana
+
+- id: npc-luxana-mirelle
+  nameKey: npc_luxana_mirelle_name
+  icon: 🍼
+  image: img/npcs/baker_gara.webp # placeholder
+  color: '#c98ab0'
+  progKey: luxanaMirelle
+  maxProgress: 1
+  chapter: Luxana
+  location: luxana
+
+- id: npc-luxana-aurel
+  nameKey: npc_luxana_aurel_name
+  icon: 🎭
+  image: img/npcs/artisan_geron.webp # placeholder
+  color: '#7c5cbf'
+  progKey: luxanaAurel
+  maxProgress: 1
+  chapter: Luxana
+  location: luxana
+
+- id: npc-luxana-sylvaine
+  nameKey: npc_luxana_sylvaine_name
+  icon: 🌙
+  image: img/npcs/flowergirl.webp # placeholder
+  color: '#5c8a6b'
+  progKey: luxanaSylvaine
+  maxProgress: 1
+  chapter: Luxana
+  location: luxana

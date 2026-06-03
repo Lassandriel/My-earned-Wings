@@ -34,4 +34,80 @@ npc_luxana_elian_1: >-
   ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das
   gemeinsam herausfinden, denn ehrlich gesagt..." er beugt sich
   verschwörerisch vor, "...habe ich keine Ahnung, wo ich anfangen soll.
-  Sagen Sie dem Kollegium den letzten Teil nicht."
+  Sagen Sie dem Kollegium den letzten Teil nicht." Er hellt auf. "Aber Sie
+  müssen nicht auf mich warten. Der alte Caldwen liegt dem Kollegium seit
+  einer Woche in den Ohren — gehen Sie, zeigen Sie, was ein Schatten kann,
+  was ein Drache nicht vermag."
+
+# ─── Meister Elian — Abschluss-Finale (2. Schatten-Slot) ──────────
+npc_luxana_elian_2: >-
+  Elian wartet schon, als Sie zurückkehren, das Studierzimmer sonderbar
+  aufgeräumt, als hätte er sich vorbereitet. "Nachrichten reisen schnell
+  an einem so gelangweilten Hof. Der Tresor, die Wiege, die Soirée, die
+  vermaledeite Blume der Dame — alles, und kein Kratzer, kein Skandal." Er
+  nimmt die Brille ab, putzt sie, legt sie hin statt sie wieder
+  aufzusetzen. "Ich habe vierzig Jahrgänge von Schülern beglaubigt. Keinen
+  verstand ich weniger, und keinem vertraute ich mehr." Ein Atemzug. "Sie
+  haben jetzt die Kontrolle für einen zweiten Schatten — zwei Aufgaben
+  zugleich, zwei Lasten an Magie. Binden Sie ihn, wie Sariel es Ihnen
+  lehrte." Er hält inne, und für einen Augenblick verdünnt sich die Wärme
+  zu etwas Suchendem. "Seltsam. Wenn ich Sie unterrichte, habe ich stets
+  das Gefühl, ich *wiederhole* es nur. Als kennte der Schatten den Weg
+  bereits." Er winkt ab. "Die Grille eines alten Mannes. Gehen Sie. Luxana
+  gehört jetzt Ihnen."
+
+# ─── Lord Caldwen — der geflutete Tresor ──────────────────────────
+npc_luxana_caldwen_1: >-
+  Lord Caldwen erhebt sich nicht, als Sie eintreten, was für sich genommen
+  eine Botschaft ist. "Also. Der Hof-Schatten zum Vorzeigen." Er
+  schwenkt ein Glas, das er Ihnen keineswegs anzubieten gedenkt. "Eine
+  Schatzkammer unter meinem Anwesen ist in der Frühjahrsschmelze
+  vollgelaufen. Das Siegel meiner Familie — drei Jahrhunderte alt — liegt
+  hinter einem Eisengitter, zu eng für jede Drachenklaue, in Wasser, in
+  das kein Diener tauchen will. Die Wasserrufer machten es nur schlimmer;
+  Flut antwortete Flut." Endlich sieht er Sie an. "Man sagt mir, ein
+  Schatten braucht weder Atem noch Breite. Greifen Sie durch die Stäbe.
+  Holen Sie es herauf. Versagen Sie, und ich habe einen Nachmittag
+  vergeudet. Gelingt es..." ein schmales Lächeln, "...wird der Hof es von
+  mir hören, und das ist mehr wert, als Sie ahnen."
+
+# ─── Lady Mirelle — die zerbrechliche Wiege ───────────────────────
+npc_luxana_mirelle_1: >-
+  Lady Mirelle empfängt Sie an der Kinderzimmertür, den Finger auf den
+  Lippen. "Bitte — leise." Drinnen schläft ein Kind in einer Wiege aus
+  gesponnenem Kernholz, so alt und fein, dass das Holz zu atmen scheint.
+  "Die meiner Mutter, und deren Mutter. Ein Schutztalisman ist heute
+  Morgen zwischen Latten und Matratze gerutscht, und nun summt er, wo er
+  schweigen sollte — doch das Holz trägt keine Hand, und Klauen würden sie
+  wecken oder, schlimmer, die Wiege zersprengen." Ihre Fassung bebt. "Man
+  sagt, Ihr Schatten wiegt nichts. Heben Sie den Talisman heraus. Wecken
+  Sie meine Tochter nicht. Ich werde in Ihrer Schuld stehen — und ich
+  vergesse Schulden nicht."
+
+# ─── Vicomte Aurel — das Schattentheater ──────────────────────────
+npc_luxana_aurel_1: >-
+  Vicomte Aurel ist schon mitten in einer Geste, als Sie eintreffen, als
+  hätte das Gespräch ohne Sie begonnen. "Wunderbar, Sie sind da. Also —
+  meine Soirée. Der halbe Adel kommt einzig, um beim frühen Gehen gesehen
+  zu werden. Ich brauche etwas, das sie *nie* erlebt haben und nicht
+  kaufen können." Er wirbelt herum und stößt die Ballsaaltüren auf, hin zu
+  einem Lodern von Kronleuchtern. "Man sagt, Schatten ist am stärksten, wo
+  das Licht am hellsten brennt. Also: ein lebendiges Schattenspiel, hier,
+  über diese Wände, während der Saal in Gold steht. Schenken Sie ihnen
+  eine Stunde, deren Verständnis sie hinterher vorgeben werden. Tun Sie
+  das, und Aurels Gunst öffnet Türen, die selbst Caldwens Name nicht
+  vermag."
+
+# ─── Dame Sylvaine — die Mondblume beschatten ─────────────────────
+npc_luxana_sylvaine_1: >-
+  Dame Sylvaine spricht, ohne von der blassen, gefalteten Blüte
+  aufzusehen, die sie in behandschuhten Händen hält. "Mondblume. Sie
+  öffnet sich nur dem Mondlicht; eine Berührung echten Tageslichts, und
+  sie schwärzt für immer." Endlich betrachtet sie Sie, abwägend. "Sie muss
+  am Mittag über den offenen Hof zum Wintergarten. Ein Schirm streut das
+  Licht; ein Tuch erstickt sie. Ich brauche Schatten, der genau ist — der
+  mit der Blüte wandert, ruhig bleibt und nicht einen Strahl durchlässt."
+  Eine schwache, trockene Anerkennung. "Schatten gehört zum Licht; Sie von
+  allen Wesen sollten das beherrschen. Gehen Sie neben mir. Halten Sie es
+  dunkel. Und wir werden sehen, ob die Gerüchte des Hofes den Atem wert
+  sind, der an sie verschwendet wird."
