@@ -53,7 +53,8 @@ export const initialState: Partial<GameState> = {
 
   // HUD & UI
   selectedItem: null,
-  activeShadow: null,
+  shadowSlots: 0,
+  activeShadows: [],
   currentObjective: '',
   collectionHistory: [],
   saveCode: '',

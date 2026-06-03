@@ -22,7 +22,7 @@ const log = makeLogger('SAVE');
 
 /** Bump this whenever you add a migration. The number must match the
  *  highest key in MIGRATIONS. */
-export const SAVE_SCHEMA_VERSION = 4;
+export const SAVE_SCHEMA_VERSION = 5;
 
 /** A migration takes an old-shape state and brings it to the next version. */
 export type Migration = (state: Record<string, unknown>) => void;
@@ -135,6 +135,25 @@ export const MIGRATIONS: Record<number, Migration> = {
       archive[state.activeHome] = [...(state.placedItems as unknown[])];
     }
     state.homeFurniture = archive;
+  },
+
+  // v4 → v5: multi-shadow engine. The single `activeShadow` (one bound
+  // action or null) becomes `activeShadows` (an array) plus a
+  // `shadowSlots` cap (+1 per addon culmination). A save that already
+  // had Shadow Bind taught (flag set) gets 1 slot so its bound shadow
+  // keeps running; everyone else starts at 0 and earns slots via the
+  // grantShadowSlot effect on the relevant arc beats.
+  5: (state) => {
+    const had = typeof state.activeShadow === 'string' && state.activeShadow;
+    state.activeShadows = had ? [state.activeShadow as string] : [];
+    delete state.activeShadow;
+
+    const flags = (state.flags && typeof state.flags === 'object'
+      ? state.flags
+      : {}) as Record<string, unknown>;
+    // One slot if the ability was ever taught (so an in-flight shadow
+    // survives the migration), else none.
+    state.shadowSlots = flags['ability-shadow-bind'] ? 1 : 0;
   },
 };
 

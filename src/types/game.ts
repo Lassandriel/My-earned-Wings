@@ -62,7 +62,13 @@ export interface GameState {
     total: number;
     duration?: number;
   }>;
-  activeShadow: string | null;
+  // Shadow-bind automation (taught by Sariel in Vandara). The player can
+  // bind shadows to loopable actions to auto-repeat them while magic lasts.
+  // shadowSlots = how many at once (the cap; each story addon grants +1 via
+  // the grantShadowSlot effect). activeShadows = the action ids currently
+  // bound, length always <= shadowSlots.
+  shadowSlots: number;
+  activeShadows: ActionId[];
   selectedItem: ItemId | null;
   dialogueActive: boolean;
   demoCompleted: boolean;

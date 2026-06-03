@@ -20,7 +20,8 @@ export interface LogStore {
 export interface UIStore {
   view: string;
   hoveredAction: HoverActionData | null;
-  activeShadow: string | null;
+  shadowSlots: number;
+  activeShadows: string[];
   lastMouseX: number;
   lastMouseY: number;
   settingsOpen: boolean;

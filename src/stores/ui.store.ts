@@ -7,7 +7,8 @@ import { HoverActionData } from '../types/game';
 export const createUIStore = () => ({
   view: 'menu',
   hoveredAction: null as HoverActionData | null,
-  activeShadow: null as string | null,
+  shadowSlots: 0,
+  activeShadows: [] as string[],
   lastMouseX: 0,
   lastMouseY: 0,
   settingsOpen: false,

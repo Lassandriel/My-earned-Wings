@@ -167,12 +167,17 @@ Flag-Gating). Die echten Lücken sind **Engine-Fähigkeiten, nicht das
 Addon-System**. Gesundes Muster: Engine *einmal* um eine Mechanik erweitern,
 danach ist der Content darauf wieder reine Daten.
 
-1. **Multi-Schatten** (vor Ghare / "Ancient Echoes"-Automatisierung).
-   `activeShadow` ist heute *ein* Feld (`src/types/game.ts`, getrieben von
-   `src/engine/ticks/shadow.ts`, command `toggleShadow`, UI in `main.view.html`).
-   Für den zweiten Schatten muss das zu mehreren Slots werden (Feld → Array oder
-   N benannte Slots + Magie-Kosten pro aktivem Schatten). Einmalige Engine-
-   Arbeit; danach schaltet das Ghare-Addon den Slot nur per Flag frei.
+1. **Multi-Schatten** — ✅ **erledigt (Juni 2026, vor Luxana).**
+   Aus dem einen `activeShadow`-Feld wurden zwei: `shadowSlots` (Kapazität, Cap)
+   und `activeShadows` (Array gebundener Actions). `tickShadow` zieht
+   `shadow_bind_cost × Anzahl gebundener Schatten` pro Sekunde ab und löst bei
+   Magiemangel ALLE auf einmal. Jeder Addon-Höhepunkt vergibt per Effekt
+   `grantShadowSlot { by: 1 }` einen Slot — Vandara (Sariel) gibt den ersten,
+   Luxana (Elian) den zweiten, usw. Das Flag `ability-shadow-bind` bleibt das
+   UI-Gate (Bind-Button) und Olié's Prüfungs-Voraussetzung; der Slot ist die
+   eigentliche Kapazität. Save-Migration v5 wandelt Alt-Saves um. Damit ist die
+   Mechanik fertig — weitere Kapitel schalten ihren Slot nur noch per YAML-Effekt
+   frei, keine Engine-Arbeit mehr.
 
 2. **Neue UI-Muster** (Luxana Reputations-Leiste, Ghare Fraktions-Anzeige).
    Das Slot-System existiert (`data-slot`, vgl. `player-name-extra`). Jedes neue

@@ -158,7 +158,12 @@ export type GameEffect =
   // suddenly "have something new to say". Without this effect the NPC
   // would either be statically maxed (no new step possible) or show
   // a "1/2 progress" spoiler from day 1. `by` defaults to +1.
-  | { type: 'extendNPCArc'; npcId: NPCId; by?: number };
+  | { type: 'extendNPCArc'; npcId: NPCId; by?: number }
+  // Raises the player's shadow-slot cap (how many shadows can be bound
+  // to actions at once = automation slots). Each story addon grants one
+  // (Vandara's Sariel = the first, Luxana's Elian = the second, …).
+  // `by` defaults to +1.
+  | { type: 'grantShadowSlot'; by?: number };
 
 export type MilestoneRequirements = Record<string, GameRequirement | boolean | number | string | string[]>;
 

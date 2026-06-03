@@ -41,6 +41,7 @@ const CONFIG = {
     'unlockedNPCs',
     'discoveredTitles',
     'activeProducers',
+    'activeShadows',
   ]),
 };
 

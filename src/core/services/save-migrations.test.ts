@@ -201,6 +201,46 @@ describe('save-migrations', () => {
     });
   });
 
+  describe('v4 → v5 (single shadow → multi-shadow)', () => {
+    const v5 = MIGRATIONS[5]!;
+    it('exists', () => expect(v5).toBeDefined());
+
+    it('wraps a bound activeShadow into the activeShadows array', () => {
+      const state: Record<string, unknown> = {
+        activeShadow: 'act-wood',
+        flags: { 'ability-shadow-bind': true },
+      };
+      v5(state);
+      expect(state.activeShadows).toEqual(['act-wood']);
+      expect('activeShadow' in state).toBe(false);
+    });
+
+    it('grants 1 slot when shadow bind was taught', () => {
+      const state: Record<string, unknown> = {
+        activeShadow: null,
+        flags: { 'ability-shadow-bind': true },
+      };
+      v5(state);
+      expect(state.shadowSlots).toBe(1);
+      expect(state.activeShadows).toEqual([]);
+    });
+
+    it('grants 0 slots when shadow bind was never taught', () => {
+      const state: Record<string, unknown> = { activeShadow: null, flags: {} };
+      v5(state);
+      expect(state.shadowSlots).toBe(0);
+      expect(state.activeShadows).toEqual([]);
+    });
+
+    it('handles a save with no shadow fields at all', () => {
+      const state: Record<string, unknown> = { playerName: 'Lassi' };
+      v5(state);
+      expect(state.activeShadows).toEqual([]);
+      expect(state.shadowSlots).toBe(0);
+      expect('activeShadow' in state).toBe(false);
+    });
+  });
+
   // Addon migration framework: addons that ship a migrations.ts get their
   // SCHEMA_VERSION + MIGRATIONS table picked up by the load path. We test
   // the runner here with synthetic modules — real addon migrations live

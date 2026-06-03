@@ -47,6 +47,12 @@ export function registerDevtoolsCheatChannel(getStore: () => GameState, log: Log
             store.resource?.invalidateCache?.();
           }
           break;
+        case 'grantShadowSlot': {
+          const handler = store.actions?.effectHandlers?.grantShadowSlot;
+          const by = typeof cmd.amount === 'number' ? cmd.amount : 1;
+          if (handler) handler(store, { type: 'grantShadowSlot', by } as any);
+          break;
+        }
         case 'addBuff':
           if (cmd.buffId) {
             const handler = store.actions?.effectHandlers?.addBuff;

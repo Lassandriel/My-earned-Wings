@@ -168,7 +168,7 @@ export function createActionSystem() {
 
     svc().bus.emit(svc().EVENTS.SOUND_TRIGGERED, { key: action.sfx || 'click' });
     if (action.particleText || action.yieldType) {
-      const isAutomated = game.activeShadow === id;
+      const isAutomated = game.activeShadows.includes(id);
       spawnParticles(game, action, isAutomated);
     }
 
@@ -195,8 +195,8 @@ export function createActionSystem() {
     const fullRes = rewards ? Object.keys(rewards).find(resId => svc().resource.isFull(game, resId as ResourceId)) : null;
 
     if (fullRes) {
-      if (game.activeShadow === _id) {
-        game.activeShadow = null;
+      if (game.activeShadows.includes(_id)) {
+        game.activeShadows = game.activeShadows.filter((a) => a !== _id);
         svc().addLog('ui_shadow_released', 'logs', LOG_COLOR.dim);
       }
       svc().bus.emit(svc().EVENTS.LOG_ADDED, {
@@ -230,8 +230,8 @@ export function createActionSystem() {
     }
 
     // NEW: Auto-stop focus if the focused action fails
-    if (game.activeShadow === _id) {
-      game.activeShadow = null;
+    if (game.activeShadows.includes(_id)) {
+      game.activeShadows = game.activeShadows.filter((a) => a !== _id);
       svc().addLog('ui_shadow_released', 'logs', LOG_COLOR.dim);
     }
   };
@@ -268,12 +268,12 @@ export function createActionSystem() {
       );
 
       // Safety Guard: Automated loops stop if satiation is too low
-      if (game.activeShadow === id && (game.stats.satiation ?? 0) < 5) {
+      if (game.activeShadows.includes(id) && (game.stats.satiation ?? 0) < 5) {
         svc().addLog('fail_satiation_loop', 'logs', LOG_COLOR.failure);
         return { success: false };
       }
 
-      if (game.activeShadow === id && costs.energy) {
+      if (game.activeShadows.includes(id) && costs.energy) {
         delete costs.energy;
       }
 
@@ -454,15 +454,25 @@ export function createActionSystem() {
      */
     toggleShadow(game: GameState, id: ActionId) {
       const action = svc().content.get<ActionDefinition>(id, 'actions');
-      if (game.activeShadow === id) {
-        game.activeShadow = null;
+
+      // Already bound here → unbind this one.
+      if (game.activeShadows.includes(id)) {
+        game.activeShadows = game.activeShadows.filter((a) => a !== id);
         svc().playSound('click');
-      } else {
-        game.activeShadow = id;
-        svc().playSound('magic');
-        if (action && action.isLoopable) {
-          this.execute(game, id);
-        }
+        return;
+      }
+
+      // Binding a new one — but only if a slot is free.
+      if (game.activeShadows.length >= game.shadowSlots) {
+        svc().addLog('ui_shadow_no_slots', 'logs', LOG_COLOR.failure);
+        svc().playSound('fail');
+        return;
+      }
+
+      game.activeShadows = [...game.activeShadows, id];
+      svc().playSound('magic');
+      if (action && action.isLoopable) {
+        this.execute(game, id);
       }
     },
 

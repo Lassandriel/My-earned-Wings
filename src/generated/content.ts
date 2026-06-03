@@ -4813,6 +4813,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "value": true
           },
           {
+            "type": "grantShadowSlot",
+            "by": 1
+          },
+          {
             "type": "log",
             "logKey": "vandara_shadow_bind_learned",
             "color": "var(--gold)"
@@ -7129,6 +7133,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "fail_full_rune_fragment": "Das Runenfragmentlager ist voll.",
       "fail_full_study_xp": "Das Limit für Studien-Erfahrung wurde erreicht.",
       "ui_shadow_released": "Schatten gelöst (Bedingungen nicht mehr erfüllt).",
+      "ui_shadow_no_slots": "Kein freier Schatten zum Binden. Löse einen oder verdiene einen neuen.",
       "item_used": "{item} benutzt.",
       "wood_log": "+{val} Holz gesammelt.",
       "stone_log": "+{val} Stein abgebaut.",
@@ -8527,6 +8532,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "fail_full_rune_fragment": "Rune fragment storage is full.",
       "fail_full_study_xp": "Study experience reached its limit.",
       "ui_shadow_released": "Shadow released (conditions no longer met).",
+      "ui_shadow_no_slots": "No free shadow to bind. Free one up or earn another.",
       "item_used": "Used {item}.",
       "wood_log": "+{val} Wood gathered.",
       "stone_log": "+{val} Stone quarried.",

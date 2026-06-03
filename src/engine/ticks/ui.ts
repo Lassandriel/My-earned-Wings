@@ -27,6 +27,7 @@ const OBJECT_KEYS = [
   'collectionHistory',
   'upgrades',
   'dialogueChoices',
+  'activeShadows',
   'finalStats',
   'confirmModal',
   'addonCompatModal',
@@ -38,7 +39,7 @@ const OBJECT_KEYS = [
  * references). Just copy across — Alpine handles primitive equality itself.
  */
 const PRIMITIVE_KEYS = [
-  'activeShadow',
+  'shadowSlots',
   'view',
   'prologueStep',
   'demoCompleted',

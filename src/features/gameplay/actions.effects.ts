@@ -189,4 +189,13 @@ export function registerBuiltinEffects(
     if (!npc) return;
     npc.maxProgress = (npc.maxProgress || 0) + delta;
   });
+
+  // Raises the shadow-slot cap. Each addon's culminating beat (Sariel's
+  // teaching, Elian's experiment, …) grants +1, so a player who finishes
+  // N chapters can run N shadows in parallel. Default +1 if `by` omitted.
+  registerEffect('grantShadowSlot', (game, { by }) => {
+    const delta = typeof by === 'number' ? by : 1;
+    if (delta <= 0) return;
+    game.shadowSlots = (game.shadowSlots || 0) + delta;
+  });
 }

@@ -72,6 +72,11 @@
         - type: setFlag
           flag: ability-shadow-bind
           value: true
+        # Erster Schatten-Slot: Vandara ist Addon #1, also +1 Slot.
+        # Das Flag ist weiterhin das UI-Gate (Bind-Button) und Olié's
+        # Prüfungs-Voraussetzung; der Slot ist die eigentliche Kapazität.
+        - type: grantShadowSlot
+          by: 1
         - type: log
           logKey: vandara_shadow_bind_learned
           color: var(--gold)

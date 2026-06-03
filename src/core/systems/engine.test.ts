@@ -27,7 +27,8 @@ const createMockStore = (overrides: Partial<GameState> = {}): any => {
     activeBuffs: {},
     activeTasks: {},
     activeProducers: [],
-    activeShadow: null,
+    shadowSlots: 3,
+    activeShadows: [],
     counters: { totalTime: 0 },
     placedItems: [],
 
@@ -107,11 +108,11 @@ describe('Engine System', () => {
     });
   });
 
-  // ── ARCANE FOCUS ──────────────────────────────────────────────────────────
-  describe('Arcane Focus', () => {
-    it('consumes magic per second while focus is active', () => {
+  // ── SHADOW BIND ───────────────────────────────────────────────────────────
+  describe('Shadow Bind', () => {
+    it('consumes magic per second while one shadow is bound', () => {
       const store = createMockStore({
-        activeShadow: 'study',
+        activeShadows: ['study'],
         stats: { magic: 100, satiation: 50 },
       });
       // pipeline returns base cost (3) unchanged
@@ -121,19 +122,34 @@ describe('Engine System', () => {
 
       expect(store.resource.consume).toHaveBeenCalledWith(store, 'magic', 3, true);
       expect(store.stats.magic).toBe(97);
-      expect(store.activeShadow).toBe('study');
+      expect(store.activeShadows).toEqual(['study']);
     });
 
-    it('breaks focus and logs a message when magic is insufficient', () => {
+    it('drains magic per shadow — cost scales with the number bound', () => {
       const store = createMockStore({
-        activeShadow: 'study',
-        stats: { magic: 1, satiation: 50 }, // less than cost of 3
+        activeShadows: ['study', 'chop', 'mine'],
+        stats: { magic: 100, satiation: 50 },
       });
       (store.pipeline.calculate as any).mockReturnValue(3);
 
       engine.processTick(store, store, 1);
 
-      expect(store.activeShadow).toBeNull();
+      // 3 per shadow × 3 shadows = 9 per second
+      expect(store.resource.consume).toHaveBeenCalledWith(store, 'magic', 9, true);
+      expect(store.stats.magic).toBe(91);
+      expect(store.activeShadows).toEqual(['study', 'chop', 'mine']);
+    });
+
+    it('releases ALL shadows and logs when magic is insufficient', () => {
+      const store = createMockStore({
+        activeShadows: ['study', 'chop'],
+        stats: { magic: 1, satiation: 50 }, // less than 2× cost of 3
+      });
+      (store.pipeline.calculate as any).mockReturnValue(3);
+
+      engine.processTick(store, store, 1);
+
+      expect(store.activeShadows).toEqual([]);
       expect(store.addLog).toHaveBeenCalledWith(
         'shadow_broken_magic',
         'logs',

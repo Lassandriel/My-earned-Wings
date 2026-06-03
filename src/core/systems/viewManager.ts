@@ -150,12 +150,13 @@ export const createViewManagerSystem = () => ({
       store.view = 'main';
       if (store.audio) store.audio.startMusic();
 
-      // --- AUTO-RESUME SHADOW: If a shadow was bound when the save
-      // was written, restart its automation loop on load. ---
-      if (store.activeShadow) {
+      // --- AUTO-RESUME SHADOWS: restart the automation loop for every
+      // shadow that was bound when the save was written. ---
+      if (store.activeShadows && store.activeShadows.length > 0) {
         setTimeout(() => {
-          if (store.activeShadow && store.commands) {
-            store.commands.enqueue({ type: 'executeAction', actionId: store.activeShadow });
+          if (!store.commands) return;
+          for (const actionId of store.activeShadows) {
+            store.commands.enqueue({ type: 'executeAction', actionId });
           }
         }, 500);
       }
@@ -217,7 +218,7 @@ export const createViewManagerSystem = () => ({
 
     // 2. Clear auto-loops and ongoing tasks
     (store as { isLooping?: boolean }).isLooping = false;
-    store.activeShadow = null;
+    store.activeShadows = [];
     store.activeTasks = {};
 
     // 3. Set View

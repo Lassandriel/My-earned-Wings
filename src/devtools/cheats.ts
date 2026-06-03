@@ -35,6 +35,7 @@ export function renderCheatsPanel(): string {
       <section>
         <h3>Flags</h3>
         <button data-cheat="setFlag" data-flag="ability-shadow-bind" data-value="true">Unlock Shadow Bind</button>
+        <button data-cheat="grantShadowSlot" data-amount="1">+1 Shadow Slot</button>
         <button data-cheat="setFlag" data-flag="school_graduate" data-value="true">Village School Graduate</button>
       </section>
 

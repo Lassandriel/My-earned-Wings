@@ -243,7 +243,7 @@
                   <div
                     class="shadow-bind-btn"
                     x-show="$store.game.flags['ability-shadow-bind'] && action.isLoopable"
-                    :class="$store.game.activeShadow === action.id && 'is-bound'"
+                    :class="$store.game.activeShadows.includes(action.id) && 'is-bound'"
                     @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: action.id })"
                   >✨</div>
                 </button>
@@ -272,7 +272,7 @@
               @mouseout="$store.game.setHovered(null)"
             >
               <span x-text="$store.game.t('act-work', 'actions').title"></span>
-              <div class="shadow-bind-btn" x-show="$store.game.flags['ability-shadow-bind']" :class="$store.game.activeShadow === 'act-work' && 'is-bound'" @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: 'act-work' })">✨</div>
+              <div class="shadow-bind-btn" x-show="$store.game.flags['ability-shadow-bind']" :class="$store.game.activeShadows.includes('act-work') && 'is-bound'" @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: 'act-work' })">✨</div>
             </button>
           </div>
         </div>
@@ -370,7 +370,7 @@
               <div
                 class="shadow-bind-btn"
                 x-show="$store.game.flags['ability-shadow-bind'] && $store.game.content.get(actionId, 'actions').isLoopable"
-                :class="$store.game.activeShadow === actionId && 'is-bound'"
+                :class="$store.game.activeShadows.includes(actionId) && 'is-bound'"
                 @click.stop="$store.game.commands.enqueue({ type: 'toggleShadow', actionId: actionId })"
               >✨</div>
             </button>
