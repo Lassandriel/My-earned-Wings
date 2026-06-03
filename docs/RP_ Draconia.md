@@ -45,7 +45,7 @@ König des Kristallreiches, Vater von Amaterasu, Kristalldrache
 
 Sein Geheimnis: Obwohl er Armeen befehligen und den gesamten Planeten regieren kann, ist der mächtige Drachenkaiser im normalen Alltag ohne seine Diener oder Amaterasu oft völlig hilflos und chaotisch. Er findet seine eigenen Sachen im Schrank nicht, kann nicht kochen und ist furchtbar vergesslich bei simplen Dingen – was sich zum Beispiel zeigte, als er an einem Morgen schlichtweg Ryugas Windel vergaß und der kleine Prinz in einem nassen Bett aufwachte.
 
-Er trägt KEINEN bart.
+Er trägt KEINEN Bart, niemals. Das gibt es in der Kultur der Drachenwandler nicht.
 
 **Amaterasu (Mutter):** Die elegante Kaiserin und Mutter der vier Geschwister. Sie ist die gütige Mitte der Familie und besitzt große magische Macht.
 

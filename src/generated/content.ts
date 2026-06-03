@@ -3884,6 +3884,106 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
       }
     ]
   },
+  "build-vandara-dorm": {
+    "id": "build-vandara-dorm",
+    "chapter": "Vandara",
+    "category": "housing",
+    "costs": {
+      "shards": 40
+    },
+    "image": "img/housing/tent.webp",
+    "requirements": {
+      "flags.vandara-enrolled": true,
+      "flags.build-vandara-dorm": {
+        "op": "!=",
+        "val": true
+      }
+    },
+    "sfx": "success",
+    "onSuccess": [
+      {
+        "type": "setFlag",
+        "flag": "build-vandara-dorm",
+        "value": true
+      },
+      {
+        "type": "setHome",
+        "id": "home-vandara-dorm"
+      },
+      {
+        "type": "log",
+        "logKey": "vandara_dorm_built",
+        "color": "var(--gold)"
+      }
+    ]
+  },
+  "build-vandara-loft": {
+    "id": "build-vandara-loft",
+    "chapter": "Vandara",
+    "category": "housing",
+    "costs": {
+      "wood": 80,
+      "shards": 150
+    },
+    "image": "img/housing/house.webp",
+    "requirements": {
+      "flags.vandara-graduated": true,
+      "flags.build-vandara-loft": {
+        "op": "!=",
+        "val": true
+      }
+    },
+    "sfx": "success",
+    "onSuccess": [
+      {
+        "type": "setFlag",
+        "flag": "build-vandara-loft",
+        "value": true
+      },
+      {
+        "type": "setHome",
+        "id": "home-vandara-loft"
+      },
+      {
+        "type": "log",
+        "logKey": "vandara_loft_built",
+        "color": "var(--gold)"
+      }
+    ]
+  },
+  "build-vandara-catacomb": {
+    "id": "build-vandara-catacomb",
+    "chapter": "Vandara",
+    "category": "housing",
+    "costs": {
+      "shards": 20
+    },
+    "image": "img/housing/island_tower.webp",
+    "requirements": {
+      "flags.vandara-katakomben-unlocked": true,
+      "flags.build-vandara-catacomb": {
+        "op": "!=",
+        "val": true
+      }
+    },
+    "sfx": "success",
+    "onSuccess": [
+      {
+        "type": "setFlag",
+        "flag": "build-vandara-catacomb",
+        "value": true
+      },
+      {
+        "type": "setHome",
+        "id": "home-vandara-catacomb"
+      },
+      {
+        "type": "log",
+        "logKey": "vandara_catacomb_built",
+        "color": "var(--gold)"
+      }
+    ]
+  },
   "act-vandara-try-fire": {
     "id": "act-vandara-try-fire",
     "category": "vandara_trial",
@@ -5643,6 +5743,33 @@ export const HOME_REGISTRY_GENERATED: Record<string, any> = {
         "add": -2
       }
     ]
+  },
+  "home-vandara-dorm": {
+    "id": "home-vandara-dorm",
+    "nameKey": "home_vandara_dorm_title",
+    "descKey": "home_vandara_dorm_desc",
+    "image": "img/housing/tent.webp",
+    "capacity": 6
+  },
+  "home-vandara-loft": {
+    "id": "home-vandara-loft",
+    "nameKey": "home_vandara_loft_title",
+    "descKey": "home_vandara_loft_desc",
+    "image": "img/housing/house.webp",
+    "capacity": 12,
+    "modifiers": [
+      {
+        "key": "shadow_bind_cost",
+        "add": -1
+      }
+    ]
+  },
+  "home-vandara-catacomb": {
+    "id": "home-vandara-catacomb",
+    "nameKey": "home_vandara_catacomb_title",
+    "descKey": "home_vandara_catacomb_desc",
+    "image": "img/housing/island_tower.webp",
+    "capacity": 8
   }
 };
 
@@ -5872,10 +5999,11 @@ export const BUILD_TIME_ADDONS: Array<{
     "author": "Lassandriel",
     "entries": {
       "resources": 2,
-      "actions": 29,
+      "actions": 32,
       "items": 3,
       "npcs": 12,
       "buffs": 7,
+      "homes": 3,
       "sections": 1
     }
   }
@@ -6154,6 +6282,9 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "act-vandara-buy-arcane-dust",
       "act-npc-vandara-fafa",
       "build-vandara-alchemy-laboratory",
+      "build-vandara-dorm",
+      "build-vandara-loft",
+      "build-vandara-catacomb",
       "act-vandara-try-fire",
       "act-vandara-try-earth",
       "act-vandara-try-wind",
@@ -6193,6 +6324,11 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "buff-vandara-echo-clarity-2",
       "buff-vandara-animated-tools-1",
       "buff-vandara-animated-tools-2"
+    ],
+    "homes": [
+      "home-vandara-dorm",
+      "home-vandara-loft",
+      "home-vandara-catacomb"
     ],
     "sections": [
       "section-vandara-alchemy"
@@ -6606,6 +6742,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Alchemielabor bauen",
         "unlocks": "Pamles Braurezepte (nach Lehrstunden)"
       },
+      "build-vandara-dorm": {
+        "title": "Studentenbude mieten"
+      },
+      "build-vandara-loft": {
+        "title": "Gelehrten-Loft einrichten"
+      },
+      "build-vandara-catacomb": {
+        "title": "Katakomben-Kammer beziehen"
+      },
       "act-npc-vandara-veyra": {
         "title": "Magistra Veyra"
       },
@@ -6944,6 +7089,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_admitted": "Du wurdest in Vandara aufgenommen. Die Akademie liegt vor dir.",
       "vandara_enrolled": "Olié reicht dir den Studentenausweis. Du bist offiziell Studentin/Student der Roségold-Akademie.",
       "vandara_alchemy_laboratory_built": "Dein Alchemielabor steht. Jetzt fehlt nur noch jemand, der dir zeigt, was du damit anfangen kannst.",
+      "vandara_dorm_built": "Du hast ein Studentenzimmer in Vandara gemietet. Klein, aber deins.",
+      "vandara_loft_built": "Du bist in ein sonniges Gelehrten-Loft gezogen. Überall Licht — Schatten fallen hier leicht.",
+      "vandara_catacomb_built": "Du hast dir eine verborgene Kammer in den Katakomben gesichert. Still, dunkel, und völlig abseits der Akten.",
       "vandara_katakomben_unlocked": "Fafa zeigt dir den verborgenen Zugang zu den Katakomben unter Vandara. Eine andere Stadt liegt unten.",
       "vandara_veyra_intro_done": "Du hast Veyras Element-Diagnostik-Sprechstunde abgeschlossen.",
       "vandara_ormias_intro_done": "Du hast Ormias' Grundkurs Drachenkunde abgeschlossen.",
@@ -7580,7 +7728,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_ash_flower": "Ascheblume",
       "ui_glitter_dust": "Glitzerstaub",
       "ui_tab_vandara_alchemy": "Alchemie",
-      "ui_vandara_shadow_shifter_label": "Schatten-Drachenwandler"
+      "ui_vandara_shadow_shifter_label": "Schatten-Drachenwandler",
+      "home_vandara_dorm_title": "Studentenbude",
+      "home_vandara_dorm_desc": "Ein schmales gemietetes Zimmer über einer Seitengasse von Vandara. Kaum größer als das Bett, aber es ist deins — und nah genug an der Akademie, um aus dem Bett direkt in die Vorlesung zu rollen.",
+      "home_vandara_loft_title": "Gelehrten-Loft",
+      "home_vandara_loft_desc": "Ein helles Loft im Obergeschoss, den ganzen Tag strömt Sonne durch hohe Fenster. All das Licht bedeutet Schatten im Überfluss — einen zu binden kostet dich hier weniger.",
+      "home_vandara_catacomb_title": "Katakomben-Kammer",
+      "home_vandara_catacomb_desc": "Ein trockener, verborgener Raum in den alten Tunneln nahe Sariel. Geräumig und billig, und kein Beamter verirrt sich je hier herunter. Dunkel allerdings — wenig Licht, kaum Schatten zum Arbeiten."
     }
   },
   "en": {
@@ -7974,6 +8128,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Build Alchemy Laboratory",
         "unlocks": "Pamle's brew recipes (after teaching)"
       },
+      "build-vandara-dorm": {
+        "title": "Rent Student Lodging"
+      },
+      "build-vandara-loft": {
+        "title": "Furnish Scholar's Loft"
+      },
+      "build-vandara-catacomb": {
+        "title": "Claim Catacomb Chamber"
+      },
       "act-npc-vandara-veyra": {
         "title": "Magistra Veyra"
       },
@@ -8312,6 +8475,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "vandara_admitted": "You've been admitted to Vandara. The academy lies before you.",
       "vandara_enrolled": "Olié hands you the student ID. You are officially a student of the Rose Gold Academy.",
       "vandara_alchemy_laboratory_built": "Your Alchemy Laboratory is up. Now you just need someone to show you what to do with it.",
+      "vandara_dorm_built": "You've rented a student room in Vandara. Small, but your own.",
+      "vandara_loft_built": "You've moved into a sunlit scholar's loft. Light everywhere — shadows come easy here.",
+      "vandara_catacomb_built": "You've claimed a hidden chamber in the catacombs. Quiet, dark, and entirely off the records.",
       "vandara_katakomben_unlocked": "Fafa shows you the hidden entrance to the catacombs beneath Vandara. Another city lies below.",
       "vandara_veyra_intro_done": "You've completed Veyra's element diagnostic consultation.",
       "vandara_ormias_intro_done": "You've completed Ormias's basic course on Dragon Studies.",
@@ -8948,7 +9114,13 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_ash_flower": "Ash Flower",
       "ui_glitter_dust": "Glitter Dust",
       "ui_tab_vandara_alchemy": "Alchemy",
-      "ui_vandara_shadow_shifter_label": "Shadow Shifter"
+      "ui_vandara_shadow_shifter_label": "Shadow Shifter",
+      "home_vandara_dorm_title": "Student Lodging",
+      "home_vandara_dorm_desc": "A narrow rented room above a Vandara side-street. Barely bigger than the bed, but it's yours — and close enough to the academy to roll out of bed into a lecture.",
+      "home_vandara_loft_title": "Scholar's Loft",
+      "home_vandara_loft_desc": "A bright upper-floor loft, sun pouring through tall windows all day. All that light means shadows in abundance — binding one costs you less here.",
+      "home_vandara_catacomb_title": "Catacomb Chamber",
+      "home_vandara_catacomb_desc": "A dry, hidden room in the old tunnels near Sariel. Roomy and cheap, and nobody official ever comes down here. Dark, though — little light, few shadows to work with."
     }
   }
 };
