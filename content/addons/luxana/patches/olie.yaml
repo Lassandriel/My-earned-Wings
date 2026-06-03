@@ -1,0 +1,39 @@
+# Luxana entry — patches the Vandara secretary Olié to deliver the court
+# summons after graduation. Mirrors the canonical Aria-letter pattern that
+# opens Vandara (content/addons/vandara/patches/teacher.yaml):
+#
+#   - addStepOnSuccess on Olié's current LAST step (the diploma step, which
+#     sets vandara-graduated) fires extendNPCArc on Olié himself — bumping
+#     his maxProgress the instant the player graduates, so the appended
+#     summons step surfaces with no "X/Y" spoiler beforehand.
+#   - appendSteps adds the summons step itself, gated on vandara-graduated.
+#
+# Dispatch order guarantees addStepOnSuccess runs BEFORE appendSteps, so
+# `step: last` targets the diploma step (not the freshly-appended one).
+
+- targetType: action
+  targetId: act-npc-vandara-olie
+  addStepOnSuccess:
+    step: last
+    effects:
+      - type: extendNPCArc
+        npcId: npc-vandara-olie
+  appendSteps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.vandara-graduated: true
+      onSuccess:
+        - type: unlockItem
+          id: item-luxana-summons
+        - type: setFlag
+          flag: luxana-summoned
+          value: true
+        # Surfaces Meister Elian in the Orte > Luxana sub-tab — the
+        # player's first contact in the capital.
+        - type: unlockNPC
+          id: npc-luxana-elian
+        - type: log
+          logKey: receive_luxana_summons
+          color: var(--gold)
+      dialogueKey: npc_olie_luxana_summons

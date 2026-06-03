@@ -1,0 +1,10 @@
+# The court summons that pulls the player from Vandara to Luxana.
+# Handed over by Olié (Vandara secretariat) after graduation — see
+# patches/olie.yaml. Pure lore item, no mechanical effect.
+
+- id: item-luxana-summons
+  title: item_luxana_summons_title
+  desc: item_luxana_summons_desc
+  image: img/items/scroll.webp # placeholder — real summons art later
+  consumable: false
+  category: lore

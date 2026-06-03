@@ -1,0 +1,11 @@
+name: luxana
+version: 0.1.0
+description: >-
+  Luxana — die Hauptstadt am Fuß des Vulkans. Zweites großes Story-Addon,
+  erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um
+  unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute
+  Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen.
+  Neues System: Ansehen/Reputation.
+author: Lassandriel
+requires:
+  - vandara

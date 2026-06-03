@@ -77,6 +77,12 @@ muss spät** kommen (es ist der Reveal) und das **Finale ganz zuletzt**.
 - **Ryuga** — der vorbestimmte Endgame-NPC. Licht-Prinz trifft Schatten-
   Erstgeborenen; die zwei Hälften der Prophezeiung. Achtung: Ryuga ist im RP
   aktuell ein Baby/Kind — Timing übers Drachen-Alter handwaven.
+- **Meister Elian** (Luxana, Kapitel 3) — uralter Hof-Tutor, hat *alle vier*
+  Kaiserkinder unterrichtet (Zeph + Ryuga am anstrengendsten), jedes Element
+  außer Schatten. Bridge-Resonanz: er bändigte den Licht-Prinzen (Ryuga) UND
+  nimmt jetzt den Schatten-Erstgeborenen (Tenebre) unter die Fittiche — steht,
+  ohne es zu wissen, an *beiden* Enden der Prophezeiung. Natürliches
+  Bindeglied Richtung Finale.
 - **Sariel** (Vandara, schon gebaut) — spürt Tenebre unbewusst. Könnte in einem
   späteren Beat mehr ahnen.
 

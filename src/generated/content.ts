@@ -3131,6 +3131,41 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     },
     "logKey": "buy_iron_parts_log"
   },
+  "act-npc-luxana-elian": {
+    "id": "act-npc-luxana-elian",
+    "npcId": "npc-luxana-elian",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaElian",
+    "maxProgress": 1,
+    "journalIcon": "🔮",
+    "icon": "🔮",
+    "journalColor": "#8b5cf6",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-summoned": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-elian-met",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_elian_met",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_elian_1"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
   "act-smoke-ping": {
     "id": "act-smoke-ping",
     "category": "addon-smoke",
@@ -3541,7 +3576,7 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
     "isStory": true,
     "chapter": "chapter_vandara",
     "progKey": "vandaraOlie",
-    "maxProgress": 6,
+    "maxProgress": 7,
     "journalIcon": "📋",
     "icon": "📋",
     "journalColor": "#0ea5e9",
@@ -3671,9 +3706,41 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "log",
             "logKey": "vandara_graduated",
             "color": "var(--gold)"
+          },
+          {
+            "type": "extendNPCArc",
+            "npcId": "npc-vandara-olie"
           }
         ],
         "dialogueKey": "npc_vandara_olie_6"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.vandara-graduated": true
+        },
+        "onSuccess": [
+          {
+            "type": "unlockItem",
+            "id": "item-luxana-summons"
+          },
+          {
+            "type": "setFlag",
+            "flag": "luxana-summoned",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-elian"
+          },
+          {
+            "type": "log",
+            "logKey": "receive_luxana_summons",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_olie_luxana_summons"
       }
     ],
     "customExecute": "npc_execute"
@@ -5212,6 +5279,14 @@ export const ITEM_REGISTRY_GENERATED: Record<string, any> = {
       }
     ]
   },
+  "item-luxana-summons": {
+    "id": "item-luxana-summons",
+    "title": "item_luxana_summons_title",
+    "desc": "item_luxana_summons_desc",
+    "image": "img/items/scroll.webp",
+    "consumable": false,
+    "category": "lore"
+  },
   "item-vandara-diploma": {
     "id": "item-vandara-diploma",
     "title": "item_vandara_diploma_title",
@@ -5381,6 +5456,17 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "progKey": "aris",
     "maxProgress": 6,
     "chapter": "The Dream"
+  },
+  "npc-luxana-elian": {
+    "id": "npc-luxana-elian",
+    "nameKey": "npc_luxana_elian_name",
+    "icon": "🔮",
+    "image": "img/npcs/sage.webp",
+    "color": "#8b5cf6",
+    "progKey": "luxanaElian",
+    "maxProgress": 1,
+    "chapter": "Luxana",
+    "location": "luxana"
   },
   "npc-smoke-witness": {
     "id": "npc-smoke-witness",
@@ -5982,6 +6068,17 @@ export const BUILD_TIME_ADDONS: Array<{
     }
   },
   {
+    "name": "luxana",
+    "version": "0.1.0",
+    "description": "Luxana — die Hauptstadt am Fuß des Vulkans. Zweites großes Story-Addon, erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen. Neues System: Ansehen/Reputation.",
+    "author": "Lassandriel",
+    "entries": {
+      "actions": 1,
+      "items": 1,
+      "npcs": 1
+    }
+  },
+  {
     "name": "smoke_test",
     "version": "0.1.0",
     "description": "Worked example that uses every addon capability the system ships: YAML content, patches, handlers.ts, effects.ts, ticks.ts, migrations.ts, schema.yaml, settingsTabs, slots, styles, inter-addon helpers. Lives in the repo as a self-check + author onboarding template; rename it to `_smoke_test` (underscore prefix) to disable without deleting.",
@@ -6332,6 +6429,17 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
     ],
     "sections": [
       "section-vandara-alchemy"
+    ]
+  },
+  "luxana": {
+    "actions": [
+      "act-npc-luxana-elian"
+    ],
+    "items": [
+      "item-luxana-summons"
+    ],
+    "npcs": [
+      "npc-luxana-elian"
     ]
   },
   "smoke_test": {
@@ -6700,6 +6808,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Lesen: Die schwebenden Lande",
         "desc": "Studiere die Geographie von Draconia."
       },
+      "act-npc-luxana-elian": {
+        "title": "Meister Elian"
+      },
       "act-smoke-ping": {
         "title": "Smoke-Ping senden",
         "desc": "Schickt einen leisen Puls aus. Hebt die smoke_test-State-Zähler und löst den smokeFlash-Effekt aus."
@@ -6911,6 +7022,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_book_lore_2_desc": "Eine detaillierte Abhandlung über die Geographie und Wunder der Welt.",
       "item_crystal_apple_title": "Kristallapfel",
       "item_crystal_apple_desc": "Ein gläsern glänzender Apfel, der magisch nährt (+30 Sättigung, +20 Energie).",
+      "item_luxana_summons_title": "Hof-Vorladung",
+      "item_luxana_summons_desc": "Ein schweres Dokument, versiegelt in tiefem Kaiserrot, das dich namentlich und nach Element anfordert. Der Hof von Luxana wünscht, dass die seltene Schatten-Gabe ordentlich studiert wird — unter Meister Elian vom Hofmagier-Kollegium. Absolventen werden selten direkt in die Hauptstadt gerufen. Du bist offenbar nicht die meisten Absolventen.",
       "item_vandara_letter_title": "Einladung der Roségold-Akademie",
       "item_vandara_letter_desc": "Ein gefalteter, dicker Brief auf cremefarbenem Papier, versiegelt mit roségoldenem Wachs. Innen, in eleganter Handschrift, lädt dich die Akademie nach Vandara ein. \"Wir laden Drachenwandler aller Herkünfte ein, ihren eigenen Weg zu finden.\" Eine Karte zur Stadt liegt bei.",
       "item_vandara_student_id_title": "Studentenausweis der Roségold-Akademie",
@@ -7079,6 +7192,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_no_house": "\"Es ist schön dich zu sehen, {player}. Aber ohne ein festes Dach über dem Kopf wird das mit dem Lernen schwierig. Komm doch wieder, wenn du ein eigenes Haus hast.\"",
       "npc_teacher_2_with_house": "\"Ah, ich sehe du hast dir ein schönes Heim geschaffen. Jetzt können wir uns dem Studium widmen!\"",
       "shadow_broken_magic": "Deine magische Energie ist erschöpft. Der gebundene Schatten löst sich auf.",
+      "receive_luxana_summons": "Olié hat dir eine Hof-Vorladung überreicht. Luxana will deinen Schatten studieren — Meister Elian wartet im Hofmagier-Kollegium.",
+      "luxana_elian_met": "Du hast Meister Elian kennengelernt. Der kaiserliche Lehrer, der jedes Element außer Schatten unterrichtet hat — so ratlos wie entzückt, dich zu haben.",
       "smoke_ping_log": "Ein leiser Pulsschlag rollt durch das Tal.",
       "smoke_panel_title": "Smoke-Test Diagnose",
       "smoke_panel_hint": "Diese Werte aktualisieren sich live aus dem `smoke_test` addonState-Slot. Wenn die Tick-Zahl steigt, läuft der Hook; wenn Vandara hier ✔ zeigt, hat isAddonLoaded angeschlagen.",
@@ -7260,6 +7375,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_8": "<i>Es regnet fast täglich in Draconia, was die schwebenden Inseln extrem fruchtbar und grün macht.</i>",
       "lore_2_step_9": "<i>Legenden besagen, dass der Planet einst eine ganze Kugel war, bis ein unbekanntes Ereignis ihn in tausend Stücke zerschmetterte.</i>",
       "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>",
+      "npc_olie_luxana_summons": "Olié schiebt ein letztes versiegeltes Dokument über den Tisch, so präzise wie immer. \"Ein allerletzter Eintrag für Ihre Akte. Der Hof von Luxana hat Sie angefordert — namentlich, und nach Element.\" Eine kleine, bedachte Pause. \"Eine Vorladung ans Hofmagier-Kollegium, unter Meister Elian persönlich. Schatten ist selten genug, dass die Hauptstadt es ordentlich studiert haben will, unter Aufsicht.\" Er stempelt die Akte mit einem sanften, endgültigen Pochen. \"Wir schicken selten eine frische Absolventin direkt an den Hof. Das ist... ungewöhnlich.\" Das leiseste Nicken. \"Legen Sie das im Kollegium in Luxana vor. Und — Glückwunsch. Gleich doppelt, wie es scheint.\"",
+      "npc_luxana_elian_1": "Ein vollgestopftes Studierzimmer hoch oben im Kollegium von Luxana: Kristallstäbe, die in der Luft treiben, schiefe Büchertürme, und ein uralter Drachenwandler, der über eine Brille blinzelt, die ihm in dem Moment von der Nase rutscht, in dem er sie hochschiebt. \"Ah — Sie sind es also. Kommen Sie rein, kommen Sie. Vorsicht beim dritten Stab, der beißt.\" Er kneift die Augen zusammen, mustert dich. \"Meister Elian. Vierzig Jahre Hauslehrer an diesem Hof. Ich habe die Kaiserkinder unterrichtet, müssen Sie wissen — alle vier. Der kleine Windfratz und der Jüngste waren...\" ein Seufzen, fast zärtlich, \"...sagen wir: *temperamentvoll*.\" Er fängt sich wieder, schiebt die Brille hoch (sie rutscht zurück). \"Licht habe ich gelehrt. Gezeiten. Traum. Erde. Wind. Jedes Element, das je durch diese Tür kam. Aber Schatten? Nie. Nicht ein einziges Mal in vierzig Jahren.\" Er legt einen Stab ab und wirkt einen Moment lang gleichermaßen nervös wie entzückt. \"Und jetzt drückt der Hof mir *Sie* in die Hand. Die Erste. Sie wollen es verstanden wissen — ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das gemeinsam herausfinden, denn ehrlich gesagt...\" er beugt sich verschwörerisch vor, \"...habe ich keine Ahnung, wo ich anfangen soll. Sagen Sie dem Kollegium den letzten Teil nicht.\"",
       "npc_teacher_vandara_letter": "\"Bevor du gehst, {player}... das hier ist heute Morgen für dich angekommen.\" Aria zieht einen gefalteten Brief aus ihrer Tasche. Das Siegel schimmert in einem warmen Roségold. \"Aus Vandara. Die Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung — keine Verpflichtung. Aber wenn du wissen willst, was du wirklich bist, ist das vielleicht der richtige Weg.\"",
       "npc_vandara_olie_1": "Sekretär Olié sieht von seinem Stapel Akten auf — eine elegant gefiederte Schlange mit irisierenden Schuppen, die wie nasse Kieselsteine glänzen. \"Ah. Eine Neueinschreibung.\" Er lächelt höflich, aber distanziert. \"Bitte nehmen Sie Platz. Wir gehen das Notwendige der Reihe nach durch. Name, Herkunft, Element wenn bekannt.\" Sein Federkamm zuckt leicht, als du beim letzten Punkt zögerst. \"Unbekannt ist auch eine Antwort, keine Sorge.\"",
       "npc_vandara_olie_2": "\"So, die Einschreibegebühr.\" Olié schiebt dir ein winziges Bronzeschälchen über den Tisch. \"Fünfundzwanzig Splitter, einmalig. Die Akademie selbst ist kostenfrei — wir sind nicht das Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und einen Schluck Tee, falls Sie länger warten müssen.\"",
@@ -7692,6 +7809,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "main_subtab_general_name": "Allgemein",
       "main_subtab_herstellen_name": "Herstellen",
       "ui_placed_suffix": "(platziert)",
+      "location_luxana_name": "Luxana",
+      "chapter_luxana": "Luxana",
+      "npc_luxana_elian_name": "Meister Elian",
       "smoke_witness_name": "Rauchzeugin",
       "smoke_settings_tab": "Rauch",
       "location_vandara_name": "Vandara",
@@ -8086,6 +8206,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
         "title": "Read: The Floating Lands",
         "desc": "Study the geography of Draconia."
       },
+      "act-npc-luxana-elian": {
+        "title": "Meister Elian"
+      },
       "act-smoke-ping": {
         "title": "Send Smoke Ping",
         "desc": "Emit a quiet pulse. Increments the smoke_test state counters and fires the smokeFlash effect."
@@ -8297,6 +8420,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "item_book_lore_2_desc": "A detailed treatise on the geography and wonders of the world.",
       "item_crystal_apple_title": "Crystal Apple",
       "item_crystal_apple_desc": "A glass-like shimmering apple that nourishes magically (+30 Satiation, +20 Energy).",
+      "item_luxana_summons_title": "Court Summons",
+      "item_luxana_summons_desc": "A heavy document sealed in deep imperial red, requesting you by name and by element. The court at Luxana wishes the rare shadow gift studied properly — under Meister Elian of the Hofmagier collegium. Graduates are rarely called straight to the capital. Apparently you are not most graduates.",
       "item_vandara_letter_title": "Rose Gold Academy Invitation",
       "item_vandara_letter_desc": "A folded, heavy letter on cream-coloured paper, sealed with rose gold wax. Inside, in elegant handwriting, the academy invites you to Vandara. \"We welcome dragon-shifters of all backgrounds to find their own way.\" A map of the city is enclosed.",
       "item_vandara_student_id_title": "Rose Gold Academy Student ID",
@@ -8465,6 +8590,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_teacher_2_no_house": "\"It is nice to see you, {player}. But without a solid roof over your head, learning will be difficult. Come back once you have a house of your own.\"",
       "npc_teacher_2_with_house": "\"Ah, I see you have created a beautiful home. Now we can dedicate ourselves to the study!\"",
       "shadow_broken_magic": "Your magic energy is depleted. The bound shadow slips away.",
+      "receive_luxana_summons": "Olié has handed you a court summons. Luxana wants your shadow studied — Meister Elian awaits at the Hofmagier collegium.",
+      "luxana_elian_met": "You've met Meister Elian. The imperial tutor who taught every element but shadow — as lost as he is delighted to have you.",
       "smoke_ping_log": "A soft pulse rolls through the valley.",
       "smoke_panel_title": "Smoke test diagnostics",
       "smoke_panel_hint": "These values update live from the `smoke_test` addonState slot. If the tick count climbs, the hook is running; if Vandara shows ✔, the isAddonLoaded check fired.",
@@ -8646,6 +8773,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_9": "<i>Legends say the planet was once a whole sphere until an unknown event shattered it into a thousand pieces.</i>",
       "npc_teacher_4_not_read": "\"Have you read the books I gave you? Please study them thoroughly first.\"",
       "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>",
+      "npc_olie_luxana_summons": "Olié slides one last sealed document across the desk, as precise as ever. \"One final item for your file. The court at Luxana has requested you — by name, and by element.\" A small, careful pause. \"A summons to the Hofmagier collegium, under Meister Elian himself. Shadow is rare enough that the capital wants it studied properly, under supervision.\" He stamps the record with a soft, final thud. \"We do not often send a fresh graduate straight to court. This is... unusual.\" The faintest nod. \"Present this at the collegium in Luxana. And — congratulations. Twice over, it would seem.\"",
+      "npc_luxana_elian_1": "A cluttered study high in the Luxana collegium: crystal staffs drifting in midair, leaning towers of books, and an ancient dragon-shifter peering over a pair of glasses that slide down his nose the instant he pushes them up. \"Ah — you're the one. Come in, come in. Mind the third staff, it bites.\" He squints, studying you. \"Meister Elian. Forty years tutoring at this court. I taught the imperial children, you know — all four of them. The little windy one and the youngest were...\" a sigh, almost fond, \"...let us say *spirited*.\" He refocuses, pushing the glasses up (they slide back down). \"Light I have taught. Tide. Dream. Earth. Wind. Every element that has ever walked through that door. But shadow? Never. Not once in forty years.\" He sets a staff down, and for a moment looks both nervous and delighted. \"And now the court hands me *you*. The first. They want it understood — properly, safely, under my supervision. Which means you and I are going to work this out together, because, frankly...\" he leans in, conspiratorial, \"...I have no idea where to begin. Don't tell the collegium that last part.\"",
       "npc_teacher_vandara_letter": "\"Before you go, {player}... this came for you this morning.\" Aria pulls a folded letter from her bag. The seal shimmers in warm rose gold. \"From Vandara. The Rose Gold Academy. I wrote to them after seeing how seriously you studied. It's just an invitation — not an obligation. But if you want to find out what you really are, this might be the way.\"",
       "npc_vandara_olie_1": "Secretary Olié looks up from his stack of files — an elegantly feathered serpent with iridescent scales like wet pebbles. \"Ah. A new enrolment.\" He smiles, polite but distant. \"Please have a seat. We'll go through the necessary in order. Name, origin, element if known.\" His feathered crest twitches when you hesitate on the last. \"Unknown is also an answer, don't worry.\"",
       "npc_vandara_olie_2": "\"Now, the enrolment fee.\" Olié slides a tiny bronze dish across the desk. \"Twenty-five shards, one-off. The academy itself is free — we are not the Crystal Realm. The fee just covers paperwork and a sip of tea should you have to wait.\"",
@@ -9078,6 +9207,9 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "main_subtab_general_name": "General",
       "main_subtab_herstellen_name": "Crafting",
       "ui_placed_suffix": "(placed)",
+      "location_luxana_name": "Luxana",
+      "chapter_luxana": "Luxana",
+      "npc_luxana_elian_name": "Meister Elian",
       "smoke_witness_name": "Smoke Witness",
       "smoke_settings_tab": "Smoke",
       "location_vandara_name": "Vandara",

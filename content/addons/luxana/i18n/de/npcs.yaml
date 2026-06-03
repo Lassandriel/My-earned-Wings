@@ -1,0 +1,37 @@
+# ─── Olié — Luxana-Vorladung (auf den Vandara-Sekretär gepatcht) ──
+# Olié spricht das nach dem Abschluss; überreicht die Hof-Vorladung.
+# Liegt im Luxana-Addon (Luxanas Eintritts-Content), auch wenn der
+# Sprecher ein Vandara-NPC ist.
+npc_olie_luxana_summons: >-
+  Olié schiebt ein letztes versiegeltes Dokument über den Tisch, so
+  präzise wie immer. "Ein allerletzter Eintrag für Ihre Akte. Der Hof von
+  Luxana hat Sie angefordert — namentlich, und nach Element." Eine kleine,
+  bedachte Pause. "Eine Vorladung ans Hofmagier-Kollegium, unter Meister
+  Elian persönlich. Schatten ist selten genug, dass die Hauptstadt es
+  ordentlich studiert haben will, unter Aufsicht." Er stempelt die Akte
+  mit einem sanften, endgültigen Pochen. "Wir schicken selten eine frische
+  Absolventin direkt an den Hof. Das ist... ungewöhnlich." Das leiseste
+  Nicken. "Legen Sie das im Kollegium in Luxana vor. Und —
+  Glückwunsch. Gleich doppelt, wie es scheint."
+
+# ─── Meister Elian — erste Begegnung ──────────────────────────────
+npc_luxana_elian_1: >-
+  Ein vollgestopftes Studierzimmer hoch oben im Kollegium von Luxana:
+  Kristallstäbe, die in der Luft treiben, schiefe Büchertürme, und ein
+  uralter Drachenwandler, der über eine Brille blinzelt, die ihm in dem
+  Moment von der Nase rutscht, in dem er sie hochschiebt. "Ah — Sie sind
+  es also. Kommen Sie rein, kommen Sie. Vorsicht beim dritten Stab, der
+  beißt." Er kneift die Augen zusammen, mustert dich. "Meister Elian.
+  Vierzig Jahre Hauslehrer an diesem Hof. Ich habe die Kaiserkinder
+  unterrichtet, müssen Sie wissen — alle vier. Der kleine Windfratz und
+  der Jüngste waren..." ein Seufzen, fast zärtlich, "...sagen wir:
+  *temperamentvoll*." Er fängt sich wieder, schiebt die Brille hoch (sie
+  rutscht zurück). "Licht habe ich gelehrt. Gezeiten. Traum. Erde. Wind.
+  Jedes Element, das je durch diese Tür kam. Aber Schatten? Nie. Nicht ein
+  einziges Mal in vierzig Jahren." Er legt einen Stab ab und wirkt einen
+  Moment lang gleichermaßen nervös wie entzückt. "Und jetzt drückt der Hof
+  mir *Sie* in die Hand. Die Erste. Sie wollen es verstanden wissen —
+  ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das
+  gemeinsam herausfinden, denn ehrlich gesagt..." er beugt sich
+  verschwörerisch vor, "...habe ich keine Ahnung, wo ich anfangen soll.
+  Sagen Sie dem Kollegium den letzten Teil nicht."

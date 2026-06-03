@@ -1,0 +1,32 @@
+# Meister Elian — first meeting. The entry beat of the Luxana chapter.
+# Gated on luxana-summoned (set by the Olié summons patch). For now just
+# the introduction; the supervised-shadow-experiment loop + dispatches +
+# reputation system arrive in later iterations (one system per iteration).
+
+- id: act-npc-luxana-elian
+  npcId: npc-luxana-elian
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaElian
+  maxProgress: 1
+  journalIcon: 🔮
+  icon: 🔮
+  journalColor: '#8b5cf6'
+  steps:
+    # 1 — First meeting. Overwhelmed veteran imperial tutor, handed the
+    # first shadow-shifter. Sets luxana-elian-met as the anchor flag for
+    # the chapter's next beats.
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.luxana-summoned: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-elian-met
+          value: true
+        - type: log
+          logKey: luxana_elian_met
+          color: var(--gold)
+      dialogueKey: npc_luxana_elian_1
+  customExecute: npc_execute

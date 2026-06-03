@@ -1,0 +1,19 @@
+# Meister Elian — ancient court-mage of Luxana, head of the Hofmagier
+# collegium. Canon (RP_ Draconia): the slightly-overwhelmed tutor who
+# taught all four imperial children to control their magic (Zephyrion and
+# Ryuga wore him out most). Floating crystal staffs, glasses that keep
+# slipping. The court called HIM for the first shadow-shifter because he's
+# taught every element — except shadow.
+#
+# Unlocked by the Luxana summons (patches/olie.yaml). location: luxana, so
+# a "Luxana" tab appears in Orte once he's unlocked.
+
+- id: npc-luxana-elian
+  nameKey: npc_luxana_elian_name
+  icon: 🔮
+  image: img/npcs/sage.webp # placeholder — real Elian portrait later
+  color: '#8b5cf6'
+  progKey: luxanaElian
+  maxProgress: 1
+  chapter: Luxana
+  location: luxana

@@ -1,0 +1,33 @@
+# ─── Olié — Luxana summons (patched onto the Vandara secretary) ───
+# Spoken by Olié after graduation; delivers the court summons. Lives in
+# the Luxana addon because it's Luxana's entry content, even though the
+# speaker is a Vandara NPC.
+npc_olie_luxana_summons: >-
+  Olié slides one last sealed document across the desk, as precise as
+  ever. "One final item for your file. The court at Luxana has requested
+  you — by name, and by element." A small, careful pause. "A summons to
+  the Hofmagier collegium, under Meister Elian himself. Shadow is rare
+  enough that the capital wants it studied properly, under supervision."
+  He stamps the record with a soft, final thud. "We do not often send a
+  fresh graduate straight to court. This is... unusual." The faintest
+  nod. "Present this at the collegium in Luxana. And — congratulations.
+  Twice over, it would seem."
+
+# ─── Meister Elian — first meeting ────────────────────────────────
+npc_luxana_elian_1: >-
+  A cluttered study high in the Luxana collegium: crystal staffs drifting
+  in midair, leaning towers of books, and an ancient dragon-shifter
+  peering over a pair of glasses that slide down his nose the instant he
+  pushes them up. "Ah — you're the one. Come in, come in. Mind the third
+  staff, it bites." He squints, studying you. "Meister Elian. Forty years
+  tutoring at this court. I taught the imperial children, you know — all
+  four of them. The little windy one and the youngest were..." a sigh,
+  almost fond, "...let us say *spirited*." He refocuses, pushing the
+  glasses up (they slide back down). "Light I have taught. Tide. Dream.
+  Earth. Wind. Every element that has ever walked through that door. But
+  shadow? Never. Not once in forty years." He sets a staff down, and for a
+  moment looks both nervous and delighted. "And now the court hands me
+  *you*. The first. They want it understood — properly, safely, under my
+  supervision. Which means you and I are going to work this out together,
+  because, frankly..." he leans in, conspiratorial, "...I have no idea
+  where to begin. Don't tell the collegium that last part."
