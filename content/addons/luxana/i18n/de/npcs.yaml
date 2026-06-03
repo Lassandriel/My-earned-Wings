@@ -39,22 +39,76 @@ npc_luxana_elian_1: >-
   einer Woche in den Ohren — gehen Sie, zeigen Sie, was ein Schatten kann,
   was ein Drache nicht vermag."
 
-# ─── Meister Elian — Abschluss-Finale (2. Schatten-Slot) ──────────
+# ─── Meister Elian — Konvergenz-Finale (2. Schatten-Slot) ─────────
+# Die Hof-Anhörung: Veyl will den Schatten an die Leine, der Archiv-Fund
+# liegt über dem Raum, die Gunst der Adeligen + Elians Wort kippen die Waage.
 npc_luxana_elian_2: >-
-  Elian wartet schon, als Sie zurückkehren, das Studierzimmer sonderbar
-  aufgeräumt, als hätte er sich vorbereitet. "Nachrichten reisen schnell
-  an einem so gelangweilten Hof. Der Tresor, die Wiege, die Soirée, die
-  vermaledeite Blume der Dame — alles, und kein Kratzer, kein Skandal." Er
-  nimmt die Brille ab, putzt sie, legt sie hin statt sie wieder
-  aufzusetzen. "Ich habe vierzig Jahrgänge von Schülern beglaubigt. Keinen
-  verstand ich weniger, und keinem vertraute ich mehr." Ein Atemzug. "Sie
-  haben jetzt die Kontrolle für einen zweiten Schatten — zwei Aufgaben
-  zugleich, zwei Lasten an Magie. Binden Sie ihn, wie Sariel es Ihnen
-  lehrte." Er hält inne, und für einen Augenblick verdünnt sich die Wärme
-  zu etwas Suchendem. "Seltsam. Wenn ich Sie unterrichte, habe ich stets
-  das Gefühl, ich *wiederhole* es nur. Als kennte der Schatten den Weg
-  bereits." Er winkt ab. "Die Grille eines alten Mannes. Gehen Sie. Luxana
-  gehört jetzt Ihnen."
+  Der Kollegiumssaal ist voller, als Sie ihn je gesehen haben. Hauptmann
+  Veyl steht aufrecht vor dem Hof und legt ihren Fall in klaren, ruhigen
+  Worten dar: Ein Ding, das durch Gitter schlüpft und nichts wiegt, dürfe
+  man nicht unbeobachtet umherwandern lassen. Und dort, auf dem Tisch,
+  Brannocs jahrhundertealte Darstellung — der Schattendrache mit deinem
+  Gesicht —, die niemand erklären und niemand übersehen kann. Elian erhebt
+  sich langsam. "Hauptmann. Sie bewachen Mauern. Aller Ehren wert. Doch Sie
+  verlangen vom Hof, einzusperren, was er sich nicht die Mühe gemacht hat
+  zu verstehen." Er deutet, und sie treten vor, einer nach dem anderen:
+  Caldwen, der dir ein Siegel schuldet; Mirelle, ein schlafendes Kind;
+  Aurel, einen Triumph; Sylvaine, eine lebende Blüte. "Vier Probleme, die
+  kein Drache lösen konnte — sauber gelöst, unter meiner Aufsicht. Das ist
+  kein Loch in Ihrer Mauer, Hauptmann. Das ist die Mauer, die hält." Veyl
+  mustert Sie einen langen Moment, dann neigt sie den Kopf — keine
+  Niederlage, ein Waffenstillstand. Der Hof wird Sie nicht an die Leine
+  legen. Doch das Bild liegt noch auf dem Tisch, und alle haben es gesehen.
+  Später, leise, drückt Elian Ihnen weniger in die Hand als ins Verständnis:
+  "Sie können nun einen zweiten Schatten halten. Binden Sie ihn, wie Sariel
+  es Ihnen lehrte." Er zögert. "Ich hatte stets das Gefühl, ich
+  *wiederhole* es nur. Und dieses Bild... gehen Sie behutsam. Luxana hat
+  keine Antwort darauf, was Sie sind. Vielleicht hat irgendwo eine."
+
+# ─── Brannoc der Archivar — das Hof-Archiv ────────────────────────
+npc_luxana_brannoc_1: >-
+  Das Archiv ist eine Schlucht aus Regalen, erhellt von einer einzigen
+  störrischen Lampe, und Brannoc ist irgendwo darin — hörbar, ehe man ihn
+  sieht. "Das dritte Regal nicht anfassen, es ist tragend, und ich bin es
+  auch." Er taucht auf, bis zu den Ellenbogen voll Tinte, kneift die Augen
+  zusammen, erst auf dich, dann auf die schuppendunkle Scherbe, die du
+  trägst — und erstarrt. "Wo haben Sie... nein. Sagen Sie es noch nicht."
+  Er nimmt sie mit einer Sorgfalt, die er dir nicht entgegenbrachte.
+  "Vierzig Jahre hüte ich diese Rollen. Ich kenne die Hand jedes Schreibers
+  zurück bis zur Gründung. Das passt in *keine*. Es ist älter als der Hof,
+  der diesen Raum gebaut hat." Schon schlurft er zu den tiefen Stapeln.
+  "Kommen Sie wieder, wenn ich Zeit mit den alten Rollen hatte. Und
+  erwähnen Sie es nicht bei den Vergoldeten oben. Die sammeln Dinge, die
+  sie nicht verstehen."
+
+npc_luxana_brannoc_2: >-
+  Brannoc hat nicht geschlafen; die Lampe ist zweimal heruntergebrannt. Er
+  fegt mit dem Unterarm einen Tisch frei und rollt etwas so Altes aus, dass
+  das Pergament seufzt. "Bei Morgengrauen gefunden. Unter nichts abgelegt —
+  hinter eine drei Jahrhunderte tote Volkszählung geklemmt, als hätte es
+  jemand absichtlich versteckt." Es ist eine Darstellung in verblassender
+  Tinte: ein Drache aus Schatten, Schwingen wie verschüttete Nacht. Er
+  deutet nicht auf das Gesicht. Er muss es nicht. Du siehst dich selbst an.
+  "Ich bin ein vorsichtiger Mann", sagt er leise, "also sage ich nur, was
+  ich beweisen kann: Das ist alt, das ist Schatten, und das bist *du*. Den
+  Rest überlasse ich dir." Er rollt es zu, doch seine Hände sind nicht ganz
+  ruhig. "So etwas bleibt nicht geheim, Junge. Jemand mit einem Schwert
+  wird davon hören, ehe die Tinte trocknet."
+
+# ─── Hauptmann Veyl — eine Frage der Sicherheit ───────────────────
+npc_luxana_veyl_1: >-
+  Hauptmann Veyl wartet, wo der Korridor sich verengt — gewähltes Terrain,
+  wird dir klar. Sie greift nicht zur Waffe; sie muss es nicht. "Ich höre,
+  das Archiv hat ein Bildnis zutage gefördert. Jahrhundertealt, und es
+  trägt Ihr Gesicht." Ihr Ton ist beinahe freundlich, was schlimmer ist.
+  "Verstehen Sie mich. Ich habe nichts gegen Sie. Aber ich bewache diesen
+  Hof, und Sie sind ein Wesen, das durch Gitter geht, hebt, was nicht zu
+  heben ist, in hellen Sälen ungesehen steht. Das Kollegium nennt das ein
+  Wunder. Ich nenne es: jede Mauer, die ich halte, mit einer Tür darin, die
+  ich nicht verschließen kann." Sie tritt beiseite, um Sie passieren zu
+  lassen — gerade so. "Ich werde es vor den Hof bringen. Unverblümt. Sollen
+  die entscheiden, was man mit einem Schatten tut, den niemand halten kann.
+  Seien Sie da. Lieber hören Sie es von mir als aus einer Zelle."
 
 # ─── Lord Caldwen — der geflutete Tresor ──────────────────────────
 npc_luxana_caldwen_1: >-

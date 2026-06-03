@@ -1,0 +1,79 @@
+# Plot actions: Brannoc's discovery and Veyl's confrontation. These set the
+# flags that Elian's finale (actions/elian.yaml, step 2) requires, so the
+# chapter can only close once BOTH the work (four experiments) AND the
+# story (discovery + the captain's challenge) have come to a head.
+
+# ── Brannoc — court archivist ─────────────────────────────────────────
+# Step 1: you bring the odd thing the vault gave up. He takes it, troubled.
+# Step 2: he surfaces an ancient depiction of a shadow-dragon — and it
+#         looks like you. That revelation is what draws the guard captain's
+#         attention, so step 2 unlocks Veyl.
+- id: act-npc-luxana-brannoc
+  npcId: npc-luxana-brannoc
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaBrannoc
+  maxProgress: 2
+  journalIcon: 📜
+  icon: 📜
+  journalColor: '#9ca3af'
+  steps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.luxana-vault-relic: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-brannoc-met
+          value: true
+        - type: log
+          logKey: luxana_brannoc_met
+          color: var(--accent-purple)
+      dialogueKey: npc_luxana_brannoc_1
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.luxana-brannoc-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-archive-revealed
+          value: true
+        # The find can't stay quiet — the captain hears of it.
+        - type: unlockNPC
+          id: npc-luxana-veyl
+        - type: log
+          logKey: luxana_archive_revealed
+          color: var(--accent-purple)
+      dialogueKey: npc_luxana_brannoc_2
+  customExecute: npc_execute
+
+# ── Hauptmann Veyl — the distrustful captain ──────────────────────────
+# Gated on the archive reveal. She confronts you: the shadow is a security
+# matter and she means to put it before the court. Sets the flag that makes
+# Elian's finale (the court hearing) available — the threat the finale
+# resolves.
+- id: act-npc-luxana-veyl
+  npcId: npc-luxana-veyl
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaVeyl
+  maxProgress: 1
+  journalIcon: 🛡️
+  icon: 🛡️
+  journalColor: '#b45309'
+  steps:
+    - cost: 10
+      costType: energy
+      requirements:
+        flags.luxana-archive-revealed: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-captain-confronted
+          value: true
+        - type: log
+          logKey: luxana_veyl_confronted
+          color: var(--accent-purple)
+      dialogueKey: npc_luxana_veyl_1
+  customExecute: npc_execute

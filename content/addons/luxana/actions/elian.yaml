@@ -37,9 +37,13 @@
           logKey: luxana_elian_met
           color: var(--gold)
       dialogueKey: npc_luxana_elian_1
-    # 2 — Graduation finale. Gated on all four noble experiments. Elian has
-    # watched the player solve problems no drake could; he certifies the
-    # supervised study complete and the second shadow can be bound.
+    # 2 — Convergence finale. Gated on BOTH the work (all four noble
+    # experiments) AND the story coming to a head (Brannoc's archive
+    # revelation + Hauptmann Veyl's challenge). This beat IS the court
+    # hearing: Veyl moves to leash the shadow, but the nobles' favour,
+    # Elian's certification and the archive truth tip the balance. The
+    # player leaves Luxana of their own will, carrying the unanswered
+    # question — and the second shadow as Elian's parting gift.
     - cost: 25
       costType: magic
       requirements:
@@ -47,6 +51,8 @@
         flags.luxana-exp-cradle: true
         flags.luxana-exp-stage: true
         flags.luxana-exp-bloom: true
+        flags.luxana-archive-revealed: true
+        flags.luxana-captain-confronted: true
       onSuccess:
         - type: setFlag
           flag: luxana-complete

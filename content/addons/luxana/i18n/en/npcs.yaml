@@ -34,19 +34,68 @@ npc_luxana_elian_1: >-
   "But you needn't wait on me. Old Caldwen has been hounding the collegium
   for a week — go, see what a shadow can do that a drake cannot."
 
-# ─── Meister Elian — graduation finale (2nd shadow slot) ──────────
+# ─── Meister Elian — convergence finale (2nd shadow slot) ─────────
+# The court hearing: Veyl moves to leash the shadow, the archive find hangs
+# over the room, and the nobles' favour + Elian's word tip the balance.
 npc_luxana_elian_2: >-
-  Elian is waiting when you return, the study oddly tidy, as if he'd
-  prepared. "Word travels fast in a court this bored. The vault, the
-  cradle, the soirée, the Dame's wretched flower — all of it, and not a
-  scratch nor a scandal." He takes off his glasses, polishes them, sets
-  them down rather than back on his nose. "I have certified forty years of
-  students. None I understood less, and none I trusted more." A breath.
-  "You've the control now for a second shadow — two tasks at once, two
-  burdens of magic. Bind it as Sariel taught you." He pauses, and for an
-  instant the warmth thins into something searching. "Strange. Teaching
-  you, I keep feeling I'm *re*-teaching. As though the shadow already knew
-  the way." He waves it off. "An old man's fancy. Go. Luxana is yours now."
+  The collegium hall is fuller than you've ever seen it. Hauptmann Veyl
+  stands square before the court, laying out her case in clean, unhurried
+  words: a thing that slips through bars and weighs nothing cannot be left
+  to wander unwatched. And there, on the table, Brannoc's centuries-old
+  depiction — the shadow-dragon with your face — which no one will explain
+  and no one can ignore. Elian rises slowly. "Captain. You guard walls.
+  Admirable. But you ask the court to cage what it has not troubled to
+  understand." He gestures, and they come, one by one: Caldwen, who owes
+  you a signet; Mirelle, a sleeping child; Aurel, a triumph; Sylvaine, a
+  living bloom. "Four problems no drake could touch — solved, cleanly,
+  under my supervision. That is not a hole in your wall, Hauptmann. That is
+  the wall holding." Veyl studies you a long moment, then inclines her head
+  — not defeat, a truce. The court will not leash you. But the picture
+  still lies on the table, and everyone has seen it. Later, quietly, Elian
+  presses something into your understanding rather than your hand: "You can
+  hold a second shadow now. Bind it as Sariel taught you." He hesitates.
+  "I kept feeling I was *re*-teaching you. And that picture... go carefully.
+  Luxana has no answer for what you are. Perhaps somewhere does."
+
+# ─── Brannoc the Archivist — the Court Archive ────────────────────
+npc_luxana_brannoc_1: >-
+  The archive is a canyon of shelves lit by one stubborn lamp, and Brannoc
+  is somewhere in it, audible before he's visible. "Don't touch the
+  third rack, it's load-bearing and so am I." He emerges, ink to the
+  elbows, squints at you, then at the scale-dark shard you carry — and goes
+  very still. "Where did you... no. Don't tell me yet." He takes it with a
+  care he did not show you. "Forty years I've kept these rolls. I know the
+  hand of every clerk back to the founding. This fits *none* of it. It is
+  older than the court that built this room." He's already shuffling toward
+  the deep stacks. "Come back when I've had time with the old rolls. And
+  don't mention this to the gilded ones upstairs. They collect things they
+  don't understand."
+
+npc_luxana_brannoc_2: >-
+  Brannoc has not slept; the lamp has burned down twice. He clears a table
+  with his forearm and unrolls something so old the vellum sighs. "Found
+  it near dawn. Filed under nothing — wedged behind a census three
+  centuries dead, as if someone hid it on purpose." It is a depiction in
+  failing ink: a dragon of shadow, wings like spilled night. He does not
+  point at the face. He doesn't have to. You are looking at yourself. "I am
+  a careful man," he says quietly, "so I will say only what I can prove:
+  this is old, it is shadow, and it is *you*. The rest I leave to you." He
+  rolls it shut, but his hands aren't quite steady. "Word like this doesn't
+  keep, lad. Someone with a sword will hear of it before the ink dries."
+
+# ─── Hauptmann Veyl — a matter of security ────────────────────────
+npc_luxana_veyl_1: >-
+  Hauptmann Veyl is waiting where the corridor narrows — chosen ground, you
+  realise. She does not reach for a weapon; she doesn't need to. "I hear
+  the archive turned up a portrait. Centuries old, and wearing your face."
+  Her tone is almost kind, which is worse. "Understand me. I have nothing
+  against you. But I guard this court, and you are a thing that passes
+  through bars, lifts what cannot be lifted, stands in bright rooms unseen.
+  The collegium calls that a marvel. I call it every wall I keep, with a
+  door in it I cannot lock." She steps aside to let you pass — barely. "I
+  will put it before the court. Plainly. Let them decide what to do with a
+  shadow that no one can hold. Be there. I'd rather you heard it from me
+  than learned it from a cell."
 
 # ─── Lord Caldwen — the flooded vault ─────────────────────────────
 npc_luxana_caldwen_1: >-

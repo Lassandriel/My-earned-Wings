@@ -1,0 +1,39 @@
+# Luxana's plot-carrying figures — the threads that converge at Elian's
+# finale. NOT task-givers like the nobles: these turn "four chores" into a
+# story about who the shadow really is.
+#
+#   Caldwen's vault (relic) ─▶ Brannoc (archivist, the Archive)
+#                                  │ uncovers the old depiction
+#                                  └─▶ Hauptmann Veyl (distrust escalates)
+#                                         │ confrontation
+#                                         └─▶ Elian finale (court converges)
+#
+# Brannoc lives in a NEW location (luxana-archive) → its own Orte sub-tab.
+# Veyl stays in the Luxana court. Portraits are placeholders for now.
+
+# Low-born clerk, four decades in the dust of the court archive. Knows the
+# records better than any noble and has no patience for rank. The one who
+# recognises what no living courtier could.
+- id: npc-luxana-brannoc
+  nameKey: npc_luxana_brannoc_name
+  icon: 📜
+  image: img/npcs/official_hall.webp # placeholder
+  color: '#9ca3af'
+  progKey: luxanaBrannoc
+  maxProgress: 2
+  chapter: Luxana
+  location: luxana-archive
+
+# Captain of the court guard. Power by office, not blood. Sanctioned shadow
+# study unsettles her — a thing that slips through bars and weighs nothing
+# is, to her, a security hole the court is too dazzled to see. The chapter's
+# antagonist: she wants the shadow leashed, not understood.
+- id: npc-luxana-veyl
+  nameKey: npc_luxana_veyl_name
+  icon: 🛡️
+  image: img/npcs/blacksmith.webp # placeholder
+  color: '#b45309'
+  progKey: luxanaVeyl
+  maxProgress: 1
+  chapter: Luxana
+  location: luxana

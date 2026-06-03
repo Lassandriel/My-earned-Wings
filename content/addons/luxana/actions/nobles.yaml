@@ -34,9 +34,20 @@
           id: npc-luxana-mirelle
         - type: unlockNPC
           id: npc-luxana-aurel
+        # The vault held more than the signet — something far older came up
+        # with it. That oddity starts the chapter's plot thread: it leads to
+        # the court archivist, Brannoc.
+        - type: setFlag
+          flag: luxana-vault-relic
+          value: true
+        - type: unlockNPC
+          id: npc-luxana-brannoc
         - type: log
           logKey: luxana_caldwen_done
           color: var(--gold)
+        - type: log
+          logKey: luxana_vault_relic
+          color: var(--accent-purple)
       dialogueKey: npc_luxana_caldwen_1
   customExecute: npc_execute
 

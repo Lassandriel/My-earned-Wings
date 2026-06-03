@@ -3174,7 +3174,9 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           "flags.luxana-exp-vault": true,
           "flags.luxana-exp-cradle": true,
           "flags.luxana-exp-stage": true,
-          "flags.luxana-exp-bloom": true
+          "flags.luxana-exp-bloom": true,
+          "flags.luxana-archive-revealed": true,
+          "flags.luxana-captain-confronted": true
         },
         "onSuccess": [
           {
@@ -3233,9 +3235,23 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-luxana-aurel"
           },
           {
+            "type": "setFlag",
+            "flag": "luxana-vault-relic",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-brannoc"
+          },
+          {
             "type": "log",
             "logKey": "luxana_caldwen_done",
             "color": "var(--gold)"
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_vault_relic",
+            "color": "var(--accent-purple)"
           }
         ],
         "dialogueKey": "npc_luxana_caldwen_1"
@@ -3361,6 +3377,100 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_luxana_sylvaine_1"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-brannoc": {
+    "id": "act-npc-luxana-brannoc",
+    "npcId": "npc-luxana-brannoc",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaBrannoc",
+    "maxProgress": 2,
+    "journalIcon": "📜",
+    "icon": "📜",
+    "journalColor": "#9ca3af",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-vault-relic": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-brannoc-met",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_brannoc_met",
+            "color": "var(--accent-purple)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_brannoc_1"
+      },
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-brannoc-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-archive-revealed",
+            "value": true
+          },
+          {
+            "type": "unlockNPC",
+            "id": "npc-luxana-veyl"
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_archive_revealed",
+            "color": "var(--accent-purple)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_brannoc_2"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-veyl": {
+    "id": "act-npc-luxana-veyl",
+    "npcId": "npc-luxana-veyl",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaVeyl",
+    "maxProgress": 1,
+    "journalIcon": "🛡️",
+    "icon": "🛡️",
+    "journalColor": "#b45309",
+    "steps": [
+      {
+        "cost": 10,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-archive-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-captain-confronted",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_veyl_confronted",
+            "color": "var(--accent-purple)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_veyl_1"
       }
     ],
     "customExecute": "npc_execute"
@@ -5715,6 +5825,28 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "chapter": "Luxana",
     "location": "luxana"
   },
+  "npc-luxana-brannoc": {
+    "id": "npc-luxana-brannoc",
+    "nameKey": "npc_luxana_brannoc_name",
+    "icon": "📜",
+    "image": "img/npcs/official_hall.webp",
+    "color": "#9ca3af",
+    "progKey": "luxanaBrannoc",
+    "maxProgress": 2,
+    "chapter": "Luxana",
+    "location": "luxana-archive"
+  },
+  "npc-luxana-veyl": {
+    "id": "npc-luxana-veyl",
+    "nameKey": "npc_luxana_veyl_name",
+    "icon": "🛡️",
+    "image": "img/npcs/blacksmith.webp",
+    "color": "#b45309",
+    "progKey": "luxanaVeyl",
+    "maxProgress": 1,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
   "npc-smoke-witness": {
     "id": "npc-smoke-witness",
     "nameKey": "smoke_witness_name",
@@ -6320,9 +6452,9 @@ export const BUILD_TIME_ADDONS: Array<{
     "description": "Luxana — die Hauptstadt am Fuß des Vulkans. Zweites großes Story-Addon, erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen. Vier Adelige geben Aufgaben, die nur ein Schatten lösen kann; Elians Abschluss schaltet den zweiten Schatten-Slot frei.",
     "author": "Lassandriel",
     "entries": {
-      "actions": 5,
+      "actions": 7,
       "items": 1,
-      "npcs": 5
+      "npcs": 7
     }
   },
   {
@@ -6684,7 +6816,9 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "act-npc-luxana-caldwen",
       "act-npc-luxana-mirelle",
       "act-npc-luxana-aurel",
-      "act-npc-luxana-sylvaine"
+      "act-npc-luxana-sylvaine",
+      "act-npc-luxana-brannoc",
+      "act-npc-luxana-veyl"
     ],
     "items": [
       "item-luxana-summons"
@@ -6694,7 +6828,9 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "npc-luxana-caldwen",
       "npc-luxana-mirelle",
       "npc-luxana-aurel",
-      "npc-luxana-sylvaine"
+      "npc-luxana-sylvaine",
+      "npc-luxana-brannoc",
+      "npc-luxana-veyl"
     ]
   },
   "smoke_test": {
@@ -7077,6 +7213,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-luxana-sylvaine": {
         "title": "Dame Sylvaine — Die Mondblume beschatten"
+      },
+      "act-npc-luxana-brannoc": {
+        "title": "Brannoc — Das Hof-Archiv"
+      },
+      "act-npc-luxana-veyl": {
+        "title": "Hauptmann Veyl — Eine Frage der Sicherheit"
       },
       "act-smoke-ping": {
         "title": "Smoke-Ping senden",
@@ -7463,10 +7605,14 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "receive_luxana_summons": "Olié hat dir eine Hof-Vorladung überreicht. Luxana will deinen Schatten studieren — Meister Elian wartet im Hofmagier-Kollegium.",
       "luxana_elian_met": "Du hast Meister Elian kennengelernt. Der kaiserliche Lehrer, der jedes Element außer Schatten unterrichtet hat — so ratlos wie entzückt, dich zu haben.",
       "luxana_caldwen_done": "Das Siegel steigt tropfend durch das Gitter. Lord Caldwen, um Worte verlegen, lässt durchblicken, dass der Hof nun zusieht. Bis zum Abend fragen zwei weitere Adelige nach dir.",
+      "luxana_vault_relic": "Noch etwas kam mit dem Siegel herauf — eine schuppendunkle Scherbe, die in keine Akte passt, die Caldwen kennt. Sie fühlt sich älter an als der Tresor. Der Hof-Archivar weiß vielleicht, was sie ist.",
+      "luxana_brannoc_met": "Brannoc dreht die Scherbe wieder und wieder, murmelnd. \"Älter als das Archiv. Älter als der Hof.\" Er scheucht dich fort, um die tiefen Rollen zu holen.",
+      "luxana_archive_revealed": "Brannoc rollt eine jahrhundertealte Darstellung aus: ein Schattendrache, in verblassender Tinte — und die Ähnlichkeit mit dir lässt sich nicht übersehen. Keiner von euch spricht es aus. Die Kunde vom Fund bleibt nicht im Archiv.",
+      "luxana_veyl_confronted": "Hauptmann Veyl versperrt dir den Weg, ohne Eile. Ein Ding, das durch Gitter schlüpft und nichts wiegt, sei, sagt sie, ein Loch in jeder Mauer, die sie bewacht. Sie will den Schatten vor den Hof bringen.",
       "luxana_mirelle_done": "Der Talisman löst sich; die Wiege knarzt nicht einmal, das Kind regt sich nicht. Lady Mirelle weint vor Erleichterung und erzählt den Gärten von dir.",
       "luxana_aurel_done": "Schatten tanzen über die Wände des Ballsaals, heller noch durch die Kronleuchter. Vicomte Aurels Soirée ist das Gespräch von Luxana — und du auch.",
       "luxana_sylvaine_done": "Ein Fleck steten Schattens wandert mit der Mondblume über den sonnigen Hof; kein Blütenblatt welkt. Dame Sylvaine nickt nur, was bei ihr höchstes Lob ist.",
-      "luxana_elian_finale": "Meister Elian legt seine Brille ausnahmsweise ab. \"Vier Probleme, die kein Drache lösen konnte — sauber gelöst, unter Aufsicht. Der Hof hat seine Antwort, und ich auch.\" Er lächelt. \"Du kannst nun einen zweiten Schatten halten. Nur zu — ich habe dir nichts beigebracht, und doch sind wir hier.\"",
+      "luxana_elian_finale": "Der Hof hört Veyl an — und stellt sich auf Elians Seite und die der Adeligen, denen du gedient hast. Keine Leine, keine Zelle; ein Waffenstillstand. Du verlässt Luxana frei und aus eigenem Willen, ein zweiter Schatten nun auf deinen Ruf, und ein altes gemaltes Gesicht, das du nicht mehr loswirst. Luxana hatte keine Antwort darauf, was du bist. Irgendwo muss es eine geben.",
       "smoke_ping_log": "Ein leiser Pulsschlag rollt durch das Tal.",
       "smoke_panel_title": "Smoke-Test Diagnose",
       "smoke_panel_hint": "Diese Werte aktualisieren sich live aus dem `smoke_test` addonState-Slot. Wenn die Tick-Zahl steigt, läuft der Hook; wenn Vandara hier ✔ zeigt, hat isAddonLoaded angeschlagen.",
@@ -7650,7 +7796,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_10": "<i>Der Pakt von Luxana wird alle hundert Jahre erneuert, um den Bund zwischen den Drachenspezies zu festigen.</i>",
       "npc_olie_luxana_summons": "Olié schiebt ein letztes versiegeltes Dokument über den Tisch, so präzise wie immer. \"Ein allerletzter Eintrag für Ihre Akte. Der Hof von Luxana hat Sie angefordert — namentlich, und nach Element.\" Eine kleine, bedachte Pause. \"Eine Vorladung ans Hofmagier-Kollegium, unter Meister Elian persönlich. Schatten ist selten genug, dass die Hauptstadt es ordentlich studiert haben will, unter Aufsicht.\" Er stempelt die Akte mit einem sanften, endgültigen Pochen. \"Wir schicken selten eine frische Absolventin direkt an den Hof. Das ist... ungewöhnlich.\" Das leiseste Nicken. \"Legen Sie das im Kollegium in Luxana vor. Und — Glückwunsch. Gleich doppelt, wie es scheint.\"",
       "npc_luxana_elian_1": "Ein vollgestopftes Studierzimmer hoch oben im Kollegium von Luxana: Kristallstäbe, die in der Luft treiben, schiefe Büchertürme, und ein uralter Drachenwandler, der über eine Brille blinzelt, die ihm in dem Moment von der Nase rutscht, in dem er sie hochschiebt. \"Ah — Sie sind es also. Kommen Sie rein, kommen Sie. Vorsicht beim dritten Stab, der beißt.\" Er kneift die Augen zusammen, mustert dich. \"Meister Elian. Vierzig Jahre Hauslehrer an diesem Hof. Ich habe die Kaiserkinder unterrichtet, müssen Sie wissen — alle vier. Der kleine Windfratz und der Jüngste waren...\" ein Seufzen, fast zärtlich, \"...sagen wir: *temperamentvoll*.\" Er fängt sich wieder, schiebt die Brille hoch (sie rutscht zurück). \"Licht habe ich gelehrt. Gezeiten. Traum. Erde. Wind. Jedes Element, das je durch diese Tür kam. Aber Schatten? Nie. Nicht ein einziges Mal in vierzig Jahren.\" Er legt einen Stab ab und wirkt einen Moment lang gleichermaßen nervös wie entzückt. \"Und jetzt drückt der Hof mir *Sie* in die Hand. Die Erste. Sie wollen es verstanden wissen — ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das gemeinsam herausfinden, denn ehrlich gesagt...\" er beugt sich verschwörerisch vor, \"...habe ich keine Ahnung, wo ich anfangen soll. Sagen Sie dem Kollegium den letzten Teil nicht.\" Er hellt auf. \"Aber Sie müssen nicht auf mich warten. Der alte Caldwen liegt dem Kollegium seit einer Woche in den Ohren — gehen Sie, zeigen Sie, was ein Schatten kann, was ein Drache nicht vermag.\"",
-      "npc_luxana_elian_2": "Elian wartet schon, als Sie zurückkehren, das Studierzimmer sonderbar aufgeräumt, als hätte er sich vorbereitet. \"Nachrichten reisen schnell an einem so gelangweilten Hof. Der Tresor, die Wiege, die Soirée, die vermaledeite Blume der Dame — alles, und kein Kratzer, kein Skandal.\" Er nimmt die Brille ab, putzt sie, legt sie hin statt sie wieder aufzusetzen. \"Ich habe vierzig Jahrgänge von Schülern beglaubigt. Keinen verstand ich weniger, und keinem vertraute ich mehr.\" Ein Atemzug. \"Sie haben jetzt die Kontrolle für einen zweiten Schatten — zwei Aufgaben zugleich, zwei Lasten an Magie. Binden Sie ihn, wie Sariel es Ihnen lehrte.\" Er hält inne, und für einen Augenblick verdünnt sich die Wärme zu etwas Suchendem. \"Seltsam. Wenn ich Sie unterrichte, habe ich stets das Gefühl, ich *wiederhole* es nur. Als kennte der Schatten den Weg bereits.\" Er winkt ab. \"Die Grille eines alten Mannes. Gehen Sie. Luxana gehört jetzt Ihnen.\"",
+      "npc_luxana_elian_2": "Der Kollegiumssaal ist voller, als Sie ihn je gesehen haben. Hauptmann Veyl steht aufrecht vor dem Hof und legt ihren Fall in klaren, ruhigen Worten dar: Ein Ding, das durch Gitter schlüpft und nichts wiegt, dürfe man nicht unbeobachtet umherwandern lassen. Und dort, auf dem Tisch, Brannocs jahrhundertealte Darstellung — der Schattendrache mit deinem Gesicht —, die niemand erklären und niemand übersehen kann. Elian erhebt sich langsam. \"Hauptmann. Sie bewachen Mauern. Aller Ehren wert. Doch Sie verlangen vom Hof, einzusperren, was er sich nicht die Mühe gemacht hat zu verstehen.\" Er deutet, und sie treten vor, einer nach dem anderen: Caldwen, der dir ein Siegel schuldet; Mirelle, ein schlafendes Kind; Aurel, einen Triumph; Sylvaine, eine lebende Blüte. \"Vier Probleme, die kein Drache lösen konnte — sauber gelöst, unter meiner Aufsicht. Das ist kein Loch in Ihrer Mauer, Hauptmann. Das ist die Mauer, die hält.\" Veyl mustert Sie einen langen Moment, dann neigt sie den Kopf — keine Niederlage, ein Waffenstillstand. Der Hof wird Sie nicht an die Leine legen. Doch das Bild liegt noch auf dem Tisch, und alle haben es gesehen. Später, leise, drückt Elian Ihnen weniger in die Hand als ins Verständnis: \"Sie können nun einen zweiten Schatten halten. Binden Sie ihn, wie Sariel es Ihnen lehrte.\" Er zögert. \"Ich hatte stets das Gefühl, ich *wiederhole* es nur. Und dieses Bild... gehen Sie behutsam. Luxana hat keine Antwort darauf, was Sie sind. Vielleicht hat irgendwo eine.\"",
+      "npc_luxana_brannoc_1": "Das Archiv ist eine Schlucht aus Regalen, erhellt von einer einzigen störrischen Lampe, und Brannoc ist irgendwo darin — hörbar, ehe man ihn sieht. \"Das dritte Regal nicht anfassen, es ist tragend, und ich bin es auch.\" Er taucht auf, bis zu den Ellenbogen voll Tinte, kneift die Augen zusammen, erst auf dich, dann auf die schuppendunkle Scherbe, die du trägst — und erstarrt. \"Wo haben Sie... nein. Sagen Sie es noch nicht.\" Er nimmt sie mit einer Sorgfalt, die er dir nicht entgegenbrachte. \"Vierzig Jahre hüte ich diese Rollen. Ich kenne die Hand jedes Schreibers zurück bis zur Gründung. Das passt in *keine*. Es ist älter als der Hof, der diesen Raum gebaut hat.\" Schon schlurft er zu den tiefen Stapeln. \"Kommen Sie wieder, wenn ich Zeit mit den alten Rollen hatte. Und erwähnen Sie es nicht bei den Vergoldeten oben. Die sammeln Dinge, die sie nicht verstehen.\"",
+      "npc_luxana_brannoc_2": "Brannoc hat nicht geschlafen; die Lampe ist zweimal heruntergebrannt. Er fegt mit dem Unterarm einen Tisch frei und rollt etwas so Altes aus, dass das Pergament seufzt. \"Bei Morgengrauen gefunden. Unter nichts abgelegt — hinter eine drei Jahrhunderte tote Volkszählung geklemmt, als hätte es jemand absichtlich versteckt.\" Es ist eine Darstellung in verblassender Tinte: ein Drache aus Schatten, Schwingen wie verschüttete Nacht. Er deutet nicht auf das Gesicht. Er muss es nicht. Du siehst dich selbst an. \"Ich bin ein vorsichtiger Mann\", sagt er leise, \"also sage ich nur, was ich beweisen kann: Das ist alt, das ist Schatten, und das bist *du*. Den Rest überlasse ich dir.\" Er rollt es zu, doch seine Hände sind nicht ganz ruhig. \"So etwas bleibt nicht geheim, Junge. Jemand mit einem Schwert wird davon hören, ehe die Tinte trocknet.\"",
+      "npc_luxana_veyl_1": "Hauptmann Veyl wartet, wo der Korridor sich verengt — gewähltes Terrain, wird dir klar. Sie greift nicht zur Waffe; sie muss es nicht. \"Ich höre, das Archiv hat ein Bildnis zutage gefördert. Jahrhundertealt, und es trägt Ihr Gesicht.\" Ihr Ton ist beinahe freundlich, was schlimmer ist. \"Verstehen Sie mich. Ich habe nichts gegen Sie. Aber ich bewache diesen Hof, und Sie sind ein Wesen, das durch Gitter geht, hebt, was nicht zu heben ist, in hellen Sälen ungesehen steht. Das Kollegium nennt das ein Wunder. Ich nenne es: jede Mauer, die ich halte, mit einer Tür darin, die ich nicht verschließen kann.\" Sie tritt beiseite, um Sie passieren zu lassen — gerade so. \"Ich werde es vor den Hof bringen. Unverblümt. Sollen die entscheiden, was man mit einem Schatten tut, den niemand halten kann. Seien Sie da. Lieber hören Sie es von mir als aus einer Zelle.\"",
       "npc_luxana_caldwen_1": "Lord Caldwen erhebt sich nicht, als Sie eintreten, was für sich genommen eine Botschaft ist. \"Also. Der Hof-Schatten zum Vorzeigen.\" Er schwenkt ein Glas, das er Ihnen keineswegs anzubieten gedenkt. \"Eine Schatzkammer unter meinem Anwesen ist in der Frühjahrsschmelze vollgelaufen. Das Siegel meiner Familie — drei Jahrhunderte alt — liegt hinter einem Eisengitter, zu eng für jede Drachenklaue, in Wasser, in das kein Diener tauchen will. Die Wasserrufer machten es nur schlimmer; Flut antwortete Flut.\" Endlich sieht er Sie an. \"Man sagt mir, ein Schatten braucht weder Atem noch Breite. Greifen Sie durch die Stäbe. Holen Sie es herauf. Versagen Sie, und ich habe einen Nachmittag vergeudet. Gelingt es...\" ein schmales Lächeln, \"...wird der Hof es von mir hören, und das ist mehr wert, als Sie ahnen.\"",
       "npc_luxana_mirelle_1": "Lady Mirelle empfängt Sie an der Kinderzimmertür, den Finger auf den Lippen. \"Bitte — leise.\" Drinnen schläft ein Kind in einer Wiege aus gesponnenem Kernholz, so alt und fein, dass das Holz zu atmen scheint. \"Die meiner Mutter, und deren Mutter. Ein Schutztalisman ist heute Morgen zwischen Latten und Matratze gerutscht, und nun summt er, wo er schweigen sollte — doch das Holz trägt keine Hand, und Klauen würden sie wecken oder, schlimmer, die Wiege zersprengen.\" Ihre Fassung bebt. \"Man sagt, Ihr Schatten wiegt nichts. Heben Sie den Talisman heraus. Wecken Sie meine Tochter nicht. Ich werde in Ihrer Schuld stehen — und ich vergesse Schulden nicht.\"",
       "npc_luxana_aurel_1": "Vicomte Aurel ist schon mitten in einer Geste, als Sie eintreffen, als hätte das Gespräch ohne Sie begonnen. \"Wunderbar, Sie sind da. Also — meine Soirée. Der halbe Adel kommt einzig, um beim frühen Gehen gesehen zu werden. Ich brauche etwas, das sie *nie* erlebt haben und nicht kaufen können.\" Er wirbelt herum und stößt die Ballsaaltüren auf, hin zu einem Lodern von Kronleuchtern. \"Man sagt, Schatten ist am stärksten, wo das Licht am hellsten brennt. Also: ein lebendiges Schattenspiel, hier, über diese Wände, während der Saal in Gold steht. Schenken Sie ihnen eine Stunde, deren Verständnis sie hinterher vorgeben werden. Tun Sie das, und Aurels Gunst öffnet Türen, die selbst Caldwens Name nicht vermag.\"",
@@ -8088,12 +8237,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "main_subtab_herstellen_name": "Herstellen",
       "ui_placed_suffix": "(platziert)",
       "location_luxana_name": "Luxana",
+      "location_luxana-archive_name": "Das Hof-Archiv",
       "chapter_luxana": "Luxana",
       "npc_luxana_elian_name": "Meister Elian",
       "npc_luxana_caldwen_name": "Lord Caldwen",
       "npc_luxana_mirelle_name": "Lady Mirelle",
       "npc_luxana_aurel_name": "Vicomte Aurel",
       "npc_luxana_sylvaine_name": "Dame Sylvaine",
+      "npc_luxana_brannoc_name": "Brannoc der Archivar",
+      "npc_luxana_veyl_name": "Hauptmann Veyl",
       "smoke_witness_name": "Rauchzeugin",
       "smoke_settings_tab": "Rauch",
       "location_vandara_name": "Vandara",
@@ -8503,6 +8655,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-luxana-sylvaine": {
         "title": "Dame Sylvaine — Shade the Moonbloom"
       },
+      "act-npc-luxana-brannoc": {
+        "title": "Brannoc — The Court Archive"
+      },
+      "act-npc-luxana-veyl": {
+        "title": "Hauptmann Veyl — A Matter of Security"
+      },
       "act-smoke-ping": {
         "title": "Send Smoke Ping",
         "desc": "Emit a quiet pulse. Increments the smoke_test state counters and fires the smokeFlash effect."
@@ -8888,10 +9046,14 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "receive_luxana_summons": "Olié has handed you a court summons. Luxana wants your shadow studied — Meister Elian awaits at the Hofmagier collegium.",
       "luxana_elian_met": "You've met Meister Elian. The imperial tutor who taught every element but shadow — as lost as he is delighted to have you.",
       "luxana_caldwen_done": "The signet rises dripping through the grate. Lord Caldwen, lost for words, lets it slip that the court is now watching. Two more nobles ask for you by evening.",
+      "luxana_vault_relic": "Something else came up with the signet — a scale-dark shard that fits no record Caldwen knows. It feels older than the vault. The court archivist might know what it is.",
+      "luxana_brannoc_met": "Brannoc turns the shard over and over, muttering. \"Older than the archive. Older than the court.\" He waves you off to fetch the deep rolls.",
+      "luxana_archive_revealed": "Brannoc unrolls a depiction centuries old: a shadow-dragon, rendered in failing ink — and the likeness to you is impossible to unsee. Neither of you says it aloud. Word of the find does not stay in the archive.",
+      "luxana_veyl_confronted": "Hauptmann Veyl blocks your path, unhurried. A thing that slips through bars and weighs nothing is, she says, a hole in every wall she guards. She means to put the shadow before the court.",
       "luxana_mirelle_done": "The charm lifts free; the cradle never so much as creaks, the child never stirs. Lady Mirelle weeps with relief and tells the gardens of you.",
       "luxana_aurel_done": "Shadows dance across the ballroom walls, brighter for the chandeliers. Vicomte Aurel's soirée is the talk of Luxana — and so are you.",
       "luxana_sylvaine_done": "A patch of steady shade travels with the moonbloom across the sunlit court; not a petal wilts. Dame Sylvaine simply nods, which from her is high praise.",
-      "luxana_elian_finale": "Meister Elian sets down his glasses for once. \"Four problems no drake could touch — solved, cleanly, under supervision. The court has its answer, and so do I.\" He smiles. \"You can hold a second shadow now. Go on — I taught you nothing, and yet here we are.\"",
+      "luxana_elian_finale": "The court hears Veyl out — and sides with Elian and the nobles you served. No leash, no cell; a truce. You leave Luxana free and of your own will, a second shadow at your call now, and an old painted face you can't stop seeing. Luxana had no answer for what you are. Somewhere must.",
       "smoke_ping_log": "A soft pulse rolls through the valley.",
       "smoke_panel_title": "Smoke test diagnostics",
       "smoke_panel_hint": "These values update live from the `smoke_test` addonState slot. If the tick count climbs, the hook is running; if Vandara shows ✔, the isAddonLoaded check fired.",
@@ -9075,7 +9237,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "lore_2_step_10": "<i>The Accord of Luxana is renewed every hundred years to strengthen the bond between dragon species.</i>",
       "npc_olie_luxana_summons": "Olié slides one last sealed document across the desk, as precise as ever. \"One final item for your file. The court at Luxana has requested you — by name, and by element.\" A small, careful pause. \"A summons to the Hofmagier collegium, under Meister Elian himself. Shadow is rare enough that the capital wants it studied properly, under supervision.\" He stamps the record with a soft, final thud. \"We do not often send a fresh graduate straight to court. This is... unusual.\" The faintest nod. \"Present this at the collegium in Luxana. And — congratulations. Twice over, it would seem.\"",
       "npc_luxana_elian_1": "A cluttered study high in the Luxana collegium: crystal staffs drifting in midair, leaning towers of books, and an ancient dragon-shifter peering over a pair of glasses that slide down his nose the instant he pushes them up. \"Ah — you're the one. Come in, come in. Mind the third staff, it bites.\" He squints, studying you. \"Meister Elian. Forty years tutoring at this court. I taught the imperial children, you know — all four of them. The little windy one and the youngest were...\" a sigh, almost fond, \"...let us say *spirited*.\" He refocuses, pushing the glasses up (they slide back down). \"Light I have taught. Tide. Dream. Earth. Wind. Every element that has ever walked through that door. But shadow? Never. Not once in forty years.\" He sets a staff down, and for a moment looks both nervous and delighted. \"And now the court hands me *you*. The first. They want it understood — properly, safely, under my supervision. Which means you and I are going to work this out together, because, frankly...\" he leans in, conspiratorial, \"...I have no idea where to begin. Don't tell the collegium that last part.\" He brightens. \"But you needn't wait on me. Old Caldwen has been hounding the collegium for a week — go, see what a shadow can do that a drake cannot.\"",
-      "npc_luxana_elian_2": "Elian is waiting when you return, the study oddly tidy, as if he'd prepared. \"Word travels fast in a court this bored. The vault, the cradle, the soirée, the Dame's wretched flower — all of it, and not a scratch nor a scandal.\" He takes off his glasses, polishes them, sets them down rather than back on his nose. \"I have certified forty years of students. None I understood less, and none I trusted more.\" A breath. \"You've the control now for a second shadow — two tasks at once, two burdens of magic. Bind it as Sariel taught you.\" He pauses, and for an instant the warmth thins into something searching. \"Strange. Teaching you, I keep feeling I'm *re*-teaching. As though the shadow already knew the way.\" He waves it off. \"An old man's fancy. Go. Luxana is yours now.\"",
+      "npc_luxana_elian_2": "The collegium hall is fuller than you've ever seen it. Hauptmann Veyl stands square before the court, laying out her case in clean, unhurried words: a thing that slips through bars and weighs nothing cannot be left to wander unwatched. And there, on the table, Brannoc's centuries-old depiction — the shadow-dragon with your face — which no one will explain and no one can ignore. Elian rises slowly. \"Captain. You guard walls. Admirable. But you ask the court to cage what it has not troubled to understand.\" He gestures, and they come, one by one: Caldwen, who owes you a signet; Mirelle, a sleeping child; Aurel, a triumph; Sylvaine, a living bloom. \"Four problems no drake could touch — solved, cleanly, under my supervision. That is not a hole in your wall, Hauptmann. That is the wall holding.\" Veyl studies you a long moment, then inclines her head — not defeat, a truce. The court will not leash you. But the picture still lies on the table, and everyone has seen it. Later, quietly, Elian presses something into your understanding rather than your hand: \"You can hold a second shadow now. Bind it as Sariel taught you.\" He hesitates. \"I kept feeling I was *re*-teaching you. And that picture... go carefully. Luxana has no answer for what you are. Perhaps somewhere does.\"",
+      "npc_luxana_brannoc_1": "The archive is a canyon of shelves lit by one stubborn lamp, and Brannoc is somewhere in it, audible before he's visible. \"Don't touch the third rack, it's load-bearing and so am I.\" He emerges, ink to the elbows, squints at you, then at the scale-dark shard you carry — and goes very still. \"Where did you... no. Don't tell me yet.\" He takes it with a care he did not show you. \"Forty years I've kept these rolls. I know the hand of every clerk back to the founding. This fits *none* of it. It is older than the court that built this room.\" He's already shuffling toward the deep stacks. \"Come back when I've had time with the old rolls. And don't mention this to the gilded ones upstairs. They collect things they don't understand.\"",
+      "npc_luxana_brannoc_2": "Brannoc has not slept; the lamp has burned down twice. He clears a table with his forearm and unrolls something so old the vellum sighs. \"Found it near dawn. Filed under nothing — wedged behind a census three centuries dead, as if someone hid it on purpose.\" It is a depiction in failing ink: a dragon of shadow, wings like spilled night. He does not point at the face. He doesn't have to. You are looking at yourself. \"I am a careful man,\" he says quietly, \"so I will say only what I can prove: this is old, it is shadow, and it is *you*. The rest I leave to you.\" He rolls it shut, but his hands aren't quite steady. \"Word like this doesn't keep, lad. Someone with a sword will hear of it before the ink dries.\"",
+      "npc_luxana_veyl_1": "Hauptmann Veyl is waiting where the corridor narrows — chosen ground, you realise. She does not reach for a weapon; she doesn't need to. \"I hear the archive turned up a portrait. Centuries old, and wearing your face.\" Her tone is almost kind, which is worse. \"Understand me. I have nothing against you. But I guard this court, and you are a thing that passes through bars, lifts what cannot be lifted, stands in bright rooms unseen. The collegium calls that a marvel. I call it every wall I keep, with a door in it I cannot lock.\" She steps aside to let you pass — barely. \"I will put it before the court. Plainly. Let them decide what to do with a shadow that no one can hold. Be there. I'd rather you heard it from me than learned it from a cell.\"",
       "npc_luxana_caldwen_1": "Lord Caldwen does not rise when you enter, which is its own kind of message. \"So. The court's pet shadow.\" He swirls a glass he has no intention of offering you. \"A strongroom beneath my estate flooded in the spring melt. My family's signet — three centuries old — sits behind an iron grate too narrow for any drake's claw, in water no servant will dive. The water-callers only made it worse; flood answering flood.\" He finally looks at you. \"They tell me a shadow needs neither breath nor width. Reach through the bars. Bring it up. Fail, and I'll have wasted an afternoon. Succeed...\" a thin smile, \"...and the court will hear of it from me, which is worth more than you know.\"",
       "npc_luxana_mirelle_1": "Lady Mirelle meets you at the nursery door with a finger to her lips. \"Please — softly.\" Inside, a child sleeps in a cradle of spun heartwood, so old and fine the wood seems to breathe. \"My mother's, and her mother's. A warding charm slipped between the slats and the mattress this morning, and now it hums where it should be silent — but the wood won't bear a hand, and claws would wake her, or worse, crack the cradle.\" Her composure trembles. \"They say your shadow weighs nothing. Lift the charm out. Don't wake my daughter. I will be in your debt — and I do not forget debts.\"",
       "npc_luxana_aurel_1": "Vicomte Aurel is already mid-gesture when you arrive, as though the conversation began without you. \"Marvellous, you came. Now — my soirée. Half the peerage will attend purely to be seen leaving early. I require something they have *never* witnessed and cannot buy.\" He spins, flinging open the ballroom doors onto a blaze of chandeliers. \"They say shadow is strongest where the light is brightest. So: a living shadow-play, here, across these walls, while the room burns gold. Give them an hour they'll lie about having understood. Do that, and Aurel's favour opens doors even Caldwen's name cannot.\"",
@@ -9513,12 +9678,15 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "main_subtab_herstellen_name": "Crafting",
       "ui_placed_suffix": "(placed)",
       "location_luxana_name": "Luxana",
+      "location_luxana-archive_name": "The Court Archive",
       "chapter_luxana": "Luxana",
       "npc_luxana_elian_name": "Meister Elian",
       "npc_luxana_caldwen_name": "Lord Caldwen",
       "npc_luxana_mirelle_name": "Lady Mirelle",
       "npc_luxana_aurel_name": "Vicomte Aurel",
       "npc_luxana_sylvaine_name": "Dame Sylvaine",
+      "npc_luxana_brannoc_name": "Brannoc the Archivist",
+      "npc_luxana_veyl_name": "Hauptmann Veyl",
       "smoke_witness_name": "Smoke Witness",
       "smoke_settings_tab": "Smoke",
       "location_vandara_name": "Vandara",
