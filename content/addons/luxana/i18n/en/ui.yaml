@@ -3,7 +3,7 @@ location_luxana_name: Luxana
 chapter_luxana: Luxana
 # Label for the finale's single progress gate (Elian step 2). Counts every
 # helped noble + resolved plot beat (six total) → "Proven at court (X/6)".
-ui_luxana-court: Proven at court
+ui_luxana-court: Tasks completed
 npc_luxana_elian_name: Meister Elian
 npc_luxana_caldwen_name: Lord Caldwen
 npc_luxana_mirelle_name: Lady Mirelle

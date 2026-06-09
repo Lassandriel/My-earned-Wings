@@ -3,7 +3,7 @@ location_luxana_name: Luxana
 chapter_luxana: Luxana
 # Label für das eine Fortschritts-Tor des Finales (Elian Step 2). Zählt jeden
 # unterstützten Adligen + gelösten Plot-Beat (sechs gesamt) → "Am Hof bewährt (X/6)".
-ui_luxana-court: Am Hof bewährt
+ui_luxana-court: Aufgaben erledigt
 npc_luxana_elian_name: Meister Elian
 npc_luxana_caldwen_name: Lord Caldwen
 npc_luxana_mirelle_name: Lady Mirelle

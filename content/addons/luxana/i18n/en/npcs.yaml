@@ -1,116 +1,107 @@
+# All dialogue below is spoken word only — the NPC card shows who is
+# speaking, and the player infers the scene from what's said. Scene outcome
+# (results, consequences) lives in the logs, not here.
+
 # ─── Olié — Luxana summons (patched onto the Vandara secretary) ───
 npc_olie_luxana_summons: >-
-  Olié slides one last sealed document across the desk. "The court at
-  Luxana has asked for you — by name, and by element. A summons to the
-  Hofmagier collegium, under Meister Elian himself." A rare pause. "We
-  don't often send a fresh graduate straight to court. Congratulations —
-  twice over, it seems."
+  One last item for your file. The court at Luxana has asked for you — by
+  name, and by element. A summons to the Hofmagier collegium, under Meister
+  Elian himself. We don't often send a fresh graduate straight to court.
+  Congratulations — twice over, it seems.
 
 # ─── Meister Elian — first meeting ────────────────────────────────
 npc_luxana_elian_1: >-
-  A cluttered study, crystal staves drifting in midair, an ancient tutor
-  peering over slipping glasses. "Ah — you're the one. Meister Elian.
-  Forty years I've taught at this court — every element but shadow. And now
-  they hand me the first shadow-shifter." He leans in. "Truth be told, I've
-  no idea where to begin. We'll work it out together. Old Lord Caldwen's
-  been hounding me for a week — go, see what a shadow can do that a drake
-  cannot."
+  Ah — you're the one. Come in, mind the third staff, it bites. Meister
+  Elian. Forty years I've taught at this court — every element but shadow.
+  And now they hand me the first shadow-shifter. Truth be told, I've no idea
+  where to begin; we'll work it out together. Old Lord Caldwen's been
+  hounding me for a week — go, see what a shadow can do that a drake cannot.
 
 # ─── Meister Elian — convergence finale (2nd shadow slot) ─────────
 npc_luxana_elian_2: >-
-  The hall is packed. Hauptmann Veyl lays out her case: a thing that slips
-  through bars and weighs nothing cannot wander unwatched. On the table —
-  Brannoc's centuries-old painting of a shadow-dragon with your face.
-  Elian rises. "Captain, you'd cage what you haven't troubled to
-  understand." One by one the nobles step forward for you. Veyl inclines
-  her head — a truce, not defeat. Later, quietly: "You can hold a second
-  shadow now. Bind it as Sariel taught you." He hesitates. "That picture...
-  go carefully. Luxana has no answer for what you are. Perhaps somewhere
-  does."
+  Captain. You guard walls — admirable. But you would cage what you haven't
+  troubled to understand. These four will speak for what this shadow has
+  done; let them... A truce, then, Hauptmann. Good. As for you — you can
+  hold a second shadow now. Bind it as Sariel taught you. And that picture
+  in the archive... go carefully. Luxana has no answer for what you are.
+  Perhaps somewhere does.
 
 # ─── Lord Caldwen — the flooded vault ─────────────────────────────
 npc_luxana_caldwen_1: >-
-  Caldwen doesn't rise when you enter. "The court's pet shadow." A vault
-  beneath his estate flooded; his three-centuries-old family signet sits
-  behind an iron grate too narrow for any claw, in water no servant will
-  dive. "They say a shadow needs neither breath nor width. Reach through.
-  Bring it up. Succeed, and the court hears of it from me — worth more than
-  you know."
+  So. The court's pet shadow. A vault beneath my estate flooded — the family
+  signet, three centuries old, sits behind an iron grate too narrow for any
+  claw, in water no servant will dive. They say a shadow needs neither breath
+  nor width. Reach through. Bring it up. Succeed, and the court hears of it
+  from me.
 
 # ─── Lady Mirelle — the fragile cradle ────────────────────────────
 npc_luxana_mirelle_1: >-
-  Lady Mirelle meets you with a finger to her lips. "Softly — please." A
-  child sleeps in a cradle of spun heartwood. "A warding charm slipped
-  beneath the mattress, and now it hums where it should be silent — but the
-  wood won't bear a hand, and claws would wake her." Her composure trembles.
-  "They say your shadow weighs nothing. Lift it out. Don't wake my daughter."
+  Softly — please, she's only just asleep. A warding charm slipped beneath
+  the cradle's mattress, and now it hums where it should be silent — but the
+  wood won't bear a hand, and claws would wake her. They say your shadow
+  weighs nothing. Lift it out. Don't wake my daughter, and I won't forget it.
 
 # ─── Vicomte Aurel — the shadow theatre ───────────────────────────
 npc_luxana_aurel_1: >-
-  Vicomte Aurel is mid-gesture before you arrive. "My soirée needs
-  something they've never seen and cannot buy." He flings open the ballroom
-  doors onto a blaze of chandeliers. "They say shadow is strongest where
-  the light burns brightest. A living shadow-play, across these walls. Give
-  them that, and Aurel's favour opens doors even Caldwen's name cannot."
+  Marvellous, you came. My soirée needs something they've never seen and
+  cannot buy. They say shadow is strongest where the light burns brightest —
+  so: a living shadow-play across these walls while the room blazes gold.
+  Give them that, and Aurel's favour opens doors even Caldwen's name cannot.
 
 # ─── Dame Sylvaine — shade the moonbloom ──────────────────────────
 npc_luxana_sylvaine_1: >-
-  Dame Sylvaine doesn't look up from the pale flower in her gloved hands.
-  "Moonbloom. One touch of true daylight and it blackens forever — yet it
-  must cross the sunlit court at noon." She measures you. "I need shade
-  that moves with it and lets not one ray through. Shadow belongs to light;
-  you should manage it. Walk beside me. Keep it dark."
+  Moonbloom. One touch of true daylight and it blackens forever — yet it
+  must cross the sunlit court at noon. I need shade that moves with it and
+  lets not one ray through. Shadow belongs to light; you of all things
+  should manage it. Walk beside me. Keep it dark.
 
 # ─── Brannoc the Archivist — the court archive ────────────────────
 npc_luxana_brannoc_1: >-
-  The archive is a canyon of shelves lit by one stubborn lamp. Brannoc
-  emerges, ink to the elbows — then sees the scale-dark shard you carry and
-  goes still. "Older than the court that built this room." He's already
-  shuffling toward the deep stacks. "Come back when I've had time with the
-  old rolls. And don't mention this to the gilded ones upstairs."
+  Don't touch the third rack, it's load-bearing — and so am I. ...Where did
+  you get that? No — don't tell me yet. Forty years I've kept these rolls,
+  and this fits none of them. Older than the court that built this room.
+  Come back when I've had time with the old rolls. And don't mention it to
+  the gilded ones upstairs.
 
 npc_luxana_brannoc_2: >-
-  Brannoc hasn't slept. He unrolls something so old the vellum sighs — a
-  shadow-dragon in failing ink, wings like spilled night. He doesn't point
-  at the face. He doesn't have to. "I'll say only what I can prove: this is
-  old, it is shadow, and it is *you*." His hands aren't quite steady. "Word
-  like this doesn't keep. Someone with a sword will hear of it."
+  Found it near dawn, filed under nothing — wedged behind a census three
+  centuries dead, as if someone hid it. I'll say only what I can prove: this
+  is old, it is shadow, and it is you. Word like this doesn't keep. Someone
+  with a sword will hear of it before the ink dries.
 
 # ─── Hauptmann Veyl — a matter of security ────────────────────────
 npc_luxana_veyl_1: >-
-  Veyl waits where the corridor narrows. "I hear the archive turned up a
-  portrait. Centuries old, wearing your face." Her tone is almost kind,
-  which is worse. "I've nothing against you. But you slip through bars and
-  stand unseen in bright rooms — and I guard this court." She steps aside,
-  barely. "I'll put it before the court. Be there. Better you hear it from
-  me than from a cell."
+  I hear the archive turned up a portrait. Centuries old, wearing your face.
+  I've nothing against you — understand that. But you slip through bars, lift
+  what cannot be lifted, stand unseen in bright rooms, and I guard this court.
+  I'll put it before the court, plainly. Be there. Better you hear it from me
+  than from a cell.
 
 # ─── Pell, the court page (dey/dem) ───────────────────────────────
 npc_luxana_pell_1: >-
-  A page no taller than your elbow falls into step beside you. "You're the
-  shadow. I'm Pell — I carry things, mostly secrets." Dey grins. "Caldwen's
-  vault isn't the only thing of his that's underwater. The Vicomte owes his
-  tailor more than his estate's worth. Nobody notices a page, so I notice
-  everything. Be kind to me and I'll be useful."
+  You're the shadow — everyone's talking. I'm Pell. I carry things, mostly
+  secrets. Want the real map of this place? Caldwen's vault isn't the only
+  thing of his that's underwater. The Vicomte owes his tailor more than his
+  estate's worth. Nobody notices a page, so I notice everything. Be kind to
+  me and I'll be useful.
 
 npc_luxana_pell_2: >-
-  Pell waits in a doorway, voice low. "That picture the old archivist dug
-  up? The captain's been by twice, asking what a shadow can do." Dey picks
-  at a sleeve. "Veyl's not cruel — that's the trouble. She'll come at you
-  straight, by the rules. So don't give her a reason. You've got friends
-  here now. Use us."
+  That picture the old archivist dug up? It's not staying in the cellar. The
+  captain's been by twice, asking what a shadow can and can't do. Veyl's not
+  cruel — that's the trouble. She'll come at you straight, by the rules. So
+  don't give her a reason. You've got friends here now, even small ones.
+  Use us.
 
 # ─── Ondra Voss, the social climber (she/her) ─────────────────────
 npc_luxana_voss_1: >-
-  Ondra Voss arrives in a cloud of expensive scent. "The shadow everyone's
-  gasping about. I have the house, the wine, the right guests — what I lack
-  is *occasion*. You are a talking point." A bright, brittle smile. "One
-  evening in my salon. Do something marvellous. Name your fee — I do
-  understand fees."
+  There you are — the shadow everyone's gasping about. I have the house, the
+  wine, the right guests on paper. What I lack is occasion, and you, my dear,
+  are a talking point. One evening in my salon. Do something marvellous, let
+  them whisper. Name your fee — I do understand fees.
 
 npc_luxana_voss_2: >-
-  You tell Voss you won't be anyone's centrepiece. She goes still — then
-  laughs, ugly and warm. "The first honest 'no' I've had since I bought my
-  way through that door." She studies you anew. "Keep your shadow to
-  yourself, then. But a jumped-up merchant's goodwill — the only true
-  currency at this court — is yours. No performance required."
+  You won't? ...Do you know, that's the first honest 'no' I've had since I
+  bought my way through that door. They all want something — you just don't.
+  Keep your shadow to yourself, then. But a jumped-up merchant's goodwill is
+  the only true currency at this court, and you have mine. No performance
+  required.
