@@ -1,8 +1,9 @@
 # The four noble experiments. Each is a single supervised shadow task that
 # sets its completion flag and branches the unlock graph (see npcs/nobles.yaml).
 # One step each for now — dialogue, multi-step build-up and any crafting come
-# in later iterations. All are gated on luxana-elian-met so they can't fire
-# before the chapter properly opens.
+# in later iterations. No flag requirements needed: each noble is only
+# unlocked once the chapter has opened (Elian) or a prior experiment is done,
+# so the unlock graph itself is the gate.
 
 # ── Lord Caldwen — the flooded vault ──────────────────────────────────
 # A strongroom under his estate has flooded; his signet sank behind a
@@ -23,8 +24,6 @@
       costType: magic
       rewards:
         shards: 25
-      requirements:
-        flags.luxana-elian-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-exp-vault
@@ -70,8 +69,6 @@
       costType: magic
       rewards:
         shards: 25
-      requirements:
-        flags.luxana-elian-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-exp-cradle
@@ -103,8 +100,6 @@
       costType: magic
       rewards:
         shards: 25
-      requirements:
-        flags.luxana-elian-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-exp-stage
@@ -140,8 +135,6 @@
       costType: magic
       rewards:
         shards: 25
-      requirements:
-        flags.luxana-elian-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-exp-bloom

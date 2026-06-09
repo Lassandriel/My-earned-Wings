@@ -1,54 +1,46 @@
 receive_luxana_summons: >-
-  Olié has handed you a court summons. Luxana wants your shadow studied —
-  Meister Elian awaits at the Hofmagier collegium.
+  Olié hands you a court summons. Luxana wants your shadow studied — Meister
+  Elian awaits at the Hofmagier collegium.
 luxana_elian_met: >-
-  You've met Meister Elian. The imperial tutor who taught every element
-  but shadow — as lost as he is delighted to have you.
+  You've met Meister Elian — the tutor who taught every element but shadow.
+  He hands you straight to the nobles.
 luxana_caldwen_done: >-
-  The signet rises dripping through the grate. Lord Caldwen, lost for
-  words, lets it slip that the court is now watching. Two more nobles ask
-  for you by evening.
+  The signet rises dripping through the grate. Caldwen lets slip the court
+  is watching now. Two more nobles ask for you by evening.
 luxana_vault_relic: >-
   Something else came up with the signet — a scale-dark shard that fits no
-  record Caldwen knows. It feels older than the vault. The court archivist
-  might know what it is.
-luxana_brannoc_met: >-
-  Brannoc turns the shard over and over, muttering. "Older than the
-  archive. Older than the court." He waves you off to fetch the deep rolls.
-luxana_archive_revealed: >-
-  Brannoc unrolls a depiction centuries old: a shadow-dragon, rendered in
-  failing ink — and the likeness to you is impossible to unsee. Neither of
-  you says it aloud. Word of the find does not stay in the archive.
-luxana_veyl_confronted: >-
-  Hauptmann Veyl blocks your path, unhurried. A thing that slips through
-  bars and weighs nothing is, she says, a hole in every wall she guards.
-  She means to put the shadow before the court.
-luxana_pell_met: >-
-  Pell, the court page, knows who's feuding, who's broke behind the gilt,
-  and which doors stick. A friend worth having where everyone smiles.
-luxana_pell_warned: >-
-  Pell finds you first. "The captain's been asking about you. Quiet-like.
-  Thought you'd want to know before she does it loud." Dey slips away
-  before you can thank dem.
-luxana_voss_met: >-
-  Ondra Voss bought her salon and half its guests; what she can't buy is a
-  title. She'd very much like to be seen with the court's famous shadow.
-luxana_voss_resolved: >-
-  You let Voss down gently — you're no one's ornament. To your surprise she
-  laughs, calls it the most noble thing she's heard all season, and means
-  it. An odd sort of ally, but a real one.
+  record, older than the vault. The court archivist might know.
 luxana_mirelle_done: >-
-  The charm lifts free; the cradle never so much as creaks, the child
-  never stirs. Lady Mirelle weeps with relief and tells the gardens of you.
+  The charm lifts free; the cradle never creaks, the child never stirs.
+  Lady Mirelle weeps with relief.
 luxana_aurel_done: >-
   Shadows dance across the ballroom walls, brighter for the chandeliers.
-  Vicomte Aurel's soirée is the talk of Luxana — and so are you.
+  Aurel's soirée — and you — are the talk of Luxana.
 luxana_sylvaine_done: >-
-  A patch of steady shade travels with the moonbloom across the sunlit
-  court; not a petal wilts. Dame Sylvaine simply nods, which from her is
-  high praise.
+  Steady shade travels with the moonbloom across the sunlit court; not a
+  petal wilts. Dame Sylvaine nods — high praise, from her.
+luxana_brannoc_met: >-
+  Brannoc turns the shard over, muttering. "Older than the archive." He
+  sends you off while he digs through the deep rolls.
+luxana_archive_revealed: >-
+  Brannoc unrolls a centuries-old painting: a shadow-dragon with your face.
+  Neither of you says it aloud — and the find won't stay quiet.
+luxana_veyl_confronted: >-
+  Hauptmann Veyl blocks your path. A thing that slips through bars is a hole
+  in every wall she guards — she'll put the shadow before the court.
+luxana_pell_met: >-
+  Pell, the court page, knows every feud and which doors stick. A friend
+  worth having where everyone smiles.
+luxana_pell_warned: >-
+  Pell finds you first: "The captain's been asking about you. Quiet-like."
+  Dey slips away before you can thank dem.
+luxana_voss_met: >-
+  Ondra Voss bought her salon and half its guests; what she can't buy is a
+  title. She'd love to be seen with the court's famous shadow.
+luxana_voss_resolved: >-
+  You let Voss down gently — you're no one's ornament. She laughs, and means
+  it. An odd ally, but a real one.
 luxana_elian_finale: >-
-  The court hears Veyl out — and sides with Elian and the nobles you
-  served. No leash, no cell; a truce. You leave Luxana free and of your own
-  will, a second shadow at your call now, and an old painted face you can't
-  stop seeing. Luxana had no answer for what you are. Somewhere must.
+  The court hears Veyl out — and sides with Elian and the nobles you served.
+  No leash, no cell. You leave Luxana free, a second shadow at your call,
+  and an old painted face you can't stop seeing.

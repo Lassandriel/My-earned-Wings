@@ -1,216 +1,125 @@
 # ─── Olié — Luxana-Vorladung (auf den Vandara-Sekretär gepatcht) ──
-# Olié spricht das nach dem Abschluss; überreicht die Hof-Vorladung.
-# Liegt im Luxana-Addon (Luxanas Eintritts-Content), auch wenn der
-# Sprecher ein Vandara-NPC ist.
 npc_olie_luxana_summons: >-
-  Olié schiebt ein letztes versiegeltes Dokument über den Tisch, so
-  präzise wie immer. "Ein allerletzter Eintrag für Ihre Akte. Der Hof von
-  Luxana hat Sie angefordert — namentlich, und nach Element." Eine kleine,
-  bedachte Pause. "Eine Vorladung ans Hofmagier-Kollegium, unter Meister
-  Elian persönlich. Schatten ist selten genug, dass die Hauptstadt es
-  ordentlich studiert haben will, unter Aufsicht." Er stempelt die Akte
-  mit einem sanften, endgültigen Pochen. "Wir schicken selten eine frische
-  Absolventin direkt an den Hof. Das ist... ungewöhnlich." Das leiseste
-  Nicken. "Legen Sie das im Kollegium in Luxana vor. Und —
-  Glückwunsch. Gleich doppelt, wie es scheint."
+  Olié schiebt ein letztes versiegeltes Dokument über den Tisch. "Der Hof
+  von Luxana hat nach Ihnen verlangt — namentlich, und nach Element. Eine
+  Vorladung ans Hofmagier-Kollegium, unter Meister Elian persönlich." Eine
+  seltene Pause. "Wir schicken selten eine frische Absolventin direkt an
+  den Hof. Glückwunsch — gleich doppelt, wie es scheint."
 
 # ─── Meister Elian — erste Begegnung ──────────────────────────────
 npc_luxana_elian_1: >-
-  Ein vollgestopftes Studierzimmer hoch oben im Kollegium von Luxana:
-  Kristallstäbe, die in der Luft treiben, schiefe Büchertürme, und ein
-  uralter Drachenwandler, der über eine Brille blinzelt, die ihm in dem
-  Moment von der Nase rutscht, in dem er sie hochschiebt. "Ah — Sie sind
-  es also. Kommen Sie rein, kommen Sie. Vorsicht beim dritten Stab, der
-  beißt." Er kneift die Augen zusammen, mustert dich. "Meister Elian.
-  Vierzig Jahre Hauslehrer an diesem Hof. Ich habe die Kaiserkinder
-  unterrichtet, müssen Sie wissen — alle vier. Der kleine Windfratz und
-  der Jüngste waren..." ein Seufzen, fast zärtlich, "...sagen wir:
-  *temperamentvoll*." Er fängt sich wieder, schiebt die Brille hoch (sie
-  rutscht zurück). "Licht habe ich gelehrt. Gezeiten. Traum. Erde. Wind.
-  Jedes Element, das je durch diese Tür kam. Aber Schatten? Nie. Nicht ein
-  einziges Mal in vierzig Jahren." Er legt einen Stab ab und wirkt einen
-  Moment lang gleichermaßen nervös wie entzückt. "Und jetzt drückt der Hof
-  mir *Sie* in die Hand. Die Erste. Sie wollen es verstanden wissen —
-  ordentlich, sicher, unter meiner Aufsicht. Heißt, Sie und ich werden das
-  gemeinsam herausfinden, denn ehrlich gesagt..." er beugt sich
-  verschwörerisch vor, "...habe ich keine Ahnung, wo ich anfangen soll.
-  Sagen Sie dem Kollegium den letzten Teil nicht." Er hellt auf. "Aber Sie
-  müssen nicht auf mich warten. Der alte Caldwen liegt dem Kollegium seit
+  Ein vollgestopftes Studierzimmer, Kristallstäbe treiben in der Luft, ein
+  uralter Lehrer blinzelt über eine rutschende Brille. "Ah — Sie sind es.
+  Meister Elian. Vierzig Jahre lehre ich an diesem Hof — jedes Element außer
+  Schatten. Und nun drückt man mir den ersten Schattenwandler in die Hand."
+  Er beugt sich vor. "Ehrlich gesagt habe ich keine Ahnung, wo ich anfangen
+  soll. Wir finden es gemeinsam heraus. Der alte Lord Caldwen liegt mir seit
   einer Woche in den Ohren — gehen Sie, zeigen Sie, was ein Schatten kann,
   was ein Drache nicht vermag."
 
 # ─── Meister Elian — Konvergenz-Finale (2. Schatten-Slot) ─────────
-# Die Hof-Anhörung: Veyl will den Schatten an die Leine, der Archiv-Fund
-# liegt über dem Raum, die Gunst der Adeligen + Elians Wort kippen die Waage.
 npc_luxana_elian_2: >-
-  Der Kollegiumssaal ist voller, als Sie ihn je gesehen haben. Hauptmann
-  Veyl steht aufrecht vor dem Hof und legt ihren Fall in klaren, ruhigen
-  Worten dar: Ein Ding, das durch Gitter schlüpft und nichts wiegt, dürfe
-  man nicht unbeobachtet umherwandern lassen. Und dort, auf dem Tisch,
-  Brannocs jahrhundertealte Darstellung — der Schattendrache mit deinem
-  Gesicht —, die niemand erklären und niemand übersehen kann. Elian erhebt
-  sich langsam. "Hauptmann. Sie bewachen Mauern. Aller Ehren wert. Doch Sie
-  verlangen vom Hof, einzusperren, was er sich nicht die Mühe gemacht hat
-  zu verstehen." Er deutet, und sie treten vor, einer nach dem anderen:
-  Caldwen, der dir ein Siegel schuldet; Mirelle, ein schlafendes Kind;
-  Aurel, einen Triumph; Sylvaine, eine lebende Blüte. "Vier Probleme, die
-  kein Drache lösen konnte — sauber gelöst, unter meiner Aufsicht. Das ist
-  kein Loch in Ihrer Mauer, Hauptmann. Das ist die Mauer, die hält." Veyl
-  mustert Sie einen langen Moment, dann neigt sie den Kopf — keine
-  Niederlage, ein Waffenstillstand. Der Hof wird Sie nicht an die Leine
-  legen. Doch das Bild liegt noch auf dem Tisch, und alle haben es gesehen.
-  Später, leise, drückt Elian Ihnen weniger in die Hand als ins Verständnis:
+  Der Saal ist voll. Hauptmann Veyl legt ihren Fall dar: Ein Ding, das
+  durch Gitter schlüpft und nichts wiegt, dürfe man nicht unbeobachtet
+  umherwandern lassen. Auf dem Tisch — Brannocs jahrhundertealtes Bild eines
+  Schattendrachen mit deinem Gesicht. Elian erhebt sich. "Hauptmann, Sie
+  wollen einsperren, was Sie sich nicht die Mühe gemacht haben zu
+  verstehen." Einer nach dem anderen treten die Adeligen für Sie ein. Veyl
+  neigt den Kopf — ein Waffenstillstand, keine Niederlage. Später, leise:
   "Sie können nun einen zweiten Schatten halten. Binden Sie ihn, wie Sariel
-  es Ihnen lehrte." Er zögert. "Ich hatte stets das Gefühl, ich
-  *wiederhole* es nur. Und dieses Bild... gehen Sie behutsam. Luxana hat
+  es lehrte." Er zögert. "Dieses Bild... gehen Sie behutsam. Luxana hat
   keine Antwort darauf, was Sie sind. Vielleicht hat irgendwo eine."
-
-# ─── Brannoc der Archivar — das Hof-Archiv ────────────────────────
-npc_luxana_brannoc_1: >-
-  Das Archiv ist eine Schlucht aus Regalen, erhellt von einer einzigen
-  störrischen Lampe, und Brannoc ist irgendwo darin — hörbar, ehe man ihn
-  sieht. "Das dritte Regal nicht anfassen, es ist tragend, und ich bin es
-  auch." Er taucht auf, bis zu den Ellenbogen voll Tinte, kneift die Augen
-  zusammen, erst auf dich, dann auf die schuppendunkle Scherbe, die du
-  trägst — und erstarrt. "Wo haben Sie... nein. Sagen Sie es noch nicht."
-  Er nimmt sie mit einer Sorgfalt, die er dir nicht entgegenbrachte.
-  "Vierzig Jahre hüte ich diese Rollen. Ich kenne die Hand jedes Schreibers
-  zurück bis zur Gründung. Das passt in *keine*. Es ist älter als der Hof,
-  der diesen Raum gebaut hat." Schon schlurft er zu den tiefen Stapeln.
-  "Kommen Sie wieder, wenn ich Zeit mit den alten Rollen hatte. Und
-  erwähnen Sie es nicht bei den Vergoldeten oben. Die sammeln Dinge, die
-  sie nicht verstehen."
-
-npc_luxana_brannoc_2: >-
-  Brannoc hat nicht geschlafen; die Lampe ist zweimal heruntergebrannt. Er
-  fegt mit dem Unterarm einen Tisch frei und rollt etwas so Altes aus, dass
-  das Pergament seufzt. "Bei Morgengrauen gefunden. Unter nichts abgelegt —
-  hinter eine drei Jahrhunderte tote Volkszählung geklemmt, als hätte es
-  jemand absichtlich versteckt." Es ist eine Darstellung in verblassender
-  Tinte: ein Drache aus Schatten, Schwingen wie verschüttete Nacht. Er
-  deutet nicht auf das Gesicht. Er muss es nicht. Du siehst dich selbst an.
-  "Ich bin ein vorsichtiger Mann", sagt er leise, "also sage ich nur, was
-  ich beweisen kann: Das ist alt, das ist Schatten, und das bist *du*. Den
-  Rest überlasse ich dir." Er rollt es zu, doch seine Hände sind nicht ganz
-  ruhig. "So etwas bleibt nicht geheim, Junge. Jemand mit einem Schwert
-  wird davon hören, ehe die Tinte trocknet."
-
-# ─── Hauptmann Veyl — eine Frage der Sicherheit ───────────────────
-npc_luxana_veyl_1: >-
-  Hauptmann Veyl wartet, wo der Korridor sich verengt — gewähltes Terrain,
-  wird dir klar. Sie greift nicht zur Waffe; sie muss es nicht. "Ich höre,
-  das Archiv hat ein Bildnis zutage gefördert. Jahrhundertealt, und es
-  trägt Ihr Gesicht." Ihr Ton ist beinahe freundlich, was schlimmer ist.
-  "Verstehen Sie mich. Ich habe nichts gegen Sie. Aber ich bewache diesen
-  Hof, und Sie sind ein Wesen, das durch Gitter geht, hebt, was nicht zu
-  heben ist, in hellen Sälen ungesehen steht. Das Kollegium nennt das ein
-  Wunder. Ich nenne es: jede Mauer, die ich halte, mit einer Tür darin, die
-  ich nicht verschließen kann." Sie tritt beiseite, um Sie passieren zu
-  lassen — gerade so. "Ich werde es vor den Hof bringen. Unverblümt. Sollen
-  die entscheiden, was man mit einem Schatten tut, den niemand halten kann.
-  Seien Sie da. Lieber hören Sie es von mir als aus einer Zelle."
-
-# ─── Pell, die Hofpage (dey/dem) ──────────────────────────────────
-npc_luxana_pell_1: >-
-  Eine Page, kaum größer als dein Ellenbogen, fällt neben dir in Schritt,
-  als wäret ihr immer schon zusammen gegangen. "Du bist der Schatten. Alle
-  reden. Ich bin Pell — ich trage Sachen, meistens Geheimnisse." Dey
-  grinst. "Willst du die echte Karte von hier? Lord Caldwens Tresor ist
-  nicht das Einzige von ihm, das unter Wasser steht. Lady Mirelle hat seit
-  einem Monat nicht geschlafen. Der Vicomte schuldet seinem Schneider mehr,
-  als sein Gut wert ist." Dey zuckt mit den Schultern, leicht wie Luft.
-  "Eine Page bemerkt niemand. Also bemerke ich alles. Sei nett zu mir, und
-  ich bin dir nützlich — das ist die ganze Abmachung. Die meisten hier oben
-  schaffen nur die erste Hälfte."
-
-npc_luxana_pell_2: >-
-  Pell wartet in einem Türrahmen, in dem niemand stehen sollte, die Stimme
-  ganz leise. "Hör zu. Das, was der alte Archivar ausgegraben hat — das
-  Bild? Es bleibt nicht im Keller. Die Hauptmann war zweimal da und hat die
-  Schreiber gefragt, was ein Schatten kann und was nicht." Dey zupft am
-  Ärmel, ausnahmsweise unruhig. "Hauptmann Veyl ist nicht grausam. Das ist
-  das Problem — vorsichtige Leute sind schwerer umzustimmen als wütende.
-  Sie wird dir gerade ins Gesicht kommen, bei Tageslicht, nach den Regeln."
-  Ein kurzer, scharfer Blick herauf. "Also gib ihr keinen Grund. Du hast
-  jetzt Freunde hier, auch kleine. Nutz uns."
-
-# ─── Ondra Voss, die Aufsteigerin (sie/ihr) ───────────────────────
-npc_luxana_voss_1: >-
-  Ondra Voss erscheint in einer Wolke aus teurem Duft und schärferem
-  Kalkül. "Da sind Sie ja. Der Schatten, nach dem alle schnappen. Ich war
-  auf Aurels kleiner Soirée — göttlich, und nun gänzlich *vorbei*, und da
-  kommen Sie ins Spiel." Sie lotst Sie zu einem Fenster, als gehörte es
-  ihr, und vielleicht tut es das. "Ich habe das Haus, den Wein, auf dem
-  Papier die richtigen Gäste. Was mir fehlt, ist... der Anlass. Ein
-  Gesprächsthema, das keine Münze gekauft hat. Sie, meine Liebe, sind ein
-  Gesprächsthema." Ein helles, brüchiges Lächeln. "Einen Abend. Stehen Sie
-  in meinem Salon, tun Sie etwas Wunderbares, lassen Sie sie tuscheln.
-  Nennen Sie Ihren Preis. Preise verstehe ich."
-
-npc_luxana_voss_2: >-
-  Sie sagen Voss unverblümt, dass Sie niemandes Schaustück sein werden —
-  nicht für ein Honorar, nicht für einen Titel, dem sie nachjagt. Sie
-  erstarrt; einen Moment lang rutscht die Salon-Maske. Dann, unerwartet,
-  lacht sie — ein echtes Lachen, hässlich und warm. "Wissen Sie, das ist
-  das erste ehrliche 'Nein', das ich gehört habe, seit ich mich durch jene
-  Tür gekauft habe? Alle *wollen* etwas. Sie einfach... nicht." Sie
-  betrachtet Sie aufs Neue. "Behalten Sie Ihren Schatten für sich. Doch
-  falls Ihnen das Wohlwollen einer emporgekommenen Händlerin je etwas wert
-  ist — und an diesem Hof, meine Liebe, ist Wohlwollen die einzige wahre
-  Währung — haben Sie meines. Ohne Vorstellung."
 
 # ─── Lord Caldwen — der geflutete Tresor ──────────────────────────
 npc_luxana_caldwen_1: >-
-  Lord Caldwen erhebt sich nicht, als Sie eintreten, was für sich genommen
-  eine Botschaft ist. "Also. Der Hof-Schatten zum Vorzeigen." Er
-  schwenkt ein Glas, das er Ihnen keineswegs anzubieten gedenkt. "Eine
-  Schatzkammer unter meinem Anwesen ist in der Frühjahrsschmelze
-  vollgelaufen. Das Siegel meiner Familie — drei Jahrhunderte alt — liegt
-  hinter einem Eisengitter, zu eng für jede Drachenklaue, in Wasser, in
-  das kein Diener tauchen will. Die Wasserrufer machten es nur schlimmer;
-  Flut antwortete Flut." Endlich sieht er Sie an. "Man sagt mir, ein
-  Schatten braucht weder Atem noch Breite. Greifen Sie durch die Stäbe.
-  Holen Sie es herauf. Versagen Sie, und ich habe einen Nachmittag
-  vergeudet. Gelingt es..." ein schmales Lächeln, "...wird der Hof es von
-  mir hören, und das ist mehr wert, als Sie ahnen."
+  Caldwen erhebt sich nicht, als Sie eintreten. "Der Hof-Schatten zum
+  Vorzeigen." Eine Schatzkammer unter seinem Anwesen ist vollgelaufen; das
+  drei Jahrhunderte alte Familiensiegel liegt hinter einem Eisengitter, zu
+  eng für jede Klaue, in Wasser, in das kein Diener taucht. "Man sagt, ein
+  Schatten braucht weder Atem noch Breite. Greifen Sie durch. Holen Sie es
+  herauf. Gelingt es, hört der Hof es von mir — mehr wert, als Sie ahnen."
 
 # ─── Lady Mirelle — die zerbrechliche Wiege ───────────────────────
 npc_luxana_mirelle_1: >-
-  Lady Mirelle empfängt Sie an der Kinderzimmertür, den Finger auf den
-  Lippen. "Bitte — leise." Drinnen schläft ein Kind in einer Wiege aus
-  gesponnenem Kernholz, so alt und fein, dass das Holz zu atmen scheint.
-  "Die meiner Mutter, und deren Mutter. Ein Schutztalisman ist heute
-  Morgen zwischen Latten und Matratze gerutscht, und nun summt er, wo er
+  Lady Mirelle empfängt Sie mit dem Finger auf den Lippen. "Leise — bitte."
+  Ein Kind schläft in einer Wiege aus gesponnenem Kernholz. "Ein
+  Schutztalisman ist unter die Matratze gerutscht und summt nun, wo er
   schweigen sollte — doch das Holz trägt keine Hand, und Klauen würden sie
-  wecken oder, schlimmer, die Wiege zersprengen." Ihre Fassung bebt. "Man
-  sagt, Ihr Schatten wiegt nichts. Heben Sie den Talisman heraus. Wecken
-  Sie meine Tochter nicht. Ich werde in Ihrer Schuld stehen — und ich
-  vergesse Schulden nicht."
+  wecken." Ihre Fassung bebt. "Man sagt, Ihr Schatten wiegt nichts. Heben
+  Sie ihn heraus. Wecken Sie meine Tochter nicht."
 
 # ─── Vicomte Aurel — das Schattentheater ──────────────────────────
 npc_luxana_aurel_1: >-
-  Vicomte Aurel ist schon mitten in einer Geste, als Sie eintreffen, als
-  hätte das Gespräch ohne Sie begonnen. "Wunderbar, Sie sind da. Also —
-  meine Soirée. Der halbe Adel kommt einzig, um beim frühen Gehen gesehen
-  zu werden. Ich brauche etwas, das sie *nie* erlebt haben und nicht
-  kaufen können." Er wirbelt herum und stößt die Ballsaaltüren auf, hin zu
-  einem Lodern von Kronleuchtern. "Man sagt, Schatten ist am stärksten, wo
-  das Licht am hellsten brennt. Also: ein lebendiges Schattenspiel, hier,
-  über diese Wände, während der Saal in Gold steht. Schenken Sie ihnen
-  eine Stunde, deren Verständnis sie hinterher vorgeben werden. Tun Sie
-  das, und Aurels Gunst öffnet Türen, die selbst Caldwens Name nicht
-  vermag."
+  Vicomte Aurel ist schon mitten in einer Geste, als Sie eintreffen. "Meine
+  Soirée braucht etwas, das sie nie gesehen haben und nicht kaufen können."
+  Er stößt die Ballsaaltüren auf, hin zu einem Lodern von Kronleuchtern.
+  "Man sagt, Schatten ist am stärksten, wo das Licht am hellsten brennt. Ein
+  lebendiges Schattenspiel über diese Wände. Geben Sie ihnen das, und Aurels
+  Gunst öffnet Türen, die selbst Caldwens Name nicht vermag."
 
 # ─── Dame Sylvaine — die Mondblume beschatten ─────────────────────
 npc_luxana_sylvaine_1: >-
-  Dame Sylvaine spricht, ohne von der blassen, gefalteten Blüte
-  aufzusehen, die sie in behandschuhten Händen hält. "Mondblume. Sie
-  öffnet sich nur dem Mondlicht; eine Berührung echten Tageslichts, und
-  sie schwärzt für immer." Endlich betrachtet sie Sie, abwägend. "Sie muss
-  am Mittag über den offenen Hof zum Wintergarten. Ein Schirm streut das
-  Licht; ein Tuch erstickt sie. Ich brauche Schatten, der genau ist — der
-  mit der Blüte wandert, ruhig bleibt und nicht einen Strahl durchlässt."
-  Eine schwache, trockene Anerkennung. "Schatten gehört zum Licht; Sie von
-  allen Wesen sollten das beherrschen. Gehen Sie neben mir. Halten Sie es
-  dunkel. Und wir werden sehen, ob die Gerüchte des Hofes den Atem wert
-  sind, der an sie verschwendet wird."
+  Dame Sylvaine sieht nicht von der blassen Blüte in ihren behandschuhten
+  Händen auf. "Mondblume. Eine Berührung echten Tageslichts, und sie
+  schwärzt für immer — doch sie muss am Mittag über den offenen Hof." Sie
+  mustert Sie. "Ich brauche Schatten, der mit ihr wandert und nicht einen
+  Strahl durchlässt. Schatten gehört zum Licht; Sie sollten das beherrschen.
+  Gehen Sie neben mir. Halten Sie es dunkel."
+
+# ─── Brannoc der Archivar — das Hof-Archiv ────────────────────────
+npc_luxana_brannoc_1: >-
+  Das Archiv ist eine Schlucht aus Regalen, erhellt von einer störrischen
+  Lampe. Brannoc taucht auf, bis zu den Ellenbogen voll Tinte — dann sieht
+  er die schuppendunkle Scherbe, die du trägst, und erstarrt. "Älter als der
+  Hof, der diesen Raum gebaut hat." Schon schlurft er zu den tiefen Stapeln.
+  "Kommen Sie wieder, wenn ich Zeit mit den alten Rollen hatte. Und erwähnen
+  Sie es nicht bei den Vergoldeten oben."
+
+npc_luxana_brannoc_2: >-
+  Brannoc hat nicht geschlafen. Er rollt etwas so Altes aus, dass das
+  Pergament seufzt — ein Schattendrache in verblassender Tinte, Schwingen
+  wie verschüttete Nacht. Er deutet nicht auf das Gesicht. Er muss es nicht.
+  "Ich sage nur, was ich beweisen kann: Das ist alt, das ist Schatten, und
+  das bist *du*." Seine Hände sind nicht ganz ruhig. "So etwas bleibt nicht
+  geheim. Jemand mit einem Schwert wird davon hören."
+
+# ─── Hauptmann Veyl — eine Frage der Sicherheit ───────────────────
+npc_luxana_veyl_1: >-
+  Veyl wartet, wo der Korridor sich verengt. "Ich höre, das Archiv hat ein
+  Bildnis zutage gefördert. Jahrhundertealt, und es trägt Ihr Gesicht." Ihr
+  Ton ist beinahe freundlich, was schlimmer ist. "Ich habe nichts gegen Sie.
+  Aber Sie schlüpfen durch Gitter und stehen ungesehen in hellen Sälen — und
+  ich bewache diesen Hof." Sie tritt beiseite, gerade so. "Ich bringe es vor
+  den Hof. Seien Sie da. Lieber hören Sie es von mir als aus einer Zelle."
+
+# ─── Pell, die Hofpage (dey/dem) ──────────────────────────────────
+npc_luxana_pell_1: >-
+  Eine Page, kaum größer als dein Ellenbogen, fällt neben dir in Schritt.
+  "Du bist der Schatten. Ich bin Pell — ich trage Sachen, meistens
+  Geheimnisse." Dey grinst. "Caldwens Tresor ist nicht das Einzige von ihm,
+  das unter Wasser steht. Der Vicomte schuldet seinem Schneider mehr, als
+  sein Gut wert ist. Eine Page bemerkt niemand, also bemerke ich alles. Sei
+  nett zu mir, und ich bin dir nützlich."
+
+npc_luxana_pell_2: >-
+  Pell wartet in einem Türrahmen, die Stimme leise. "Das Bild, das der alte
+  Archivar ausgegraben hat? Die Hauptmann war zweimal da und hat gefragt,
+  was ein Schatten kann." Dey zupft am Ärmel. "Veyl ist nicht grausam — das
+  ist das Problem. Sie kommt dir gerade ins Gesicht, nach den Regeln. Also
+  gib ihr keinen Grund. Du hast jetzt Freunde hier. Nutz uns."
+
+# ─── Ondra Voss, die Aufsteigerin (sie/ihr) ───────────────────────
+npc_luxana_voss_1: >-
+  Ondra Voss erscheint in einer Wolke aus teurem Duft. "Der Schatten, nach
+  dem alle schnappen. Ich habe das Haus, den Wein, die richtigen Gäste — was
+  mir fehlt, ist der *Anlass*. Sie sind ein Gesprächsthema." Ein helles,
+  brüchiges Lächeln. "Einen Abend in meinem Salon. Tun Sie etwas Wunderbares.
+  Nennen Sie Ihren Preis — Preise verstehe ich."
+
+npc_luxana_voss_2: >-
+  Sie sagen Voss, dass Sie niemandes Schaustück sein werden. Sie erstarrt —
+  dann lacht sie, hässlich und warm. "Das erste ehrliche 'Nein', seit ich
+  mich durch jene Tür gekauft habe." Sie betrachtet Sie aufs Neue. "Behalten
+  Sie Ihren Schatten für sich. Doch das Wohlwollen einer emporgekommenen
+  Händlerin — die einzige wahre Währung an diesem Hof — haben Sie. Ohne
+  Vorstellung."

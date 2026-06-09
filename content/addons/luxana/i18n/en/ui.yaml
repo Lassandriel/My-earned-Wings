@@ -1,7 +1,13 @@
 # Luxana location label (Orte sub-tab) + chapter (journal) + NPC names.
 location_luxana_name: Luxana
-location_luxana-archive_name: The Court Archive
 chapter_luxana: Luxana
+# Friendly labels for the finale's requirement checklist (Elian step 2).
+ui_luxana-exp-vault: "Caldwen's vault"
+ui_luxana-exp-cradle: "Mirelle's cradle"
+ui_luxana-exp-stage: "Aurel's soirée"
+ui_luxana-exp-bloom: "Sylvaine's moonbloom"
+ui_luxana-archive-revealed: "Brannoc's discovery"
+ui_luxana-captain-confronted: "Veyl's challenge"
 npc_luxana_elian_name: Meister Elian
 npc_luxana_caldwen_name: Lord Caldwen
 npc_luxana_mirelle_name: Lady Mirelle

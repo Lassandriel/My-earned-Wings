@@ -18,8 +18,6 @@
   steps:
     - cost: 5
       costType: energy
-      requirements:
-        flags.luxana-elian-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-pell-met
@@ -31,7 +29,6 @@
     - cost: 5
       costType: energy
       requirements:
-        flags.luxana-pell-met: true
         flags.luxana-archive-revealed: true
       onSuccess:
         - type: setFlag
@@ -61,8 +58,6 @@
       costType: energy
       rewards:
         shards: 20
-      requirements:
-        flags.luxana-exp-stage: true
       onSuccess:
         - type: setFlag
           flag: luxana-voss-met
@@ -73,8 +68,6 @@
       dialogueKey: npc_luxana_voss_1
     - cost: 5
       costType: energy
-      requirements:
-        flags.luxana-voss-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-voss-resolved

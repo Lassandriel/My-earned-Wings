@@ -1,64 +1,47 @@
 receive_luxana_summons: >-
-  Olié hat dir eine Hof-Vorladung überreicht. Luxana will deinen Schatten
+  Olié überreicht dir eine Hof-Vorladung. Luxana will deinen Schatten
   studieren — Meister Elian wartet im Hofmagier-Kollegium.
 luxana_elian_met: >-
-  Du hast Meister Elian kennengelernt. Der kaiserliche Lehrer, der jedes
-  Element außer Schatten unterrichtet hat — so ratlos wie entzückt, dich
-  zu haben.
+  Du hast Meister Elian kennengelernt — den Lehrer, der jedes Element außer
+  Schatten unterrichtet hat. Er reicht dich direkt an den Adel weiter.
 luxana_caldwen_done: >-
-  Das Siegel steigt tropfend durch das Gitter. Lord Caldwen, um Worte
-  verlegen, lässt durchblicken, dass der Hof nun zusieht. Bis zum Abend
-  fragen zwei weitere Adelige nach dir.
+  Das Siegel steigt tropfend durch das Gitter. Caldwen lässt durchblicken,
+  dass der Hof nun zusieht. Bis zum Abend fragen zwei weitere Adelige nach dir.
 luxana_vault_relic: >-
-  Noch etwas kam mit dem Siegel herauf — eine schuppendunkle Scherbe, die
-  in keine Akte passt, die Caldwen kennt. Sie fühlt sich älter an als der
-  Tresor. Der Hof-Archivar weiß vielleicht, was sie ist.
+  Noch etwas kam mit dem Siegel herauf — eine schuppendunkle Scherbe, die in
+  keine Akte passt, älter als der Tresor. Der Hof-Archivar weiß vielleicht Rat.
+luxana_mirelle_done: >-
+  Der Talisman löst sich; die Wiege knarzt nicht, das Kind regt sich nicht.
+  Lady Mirelle weint vor Erleichterung.
+luxana_aurel_done: >-
+  Schatten tanzen über die Ballsaalwände, heller noch durch die Kronleuchter.
+  Aurels Soirée — und du — sind das Gespräch von Luxana.
+luxana_sylvaine_done: >-
+  Steter Schatten wandert mit der Mondblume über den sonnigen Hof; kein
+  Blütenblatt welkt. Dame Sylvaine nickt — bei ihr höchstes Lob.
 luxana_brannoc_met: >-
-  Brannoc dreht die Scherbe wieder und wieder, murmelnd. "Älter als das
-  Archiv. Älter als der Hof." Er scheucht dich fort, um die tiefen Rollen
-  zu holen.
+  Brannoc dreht die Scherbe um und um, murmelnd. "Älter als das Archiv." Er
+  schickt dich fort, während er die tiefen Rollen durchsucht.
 luxana_archive_revealed: >-
-  Brannoc rollt eine jahrhundertealte Darstellung aus: ein Schattendrache,
-  in verblassender Tinte — und die Ähnlichkeit mit dir lässt sich nicht
-  übersehen. Keiner von euch spricht es aus. Die Kunde vom Fund bleibt
-  nicht im Archiv.
+  Brannoc rollt ein jahrhundertealtes Bild aus: ein Schattendrache mit
+  deinem Gesicht. Keiner spricht es aus — und der Fund bleibt nicht geheim.
 luxana_veyl_confronted: >-
-  Hauptmann Veyl versperrt dir den Weg, ohne Eile. Ein Ding, das durch
-  Gitter schlüpft und nichts wiegt, sei, sagt sie, ein Loch in jeder Mauer,
-  die sie bewacht. Sie will den Schatten vor den Hof bringen.
+  Hauptmann Veyl versperrt dir den Weg. Ein Ding, das durch Gitter schlüpft,
+  sei ein Loch in jeder Mauer — sie bringt den Schatten vor den Hof.
 luxana_pell_met: >-
-  Pell, die Hofpage, weiß, wer mit wem zerstritten ist, wer hinter dem Gold
-  pleite ist und welche Türen klemmen. Eine gute Bekanntschaft dort, wo
-  alle lächeln.
+  Pell, die Hofpage, kennt jede Fehde und welche Türen klemmen. Eine gute
+  Bekanntschaft dort, wo alle lächeln.
 luxana_pell_warned: >-
-  Pell findet dich zuerst. "Die Hauptmann hat nach dir gefragt. Ganz leise.
-  Dachte, du willst es wissen, bevor sie's laut tut." Dey verschwindet, ehe
-  du dey danken kannst.
+  Pell findet dich zuerst: "Die Hauptmann hat nach dir gefragt. Ganz leise."
+  Dey verschwindet, ehe du dey danken kannst.
 luxana_voss_met: >-
   Ondra Voss kaufte ihren Salon und die Hälfte der Gäste; was sie nicht
-  kaufen kann, ist ein Titel. Allzu gern ließe sie sich mit dem berühmten
-  Schatten des Hofes sehen.
+  kaufen kann, ist ein Titel. Gern ließe sie sich mit dem Schatten sehen.
 luxana_voss_resolved: >-
-  Du weist Voss sanft ab — du bist niemandes Schmuckstück. Zu deiner
-  Überraschung lacht sie, nennt es das Edelste, was sie die ganze Saison
-  gehört habe, und meint es ernst. Eine seltsame Verbündete, aber eine
-  echte.
-luxana_mirelle_done: >-
-  Der Talisman löst sich; die Wiege knarzt nicht einmal, das Kind regt
-  sich nicht. Lady Mirelle weint vor Erleichterung und erzählt den Gärten
-  von dir.
-luxana_aurel_done: >-
-  Schatten tanzen über die Wände des Ballsaals, heller noch durch die
-  Kronleuchter. Vicomte Aurels Soirée ist das Gespräch von Luxana — und du
-  auch.
-luxana_sylvaine_done: >-
-  Ein Fleck steten Schattens wandert mit der Mondblume über den
-  sonnigen Hof; kein Blütenblatt welkt. Dame Sylvaine nickt nur, was bei
-  ihr höchstes Lob ist.
+  Du weist Voss sanft ab — du bist niemandes Schmuckstück. Sie lacht, und
+  meint es. Eine seltsame Verbündete, aber eine echte.
 luxana_elian_finale: >-
   Der Hof hört Veyl an — und stellt sich auf Elians Seite und die der
-  Adeligen, denen du gedient hast. Keine Leine, keine Zelle; ein
-  Waffenstillstand. Du verlässt Luxana frei und aus eigenem Willen, ein
-  zweiter Schatten nun auf deinen Ruf, und ein altes gemaltes Gesicht, das
-  du nicht mehr loswirst. Luxana hatte keine Antwort darauf, was du bist.
-  Irgendwo muss es eine geben.
+  Adeligen, denen du gedient hast. Keine Leine, keine Zelle. Du verlässt
+  Luxana frei, ein zweiter Schatten auf deinen Ruf, und ein altes gemaltes
+  Gesicht, das du nicht mehr loswirst.

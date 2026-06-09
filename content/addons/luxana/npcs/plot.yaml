@@ -8,8 +8,8 @@
 #                                         │ confrontation
 #                                         └─▶ Elian finale (court converges)
 #
-# Brannoc lives in a NEW location (luxana-archive) → its own Orte sub-tab.
-# Veyl stays in the Luxana court.
+# Both stay in the Luxana court (location: luxana). The archive is narrative
+# flavour in Brannoc's dialogue, not a separate tab.
 
 # Low-born clerk, four decades in the dust of the court archive. Knows the
 # records better than any noble and has no patience for rank. The one who
@@ -22,7 +22,7 @@
   progKey: luxanaBrannoc
   maxProgress: 2
   chapter: Luxana
-  location: luxana-archive
+  location: luxana
 
 # Captain of the court guard. Power by office, not blood. Sanctioned shadow
 # study unsettles her — a thing that slips through bars and weighs nothing

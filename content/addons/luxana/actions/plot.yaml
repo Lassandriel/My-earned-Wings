@@ -21,8 +21,6 @@
   steps:
     - cost: 5
       costType: energy
-      requirements:
-        flags.luxana-vault-relic: true
       onSuccess:
         - type: setFlag
           flag: luxana-brannoc-met
@@ -33,8 +31,6 @@
       dialogueKey: npc_luxana_brannoc_1
     - cost: 10
       costType: energy
-      requirements:
-        flags.luxana-brannoc-met: true
       onSuccess:
         - type: setFlag
           flag: luxana-archive-revealed
@@ -66,8 +62,6 @@
   steps:
     - cost: 10
       costType: energy
-      requirements:
-        flags.luxana-archive-revealed: true
       onSuccess:
         - type: setFlag
           flag: luxana-captain-confronted
