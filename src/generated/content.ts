@@ -3172,12 +3172,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
         "cost": 25,
         "costType": "magic",
         "requirements": {
-          "flags.luxana-exp-vault": true,
-          "flags.luxana-exp-cradle": true,
-          "flags.luxana-exp-stage": true,
-          "flags.luxana-exp-bloom": true,
-          "flags.luxana-archive-revealed": true,
-          "flags.luxana-captain-confronted": true
+          "counters.luxana-court": {
+            "op": ">=",
+            "val": 6
+          }
         },
         "onSuccess": [
           {
@@ -3242,6 +3240,11 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-luxana-brannoc"
           },
           {
+            "type": "modifyCounter",
+            "counter": "luxana-court",
+            "amount": 1
+          },
+          {
             "type": "log",
             "logKey": "luxana_caldwen_done",
             "color": "var(--gold)"
@@ -3284,6 +3287,11 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           {
             "type": "unlockNPC",
             "id": "npc-luxana-sylvaine"
+          },
+          {
+            "type": "modifyCounter",
+            "counter": "luxana-court",
+            "amount": 1
           },
           {
             "type": "log",
@@ -3329,6 +3337,11 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-luxana-voss"
           },
           {
+            "type": "modifyCounter",
+            "counter": "luxana-court",
+            "amount": 1
+          },
+          {
             "type": "log",
             "logKey": "luxana_aurel_done",
             "color": "var(--gold)"
@@ -3362,6 +3375,11 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "setFlag",
             "flag": "luxana-exp-bloom",
             "value": true
+          },
+          {
+            "type": "modifyCounter",
+            "counter": "luxana-court",
+            "amount": 1
           },
           {
             "type": "log",
@@ -3417,6 +3435,11 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-luxana-veyl"
           },
           {
+            "type": "modifyCounter",
+            "counter": "luxana-court",
+            "amount": 1
+          },
+          {
             "type": "log",
             "logKey": "luxana_archive_revealed",
             "color": "var(--accent-purple)"
@@ -3447,6 +3470,11 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "type": "setFlag",
             "flag": "luxana-captain-confronted",
             "value": true
+          },
+          {
+            "type": "modifyCounter",
+            "counter": "luxana-court",
+            "amount": 1
           },
           {
             "type": "log",
@@ -8366,12 +8394,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_placed_suffix": "(platziert)",
       "location_luxana_name": "Luxana",
       "chapter_luxana": "Luxana",
-      "ui_luxana-exp-vault": "Caldwens Tresor",
-      "ui_luxana-exp-cradle": "Mirelles Wiege",
-      "ui_luxana-exp-stage": "Aurels Soirée",
-      "ui_luxana-exp-bloom": "Sylvaines Mondblume",
-      "ui_luxana-archive-revealed": "Brannocs Fund",
-      "ui_luxana-captain-confronted": "Veyls Forderung",
+      "ui_luxana-court": "Am Hof bewährt",
       "npc_luxana_elian_name": "Meister Elian",
       "npc_luxana_caldwen_name": "Lord Caldwen",
       "npc_luxana_mirelle_name": "Lady Mirelle",
@@ -9828,12 +9851,7 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "ui_placed_suffix": "(placed)",
       "location_luxana_name": "Luxana",
       "chapter_luxana": "Luxana",
-      "ui_luxana-exp-vault": "Caldwen's vault",
-      "ui_luxana-exp-cradle": "Mirelle's cradle",
-      "ui_luxana-exp-stage": "Aurel's soirée",
-      "ui_luxana-exp-bloom": "Sylvaine's moonbloom",
-      "ui_luxana-archive-revealed": "Brannoc's discovery",
-      "ui_luxana-captain-confronted": "Veyl's challenge",
+      "ui_luxana-court": "Proven at court",
       "npc_luxana_elian_name": "Meister Elian",
       "npc_luxana_caldwen_name": "Lord Caldwen",
       "npc_luxana_mirelle_name": "Lady Mirelle",

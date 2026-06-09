@@ -41,6 +41,10 @@
           value: true
         - type: unlockNPC
           id: npc-luxana-brannoc
+        # +1 to the court-progress counter the finale gates on (see elian.yaml).
+        - type: modifyCounter
+          counter: luxana-court
+          amount: 1
         - type: log
           logKey: luxana_caldwen_done
           color: var(--gold)
@@ -75,6 +79,9 @@
           value: true
         - type: unlockNPC
           id: npc-luxana-sylvaine
+        - type: modifyCounter
+          counter: luxana-court
+          amount: 1
         - type: log
           logKey: luxana_mirelle_done
           color: var(--gold)
@@ -110,6 +117,9 @@
         # Ondra Voss pounces, wanting the same prestige for herself.
         - type: unlockNPC
           id: npc-luxana-voss
+        - type: modifyCounter
+          counter: luxana-court
+          amount: 1
         - type: log
           logKey: luxana_aurel_done
           color: var(--gold)
@@ -139,6 +149,9 @@
         - type: setFlag
           flag: luxana-exp-bloom
           value: true
+        - type: modifyCounter
+          counter: luxana-court
+          amount: 1
         - type: log
           logKey: luxana_sylvaine_done
           color: var(--gold)

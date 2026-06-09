@@ -161,6 +161,23 @@ export const TooltipManager = {
           label = `${itemName} ${placedLabel}`;
           value = '';
         }
+        // Counter threshold (e.g. counters.luxana-court >= 6) — render as a
+        // single readable progress line "Label (have/need)" with a met-aware
+        // ✓/✗ prefix, instead of a raw flag list. Friendly label via the
+        // ui_<counter> key if present, else the raw counter name.
+        else if (path.startsWith('counters.')) {
+          const counterName = path.split('.')[1] ?? '';
+          const need = rule && typeof rule === 'object' ? (rule as any).val : rule;
+          const have = (store.counters as Record<string, number>)?.[counterName] ?? 0;
+          const uiKey = 'ui_' + counterName;
+          const lang = store.language || 'de';
+          const tr = (window as any).TRANSLATIONS as
+            | Record<string, Record<string, Record<string, string>>>
+            | undefined;
+          const friendly = tr?.[lang]?.['ui']?.[uiKey] ? store.t(uiKey) : counterName;
+          label = `${friendly} (${Math.min(have, need)}/${need})`;
+          value = '';
+        }
         else if (path === 'flags.build-house') label = store.t('ui_house');
         else if (path === 'flags.unlocked-library') label = store.t('ui_library');
         else if (path === 'flags.read_book_1_complete')

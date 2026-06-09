@@ -38,6 +38,9 @@
         # The find can't stay quiet — the captain hears of it.
         - type: unlockNPC
           id: npc-luxana-veyl
+        - type: modifyCounter
+          counter: luxana-court
+          amount: 1
         - type: log
           logKey: luxana_archive_revealed
           color: var(--accent-purple)
@@ -66,6 +69,9 @@
         - type: setFlag
           flag: luxana-captain-confronted
           value: true
+        - type: modifyCounter
+          counter: luxana-court
+          amount: 1
         - type: log
           logKey: luxana_veyl_confronted
           color: var(--accent-purple)

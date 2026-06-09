@@ -1,13 +1,9 @@
 # Luxana-Ortslabel (Orte-Sub-Tab) + Kapitel (Journal) + NPC-Namen.
 location_luxana_name: Luxana
 chapter_luxana: Luxana
-# Lesbare Labels für die Finale-Checkliste (Elian Step 2).
-ui_luxana-exp-vault: "Caldwens Tresor"
-ui_luxana-exp-cradle: "Mirelles Wiege"
-ui_luxana-exp-stage: "Aurels Soirée"
-ui_luxana-exp-bloom: "Sylvaines Mondblume"
-ui_luxana-archive-revealed: "Brannocs Fund"
-ui_luxana-captain-confronted: "Veyls Forderung"
+# Label für das eine Fortschritts-Tor des Finales (Elian Step 2). Zählt jeden
+# unterstützten Adligen + gelösten Plot-Beat (sechs gesamt) → "Am Hof bewährt (X/6)".
+ui_luxana-court: Am Hof bewährt
 npc_luxana_elian_name: Meister Elian
 npc_luxana_caldwen_name: Lord Caldwen
 npc_luxana_mirelle_name: Lady Mirelle

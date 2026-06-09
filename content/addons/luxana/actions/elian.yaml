@@ -47,13 +47,13 @@
     # question — and the second shadow as Elian's parting gift.
     - cost: 25
       costType: magic
+      # One readable gate instead of six raw flags: every helped resident and
+      # resolved plot beat bumps the luxana-court counter (+1 each, six total).
+      # Shows in the tooltip as "Am Hof bewährt (X/6)".
       requirements:
-        flags.luxana-exp-vault: true
-        flags.luxana-exp-cradle: true
-        flags.luxana-exp-stage: true
-        flags.luxana-exp-bloom: true
-        flags.luxana-archive-revealed: true
-        flags.luxana-captain-confronted: true
+        counters.luxana-court:
+          op: '>='
+          val: 6
       onSuccess:
         - type: setFlag
           flag: luxana-complete
