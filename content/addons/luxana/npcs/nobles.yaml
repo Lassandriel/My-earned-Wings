@@ -11,13 +11,12 @@
 #                                   │ all four done
 #                                   └─▶ Elian finale (2nd shadow slot)
 #
-# Portraits are placeholders (reused village art) until real noble art
-# lands. location: luxana → they share the Orte ▸ Luxana sub-tab.
+# location: luxana → they share the Orte ▸ Luxana sub-tab.
 
 - id: npc-luxana-caldwen
   nameKey: npc_luxana_caldwen_name
   icon: 🗝️
-  image: img/npcs/official_hall.webp # placeholder
+  image: img/addons/luxana/caldwen.webp
   color: '#b8860b'
   progKey: luxanaCaldwen
   maxProgress: 1
@@ -27,7 +26,7 @@
 - id: npc-luxana-mirelle
   nameKey: npc_luxana_mirelle_name
   icon: 🍼
-  image: img/npcs/baker_gara.webp # placeholder
+  image: img/addons/luxana/mirelle.webp
   color: '#c98ab0'
   progKey: luxanaMirelle
   maxProgress: 1
@@ -37,7 +36,7 @@
 - id: npc-luxana-aurel
   nameKey: npc_luxana_aurel_name
   icon: 🎭
-  image: img/npcs/artisan_geron.webp # placeholder
+  image: img/addons/luxana/aurel.webp
   color: '#7c5cbf'
   progKey: luxanaAurel
   maxProgress: 1
@@ -47,7 +46,7 @@
 - id: npc-luxana-sylvaine
   nameKey: npc_luxana_sylvaine_name
   icon: 🌙
-  image: img/npcs/flowergirl.webp # placeholder
+  image: img/addons/luxana/sylvaine.webp
   color: '#5c8a6b'
   progKey: luxanaSylvaine
   maxProgress: 1

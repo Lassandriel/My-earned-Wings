@@ -6,12 +6,12 @@
 # - Ondra Voss (she/her): nouveau-riche, bought her way into the salons and
 #   wants a title. Sees you as a prestige accessory after Aurel's soirée.
 #
-# Both stay in the Luxana court (location: luxana). Portraits placeholder.
+# Both stay in the Luxana court (location: luxana).
 
 - id: npc-luxana-pell
   nameKey: npc_luxana_pell_name
   icon: 🕯️
-  image: img/npcs/flowergirl.webp # placeholder
+  image: img/addons/luxana/pell.webp
   color: '#94a3b8'
   progKey: luxanaPell
   maxProgress: 2
@@ -21,7 +21,7 @@
 - id: npc-luxana-voss
   nameKey: npc_luxana_voss_name
   icon: 💰
-  image: img/npcs/baker_gara.webp # placeholder
+  image: img/addons/luxana/voss.webp
   color: '#d4af37'
   progKey: luxanaVoss
   maxProgress: 2

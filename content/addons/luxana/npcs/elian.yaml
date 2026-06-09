@@ -11,7 +11,7 @@
 - id: npc-luxana-elian
   nameKey: npc_luxana_elian_name
   icon: 🔮
-  image: img/npcs/sage.webp # placeholder — real Elian portrait later
+  image: img/addons/luxana/elian.webp
   color: '#8b5cf6'
   progKey: luxanaElian
   maxProgress: 2 # 1 = first meeting, 2 = graduation finale (grants 2nd shadow slot)

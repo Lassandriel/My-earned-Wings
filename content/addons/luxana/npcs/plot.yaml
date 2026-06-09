@@ -9,7 +9,7 @@
 #                                         └─▶ Elian finale (court converges)
 #
 # Brannoc lives in a NEW location (luxana-archive) → its own Orte sub-tab.
-# Veyl stays in the Luxana court. Portraits are placeholders for now.
+# Veyl stays in the Luxana court.
 
 # Low-born clerk, four decades in the dust of the court archive. Knows the
 # records better than any noble and has no patience for rank. The one who
@@ -17,7 +17,7 @@
 - id: npc-luxana-brannoc
   nameKey: npc_luxana_brannoc_name
   icon: 📜
-  image: img/npcs/official_hall.webp # placeholder
+  image: img/addons/luxana/brannoc.webp
   color: '#9ca3af'
   progKey: luxanaBrannoc
   maxProgress: 2
@@ -31,7 +31,7 @@
 - id: npc-luxana-veyl
   nameKey: npc_luxana_veyl_name
   icon: 🛡️
-  image: img/npcs/blacksmith.webp # placeholder
+  image: img/addons/luxana/veyl.webp
   color: '#b45309'
   progKey: luxanaVeyl
   maxProgress: 1
