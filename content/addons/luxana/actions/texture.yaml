@@ -1,0 +1,86 @@
+# Texture actions: Pell's gossip and Ondra Voss's social climbing. These do
+# NOT gate the finale — they're optional colour and pressure. Their flags are
+# read only by their own follow-up steps.
+
+# ── Pell — the court page (dey/dem) ───────────────────────────────────
+# Step 1: gossip + the lay of the court. Step 2: after the archive find,
+# dey quietly warns you the captain is asking questions.
+- id: act-npc-luxana-pell
+  npcId: npc-luxana-pell
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaPell
+  maxProgress: 2
+  journalIcon: 🕯️
+  icon: 🕯️
+  journalColor: '#94a3b8'
+  steps:
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.luxana-elian-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-pell-met
+          value: true
+        - type: log
+          logKey: luxana_pell_met
+          color: var(--text-dim)
+      dialogueKey: npc_luxana_pell_1
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.luxana-pell-met: true
+        flags.luxana-archive-revealed: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-pell-warned
+          value: true
+        - type: log
+          logKey: luxana_pell_warned
+          color: var(--text-dim)
+      dialogueKey: npc_luxana_pell_2
+  customExecute: npc_execute
+
+# ── Ondra Voss — the social climber (she/her) ─────────────────────────
+# Step 1: she wants to parade you at her salon for status. Step 2: you
+# decline being a trophy — she takes it surprisingly well.
+- id: act-npc-luxana-voss
+  npcId: npc-luxana-voss
+  category: npc
+  isStory: true
+  chapter: chapter_luxana
+  progKey: luxanaVoss
+  maxProgress: 2
+  journalIcon: 💰
+  icon: 💰
+  journalColor: '#d4af37'
+  steps:
+    - cost: 5
+      costType: energy
+      rewards:
+        shards: 20
+      requirements:
+        flags.luxana-exp-stage: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-voss-met
+          value: true
+        - type: log
+          logKey: luxana_voss_met
+          color: var(--gold)
+      dialogueKey: npc_luxana_voss_1
+    - cost: 5
+      costType: energy
+      requirements:
+        flags.luxana-voss-met: true
+      onSuccess:
+        - type: setFlag
+          flag: luxana-voss-resolved
+          value: true
+        - type: log
+          logKey: luxana_voss_resolved
+          color: var(--gold)
+      dialogueKey: npc_luxana_voss_2
+  customExecute: npc_execute

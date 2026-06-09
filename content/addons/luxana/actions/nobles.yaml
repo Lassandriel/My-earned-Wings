@@ -111,6 +111,10 @@
           value: true
         - type: unlockNPC
           id: npc-luxana-sylvaine
+        # The soirée makes you the talk of Luxana — the social-climbing
+        # Ondra Voss pounces, wanting the same prestige for herself.
+        - type: unlockNPC
+          id: npc-luxana-voss
         - type: log
           logKey: luxana_aurel_done
           color: var(--gold)

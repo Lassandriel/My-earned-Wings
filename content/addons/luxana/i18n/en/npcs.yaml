@@ -97,6 +97,52 @@ npc_luxana_veyl_1: >-
   shadow that no one can hold. Be there. I'd rather you heard it from me
   than learned it from a cell."
 
+# ─── Pell, the court page (dey/dem) ───────────────────────────────
+npc_luxana_pell_1: >-
+  A page no taller than your elbow falls into step beside you as if you'd
+  always been walking together. "You're the shadow. Everyone's talking.
+  I'm Pell — I carry things, mostly secrets." Dey grins. "Want the real
+  map of this place? Lord Caldwen's vault isn't the only thing of his
+  that's underwater. Lady Mirelle hasn't slept in a month. The Vicomte
+  owes his tailor more than his estate's worth." Dey shrugs, light as air.
+  "Nobody notices a page. So I notice everything. Be kind to me and I'll
+  be useful to you — that's the whole arrangement. Most folk up here only
+  manage the first half."
+
+npc_luxana_pell_2: >-
+  Pell is waiting in a doorway that shouldn't have anyone in it, voice
+  dropped low. "Listen. The thing the old archivist dug up — the picture?
+  It's not staying in the cellar. The captain's been by twice, asking the
+  clerks what shadow can and can't do." Dey picks at a sleeve, uneasy for
+  once. "Hauptmann Veyl's not cruel. That's the trouble — careful people
+  are harder to talk round than angry ones. She'll come at you straight,
+  in daylight, by the rules." A quick, fierce look up. "So don't you go
+  giving her a reason. You've got friends here now, even small ones. Use
+  us."
+
+# ─── Ondra Voss, the social climber (she/her) ─────────────────────
+npc_luxana_voss_1: >-
+  Ondra Voss arrives in a cloud of expensive scent and sharper calculation.
+  "There you are. The shadow everyone's gasping about. I caught Aurel's
+  little soirée — divine, and now utterly *over*, which is where you come
+  in." She steers you toward a window as though she owns it, and she might.
+  "I have the house, the wine, the right guests on paper. What I lack is...
+  occasion. A talking point that no coin bought. You, my dear, are a
+  talking point." A bright, brittle smile. "One evening. Stand in my salon,
+  do something marvellous, let them whisper. Name your fee. I do understand
+  fees."
+
+npc_luxana_voss_2: >-
+  You tell Voss, plainly, that you won't be anyone's centrepiece — not for
+  a fee, not for a title she's chasing. She goes still; for a moment the
+  salon mask slips. Then, unexpectedly, she laughs — a real one, ugly and
+  warm. "Do you know, that's the first honest 'no' I've had since I bought
+  my way through that door? They all *want* something. You just... don't."
+  She studies you anew. "Keep your shadow to yourself, then. But if a
+  jumped-up merchant's goodwill is ever worth anything to you — and at this
+  court, my dear, goodwill is the only true currency — you have mine. No
+  performance required."
+
 # ─── Lord Caldwen — the flooded vault ─────────────────────────────
 npc_luxana_caldwen_1: >-
   Lord Caldwen does not rise when you enter, which is its own kind of

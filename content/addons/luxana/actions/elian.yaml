@@ -33,6 +33,9 @@
           value: true
         - type: unlockNPC
           id: npc-luxana-caldwen
+        # Pell, the court page, is around from the start — gossip + texture.
+        - type: unlockNPC
+          id: npc-luxana-pell
         - type: log
           logKey: luxana_elian_met
           color: var(--gold)

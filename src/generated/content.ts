@@ -3160,6 +3160,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-luxana-caldwen"
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-luxana-pell"
+          },
+          {
             "type": "log",
             "logKey": "luxana_elian_met",
             "color": "var(--gold)"
@@ -3333,6 +3337,10 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
             "id": "npc-luxana-sylvaine"
           },
           {
+            "type": "unlockNPC",
+            "id": "npc-luxana-voss"
+          },
+          {
             "type": "log",
             "logKey": "luxana_aurel_done",
             "color": "var(--gold)"
@@ -3471,6 +3479,120 @@ export const ACTION_REGISTRY_GENERATED: Record<string, any> = {
           }
         ],
         "dialogueKey": "npc_luxana_veyl_1"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-pell": {
+    "id": "act-npc-luxana-pell",
+    "npcId": "npc-luxana-pell",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaPell",
+    "maxProgress": 2,
+    "journalIcon": "🕯️",
+    "icon": "🕯️",
+    "journalColor": "#94a3b8",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-elian-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-pell-met",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_pell_met",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_pell_1"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-pell-met": true,
+          "flags.luxana-archive-revealed": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-pell-warned",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_pell_warned",
+            "color": "var(--text-dim)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_pell_2"
+      }
+    ],
+    "customExecute": "npc_execute"
+  },
+  "act-npc-luxana-voss": {
+    "id": "act-npc-luxana-voss",
+    "npcId": "npc-luxana-voss",
+    "category": "npc",
+    "isStory": true,
+    "chapter": "chapter_luxana",
+    "progKey": "luxanaVoss",
+    "maxProgress": 2,
+    "journalIcon": "💰",
+    "icon": "💰",
+    "journalColor": "#d4af37",
+    "steps": [
+      {
+        "cost": 5,
+        "costType": "energy",
+        "rewards": {
+          "shards": 20
+        },
+        "requirements": {
+          "flags.luxana-exp-stage": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-voss-met",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_voss_met",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_voss_1"
+      },
+      {
+        "cost": 5,
+        "costType": "energy",
+        "requirements": {
+          "flags.luxana-voss-met": true
+        },
+        "onSuccess": [
+          {
+            "type": "setFlag",
+            "flag": "luxana-voss-resolved",
+            "value": true
+          },
+          {
+            "type": "log",
+            "logKey": "luxana_voss_resolved",
+            "color": "var(--gold)"
+          }
+        ],
+        "dialogueKey": "npc_luxana_voss_2"
       }
     ],
     "customExecute": "npc_execute"
@@ -5847,6 +5969,28 @@ export const NPC_REGISTRY_GENERATED: Record<string, any> = {
     "chapter": "Luxana",
     "location": "luxana"
   },
+  "npc-luxana-pell": {
+    "id": "npc-luxana-pell",
+    "nameKey": "npc_luxana_pell_name",
+    "icon": "🕯️",
+    "image": "img/npcs/flowergirl.webp",
+    "color": "#94a3b8",
+    "progKey": "luxanaPell",
+    "maxProgress": 2,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
+  "npc-luxana-voss": {
+    "id": "npc-luxana-voss",
+    "nameKey": "npc_luxana_voss_name",
+    "icon": "💰",
+    "image": "img/npcs/baker_gara.webp",
+    "color": "#d4af37",
+    "progKey": "luxanaVoss",
+    "maxProgress": 2,
+    "chapter": "Luxana",
+    "location": "luxana"
+  },
   "npc-smoke-witness": {
     "id": "npc-smoke-witness",
     "nameKey": "smoke_witness_name",
@@ -6452,9 +6596,9 @@ export const BUILD_TIME_ADDONS: Array<{
     "description": "Luxana — die Hauptstadt am Fuß des Vulkans. Zweites großes Story-Addon, erreicht nach dem Vandara-Abschluss: Tenebre wird an den Hof gerufen, um unter Anleitung von Meister Elian und dem Hofmagier-Kollegium betreute Schatten-Experimente durchzuführen — und mit Stadt + Adel klarzukommen. Vier Adelige geben Aufgaben, die nur ein Schatten lösen kann; Elians Abschluss schaltet den zweiten Schatten-Slot frei.",
     "author": "Lassandriel",
     "entries": {
-      "actions": 7,
+      "actions": 9,
       "items": 1,
-      "npcs": 7
+      "npcs": 9
     }
   },
   {
@@ -6818,7 +6962,9 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "act-npc-luxana-aurel",
       "act-npc-luxana-sylvaine",
       "act-npc-luxana-brannoc",
-      "act-npc-luxana-veyl"
+      "act-npc-luxana-veyl",
+      "act-npc-luxana-pell",
+      "act-npc-luxana-voss"
     ],
     "items": [
       "item-luxana-summons"
@@ -6830,7 +6976,9 @@ export const ADDON_ENTRY_IDS: Record<string, Record<string, string[]>> = {
       "npc-luxana-aurel",
       "npc-luxana-sylvaine",
       "npc-luxana-brannoc",
-      "npc-luxana-veyl"
+      "npc-luxana-veyl",
+      "npc-luxana-pell",
+      "npc-luxana-voss"
     ]
   },
   "smoke_test": {
@@ -7219,6 +7367,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       },
       "act-npc-luxana-veyl": {
         "title": "Hauptmann Veyl — Eine Frage der Sicherheit"
+      },
+      "act-npc-luxana-pell": {
+        "title": "Pell — Hofgeflüster"
+      },
+      "act-npc-luxana-voss": {
+        "title": "Ondra Voss — Ein nützlicher Schatten"
       },
       "act-smoke-ping": {
         "title": "Smoke-Ping senden",
@@ -7609,6 +7763,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "luxana_brannoc_met": "Brannoc dreht die Scherbe wieder und wieder, murmelnd. \"Älter als das Archiv. Älter als der Hof.\" Er scheucht dich fort, um die tiefen Rollen zu holen.",
       "luxana_archive_revealed": "Brannoc rollt eine jahrhundertealte Darstellung aus: ein Schattendrache, in verblassender Tinte — und die Ähnlichkeit mit dir lässt sich nicht übersehen. Keiner von euch spricht es aus. Die Kunde vom Fund bleibt nicht im Archiv.",
       "luxana_veyl_confronted": "Hauptmann Veyl versperrt dir den Weg, ohne Eile. Ein Ding, das durch Gitter schlüpft und nichts wiegt, sei, sagt sie, ein Loch in jeder Mauer, die sie bewacht. Sie will den Schatten vor den Hof bringen.",
+      "luxana_pell_met": "Pell, die Hofpage, weiß, wer mit wem zerstritten ist, wer hinter dem Gold pleite ist und welche Türen klemmen. Eine gute Bekanntschaft dort, wo alle lächeln.",
+      "luxana_pell_warned": "Pell findet dich zuerst. \"Die Hauptmann hat nach dir gefragt. Ganz leise. Dachte, du willst es wissen, bevor sie's laut tut.\" Dey verschwindet, ehe du dey danken kannst.",
+      "luxana_voss_met": "Ondra Voss kaufte ihren Salon und die Hälfte der Gäste; was sie nicht kaufen kann, ist ein Titel. Allzu gern ließe sie sich mit dem berühmten Schatten des Hofes sehen.",
+      "luxana_voss_resolved": "Du weist Voss sanft ab — du bist niemandes Schmuckstück. Zu deiner Überraschung lacht sie, nennt es das Edelste, was sie die ganze Saison gehört habe, und meint es ernst. Eine seltsame Verbündete, aber eine echte.",
       "luxana_mirelle_done": "Der Talisman löst sich; die Wiege knarzt nicht einmal, das Kind regt sich nicht. Lady Mirelle weint vor Erleichterung und erzählt den Gärten von dir.",
       "luxana_aurel_done": "Schatten tanzen über die Wände des Ballsaals, heller noch durch die Kronleuchter. Vicomte Aurels Soirée ist das Gespräch von Luxana — und du auch.",
       "luxana_sylvaine_done": "Ein Fleck steten Schattens wandert mit der Mondblume über den sonnigen Hof; kein Blütenblatt welkt. Dame Sylvaine nickt nur, was bei ihr höchstes Lob ist.",
@@ -7800,6 +7958,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_luxana_brannoc_1": "Das Archiv ist eine Schlucht aus Regalen, erhellt von einer einzigen störrischen Lampe, und Brannoc ist irgendwo darin — hörbar, ehe man ihn sieht. \"Das dritte Regal nicht anfassen, es ist tragend, und ich bin es auch.\" Er taucht auf, bis zu den Ellenbogen voll Tinte, kneift die Augen zusammen, erst auf dich, dann auf die schuppendunkle Scherbe, die du trägst — und erstarrt. \"Wo haben Sie... nein. Sagen Sie es noch nicht.\" Er nimmt sie mit einer Sorgfalt, die er dir nicht entgegenbrachte. \"Vierzig Jahre hüte ich diese Rollen. Ich kenne die Hand jedes Schreibers zurück bis zur Gründung. Das passt in *keine*. Es ist älter als der Hof, der diesen Raum gebaut hat.\" Schon schlurft er zu den tiefen Stapeln. \"Kommen Sie wieder, wenn ich Zeit mit den alten Rollen hatte. Und erwähnen Sie es nicht bei den Vergoldeten oben. Die sammeln Dinge, die sie nicht verstehen.\"",
       "npc_luxana_brannoc_2": "Brannoc hat nicht geschlafen; die Lampe ist zweimal heruntergebrannt. Er fegt mit dem Unterarm einen Tisch frei und rollt etwas so Altes aus, dass das Pergament seufzt. \"Bei Morgengrauen gefunden. Unter nichts abgelegt — hinter eine drei Jahrhunderte tote Volkszählung geklemmt, als hätte es jemand absichtlich versteckt.\" Es ist eine Darstellung in verblassender Tinte: ein Drache aus Schatten, Schwingen wie verschüttete Nacht. Er deutet nicht auf das Gesicht. Er muss es nicht. Du siehst dich selbst an. \"Ich bin ein vorsichtiger Mann\", sagt er leise, \"also sage ich nur, was ich beweisen kann: Das ist alt, das ist Schatten, und das bist *du*. Den Rest überlasse ich dir.\" Er rollt es zu, doch seine Hände sind nicht ganz ruhig. \"So etwas bleibt nicht geheim, Junge. Jemand mit einem Schwert wird davon hören, ehe die Tinte trocknet.\"",
       "npc_luxana_veyl_1": "Hauptmann Veyl wartet, wo der Korridor sich verengt — gewähltes Terrain, wird dir klar. Sie greift nicht zur Waffe; sie muss es nicht. \"Ich höre, das Archiv hat ein Bildnis zutage gefördert. Jahrhundertealt, und es trägt Ihr Gesicht.\" Ihr Ton ist beinahe freundlich, was schlimmer ist. \"Verstehen Sie mich. Ich habe nichts gegen Sie. Aber ich bewache diesen Hof, und Sie sind ein Wesen, das durch Gitter geht, hebt, was nicht zu heben ist, in hellen Sälen ungesehen steht. Das Kollegium nennt das ein Wunder. Ich nenne es: jede Mauer, die ich halte, mit einer Tür darin, die ich nicht verschließen kann.\" Sie tritt beiseite, um Sie passieren zu lassen — gerade so. \"Ich werde es vor den Hof bringen. Unverblümt. Sollen die entscheiden, was man mit einem Schatten tut, den niemand halten kann. Seien Sie da. Lieber hören Sie es von mir als aus einer Zelle.\"",
+      "npc_luxana_pell_1": "Eine Page, kaum größer als dein Ellenbogen, fällt neben dir in Schritt, als wäret ihr immer schon zusammen gegangen. \"Du bist der Schatten. Alle reden. Ich bin Pell — ich trage Sachen, meistens Geheimnisse.\" Dey grinst. \"Willst du die echte Karte von hier? Lord Caldwens Tresor ist nicht das Einzige von ihm, das unter Wasser steht. Lady Mirelle hat seit einem Monat nicht geschlafen. Der Vicomte schuldet seinem Schneider mehr, als sein Gut wert ist.\" Dey zuckt mit den Schultern, leicht wie Luft. \"Eine Page bemerkt niemand. Also bemerke ich alles. Sei nett zu mir, und ich bin dir nützlich — das ist die ganze Abmachung. Die meisten hier oben schaffen nur die erste Hälfte.\"",
+      "npc_luxana_pell_2": "Pell wartet in einem Türrahmen, in dem niemand stehen sollte, die Stimme ganz leise. \"Hör zu. Das, was der alte Archivar ausgegraben hat — das Bild? Es bleibt nicht im Keller. Die Hauptmann war zweimal da und hat die Schreiber gefragt, was ein Schatten kann und was nicht.\" Dey zupft am Ärmel, ausnahmsweise unruhig. \"Hauptmann Veyl ist nicht grausam. Das ist das Problem — vorsichtige Leute sind schwerer umzustimmen als wütende. Sie wird dir gerade ins Gesicht kommen, bei Tageslicht, nach den Regeln.\" Ein kurzer, scharfer Blick herauf. \"Also gib ihr keinen Grund. Du hast jetzt Freunde hier, auch kleine. Nutz uns.\"",
+      "npc_luxana_voss_1": "Ondra Voss erscheint in einer Wolke aus teurem Duft und schärferem Kalkül. \"Da sind Sie ja. Der Schatten, nach dem alle schnappen. Ich war auf Aurels kleiner Soirée — göttlich, und nun gänzlich *vorbei*, und da kommen Sie ins Spiel.\" Sie lotst Sie zu einem Fenster, als gehörte es ihr, und vielleicht tut es das. \"Ich habe das Haus, den Wein, auf dem Papier die richtigen Gäste. Was mir fehlt, ist... der Anlass. Ein Gesprächsthema, das keine Münze gekauft hat. Sie, meine Liebe, sind ein Gesprächsthema.\" Ein helles, brüchiges Lächeln. \"Einen Abend. Stehen Sie in meinem Salon, tun Sie etwas Wunderbares, lassen Sie sie tuscheln. Nennen Sie Ihren Preis. Preise verstehe ich.\"",
+      "npc_luxana_voss_2": "Sie sagen Voss unverblümt, dass Sie niemandes Schaustück sein werden — nicht für ein Honorar, nicht für einen Titel, dem sie nachjagt. Sie erstarrt; einen Moment lang rutscht die Salon-Maske. Dann, unerwartet, lacht sie — ein echtes Lachen, hässlich und warm. \"Wissen Sie, das ist das erste ehrliche 'Nein', das ich gehört habe, seit ich mich durch jene Tür gekauft habe? Alle *wollen* etwas. Sie einfach... nicht.\" Sie betrachtet Sie aufs Neue. \"Behalten Sie Ihren Schatten für sich. Doch falls Ihnen das Wohlwollen einer emporgekommenen Händlerin je etwas wert ist — und an diesem Hof, meine Liebe, ist Wohlwollen die einzige wahre Währung — haben Sie meines. Ohne Vorstellung.\"",
       "npc_luxana_caldwen_1": "Lord Caldwen erhebt sich nicht, als Sie eintreten, was für sich genommen eine Botschaft ist. \"Also. Der Hof-Schatten zum Vorzeigen.\" Er schwenkt ein Glas, das er Ihnen keineswegs anzubieten gedenkt. \"Eine Schatzkammer unter meinem Anwesen ist in der Frühjahrsschmelze vollgelaufen. Das Siegel meiner Familie — drei Jahrhunderte alt — liegt hinter einem Eisengitter, zu eng für jede Drachenklaue, in Wasser, in das kein Diener tauchen will. Die Wasserrufer machten es nur schlimmer; Flut antwortete Flut.\" Endlich sieht er Sie an. \"Man sagt mir, ein Schatten braucht weder Atem noch Breite. Greifen Sie durch die Stäbe. Holen Sie es herauf. Versagen Sie, und ich habe einen Nachmittag vergeudet. Gelingt es...\" ein schmales Lächeln, \"...wird der Hof es von mir hören, und das ist mehr wert, als Sie ahnen.\"",
       "npc_luxana_mirelle_1": "Lady Mirelle empfängt Sie an der Kinderzimmertür, den Finger auf den Lippen. \"Bitte — leise.\" Drinnen schläft ein Kind in einer Wiege aus gesponnenem Kernholz, so alt und fein, dass das Holz zu atmen scheint. \"Die meiner Mutter, und deren Mutter. Ein Schutztalisman ist heute Morgen zwischen Latten und Matratze gerutscht, und nun summt er, wo er schweigen sollte — doch das Holz trägt keine Hand, und Klauen würden sie wecken oder, schlimmer, die Wiege zersprengen.\" Ihre Fassung bebt. \"Man sagt, Ihr Schatten wiegt nichts. Heben Sie den Talisman heraus. Wecken Sie meine Tochter nicht. Ich werde in Ihrer Schuld stehen — und ich vergesse Schulden nicht.\"",
       "npc_luxana_aurel_1": "Vicomte Aurel ist schon mitten in einer Geste, als Sie eintreffen, als hätte das Gespräch ohne Sie begonnen. \"Wunderbar, Sie sind da. Also — meine Soirée. Der halbe Adel kommt einzig, um beim frühen Gehen gesehen zu werden. Ich brauche etwas, das sie *nie* erlebt haben und nicht kaufen können.\" Er wirbelt herum und stößt die Ballsaaltüren auf, hin zu einem Lodern von Kronleuchtern. \"Man sagt, Schatten ist am stärksten, wo das Licht am hellsten brennt. Also: ein lebendiges Schattenspiel, hier, über diese Wände, während der Saal in Gold steht. Schenken Sie ihnen eine Stunde, deren Verständnis sie hinterher vorgeben werden. Tun Sie das, und Aurels Gunst öffnet Türen, die selbst Caldwens Name nicht vermag.\"",
@@ -8246,6 +8408,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_luxana_sylvaine_name": "Dame Sylvaine",
       "npc_luxana_brannoc_name": "Brannoc der Archivar",
       "npc_luxana_veyl_name": "Hauptmann Veyl",
+      "npc_luxana_pell_name": "Pell, Hofpage",
+      "npc_luxana_voss_name": "Ondra Voss",
       "smoke_witness_name": "Rauchzeugin",
       "smoke_settings_tab": "Rauch",
       "location_vandara_name": "Vandara",
@@ -8661,6 +8825,12 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "act-npc-luxana-veyl": {
         "title": "Hauptmann Veyl — A Matter of Security"
       },
+      "act-npc-luxana-pell": {
+        "title": "Pell — Court Whispers"
+      },
+      "act-npc-luxana-voss": {
+        "title": "Ondra Voss — A Useful Shadow"
+      },
       "act-smoke-ping": {
         "title": "Send Smoke Ping",
         "desc": "Emit a quiet pulse. Increments the smoke_test state counters and fires the smokeFlash effect."
@@ -9050,6 +9220,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "luxana_brannoc_met": "Brannoc turns the shard over and over, muttering. \"Older than the archive. Older than the court.\" He waves you off to fetch the deep rolls.",
       "luxana_archive_revealed": "Brannoc unrolls a depiction centuries old: a shadow-dragon, rendered in failing ink — and the likeness to you is impossible to unsee. Neither of you says it aloud. Word of the find does not stay in the archive.",
       "luxana_veyl_confronted": "Hauptmann Veyl blocks your path, unhurried. A thing that slips through bars and weighs nothing is, she says, a hole in every wall she guards. She means to put the shadow before the court.",
+      "luxana_pell_met": "Pell, the court page, knows who's feuding, who's broke behind the gilt, and which doors stick. A friend worth having where everyone smiles.",
+      "luxana_pell_warned": "Pell finds you first. \"The captain's been asking about you. Quiet-like. Thought you'd want to know before she does it loud.\" Dey slips away before you can thank dem.",
+      "luxana_voss_met": "Ondra Voss bought her salon and half its guests; what she can't buy is a title. She'd very much like to be seen with the court's famous shadow.",
+      "luxana_voss_resolved": "You let Voss down gently — you're no one's ornament. To your surprise she laughs, calls it the most noble thing she's heard all season, and means it. An odd sort of ally, but a real one.",
       "luxana_mirelle_done": "The charm lifts free; the cradle never so much as creaks, the child never stirs. Lady Mirelle weeps with relief and tells the gardens of you.",
       "luxana_aurel_done": "Shadows dance across the ballroom walls, brighter for the chandeliers. Vicomte Aurel's soirée is the talk of Luxana — and so are you.",
       "luxana_sylvaine_done": "A patch of steady shade travels with the moonbloom across the sunlit court; not a petal wilts. Dame Sylvaine simply nods, which from her is high praise.",
@@ -9241,6 +9415,10 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_luxana_brannoc_1": "The archive is a canyon of shelves lit by one stubborn lamp, and Brannoc is somewhere in it, audible before he's visible. \"Don't touch the third rack, it's load-bearing and so am I.\" He emerges, ink to the elbows, squints at you, then at the scale-dark shard you carry — and goes very still. \"Where did you... no. Don't tell me yet.\" He takes it with a care he did not show you. \"Forty years I've kept these rolls. I know the hand of every clerk back to the founding. This fits *none* of it. It is older than the court that built this room.\" He's already shuffling toward the deep stacks. \"Come back when I've had time with the old rolls. And don't mention this to the gilded ones upstairs. They collect things they don't understand.\"",
       "npc_luxana_brannoc_2": "Brannoc has not slept; the lamp has burned down twice. He clears a table with his forearm and unrolls something so old the vellum sighs. \"Found it near dawn. Filed under nothing — wedged behind a census three centuries dead, as if someone hid it on purpose.\" It is a depiction in failing ink: a dragon of shadow, wings like spilled night. He does not point at the face. He doesn't have to. You are looking at yourself. \"I am a careful man,\" he says quietly, \"so I will say only what I can prove: this is old, it is shadow, and it is *you*. The rest I leave to you.\" He rolls it shut, but his hands aren't quite steady. \"Word like this doesn't keep, lad. Someone with a sword will hear of it before the ink dries.\"",
       "npc_luxana_veyl_1": "Hauptmann Veyl is waiting where the corridor narrows — chosen ground, you realise. She does not reach for a weapon; she doesn't need to. \"I hear the archive turned up a portrait. Centuries old, and wearing your face.\" Her tone is almost kind, which is worse. \"Understand me. I have nothing against you. But I guard this court, and you are a thing that passes through bars, lifts what cannot be lifted, stands in bright rooms unseen. The collegium calls that a marvel. I call it every wall I keep, with a door in it I cannot lock.\" She steps aside to let you pass — barely. \"I will put it before the court. Plainly. Let them decide what to do with a shadow that no one can hold. Be there. I'd rather you heard it from me than learned it from a cell.\"",
+      "npc_luxana_pell_1": "A page no taller than your elbow falls into step beside you as if you'd always been walking together. \"You're the shadow. Everyone's talking. I'm Pell — I carry things, mostly secrets.\" Dey grins. \"Want the real map of this place? Lord Caldwen's vault isn't the only thing of his that's underwater. Lady Mirelle hasn't slept in a month. The Vicomte owes his tailor more than his estate's worth.\" Dey shrugs, light as air. \"Nobody notices a page. So I notice everything. Be kind to me and I'll be useful to you — that's the whole arrangement. Most folk up here only manage the first half.\"",
+      "npc_luxana_pell_2": "Pell is waiting in a doorway that shouldn't have anyone in it, voice dropped low. \"Listen. The thing the old archivist dug up — the picture? It's not staying in the cellar. The captain's been by twice, asking the clerks what shadow can and can't do.\" Dey picks at a sleeve, uneasy for once. \"Hauptmann Veyl's not cruel. That's the trouble — careful people are harder to talk round than angry ones. She'll come at you straight, in daylight, by the rules.\" A quick, fierce look up. \"So don't you go giving her a reason. You've got friends here now, even small ones. Use us.\"",
+      "npc_luxana_voss_1": "Ondra Voss arrives in a cloud of expensive scent and sharper calculation. \"There you are. The shadow everyone's gasping about. I caught Aurel's little soirée — divine, and now utterly *over*, which is where you come in.\" She steers you toward a window as though she owns it, and she might. \"I have the house, the wine, the right guests on paper. What I lack is... occasion. A talking point that no coin bought. You, my dear, are a talking point.\" A bright, brittle smile. \"One evening. Stand in my salon, do something marvellous, let them whisper. Name your fee. I do understand fees.\"",
+      "npc_luxana_voss_2": "You tell Voss, plainly, that you won't be anyone's centrepiece — not for a fee, not for a title she's chasing. She goes still; for a moment the salon mask slips. Then, unexpectedly, she laughs — a real one, ugly and warm. \"Do you know, that's the first honest 'no' I've had since I bought my way through that door? They all *want* something. You just... don't.\" She studies you anew. \"Keep your shadow to yourself, then. But if a jumped-up merchant's goodwill is ever worth anything to you — and at this court, my dear, goodwill is the only true currency — you have mine. No performance required.\"",
       "npc_luxana_caldwen_1": "Lord Caldwen does not rise when you enter, which is its own kind of message. \"So. The court's pet shadow.\" He swirls a glass he has no intention of offering you. \"A strongroom beneath my estate flooded in the spring melt. My family's signet — three centuries old — sits behind an iron grate too narrow for any drake's claw, in water no servant will dive. The water-callers only made it worse; flood answering flood.\" He finally looks at you. \"They tell me a shadow needs neither breath nor width. Reach through the bars. Bring it up. Fail, and I'll have wasted an afternoon. Succeed...\" a thin smile, \"...and the court will hear of it from me, which is worth more than you know.\"",
       "npc_luxana_mirelle_1": "Lady Mirelle meets you at the nursery door with a finger to her lips. \"Please — softly.\" Inside, a child sleeps in a cradle of spun heartwood, so old and fine the wood seems to breathe. \"My mother's, and her mother's. A warding charm slipped between the slats and the mattress this morning, and now it hums where it should be silent — but the wood won't bear a hand, and claws would wake her, or worse, crack the cradle.\" Her composure trembles. \"They say your shadow weighs nothing. Lift the charm out. Don't wake my daughter. I will be in your debt — and I do not forget debts.\"",
       "npc_luxana_aurel_1": "Vicomte Aurel is already mid-gesture when you arrive, as though the conversation began without you. \"Marvellous, you came. Now — my soirée. Half the peerage will attend purely to be seen leaving early. I require something they have *never* witnessed and cannot buy.\" He spins, flinging open the ballroom doors onto a blaze of chandeliers. \"They say shadow is strongest where the light is brightest. So: a living shadow-play, here, across these walls, while the room burns gold. Give them an hour they'll lie about having understood. Do that, and Aurel's favour opens doors even Caldwen's name cannot.\"",
@@ -9687,6 +9865,8 @@ export const TRANSLATIONS_GENERATED: Record<string, Record<string, Record<string
       "npc_luxana_sylvaine_name": "Dame Sylvaine",
       "npc_luxana_brannoc_name": "Brannoc the Archivist",
       "npc_luxana_veyl_name": "Hauptmann Veyl",
+      "npc_luxana_pell_name": "Pell, the Court Page",
+      "npc_luxana_voss_name": "Ondra Voss",
       "smoke_witness_name": "Smoke Witness",
       "smoke_settings_tab": "Smoke",
       "location_vandara_name": "Vandara",

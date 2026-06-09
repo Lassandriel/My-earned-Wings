@@ -110,6 +110,55 @@ npc_luxana_veyl_1: >-
   die entscheiden, was man mit einem Schatten tut, den niemand halten kann.
   Seien Sie da. Lieber hören Sie es von mir als aus einer Zelle."
 
+# ─── Pell, die Hofpage (dey/dem) ──────────────────────────────────
+npc_luxana_pell_1: >-
+  Eine Page, kaum größer als dein Ellenbogen, fällt neben dir in Schritt,
+  als wäret ihr immer schon zusammen gegangen. "Du bist der Schatten. Alle
+  reden. Ich bin Pell — ich trage Sachen, meistens Geheimnisse." Dey
+  grinst. "Willst du die echte Karte von hier? Lord Caldwens Tresor ist
+  nicht das Einzige von ihm, das unter Wasser steht. Lady Mirelle hat seit
+  einem Monat nicht geschlafen. Der Vicomte schuldet seinem Schneider mehr,
+  als sein Gut wert ist." Dey zuckt mit den Schultern, leicht wie Luft.
+  "Eine Page bemerkt niemand. Also bemerke ich alles. Sei nett zu mir, und
+  ich bin dir nützlich — das ist die ganze Abmachung. Die meisten hier oben
+  schaffen nur die erste Hälfte."
+
+npc_luxana_pell_2: >-
+  Pell wartet in einem Türrahmen, in dem niemand stehen sollte, die Stimme
+  ganz leise. "Hör zu. Das, was der alte Archivar ausgegraben hat — das
+  Bild? Es bleibt nicht im Keller. Die Hauptmann war zweimal da und hat die
+  Schreiber gefragt, was ein Schatten kann und was nicht." Dey zupft am
+  Ärmel, ausnahmsweise unruhig. "Hauptmann Veyl ist nicht grausam. Das ist
+  das Problem — vorsichtige Leute sind schwerer umzustimmen als wütende.
+  Sie wird dir gerade ins Gesicht kommen, bei Tageslicht, nach den Regeln."
+  Ein kurzer, scharfer Blick herauf. "Also gib ihr keinen Grund. Du hast
+  jetzt Freunde hier, auch kleine. Nutz uns."
+
+# ─── Ondra Voss, die Aufsteigerin (sie/ihr) ───────────────────────
+npc_luxana_voss_1: >-
+  Ondra Voss erscheint in einer Wolke aus teurem Duft und schärferem
+  Kalkül. "Da sind Sie ja. Der Schatten, nach dem alle schnappen. Ich war
+  auf Aurels kleiner Soirée — göttlich, und nun gänzlich *vorbei*, und da
+  kommen Sie ins Spiel." Sie lotst Sie zu einem Fenster, als gehörte es
+  ihr, und vielleicht tut es das. "Ich habe das Haus, den Wein, auf dem
+  Papier die richtigen Gäste. Was mir fehlt, ist... der Anlass. Ein
+  Gesprächsthema, das keine Münze gekauft hat. Sie, meine Liebe, sind ein
+  Gesprächsthema." Ein helles, brüchiges Lächeln. "Einen Abend. Stehen Sie
+  in meinem Salon, tun Sie etwas Wunderbares, lassen Sie sie tuscheln.
+  Nennen Sie Ihren Preis. Preise verstehe ich."
+
+npc_luxana_voss_2: >-
+  Sie sagen Voss unverblümt, dass Sie niemandes Schaustück sein werden —
+  nicht für ein Honorar, nicht für einen Titel, dem sie nachjagt. Sie
+  erstarrt; einen Moment lang rutscht die Salon-Maske. Dann, unerwartet,
+  lacht sie — ein echtes Lachen, hässlich und warm. "Wissen Sie, das ist
+  das erste ehrliche 'Nein', das ich gehört habe, seit ich mich durch jene
+  Tür gekauft habe? Alle *wollen* etwas. Sie einfach... nicht." Sie
+  betrachtet Sie aufs Neue. "Behalten Sie Ihren Schatten für sich. Doch
+  falls Ihnen das Wohlwollen einer emporgekommenen Händlerin je etwas wert
+  ist — und an diesem Hof, meine Liebe, ist Wohlwollen die einzige wahre
+  Währung — haben Sie meines. Ohne Vorstellung."
+
 # ─── Lord Caldwen — der geflutete Tresor ──────────────────────────
 npc_luxana_caldwen_1: >-
   Lord Caldwen erhebt sich nicht, als Sie eintreten, was für sich genommen
