@@ -230,64 +230,48 @@ npc_vandara_sariel_3: >-
 
 # ─── Pamle — alchemy mentor (magma-dragon-shifter) ────────
 npc_vandara_pamle_1: >-
-  Pamle is a compact magma-dragon-shifter, in humanoid form just
-  shoulder-height to you, with scales like crusted lava across
-  her forearms. She stands at an improvised table piled with
-  empty vials and crushed plant remains. "{player}, right? Sit.
-  I'll make this quick: I'm Pamle, I teach alchemy. We start
-  with two very simple recipes — energy potion and magic potion.
-  They need nothing more than herbs, water, and a bit of heat."
-  She taps her temple. "Go home, build the workshop from Kal're's
-  blueprint, place the alchemy table in your room. Then you can
-  brew them. Come back when you've made three energy potions —
-  THREE, not two, not 'almost three'. Then I'll show you
-  something better."
+  {player}, right? Sit. I'll make this quick: I'm Pamle, I teach alchemy.
+  We start with two very simple recipes — energy potion and magic potion.
+  Nothing more than herbs, water, and a bit of heat. Go home, build the
+  workshop from Kal're's blueprint, place the alchemy table in your room.
+  Then you can brew them. Come back when you've made three energy potions
+  — THREE, not two, not 'almost three'. Then I'll show you something
+  better.
 
 npc_vandara_pamle_2: >-
-  Pamle waits with her hand already out. "Three energy potions,
-  yes? Good." She takes them without comment and stores them on
-  a shelf behind her. "I sell them to the first-years for decent
-  money, by the way, in case you were wondering. Education isn't
-  free." A sharp grin. "Now tier two: Wakeful Pollen Tea —
-  regen over time. And Spark Light Vial — you'll learn to
-  appreciate that one, trust me. Sariel down in the catacombs
-  used to order them by the crate." She coughs as if she'd said
-  too much. "Practice. Bring me three Spark Light Vials when
-  you're ready."
+  Three energy potions, yes? Good. I sell them to the first-years for
+  decent money, by the way, in case you were wondering — education isn't
+  free. Now, tier two: Wakeful Pollen Tea, regen over time. And Spark
+  Light Vial — you'll learn to appreciate that one, trust me; Sariel down
+  in the catacombs used to order them by the crate. ...Practice. Bring me
+  three Spark Light Vials when you're ready.
 
 npc_vandara_pamle_3: >-
-  "Spark Light Vials. Three. Nice." Pamle weighs them in her
-  hand, checks the brightness. "Cleanly done. You understand
-  the dosing." She racks them. "Last round. Arcane Water is
-  standard for any student who casts magic. And Ash Burn
-  Tincture — that's my own invention. Made from Ash Willow
-  pollen. Turns you into a logging machine for two minutes.
-  You wouldn't believe how many orders the academy gets from
-  construction firms for it." She nods to the door. "Come back
-  once more. Then I'll have taught you everything I currently
-  offer."
+  Spark Light Vials. Three. Nice — cleanly done; you understand the
+  dosing. Last round. Arcane Water is standard for any student who casts
+  magic. And Ash Burn Tincture — that's my own invention, made from Ash
+  Willow pollen. Turns you into a logging machine for two minutes; you
+  wouldn't believe how many orders the academy gets from construction
+  firms for it. Come back once more, and I'll have taught you everything
+  I currently offer.
 
 npc_vandara_pamle_4: >-
-  "So." Pamle wipes her hands on an apron that's seen far too
-  much. "That's the basics. You handle the six base recipes.
-  What's next gets harder — Star Berries are rare, Ember Lotus
-  rarer still, and some recipes demand reagents only Storm
-  Seraphs can gather. But until then you've got plenty to do."
-  She offers her hand. "Go and brew. If I ever teach anything
-  new, you know where to find me. Oh — and Pamle isn't my full
-  name, I never had one. Save the question."
+  So. That's the basics — you handle the six base recipes. What's next
+  gets harder: Star Berries are rare, Ember Lotus rarer still, and some
+  recipes demand reagents only Storm Seraphs can gather. But until then
+  you've got plenty to do. Go and brew. If I ever teach anything new, you
+  know where to find me. Oh — and Pamle isn't my full name, I never had
+  one. Save the question.
 
 # Step 5 — post-reveal reaction. Pamle has heard the rumour
 # and starts thinking practically about shadow-flavoured reagents.
 npc_vandara_pamle_5: >-
-  Pamle eyes you from the workbench. "So. Word's around.
-  You're the shadow one." She doesn't seem surprised. "Means
-  I should probably think about what reagents make sense for
-  your sort. Ash from extinguished candles, mirror-shard dust,
-  that kind of thing. I'll let you know if I come up with
-  something." A sharp grin. "And don't expect a discount. Rare
-  element doesn't mean broke. Now scoot, I've got tier-three
-  brewing to teach the next batch."
+  So. Word's around — you're the shadow one. Means I should probably
+  think about what reagents make sense for your sort. Ash from
+  extinguished candles, mirror-shard dust, that kind of thing. I'll let
+  you know if I come up with something. And don't expect a discount —
+  rare element doesn't mean broke. Now scoot, I've got tier-three brewing
+  to teach the next batch.
 
 npc_vandara_sariel_4: >-
   You're not trained now. You're awake — that's something else. What you
@@ -321,280 +305,207 @@ npc_vandara_sariel_5: >-
 # Wyverns, Lindwurms, Amphitheres, Leviathans, Seraphs, Fae,
 # and Lungs as the dramatic-irony closer.
 npc_vandara_ormias_1: >-
-  Lector Ormias is old. Very old. His dragon-form skull
-  shimmers when he speaks — Magma Lindwurm line, scales like
-  hardened lava. He wears rumpled robes and a pair of glasses
-  that really don't fit. "Sit, student. Dragon Studies, basic
-  course. We know seven main types: Great Dragons, Wyverns,
-  Lindwurms, Amphitheres, Leviathans, Seraphs, Fae. Plus the
-  imperial Lungs — an exception we'll get to last." He coughs.
-  "One per session. No shortcuts. And remember the single most
-  important thing about every one of them: they all have wings."
-  A pause. "Yes. All of them."
+  Sit, student. Dragon Studies, basic course. We know seven main types:
+  Great Dragons, Wyverns, Lindwurms, Amphitheres, Leviathans, Seraphs,
+  Fae. Plus the imperial Lungs — an exception we'll get to last. One per
+  session. No shortcuts. And remember the single most important thing
+  about every one of them: they all have wings. ...Yes. All of them.
 
 npc_vandara_ormias_2: >-
-  "Great Dragons. Guardians of the Realms. The bread-and-butter
-  people from the Crystal Realm in the west." Ormias sketches a
-  four-legged silhouette on the board — chalk breaks. "Strong
-  build, four legs, a pair of broad leather wings, often an
-  armoured tail-tip and large horns. The most common type by
-  far. Many late bloomers — wings don't always come in until
-  twenty or thirty." He glances at you over his glasses.
-  "Statistically you are most likely one of these. Patience.
-  They'll come."
+  Great Dragons. Guardians of the Realms. The bread-and-butter people
+  from the Crystal Realm in the west. Strong build, four legs, a pair of
+  broad leather wings, often an armoured tail-tip and large horns. The
+  most common type by far — many late bloomers; wings don't always come
+  in until twenty or thirty. Statistically you are most likely one of
+  these. Patience. They'll come.
 
 npc_vandara_ormias_3: >-
-  "Wyverns. Hunters of the skies." Another sketch — the chalk
-  breaks again. "Two hindlegs only. Their front limbs fused
-  with the wings during evolution. Fast, muscular flyers,
-  usually with a venom-stinger or a heavy club at the tail.
-  The Storm-Wyverns have wing-edges so sharp they cut wind
-  like blades." He pushes his glasses up. They slide down
-  immediately. "Common in the western lowlands. You'd remember
-  if you were one — they fly young."
+  Wyverns. Hunters of the skies. Two hindlegs only — their front limbs
+  fused with the wings during evolution. Fast, muscular flyers, usually
+  with a venom-stinger or a heavy club at the tail. The Storm-Wyverns
+  have wing-edges so sharp they cut wind like blades. Common in the
+  western lowlands. You'd remember if you were one — they fly young.
 
 npc_vandara_ormias_4: >-
-  "Lindwurms. The Earth-Bound." For the first time today,
-  Ormias smiles, briefly. "My kind. Massive body, only two
-  forelegs, the rear half a long serpent we drag behind us.
-  Wings we have, but heavy — we are not graceful in the air.
-  We dig, we climb, we are slow, and we are stubborn. Two main
-  lines: Magma Lindwurms, scales like glowing lava, living
-  near the magma sea. And Swamp Lindwurms, scales like algae
-  and bark, blending into the Emerald jungle." He coughs.
-  "Foreigners sometimes lump us in with western dragons. We
-  are eastern. Don't confuse us."
+  Lindwurms. The Earth-Bound. My kind. Massive body, only two forelegs,
+  the rear half a long serpent we drag behind us. Wings we have, but
+  heavy — we are not graceful in the air. We dig, we climb, we are slow,
+  and we are stubborn. Two main lines: Magma Lindwurms, scales like
+  glowing lava, living near the magma sea; and Swamp Lindwurms, scales
+  like algae and bark, blending into the Emerald jungle. Foreigners
+  sometimes lump us in with western dragons. We are eastern. Don't
+  confuse us.
 
 npc_vandara_ormias_5: >-
-  "Amphitheres. The Feathered Serpents." Ormias gestures broadly
-  with both arms. "No limbs at all. Just a long serpentine
-  body and a single pair of enormous, magnificent feathered
-  wings — which, by the way, can store magical energy. Rare.
-  Beautiful — even I admit it. Two sub-types we know of:
-  Dream-Amphitheres, whose wing-strokes spin illusion-mist.
-  And Sun-Amphitheres, golden feathers that can detonate into
-  a blinding flash when threatened." He raises an eyebrow.
-  "Magistra Veyra is one. Don't tell her I said she's beautiful."
+  Amphitheres. The Feathered Serpents. No limbs at all — just a long
+  serpentine body and a single pair of enormous, magnificent feathered
+  wings, which can store magical energy. Rare. Beautiful — even I admit
+  it. Two sub-types we know of: Dream-Amphitheres, whose wing-strokes
+  spin illusion-mist; and Sun-Amphitheres, golden feathers that detonate
+  into a blinding flash when threatened. Magistra Veyra is one. Don't
+  tell her I said she's beautiful.
 
 npc_vandara_ormias_6: >-
-  "Leviathans. Rulers of the Extremes." Ormias's voice drops —
-  respect, not pride. "They live where no one else can. Tide-
-  Leviathans command the floating water islands and the sea
-  routes; sinewy wings doubling as fins underwater, fine gill-
-  slits, absolute lords of the currents. Magma-Leviathans on
-  the lowest, hottest islands above the lava sea; massive
-  armoured wings, obsidian-plated scales, lungs that filter
-  superheated gas. Once a year they meet at the lava-falls and
-  trade." A short pause. "The most prestigious craft-folk in
-  the empire."
+  Leviathans. Rulers of the Extremes. They live where no one else can.
+  Tide-Leviathans command the floating water islands and the sea routes
+  — sinewy wings doubling as fins underwater, fine gill-slits, absolute
+  lords of the currents. Magma-Leviathans on the lowest, hottest islands
+  above the lava sea — massive armoured wings, obsidian-plated scales,
+  lungs that filter superheated gas. Once a year they meet at the
+  lava-falls and trade. The most prestigious craft-folk in the empire.
 
 npc_vandara_ormias_7: >-
-  "Seraph Dragons. The Sky-Stormers." Ormias's tone goes dry.
-  "Slender, aerodynamic, four to six narrow wings stacked one
-  above the other. They live where the air is thin enough that
-  a Great Dragon would lose consciousness, and they laugh at
-  our storms because what we call a hurricane is their morning
-  breeze." He waves a hand. "Don't expect to see one — they
-  almost never come down. If you do, be polite."
+  Seraph Dragons. The Sky-Stormers. Slender, aerodynamic, four to six
+  narrow wings stacked one above the other. They live where the air is
+  thin enough that a Great Dragon would lose consciousness, and they
+  laugh at our storms — what we call a hurricane is their morning breeze.
+  Don't expect to see one; they almost never come down. If you do, be
+  polite.
 
 npc_vandara_ormias_8: >-
-  "Fae Dragons. The Emerald Weavers." Ormias's mouth twitches
-  — something like fondness. "The smallest. Dragonfly wings,
-  chameleon camouflage, originally from the deep Emerald
-  jungle. Two cultures now: the wild Forest-Fae who still
-  vanish into bark, and the City-Fae who've adapted to urban
-  life and grow brilliant, gaudy scales because nothing in
-  town wants to eat them anymore." He almost smiles. "If you
-  ever meet one in a tavern, buy them a drink. Best gossip in
-  Draconia."
+  Fae Dragons. The Emerald Weavers. The smallest. Dragonfly wings,
+  chameleon camouflage, originally from the deep Emerald jungle. Two
+  cultures now: the wild Forest-Fae who still vanish into bark, and the
+  City-Fae who've adapted to urban life and grow brilliant, gaudy scales
+  because nothing in town wants to eat them anymore. If you ever meet one
+  in a tavern, buy them a drink. Best gossip in Draconia.
 
 npc_vandara_ormias_9: >-
-  "And finally — the Lung Dragons. The Sky-Walkers." Ormias
-  taps his desk pointedly. "Serpentine, wingless, four legs
-  with sharp claws, characteristic beard-whiskers at the head.
-  They fly by pure magic — no wings at all. The single
-  exception to my opening rule." His glasses slip and he
-  doesn't catch them this time. "And before you ask: yes, I
-  noticed you have no wings. Don't get excited. Lung Dragons
-  are an absolute genetic outlier — they only appear in the
-  imperial bloodline, and even there currently only two exist.
-  Emperor Ignis Aurum and Prince Ryuga. That is the list." He
-  clears his throat. "You are most likely a late-blooming
-  Great Dragon. In eighty percent of cases. Patience."
+  And finally — the Lung Dragons. The Sky-Walkers. Serpentine, wingless,
+  four legs with sharp claws, characteristic beard-whiskers at the head.
+  They fly by pure magic — no wings at all. The single exception to my
+  opening rule. And before you ask: yes, I noticed you have no wings.
+  Don't get excited. Lung Dragons are an absolute genetic outlier — they
+  only appear in the imperial bloodline, and even there currently only
+  two exist. Emperor Ignis Aurum and Prince Ryuga. That is the list. You
+  are most likely a late-blooming Great Dragon. In eighty percent of
+  cases. Patience.
 
 # Step 10 — post-reveal reaction. Ormias gracefully eats his
 # words about the late-blooming Great Dragon prediction.
 npc_vandara_ormias_10: >-
-  "Ah." Ormias adjusts his glasses, which immediately slip
-  back down. "I heard. Word travels fast in academy
-  corridors, especially when it involves the impossible." He
-  coughs. "Allow me one moment of professional embarrassment.
-  I told you, with some confidence, that you were most likely
-  a late-blooming Great Dragon. I appear to have been
-  incorrect — though, in fairness, also not entirely wrong.
-  Shadow is a sub-variant of Light. Light-shifters are Great
-  Dragons. So technically, statistically, the eighty percent
-  still holds. Just." He gestures vaguely. "I would very much
-  like to update Chapter Two of my book. Come and visit again
-  sometime — I will have new questions for you, and the
-  questions are usually more interesting than the answers."
+  Ah. I heard. Word travels fast in academy corridors, especially when it
+  involves the impossible. Allow me one moment of professional
+  embarrassment: I told you, with some confidence, that you were most
+  likely a late-blooming Great Dragon. I appear to have been incorrect —
+  though, in fairness, also not entirely wrong. Shadow is a sub-variant
+  of Light. Light-shifters are Great Dragons. So technically,
+  statistically, the eighty percent still holds. Just. I would very much
+  like to update Chapter Two of my book. Come and visit again sometime —
+  I'll have new questions for you, and the questions are usually more
+  interesting than the answers.
 
 # Step 11 — oral graduation exam on Dragon Studies.
 npc_vandara_ormias_11: >-
-  Ormias has cleared his usual chaos off the desk and lined up
-  a single sheet of paper, on which exactly one word is
-  written: PROCEED. He looks at you sideways. "Right. Oral
-  exam. I will say the prompt, you will speak the answer. No
-  notes. Try not to cough on me." He clears his throat as if
-  to demonstrate. "Name the seven main types of dragon-shifter,
-  in any order, with one distinguishing feature each." Long
-  silence as you recite. He nods through each. "Good, good,
-  good." Then: "And the eighth." A pause. "Yes, the eighth. We
-  both know there is one. Name it, and the one identifying
-  feature that disqualifies all of the others." Another pause
-  as you answer. His glasses slip and he does not catch them
-  this time either. "Lung-Drachen. Wingless. Exactly." He
-  smiles, briefly. "You pass. Tell Olié. And come back later
-  for a longer conversation. I have updated some questions."
+  Right. Oral exam — I'll say the prompt, you speak the answer. No notes.
+  Try not to cough on me. ...Name the seven main types of dragon-shifter,
+  in any order, with one distinguishing feature each. ...Good, good,
+  good. And the eighth. Yes, the eighth — we both know there is one. Name
+  it, and the one identifying feature that disqualifies all the others.
+  ...Lung Dragons. Wingless. Exactly. You pass. Tell Olié. And come back
+  later for a longer conversation — I've updated some questions.
 
 # ─── Quinell — Arcane Foundations ───────────────────────────
 # One lecture per law, in order: intro, definition, three-component
 # law, element binding, conservation, exhaustion, exceptions —
 # closing with Sariel as the academy's one documented exception.
 npc_vandara_quinell_1: >-
-  Doctor Quinell is a crystal-dragon-shifter — scales like cut
-  rock crystal that refract the hall's light into every colour
-  of the spectrum. He stands behind a lectern, motionless.
-  "Welcome. Arcane Foundations is the most boring lecture you
-  will hear at this academy. And the most important. If you don't
-  understand what magic IS, you will never apply it precisely.
-  You will cast like a dog swims — functional, ugly, inefficient.
-  Seven sessions: the definition, four laws, and the exceptions
-  that frame them. No shortcuts. We begin with the definition."
+  Welcome. Arcane Foundations is the most boring lecture you will hear at
+  this academy. And the most important. If you don't understand what
+  magic IS, you will never apply it precisely — you will cast like a dog
+  swims: functional, ugly, inefficient. Seven sessions: the definition,
+  four laws, and the exceptions that frame them. No shortcuts. We begin
+  with the definition.
 
 npc_vandara_quinell_2: >-
-  "Definition." Quinell does not move while speaking. "Magic is
-  the manipulation of the aether through a draconic mind. Note:
-  the aether — not 'energy', not 'force'. Note: draconic mind —
-  not draconic body. The body is a tool, the mind is the caster."
-  He pauses for two seconds. "If you remember nothing else from
-  this entire course, remember those two words. Aether. Mind.
-  Everything else follows."
+  Definition. Magic is the manipulation of the aether through a draconic
+  mind. Note: the aether — not 'energy', not 'force'. Note: draconic mind
+  — not draconic body. The body is a tool, the mind is the caster. If you
+  remember nothing else from this entire course, remember those two
+  words. Aether. Mind. Everything else follows.
 
 npc_vandara_quinell_3: >-
-  "First law. The Three-Component Law." Quinell draws three
-  circles on the board, perfectly symmetrical. "Every act of
-  magic requires three elements at once. Element — your innate
-  alignment, the one element your bloodline grants you. Will —
-  the trained focus of your draconic mind. Substrate — the
-  physical material through which the effect manifests. Your
-  own form, a tool, the air itself." His tone sharpens. "Three.
-  Always three. Whoever cannot separate them in their mind will
-  fail every advanced course at this academy."
+  First law. The Three-Component Law. Every act of magic requires three
+  elements at once. Element — your innate alignment, the one element your
+  bloodline grants you. Will — the trained focus of your draconic mind.
+  Substrate — the physical material through which the effect manifests:
+  your own form, a tool, the air itself. Three. Always three. Whoever
+  cannot separate them in their mind will fail every advanced course at
+  this academy.
 
 npc_vandara_quinell_4: >-
-  "Second law. The Element-Binding Law." Quinell's tone does
-  not warm. "You cannot 'choose' your element. You cannot
-  'switch'. Whatever your bloodline gave you at birth is what
-  you will cast for the entirety of your life. A fire-shifter
-  who tries to wield water produces nothing — not weak water,
-  no water at all." He looks past you, not at you. "Students
-  occasionally arrive convinced they can train themselves into
-  a second element. They cannot. Disabuse yourself now."
+  Second law. The Element-Binding Law. You cannot 'choose' your element.
+  You cannot 'switch'. Whatever your bloodline gave you at birth is what
+  you will cast for the entirety of your life. A fire-shifter who tries
+  to wield water produces nothing — not weak water, no water at all.
+  Students occasionally arrive convinced they can train themselves into a
+  second element. They cannot. Disabuse yourself now.
 
 npc_vandara_quinell_5: >-
-  "Third law. The Conservation Law." Quinell lifts a heavy
-  quartz staff from beside the lectern, holds it, sets it down
-  again. "Magic does not come from nothing. What you send into
-  the world comes from you. Personal energy out, magical effect
-  in — one to one, no exceptions to the accounting. The aether
-  is a medium, not a source." He pauses. "Anyone who tells you
-  they have found 'free magic' is selling you a fraud or
-  performing a parlour trick. Probably both."
+  Third law. The Conservation Law. Magic does not come from nothing. What
+  you send into the world comes from you. Personal energy out, magical
+  effect in — one to one, no exceptions to the accounting. The aether is
+  a medium, not a source. Anyone who tells you they have found 'free
+  magic' is selling you a fraud or performing a parlour trick. Probably
+  both.
 
 npc_vandara_quinell_6: >-
-  "Fourth law. The Exhaustion Law." Quinell finally lets a
-  small expression cross his face — almost approval. "This is
-  the law students misunderstand most. Exhaustion is not
-  failure. Exhaustion is the measure of your effect. Tired
-  means the magic happened. Untired means it did not." His
-  voice levels again. "Whoever casts without exhaustion has
-  done nothing. Whoever exhausts themselves casting a teacup
-  has cast a real teacup. Apply both halves of that rule and
-  you will already cast better than three quarters of the
-  students sitting in this hall."
+  Fourth law. The Exhaustion Law. This is the law students misunderstand
+  most. Exhaustion is not failure. Exhaustion is the measure of your
+  effect. Tired means the magic happened. Untired means it did not.
+  Whoever casts without exhaustion has done nothing. Whoever exhausts
+  themselves casting a teacup has cast a real teacup. Apply both halves
+  of that rule and you'll already cast better than three quarters of the
+  students sitting in this hall.
 
 npc_vandara_quinell_7: >-
-  "Final session. Exceptions." Quinell sets a thin booklet on
-  the lectern but does not push it toward you. "Four laws. They
-  are correct. They are also exceptions away from being
-  incorrect — very few, very rare, in eighty percent of cases
-  the laws hold without remainder. The remaining twenty are
-  what doctoral theses are made of." For the first time, he
-  pauses noticeably. "There was a colleague here once. Sariel.
-  Element-agnostic, the records said, until they themselves
-  disproved that. Chapter six of these notes is mine — I
-  transcribed it from their lectures. They are blind, have been
-  since before I knew them; the writing was always my part of
-  the arrangement. They lectured, I wrote. The chapter is the
-  only treatise I know on Shadow as a sub-variant of Light.
-  No one has ever met a documented shadow-shifter willing to
-  be examined. They left the academy forty years ago. Whether
-  they still live, I do not know." A small breath, then nothing.
-  "Read the chapter. If you ever find evidence of a current
-  shadow-shifter, write the thesis. Dedicate it appropriately."
+  Final session. Exceptions. Four laws. They are correct. They are also
+  exceptions away from being incorrect — very few, very rare; in eighty
+  percent of cases the laws hold without remainder. The remaining twenty
+  are what doctoral theses are made of. There was a colleague here once.
+  Sariel. Element-agnostic, the records said, until they themselves
+  disproved that. Chapter six of these notes is mine — I transcribed it
+  from their lectures. They are blind, have been since before I knew
+  them; the writing was always my part of the arrangement. They lectured,
+  I wrote. The chapter is the only treatise I know on Shadow as a
+  sub-variant of Light. No one has ever met a documented shadow-shifter
+  willing to be examined. They left the academy forty years ago. Whether
+  they still live, I do not know. Read the chapter. If you ever find
+  evidence of a current shadow-shifter, write the thesis. Dedicate it
+  appropriately.
 
 # Step 8 — post-reveal reaction. Quinell, who'd lectured about
 # Sariel with the resigned tone of someone mourning a colleague,
 # gets a quiet vindication. He does not show it loudly.
 npc_vandara_quinell_8: >-
-  Quinell does not move when you enter — but the angle of his
-  head shifts, ever so slightly. "I heard." A pause. "Sariel
-  was correct, then. The records were wrong; the lecture chapter
-  was right. I will note it in the archives." Another pause,
-  longer. "If you ever — when you go back down to them — tell
-  Sariel that the chapter still works. Forty years on, students
-  still pass it. They may not remember me, but I have remembered
-  them." His voice does not change pitch, but something in the
-  room does. "That is all. Go. Study. Apply the laws. You will
-  need every one of them."
+  I heard. ...Sariel was correct, then. The records were wrong; the
+  lecture chapter was right. I will note it in the archives. If you ever
+  — when you go back down to them — tell Sariel that the chapter still
+  works. Forty years on, students still pass it. They may not remember
+  me, but I have remembered them. That is all. Go. Study. Apply the laws.
+  You will need every one of them.
 
 # Step 9 — written graduation exam on Arcane Foundations.
 npc_vandara_quinell_9: >-
-  Quinell does not move when you enter. A single sheet of
-  paper waits on the lectern with four lines printed on it.
-  "Sit. Write. State each of the four laws by name and one
-  sentence of substance. You may take as long as you require
-  within reason. Use the pen, not your finger." Long silence.
-  You write. He waits, motionless. When you set the pen down he
-  reads the sheet without expression, then folds it once and
-  drops it into a tray marked PASSED. "Satisfactory. Return to
-  Olié." A pause that for him counts as warm. "Apply them
-  honestly. The laws do not care whether you remember them.
-  Only whether you respect them."
+  Sit. Write. State each of the four laws by name and one sentence of
+  substance. You may take as long as you require within reason. Use the
+  pen, not your finger. ...Satisfactory. Return to Olié. Apply them
+  honestly. The laws do not care whether you remember them. Only whether
+  you respect them.
 
 npc_vandara_gate_guard_admit: >-
-  The gate warden — a massive earth-dragon shifter with scales like
-  polished stone — looks you over slowly as you produce the letter.
-  His gaze drifts across the rose-gold seal, then he gives a short
-  nod. "First time in Vandara, eh? We see academy invitations every
-  few weeks. You'll be surprised how big this city is below the
-  surface." A wave of his hand and the great gate swings open behind
-  him. "Welcome, {player}. Go on through — the mentors will explain
-  the rest."
+  First time in Vandara, eh? We see academy invitations every few weeks.
+  You'll be surprised how big this city is below the surface. ...Welcome,
+  {player}. Go on through — the mentors will explain the rest.
 
 # Return after the shadow reveal. By this point the player has
 # enrolled at the academy, taken the element tests, met the mentors —
 # and discovered that shadow is their element. The warden notices
 # in his own terse way.
 npc_vandara_gate_guard_respect: >-
-  The warden recognizes you before you've even reached the gate. He
-  straightens up and brings a hand briefly to his chest — not a
-  formal salute, more the gesture earth-dragon shifters use when
-  they mean someone. "You've seen the city beneath the city. That
-  changes a person." A small smile. "Most come with the letter,
-  leave with the letter, see only half. You belong to those who
-  know both halves now. Take care of yourself, {player}."
+  You've seen the city beneath the city. That changes a person. Most come
+  with the letter, leave with the letter, see only half. You belong to
+  those who know both halves now. Take care of yourself, {player}.
 
 
 # ─── Catacomb students arc (Korren + Iska + Daven) ───────────
@@ -603,138 +514,89 @@ npc_vandara_gate_guard_respect: >-
 # comes down to arrest them with the player's help.
 
 npc_vandara_korren_1: >-
-  Korren looks up from a low workbench cluttered with broken
-  pottery and old metal fragments. His skin has the rust-brown
-  tone of old earth at the neck and hands where the scales
-  show through, and his wings — when he shifts on his stool —
-  fan out behind him in deep red membrane.
-  "You came down. Good. Word travels, even to here." He
-  gestures at the bench. "I'm Korren. I'm — well. I work for
-  King Archivaris. Not officially, you understand. Officially
-  I'm a third-year student who 'fell behind on Dragon Studies'.
-  Unofficially I'm down here proving something." He picks up
-  a corroded ring. "Echo-summoning. Old objects remember. I
-  bring them up just enough to whisper. The academy thinks
-  it's necromancy. It isn't — there's no soul, just resonance.
-  But the academy doesn't care about distinctions when it
-  can't see the math." He holds the ring out. "Help me. I
-  need a thread of your magic to anchor the echo. Five
-  threads' worth, that's all. The ring will tell me how the
-  smith who made it died. Small thing. Proof."
+  You came down. Good — word travels, even to here. I'm Korren. I work
+  for King Archivaris — not officially, you understand. Officially I'm a
+  third-year student who 'fell behind on Dragon Studies'. Unofficially
+  I'm down here proving something. Echo-summoning: old objects remember,
+  and I bring them up just enough to whisper. The academy thinks it's
+  necromancy. It isn't — there's no soul, just resonance. But the academy
+  doesn't care about distinctions when it can't see the math. Help me — I
+  need a thread of your magic to anchor the echo. Five threads' worth,
+  that's all. This ring will tell me how the smith who made it died.
+  Small thing. Proof.
 
 npc_vandara_korren_2: >-
-  Korren is energised — pacing, scales darker, more vivid.
-  "I heard Iska did it. The Wyvern with the puppet. Made a
-  teaspoon stand up by itself for ten seconds." A bitter grin.
-  "Cute. Animation is the easy thing. Anyone can poke matter
-  and make it twitch. What I'm doing is harder — I'm reaching
-  across time. But the corridor talked about Iska, not me, and
-  that means my king loses today's argument." He shoves the
-  ring back into a pile. "We're going bigger. I have a coin,
-  military issue, from the war forty years ago. It's seen a
-  man die. If I can make it tell me HOW, the academy can't
-  call the echo trick parlour magic any more. Ten threads. Now."
+  I heard Iska did it. The Wyvern with the puppet — made a teaspoon stand
+  up by itself for ten seconds. Cute. Animation is the easy thing; anyone
+  can poke matter and make it twitch. What I'm doing is harder — I'm
+  reaching across time. But the corridor talked about Iska, not me, and
+  that means my king loses today's argument. We're going bigger. I have a
+  coin, military issue, from the war forty years ago. It's seen a man
+  die. If I can make it tell me HOW, the academy can't call the echo
+  trick parlour magic any more. Ten threads. Now.
 
 npc_vandara_korren_3: >-
-  Korren has barely slept. The workbench is covered in objects.
-  "Iska is animating a corpse-doll. A SMALL one, but still.
-  The whole city will hear about that by the end of the week,
-  and if Archivaris doesn't have an answer by then, Novia's
-  faction wins this round in court. So we're going to wake a
-  real memory." He holds up something wrapped in cloth. "A
-  shard from the imperial archive. Don't ask how I got it.
-  It saw — never mind what it saw. Twenty threads of magic,
-  and we'll know whether the official records are the actual
-  records." The shard hums when you touch it. The candle flame
-  goes out for a full second. Korren laughs — too thinly.
-  "It worked. Oh, it worked. Wait until I write this up. Wait
-  until—" He cuts off, staring at nothing.
+  Iska is animating a corpse-doll. A SMALL one, but still. The whole city
+  will hear about that by the end of the week, and if Archivaris doesn't
+  have an answer by then, Novia's faction wins this round in court. So
+  we're going to wake a real memory. A shard from the imperial archive —
+  don't ask how I got it. It saw — never mind what it saw. Twenty threads
+  of magic, and we'll know whether the official records are the actual
+  records. ...It worked. Oh, it worked. Wait until I write this up. Wait
+  until—
 
 npc_vandara_iska_1: >-
-  A Wyvern in humanoid form stands at a workbench surrounded
-  by trinkets — a spoon, a coil of wire, a chess piece. Her
-  hair is dark, sticking up at angles, and her patchwork robe
-  is a riot of colour. Her wings flick out behind her in deep
-  red, the same shape as Korren's down the corridor. "Hi, hi,
-  sit down, don't break my circle." She doesn't look up.
-  "Iska. Wind line. I'm not supposed to be here, I'm supposed
-  to be at Pamle's tier-three lecture, but Pamle teaches
-  BREWING and I want to make things MOVE." She points at the
-  spoon. "Watch. Five threads of magic from you, that's all I
-  need. The spoon stands up. Maybe. Last time it stood up and
-  stabbed me, so. Stand back." She grins. "King Novia would
-  love this. The old people say matter is inert. Matter is
-  not inert. Matter is just shy."
+  Hi, hi, sit down, don't break my circle. Iska. Wind line. I'm not
+  supposed to be here — I'm supposed to be at Pamle's tier-three lecture,
+  but Pamle teaches BREWING and I want to make things MOVE. Watch the
+  spoon. Five threads of magic from you, that's all I need. The spoon
+  stands up. Maybe. Last time it stood up and stabbed me, so — stand
+  back. King Novia would love this. The old people say matter is inert.
+  Matter is not inert. Matter is just shy.
 
 npc_vandara_iska_2: >-
-  Iska is grinning wider than before, gesturing with both
-  hands at once. "Korren did the ring thing. Made it whisper.
-  Whisper. Anyone can whisper. I want to MOVE." She points
-  at a clockwork chassis on her workbench. "I'm wiring runes
-  into a clockwork. Not just twitch — walk. Three steps. The
-  court will laugh Korren out of the room when they see this.
-  Ten threads, please, fast, I've got the geometry held in my
-  head and I'll lose it if you make me wait."
+  Korren did the ring thing — made it whisper. Whisper. Anyone can
+  whisper. I want to MOVE. I'm wiring runes into a clockwork — not just
+  twitch, walk. Three steps. The court will laugh Korren out of the room
+  when they see this. Ten threads, please, fast — I've got the geometry
+  held in my head and I'll lose it if you make me wait.
 
 npc_vandara_iska_3: >-
-  Iska looks haggard. Both eyes red-rimmed. On the workbench
-  is something small under a cloth. "Korren is going to the
-  imperial archive. Did you know that? I know it. The walls
-  down here listen." She uncovers the cloth. A small puppet
-  figure made of wood, wire, and something that looks
-  suspiciously like a finger-bone. "Don't ask. Borrowed. From
-  an old grave. The grave's a hundred years past anyone
-  caring. Twenty threads, and I make it walk a circle. If I
-  do, Novia's faction owns the lecture halls for a decade."
-  The figure stirs when you channel the magic. Stands. Takes
-  one step, then another, then a third, then — it turns its
-  tiny head toward you. Iska laughs, ecstatic. "YES. That.
-  Did you see that? It looked. It LOOKED—"
+  Korren is going to the imperial archive. Did you know that? I know it —
+  the walls down here listen. This thing? Don't ask. Borrowed, from an
+  old grave a hundred years past anyone caring. Twenty threads, and I
+  make it walk a circle. If I do, Novia's faction owns the lecture halls
+  for a decade. ...YES. That. Did you see that? It looked. It LOOKED—
 
 npc_vandara_daven_1: >-
-  A tall Great Dragon shifter steps into the candlelit
-  chamber. Their scales are slate-grey, their coat a deep red
-  with a single thread of academy gold at the collar. They
-  look at you, not at the workbenches. "You. Student. I've
-  been told you've been visiting down here. I'm Marshal Daven,
-  Council-of-Vandara enforcement." A small nod. "I'm not
-  arresting you — yet. I'm asking because you've seen them.
-  Korren the echo-summoner and Iska the animator. What are
-  they up to? Speak plainly. The Council has had complaints
-  from both kings' agents, which is rare enough to be its own
-  kind of evidence. Tell me what you can. We can speak about
-  your own role afterwards."
+  You. Student. I've been told you've been visiting down here. I'm
+  Marshal Daven, Council-of-Vandara enforcement. I'm not arresting you —
+  yet. I'm asking because you've seen them: Korren the echo-summoner and
+  Iska the animator. What are they up to? Speak plainly. The Council has
+  had complaints from both kings' agents, which is rare enough to be its
+  own kind of evidence. Tell me what you can. We can speak about your own
+  role afterwards.
 
 npc_vandara_daven_2: >-
-  Daven listens, taking notes on a small slate. "An echo from
-  an imperial archive shard. An animated figure made from
-  grave-robbed bone. Both anchored to your own magic." They
-  sigh once, briefly. "This is the pattern I've seen every
-  fifteen or twenty years. Two students, one for each king.
-  They start small, they escalate against each other, and
-  somebody eventually goes to the imperial archive or to a
-  grave. You did not start this. You did, however, contribute
-  the magical thread that pushed both of them past the line."
-  They look at you directly for the first time. "I appreciate
-  your cooperation. One last question. Show me where they
-  work. Exactly where. The Council prefers a clean arrest."
+  An echo from an imperial archive shard. An animated figure made from
+  grave-robbed bone. Both anchored to your own magic. This is the pattern
+  I've seen every fifteen or twenty years: two students, one for each
+  king. They start small, they escalate against each other, and somebody
+  eventually goes to the imperial archive or to a grave. You did not
+  start this. You did, however, contribute the magical thread that pushed
+  both of them past the line. I appreciate your cooperation. One last
+  question — show me where they work. Exactly where. The Council prefers
+  a clean arrest.
 
 npc_vandara_daven_3: >-
-  You lead Daven to Korren's workbench, then to Iska's. They
-  nod once at each. Two more guards step in behind them —
-  quiet, professional. There is no shouting; both students
-  seem to have been waiting, in their own way. Korren
-  straightens, refuses to look at you. Iska looks at you and
-  grins, then winks, and lets herself be led out. "Thanks for
-  the boost, kid! Tell Pamle I'm sorry about the brewing
-  class!" Daven returns to you alone. "It's done. The Council
-  will hear them in a month. Probably suspended for two
-  years, probably back at the academy after that with a
-  different mentor each. No prison. They are children." A
-  pause. "You. Your role will be noted in the file as
-  'cooperating witness'. That is more generous than
-  'accomplice', which it could just as easily be. Walk
-  carefully, student. Do not believe everything every Vassal's
-  agent tells you." They turn to leave. "And the next time
-  someone in the catacombs asks for your magic — say no. Just
-  once. Say no."
+  Two guards step in behind them, quiet and professional; both students
+  seem to have been waiting. Iska grins at you on her way out: "Thanks
+  for the boost, kid! Tell Pamle I'm sorry about the brewing class!" It's
+  done. The Council will hear them in a month — probably suspended two
+  years, then back at the academy after that with a different mentor
+  each. No prison. They are children. Your role will be noted in the file
+  as 'cooperating witness'. That is more generous than 'accomplice',
+  which it could just as easily be. Walk carefully, student. Don't
+  believe everything every Vassal's agent tells you. And the next time
+  someone in the catacombs asks for your magic — say no. Just once. Say
+  no.

@@ -252,68 +252,52 @@ npc_vandara_sariel_3: >-
 
 # ─── Pamle — Alchemie-Mentorin (Magma-Drachenwandlerin) ───
 npc_vandara_pamle_1: >-
-  Pamle ist ein kompakter Magma-Drachenwandler, in humanoider
-  Form gerade so groß wie deine Schulter, mit Schuppen wie
-  verkrusteter Lava über den Unterarmen. Sie steht vor einem
-  improvisierten Tisch voller leerer Phiolen und zerstoßener
-  Pflanzenreste. "{player}, oder? Setz dich. Ich mach das schnell:
-  ich bin Pamle, ich unterrichte Alchemie. Wir fangen mit zwei
-  ganz simplen Rezepten an — Energietrank und Magietrank. Mehr
-  als Kräuter, Wasser und ein bisschen Hitze brauchen die nicht."
-  Sie tippt sich gegen die Schläfe. "Geh nach Hause, bau dir die
-  Werkstatt von Kal'res Bauplan, stell den Alchemietisch in dein
-  Zimmer. Dann kannst du das brauen. Komm wieder wenn du drei
-  Energietränke gemacht hast — DREI, nicht zwei, nicht 'fast
-  drei'. Dann zeige ich dir was Besseres."
+  {player}, oder? Setz dich. Ich mach das schnell: ich bin Pamle, ich
+  unterrichte Alchemie. Wir fangen mit zwei ganz simplen Rezepten an —
+  Energietrank und Magietrank. Mehr als Kräuter, Wasser und ein bisschen
+  Hitze brauchen die nicht. Geh nach Hause, bau dir die Werkstatt von
+  Kal'res Bauplan, stell den Alchemietisch in dein Zimmer. Dann kannst du
+  das brauen. Komm wieder, wenn du drei Energietränke gemacht hast —
+  DREI, nicht zwei, nicht 'fast drei'. Dann zeige ich dir was Besseres.
 
 npc_vandara_pamle_2: >-
-  Pamle wartet schon mit ausgestreckter Hand. "Drei Energietränke,
-  ja? Gut." Sie nimmt sie kommentarlos entgegen und stellt sie in
-  ein Regal hinter sich. "Ich verkaufe die übrigens an die
-  Erstsemester für gutes Geld, falls du dich gefragt hast. Bildung
-  ist nicht umsonst." Ein scharfes Grinsen. "Jetzt zu Tier zwei:
-  Wachpollen-Tee — Regeneration über Zeit. Und Funkenlicht-Phiole
-  — die wirst du noch zu schätzen wissen, glaub mir. Sariel
-  unten in den Katakomben hat sie früher kistenweise bestellt." Sie
-  hustet, als hätte sie zu viel gesagt. "Üb. Bring mir drei
-  Funkenlicht-Phiolen wenn du soweit bist."
+  Drei Energietränke, ja? Gut. Ich verkaufe die übrigens an die
+  Erstsemester für gutes Geld, falls du dich gefragt hast — Bildung ist
+  nicht umsonst. Jetzt zu Tier zwei: Wachpollen-Tee, Regeneration über
+  Zeit. Und Funkenlicht-Phiole — die wirst du noch zu schätzen wissen,
+  glaub mir; Sariel unten in den Katakomben hat sie früher kistenweise
+  bestellt. ...Üb. Bring mir drei Funkenlicht-Phiolen, wenn du soweit
+  bist.
 
 npc_vandara_pamle_3: >-
-  "Funkenlicht-Phiolen. Drei. Schön." Pamle wiegt sie in der Hand,
-  prüft die Helligkeit. "Sauber gearbeitet. Du verstehst die
-  Dosierung." Sie räumt sie ins Regal. "Letzte Runde. Arkanwasser
-  ist Standard für jeden Studenten, der Magie betreibt. Und
-  Aschebrand-Tinktur — die ist meine eigene Erfindung. Aus den
-  Pollen einer Asche-Weide. Macht dich für zwei Minuten zur
-  Holzfäll-Maschine. Du wirst nicht glauben, wie viele Aufträge
-  die Akademie dafür von den Bauunternehmen bekommt." Sie nickt
-  zur Tür. "Komm einmal noch wieder. Dann hab ich dir alles
-  beigebracht was ich grad anbieten kann."
+  Funkenlicht-Phiolen. Drei. Schön — sauber gearbeitet; du verstehst die
+  Dosierung. Letzte Runde. Arkanwasser ist Standard für jeden Studenten,
+  der Magie betreibt. Und Aschebrand-Tinktur — die ist meine eigene
+  Erfindung, aus den Pollen einer Asche-Weide. Macht dich für zwei
+  Minuten zur Holzfäll-Maschine; du wirst nicht glauben, wie viele
+  Aufträge die Akademie dafür von den Bauunternehmen bekommt. Komm einmal
+  noch wieder, dann hab ich dir alles beigebracht, was ich grad anbieten
+  kann.
 
 npc_vandara_pamle_4: >-
-  "So." Pamle wischt sich die Hände an einer Schürze ab, die
-  schon viel zu viel gesehen hat. "Das war's mit den Grundlagen.
-  Du beherrscht jetzt die sechs Basis-Rezepte. Was kommt, wird
-  schwerer — Sternenfrüchte sind selten, Glut-Lotos noch
-  seltener, und einige Rezepte verlangen Reagenzien die nur
-  Gewitter-Seraphe einsammeln können. Aber bis dahin hast du noch
-  was zu tun." Sie reicht dir die Hand. "Geh und braue. Wenn ich
-  je was Neues unterrichte, weißt du wo du mich findest. Ach —
-  und Pamle ist nicht mein voller Name, ich hab nie einen
-  bekommen. Spar dir die Frage."
+  So. Das war's mit den Grundlagen — du beherrschst jetzt die sechs
+  Basis-Rezepte. Was kommt, wird schwerer: Sternenfrüchte sind selten,
+  Glut-Lotos noch seltener, und einige Rezepte verlangen Reagenzien, die
+  nur Gewitter-Seraphe einsammeln können. Aber bis dahin hast du noch was
+  zu tun. Geh und braue. Wenn ich je was Neues unterrichte, weißt du, wo
+  du mich findest. Ach — und Pamle ist nicht mein voller Name, ich hab
+  nie einen bekommen. Spar dir die Frage.
 
 # Step 5 — Reveal-Reaktion. Pamle hat die Geschichte gehört und
 # überlegt praktisch, welche Reagenzien für einen Schatten-Wandler
 # Sinn ergeben.
 npc_vandara_pamle_5: >-
-  Pamle mustert dich vom Werktisch aus. "Aha. Das hat sich
-  rumgesprochen. Du bist die Schatten-Person." Sie wirkt nicht
-  überrascht. "Heißt, ich sollte vielleicht überlegen, welche
-  Reagenzien für deine Sorte Sinn machen. Asche von erloschenen
-  Kerzen, Spiegelscherben-Staub, sowas. Ich sag Bescheid wenn
-  mir was einfällt." Ein scharfes Grinsen. "Und erwarte keinen
-  Rabatt. Seltenes Element heißt nicht pleite. Jetzt verzieh
-  dich, ich muss der nächsten Gruppe Tier-drei beibringen."
+  Aha. Das hat sich rumgesprochen — du bist die Schatten-Person. Heißt,
+  ich sollte vielleicht überlegen, welche Reagenzien für deine Sorte Sinn
+  machen. Asche von erloschenen Kerzen, Spiegelscherben-Staub, sowas. Ich
+  sag Bescheid, wenn mir was einfällt. Und erwarte keinen Rabatt —
+  seltenes Element heißt nicht pleite. Jetzt verzieh dich, ich muss der
+  nächsten Gruppe Tier-drei beibringen.
 
 npc_vandara_sariel_4: >-
   Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist was
@@ -351,302 +335,225 @@ npc_vandara_sariel_5: >-
 # Lindwürmer, Amphithere, Leviathane, Seraphe, Fae, und zum
 # Schluss Lung-Drachen als Dramatic-Irony-Knipser.
 npc_vandara_ormias_1: >-
-  Lektor Ormias ist alt. Sehr alt. Sein Drachenform-Schädel
-  schimmert beim Reden in der Sonne — Magma-Lindwurm-Linie,
-  Schuppen wie erstarrte Lava. Er trägt zerknitterte Roben und
-  eine Brille, die ihm wirklich nicht passt. "Setz dich,
-  Studierende. Drachenkunde, Grundkurs. Sieben Hauptarten kennen
-  wir: Großdrachen, Wyvern, Lindwürmer, Amphithere, Leviathane,
-  Seraphe, Fae. Dazu noch die kaiserlichen Lung-Drachen — eine
-  Ausnahme, die nehmen wir uns zuletzt vor." Er hustet. "Eine
-  pro Sitzung. Keine Abkürzungen. Und merk dir das absolut
-  Wichtigste über sie alle: sie haben alle Flügel." Eine Pause.
-  "Ja. Alle."
+  Setz dich, Studierende. Drachenkunde, Grundkurs. Sieben Hauptarten
+  kennen wir: Großdrachen, Wyvern, Lindwürmer, Amphithere, Leviathane,
+  Seraphe, Fae. Dazu noch die kaiserlichen Lung-Drachen — eine Ausnahme,
+  die nehmen wir uns zuletzt vor. Eine pro Sitzung. Keine Abkürzungen.
+  Und merk dir das absolut Wichtigste über sie alle: sie haben alle
+  Flügel. ...Ja. Alle.
 
 npc_vandara_ormias_2: >-
-  "Großdrachen. Die Hüter der Reiche. Das Brot-und-Butter-Volk
-  aus dem Kristallreich im Westen." Ormias skizziert eine
-  vierbeinige Silhouette an die Tafel — die Kreide bricht.
-  "Kräftiger Körperbau, vier Beine, ein Paar breite
-  Lederschwingen, oft eine gepanzerte Schwanzspitze und große
-  Hörner. Die häufigste Art mit Abstand. Viele Spätzünder —
-  Flügel kommen manchmal erst mit zwanzig oder dreißig." Er
-  schaut dich über seine Brille an. "Statistisch bist du
-  höchstwahrscheinlich einer von diesen. Geduld. Sie kommen."
+  Großdrachen. Die Hüter der Reiche. Das Brot-und-Butter-Volk aus dem
+  Kristallreich im Westen. Kräftiger Körperbau, vier Beine, ein Paar
+  breite Lederschwingen, oft eine gepanzerte Schwanzspitze und große
+  Hörner. Die häufigste Art mit Abstand — viele Spätzünder; Flügel kommen
+  manchmal erst mit zwanzig oder dreißig. Statistisch bist du
+  höchstwahrscheinlich einer von diesen. Geduld. Sie kommen.
 
 npc_vandara_ormias_3: >-
-  "Wyvern. Die Jäger der Lüfte." Wieder eine Skizze — die
-  Kreide bricht erneut. "Nur zwei Hinterbeine. Die Vorderbeine
-  sind in der Evolution mit den Flügeln verschmolzen. Schnelle,
-  muskulöse Flieger, meist mit einem Giftstachel oder einer
-  schweren Keule am Schwanzende. Die Sturm-Wyvern haben
-  Flügelkanten so scharf, dass sie den Wind wie Klingen
-  schneiden." Er schiebt seine Brille hoch. Sie rutscht sofort
-  wieder runter. "Häufig im westlichen Tiefland. Du wüsstest,
-  wenn du einer wärst — die fliegen jung."
+  Wyvern. Die Jäger der Lüfte. Nur zwei Hinterbeine — die Vorderbeine
+  sind in der Evolution mit den Flügeln verschmolzen. Schnelle, muskulöse
+  Flieger, meist mit einem Giftstachel oder einer schweren Keule am
+  Schwanzende. Die Sturm-Wyvern haben Flügelkanten so scharf, dass sie
+  den Wind wie Klingen schneiden. Häufig im westlichen Tiefland. Du
+  wüsstest, wenn du einer wärst — die fliegen jung.
 
 npc_vandara_ormias_4: >-
-  "Lindwürmer. Die Erdgebundenen." Zum ersten Mal heute lächelt
-  Ormias kurz. "Meinesgleichen. Massiver Körper, nur zwei
-  Vorderbeine, die hintere Hälfte ist eine lange Schlange, die
-  wir hinter uns herziehen. Flügel haben wir auch, aber
-  schwerfällig — in der Luft sind wir nicht graziös. Wir graben,
-  wir klettern, wir sind langsam und stur. Zwei Hauptlinien:
-  Magma-Lindwürmer, Schuppen wie glühende Lava, leben nahe dem
-  Lavameer. Und Sumpf-Lindwürmer, Schuppen wie Algen und Rinde,
-  getarnt im Urwald von Smaragd." Er hustet. "Von Fremden manchmal
-  zu westlichen Drachen geworfen. Wir sind östlich. Bring das
-  nicht durcheinander."
+  Lindwürmer. Die Erdgebundenen. Meinesgleichen. Massiver Körper, nur
+  zwei Vorderbeine, die hintere Hälfte ist eine lange Schlange, die wir
+  hinter uns herziehen. Flügel haben wir auch, aber schwerfällig — in der
+  Luft sind wir nicht graziös. Wir graben, wir klettern, wir sind langsam
+  und stur. Zwei Hauptlinien: Magma-Lindwürmer, Schuppen wie glühende
+  Lava, leben nahe dem Lavameer; und Sumpf-Lindwürmer, Schuppen wie Algen
+  und Rinde, getarnt im Urwald von Smaragd. Von Fremden manchmal zu
+  westlichen Drachen geworfen. Wir sind östlich. Bring das nicht
+  durcheinander.
 
 npc_vandara_ormias_5: >-
-  "Amphithere. Die gefiederten Schlangen." Ormias gestikuliert
-  breit mit beiden Armen. "Keine Gliedmaßen. Nur ein langer
-  Schlangenkörper und ein einziges Paar gewaltiger, prächtiger
-  Federschwingen — die übrigens magische Energie speichern
-  können. Selten. Schön — das gebe sogar ich zu. Zwei bekannte
-  Sub-Arten: Traum-Amphithere, deren Flügelschläge Illusionsnebel
-  erzeugen. Und Sonnen-Amphithere, goldene Federn, die bei
-  Bedrohung in eine blendende Licht-Explosion entladen können."
-  Er hebt eine Augenbraue. "Magistra Veyra ist eine. Sag ihr
-  nicht, dass ich gesagt habe, sie sei schön."
+  Amphithere. Die gefiederten Schlangen. Keine Gliedmaßen — nur ein
+  langer Schlangenkörper und ein einziges Paar gewaltiger, prächtiger
+  Federschwingen, die übrigens magische Energie speichern können. Selten.
+  Schön — das gebe sogar ich zu. Zwei bekannte Sub-Arten:
+  Traum-Amphithere, deren Flügelschläge Illusionsnebel erzeugen; und
+  Sonnen-Amphithere, goldene Federn, die bei Bedrohung in eine blendende
+  Licht-Explosion entladen können. Magistra Veyra ist eine. Sag ihr
+  nicht, dass ich gesagt habe, sie sei schön.
 
 npc_vandara_ormias_6: >-
-  "Leviathane. Die Herrscher der Extreme." Ormias' Stimme wird
-  tiefer — Respekt, kein Stolz. "Sie leben dort, wo sonst niemand
-  kann. Gezeiten-Leviathane beherrschen die schwebenden
-  Wasserinseln und Wasserwege; sehnige Schwingen, die unter
-  Wasser als Flossen dienen, feine Kiemenschlitze, absolute
-  Herrscher der Strömungen. Magma-Leviathane auf den untersten,
-  heißesten Inseln über dem Lavameer; massive gepanzerte Flügel,
-  obsidianbeschichtete Schuppen, Lungen die superheiße Gase
-  filtern. Einmal im Jahr treffen sie sich an den Lavafällen
-  und handeln." Eine kurze Pause. "Die angesehensten Handwerker
-  im Reich."
+  Leviathane. Die Herrscher der Extreme. Sie leben dort, wo sonst niemand
+  kann. Gezeiten-Leviathane beherrschen die schwebenden Wasserinseln und
+  Wasserwege — sehnige Schwingen, die unter Wasser als Flossen dienen,
+  feine Kiemenschlitze, absolute Herrscher der Strömungen.
+  Magma-Leviathane auf den untersten, heißesten Inseln über dem Lavameer
+  — massive gepanzerte Flügel, obsidianbeschichtete Schuppen, Lungen die
+  superheiße Gase filtern. Einmal im Jahr treffen sie sich an den
+  Lavafällen und handeln. Die angesehensten Handwerker im Reich.
 
 npc_vandara_ormias_7: >-
-  "Seraph-Drachen. Die Himmelsstürmer." Ormias' Tonfall wird
-  trocken. "Schlank, aerodynamisch, vier bis sechs schmale
-  Flügel übereinander gestapelt. Sie leben dort, wo die Luft so
-  dünn ist, dass ein Großdrache das Bewusstsein verlieren würde,
-  und lachen über unsere Stürme, weil das, was wir Hurrikan
-  nennen, ihre Morgenbrise ist." Er winkt ab. "Erwarte nicht,
-  einen zu sehen — sie kommen fast nie runter. Wenn doch, sei
-  höflich."
+  Seraph-Drachen. Die Himmelsstürmer. Schlank, aerodynamisch, vier bis
+  sechs schmale Flügel übereinander gestapelt. Sie leben dort, wo die
+  Luft so dünn ist, dass ein Großdrache das Bewusstsein verlieren würde,
+  und lachen über unsere Stürme — was wir Hurrikan nennen, ist ihre
+  Morgenbrise. Erwarte nicht, einen zu sehen; sie kommen fast nie runter.
+  Wenn doch, sei höflich.
 
 npc_vandara_ormias_8: >-
-  "Fae-Drachen. Die Smaragd-Weber." Ormias' Mund zuckt — fast
-  Zuneigung. "Die Kleinsten. Libellenflügel, Chamäleon-Tarnung,
-  ursprünglich aus dem tiefen Urwald von Smaragd. Heute zwei
-  Kulturen: die wilden Wald-Fae, die noch immer in der Rinde
-  verschwinden, und die Stadt-Fae, die sich an das urbane Leben
-  angepasst haben und prächtige, knallbunte Schuppen tragen,
-  weil sie in der Stadt nichts mehr fürchten müssen." Er
-  lächelt fast. "Wenn du jemals einen in einer Taverne triffst,
-  gib ihm einen Drink aus. Bester Klatsch in Draconia."
+  Fae-Drachen. Die Smaragd-Weber. Die Kleinsten. Libellenflügel,
+  Chamäleon-Tarnung, ursprünglich aus dem tiefen Urwald von Smaragd.
+  Heute zwei Kulturen: die wilden Wald-Fae, die noch immer in der Rinde
+  verschwinden, und die Stadt-Fae, die sich an das urbane Leben angepasst
+  haben und prächtige, knallbunte Schuppen tragen, weil sie in der Stadt
+  nichts mehr fürchten müssen. Wenn du jemals einen in einer Taverne
+  triffst, gib ihm einen Drink aus. Bester Klatsch in Draconia.
 
 npc_vandara_ormias_9: >-
-  "Und zum Schluss — die Lung-Drachen. Die Himmelsläufer."
-  Ormias klopft demonstrativ auf seinen Schreibtisch.
-  "Schlangenartig, flügellos, vier Beine mit scharfen Klauen,
-  charakteristische Bartfäden am Kopf. Sie fliegen rein durch
-  Magie — keine Flügel. Die einzige Ausnahme zu meiner
-  Eröffnungsregel." Seine Brille rutscht und er fängt sie
-  diesmal nicht auf. "Und bevor du fragst: ja, ich habe gesehen,
-  dass du keine Flügel hast. Komm nicht auf Ideen. Lung-Drachen
-  sind ein absoluter genetischer Sonderfall — sie kommen
-  ausschließlich in der kaiserlichen Blutlinie vor, und selbst
-  dort existieren aktuell nur zwei. Kaiser Ignis Aurum und Prinz
-  Ryuga. Das ist die Liste." Er räuspert sich. "Du bist
-  höchstwahrscheinlich ein Spätzünder-Großdrache. In achtzig
-  Prozent der Fälle. Geduld."
+  Und zum Schluss — die Lung-Drachen. Die Himmelsläufer. Schlangenartig,
+  flügellos, vier Beine mit scharfen Klauen, charakteristische Bartfäden
+  am Kopf. Sie fliegen rein durch Magie — keine Flügel. Die einzige
+  Ausnahme zu meiner Eröffnungsregel. Und bevor du fragst: ja, ich habe
+  gesehen, dass du keine Flügel hast. Komm nicht auf Ideen. Lung-Drachen
+  sind ein absoluter genetischer Sonderfall — sie kommen ausschließlich
+  in der kaiserlichen Blutlinie vor, und selbst dort existieren aktuell
+  nur zwei. Kaiser Ignis Aurum und Prinz Ryuga. Das ist die Liste. Du
+  bist höchstwahrscheinlich ein Spätzünder-Großdrache. In achtzig Prozent
+  der Fälle. Geduld.
 
 # Step 10 — Reveal-Reaktion. Ormias frisst graziös seine
 # Spätzünder-Großdrachen-Prognose, lädt zum Wiederkommen ein.
 npc_vandara_ormias_10: >-
-  "Aha." Ormias rückt seine Brille zurecht, die sofort wieder
-  rutscht. "Ich hab's gehört. Gerüchte laufen schnell durch
-  die Akademie-Korridore, vor allem wenn's um das Unmögliche
-  geht." Er hustet. "Erlaub mir einen Moment professionelle
-  Verlegenheit. Ich hab dir mit einiger Sicherheit gesagt, du
-  seist höchstwahrscheinlich ein Spätzünder-Großdrache.
-  Anscheinend lag ich daneben — wobei, in aller Fairness, auch
-  nicht ganz daneben. Schatten ist eine Sub-Variante des
-  Lichts. Lichtwandler sind Großdrachen. Also technisch,
-  statistisch, halten die achtzig Prozent immer noch. Knapp."
-  Er gestikuliert vage. "Ich würde Kapitel Zwei meines Buches
-  sehr gerne aktualisieren. Komm gelegentlich wieder vorbei —
-  ich werde neue Fragen haben, und die Fragen sind meistens
-  interessanter als die Antworten."
+  Aha. Ich hab's gehört. Gerüchte laufen schnell durch die
+  Akademie-Korridore, vor allem wenn's um das Unmögliche geht. Erlaub mir
+  einen Moment professionelle Verlegenheit: Ich hab dir mit einiger
+  Sicherheit gesagt, du seist höchstwahrscheinlich ein
+  Spätzünder-Großdrache. Anscheinend lag ich daneben — wobei, in aller
+  Fairness, auch nicht ganz daneben. Schatten ist eine Sub-Variante des
+  Lichts. Lichtwandler sind Großdrachen. Also technisch, statistisch,
+  halten die achtzig Prozent immer noch. Knapp. Ich würde Kapitel Zwei
+  meines Buches sehr gerne aktualisieren. Komm gelegentlich wieder vorbei
+  — ich werde neue Fragen haben, und die Fragen sind meistens
+  interessanter als die Antworten.
 
 # Step 11 — mündliche Abschlussprüfung in Drachenkunde.
 npc_vandara_ormias_11: >-
-  Ormias hat seinen üblichen Chaos vom Schreibtisch geräumt
-  und ein einzelnes Blatt Papier hingelegt, auf dem genau ein
-  Wort steht: PROCEED. Er schaut dich von der Seite an. "Also
-  gut. Mündliche Prüfung. Ich sage die Frage, du sprichst die
-  Antwort. Keine Notizen. Versuch, mich nicht anzuhusten." Er
-  räuspert sich, als wolle er es demonstrieren. "Nenne die
-  sieben Hauptarten der Drachenwandler, in beliebiger
-  Reihenfolge, mit je einem unterscheidenden Merkmal." Lange
-  Stille, während du rezitierst. Er nickt durch jede.
-  "Gut, gut, gut." Dann: "Und die achte." Eine Pause. "Ja, die
-  achte. Wir beide wissen, dass es eine gibt. Nenn sie, und
-  das eine Merkmal, das sie von allen anderen unterscheidet."
-  Eine weitere Pause, während du antwortest. Seine Brille
-  rutscht und er fängt sie auch diesmal nicht auf.
-  "Lung-Drachen. Flügellos. Genau." Er lächelt kurz. "Du
-  bestehst. Sag's Olié. Und komm später wieder für ein längeres
-  Gespräch. Ich habe einige Fragen aktualisiert."
+  Also gut. Mündliche Prüfung — ich sage die Frage, du sprichst die
+  Antwort. Keine Notizen. Versuch, mich nicht anzuhusten. ...Nenne die
+  sieben Hauptarten der Drachenwandler, in beliebiger Reihenfolge, mit je
+  einem unterscheidenden Merkmal. ...Gut, gut, gut. Und die achte. Ja,
+  die achte — wir beide wissen, dass es eine gibt. Nenn sie, und das eine
+  Merkmal, das sie von allen anderen unterscheidet. ...Lung-Drachen.
+  Flügellos. Genau. Du bestehst. Sag's Olié. Und komm später wieder für
+  ein längeres Gespräch. Ich habe einige Fragen aktualisiert.
 
 # ─── Quinell — Arkane Grundlagen ───────────────────────────
 npc_vandara_quinell_1: >-
-  Doktor Quinell ist Kristalldrachenwandler — Schuppen wie
-  geschliffener Bergkristall, die das Hörsaallicht in alle
-  Spektrum-Farben brechen. Er steht hinter einem Stehpult, ohne
-  jede Bewegung. "Willkommen. Arkane Grundlagen ist die langweiligste
-  Vorlesung, die Sie an dieser Akademie hören werden. Und die
-  wichtigste. Wenn Sie nicht verstehen, was Magie IST, werden Sie
-  sie niemals präzise anwenden. Sie werden zaubern wie ein Hund
-  schwimmt — funktional, hässlich, ineffizient. Sieben Sitzungen:
-  die Definition, vier Gesetze, und die Ausnahmen, die sie rahmen.
-  Keine Abkürzungen. Wir beginnen mit der Definition."
+  Willkommen. Arkane Grundlagen ist die langweiligste Vorlesung, die Sie
+  an dieser Akademie hören werden. Und die wichtigste. Wenn Sie nicht
+  verstehen, was Magie IST, werden Sie sie niemals präzise anwenden. Sie
+  werden zaubern wie ein Hund schwimmt — funktional, hässlich,
+  ineffizient. Sieben Sitzungen: die Definition, vier Gesetze, und die
+  Ausnahmen, die sie rahmen. Keine Abkürzungen. Wir beginnen mit der
+  Definition.
 
 npc_vandara_quinell_2: >-
-  "Definition." Quinell bewegt sich beim Sprechen nicht. "Magie
-  ist die Manipulation des Äthers durch einen drachischen Geist.
-  Beachten Sie: der Äther — nicht 'Energie', nicht 'Kraft'.
-  Beachten Sie: drachischer Geist — nicht drachischer Körper.
-  Der Körper ist ein Werkzeug, der Geist ist der Zauberer." Er
-  pausiert zwei Sekunden. "Wenn Sie aus diesem gesamten Kurs nur
-  zwei Wörter behalten, dann diese: Äther. Geist. Alles andere
-  folgt daraus."
+  Definition. Magie ist die Manipulation des Äthers durch einen
+  drachischen Geist. Beachten Sie: der Äther — nicht 'Energie', nicht
+  'Kraft'. Beachten Sie: drachischer Geist — nicht drachischer Körper.
+  Der Körper ist ein Werkzeug, der Geist ist der Zauberer. Wenn Sie aus
+  diesem gesamten Kurs nur zwei Wörter behalten, dann diese: Äther.
+  Geist. Alles andere folgt daraus.
 
 npc_vandara_quinell_3: >-
-  "Erstes Gesetz. Das Drei-Komponenten-Gesetz." Quinell zeichnet
-  drei Kreise an die Tafel, perfekt symmetrisch. "Jede Handlung
-  von Magie braucht drei Elemente gleichzeitig. Element — Ihre
-  angeborene Ausrichtung, das eine Element, das Ihre Blutlinie
-  Ihnen gibt. Wille — der geübte Fokus Ihres drachischen Geistes.
-  Substrat — das physische Material, durch das die Wirkung
-  manifestiert. Die eigene Form, ein Werkzeug, die Luft selbst."
-  Sein Tonfall wird schärfer. "Drei. Immer drei. Wer sie nicht
-  im Kopf trennen kann, scheitert an jedem höheren Kurs dieser
-  Akademie."
+  Erstes Gesetz. Das Drei-Komponenten-Gesetz. Jede Handlung von Magie
+  braucht drei Elemente gleichzeitig. Element — Ihre angeborene
+  Ausrichtung, das eine Element, das Ihre Blutlinie Ihnen gibt. Wille —
+  der geübte Fokus Ihres drachischen Geistes. Substrat — das physische
+  Material, durch das die Wirkung manifestiert: die eigene Form, ein
+  Werkzeug, die Luft selbst. Drei. Immer drei. Wer sie nicht im Kopf
+  trennen kann, scheitert an jedem höheren Kurs dieser Akademie.
 
 npc_vandara_quinell_4: >-
-  "Zweites Gesetz. Das Gesetz der Element-Bindung." Quinells
-  Tonfall wird nicht wärmer. "Sie können Ihr Element nicht
-  'wählen'. Sie können nicht 'wechseln'. Was Ihnen Ihre Blutlinie
-  bei der Geburt gegeben hat, ist, was Sie für den Rest Ihres
-  Lebens zaubern werden. Ein Feuerwandler, der versucht Wasser
-  zu bändigen, produziert nichts — kein schwaches Wasser, gar
-  kein Wasser." Er schaut an dir vorbei, nicht in dich hinein.
-  "Gelegentlich kommen Studierende mit der Überzeugung an, sie
-  könnten sich ein zweites Element antrainieren. Können sie
-  nicht. Geben Sie sich diese Illusion jetzt auf."
+  Zweites Gesetz. Das Gesetz der Element-Bindung. Sie können Ihr Element
+  nicht 'wählen'. Sie können nicht 'wechseln'. Was Ihnen Ihre Blutlinie
+  bei der Geburt gegeben hat, ist, was Sie für den Rest Ihres Lebens
+  zaubern werden. Ein Feuerwandler, der versucht Wasser zu bändigen,
+  produziert nichts — kein schwaches Wasser, gar kein Wasser.
+  Gelegentlich kommen Studierende mit der Überzeugung an, sie könnten
+  sich ein zweites Element antrainieren. Können sie nicht. Geben Sie sich
+  diese Illusion jetzt auf.
 
 npc_vandara_quinell_5: >-
-  "Drittes Gesetz. Das Erhaltungsgesetz." Quinell hebt einen
-  schweren Quarzstab neben dem Stehpult an, hält ihn, legt ihn
-  wieder ab. "Magie kommt nicht aus dem Nichts. Was Sie in die
-  Welt schicken, kommt aus Ihnen. Persönliche Energie raus,
-  magischer Effekt rein — eins zu eins, keine Ausnahmen in der
-  Buchhaltung. Der Äther ist ein Medium, keine Quelle." Er
-  pausiert. "Wer Ihnen 'freie Magie' verspricht, verkauft Ihnen
-  Betrug oder einen Salon-Trick. Wahrscheinlich beides."
+  Drittes Gesetz. Das Erhaltungsgesetz. Magie kommt nicht aus dem Nichts.
+  Was Sie in die Welt schicken, kommt aus Ihnen. Persönliche Energie
+  raus, magischer Effekt rein — eins zu eins, keine Ausnahmen in der
+  Buchhaltung. Der Äther ist ein Medium, keine Quelle. Wer Ihnen 'freie
+  Magie' verspricht, verkauft Ihnen Betrug oder einen Salon-Trick.
+  Wahrscheinlich beides.
 
 npc_vandara_quinell_6: >-
-  "Viertes Gesetz. Das Erschöpfungs-Gesetz." Quinell lässt zum
-  ersten Mal einen kleinen Ausdruck über sein Gesicht ziehen —
-  fast Zustimmung. "Das ist das Gesetz, das Studierende am
-  häufigsten missverstehen. Erschöpfung ist kein Versagen.
-  Erschöpfung ist das Maß Ihrer Wirkung. Müde heißt: die Magie
-  ist geschehen. Nicht müde heißt: sie ist nicht geschehen." Er
-  ebnet seinen Ton wieder ein. "Wer ohne Erschöpfung zaubert,
-  hat nichts getan. Wer sich beim Zaubern einer Teetasse
-  erschöpft, hat eine echte Teetasse gezaubert. Wenden Sie beide
-  Hälften dieses Gesetzes an, und Sie zaubern bereits besser als
-  drei Viertel der Studierenden in diesem Saal."
+  Viertes Gesetz. Das Erschöpfungs-Gesetz. Das ist das Gesetz, das
+  Studierende am häufigsten missverstehen. Erschöpfung ist kein Versagen.
+  Erschöpfung ist das Maß Ihrer Wirkung. Müde heißt: die Magie ist
+  geschehen. Nicht müde heißt: sie ist nicht geschehen. Wer ohne
+  Erschöpfung zaubert, hat nichts getan. Wer sich beim Zaubern einer
+  Teetasse erschöpft, hat eine echte Teetasse gezaubert. Wenden Sie beide
+  Hälften dieses Gesetzes an, und Sie zaubern bereits besser als drei
+  Viertel der Studierenden in diesem Saal.
 
 npc_vandara_quinell_7: >-
-  "Letzte Sitzung. Ausnahmen." Quinell legt ein dünnes Heft auf
-  das Stehpult, schiebt es aber nicht zu dir. "Vier Gesetze. Sie
-  sind korrekt. Sie sind auch nur einen Ausnahmefall davon
-  entfernt, falsch zu sein — sehr wenige, sehr selten, in achtzig
-  Prozent der Fälle gelten die Gesetze restlos. Die restlichen
-  zwanzig Prozent sind das, woraus Doktorarbeiten gemacht werden."
-  Zum ersten Mal pausiert er merklich. "Es gab hier einmal eine
-  Lehrkraft. Sariel. Element-agnostisch laut Akten, bis dey das
-  selbst widerlegt hat. Kapitel sechs dieses Skripts ist meines
-  — ich habe es aus deren Vorlesungen mitgeschrieben. Dey ist
-  blind, schon länger, als ich dey kenne; das Schreiben war
-  immer mein Teil der Abmachung. Dey las vor, ich notierte. Das
-  Kapitel ist die einzige Abhandlung, die ich über Schatten als
-  Sub-Variante des Lichts kenne. Niemand hat je einen
-  dokumentierten Schatten-Wandler kennengelernt, der bereit war,
-  sich untersuchen zu lassen. Dey verließ die Akademie vor
-  vierzig Jahren. Ob dey noch lebt, weiß ich nicht." Ein kleiner
-  Atemzug,
-  dann nichts. "Lesen Sie das Kapitel. Wenn Sie je Belege für
-  einen aktuellen Schatten-Wandler finden, schreiben Sie die
-  Arbeit. Widmen Sie sie angemessen."
+  Letzte Sitzung. Ausnahmen. Vier Gesetze. Sie sind korrekt. Sie sind
+  auch nur einen Ausnahmefall davon entfernt, falsch zu sein — sehr
+  wenige, sehr selten; in achtzig Prozent der Fälle gelten die Gesetze
+  restlos. Die restlichen zwanzig Prozent sind das, woraus Doktorarbeiten
+  gemacht werden. Es gab hier einmal eine Lehrkraft. Sariel.
+  Element-agnostisch laut Akten, bis dey das selbst widerlegt hat. Kapitel
+  sechs dieses Skripts ist meines — ich habe es aus deren Vorlesungen
+  mitgeschrieben. Dey ist blind, schon länger, als ich dey kenne; das
+  Schreiben war immer mein Teil der Abmachung. Dey las vor, ich notierte.
+  Das Kapitel ist die einzige Abhandlung, die ich über Schatten als
+  Sub-Variante des Lichts kenne. Niemand hat je einen dokumentierten
+  Schatten-Wandler kennengelernt, der bereit war, sich untersuchen zu
+  lassen. Dey verließ die Akademie vor vierzig Jahren. Ob dey noch lebt,
+  weiß ich nicht. Lesen Sie das Kapitel. Wenn Sie je Belege für einen
+  aktuellen Schatten-Wandler finden, schreiben Sie die Arbeit. Widmen Sie
+  sie angemessen.
 
 # Step 8 — Reveal-Reaktion. Quinell, der über Sariel mit der
 # resignierten Stimme einer trauernden Kollegin gesprochen hat,
 # bekommt eine stille Vindikation. Er zeigt es nicht laut.
 npc_vandara_quinell_8: >-
-  Quinell bewegt sich nicht, als Sie eintreten — aber der
-  Winkel seines Kopfes verschiebt sich, ganz leicht. "Ich habe
-  gehört." Eine Pause. "Sariel hatte also Recht. Die Akten
-  waren falsch; das Vorlesungs-Kapitel war richtig. Ich werde
-  es im Archiv vermerken." Eine weitere, längere Pause. "Wenn
-  Sie jemals — wenn Sie wieder zu dey hinunter gehen — sagen
-  Sie Sariel, dass das Kapitel immer noch funktioniert. Vierzig
-  Jahre später bestehen die Studierenden es immer noch. Dey
-  erinnert sich vielleicht nicht an mich, aber ich habe mich
-  an dey erinnert." Seine Stimme verändert die Tonhöhe nicht,
-  aber etwas im Raum tut es. "Das ist alles. Gehen Sie.
-  Studieren Sie. Wenden Sie die Gesetze an. Sie werden jedes
-  einzelne brauchen."
+  Ich habe gehört. ...Sariel hatte also Recht. Die Akten waren falsch;
+  das Vorlesungs-Kapitel war richtig. Ich werde es im Archiv vermerken.
+  Wenn Sie jemals — wenn Sie wieder zu dey hinunter gehen — sagen Sie
+  Sariel, dass das Kapitel immer noch funktioniert. Vierzig Jahre später
+  bestehen die Studierenden es immer noch. Dey erinnert sich vielleicht
+  nicht an mich, aber ich habe mich an dey erinnert. Das ist alles. Gehen
+  Sie. Studieren Sie. Wenden Sie die Gesetze an. Sie werden jedes
+  einzelne brauchen.
 
 # Step 9 — schriftliche Abschlussprüfung über die vier Gesetze.
 npc_vandara_quinell_9: >-
-  Quinell bewegt sich nicht, als Sie eintreten. Auf dem
-  Stehpult wartet ein einzelnes Blatt Papier mit vier
-  vorgedruckten Zeilen. "Setzen Sie sich. Schreiben Sie.
-  Nennen Sie jedes der vier Gesetze beim Namen plus einen
-  Satz mit Substanz. Sie können sich angemessen Zeit lassen.
-  Benutzen Sie den Stift, nicht den Finger." Lange Stille.
-  Sie schreiben. Er wartet bewegungslos. Als Sie den Stift
-  ablegen, liest er das Blatt ausdruckslos, faltet es einmal
-  und lässt es in ein Fach mit der Aufschrift BESTANDEN
-  fallen. "Zufriedenstellend. Kehren Sie zu Olié zurück." Eine
-  Pause, die für ihn als warm zählt. "Wenden Sie sie ehrlich
-  an. Die Gesetze interessieren sich nicht, ob Sie sich an sie
-  erinnern. Nur, ob Sie sie respektieren."
+  Setzen Sie sich. Schreiben Sie. Nennen Sie jedes der vier Gesetze beim
+  Namen plus einen Satz mit Substanz. Sie können sich angemessen Zeit
+  lassen. Benutzen Sie den Stift, nicht den Finger. ...Zufriedenstellend.
+  Kehren Sie zu Olié zurück. Wenden Sie sie ehrlich an. Die Gesetze
+  interessieren sich nicht, ob Sie sich an sie erinnern. Nur, ob Sie sie
+  respektieren.
 
 npc_vandara_gate_guard_admit: >-
-  Der Torwächter, ein massiver Erddrachenwandler mit Schuppen wie
-  geschliffenem Stein, betrachtet dich gemessen, als du den Brief
-  hervorholst. Sein Blick gleitet über das roségoldene Siegel, dann
-  nickt er knapp. "Erstes Mal in Vandara, ja? Akademie-Einladungen
-  sehen wir alle paar Wochen. Du wirst dich noch wundern, wie groß
-  diese Stadt unter der Oberfläche ist." Mit einer Handbewegung
-  öffnet sich das große Tor hinter ihm. "Willkommen, {player}. Geh
-  ruhig — die Mentoren werden dir den Rest erklären."
+  Erstes Mal in Vandara, ja? Akademie-Einladungen sehen wir alle paar
+  Wochen. Du wirst dich noch wundern, wie groß diese Stadt unter der
+  Oberfläche ist. ...Willkommen, {player}. Geh ruhig — die Mentoren
+  werden dir den Rest erklären.
 
 # Wieder-Begegnung nach dem Schatten-Reveal. Spieler hat zu dem
 # Zeitpunkt Akademie eingeschrieben, Element-Tests durch, Mentoren
 # kennengelernt — und jetzt herausgefunden dass Schatten ihr/sein
 # Element ist. Der Wächter erkennt das auf seine eigene knappe Art.
 npc_vandara_gate_guard_respect: >-
-  Der Wächter erkennt dich, noch bevor du das Tor erreichst. Er
-  richtet sich auf, die Hand kurz an der Brust — keine förmliche
-  Geste, sondern eine, die Erddrachenwandler nutzen, wenn sie
-  jemanden meinen. "Du hast die Stadt unter der Stadt gesehen. Das
-  ändert einen." Er lächelt knapp. "Die meisten kommen mit dem
-  Brief, gehen mit dem Brief, sehen nur die Hälfte. Du gehörst jetzt
-  zu denen, die beide Hälften kennen. Pass auf dich auf, {player}."
+  Du hast die Stadt unter der Stadt gesehen. Das ändert einen. Die
+  meisten kommen mit dem Brief, gehen mit dem Brief, sehen nur die
+  Hälfte. Du gehörst jetzt zu denen, die beide Hälften kennen. Pass auf
+  dich auf, {player}.
 
 
 # ─── Katakomben-Studenten-Arc (Korren + Iska + Daven) ────────
@@ -656,154 +563,98 @@ npc_vandara_gate_guard_respect: >-
 # der Hilfe des Spielers.
 
 npc_vandara_korren_1: >-
-  Korren blickt von einem niedrigen Werktisch auf, vollgehäuft
-  mit zerbrochenen Tonscherben und alten Metallfragmenten. Seine
-  Haut hat den rostbraunen Ton alter Erde an Hals und Händen, wo
-  die Schuppen durchscheinen, und seine Flügel — wenn er sich
-  auf dem Hocker dreht — entfalten sich tiefrot hinter ihm. "Du bist runtergekommen. Gut.
-  Nachrichten reisen, sogar bis hier." Er deutet auf den
-  Werktisch. "Ich bin Korren. Ich — naja. Ich arbeite für König
-  Archivaris. Nicht offiziell, verstehst du. Offiziell bin ich
-  Studierender im dritten Jahr, der 'mit Drachenkunde
-  zurückgefallen' ist. Inoffiziell bin ich hier unten, um etwas
-  zu beweisen." Er hebt einen korrodierten Ring auf.
-  "Echo-Beschwörung. Alte Gegenstände erinnern sich. Ich wecke
-  sie gerade genug, um zu flüstern. Die Akademie hält das für
-  Nekromantie. Ist es nicht — keine Seele, nur Resonanz. Aber
-  die Akademie kümmert sich nicht um Feinheiten, wenn sie die
-  Mathematik nicht sieht." Er hält dir den Ring hin. "Hilf mir.
-  Ich brauche einen Faden deiner Magie, um das Echo zu
-  verankern. Fünf Fäden, mehr nicht. Der Ring wird mir verraten,
-  wie der Schmied gestorben ist, der ihn gemacht hat. Kleine
-  Sache. Ein Beweis."
+  Du bist runtergekommen. Gut — Nachrichten reisen, sogar bis hier. Ich
+  bin Korren. Ich — naja. Ich arbeite für König Archivaris. Nicht
+  offiziell, verstehst du. Offiziell bin ich Studierender im dritten
+  Jahr, der 'mit Drachenkunde zurückgefallen' ist. Inoffiziell bin ich
+  hier unten, um etwas zu beweisen. Echo-Beschwörung: alte Gegenstände
+  erinnern sich, und ich wecke sie gerade genug, um zu flüstern. Die
+  Akademie hält das für Nekromantie. Ist es nicht — keine Seele, nur
+  Resonanz. Aber die Akademie kümmert sich nicht um Feinheiten, wenn sie
+  die Mathematik nicht sieht. Hilf mir — ich brauche einen Faden deiner
+  Magie, um das Echo zu verankern. Fünf Fäden, mehr nicht. Der Ring wird
+  mir verraten, wie der Schmied gestorben ist, der ihn gemacht hat.
+  Kleine Sache. Ein Beweis.
 
 npc_vandara_korren_2: >-
-  Korren ist energisch — läuft auf und ab, Schuppen dunkler,
-  lebendiger. "Ich hab gehört, Iska hat es geschafft. Die Wyvern
-  mit dem Puppentrick. Hat einen Teelöffel zehn Sekunden lang
-  stehen lassen." Ein bitteres Grinsen. "Niedlich. Animation
-  ist das Einfache. Jeder kann Materie anstupsen, damit sie
-  zuckt. Was ich mache, ist schwerer — ich reiche durch die
-  Zeit. Aber der Korridor hat über Iska geredet, nicht über
-  mich, und das heißt, mein König verliert das heutige
-  Argument." Er schiebt den Ring zurück auf einen Haufen. "Wir
-  gehen größer. Ich habe eine Münze, Militär-Ausgabe, aus dem
-  Krieg vor vierzig Jahren. Sie hat einen Mann sterben sehen.
-  Wenn ich sie dazu bringe, mir zu sagen WIE, kann die Akademie
-  den Echo-Trick nicht mehr Salon-Magie nennen. Zehn Fäden.
-  Jetzt."
+  Ich hab gehört, Iska hat es geschafft. Die Wyvern mit dem Puppentrick —
+  hat einen Teelöffel zehn Sekunden lang stehen lassen. Niedlich.
+  Animation ist das Einfache; jeder kann Materie anstupsen, damit sie
+  zuckt. Was ich mache, ist schwerer — ich reiche durch die Zeit. Aber
+  der Korridor hat über Iska geredet, nicht über mich, und das heißt,
+  mein König verliert das heutige Argument. Wir gehen größer. Ich habe
+  eine Münze, Militär-Ausgabe, aus dem Krieg vor vierzig Jahren. Sie hat
+  einen Mann sterben sehen. Wenn ich sie dazu bringe, mir zu sagen WIE,
+  kann die Akademie den Echo-Trick nicht mehr Salon-Magie nennen. Zehn
+  Fäden. Jetzt.
 
 npc_vandara_korren_3: >-
-  Korren hat kaum geschlafen. Der Werktisch ist mit Gegenständen
-  übersät. "Iska animiert eine Leichen-Puppe. Eine KLEINE, aber
-  trotzdem. Die ganze Stadt wird das bis Ende der Woche wissen,
-  und wenn Archivaris bis dahin keine Antwort hat, gewinnt
-  Novias Fraktion diese Runde am Hof. Also wecken wir jetzt
-  eine echte Erinnerung." Er hält etwas in Stoff Gewickeltes
-  hoch. "Eine Scherbe aus dem kaiserlichen Archiv. Frag nicht,
-  wie ich sie bekommen habe. Sie hat — egal was sie gesehen
-  hat. Zwanzig Fäden Magie, und wir werden wissen, ob die
-  offiziellen Akten die tatsächlichen Akten sind." Die Scherbe
-  summt, als du sie berührst. Die Kerzenflamme erlischt für
-  eine ganze Sekunde. Korren lacht — zu dünn. "Es hat
+  Iska animiert eine Leichen-Puppe. Eine KLEINE, aber trotzdem. Die ganze
+  Stadt wird das bis Ende der Woche wissen, und wenn Archivaris bis dahin
+  keine Antwort hat, gewinnt Novias Fraktion diese Runde am Hof. Also
+  wecken wir jetzt eine echte Erinnerung. Eine Scherbe aus dem
+  kaiserlichen Archiv — frag nicht, wie ich sie bekommen habe. Sie hat —
+  egal was sie gesehen hat. Zwanzig Fäden Magie, und wir werden wissen,
+  ob die offiziellen Akten die tatsächlichen Akten sind. ...Es hat
   funktioniert. Oh, es hat funktioniert. Wart ab, bis ich das
-  aufschreibe. Wart ab, bis—" Er bricht mitten im Satz ab,
-  starrt ins Nichts.
+  aufschreibe. Wart ab, bis—
 
 npc_vandara_iska_1: >-
-  Eine Wyvern in humanoider Form steht an einer Werkbank, umgeben
-  von Krimskrams — ein Löffel, eine Drahtschlinge, eine
-  Schachfigur. Ihre Haare sind dunkel, stehen schief ab, und
-  ihre Patchwork-Robe ist ein wildes Farbgewitter. Ihre Flügel
-  klappen tiefrot hinter ihr aus — dieselbe Form wie Korrens den
-  Gang runter. "Hi, hi, setz dich, mach den Kreis nicht kaputt." Sie blickt nicht auf. "Iska. Wind-Linie. Ich sollte
-  eigentlich nicht hier sein, ich sollte bei Pamles
-  Tier-drei-Vorlesung sein, aber Pamle unterrichtet BRAUEN und
-  ich will Sachen BEWEGEN." Sie deutet auf den Löffel. "Pass
-  auf. Fünf Fäden Magie von dir, mehr brauch ich nicht. Der
-  Löffel steht auf. Vielleicht. Beim letzten Mal ist er
-  aufgestanden und hat mich gestochen, also. Geh in Deckung."
-  Sie grinst. "König Novia würde das lieben. Die Alten sagen,
-  Materie ist träge. Materie ist nicht träge. Materie ist nur
-  schüchtern."
+  Hi, hi, setz dich, mach den Kreis nicht kaputt. Iska. Wind-Linie. Ich
+  sollte eigentlich nicht hier sein, ich sollte bei Pamles
+  Tier-drei-Vorlesung sein, aber Pamle unterrichtet BRAUEN und ich will
+  Sachen BEWEGEN. Pass auf den Löffel. Fünf Fäden Magie von dir, mehr
+  brauch ich nicht. Der Löffel steht auf. Vielleicht. Beim letzten Mal
+  ist er aufgestanden und hat mich gestochen, also — geh in Deckung.
+  König Novia würde das lieben. Die Alten sagen, Materie ist träge.
+  Materie ist nicht träge. Materie ist nur schüchtern.
 
 npc_vandara_iska_2: >-
-  Iska grinst breiter als zuvor, gestikuliert mit beiden Händen
-  gleichzeitig. "Korren hat das Ring-Ding gemacht. Hat ihn
-  flüstern lassen. Flüstern. Jeder kann flüstern. Ich will
-  BEWEGEN." Sie deutet auf ein Uhrwerks-Gestell auf ihrem
-  Werktisch. "Ich verdrahte Runen ins Uhrwerk. Nicht nur
-  zucken — laufen. Drei Schritte. Der Hof wird Korren aus dem
-  Raum lachen, wenn sie das sehen. Zehn Fäden, bitte, schnell,
-  ich hab die Geometrie im Kopf und verliere sie, wenn du mich
-  warten lässt."
+  Korren hat das Ring-Ding gemacht — hat ihn flüstern lassen. Flüstern.
+  Jeder kann flüstern. Ich will BEWEGEN. Ich verdrahte Runen ins Uhrwerk
+  — nicht nur zucken, laufen. Drei Schritte. Der Hof wird Korren aus dem
+  Raum lachen, wenn sie das sehen. Zehn Fäden, bitte, schnell — ich hab
+  die Geometrie im Kopf und verliere sie, wenn du mich warten lässt.
 
 npc_vandara_iska_3: >-
-  Iska sieht zerrüttet aus. Beide Augen gerötet. Auf dem
-  Werktisch liegt etwas Kleines unter einem Tuch. "Korren geht
-  ins kaiserliche Archiv. Wusstest du das? Ich weiß es. Die
-  Wände hier unten hören mit." Sie deckt das Tuch ab. Eine
-  kleine Puppen-Figur aus Holz, Draht, und etwas, das
-  verdächtig nach einem Fingerknochen aussieht. "Frag nicht.
-  Geliehen. Aus einem alten Grab. Das Grab ist seit hundert
-  Jahren niemandem mehr wichtig. Zwanzig Fäden, und ich lasse
-  sie einen Kreis laufen. Wenn ich das schaffe, gehören die
-  Hörsäle für ein Jahrzehnt Novias Fraktion." Die Figur regt
-  sich, als du die Magie kanalisierst. Steht auf. Macht einen
-  Schritt, dann noch einen, dann einen dritten, dann — sie
-  dreht den winzigen Kopf zu dir. Iska lacht, ekstatisch. "JA.
-  Das. Hast du das gesehen? Sie hat geschaut. Sie hat
-  GESCHAUT—"
+  Korren geht ins kaiserliche Archiv. Wusstest du das? Ich weiß es — die
+  Wände hier unten hören mit. Das Ding hier? Frag nicht. Geliehen, aus
+  einem alten Grab, seit hundert Jahren niemandem mehr wichtig. Zwanzig
+  Fäden, und ich lasse sie einen Kreis laufen. Wenn ich das schaffe,
+  gehören die Hörsäle für ein Jahrzehnt Novias Fraktion. ...JA. Das. Hast
+  du das gesehen? Sie hat geschaut. Sie hat GESCHAUT—
 
 npc_vandara_daven_1: >-
-  Ein hochgewachsener Großdrachen-Wandler tritt in die
-  kerzenbeleuchtete Kammer. Deren Schuppen sind schiefergrau,
-  deren Mantel tiefrot mit einem einzigen Faden Akademie-Gold
-  am Kragen. Dey schaut Sie an, nicht die Werktische. "Sie.
-  Studierende. Mir wurde berichtet, dass Sie hier unten zu
-  Besuch waren. Ich bin Marschall Daven, Vollstreckung des
-  Rats von Vandara." Ein knappes Nicken. "Ich verhafte Sie
-  nicht — noch nicht. Ich frage, weil Sie die beiden gesehen
-  haben. Korren der Echo-Beschwörer und Iska die Animatorin.
-  Was haben die vor? Sprechen Sie offen. Der Rat hat
-  Beschwerden von den Agenten beider Könige bekommen, was
-  selten genug ist, um eigene Beweisqualität zu haben. Sagen
-  Sie mir, was Sie wissen. Über Ihre eigene Rolle reden wir
-  danach."
+  Sie. Studierende. Mir wurde berichtet, dass Sie hier unten zu Besuch
+  waren. Ich bin Marschall Daven, Vollstreckung des Rats von Vandara. Ich
+  verhafte Sie nicht — noch nicht. Ich frage, weil Sie die beiden gesehen
+  haben: Korren der Echo-Beschwörer und Iska die Animatorin. Was haben
+  die vor? Sprechen Sie offen. Der Rat hat Beschwerden von den Agenten
+  beider Könige bekommen, was selten genug ist, um eigene Beweisqualität
+  zu haben. Sagen Sie mir, was Sie wissen. Über Ihre eigene Rolle reden
+  wir danach.
 
 npc_vandara_daven_2: >-
-  Daven hört zu, macht Notizen auf einer kleinen
-  Schiefertafel. "Ein Echo aus einer kaiserlichen
-  Archiv-Scherbe. Eine animierte Figur aus grabgeraubtem
-  Knochen. Beide an Ihrer eigenen Magie verankert." Dey seufzt
-  einmal, kurz. "Das ist das Muster, das ich alle fünfzehn,
-  zwanzig Jahre sehe. Zwei Studierende, jeder für einen König.
-  Sie fangen klein an, sie überbieten sich gegenseitig, und
-  irgendwann geht jemand ans kaiserliche Archiv oder an ein
-  Grab. Sie haben das nicht angefangen. Sie haben allerdings
-  den magischen Faden geliefert, der beide über die Linie
-  geschoben hat." Dey sieht Sie zum ersten Mal direkt an. "Ich
-  schätze Ihre Kooperation. Eine letzte Frage. Zeigen Sie mir,
-  wo die zwei arbeiten. Genau wo. Der Rat bevorzugt eine
-  saubere Festnahme."
+  Ein Echo aus einer kaiserlichen Archiv-Scherbe. Eine animierte Figur
+  aus grabgeraubtem Knochen. Beide an Ihrer eigenen Magie verankert. Das
+  ist das Muster, das ich alle fünfzehn, zwanzig Jahre sehe: zwei
+  Studierende, jeder für einen König. Sie fangen klein an, sie überbieten
+  sich gegenseitig, und irgendwann geht jemand ans kaiserliche Archiv
+  oder an ein Grab. Sie haben das nicht angefangen. Sie haben allerdings
+  den magischen Faden geliefert, der beide über die Linie geschoben hat.
+  Ich schätze Ihre Kooperation. Eine letzte Frage — zeigen Sie mir, wo
+  die zwei arbeiten. Genau wo. Der Rat bevorzugt eine saubere Festnahme.
 
 npc_vandara_daven_3: >-
-  Sie führen Daven zu Korrens Werktisch, dann zu Iskas. Dey
-  nickt einmal bei jedem. Zwei weitere Wachen treten hinter
-  dey ein — ruhig, professionell. Es wird nicht geschrien;
-  beide Studierende scheinen auf ihre eigene Art gewartet zu
-  haben. Korren richtet sich auf, sieht Sie nicht an. Iska
-  schaut Sie an und grinst, zwinkert, und lässt sich abführen.
-  "Danke für den Boost, Kind! Sag Pamle, mir tut die
-  Brau-Stunde leid!" Daven kommt allein zu Ihnen zurück.
-  "Erledigt. Der Rat wird sie in einem Monat anhören.
-  Wahrscheinlich für zwei Jahre suspendiert, wahrscheinlich
-  danach wieder an der Akademie, mit je einem anderen Mentor.
-  Kein Gefängnis. Sie sind Kinder." Eine Pause. "Sie. Ihre
-  Rolle wird in der Akte als 'kooperierende Zeug:in'
-  vermerkt. Das ist großzügiger als 'Mittäter:in', was es
-  ebenso gut sein könnte. Gehen Sie vorsichtig, Studierende.
-  Glauben Sie nicht alles, was Ihnen die Agenten eines
-  Vassals erzählen." Dey wendet sich zum Gehen. "Und wenn das
-  nächste Mal jemand in den Katakomben Sie nach Magie fragt —
-  sagen Sie nein. Einmal. Sagen Sie nein."
+  Zwei weitere Wachen treten hinter Sie, ruhig und professionell; beide
+  Studierende scheinen auf ihre eigene Art gewartet zu haben. Iska grinst
+  Sie im Abgehen an: "Danke für den Boost, Kind! Sag Pamle, mir tut die
+  Brau-Stunde leid!" Erledigt. Der Rat wird sie in einem Monat anhören —
+  wahrscheinlich für zwei Jahre suspendiert, danach wieder an der
+  Akademie, mit je einem anderen Mentor. Kein Gefängnis. Sie sind Kinder.
+  Ihre Rolle wird in der Akte als 'kooperierende Zeug:in' vermerkt —
+  großzügiger als 'Mittäter:in', was es ebenso gut sein könnte. Gehen Sie
+  vorsichtig, Studierende. Glauben Sie nicht alles, was Ihnen die Agenten
+  eines Vassals erzählen. Und wenn das nächste Mal jemand in den
+  Katakomben Sie nach Magie fragt — sagen Sie nein. Einmal. Sagen Sie
+  nein.
