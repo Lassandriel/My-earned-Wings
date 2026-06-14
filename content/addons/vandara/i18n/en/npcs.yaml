@@ -1,327 +1,232 @@
 npc_teacher_vandara_letter: >-
-  "Before you go, {player}... this came for you this morning." Aria
-  pulls a folded letter from her bag. The seal shimmers in warm rose
-  gold. "From Vandara. The Rose Gold Academy. I wrote to them after
-  seeing how seriously you studied. It's just an invitation — not an
-  obligation. But if you want to find out what you really are, this
-  might be the way."
+  Before you go, {player}... this came for you this morning. From Vandara
+  — the Rose Gold Academy. I wrote to them after seeing how seriously you
+  studied. It's just an invitation, not an obligation. But if you want to
+  find out what you really are, this might be the way.
 
 # ─── Gate guard at the Vandara city walls ──────────────────
 # (his name lives in ui.yaml — base game convention.)
 # Olié — secretariat / enrollment
 npc_vandara_olie_1: >-
-  Secretary Olié looks up from his stack of files — an elegantly
-  feathered serpent with iridescent scales like wet pebbles. "Ah.
-  A new enrolment." He smiles, polite but distant. "Please have a
-  seat. We'll go through the necessary in order. Name, origin,
-  element if known." His feathered crest twitches when you hesitate
-  on the last. "Unknown is also an answer, don't worry."
+  Ah. A new enrolment. Please have a seat — we'll go through the necessary
+  in order. Name, origin, element if known... Unknown is also an answer,
+  don't worry.
 
 npc_vandara_olie_2: >-
-  "Now, the enrolment fee." Olié slides a tiny bronze dish across
-  the desk. "Twenty-five shards, one-off. The academy itself is
-  free — we are not the Crystal Realm. The fee just covers
-  paperwork and a sip of tea should you have to wait."
+  Now, the enrolment fee. Twenty-five shards, one-off. The academy itself
+  is free — we are not the Crystal Realm. The fee just covers paperwork
+  and a sip of tea should you have to wait.
 
 npc_vandara_olie_3: >-
-  "Here is your ID." Olié hands you a thin, weighty plaque of
-  polished rose gold. "It gets you anywhere you're allowed — and a
-  few places you're not, but nobody checks." He taps a list on his
-  desk. "Your mentors. Lector Ormias holds Dragon Studies. Doctor
-  Quinell handles Arcane Foundations. And Practitioner Pamle gives
-  Alchemy, though her class only makes sense once you've arranged
-  a workshop yourself." A polite pause. "Since you couldn't state
-  your element, I'll also send you to Magistra Veyra. She handles
-  the diagnostics — not a class, a consultation. The best in the
-  city. The academy is fortunate to keep her." A polite nod.
-  "Welcome to Vandara, student."
+  Here is your ID, a thin plaque of polished rose gold. It gets you
+  anywhere you're allowed — and a few places you're not, but nobody
+  checks. Your mentors: Lector Ormias holds Dragon Studies, Doctor
+  Quinell handles Arcane Foundations, and Practitioner Pamle gives
+  Alchemy — though her class only makes sense once you've arranged a
+  workshop yourself. And since you couldn't state your element, I'll send
+  you to Magistra Veyra. She handles the diagnostics — not a class, a
+  consultation. The best in the city. Welcome to Vandara, student.
 
 # Step 4 — post-reveal reaction. Olié updates the bureaucratic
 # record now that the player has a confirmed element.
 npc_vandara_olie_4: >-
-  Olié looks up from his stack, polite as ever. "Ah. The
-  element field on your student record. I left it blank, as we
-  discussed." He pulls out a thin pen. "I will fill it in now."
-  A pause as he writes. "Shadow. Sub-variant Light. Note:
-  rare." He blows on the ink. "There. Properly recorded. The
-  academy archives appreciate accuracy more than novelty, but
-  in this case they get both." A polite nod. "Carry on,
-  student."
+  Ah. The element field on your student record — I left it blank, as we
+  discussed. I'll fill it in now. ...Shadow. Sub-variant Light. Note:
+  rare. There — properly recorded. The archives appreciate accuracy more
+  than novelty; in this case they get both. Carry on, student.
 
 # Step 5 — Olié schedules the player's graduation exam. Unlocked
 # once Sariel has finished teaching Shadow Bind (the practical
 # component requires it) AND the three mandatory mentor courses
 # are complete.
 npc_vandara_olie_5: >-
-  Olié sets down his pen the moment you arrive — clearly he has
-  been waiting. "Your file is complete. Three basic courses,
-  one element diagnostic, one independently arranged shadow-
-  practice. The Council has authorised you to sit your
-  graduation examination." He slides a thin rose-gold token
-  across the desk. "Your exam permit. Show it at each station.
-  Magistra Veyra will run the practical — she expects to see
-  Shadow Bind under controlled conditions. Lector Ormias will
-  examine you orally on Dragon Studies. Doctor Quinell will
-  examine you in writing on Arcane Foundations." A small, formal
-  pause. "Take them in any order. Return to me afterwards. I
-  will be here. I am always here."
+  Your file is complete. Three basic courses, one element diagnostic, one
+  independently arranged shadow-practice. The Council has authorised you
+  to sit your graduation examination. Here is your exam permit — show it
+  at each station. Magistra Veyra runs the practical; she expects Shadow
+  Bind under controlled conditions. Lector Ormias examines you orally on
+  Dragon Studies, Doctor Quinell in writing on Arcane Foundations. Take
+  them in any order, then return to me. I will be here. I am always here.
 
 # Step 6 — Diploma ceremony. Requires all three exam flags.
 # Visible after step 5 (via extendNPCArc on Olié) but gated so
 # the player sees it waiting and knows what to do next.
 npc_vandara_olie_6: >-
-  Olié rises. He does not rise often. "All three sections
-  passed. Magistra Veyra noted, and I quote, 'exemplary control
-  for a first-year shadow-shifter — at least, the first I have
-  ever met.' Lector Ormias noted, 'remembered all seven and
-  named the eighth without prompting.' Doctor Quinell noted only
-  'satisfactory'. That is the highest praise he has ever written
-  on a graduation form, in my forty years." He produces a
-  folded document of heavy cream paper with the rose-gold seal.
-  "Your diploma. The Rose Gold Academy of Vandara hereby
-  confirms that you have completed the basic curriculum." He
-  hands it across with both hands. "Congratulations, graduate.
-  The academy is in your debt for one shadow-shifter. Where you
-  go next is not in our file." A small, almost warm smile.
-  "Good luck, {player}."
+  All three sections passed. Magistra Veyra noted, and I quote:
+  'exemplary control for a first-year shadow-shifter — at least, the
+  first I have ever met.' Lector Ormias: 'remembered all seven and named
+  the eighth without prompting.' Doctor Quinell noted only 'satisfactory'
+  — the highest praise he has written on a graduation form in my forty
+  years. Here is your diploma: the Rose Gold Academy of Vandara confirms
+  you have completed the basic curriculum. Congratulations, graduate. The
+  academy is in your debt for one shadow-shifter. Where you go next is
+  not in our file. Good luck, {player}.
 
 # Kal're — trader in the streets of Vandara
 npc_vandara_kalre_1: >-
-  A young dragon-shifter with silver-blue hair and a stall full of
-  glass jars calls out to you. "You're new, yeah? Easy to tell."
-  She grins wide. "Kal're, from the Crystal Realm. Wind line. Did
-  I already mention I'm from the Crystal Realm? I like saying it
-  — then nobody asks why my scales are like glass." She nudges a
-  small dish of ash flowers towards you. "Sniff. Smells like
-  volcanic dust and one other thing you can't quite name. If you
-  ever set foot in an alchemy lab, you'll need these."
+  You're new, yeah? Easy to tell. Kal're, from the Crystal Realm. Wind
+  line. Did I already mention I'm from the Crystal Realm? I like saying
+  it — then nobody asks why my scales are like glass. Here, sniff these
+  ash flowers. Volcanic dust, and one other thing you can't quite name.
+  If you ever set foot in an alchemy lab, you'll need them.
 
 npc_vandara_kalre_2: >-
-  "You're back! Good, good." Kal're sorts glitter dust into tiny
-  pouches. "You'll see — in Vandara everyone talks to everyone and
-  everyone knows everything. Except the things they shouldn't, on
-  those they're surprisingly disciplined."
+  You're back! Good, good. You'll see — in Vandara everyone talks to
+  everyone and everyone knows everything. Except the things they
+  shouldn't; on those they're surprisingly disciplined.
 
 npc_vandara_kalre_3: >-
-  "Wondering if I trust you yet, eh?" She laughs. "Enough. Listen —
-  you keep buying my reagents, but you've nowhere to use them. Most
-  academy students put a small alchemy laboratory in their home.
-  Two shelves, a copper basin, a flue." She sketches it on the
-  back of a wrapper. "Here. Bring the wood and stone, you'll know
-  how to put it together now."
+  Wondering if I trust you yet? Enough. Listen — you keep buying my
+  reagents, but you've nowhere to use them. Most academy students put a
+  small alchemy laboratory in their home: two shelves, a copper basin, a
+  flue. Here's the sketch, on the back of this wrapper. Bring the wood
+  and stone — you'll know how to put it together now.
 
 npc_vandara_kalre_4: >-
-  Kal're waves you closer. "Know what's funny about Vandara? The
-  academy acts like it's the heart of the city. But the real
-  things happen in the back rooms. The streets. The catacombs
-  below." She winks. "Don't repeat that."
+  Know what's funny about Vandara? The academy acts like it's the heart
+  of the city. But the real things happen in the back rooms. The streets.
+  The catacombs below. ...Don't repeat that.
 
 npc_vandara_kalre_5: >-
-  "You're a regular now." Kal're taps her forehead. "If you ever
-  need anything rare — really rare — come to me before you ask
-  anyone else. I'll find it. Or I'll know someone who'll find it."
+  You're a regular now. If you ever need anything rare — really rare —
+  come to me before you ask anyone else. I'll find it. Or I'll know
+  someone who will.
 
 # Fafa — beggar at the fountain
 npc_vandara_fafa_1: >-
-  An old dragon-shifter sits hunched at the edge of the fountain,
-  wrapped in a dusty grey cloak. Scales like cracked granite peek
-  from under the cloth. She doesn't raise her head, but a bony
-  hand stretches towards you. "A few shards for an old earth-
-  dragon?" When you give, she finally looks up — grey eyes,
-  sharp as freshly honed blades. "Thank you, child. You're new.
-  This city has names, you know. Not just the one above the gate.
-  Come back — I'll tell you one."
+  A few shards for an old earth-dragon? ...Thank you, child. You're new.
+  This city has names, you know — not just the one above the gate. Come
+  back, and I'll tell you one.
 
 npc_vandara_fafa_2: >-
-  Fafa pockets the shards without looking. "Vandara means 'change'.
-  But they never tell you who wants the change and who fears it."
-  She gestures at the academy behind you. "King Archivaris, the
-  old keeper of bones, wants everything kept as it was. King-
-  Rectoress Novia wants everything made new. They've been arguing
-  before the imperial court for years. While they argue, no one
-  truly rules. That makes Vandara... interesting. Come back."
+  Vandara means 'change'. But they never tell you who wants the change
+  and who fears it. King Archivaris, the old keeper of bones, wants
+  everything kept as it was. King-Rectoress Novia wants everything made
+  new. They've argued before the imperial court for years — and while
+  they argue, no one truly rules. That makes Vandara... interesting. Come
+  back.
 
 npc_vandara_fafa_3: >-
-  "You keep coming back. That's rare." Fafa smiles, and for a
-  moment she doesn't look old, just tired. "Listen, child. The
-  students in the upper halls learn what the mentors are allowed
-  to teach. What they really want to know they learn elsewhere.
-  Beneath the city. Come back one more time, and I'll show you
-  where."
+  You keep coming back. That's rare. Listen, child — the students in the
+  upper halls learn what the mentors are allowed to teach. What they
+  really want to know, they learn elsewhere. Beneath the city. Come back
+  one more time, and I'll show you where.
 
 npc_vandara_fafa_4: >-
-  This time Fafa takes no shards. She stands — and is suddenly
-  taller than you thought. "Come." She leads you to an
-  unremarkable storm drain behind the fountain, slides the iron
-  aside as if it were a curtain. "The catacombs. The old tunnels
-  from before the Unspeakable. Down here you'll find the ones who
-  can really help you — if you have the courage to descend." She
-  looks at you for a long moment. "Don't go alone until you know
-  someone there you can trust. But go."
+  No shards this time. Come — behind the fountain, that storm drain.
+  Slide the iron aside; it moves like a curtain. The catacombs. The old
+  tunnels from before the Unspeakable. Down here you'll find the ones who
+  can really help you, if you've the courage to descend. Don't go alone
+  until you know someone down there you can trust. But go.
 
 # ─── Veyra — Elemental Resonance ──────────────────────
 npc_vandara_veyra_1: >-
-  Magistra Veyra welcomes you into a sun-bright consultation room —
-  tall windows, a velvet examination couch, instruments arranged on
-  a side table beside a small carafe of cooled water. She is a Sun
-  Amphithere, gold and soft orange, her feathers scattering the
-  daylight across every surface. "Welcome, {player}. Olié sent you,
-  yes? Good. This isn't a class — it's a consultation. You
-  couldn't give him an element. That's quite alright." She gestures
-  at the couch. "We'll find out together. Most students already
-  know from home. The few who don't — often the most interesting
-  ones."
+  Welcome, {player}. Olié sent you, yes? Good. This isn't a class — it's
+  a consultation. You couldn't give him an element; that's quite alright.
+  We'll find out together. Most students already know from home. The few
+  who don't are often the most interesting.
 
 npc_vandara_veyra_2: >-
-  "First, the anamnesis." Veyra makes notes on a small slate, her
-  feathered crest tilted with attention. "Tell me what you've felt
-  at home. Anything that pulled at you — warmth in your hands,
-  weight in your chest, dryness in your throat when angry, a sound
-  no one else heard. Even nothing is an answer." She listens
-  patiently. "Magic is bound to your element. You can't switch,
-  you can only find. Some recognise it from a single moment.
-  Others need exercises. We'll do both. Next time we begin the
-  resonance tests."
+  First, the anamnesis. Tell me what you've felt at home — anything that
+  pulled at you: warmth in your hands, weight in your chest, dryness in
+  your throat when angry, a sound no one else heard. Even nothing is an
+  answer. Magic is bound to your element; you can't switch, only find.
+  Some recognise it in a single moment, others need exercises. We'll do
+  both. Next time we begin the resonance tests.
 
 npc_vandara_veyra_3: >-
-  "First resonance test." Veyra draws the curtains halfway,
-  pulls a low stool over and sits beside the couch. "Hands
-  relaxed in your lap, palms up. Don't push. Don't reach. Let
-  your aether settle on its own." Her quill hovers above her
-  slate. She waits — long, longer than is comfortable. Then,
-  quietly: "Hm. There is something. But it doesn't sit cleanly
-  under any of the standard signatures. I'd like to run a
-  proper battery next session. Come back rested — it goes
-  smoother on a calm body."
+  First resonance test. Hands relaxed in your lap, palms up. Don't push,
+  don't reach — let your aether settle on its own. ...Hm. There is
+  something. But it doesn't sit cleanly under any of the standard
+  signatures. I'd like to run a proper battery next session. Come back
+  rested — it goes smoother on a calm body.
 
 npc_vandara_veyra_4: >-
-  "Today the standard battery." Veyra has laid five objects on
-  a small tray beside the couch — a stone, a bowl of water, a
-  candle, a feather, a mirror. "One material per element. You
-  touch each in turn. I watch what your aether does. There is
-  no right answer and no wrong one — even 'nothing happens' is
-  a clean result." She raises a finger. "One thing only: don't
-  push. The aether doesn't lie when you let it be honest. Take
-  your time. Ready when you are."
+  Today, the standard battery. Five objects, one material per element — a
+  stone, water, a candle, a feather, a mirror. Touch each in turn; I'll
+  watch what your aether does. There's no right answer and no wrong one —
+  even 'nothing happens' is a clean result. One thing only: don't push.
+  The aether doesn't lie when you let it be honest. Take your time. Ready
+  when you are.
 
 npc_vandara_veyra_5: >-
-  "You came back. Good. Please sit." Veyra has already drawn
-  the curtains entirely; only a single small candle burns on
-  the side table. "The light reaction during your battery —
-  that was not a null result. It was also not a clean light
-  signature. I'd like to run a controlled isolation test.
-  Hands open, no pushing, reach toward the candle." Long
-  silence. Then her voice, suddenly different — no longer the
-  clinician's measured tone: "Oh. Oh, {player}. You are not
-  casting a shadow. You are PULLING the shadow toward you.
-  From the wall. From the ceiling. From me." A breathless
-  half-laugh. "You are not a light-shifter. You are a
-  shadow-shifter. In forty years of diagnostics I have never
-  seen one."
+  You came back. Good. Please sit. The light reaction during your battery
+  — that was not a null result, but not a clean light signature either.
+  I'd like a controlled isolation test. Hands open, no pushing, reach
+  toward the candle. ...Oh. Oh, {player}. You are not casting a shadow —
+  you are PULLING the shadow toward you. From the wall. From the ceiling.
+  From me. You are not a light-shifter. You are a shadow-shifter. In
+  forty years of diagnostics I have never seen one.
 
 npc_vandara_veyra_6: >-
-  Veyra is markedly more thoughtful today. "Shadow is a sub-
-  variant of Light. Like Dream is a sub-variant of Tide. But it
-  is rare. Very rare. In forty years of diagnostics I have
-  never seen one." She looks at you seriously. "I can give you
-  the theory. But the practice — I am out of my depth. I cannot
-  teach you what I have never felt." She sets down her quill,
-  hesitates, then continues quieter. "There was a colleague
-  here, a long time ago. Sariel. Brilliant. Element-agnostic on
-  paper until they disproved it themselves. We lost touch when
-  they left the academy — forty years ago, give or take. I
-  haven't heard their name in a long time, and I don't know
-  whether they still lecture. But if anyone can teach you the
-  practice of shadow, it is Sariel." She meets your eyes.
-  "Be careful, {player}. 'Shadow' sounds romantic. Not everyone
-  in this city sees it that way."
+  Shadow is a sub-variant of Light, the way Dream is a sub-variant of
+  Tide. But it is rare. Very rare — in forty years I have never seen one.
+  I can give you the theory, but the practice... I'm out of my depth; I
+  cannot teach you what I have never felt. There was a colleague here, a
+  long time ago. Sariel. Brilliant. Element-agnostic on paper, until they
+  disproved it themselves. We lost touch when they left the academy —
+  forty years ago, give or take. I don't know whether they still lecture.
+  But if anyone can teach you the practice of shadow, it is Sariel. Be
+  careful, {player}. 'Shadow' sounds romantic. Not everyone in this city
+  sees it that way.
 
 # Step 7 — practical graduation exam. The diagnostician becomes
 # the examiner; she stays warm but is paying close attention.
 npc_vandara_veyra_7: >-
-  Veyra has cleared the consultation room of every personal
-  object — only the velvet couch, the small candle, and her
-  slate remain. "You came with the permit. Good. The practical
-  is short." She gestures at the candle. "Bind a shadow to it.
-  Hold it. Talk to me about something unrelated for a count of
-  thirty. Do not let the shadow drop, do not let the
-  conversation falter. The exam is not about strength — it is
-  about doing two things at once without one swallowing the
-  other." She watches. Notes. Watches some more. Then a small
-  smile that is entirely the diagnostician and not at all the
-  proctor. "Yes. Cleanly done. Forty years and a first. You
-  pass. Tell Olié."
+  You came with the permit. Good. The practical is short. Bind a shadow
+  to this candle. Hold it. Talk to me about something unrelated for a
+  count of thirty. Don't let the shadow drop, don't let the conversation
+  falter. The exam isn't about strength — it's about doing two things at
+  once without one swallowing the other. ...Yes. Cleanly done. Forty
+  years, and a first. You pass. Tell Olié.
 
 # Element trials — short reaction blurbs (used as each trial's
 # dialogueKey in the step).
 vandara_trial_fire_dialog: >-
-  You hold your hand over the small flame. Warmth, of course —
-  but no resonance. Veyra shakes her head. "No fire."
+  Warmth, yes — but nothing answers it. No fire.
 
 vandara_trial_earth_dialog: >-
-  The stone sits heavy in your hand. You wait. Nothing. Veyra
-  notes something down. "No earth."
+  Heavy in the hand, and... nothing stirs. No earth.
 
 vandara_trial_wind_dialog: >-
-  You hold the feather up. It floats a moment, then falls.
-  Normal — no magical lift. Veyra: "No wind."
+  It falls like any feather — no lift, no pull. No wind.
 
 vandara_trial_tide_dialog: >-
-  Hand over the water bowl. The surface ripples faintly — from
-  your breath, not from you. Veyra: "No tide."
+  Only your breath troubles the water, nothing more. No tide.
 
 vandara_trial_light_dialog: >-
-  You look into the small mirror. Something flickers. Not in the
-  mirror — IN the room behind you. Veyra snaps her head up.
-  "There. That was something. But not clean light. Come back
-  as soon as you can — I want to look at this more closely."
+  There — wait. Something moved, but not in the mirror... in the room
+  behind you. That's not clean light. Come back as soon as you can — I
+  want a closer look.
 
 # ─── Sariel — shadow mentor in the catacombs ──────────
 npc_vandara_sariel_1: >-
-  The tunnel opens into a small chamber. A single candle burns
-  on a low table. The person behind it doesn't turn around —
-  they keep sorting notes on the table with their fingertips.
-  "You're far too loud for your size, {player}. Walk softer when
-  you're in a tunnel. Otherwise you don't hear when someone's
-  standing in front of you." Their scales — if you can even
-  call them that, sharp black crystals along the neck — clink
-  faintly. Sariel raises their head, looks in your direction
-  but not into your eyes. "Ah. Sit down. I'm Sariel. Make
-  yourself comfortable — the candle is plenty for both of us,
-  I don't need any light."
+  You're far too loud for your size, {player}. Walk softer in a tunnel —
+  otherwise you won't hear when someone's standing right in front of you.
+  Sit. I'm Sariel. Make yourself comfortable; the candle's plenty for
+  both of us — I don't need any light.
 
 npc_vandara_sariel_2: >-
-  "You want to know what shadow is." Sariel tilts their head a
-  fraction. "I heard the binding when you came down. Cheap
-  stitch, thin paper, smells like the academy's archive ink.
-  Quinell still uses the same printer he did forty years ago.
-  He sent you, didn't he. Or made you send yourself." A small
-  dry sound that isn't quite a laugh. "He gave you that
-  chapter of his — chapter six, I'd assume." "He sat in my class for two years
-  scratching down everything I said. The chapter is his. I have
-  never written a single word in my life — I have been blind
-  since before I ever stood at a lectern. So when he handed you
-  that book, what you held was Quinell's transcription of me,
-  not a copy of anything mine. There was nothing to copy.
-  Whether he got it right is between him and his own honesty."
-  A pause. "The gist is short. Shadow is light that has enough
-  depth to develop a will of its own. A light-shifter makes
-  brightness. You make hollows. The hollows LISTEN. Got it? No?
-  Good — that was a lie because I wanted to keep it short. Read
-  his chapter anyway. He wrote it cleaner than I'd speak it
-  twice."
+  You want to know what shadow is. I heard the binding when you came
+  down — cheap stitch, thin paper, smells of the academy's archive ink.
+  Quinell still uses the same printer he did forty years ago. He sent
+  you, didn't he. He gave you that chapter of his — chapter six, I'd
+  assume. He sat in my class two years scratching down everything I
+  said; the chapter is his. I've never written a word in my life — I've
+  been blind since before I ever stood at a lectern. There was nothing
+  to copy. The gist is short: shadow is light with enough depth to
+  develop a will of its own. A light-shifter makes brightness. You make
+  hollows — and the hollows LISTEN. Got it? No? Good — that was a lie to
+  keep it short. Read his chapter anyway."
 
 npc_vandara_sariel_3: >-
-  "Stand in the light." Sariel gestures at the candle. "Now
-  reach out. Not toward the candle. Toward the shadow you cast."
-  You hesitate. Sariel grins, the first time today. "Yes, that
-  works. Feel, don't think. Shadows are denser than ordinary
-  light — palpable, when you know where." Long silence. Then:
-  "Ah. There. You grabbed it. Feel the weight? Very good. Same
-  way I learned it, at twelve, from a shifter in the Emerald
-  Forest. Blind too, like me now. She said back then, eyes are
-  just one way of many. Took me until I had to before I
-  believed it."
+  Stand in the light. Now reach out — not toward the candle, toward the
+  shadow you cast. Yes, that works. Feel, don't think; shadows are
+  denser than ordinary light, palpable when you know where... Ah. There.
+  You grabbed it — feel the weight? Very good. Same way I learned it, at
+  twelve, from a shifter in the Emerald Forest. Blind too, like me now.
+  She said eyes are just one way of many. Took me until I had to before
+  I believed it.
 
 # ─── Pamle — alchemy mentor (magma-dragon-shifter) ────────
 npc_vandara_pamle_1: >-
@@ -385,39 +290,31 @@ npc_vandara_pamle_5: >-
   brewing to teach the next batch."
 
 npc_vandara_sariel_4: >-
-  "You're not trained now. You're awake — that's something
-  else." Sariel goes back to sorting notes. "What you need from
-  here, you'll learn yourself. Come back if you want to try
-  something more complicated. Next time bring me a bowl of
-  water — I'll show you how to fetch a shadow that holds it
-  while you do other things. That's actually the practical
-  part." They laugh drily. "Forty years teaching and I still
-  promise the interesting stuff for next session."
+  You're not trained now. You're awake — that's something else. What you
+  need from here, you'll learn yourself. Come back if you want something
+  more complicated; bring a bowl of water, and I'll show you how to
+  fetch a shadow that holds it while you do other things. That's the
+  practical part. Forty years teaching, and I still promise the
+  interesting stuff for next session.
 
 # ─── Step 5: the finale — Sariel teaches Shadow Bind ────────
 # Sariel actually delivers on the promise from step 4: a shadow
 # bound to a task does it for you while you do other things. Sets
 # the base-game ability flag.
 npc_vandara_sariel_5: >-
-  "You brought the bowl. Good. Set it down — there, on the
-  floor between us." Sariel doesn't move from the chair, but
-  the candle flame flickers once. "Now. The trick I promised.
-  Shadows aren't free. They are you, a part you push out into
-  the world. So binding one costs your own magic, continuously,
-  for as long as you keep it out." A long, slow pause. "Pick a
-  task. Anything you do with your hands — chopping, brewing,
-  drawing water. Look at your shadow. Then ask it to do that
-  task instead of you. Not aloud. With the same wordless push
-  you used when you grabbed the shadow off the wall last time."
-  You try. The shadow at your feet lengthens — and then it
-  lifts the bowl. Holds it. Steady. Sariel smiles, faintly.
-  "Yes. That. Now you can do something else while the shadow
-  carries on. Magic drains the whole time, mind you. When it
-  runs out the shadow lets go." Another pause. "One shadow.
-  One task. That's the cap I can teach you. Splitting your
-  attention further than that is for the next forty years, not
-  the next hour." They lean back. "Go. Do two things at once.
-  It is the closest most of us ever come to being free."
+  You brought the bowl. Good — set it down, there, on the floor between
+  us. Now, the trick I promised. Shadows aren't free; they are you, a
+  part you push out into the world, so binding one costs your own magic,
+  continuously, for as long as you keep it out. Pick a task — anything
+  you do with your hands: chopping, brewing, drawing water. Look at your
+  shadow, then ask it to do that task instead of you. Not aloud — the
+  same wordless push you used when you grabbed the shadow off the wall...
+  Yes. That. Now you can do something else while the shadow carries on.
+  Magic drains the whole time, mind — when it runs out, the shadow lets
+  go. One shadow, one task; that's the cap I can teach you. Splitting
+  your attention further is for the next forty years, not the next hour.
+  Go. Do two things at once — it's the closest most of us ever come to
+  being free.
 
 # ─── Ormias — Dragon Studies ──────────────────────────
 # One session per main type, in order: intro, Great Dragons,

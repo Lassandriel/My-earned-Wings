@@ -1,351 +1,254 @@
 npc_teacher_vandara_letter: >-
-  "Bevor du gehst, {player}... das hier ist heute Morgen für dich
-  angekommen." Aria zieht einen gefalteten Brief aus ihrer Tasche.
-  Das Siegel schimmert in einem warmen Roségold. "Aus Vandara. Die
-  Roségold-Akademie. Ich habe ihnen geschrieben, nachdem ich gesehen
-  habe, wie ernsthaft du gelernt hast. Es ist nur eine Einladung —
-  keine Verpflichtung. Aber wenn du wissen willst, was du wirklich
-  bist, ist das vielleicht der richtige Weg."
+  Bevor du gehst, {player}... das hier ist heute Morgen für dich
+  angekommen. Aus Vandara — die Roségold-Akademie. Ich habe ihnen
+  geschrieben, nachdem ich gesehen habe, wie ernsthaft du gelernt hast.
+  Es ist nur eine Einladung, keine Verpflichtung. Aber wenn du wissen
+  willst, was du wirklich bist, ist das vielleicht der richtige Weg.
 
 # ─── Gate guard at the Vandara city walls ──────────────────
 # (his name lives in ui.yaml — base game convention puts NPC name
 # keys there, npcs.yaml is just for dialogue strings.)
 # Olié — Sekretariat / Einschreibung
 npc_vandara_olie_1: >-
-  Sekretär Olié sieht von seinem Stapel Akten auf — eine elegant
-  gefiederte Schlange mit irisierenden Schuppen, die wie nasse
-  Kieselsteine glänzen. "Ah. Eine Neueinschreibung." Er lächelt
-  höflich, aber distanziert. "Bitte nehmen Sie Platz. Wir gehen das
-  Notwendige der Reihe nach durch. Name, Herkunft, Element wenn
-  bekannt." Sein Federkamm zuckt leicht, als du beim letzten Punkt
-  zögerst. "Unbekannt ist auch eine Antwort, keine Sorge."
+  Ah. Eine Neueinschreibung. Bitte nehmen Sie Platz — wir gehen das
+  Notwendige der Reihe nach durch. Name, Herkunft, Element wenn bekannt...
+  Unbekannt ist auch eine Antwort, keine Sorge.
 
 npc_vandara_olie_2: >-
-  "So, die Einschreibegebühr." Olié schiebt dir ein winziges
-  Bronzeschälchen über den Tisch. "Fünfundzwanzig Splitter, einmalig.
-  Die Akademie selbst ist kostenfrei — wir sind nicht das
-  Kristallreich. Die Gebühr deckt nur den Verwaltungsaufwand und
-  einen Schluck Tee, falls Sie länger warten müssen."
+  So, die Einschreibegebühr. Fünfundzwanzig Splitter, einmalig. Die
+  Akademie selbst ist kostenfrei — wir sind nicht das Kristallreich. Die
+  Gebühr deckt nur den Verwaltungsaufwand und einen Schluck Tee, falls
+  Sie länger warten müssen.
 
 npc_vandara_olie_3: >-
-  "Hier ist Ihr Ausweis." Olié reicht dir ein dünnes, schweres
-  Plättchen aus poliertem Roségold. "Damit kommen Sie überall hin,
-  wo Sie hindürfen — und ein paar Orte, wo Sie eigentlich nicht
-  hindürften, aber die niemand kontrolliert." Er tippt auf eine
-  Liste auf seinem Schreibtisch. "Ihre Mentoren. Lektor Ormias hält
-  Drachenkunde. Doktor Quinell betreut die Arkanen Grundlagen. Und
-  Praktikerin Pamle gibt Alchemie, allerdings ergibt ihr Unterricht
-  erst Sinn, wenn Sie sich ein Alchemielabor eingerichtet haben."
-  Eine höfliche Pause. "Da Sie Ihr Element nicht angeben konnten,
-  schicke ich Sie zusätzlich zu Magistra Veyra. Sie führt die
-  Diagnostik durch — keine Vorlesung, eine Sprechstunde. Die Beste
-  der Stadt. Die Akademie hat Glück, sie zu halten." Ein höfliches
-  Nicken. "Willkommen in Vandara, Studentin."
+  Hier ist Ihr Ausweis, ein dünnes, schweres Plättchen aus poliertem
+  Roségold. Damit kommen Sie überall hin, wo Sie hindürfen — und ein paar
+  Orte, wo Sie eigentlich nicht hindürften, aber die niemand
+  kontrolliert. Ihre Mentoren: Lektor Ormias hält Drachenkunde, Doktor
+  Quinell betreut die Arkanen Grundlagen, und Praktikerin Pamle gibt
+  Alchemie — allerdings ergibt ihr Unterricht erst Sinn, wenn Sie sich
+  ein Alchemielabor eingerichtet haben. Und da Sie Ihr Element nicht
+  angeben konnten, schicke ich Sie zu Magistra Veyra. Sie führt die
+  Diagnostik durch — keine Vorlesung, eine Sprechstunde. Die Beste der
+  Stadt. Willkommen in Vandara, Studentin.
 
 # Step 4 — Reveal-Reaktion. Olié aktualisiert die Akte des
 # Spielers, jetzt da das Element offiziell bekannt ist.
 npc_vandara_olie_4: >-
-  Olié schaut von seinem Stapel auf, höflich wie immer. "Ah.
-  Das Element-Feld auf Ihrer Studierenden-Akte. Ich habe es
-  offengelassen, wie besprochen." Er zieht eine dünne Feder
-  hervor. "Ich trage es jetzt nach." Eine Pause, während er
-  schreibt. "Schatten. Sub-Variante Licht. Vermerk: selten." Er
-  pustet die Tinte trocken. "So. Ordnungsgemäß eingetragen. Die
-  Akademie-Archive schätzen Genauigkeit mehr als Neuheit, aber
-  in diesem Fall bekommen sie beides." Ein höfliches Nicken.
-  "Machen Sie weiter, Studierende."
+  Ah. Das Element-Feld auf Ihrer Studierenden-Akte — ich habe es
+  offengelassen, wie besprochen. Ich trage es jetzt nach. ...Schatten.
+  Sub-Variante Licht. Vermerk: selten. So — ordnungsgemäß eingetragen.
+  Die Archive schätzen Genauigkeit mehr als Neuheit; in diesem Fall
+  bekommen sie beides. Machen Sie weiter, Studierende.
 
 # Step 5 — Olié setzt die Abschluss-Prüfung an. Erscheint nach
 # Sariels Shadow-Bind-Finale (Praxis-Teil braucht's) und wenn
 # alle drei Pflicht-Grundkurse durch sind.
 npc_vandara_olie_5: >-
-  Olié legt seine Feder in dem Moment ab, in dem Sie eintreten —
-  er hat offensichtlich gewartet. "Ihre Akte ist vollständig.
-  Drei Grundkurse, eine Element-Diagnostik, eine eigenständig
-  organisierte Schatten-Praxis. Der Rat hat Sie zur
-  Abschluss-Prüfung zugelassen." Er schiebt eine dünne
-  roségoldene Marke über den Tisch. "Ihr Prüfungs-Pass. Zeigen
-  Sie ihn an jeder Station. Magistra Veyra führt die Praxis
-  durch — sie erwartet Shadow Bind unter kontrollierten
-  Bedingungen. Lektor Ormias prüft Sie mündlich in
-  Drachenkunde. Doktor Quinell prüft Sie schriftlich in den
-  Arkanen Grundlagen." Eine kleine, formale Pause. "Sie können
-  die Reihenfolge wählen. Kehren Sie danach zu mir zurück. Ich
-  werde hier sein. Ich bin immer hier."
+  Ihre Akte ist vollständig. Drei Grundkurse, eine Element-Diagnostik,
+  eine eigenständig organisierte Schatten-Praxis. Der Rat hat Sie zur
+  Abschluss-Prüfung zugelassen. Hier ist Ihr Prüfungs-Pass — zeigen Sie
+  ihn an jeder Station. Magistra Veyra führt die Praxis durch; sie
+  erwartet Shadow Bind unter kontrollierten Bedingungen. Lektor Ormias
+  prüft Sie mündlich in Drachenkunde, Doktor Quinell schriftlich in den
+  Arkanen Grundlagen. Wählen Sie die Reihenfolge, dann kehren Sie zu mir
+  zurück. Ich werde hier sein. Ich bin immer hier.
 
 # Step 6 — Diplom-Zeremonie. Braucht alle drei Prüfungs-Flags.
 # Sichtbar nach Step 5 (via extendNPCArc auf Olié), aber gegated
 # damit der Spieler sieht, dass es wartet und weiß was zu tun ist.
 npc_vandara_olie_6: >-
-  Olié erhebt sich. Er erhebt sich selten. "Alle drei Teile
-  bestanden. Magistra Veyra notierte, ich zitiere: 'beispielhafte
-  Kontrolle für eine:n Erstjähre:r:n Schattenwandler:in — zumindest
-  die:der erste, die:der mir je begegnet ist.' Lektor Ormias
-  notierte: 'kannte alle sieben und benannte die achte
-  unaufgefordert.' Doktor Quinell notierte nur 'zufriedenstellend'.
-  Das ist das höchste Lob, das er je auf ein Abschluss-Formular
-  geschrieben hat, in meinen vierzig Jahren." Er holt ein
-  gefaltetes Dokument aus schwerem cremefarbenen Papier mit
-  roségoldenem Siegel hervor. "Ihr Diplom. Die Roségold-Akademie
-  von Vandara bestätigt hiermit, dass Sie den Grundkurs
-  abgeschlossen haben." Er reicht es Ihnen mit beiden Händen.
-  "Glückwunsch, Absolvent:in. Die Akademie steht in Ihrer Schuld
-  für eine:n Schattenwandler:in. Wohin Sie als Nächstes gehen,
-  steht nicht in unserer Akte." Ein kleines, fast warmes Lächeln.
-  "Viel Glück, {player}."
+  Alle drei Teile bestanden. Magistra Veyra notierte, ich zitiere:
+  'beispielhafte Kontrolle für eine:n Erstjähre:r:n Schattenwandler:in —
+  zumindest die:der erste, die:der mir je begegnet ist.' Lektor Ormias:
+  'kannte alle sieben und benannte die achte unaufgefordert.' Doktor
+  Quinell notierte nur 'zufriedenstellend' — das höchste Lob, das er je
+  auf ein Abschluss-Formular geschrieben hat, in meinen vierzig Jahren.
+  Hier ist Ihr Diplom: Die Roségold-Akademie von Vandara bestätigt, dass
+  Sie den Grundkurs abgeschlossen haben. Glückwunsch, Absolvent:in. Die
+  Akademie steht in Ihrer Schuld für eine:n Schattenwandler:in. Wohin Sie
+  als Nächstes gehen, steht nicht in unserer Akte. Viel Glück, {player}.
 
 # Kal're — Händlerin auf den Straßen Vandaras
 npc_vandara_kalre_1: >-
-  Eine junge Drachenwandlerin mit silberblauen Haaren und einem Stand
-  voller Glasgefäße ruft dir zu. "Du bist neu, ja? Sieht man." Sie
-  grinst breit. "Kal're, aus dem Kristallreich. Windlinie. Habe ich
-  schon gesagt, dass ich aus dem Kristallreich bin? Das tu ich gern,
-  dann fragt niemand, warum ich Schuppen wie Glas habe." Sie schiebt
-  dir ein Schälchen Ascheblumen zu. "Schnupper mal. Riecht nach
-  Vulkanstaub und nach einer Sache, die du nicht benennen kannst.
-  Wenn du jemals in ein Alchemielabor kommst, wirst du sie brauchen."
+  Du bist neu, ja? Sieht man. Kal're, aus dem Kristallreich. Windlinie.
+  Habe ich schon gesagt, dass ich aus dem Kristallreich bin? Das tu ich
+  gern, dann fragt niemand, warum ich Schuppen wie Glas habe. Hier,
+  schnupper an den Ascheblumen. Vulkanstaub, und noch eine Sache, die du
+  nicht benennen kannst. Wenn du jemals in ein Alchemielabor kommst,
+  wirst du sie brauchen.
 
 npc_vandara_kalre_2: >-
-  "Du bist wieder da! Gut, gut." Kal're sortiert Glitzerstaub in
-  winzige Tütchen. "Wirst sehen, in Vandara redet jeder mit jedem
-  und alle wissen alles. Außer das, was sie nicht wissen sollen —
-  da sind sie erstaunlich diszipliniert."
+  Du bist wieder da! Gut, gut. Wirst sehen, in Vandara redet jeder mit
+  jedem und alle wissen alles. Außer das, was sie nicht wissen sollen —
+  da sind sie erstaunlich diszipliniert.
 
 npc_vandara_kalre_3: >-
-  "Du fragst dich, ob ich dir traue, ja?" Sie lacht. "Genug. Hör mal
-  — du kaufst andauernd meine Reagenzien, aber du hast nichts, wo
-  du sie verarbeiten könntest. Die meisten Akademie-Studenten
-  stellen sich ein kleines Alchemielabor ins Haus. Zwei Regale,
-  ein Kupferbecken, ein Abzug." Sie skizziert es auf die
-  Rückseite einer Tüte. "Hier. Bring Holz und Stein mit, jetzt
-  weißt du, wie's zusammengeht."
+  Du fragst dich, ob ich dir traue? Genug. Hör mal — du kaufst andauernd
+  meine Reagenzien, aber du hast nichts, wo du sie verarbeiten könntest.
+  Die meisten Akademie-Studenten stellen sich ein kleines Alchemielabor
+  ins Haus: zwei Regale, ein Kupferbecken, ein Abzug. Hier, die Skizze
+  auf der Rückseite einer Tüte. Bring Holz und Stein mit — jetzt weißt
+  du, wie's zusammengeht.
 
 npc_vandara_kalre_4: >-
-  Kal're winkt dich näher. "Weißt du, was das Lustige an Vandara
-  ist? Die Akademie tut so, als wäre sie das Herz der Stadt. Aber
-  die echten Sachen passieren in den Hinterzimmern. Auf den Straßen.
-  In den Katakomben unten." Sie blinzelt. "Sag's nicht weiter."
+  Weißt du, was das Lustige an Vandara ist? Die Akademie tut so, als wäre
+  sie das Herz der Stadt. Aber die echten Sachen passieren in den
+  Hinterzimmern. Auf den Straßen. In den Katakomben unten. ...Sag's nicht
+  weiter.
 
 npc_vandara_kalre_5: >-
-  "Du bist jetzt einer von meinen Stammkunden." Kal're tippt sich
-  gegen die Stirn. "Wenn du je was Seltenes brauchst — was wirklich
-  Seltenes — komm zu mir, bevor du irgendwen anders fragst. Ich
-  finde es. Oder kenne jemanden, der's findet."
+  Du bist jetzt einer von meinen Stammkunden. Wenn du je was Seltenes
+  brauchst — was wirklich Seltenes — komm zu mir, bevor du irgendwen
+  anders fragst. Ich finde es. Oder kenne jemanden, der's findet.
 
 # Fafa — Bettlerin am Brunnen
 npc_vandara_fafa_1: >-
-  Eine alte Drachenwandlerin sitzt zusammengesunken am Rand des
-  Brunnens, in einen verstaubten grauen Umhang gehüllt. Schuppen wie
-  geborstener Granit lugen unter dem Stoff hervor. Sie hebt nicht
-  den Kopf, aber eine knochige Hand streckt sich dir entgegen. "Ein
-  paar Splitter für eine alte Erddrachin?" Als du gibst, blickt sie
-  endlich auf — graue Augen, scharf wie frisch geschliffene Klingen.
-  "Danke, Kind. Du bist neu. Diese Stadt hat Namen, weißt du? Nicht
-  nur den, der oben am Tor steht. Komm wieder — ich erzähle dir
-  einen."
+  Ein paar Splitter für eine alte Erddrachin? ...Danke, Kind. Du bist
+  neu. Diese Stadt hat Namen, weißt du — nicht nur den, der oben am Tor
+  steht. Komm wieder, ich erzähle dir einen.
 
 npc_vandara_fafa_2: >-
-  Fafa nimmt die Splitter, ohne hinzusehen. "Vandara heißt 'Wandel'.
-  Aber sie sagen dir nie, wer den Wandel will und wer ihn fürchtet."
-  Sie deutet auf die Akademie hinter dir. "König Archivaris, der
-  alte Knochenhalter, will alles so behalten wie's war. König-
-  Rektorin Novia will alles neu. Die beiden streiten sich seit
-  Jahren vor dem Kaiserhof. Solange sie streiten, regiert in
-  Wahrheit niemand. Das macht Vandara... interessant. Komm wieder."
+  Vandara heißt 'Wandel'. Aber sie sagen dir nie, wer den Wandel will und
+  wer ihn fürchtet. König Archivaris, der alte Knochenhalter, will alles
+  so behalten wie's war. König-Rektorin Novia will alles neu. Die beiden
+  streiten sich seit Jahren vor dem Kaiserhof — und solange sie streiten,
+  regiert in Wahrheit niemand. Das macht Vandara... interessant. Komm
+  wieder.
 
 npc_vandara_fafa_3: >-
-  "Du kommst immer wieder. Das ist selten." Fafa lächelt, und für
-  einen Moment sieht sie nicht alt aus, sondern müde. "Hör zu, Kind.
-  Die Studenten in den oberen Hörsälen lernen, was die Mentoren
-  beibringen dürfen. Was sie wirklich wissen wollen, lernen sie
-  woanders. Unter der Stadt. Komm noch einmal wieder, und ich zeige
-  dir, wo."
+  Du kommst immer wieder. Das ist selten. Hör zu, Kind — die Studenten in
+  den oberen Hörsälen lernen, was die Mentoren beibringen dürfen. Was sie
+  wirklich wissen wollen, lernen sie woanders. Unter der Stadt. Komm noch
+  einmal wieder, und ich zeige dir, wo.
 
 npc_vandara_fafa_4: >-
-  Diesmal nimmt Fafa keine Splitter. Sie steht auf — und ist auf
-  einmal größer, als du gedacht hast. "Komm." Sie führt dich zu
-  einem unscheinbaren Gully hinter dem Brunnen, schiebt das Eisen
-  beiseite, als wäre es ein Vorhang. "Die Katakomben. Die alten
-  Tunnel aus der Zeit vor dem Unaussprechlichen. Hier unten findest
+  Diesmal keine Splitter. Komm — hinter dem Brunnen, dieser Gully. Schieb
+  das Eisen beiseite; es bewegt sich wie ein Vorhang. Die Katakomben. Die
+  alten Tunnel aus der Zeit vor dem Unaussprechlichen. Hier unten findest
   du die, die dir wirklich helfen können — wenn du den Mut hast
-  herunterzukommen." Sie blickt dich lange an. "Geh nicht alleine
-  hin, bis du jemanden kennst, dem du dort vertraust. Aber geh."
+  herunterzukommen. Geh nicht alleine hin, bis du jemanden kennst, dem du
+  dort vertraust. Aber geh.
 
 # ─── Veyra — Element-Diagnostik (Sprechstunde, kein Kurs) ───────
 npc_vandara_veyra_1: >-
-  Magistra Veyra empfängt dich in einem sonnenhellen
-  Sprechzimmer — hohe Fenster, eine samtene Untersuchungsliege,
-  Instrumente säuberlich auf einem Beistelltisch, daneben eine
-  kleine Karaffe gekühltes Wasser. Sie ist eine Sonnen-Amphithere,
-  Gold und sanftes Orange, ihre Federn werfen das Tageslicht über
-  jede Fläche. "Willkommen, {player}. Olié hat Sie geschickt, ja?
-  Gut. Das hier ist kein Unterricht — das ist eine Sprechstunde.
-  Sie konnten ihm kein Element nennen. Völlig in Ordnung." Sie
-  weist auf die Liege. "Wir finden es gemeinsam heraus. Die
-  meisten Studenten wissen es schon von zuhause. Die paar, die
-  nicht — sind oft die interessantesten."
+  Willkommen, {player}. Olié hat Sie geschickt, ja? Gut. Das hier ist
+  kein Unterricht — das ist eine Sprechstunde. Sie konnten ihm kein
+  Element nennen; völlig in Ordnung. Wir finden es gemeinsam heraus. Die
+  meisten Studenten wissen es schon von zuhause. Die paar, die nicht,
+  sind oft die interessantesten.
 
 npc_vandara_veyra_2: >-
-  "Zuerst die Anamnese." Veyra macht Notizen auf eine kleine
-  Schiefertafel, ihr gefiederter Kamm aufmerksam geneigt.
-  "Erzählen Sie mir, was Sie zuhause gespürt haben. Irgendetwas,
-  das an Ihnen gezogen hat — Wärme in den Händen, Schwere in der
-  Brust, Trockenheit im Hals wenn Sie wütend waren, ein Geräusch,
-  das sonst niemand gehört hat. Auch nichts ist eine Antwort."
-  Sie hört geduldig zu. "Magie ist an Ihr Element gebunden. Sie
-  können nicht wechseln, nur finden. Manche erkennen es in einem
-  einzigen Moment. Andere brauchen Übungen. Wir machen beides.
-  Beim nächsten Mal beginnen wir mit den Resonanztests."
+  Zuerst die Anamnese. Erzählen Sie mir, was Sie zuhause gespürt haben —
+  irgendetwas, das an Ihnen gezogen hat: Wärme in den Händen, Schwere in
+  der Brust, Trockenheit im Hals wenn Sie wütend waren, ein Geräusch, das
+  sonst niemand gehört hat. Auch nichts ist eine Antwort. Magie ist an
+  Ihr Element gebunden; Sie können nicht wechseln, nur finden. Manche
+  erkennen es in einem einzigen Moment, andere brauchen Übungen. Wir
+  machen beides. Beim nächsten Mal beginnen wir mit den Resonanztests.
 
 npc_vandara_veyra_3: >-
-  "Erster Resonanztest." Veyra zieht die Vorhänge halb zu, holt
-  einen niedrigen Hocker heran und setzt sich neben die Liege.
-  "Hände entspannt im Schoß, Handflächen nach oben. Nicht
-  drücken. Nicht greifen. Lassen Sie Ihren Äther von selbst zur
-  Ruhe kommen." Ihre Feder schwebt über der Schiefertafel. Sie
-  wartet — lang, länger als bequem ist. Dann, leise: "Hm. Da
-  ist etwas. Aber es liegt nicht sauber unter einer der
-  Standard-Signaturen. Ich würde gerne nächste Sitzung eine
-  ordentliche Batterie laufen lassen. Kommen Sie ausgeschlafen
-  — auf einem ruhigen Körper läuft das glatter."
+  Erster Resonanztest. Hände entspannt im Schoß, Handflächen nach oben.
+  Nicht drücken, nicht greifen — lassen Sie Ihren Äther von selbst zur
+  Ruhe kommen. ...Hm. Da ist etwas. Aber es liegt nicht sauber unter
+  einer der Standard-Signaturen. Ich würde gerne nächste Sitzung eine
+  ordentliche Batterie laufen lassen. Kommen Sie ausgeschlafen — auf
+  einem ruhigen Körper läuft das glatter.
 
 npc_vandara_veyra_4: >-
-  "Heute die Standard-Batterie." Veyra hat fünf Gegenstände auf
-  einem kleinen Tablett neben der Liege ausgelegt — einen Stein,
-  eine Schale Wasser, eine Kerze, eine Feder, einen Spiegel. "Ein
-  Material pro Element. Sie berühren jedes der Reihe nach. Ich
-  beobachte, was Ihr Äther tut. Es gibt keine richtige Antwort
-  und keine falsche — auch 'nichts passiert' ist ein sauberes
-  Ergebnis." Sie hebt einen Finger. "Eins nur: nicht drücken.
-  Der Äther lügt nicht, wenn man ihn ehrlich lässt. Lassen Sie
-  sich Zeit. Wann immer Sie bereit sind."
+  Heute die Standard-Batterie. Fünf Gegenstände, ein Material pro Element
+  — ein Stein, Wasser, eine Kerze, eine Feder, ein Spiegel. Berühren Sie
+  jedes der Reihe nach; ich beobachte, was Ihr Äther tut. Es gibt keine
+  richtige Antwort und keine falsche — auch 'nichts passiert' ist ein
+  sauberes Ergebnis. Eins nur: nicht drücken. Der Äther lügt nicht, wenn
+  man ihn ehrlich lässt. Lassen Sie sich Zeit. Wann immer Sie bereit sind.
 
 npc_vandara_veyra_5: >-
-  "Sie sind wiedergekommen. Gut. Bitte setzen Sie sich." Veyra
-  hat die Vorhänge bereits ganz zugezogen — nur eine einzige
-  kleine Kerze brennt auf dem Beistelltisch. "Die Lichtreaktion
-  in Ihrer Batterie — das war kein Nullergebnis. Es war auch
-  keine saubere Licht-Signatur. Ich würde gerne einen
-  kontrollierten Isolations-Test laufen lassen. Hände offen,
-  nicht drücken, strecken Sie sich zur Kerze hin." Lange Stille.
-  Dann ihre Stimme, plötzlich anders — nicht mehr der gemessene
-  Ton der Diagnostikerin: "Oh. Oh, {player}. Sie machen keinen
-  Schatten. Sie ZIEHEN den Schatten an. Von der Wand. Von der
-  Decke. Von mir." Ein atemloses Halblachen. "Sie sind kein
+  Sie sind wiedergekommen. Gut. Bitte setzen Sie sich. Die Lichtreaktion
+  in Ihrer Batterie — das war kein Nullergebnis, aber auch keine saubere
+  Licht-Signatur. Ich würde gerne einen kontrollierten Isolations-Test
+  laufen lassen. Hände offen, nicht drücken, strecken Sie sich zur Kerze
+  hin. ...Oh. Oh, {player}. Sie machen keinen Schatten — Sie ZIEHEN den
+  Schatten an. Von der Wand. Von der Decke. Von mir. Sie sind kein
   Lichtwandler. Sie sind ein Schattenwandler. In vierzig Jahren
-  Diagnostik habe ich noch nie einen gesehen."
+  Diagnostik habe ich noch nie einen gesehen.
 
 npc_vandara_veyra_6: >-
-  Veyra ist deutlich nachdenklicher heute. "Schatten ist eine
-  Sub-Variante von Licht. So wie Traum eine Sub-Variante von
-  Gezeiten ist. Aber sie ist selten. Sehr selten. In vierzig
-  Jahren Diagnostik habe ich noch nie eine gesehen." Sie schaut
-  Sie ernst an. "Ich kann Ihnen die Theorie geben. Aber die
-  Praxis — da bin ich nicht zuhause. Ich kann Ihnen nicht
-  beibringen, was ich selbst nie gefühlt habe." Sie legt die
-  Feder ab, zögert, dann leiser: "Es gab vor langer Zeit eine
-  Kollegin hier. Sariel. Brillant. Auf dem Papier
-  element-agnostisch, bis dey das selbst widerlegt hat. Wir
-  haben uns aus den Augen verloren, als dey die Akademie
-  verließ — vor vierzig Jahren, ungefähr. Ich habe deren Namen
-  lange nicht mehr gehört, und ich weiß nicht, ob dey noch
-  lehrt. Aber wenn Ihnen jemand die Praxis des Schattens
-  beibringen kann, dann Sariel." Sie sucht Ihren Blick. "Seien
-  Sie vorsichtig, {player}. 'Schatten' klingt romantisch. Nicht
-  jeder in dieser Stadt sieht es so."
+  Schatten ist eine Sub-Variante von Licht, so wie Traum eine
+  Sub-Variante von Gezeiten ist. Aber sie ist selten. Sehr selten — in
+  vierzig Jahren habe ich noch nie eine gesehen. Ich kann Ihnen die
+  Theorie geben, aber die Praxis... da bin ich nicht zuhause; ich kann
+  Ihnen nicht beibringen, was ich selbst nie gefühlt habe. Es gab vor
+  langer Zeit eine Kollegin hier. Sariel. Brillant. Auf dem Papier
+  element-agnostisch, bis dey das selbst widerlegt hat. Wir haben uns aus
+  den Augen verloren, als dey die Akademie verließ — vor vierzig Jahren,
+  ungefähr. Ich weiß nicht, ob dey noch lehrt. Aber wenn Ihnen jemand die
+  Praxis des Schattens beibringen kann, dann Sariel. Seien Sie vorsichtig,
+  {player}. 'Schatten' klingt romantisch. Nicht jeder in dieser Stadt
+  sieht es so.
 
 # Step 7 — Praxis-Abschlussprüfung. Die Diagnostikerin wird zur
 # Prüferin; bleibt warm, aber sehr aufmerksam.
 npc_vandara_veyra_7: >-
-  Veyra hat das Sprechzimmer von jedem persönlichen Gegenstand
-  geräumt — nur die samtene Liege, die kleine Kerze und ihre
-  Schiefertafel sind übrig. "Sie sind mit dem Pass gekommen.
-  Gut. Die Praxis ist kurz." Sie deutet auf die Kerze. "Binden
-  Sie einen Schatten an sie. Halten Sie ihn. Reden Sie mit mir
-  über etwas Unrelatedes, dreißig Sekunden lang. Lassen Sie den
-  Schatten nicht fallen, lassen Sie das Gespräch nicht
-  versanden. Die Prüfung geht nicht um Stärke — sie geht darum,
-  zwei Dinge gleichzeitig zu tun, ohne dass eines das andere
-  verschluckt." Sie beobachtet. Notiert. Beobachtet weiter.
-  Dann ein kleines Lächeln, ganz Diagnostikerin und gar nicht
-  Prüferin. "Ja. Sauber gearbeitet. Vierzig Jahre und ein
-  Erstes. Sie bestehen. Sagen Sie es Olié."
+  Sie sind mit dem Pass gekommen. Gut. Die Praxis ist kurz. Binden Sie
+  einen Schatten an diese Kerze. Halten Sie ihn. Reden Sie mit mir über
+  etwas Unrelatedes, dreißig Sekunden lang. Lassen Sie den Schatten nicht
+  fallen, lassen Sie das Gespräch nicht versanden. Die Prüfung geht nicht
+  um Stärke — sie geht darum, zwei Dinge gleichzeitig zu tun, ohne dass
+  eines das andere verschluckt. ...Ja. Sauber gearbeitet. Vierzig Jahre
+  und ein Erstes. Sie bestehen. Sagen Sie es Olié.
 
 # Element-Übungen — knappe Reaktionsbeschreibungen, die jede Trial
 # als Tooltip-Text mitliefert (dialogueKey im step).
 vandara_trial_fire_dialog: >-
-  Du legst die Hand über die kleine Flamme. Wärme, klar — aber
-  keine Resonanz. Veyra schüttelt den Kopf. "Kein Feuer."
+  Wärme, ja — aber nichts antwortet darauf. Kein Feuer.
 
 vandara_trial_earth_dialog: >-
-  Der Stein liegt schwer in deiner Hand. Du wartest. Nichts. Veyra
-  notiert sich etwas. "Kein Erde."
+  Schwer in der Hand, und... nichts regt sich. Keine Erde.
 
 vandara_trial_wind_dialog: >-
-  Du hältst die Feder hoch. Sie schwebt einen Moment, fällt dann.
-  Normal — kein magisches Heben. Veyra: "Kein Wind."
+  Fällt wie jede Feder — kein Heben, kein Zug. Kein Wind.
 
 vandara_trial_tide_dialog: >-
-  Die Hand über der Wasserschale. Die Oberfläche kräuselt sich
-  leicht — von deinem Atem, nicht von dir. Veyra: "Kein Gezeiten."
+  Nur dein Atem kräuselt das Wasser, mehr nicht. Keine Gezeiten.
 
 vandara_trial_light_dialog: >-
-  Du blickst in den kleinen Spiegel. Etwas zuckt. Nicht im Spiegel —
-  IM Raum hinter dir. Veyra hebt scharf den Kopf. "Da. Da war was.
-  Aber kein klares Licht. Komm zurück, sobald du kannst — ich will
-  das genauer untersuchen."
+  Da — Moment. Etwas hat sich bewegt, aber nicht im Spiegel... im Raum
+  hinter dir. Das ist kein klares Licht. Komm zurück, sobald du kannst —
+  ich will das genauer ansehen.
 
 # ─── Sariel — Schatten-Lehrkraft in den Katakomben ────────
 # Sariel nutzt they/them im EN, im DE entsprechend dey/dem/deren
 # (eingedeutschtes they-Set). Verben passen sich an wie bei "er/sie".
 npc_vandara_sariel_1: >-
-  Der Tunnel öffnet sich zu einer kleinen Kammer. Eine einzige
-  Kerze brennt auf einem niedrigen Tisch. Die Person dahinter
-  dreht sich nicht um — dey sortiert weiter Notizen auf dem Tisch
-  mit den Fingerspitzen. "Du bist viel zu groß für deine Schritte,
-  {player}. Lauf leiser, wenn du in einem Tunnel bist. Sonst hörst
-  du nicht, wenn jemand vor dir steht." Deren Schuppen — wenn man
-  sie überhaupt so nennen kann, scharfe schwarze Kristalle entlang
-  des Halses — klirren leise. Sariel hebt den Kopf, sieht in deine
-  Richtung, aber nicht in deine Augen. "Ah. Setz dich. Ich bin
-  Sariel. Mach es dir bequem — die Kerze reicht für uns beide,
-  ich brauche kein Licht."
+  Du bist viel zu laut für deine Größe, {player}. Lauf leiser in einem
+  Tunnel — sonst hörst du nicht, wenn jemand direkt vor dir steht. Setz
+  dich. Ich bin Sariel. Mach es dir bequem; die Kerze reicht für uns
+  beide — ich brauche kein Licht.
 
 npc_vandara_sariel_2: >-
-  "Du willst wissen, was Schatten ist." Sariel neigt den Kopf
-  einen Hauch. "Ich habe die Bindung gehört, als du
-  runtergekommen bist. Billige Heftung, dünnes Papier, riecht
-  nach der Archiv-Tinte der Akademie. Quinell benutzt immer
-  noch denselben Drucker wie vor vierzig Jahren. Er hat dich
-  hergeschickt, oder? Oder dafür gesorgt, dass du dich selbst
-  herschickst." Ein kleines trockenes Geräusch, das fast, aber
-  nicht ganz ein Lachen ist. "Er hat dir sein Kapitel mitgegeben
-  — Kapitel sechs, nehme ich an." "Er hat zwei Jahre in meiner
-  Klasse gesessen und alles mitgeschrieben, was ich gesagt habe.
-  Das Kapitel ist seins. Ich habe in meinem ganzen Leben kein
-  einziges Wort geschrieben — ich bin blind, schon länger, als
-  ich je hinter einem Pult stand. Was du da hattest, war
-  Quinells Mitschrift von mir, keine Abschrift von irgendwas
-  Meinem. Es gab nichts abzuschreiben. Ob er es richtig getroffen
-  hat, ist eine Sache zwischen ihm und seiner Ehrlichkeit." Dey
-  pausiert. "Die Kurzfassung ist kurz. Schatten ist Licht, das
-  genug Tiefe hat, dass es einen Eigenwillen entwickelt. Ein
-  Lichtwandler macht Helligkeit. Du machst Hohlräume. Die
-  Hohlräume HÖREN dir zu. Verstanden? Nein? Gut — das war eine
-  Lüge, weil ich's kurz machen wollte. Lies sein Kapitel
-  trotzdem. Er hat's sauberer geschrieben, als ich's zweimal
-  sagen würde."
+  Du willst wissen, was Schatten ist. Ich habe die Bindung gehört, als
+  du runtergekommen bist — billige Heftung, dünnes Papier, riecht nach
+  der Archiv-Tinte der Akademie. Quinell benutzt immer noch denselben
+  Drucker wie vor vierzig Jahren. Er hat dich hergeschickt, oder? Er hat
+  dir sein Kapitel mitgegeben — Kapitel sechs, nehme ich an. Er saß zwei
+  Jahre in meiner Klasse und schrieb alles mit, was ich sagte; das
+  Kapitel ist seins. Ich habe in meinem ganzen Leben kein Wort
+  geschrieben — ich bin blind, schon länger, als ich je hinter einem
+  Pult stand. Es gab nichts abzuschreiben. Die Kurzfassung ist kurz:
+  Schatten ist Licht, das genug Tiefe hat, einen Eigenwillen zu
+  entwickeln. Ein Lichtwandler macht Helligkeit. Du machst Hohlräume —
+  und die Hohlräume HÖREN dir zu. Verstanden? Nein? Gut — das war eine
+  Lüge, um's kurz zu machen. Lies sein Kapitel trotzdem."
 
 npc_vandara_sariel_3: >-
-  "Steh in das Licht." Sariel deutet auf die Kerze. "Jetzt streck
-  die Hand aus. Nicht zur Kerze. Zum Schatten den du wirfst." Du
-  zögerst. Sariel grinst, das erste Mal heute. "Ja, das geht. Fühl,
-  nicht denk. Schatten sind dichter als normales Licht — spürbar,
-  wenn man weiß wo." Lange Stille. Dann: "Ah. Da. Du hast ihn
-  gegriffen. Spürst du das Gewicht? Sehr gut. So habe ich das auch
-  gelernt, mit zwölf, von einer Wandlerin im Smaragd-Wald. Auch
-  blind, wie ich jetzt. Sie hat damals gemeint, Augen seien nur
-  ein Weg von vielen. Ich hab's erst geglaubt als ich es musste."
+  Steh in das Licht. Jetzt streck die Hand aus — nicht zur Kerze, zum
+  Schatten, den du wirfst. Ja, das geht. Fühl, nicht denk; Schatten sind
+  dichter als normales Licht, spürbar, wenn man weiß wo... Ah. Da. Du
+  hast ihn gegriffen — spürst du das Gewicht? Sehr gut. So habe ich das
+  auch gelernt, mit zwölf, von einer Wandlerin im Smaragd-Wald. Auch
+  blind, wie ich jetzt. Augen seien nur ein Weg von vielen, hat sie
+  gesagt. Ich hab's erst geglaubt, als ich es musste.
 
 # ─── Pamle — Alchemie-Mentorin (Magma-Drachenwandlerin) ───
 npc_vandara_pamle_1: >-
@@ -413,43 +316,35 @@ npc_vandara_pamle_5: >-
   dich, ich muss der nächsten Gruppe Tier-drei beibringen."
 
 npc_vandara_sariel_4: >-
-  "Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist
-  was anderes." Sariel sortiert wieder deren Notizen. "Was du
-  brauchst, lernst du jetzt von selbst. Komm wieder, wenn du
-  etwas Komplizierteres versuchen willst. Beim nächsten Mal
-  bring mir eine Schale Wasser mit — zeig ich dir, wie du einen
-  Schatten holen lässt, der sie hält, während du andere Sachen
-  machst. Das ist eigentlich der praktische Teil." Dey lacht
-  trocken. "Vierzig Jahre Lehrkraft und ich verspreche immer
-  noch das Spannende für die nächste Stunde."
+  Du bist jetzt nicht ausgebildet. Du bist aufgewacht — das ist was
+  anderes. Was du brauchst, lernst du jetzt von selbst. Komm wieder,
+  wenn du etwas Komplizierteres versuchen willst; bring mir eine Schale
+  Wasser mit, dann zeige ich dir, wie du einen Schatten holen lässt, der
+  sie hält, während du andere Sachen machst. Das ist der praktische
+  Teil. Vierzig Jahre Lehrkraft, und ich verspreche immer noch das
+  Spannende für die nächste Stunde.
 
 # ─── Step 5: das Finale — Sariel lehrt Schatten-Bindung ─────
 # Dey löst das Versprechen aus Step 4 ein: ein an eine Aufgabe
 # gebundener Schatten erledigt sie für dich, während du etwas
 # anderes machst. Setzt das Base-Game-Ability-Flag.
 npc_vandara_sariel_5: >-
-  "Du hast die Schale mitgebracht. Gut. Stell sie ab — dort,
-  auf den Boden zwischen uns." Sariel bewegt sich nicht vom
-  Stuhl, aber die Kerzenflamme flackert einmal. "So. Der Trick,
-  den ich dir versprochen habe. Schatten sind nicht umsonst. Sie
-  sind du, ein Teil von dir, den du in die Welt schiebst. Einen
-  zu binden kostet deine eigene Magie, fortlaufend, solange du
-  ihn draußen hältst." Eine lange, langsame Pause. "Wähl eine
-  Aufgabe. Irgendetwas, das du mit den Händen machst — Hacken,
-  Brauen, Wasser schöpfen. Schau auf deinen Schatten. Dann bitte
-  ihn, die Aufgabe statt deiner zu machen. Nicht laut. Mit dem
-  gleichen wortlosen Druck, mit dem du letztens den Schatten von
-  der Wand gegriffen hast." Du versuchst es. Der Schatten zu
-  deinen Füßen wird länger — und dann hebt er die Schale. Hält
-  sie. Ruhig. Sariel lächelt schwach. "Ja. Genau das. Jetzt
-  kannst du etwas anderes tun, während der Schatten weitermacht.
-  Magie läuft die ganze Zeit ab, vergiss das nicht. Wenn sie zur
-  Neige geht, lässt der Schatten los." Noch eine Pause. "Einen
-  Schatten. Eine Aufgabe. Mehr kann ich dir nicht beibringen.
-  Aufmerksamkeit weiter zu spalten als das ist die Arbeit der
-  nächsten vierzig Jahre, nicht der nächsten Stunde." Dey lehnt
-  sich zurück. "Geh. Mach zwei Dinge gleichzeitig. Das ist das
-  Nächste, was die meisten von uns je dem Freisein kommen."
+  Du hast die Schale mitgebracht. Gut — stell sie ab, dort, auf den
+  Boden zwischen uns. So. Der Trick, den ich dir versprochen habe.
+  Schatten sind nicht umsonst; sie sind du, ein Teil von dir, den du in
+  die Welt schiebst, und einen zu binden kostet deine eigene Magie,
+  fortlaufend, solange du ihn draußen hältst. Wähl eine Aufgabe —
+  irgendetwas, das du mit den Händen machst: Hacken, Brauen, Wasser
+  schöpfen. Schau auf deinen Schatten, dann bitte ihn, die Aufgabe statt
+  deiner zu machen. Nicht laut — mit dem gleichen wortlosen Druck, mit
+  dem du letztens den Schatten von der Wand gegriffen hast... Ja. Genau
+  das. Jetzt kannst du etwas anderes tun, während der Schatten
+  weitermacht. Magie läuft die ganze Zeit ab, vergiss das nicht — geht
+  sie zur Neige, lässt der Schatten los. Einen Schatten, eine Aufgabe;
+  mehr kann ich dir nicht beibringen. Aufmerksamkeit weiter zu spalten
+  ist die Arbeit der nächsten vierzig Jahre, nicht der nächsten Stunde.
+  Geh. Mach zwei Dinge gleichzeitig — das ist das Nächste, was die
+  meisten von uns je dem Freisein kommen.
 
 # ─── Ormias — Drachenkunde ────────────────────────────
 # Eine Lehrstunde pro Hauptart: Intro, Großdrachen, Wyvern,
