@@ -79,7 +79,7 @@
   "dependencies": {
     "@alpinejs/collapse": "^3.15.12",
     "alpinejs": "^3.15.12",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.2.0",
     "sql.js": "^1.14.1"
   },
   "overrides": {
