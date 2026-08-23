@@ -56,6 +56,13 @@ Desktop.ini
 # Claude Code worktrees & harness state
 .claude/
 
+# Capacitor: natives Android-Projekt inkl. Gradle-Build-Ausgabe (~135 MB).
+# Gehoert zum mobile-app-Branch, nicht in die Content-/Addon-Branches.
+android/
+
+# Windows-Geraetename, entsteht durch ein fehlerhaftes `> nul` in Skripten.
+nul
+
 # Other
 docs/RP_Draconia.md
 TODO.md
